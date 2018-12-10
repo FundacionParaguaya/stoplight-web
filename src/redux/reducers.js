@@ -1,4 +1,4 @@
-const reducer = (state = {}, action) => {
+export const user = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
       return { ...state, username: action.username, token: action.token }
@@ -6,5 +6,3 @@ const reducer = (state = {}, action) => {
       return state
   }
 }
-
-export default reducer
