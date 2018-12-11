@@ -78,12 +78,16 @@ const familyColumns = [
             console.log(row)
             if(row.original.countFamilyMembers){
             return(
+              <div>
+              <div className="text-center" style={{"padding-top":"10px"}}><h4> Family Members </h4></div>
+
               <ReactTable
                 className="-striped -highlight"
                 data={row.original.familyMemberDTOList}
                 defaultPageSize={row.original.familyMemberDTOList.length <= 3 ? row.original.familyMemberDTOList.length : 3}
                 columns={familyColumns}
                 />
+                </div>
             )}
           }}
         />
