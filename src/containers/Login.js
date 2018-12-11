@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-
-import { login } from './../redux/actions'
+import { login, loadFamilies } from './../redux/actions'
 import logo from './../assets/logo.png'
 import './Login.css'
 import platform from './../env.js'
@@ -15,13 +14,20 @@ class Login extends Component {
       authed: null
     }
   }
+  componentDidMount() {
+    this.loadData()
+  }
+
+  loadData = () => {
+    this.props.loadFamilies()
+  }
 
   handleSubmit() {
-    const url =
-      platform.oauth +
-      `/token?username=${this.state.username}&password=${
-        this.state.password
-      }&grant_type=password`
+    // const url =
+    //   platform.oauth +
+    //   `/token?username=${this.state.username}&password=${
+    //     this.state.password
+    //   }&grant_type=password`
 
     fetch(url, {
       method: 'POST',
@@ -105,12 +111,17 @@ class Login extends Component {
 const mapStateToProps = state => ({
   state: state
 })
-const mapDispatchToProps = dispatch => ({
-  setLogin: (username, token) => {
-    dispatch(login(username, token))
-  }
-})
-export default (Login = connect(
+// const mapDispatchToProps = dispatch => ({
+//   setLogin: (username, token) => {
+//     dispatch(login(username, token))
+//   }
+// })
+
+const mapDispatchToProps = {
+  loadFamilies
+}
+
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login))
+)(Login)
