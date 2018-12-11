@@ -4,20 +4,26 @@ import { connect } from 'react-redux'
 
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
+import Family from './containers/Family'
+import Surveys from './containers/Surveys'
 
-let App = props => (
+let App = props => {
+  console.log(props.state.user.username)
+  return (
   <div className="App">
     <Switch>
       <PrivateRoute
-        authed={props.username}
+        authed={props.state.user.username}
         exact
         path="/"
         component={Dashboard}
       />
-      <Route path="/login" component={Login} />
+      <Route exact path="/login/" component={Login} />
+      <Route exact path="/families/" component={Family} />
+      <Route exact path="/surveys/" component={Surveys} />
     </Switch>
   </div>
-)
+)}
 
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   return (
@@ -28,7 +34,7 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
           <Component {...props} />
         ) : (
           <Redirect
-            to={{ pathname: '/login', state: { from: props.location } }}
+            to={{ pathname: '/login/', state: { from: props.location } }}
           />
         )
       }

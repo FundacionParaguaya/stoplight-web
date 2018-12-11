@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import { login } from './../redux/actions'
+import { login, loadFamilies } from './../redux/actions'
 import logo from './../assets/logo.png'
 import './Login.css'
 import platform from './../env.js'
@@ -14,25 +13,32 @@ class Login extends Component {
       password: null
     }
   }
+  componentDidMount(){
+    this.loadData()
+  }
+
+  loadData=()=>{
+    this.props.loadFamilies()
+  }
 
   handleSubmit() {
-    const url =
-      platform.oauth +
-      `/token?username=${this.state.username}&password=${
-        this.state.password
-      }&grant_type=password`
+    // const url =
+    //   platform.oauth +
+    //   `/token?username=${this.state.username}&password=${
+    //     this.state.password
+    //   }&grant_type=password`
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: 'Basic YmFyQ2xpZW50SWRQYXNzd29yZDpzZWNyZXQ='
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        this.saveToLocalStorage(responseJson)
-      })
+    // fetch(url, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json; charset=utf-8',
+    //     Authorization: 'Basic YmFyQ2xpZW50SWRQYXNzd29yZDpzZWNyZXQ='
+    //   }
+    // })
+    //   .then(response => response.json())
+    //   .then(responseJson => {
+    //     this.saveToLocalStorage(responseJson)
+    //   })
   }
 
   saveToLocalStorage = data => {
@@ -57,6 +63,7 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.props.families)
     return (
       <div className="form-signin text-center">
         <img className="mb-4" src={logo} alt="" width="72" height="72" />
@@ -102,14 +109,21 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  stateObject: state
+  // stateObject: state,
+  families:state.families
 })
-const mapDispatchToProps = dispatch => ({
-  setLogin: (username, token) => {
-    dispatch(login(username, token))
-  }
-})
-export default (Login = connect(
+// const mapDispatchToProps = dispatch => ({
+//   setLogin: (username, token) => {
+//     dispatch(login(username, token))
+//   }
+// })
+
+const mapDispatchToProps = {
+  loadFamilies
+}
+
+
+export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(Login))
+   mapDispatchToProps
+)(Login)
