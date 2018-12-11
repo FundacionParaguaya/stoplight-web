@@ -19,6 +19,14 @@ const columns = [
     accessor: `familyMemberDTOList.length`
   },
   {
+    Header: "Snapshots",
+    accessor: `snapshotList.length`
+  },
+  {
+    Header: "Latest Snapshot",
+    accessor: 'latestSnapshot',
+  },
+  {
     Header: "Org",
     accessor: "organization"
   },
@@ -48,6 +56,11 @@ class Families extends Component {
     return processFamilies.map(family => {
       family.mentor = family.user.username;
       family.organization = family.organization.code;
+      family.latestSnapshot = family.snapshotList.length > 0 ? moment.unix(
+        Math.max.apply(Math, family.snapshotList.map(function(o) { return o.createdAt; }))
+      )
+      .format("DD MMM YYYY")
+      .toString() : null
       return family;
     });
   }
