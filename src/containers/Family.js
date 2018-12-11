@@ -16,6 +16,9 @@ const columns = [{
 },{
   Header:'Family Members',
   accessor: `familyMemberDTOList.length`
+},{
+  Header:'Mentor',
+  accessor: 'mentor'
 }]
 
 const familyColumns = [
@@ -51,6 +54,7 @@ const familyColumns = [
   processFamilies(processFamilies){
 
     return processFamilies.map((family) => {
+      family.mentor = family.user.username
       family.organization = family.organization.code
       return family
     })
@@ -84,7 +88,7 @@ const familyColumns = [
               <ReactTable
                 className="-striped -highlight"
                 data={row.original.familyMemberDTOList}
-                defaultPageSize={row.original.familyMemberDTOList.length <= 3 ? row.original.familyMemberDTOList.length : 3}
+                defaultPageSize={row.original.familyMemberDTOList.length <= 4 ? row.original.familyMemberDTOList.length : 3}
                 columns={familyColumns}
                 />
                 </div>
