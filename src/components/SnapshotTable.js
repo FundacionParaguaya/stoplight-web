@@ -16,10 +16,10 @@ const FamilyMemberTable = props =>{
     {
       Header: "birthDate",
       accessor: "birthDate",
-      Cell: row => (
+      Cell: row => (  
         <span>
           {moment
-            .unix(row.original.birthDate)
+            .unix(data.birthDate)
             .format("DD MMM YYYY")
             .toString()}
         </span>
