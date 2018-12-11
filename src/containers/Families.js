@@ -57,7 +57,7 @@ class Families extends Component {
       family.mentor = family.user.username;
       family.organization = family.organization.code;
       family.latestSnapshot = family.snapshotList.length > 0 ? moment.unix(
-        Math.max.apply(Math, family.snapshotList.map(function(o) { return o.createdAt; }))
+        Math.max.apply(Math, family.snapshotList.map(function(o) { return o.createdAt; }))/1000
       )
       .format("DD MMM YYYY")
       .toString() : null
