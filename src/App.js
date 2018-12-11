@@ -1,34 +1,39 @@
 import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
 
 let App = props => (
-  <div className="App">
-    <Switch>
+  <Router>
+    <div>
+      <Route path="/login" component={Login} />
       <PrivateRoute
-        authed={props.username}
-        exact
-        path="/"
+        path="/dashboard"
+        authed={
+          props.state.user.username != null && props.state.user.username !== ''
+        }
         component={Dashboard}
       />
-      <Route path="/login" component={Login} />
-    </Switch>
-  </div>
+    </div>
+  </Router>
 )
 
-const PrivateRoute = ({ component: Component, authed, ...rest }) => {
+function PrivateRoute({ component: Component, authed, ...rest }) {
+  console.log(authed)
   return (
     <Route
       {...rest}
       render={props =>
-        authed === true ? (
+        authed ? (
           <Component {...props} />
         ) : (
           <Redirect
-            to={{ pathname: '/login', state: { from: props.location } }}
+            to={{
+              pathname: '/login',
+              state: { from: props.location }
+            }}
           />
         )
       }

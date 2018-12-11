@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { login } from './../redux/actions'
@@ -10,8 +11,8 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: null,
-      password: null
+      password: null,
+      authed: null
     }
   }
 
@@ -31,17 +32,15 @@ class Login extends Component {
     })
       .then(response => response.json())
       .then(responseJson => {
-        this.saveToLocalStorage(responseJson)
+        const { access_token, user } = responseJson
+        this.loginSuccess(access_token, user)
       })
   }
 
-  saveToLocalStorage = data => {
-    const { access_token, user } = data
-    console.log(access_token, user.username)
+  loginSuccess = (access_token, user) => {
     this.props.setLogin(user.username, access_token)
-    // localStorage.setItem('user', JSON.stringify(user))
-    // localStorage.setItem('access_token', access_token)
-    // session.save({ access_token, user })
+    this.setState({ authed: user.username })
+    return <Redirect to="/dashboard" />
   }
 
   onChange(name, e) {
@@ -57,6 +56,8 @@ class Login extends Component {
   }
 
   render() {
+    if (this.state.authed != null || this.props.state.user.username != null)
+      return <Redirect to="/dashboard" />
     return (
       <div className="form-signin text-center">
         <img className="mb-4" src={logo} alt="" width="72" height="72" />
@@ -102,7 +103,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  stateObject: state
+  state: state
 })
 const mapDispatchToProps = dispatch => ({
   setLogin: (username, token) => {
