@@ -35,10 +35,10 @@ const FamilyMemberTable = props =>{
 
       <ReactTable
         className="-striped -highlight"
-        data={data.familyMemberDTOList}
+        data={data}
         defaultPageSize={
-          data.familyMemberDTOList.length <= 4
-            ? data.familyMemberDTOList.length
+          data.length <= 4
+            ? data.length
             : 3
         }
         columns={columns}

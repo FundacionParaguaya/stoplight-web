@@ -1,25 +1,20 @@
 import React from 'react'
 import ReactTable from 'react-table'
 import moment from "moment";
-
-const FamilyMemberTable = props =>{
+const SnapshotTable = props =>{
   const {data} = props
   const columns = [
     {
-      Header: "First Name",
-      accessor: "firstName"
+      Header: "ID",
+      accessor: "surveyId"
     },
     {
-      Header: "Gender",
-      accessor: "gender"
-    },
-    {
-      Header: "birthDate",
-      accessor: "birthDate",
-      Cell: row => (  
+      Header: "Created At",
+      accessor: "createdAt",
+      Cell: row => (
         <span>
           {moment
-            .unix(data.birthDate)
+            .unix(row.original.createdAt/1000)
             .format("DD MMM YYYY")
             .toString()}
         </span>
@@ -30,15 +25,15 @@ const FamilyMemberTable = props =>{
   return (
     <div>
       <div className="text-center" style={{ paddingTop: "10px" }}>
-        <h4> Family Members </h4>
+        <h4> Snapshots </h4>
       </div>
 
       <ReactTable
         className="-striped -highlight"
-        data={data.familyMemberDTOList}
+        data={data}
         defaultPageSize={
-          data.familyMemberDTOList.length <= 4
-            ? data.familyMemberDTOList.length
+          data.length <= 4
+            ? data.length
             : 3
         }
         columns={columns}
@@ -48,4 +43,4 @@ const FamilyMemberTable = props =>{
 
 }
 
-export default FamilyMemberTable
+export default SnapshotTable

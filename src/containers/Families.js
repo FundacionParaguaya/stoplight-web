@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { loadFamilies } from "../redux/actions";
 import FamilyMemberTable from "../components/FamilyMemberTable"
+import SnapshotTable from "../components/SnapshotTable"
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import moment from "moment";
@@ -85,9 +86,15 @@ class Families extends Component {
             console.log(row);
             if (row.original.countFamilyMembers) {
               return (
-                <FamilyMemberTable
-                data={row.original}
-                />
+                <div>
+                  <SnapshotTable
+                  data={row.original.snapshotList}
+                  />
+                  <hr />
+                  <FamilyMemberTable
+                  data={row.original.familyMemberDTOList}
+                  />
+                </div>
               );
             }
           }}
