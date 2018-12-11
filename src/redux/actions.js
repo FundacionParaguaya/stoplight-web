@@ -13,7 +13,7 @@ export const loadFamilies = () => dispatch => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      query:  'query { familiesNewStructure{ name accuracy snapshotList{ createdAt } } }' 
+      query:  'query { familiesNewStructure{ code user { username } name country { country } organization { code } countFamilyMembers familyMemberDTOList{ firstName gender birthDate } } }'
     })
   })
     .then(res => res.text())
@@ -21,7 +21,7 @@ export const loadFamilies = () => dispatch => {
     .then(res =>
       dispatch({
         type: LOAD_FAMILIES,
-        payload: res
+        payload: res.data
       })
     );
 };
