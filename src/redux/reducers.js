@@ -1,8 +1,8 @@
-import { LOAD_FAMILIES } from "./actions";
+import { LOAD_FAMILIES,LOGIN ,LOAD_SURVEYS} from "./actions";
 
 export const user = (state = {}, action) => {
   switch (action.type) {
-    case "LOGIN":
+    case LOGIN:
       return { ...state, username: action.username, token: action.token };
     default:
       return state;
@@ -18,3 +18,12 @@ export const families = (state = [], action) => {
   }
 }
 
+
+export const surveys = (state = [], action) => {
+  switch (action.type) {
+    case LOAD_SURVEYS:
+      return action.payload ? action.payload: state
+    default:
+      return state
+  }
+}
