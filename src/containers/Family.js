@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { loadFamilies } from '../redux/actions'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-
+import moment from 'moment'
 const columns = [{
   Header:'Code',
   accessor:'code'
@@ -11,11 +11,11 @@ const columns = [{
   Header:'Name',
   accessor: 'name',
 },{
-  Header:'Org',
-  accessor:'organization'
-},{
   Header:'Family Members',
   accessor: `familyMemberDTOList.length`
+},{
+  Header:'Org',
+  accessor:'organization'
 },{
   Header:'Mentor',
   accessor: 'mentor'
@@ -30,7 +30,8 @@ const familyColumns = [
     accessor: 'gender',
   },{
     Header:'birthDate',
-    accessor:'birthDate'
+    accessor:'birthDate',
+    Cell: (row) => <span>{moment.unix(row.original.birthDate).format("DD MMM YYYY").toString()}</span>,
   }
 ]
 
