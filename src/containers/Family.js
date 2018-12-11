@@ -15,7 +15,7 @@ const columns = [{
   accessor:'organization'
 },{
   Header:'Family Members',
-  accessor:'countFamilyMembers'
+  accessor: `familyMemberDTOList.length`
 }]
 
 const familyColumns = [
@@ -81,7 +81,7 @@ const familyColumns = [
               <ReactTable
                 className="-striped -highlight"
                 data={row.original.familyMemberDTOList}
-                defaultPageSize={row.original.countFamilyMembers < 3 ? row.original.countFamilyMembers : 3}
+                defaultPageSize={row.original.familyMemberDTOList.length <= 3 ? row.original.familyMemberDTOList.length : 3}
                 columns={familyColumns}
                 />
             )}
