@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
-import Family from './containers/Family'
+import Families from './containers/Families'
 import Surveys from './containers/Surveys'
 
 let App = props => (
@@ -18,7 +18,7 @@ let App = props => (
         }
         component={Dashboard}
       />
-      <Route exact path="/families" component={Family} />
+      <Route exact path="/families" component={Families} />
       <Route exact path="/surveys" component={Surveys} />
     </div>
   </Router>

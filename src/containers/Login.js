@@ -23,11 +23,11 @@ class Login extends Component {
   }
 
   handleSubmit() {
-    // const url =
-    //   platform.oauth +
-    //   `/token?username=${this.state.username}&password=${
-    //     this.state.password
-    //   }&grant_type=password`
+    const url =
+      platform.oauth +
+      `/token?username=${this.state.username}&password=${
+        this.state.password
+      }&grant_type=password`
 
     fetch(url, {
       method: 'POST',
