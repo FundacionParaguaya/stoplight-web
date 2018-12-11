@@ -1,5 +1,5 @@
 const baseUrl = 'https://testing.backend.povertystoplight.org'
-const accessToken = '2ec0bf5b-fdec-448b-aa2f-19cf6ca08eeb'
+const accessToken = ''
 export const LOGIN = 'LOGIN'
 export const login = (username, token) => ({
   type: LOGIN,
