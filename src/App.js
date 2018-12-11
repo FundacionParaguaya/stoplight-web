@@ -5,15 +5,13 @@ import { connect } from 'react-redux'
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
 import Family from './containers/Family'
-
+import Surveys from './containers/Surveys'
 
 let App = props => {
   console.log(props.state.user.username)
   return (
   <div className="App">
     <Switch>
-
-
       <PrivateRoute
         authed={props.state.user.username}
         exact
@@ -22,6 +20,7 @@ let App = props => {
       />
       <Route exact path="/login/" component={Login} />
       <Route exact path="/families/" component={Family} />
+      <Route exact path="/surveys/" component={Surveys} />
     </Switch>
   </div>
 )}
