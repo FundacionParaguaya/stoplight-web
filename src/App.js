@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { logout } from './redux/actions'
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
-import Family from './containers/Family'
+import Families from './containers/Families'
 import Surveys from './containers/Surveys'
 
 class App extends Component {
