@@ -14,11 +14,16 @@ import Dashboard from './containers/Dashboard'
 import Families from './containers/Families'
 import Surveys from './containers/Surveys'
 
+import logo from './assets/logo_white.png'
+
+import Dots from './components/Dots'
+
 class App extends Component {
   render() {
     return (
       <Router>
         <div>
+          <Dots />
           {this.props.state.user.username == null ? (
             <div>
               <Route
@@ -40,6 +45,7 @@ class App extends Component {
                   className="navbar-brand col-sm-3 col-md-2 mr-0"
                   href="#"
                 >
+                  <img src={logo} alt="" className="nav-logo" />
                   Stoplight
                 </Link>
 
