@@ -1,10 +1,34 @@
 import React, { Component } from 'react'
+import { Helmet } from 'react-helmet'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { login, loadFamilies } from './../redux/actions'
+
+import { login } from './../redux/actions'
 import logo from './../assets/logo.png'
 import './Login.css'
 import platform from './../env.js'
+
+const styles = `
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+#root {
+  width: 100%;
+}
+
+`
 
 class Login extends Component {
   constructor(props) {
@@ -14,20 +38,13 @@ class Login extends Component {
       authed: null
     }
   }
-  componentDidMount() {
-    this.loadData()
-  }
-
-  loadData = () => {
-    this.props.loadFamilies()
-  }
 
   handleSubmit() {
-    // const url =
-    //   platform.oauth +
-    //   `/token?username=${this.state.username}&password=${
-    //     this.state.password
-    //   }&grant_type=password`
+    const url =
+      platform.oauth +
+      `/token?username=${this.state.username}&password=${
+        this.state.password
+      }&grant_type=password`
 
     fetch(url, {
       method: 'POST',
@@ -62,10 +79,14 @@ class Login extends Component {
   }
 
   render() {
-    if (this.state.authed != null || this.props.state.user.username != null)
-      return <Redirect to="/dashboard" />
+    console.log('HEllo')
+    // if (this.state.authed != null || this.props.state.user.username != null)
+    //   return <Redirect to="/dashboard" />
     return (
       <div className="form-signin text-center">
+        <Helmet>
+          <style>{styles}</style>
+        </Helmet>
         <img className="mb-4" src={logo} alt="" width="72" height="72" />
         <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label htmlFor="username" className="sr-only">
@@ -111,17 +132,13 @@ class Login extends Component {
 const mapStateToProps = state => ({
   state: state
 })
-// const mapDispatchToProps = dispatch => ({
-//   setLogin: (username, token) => {
-//     dispatch(login(username, token))
-//   }
-// })
+const mapDispatchToProps = dispatch => ({
+  setLogin: (username, token) => {
+    dispatch(login(username, token))
+  }
+})
 
-const mapDispatchToProps = {
-  loadFamilies
-}
-
-export default connect(
+export default (Login = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login)
+)(Login))
