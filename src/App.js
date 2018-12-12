@@ -73,7 +73,7 @@ class App extends Component {
                           </Link>
                         </li>
                         <li className="nav-item">
-                          <Link to="snapshots" className="nav-link" href="#">
+                          <Link to="/surveys" className="nav-link" href="#">
                             <span data-feather="shopping-cart" />
                             Snapshots
                           </Link>
