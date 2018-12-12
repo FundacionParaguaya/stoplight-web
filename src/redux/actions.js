@@ -1,5 +1,6 @@
-const baseUrl = 'https://testing.backend.povertystoplight.org'
-const accessToken = ''
+import { store } from './../index'
+import platform from './../env.js'
+
 export const LOGIN = 'LOGIN'
 export const login = (username, token) => ({
   type: LOGIN,
@@ -13,12 +14,12 @@ export const logout = () => ({
 
 export const LOAD_FAMILIES = 'LOAD_FAMILIES'
 export const loadFamilies = () => dispatch => {
-  fetch(`${baseUrl}/graphql`, {
+  fetch(`${platform.api}/graphql`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${store.getState().user.token}`,
       'Content-Type': 'application/json',
-      Origin: baseUrl
+      Origin: platform.api
     },
     body: JSON.stringify({
       query:
@@ -37,10 +38,10 @@ export const loadFamilies = () => dispatch => {
 
 export const LOAD_SURVEYS = 'LOAD_SURVEYS'
 export const loadSurveys = () => dispatch => {
-  fetch(`https://testing.backend.povertystoplight.org/graphql`, {
+  fetch(`${platform.api}/graphql`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer 1c30dcd6-90fe-4a78-b822-7aea8bb047d3`,
+      Authorization: `Bearer ${store.getState().user.token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({

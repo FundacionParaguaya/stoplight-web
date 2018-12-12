@@ -50,7 +50,7 @@ class Login extends Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        Authorization: 'Basic YmFyQ2xpZW50SWRQYXNzd29yZDpzZWNyZXQ='
+        Authorization: `Basic ${platform.token}`
       }
     })
       .then(response => response.json())
