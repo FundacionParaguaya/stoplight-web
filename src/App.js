@@ -97,7 +97,7 @@ class App extends Component {
                   >
                     <Switch>
                       <Route exact path="/" component={Dashboard} />
-                      <Route exact path="/families" component={Family} />
+                      <Route exact path="/families" component={Families} />
                       <Route exact path="/surveys" component={Surveys} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>

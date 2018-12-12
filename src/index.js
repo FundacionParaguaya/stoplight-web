@@ -20,7 +20,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-let store
+export let store
 if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
   store = createStore(
     persistedReducer,
