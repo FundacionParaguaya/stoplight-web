@@ -5,7 +5,7 @@ export const user = (state = {}, action) => {
     case LOGIN:
       return { ...state, username: action.username, token: action.token }
     case 'LOGOUT':
-      return { ...state, username: null, token: null }
+      return { username: null, token: null }
     default:
       return state
   }
