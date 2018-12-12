@@ -12,6 +12,7 @@ import { logout } from './redux/actions'
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
 import Families from './containers/Families'
+import Family from './containers/Family'
 import Surveys from './containers/Surveys'
 
 import logo from './assets/logo_white.png'
@@ -104,6 +105,7 @@ class App extends Component {
                     <Switch>
                       <Route exact path="/" component={Dashboard} />
                       <Route exact path="/families" component={Families} />
+                      <Route exact path="/family/:id" component={Family} />
                       <Route exact path="/surveys" component={Surveys} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>

@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+}
+
+.questions {
+  max-width: 330px;
+  padding-top: 100px;
+}
+
+.answers {
+  max-width: 330px;
+  padding-top: 100px;
+  padding-left: 50px;
+}

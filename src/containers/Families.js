@@ -6,6 +6,8 @@ import SnapshotTable from '../components/SnapshotTable'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
+
 const columns = [
   {
     Header: 'Code',
@@ -38,12 +40,6 @@ const columns = [
 ]
 
 class Families extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      families: this.props.families
-    }
-  }
   componentDidMount() {
     this.loadData()
   }
@@ -92,12 +88,21 @@ class Families extends Component {
             SubComponent={row => {
               if (row.original.countFamilyMembers) {
                 return (
-                  <div>
+                  <div className="padding-bottom= 20px">
                     <SnapshotTable data={row.original.snapshotList} />
                     <hr />
                     <FamilyMemberTable
                       data={row.original.familyMemberDTOList}
                     />
+                    <Link to={`/family/${row.original.code}`}>
+                      <a
+                        class="btn btn-primary btn-sm btn-block"
+                        href="#"
+                        role="button"
+                      >
+                        See more.
+                      </a>
+                    </Link>
                   </div>
                 )
               }
