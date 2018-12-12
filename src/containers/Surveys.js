@@ -10,7 +10,9 @@ class Surveys extends Component {
   loadData = () => {
     this.props.loadSurveys();
   };
+
   render() {
+    console.log(this.props.surveys);
     let data = this.props.surveys
       ? this.props.surveys.surveyEconomicQuestions
       : [];
