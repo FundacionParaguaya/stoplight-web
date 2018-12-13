@@ -1,10 +1,10 @@
-import { LOAD_FAMILIES, LOGIN, LOAD_SURVEYS } from './actions'
+import { LOAD_FAMILIES, LOGIN, LOAD_SURVEYS, LOGOUT } from './actions'
 
 export const user = (state = {}, action) => {
   switch (action.type) {
     case LOGIN:
       return { ...state, username: action.username, token: action.token }
-    case 'LOGOUT':
+    case LOGOUT:
       return { username: null, token: null }
     default:
       return state
