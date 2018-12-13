@@ -36,7 +36,7 @@ class Login extends Component {
     this.state = {
       password: null,
       authed: null,
-      formErr: false
+      err: false
     }
   }
 
@@ -67,14 +67,14 @@ class Login extends Component {
       this.setState({ authed: user.username })
       return <Redirect to="/dashboard" />
     } catch (e) {
-      this.setState({ formErr: true })
+      this.setState({ err: true })
     }
   }
 
   onChange(name, e) {
     this.setState({
       [name]: e.target.value,
-      formErr: false
+      err: false
     })
   }
 
@@ -85,6 +85,7 @@ class Login extends Component {
   }
 
   render() {
+    let { err } = this.state
     return (
       <div className="form-signin text-center">
         <Helmet>
@@ -92,75 +93,44 @@ class Login extends Component {
         </Helmet>
         <img className="mb-4" src={logo} alt="" width="72" height="72" />
         <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-
-        {this.state.formErr ? (
-          <div>
-            <div className="form-group has-danger">
-              <label htmlFor="username" className="sr-only">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                className="form-control"
-                placeholder="Username"
-                required
-                autoFocus
-                onChange={e => this.onChange('username', e)}
-                onKeyPress={this.onKeyPress}
-              />
-            </div>
-            <div className="form-group has-danger">
-              <label htmlFor="inputPassword" className="sr-only">
-                Password
-              </label>
-              <input
-                type="password"
-                id="inputPassword"
-                className="form-control is-invalid"
-                placeholder="Password"
-                required
-                onChange={e => this.onChange('password', e)}
-                onKeyPress={this.onKeyPress}
-              />
+        <div>
+          <div className={`form-group text-center ${err ? 'has-danger' : ''}`}>
+            <label htmlFor="username" className="sr-only">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              className="form-control"
+              placeholder="Username"
+              required
+              autoFocus
+              onChange={e => this.onChange('username', e)}
+              onKeyPress={this.onKeyPress}
+            />
+          </div>
+          <div className={`form-group text-center ${err ? 'has-danger' : ''}`}>
+            <label htmlFor="inputPassword" className="sr-only">
+              Password
+            </label>
+            <input
+              type="password"
+              id="inputPassword"
+              className={`form-control ${err ? 'is-invalid' : ''}`}
+              placeholder="Password"
+              required
+              onChange={e => this.onChange('password', e)}
+              onKeyPress={this.onKeyPress}
+            />
+            {err ? (
               <div className="invalid-feedback">
                 Wrong credentials. Try again
               </div>
-            </div>
+            ) : (
+              ''
+            )}
           </div>
-        ) : (
-          <div>
-            <div className="form-group text-center">
-              <label htmlFor="username" className="sr-only">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                className="form-control"
-                placeholder="Username"
-                required
-                autoFocus
-                onChange={e => this.onChange('username', e)}
-                onKeyPress={this.onKeyPress}
-              />
-            </div>
-            <div className="form-group text-center">
-              <label htmlFor="inputPassword" className="sr-only">
-                Password
-              </label>
-              <input
-                type="password"
-                id="inputPassword"
-                className="form-control"
-                placeholder="Password"
-                required
-                onChange={e => this.onChange('password', e)}
-                onKeyPress={this.onKeyPress}
-              />
-            </div>
-          </div>
-        )}
+        </div>
         <button
           className="btn btn-lg btn-primary btn-block"
           type="submit"
@@ -169,7 +139,11 @@ class Login extends Component {
           Sign in
         </button>
         <p className="mt-5 mb-3 text-muted">
-          Povered by Stoplight &copy; 2017 - {new Date().getFullYear()}
+          Crafted with{' '}
+          <span role="img" aria-label="heart">
+            ❤️
+          </span>{' '}
+          by Stoplight &copy; 2017 - {new Date().getFullYear()}
         </p>
       </div>
     )
