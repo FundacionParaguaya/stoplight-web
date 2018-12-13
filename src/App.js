@@ -7,6 +7,7 @@ import {
   Switch
 } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Users, Home, Circle, Power, Plus } from 'react-feather'
 
 import { logout } from './redux/actions'
 import Login from './containers/Login'
@@ -42,11 +43,11 @@ class App extends Component {
               <nav className="navbar navbar-dark bg-primary fixed-top flex-md-nowrap p-0 shadow">
                 <Link
                   to="/"
-                  className="navbar-brand col-sm-3 col-md-2 mr-0"
+                  className="navbar-brand col-md-3 col-lg-2 mr-0"
                   href="#"
                 >
                   <img src={logo} alt="" className="nav-logo" />
-                  Stoplight
+                  <span className="brand">Stoplight</span>
                 </Link>
 
                 <ul className="navbar-nav px-3">
@@ -55,7 +56,7 @@ class App extends Component {
                       className="nav-link btn btn-link"
                       onClick={this.props.logout}
                     >
-                      Sign out
+                      <Power className="feather" /> Sign out
                     </button>
                   </li>
                 </ul>
@@ -63,24 +64,24 @@ class App extends Component {
 
               <div className="container-fluid">
                 <div className="row">
-                  <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+                  <nav className="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
                     <div className="sidebar-sticky">
                       <ul className="nav flex-column">
                         <li className="nav-item">
                           <Link to="/" className="nav-link" href="#">
-                            <span data-feather="home" />
+                            <Home className="feather" />
                             Dashboard
                           </Link>
                         </li>
                         <li className="nav-item">
                           <Link to="/families" className="nav-link" href="#">
-                            <span data-feather="file" />
+                            <Users className="feather" />
                             Families
                           </Link>
                         </li>
                         <li className="nav-item">
                           <Link to="/surveys" className="nav-link" href="#">
-                            <span data-feather="shopping-cart" />
+                            <Circle className="feather" />
                             Snapshots
                           </Link>
                         </li>
@@ -89,7 +90,7 @@ class App extends Component {
                             className="btn btn-sm btn-success nav-link btn-block"
                             to="/lifemap"
                           >
-                            <span data-feather="users" />
+                            <Plus className="feather" />
                             New Lifemap
                           </Link>
                         </li>
