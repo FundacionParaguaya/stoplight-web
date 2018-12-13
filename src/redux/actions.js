@@ -8,8 +8,9 @@ export const login = (username, token) => ({
   token
 })
 
+export const LOGOUT = 'LOGOUT'
 export const logout = () => ({
-  type: 'LOGOUT'
+  type: LOGOUT
 })
 
 export const LOAD_FAMILIES = 'LOAD_FAMILIES'
