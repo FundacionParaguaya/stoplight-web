@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { logout } from './../redux/actions'
-
 import './Dashboard.css'
 
 class Dashboard extends Component {
-  logout() {}
-
   render() {
     return (
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -30,13 +26,5 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({
   state: state
 })
-const mapDispatchToProps = dispatch => ({
-  logout: () => {
-    dispatch(logout())
-  }
-})
 
-export default (Dashboard = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dashboard))
+export default (Dashboard = connect(mapStateToProps)(Dashboard))

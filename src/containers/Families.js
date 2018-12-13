@@ -95,10 +95,7 @@ class Families extends Component {
                       data={row.original.familyMemberDTOList}
                     />
                     <Link to={`/family/${row.original.code}`}>
-                      <button
-                        class="btn btn-primary btn-sm btn-block"
-                        role="button"
-                      >
+                      <button class="btn btn-primary btn-sm btn-block">
                         See more.
                       </button>
                     </Link>
