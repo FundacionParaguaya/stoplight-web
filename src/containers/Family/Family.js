@@ -2,8 +2,6 @@ import React from 'react'
 import './styles.css'
 
 const Family = ({ familyData, surveys }) => {
-  console.log(familyData)
-  console.log(surveys)
   return (
     <div className="container">
       <div className="questions">

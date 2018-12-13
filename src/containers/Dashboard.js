@@ -6,9 +6,7 @@ import { logout } from './../redux/actions'
 import './Dashboard.css'
 
 class Dashboard extends Component {
-  logout() {
-    console.log('logout')
-  }
+  logout() {}
 
   render() {
     return (
