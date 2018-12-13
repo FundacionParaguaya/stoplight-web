@@ -1,41 +1,45 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
+// import ReactTable from 'react-table'
+import BootstrapTable from 'react-bootstrap-table-next'
+
 import { loadFamilies } from '../redux/actions'
 import FamilyMemberTable from '../components/FamilyMemberTable'
 import SnapshotTable from '../components/SnapshotTable'
-import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-import moment from 'moment'
-import { Link } from 'react-router-dom'
+
+function link(cell, row) {
+  return <Link to={`/family/${row.code}`}>{cell}</Link>
+}
 
 const columns = [
   {
-    Header: 'Code',
-    accessor: 'code'
+    dataField: 'code',
+    text: 'Code',
+    sort: true,
+    formatter: link
   },
   {
-    Header: 'Name',
-    accessor: 'name'
+    dataField: 'name',
+    text: 'Name',
+    sort: true
   },
   {
-    Header: 'Family Members',
-    accessor: `familyMemberDTOList.length`
+    dataField: 'familyMemberDTOList.length',
+    text: 'Family Members',
+    sort: true
   },
   {
-    Header: 'Snapshots',
-    accessor: `snapshotList.length`
+    dataField: 'organization',
+    text: 'Org',
+    sort: true
   },
   {
-    Header: 'Latest Snapshot',
-    accessor: 'latestSnapshot'
-  },
-  {
-    Header: 'Org',
-    accessor: 'organization'
-  },
-  {
-    Header: 'Mentor',
-    accessor: 'mentor'
+    dataField: 'mentor',
+    text: 'Mentor',
+    sort: true
   }
 ]
 
@@ -80,29 +84,11 @@ class Families extends Component {
           <h1 className="h2">Families</h1>
         </div>
         <div className="table-responsive">
-          <ReactTable
-            className="-striped -highlight"
-            filterable={true}
+          <BootstrapTable
+            bootstrap4={true}
+            keyField="id"
             data={data}
             columns={columns}
-            SubComponent={row => {
-              if (row.original.countFamilyMembers) {
-                return (
-                  <div className="padding-bottom= 20px">
-                    <SnapshotTable data={row.original.snapshotList} />
-                    <hr />
-                    <FamilyMemberTable
-                      data={row.original.familyMemberDTOList}
-                    />
-                    <Link to={`/family/${row.original.code}`}>
-                      <button class="btn btn-primary btn-sm btn-block">
-                        See more.
-                      </button>
-                    </Link>
-                  </div>
-                )
-              }
-            }}
           />
         </div>
       </div>
