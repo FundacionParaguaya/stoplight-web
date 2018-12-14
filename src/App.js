@@ -7,17 +7,16 @@ import {
   Switch
 } from 'react-router-dom'
 import { connect } from 'react-redux'
-
 import { logout } from './redux/actions'
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
 import Families from './containers/Families'
 import Family from './containers/Family'
 import Surveys from './containers/Surveys'
-
 import logo from './assets/logo_white.png'
-
 import Dots from './components/Dots'
+import Terms from './containers/Lifemap/Terms'
+import BeginLifeMap from './containers/Lifemap/BeginLifeMap'
 
 class App extends Component {
   render() {
@@ -106,6 +105,12 @@ class App extends Component {
                       <Route exact path="/" component={Dashboard} />
                       <Route exact path="/families" component={Families} />
                       <Route exact path="/family/:id" component={Family} />
+                      <Route exact path="/terms/:id" component={Terms} />
+                      <Route
+                        exact
+                        path="/question/:id"
+                        component={BeginLifeMap}
+                      />
                       <Route exact path="/surveys" component={Surveys} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>

@@ -1,11 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import { logout } from './../redux/actions'
+import { loadSurveys, logout, loadFamilies } from '../redux/actions'
 
 import './Dashboard.css'
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.loadData()
+  }
+
+  loadData = () => {
+    this.props.loadSurveys()
+    this.props.loadFamilies()
+  }
+
   logout() {}
 
   render() {
@@ -28,15 +36,16 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  state: state
+  state: state,
+  surveys: state.surveys
 })
-const mapDispatchToProps = dispatch => ({
-  logout: () => {
-    dispatch(logout())
-  }
-})
+const mapDispatchToProps = {
+  logout,
+  loadSurveys,
+  loadFamilies
+}
 
-export default (Dashboard = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard))
+)(Dashboard)
