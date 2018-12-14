@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadSurveys } from '../redux/actions'
-import { FormSpy, Form, Field } from 'react-final-form'
-
-class Surveys extends Component {
+import LifemapListItem from '../components/LifemapListItem'
+import { logout, loadSurveys, loadFamilies } from './../redux/actions'
+import { Link } from 'react-router-dom'
+export class Surveys extends Component {
   componentDidMount() {
     this.loadData()
   }
@@ -13,78 +13,36 @@ class Surveys extends Component {
   }
 
   render() {
-    let data = this.props.surveys
-      ? this.props.surveys.surveyEconomicQuestions
-      : []
+    console.log(this.props.surveys)
     return (
       <div>
-        <Form
-          onSubmit={(values, form) => {
-            console.log('submitted: ', values)
-          }}
-          initialValues={{}}
-          render={({
-            handleSubmit,
-            submitting,
-            pristine,
-            values,
-            form,
-            invalid
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <FormSpy
-                subscription={{ values: true }}
-                component={({ values }) => {
-                  if (values) {
-                    console.log('formspy stuff: ', values)
-                  }
-                  return ''
-                }}
-              />
-              {data &&
-                data.map(question => (
-                  <div key={question.questionText}>
-                    <Field name={question.codeName}>
-                      {({ input, meta }) => (
-                        <div className="form-group">
-                          <label>{question.questionText}</label>
-                          <input
-                            type="text"
-                            {...input}
-                            className="form-control"
-                            placeholder=""
-                          />
-                          {meta.touched && meta.error && (
-                            <span>{meta.error}</span>
-                          )}
-                        </div>
-                      )}
-                    </Field>
-                  </div>
-                ))}
-              <div style={{ paddingTop: 20 }}>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-sm btn-block"
-                  disabled={pristine || invalid}
-                >
-                  Submit
-                </button>
+        {this.props.surveys.map((survey, i) => (
+          <div key={survey.id} style={{ marginTop: 30 }}>
+            <Link
+              to={{
+                pathname: `/terms/${survey.id}`,
+                state: { surveyData: this.props.surveys[i].surveyData }
+              }}
+            >
+              <div className="card" style={{ marginTop: 50 }}>
+                <div className="card-body">{survey.title}</div>
               </div>
-            </form>
-          )}
-        />
+            </Link>
+          </div>
+        ))}
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  surveys: state.surveys
+const mapStateToProps = ({ surveys }) => ({
+  surveys
 })
 
 const mapDispatchToProps = {
-  loadSurveys
+  logout,
+  loadSurveys,
+  loadFamilies
 }
 
 export default connect(
