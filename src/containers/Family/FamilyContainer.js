@@ -4,6 +4,10 @@ import { loadFamilies } from '../../redux/actions'
 import Family from './Family'
 
 class FamilyContainer extends Component {
+  state = {
+    singleFamily: null
+  }
+
   componentDidMount() {
     this.loadData()
   }
@@ -15,16 +19,13 @@ class FamilyContainer extends Component {
   render() {
     const singleFamily =
       this.props.families.familiesNewStructure &&
-      this.props.families.familiesNewStructure.filter(
-        family => family.code === this.props.match.params.id
+      this.props.families.familiesNewStructure.find(
+        family => family.familyId === parseInt(this.props.match.params.id)
       )
     return (
       <div>
         {singleFamily && (
-          <Family
-            familyData={singleFamily[0]}
-            surveyData={this.props.surveys}
-          />
+          <Family familyData={singleFamily} surveyData={this.props.surveys} />
         )}
       </div>
     )
