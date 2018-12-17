@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom'
 import BootstrapTable from 'react-bootstrap-table-next'
 
 import { loadFamilies } from '../redux/actions'
+
+import Spinner from '../components/Spinner'
+
 import 'react-table/react-table.css'
 
 function link(cell, row) {
@@ -76,19 +79,32 @@ class Families extends Component {
     let data = this.props.families
       ? this.processFamilies(this.props.families)
       : []
+    let loaded = data.length > 0 ? true : false;
+
     return (
       <div>
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 className="h2">Families</h1>
         </div>
         <div className="table-responsive">
-          <BootstrapTable
-            bootstrap4={true}
-            keyField="familyId"
-            data={data}
-            columns={columns}
-          />
+
+          {
+            loaded
+              ? (
+                  <BootstrapTable
+                  bootstrap4={true}
+                  loading={true}
+                  keyField="familyId"
+                  data={data}
+                  columns={columns}
+                />
+              )
+              : (
+                <Spinner />
+              )
+          }
         </div>
+
       </div>
     )
   }
