@@ -27,7 +27,7 @@ if (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(applyMiddleware(thunk))
   )
 } else {
-  store = createStore(persistedReducer)
+  store = createStore(persistedReducer, applyMiddleware(thunk))
 }
 let persistor = persistStore(store)
 
