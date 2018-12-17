@@ -6,12 +6,10 @@ import { Link } from 'react-router-dom'
 import BootstrapTable from 'react-bootstrap-table-next'
 
 import { loadFamilies } from '../redux/actions'
-import FamilyMemberTable from '../components/FamilyMemberTable'
-import SnapshotTable from '../components/SnapshotTable'
 import 'react-table/react-table.css'
 
 function link(cell, row) {
-  return <Link to={`/family/${row.code}`}>{cell}</Link>
+  return <Link to={`/family/${row.familyId}`}>{cell}</Link>
 }
 
 const columns = [
@@ -86,7 +84,7 @@ class Families extends Component {
         <div className="table-responsive">
           <BootstrapTable
             bootstrap4={true}
-            keyField="id"
+            keyField="familyId"
             data={data}
             columns={columns}
           />
