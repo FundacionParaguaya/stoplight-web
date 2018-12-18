@@ -167,3 +167,33 @@ main div {
     transform: rotate(360deg);
   }
 }
+
+/* ICONS */
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+.feather.x2 {
+  width: 32px;
+  height: 32px;
+}
+
+/* CARDS */
+
+.card {
+  border: none;
+  -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  margin-bottom: 30px;
+}
+
+.header-title {
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 0.875rem;
+  margin-top: 0;
+}

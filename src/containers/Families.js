@@ -30,7 +30,7 @@ const columns = [
     sort: true
   },
   {
-    dataField: 'organization',
+    dataField: 'organization.name',
     text: 'Org',
     sort: true
   },
@@ -53,7 +53,6 @@ class Families extends Component {
   processFamilies(processFamilies) {
     return processFamilies.map(family => {
       family.mentor = family.user.username
-      family.organization = family.organization.code
       family.latestSnapshot =
         family.snapshotList.length > 0
           ? moment
