@@ -24,7 +24,7 @@ export const loadFamilies = () => dispatch => {
     },
     body: JSON.stringify({
       query:
-        'query { familiesNewStructure{ code familyId user { username } name country { country } organization { code }  snapshotList { surveyId createdAt } countFamilyMembers familyMemberDTOList{ firstName gender birthDate } } }'
+        'query { familiesNewStructure{ code familyId name address user { username } country { country } organization { code, name }  snapshotList { surveyId createdAt } countFamilyMembers familyMemberDTOList{ firstName lastName gender birthDate } person {firstName lastName phoneNumber email gender birthdate countryOfBirth { country } identificationNumber identificationType} } }'
     })
   })
     .then(res => res.text())
