@@ -10,6 +10,7 @@ import { loadFamilies } from '../redux/actions'
 import Spinner from '../components/Spinner'
 
 import 'react-table/react-table.css'
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 
 function link(cell, row) {
   return <Link to={`/family/${row.familyId}`}>{cell}</Link>
@@ -30,6 +31,11 @@ const columns = [
   {
     dataField: 'familyMemberDTOList.length',
     text: 'Family Members',
+    sort: true
+  },
+  {
+    dataField: 'snapshotList.length',
+    text: 'Snapshots',
     sort: true
   },
   {
@@ -78,7 +84,7 @@ class Families extends Component {
     let data = this.props.families
       ? this.processFamilies(this.props.families)
       : []
-    let loaded = data.length > 0 ? true : false;
+    let loaded = data.length > 0 ? true : false
 
     return (
       <div>
@@ -86,24 +92,18 @@ class Families extends Component {
           <h1 className="h2">Families</h1>
         </div>
         <div className="table-responsive">
-
-          {
-            loaded
-              ? (
-                  <BootstrapTable
-                  bootstrap4={true}
-                  loading={true}
-                  keyField="familyId"
-                  data={data}
-                  columns={columns}
-                />
-              )
-              : (
-                <Spinner />
-              )
-          }
+          {loaded ? (
+            <BootstrapTable
+              bootstrap4={true}
+              loading={true}
+              keyField="familyId"
+              data={data}
+              columns={columns}
+            />
+          ) : (
+            <Spinner />
+          )}
         </div>
-
       </div>
     )
   }

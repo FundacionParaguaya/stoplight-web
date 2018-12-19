@@ -15,6 +15,7 @@ import Dashboard from './containers/Dashboard'
 import Families from './containers/Families'
 import Family from './containers/Family'
 import Surveys from './containers/Surveys'
+import Lifemap from './containers/Lifemap'
 
 import logo from './assets/logo_white.png'
 
@@ -108,6 +109,7 @@ class App extends Component {
                       <Route exact path="/families" component={Families} />
                       <Route exact path="/family/:id" component={Family} />
                       <Route exact path="/surveys" component={Surveys} />
+                      <Route exact path="/lifemap" component={Lifemap} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
                   </main>
