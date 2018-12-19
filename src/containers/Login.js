@@ -29,7 +29,12 @@ body {
 }
 
 `
-
+/**
+* The Login Component renders the Login Screen and the login logic
+* @param {object} state - redux state that contains user information
+*
+* @extends Component
+*/
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -40,6 +45,18 @@ class Login extends Component {
     }
   }
 
+/**
+ * Will Select the backend server depending on the prefix before entered username.
+ * Username would be entered in the following formats
+ *
+ * **t/**username -> test server
+ *
+ * **d/**username -> demo server
+ *
+ * **p/**username -> production server
+ * @param  {string} username username entered by user on frontend.
+ * @return {object}          returns the server to be used & the username of the user
+ */
   selectServer(username) {
     if (!username) return { server: prod, user: username }
     switch (username.substring(0, 2)) {
@@ -54,6 +71,12 @@ class Login extends Component {
     }
   }
 
+/**
+ * Handles the submission of the login
+ * Gets the server from `selectServer()` based on the username
+ * On Success: Calls `loginSuccess()`
+ * @return {function} calls loginSuccess if login is sucessful
+ */
   handleSubmit() {
     const { server, user } = this.selectServer(this.state.username)
     const url =
@@ -75,8 +98,14 @@ class Login extends Component {
         this.loginSuccess(access_token, user, server.name)
       })
   }
-
-  loginSuccess = (access_token, user, env) => {
+/**
+ * Handles the response from the login request to the backend
+ * @param  {string} access_token user's access token from login
+ * @param  {object} user         the User object
+ * @param  {object} env          The possible environments (backend servers to use)
+ * @return {object} this.state             sets the state if login was successful or not. Redirects to dashboard if successful
+ */
+  loginSuccess(access_token, user, env){
     try {
       this.props.setLogin(user.username, access_token, env)
       this.setState({ authed: user.username })
@@ -85,7 +114,13 @@ class Login extends Component {
       this.setState({ err: true })
     }
   }
-
+/**
+ * Handles the field changes of the login form
+ * Updates the state values of the field parameters
+ * @param  {string} name field name
+ * @param  {object} e    event
+ * @return {object} this.state    updates the values of the field parameters accordingly
+ */
   onChange(name, e) {
     this.setState({
       [name]: e.target.value,
