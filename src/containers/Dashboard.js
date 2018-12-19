@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import './Dashboard.css'
-
+/**
+ * Renders the Dashboard
+ * @extends Component
+ */
 class Dashboard extends Component {
   render() {
     return (
