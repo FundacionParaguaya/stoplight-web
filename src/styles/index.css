@@ -1,3 +1,5 @@
+/* PS Headline FONT */
+
 h1,
 h2,
 h3,
@@ -6,6 +8,8 @@ h5,
 h6 {
   font-family: 'Poppins', sans-serif !important;
 }
+
+/* DOTS */
 
 .bigdot {
   height: 25px;
@@ -168,6 +172,10 @@ main div {
   }
 }
 
+.center {
+  text-align: center;
+}
+
 /* ICONS */
 
 .feather {
@@ -179,6 +187,20 @@ main div {
 .feather.x2 {
   width: 32px;
   height: 32px;
+}
+
+.feather.x3 {
+  width: 64px;
+  height: 64px;
+}
+
+.feather.x4 {
+  width: 128px;
+  height: 128px;
+}
+
+.feather.m64 {
+  margin: 64px;
 }
 
 /* CARDS */

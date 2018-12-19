@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { login } from './../redux/actions'
 import logo from './../assets/logo.png'
 import './Login.css'
-import platform from './../env.js'
+import { prod, demo, test } from './../env.js'
 
 const styles = `
 html,
@@ -40,10 +40,25 @@ class Login extends Component {
     }
   }
 
+  selectServer(username) {
+    if (!username) return { server: prod, user: username }
+    switch (username.substring(0, 2)) {
+      case 'p/':
+        return { server: prod, user: username.substring(2) }
+      case 'd/':
+        return { server: demo, user: username.substring(2) }
+      case 't/':
+        return { server: test, user: username.substring(2) }
+      default:
+        return { server: prod, user: username }
+    }
+  }
+
   handleSubmit() {
+    const { server, user } = this.selectServer(this.state.username)
     const url =
-      platform.oauth +
-      `/token?username=${this.state.username}&password=${
+      server.oauth +
+      `/token?username=${user}&password=${
         this.state.password
       }&grant_type=password`
 
@@ -51,19 +66,19 @@ class Login extends Component {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Basic ${platform.token}`
+        Authorization: `Basic ${server.token}`
       }
     })
       .then(response => response.json())
       .then(responseJson => {
         const { access_token, user } = responseJson
-        this.loginSuccess(access_token, user)
+        this.loginSuccess(access_token, user, server.name)
       })
   }
 
-  loginSuccess = (access_token, user) => {
+  loginSuccess = (access_token, user, env) => {
     try {
-      this.props.setLogin(user.username, access_token)
+      this.props.setLogin(user.username, access_token, env)
       this.setState({ authed: user.username })
       return <Redirect to="/dashboard" />
     } catch (e) {
@@ -154,8 +169,8 @@ const mapStateToProps = state => ({
   state: state
 })
 const mapDispatchToProps = dispatch => ({
-  setLogin: (username, token) => {
-    dispatch(login(username, token))
+  setLogin: (username, token, env) => {
+    dispatch(login(username, token, env))
   }
 })
 

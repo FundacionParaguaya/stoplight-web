@@ -3,7 +3,12 @@ import { LOAD_FAMILIES, LOGIN, LOAD_SURVEYS, LOGOUT } from './actions'
 export const user = (state = {}, action) => {
   switch (action.type) {
     case LOGIN:
-      return { ...state, username: action.username, token: action.token }
+      return {
+        ...state,
+        username: action.username,
+        token: action.token,
+        env: action.env
+      }
     case LOGOUT:
       return { username: null, token: null }
     default:
