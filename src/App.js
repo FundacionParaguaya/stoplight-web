@@ -20,7 +20,10 @@ import Lifemap from './containers/Lifemap'
 import logo from './assets/logo_white.png'
 
 import Dots from './components/Dots'
-
+/**
+ * This is the Entry Pyont
+ * @param {object} state - redux state that contains user information
+ */
 class App extends Component {
   render() {
     return (
