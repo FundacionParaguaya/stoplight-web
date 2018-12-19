@@ -1,0 +1,31 @@
+{
+  "coverage": "0%",
+  "expectCount": 12,
+  "actualCount": 0,
+  "files": {
+    "src/env.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        18,
+        25,
+        32
+      ]
+    },
+    "src/redux/actions.js": {
+      "expectCount": 9,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        8,
+        9,
+        16,
+        17,
+        21,
+        22,
+        53,
+        54
+      ]
+    }
+  }
+}
