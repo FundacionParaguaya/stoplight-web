@@ -48,12 +48,9 @@ class Login extends Component {
 /**
  * Will Select the backend server depending on the prefix before entered username.
  * Username would be entered in the following formats
- *
- * **t/**username -> test server
- *
- * **d/**username -> demo server
- *
- * **p/**username -> production server
+ ** **t/**username -> test server
+ ** **d/**username -> demo server
+ ** **p/**username -> production server
  * @param  {string} username username entered by user on frontend.
  * @return {object}          returns the server to be used & the username of the user
  */

@@ -16,51 +16,81 @@ function link(cell, row) {
   return <Link to={`/family/${row.familyId}`}>{cell}</Link>
 }
 
-const columns = [
-  {
-    dataField: 'code',
-    text: 'Code',
-    sort: true,
-    formatter: link
-  },
-  {
-    dataField: 'name',
-    text: 'Name',
-    sort: true
-  },
-  {
-    dataField: 'familyMemberDTOList.length',
-    text: 'Family Members',
-    sort: true
-  },
-  {
-    dataField: 'snapshotList.length',
-    text: 'Snapshots',
-    sort: true
-  },
-  {
-    dataField: 'organization.name',
-    text: 'Org',
-    sort: true
-  },
-  {
-    dataField: 'mentor',
-    text: 'Mentor',
-    sort: true
-  }
-]
-
+/**
+ * @namespace
+ * Displays information about families belonging to an organization or hub
+ * @extends Component
+ */
 class Families extends Component {
+
+  constructor(){
+    super()
+    this.state = {
+      columns: [
+        {
+          dataField: 'code',
+          text: 'Code',
+          sort: true,
+          formatter: link
+        },
+        {
+          dataField: 'name',
+          text: 'Name',
+          sort: true
+        },
+        {
+          dataField: 'familyMemberDTOList.length',
+          text: 'Family Members',
+          sort: true
+        },
+        {
+          dataField: 'snapshotList.length',
+          text: 'Snapshots',
+          sort: true
+        },
+        {
+          dataField: 'organization.name',
+          text: 'Org',
+          sort: true
+        },
+        {
+          dataField: 'mentor',
+          text: 'Mentor',
+          sort: true
+        }
+      ]
+
+    }
+  }
   componentDidMount() {
     this.loadData()
   }
 
-  loadData = () => {
+  /**
+    * Loads all the Family data from the reducer
+    * @return {Array} returns the list of families from the backend
+    * prepares the data to fill the `columns` parameter defines the columns to be displayed & used by ReactTable
+    * Fields:
+    ** {string}  code
+    ** {string}  name family  name
+    ** {array}  familyMemberDTOList the list of family members, where we take the length to get the **number of family members**
+    ** {array}  snapshotList the list of snapshots, where we take the length to get the **number of snapshots**
+    ** {object} user object of the survey taker (mentor)
+    * @type {Array}
+  */
+  loadData() {
     this.props.loadFamilies()
   }
 
-  processFamilies(processFamilies) {
-    return processFamilies.map(family => {
+  /**
+   * Processes the data returned by {@link Families.loadData}
+   ** extracts the `mentor` name from the user object
+   ** converts the dates from timestamp to DD MMM YYY format (e.g. 01 Jan 2018)
+   * @param  {Array} familyList Family Array to process
+   * @return {Array} familyList List of prcoessed families
+   */
+  processFamilies(familyList) {
+    return familyList.map(family => {
       family.mentor = family.user.username
       family.latestSnapshot =
         family.snapshotList.length > 0
@@ -98,7 +128,7 @@ class Families extends Component {
               loading={true}
               keyField="familyId"
               data={data}
-              columns={columns}
+              columns={this.state.columns}
             />
           ) : (
             <Spinner />
