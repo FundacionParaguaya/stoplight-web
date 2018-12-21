@@ -8,7 +8,7 @@ import FamilyParticipant from './Components/FamilyDetails/FamilyParticipant'
 import FamilyMembers from './Components/FamilyDetails/FamilyMembers'
 import SocioEconomic from './Components/SocioEconomic'
 import BeginLifemap from './Components/BeginLifeMap'
-import StopLight from './Components/StopLight/StopLight'
+import StopLight from './Components/StopLight'
 
 class Lifemap extends Component {
   constructor(props) {
@@ -116,7 +116,6 @@ class Lifemap extends Component {
       case 9:
         component = data && (
           <StopLight
-            nextStep={this.nextStep}
             previousStep={this.previousStep}
             data={data[0].surveyStoplightQuestions}
           />
