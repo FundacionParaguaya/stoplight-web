@@ -15,8 +15,8 @@ import Family from './containers/Family'
 import Surveys from './containers/Surveys'
 import logo from './assets/logo_white.png'
 import Dots from './components/Dots'
-import Terms from './containers/Lifemap/Terms'
-import BeginLifeMap from './containers/Lifemap/BeginLifeMap'
+import Lifemap from './containers/Lifemap'
+import BeginLifeMap from './containers/Lifemap/Components/BeginLifeMap'
 
 class App extends Component {
   render() {
@@ -87,7 +87,7 @@ class App extends Component {
                         <li className="nav-item nav-btn">
                           <Link
                             className="btn btn-sm btn-success nav-link btn-block"
-                            to="/lifemap"
+                            to="/surveys"
                           >
                             <span data-feather="users" />
                             New Lifemap
@@ -105,7 +105,7 @@ class App extends Component {
                       <Route exact path="/" component={Dashboard} />
                       <Route exact path="/families" component={Families} />
                       <Route exact path="/family/:id" component={Family} />
-                      <Route exact path="/terms/:id" component={Terms} />
+                      <Route exact path="/lifemap" component={Lifemap} />
                       <Route
                         exact
                         path="/question/:id"

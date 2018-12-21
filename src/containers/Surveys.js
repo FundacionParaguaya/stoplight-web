@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import LifemapListItem from '../components/LifemapListItem'
 import { logout, loadSurveys, loadFamilies } from './../redux/actions'
 import { Link } from 'react-router-dom'
 export class Surveys extends Component {
@@ -20,8 +19,10 @@ export class Surveys extends Component {
           <div key={survey.id} style={{ marginTop: 30 }}>
             <Link
               to={{
-                pathname: `/terms/${survey.id}`,
-                state: { surveyData: this.props.surveys[i].surveyData }
+                pathname: `/lifemap`,
+                state: {
+                  surveyId: survey.id
+                }
               }}
             >
               <div className="card" style={{ marginTop: 50 }}>
