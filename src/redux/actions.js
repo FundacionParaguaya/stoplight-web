@@ -1,4 +1,4 @@
-import { store } from './../index'
+import store from './store'
 import env from './../env.js'
 
 function selectServer(name) {
