@@ -51,7 +51,7 @@ export const loadSurveys = () => dispatch => {
     },
     body: JSON.stringify({
       query:
-        'query { surveysByUser { title id minimumPriorities surveyConfig { documentType {text value} gender { text value}}  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
+        'query { surveysByUser { title id minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value} surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
     })
   })
     .then(res => res.text())
