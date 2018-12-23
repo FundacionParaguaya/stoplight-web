@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormSpy, Form, Field } from 'react-final-form'
 
-class SocioEconomic extends Component {
+class SocioEconomicPresentational extends Component {
   render() {
-    const questions = this.props.data
+    const questions = this.props.data.sortedQuestions
+    const category = this.props.data.category
+    console.log(questions)
     return (
       <div style={{ marginTop: 50 }}>
+        <div>{category}</div>
         <Form
           onSubmit={(values, form) => {
             console.log('submitted: ', values)
@@ -90,4 +93,4 @@ const mapDispatchToProps = {}
 export default connect(
   null,
   mapDispatchToProps
-)(SocioEconomic)
+)(SocioEconomicPresentational)
