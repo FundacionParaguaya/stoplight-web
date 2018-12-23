@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { loadSurveys } from '../../redux/actions'
-import Terms from './Components/TermsPrivacy/Terms'
-import Privacy from './Components/TermsPrivacy/Privacy'
 import FamilyParticipant from './Components/FamilyData/FamilyParticipant'
 import FamilyMembers from './Components/FamilyData/FamilyMembers'
 import SocioEconomic from './Components/SocioEconomic/'
 import BeginLifemap from './Components/BeginLifeMap'
 import StopLight from './Components/StopLight'
+import TermsPrivacy from './Components/TermsPrivacy'
 
 class Lifemap extends Component {
   constructor(props) {
@@ -43,23 +42,14 @@ class Lifemap extends Component {
     switch (this.state.step) {
       case 1:
         component = data[0] && (
-          <Terms
-            nextStep={this.nextStep}
-            previousStep={this.previousStep}
-            data={data[0].termsConditions}
+          <TermsPrivacy
+            parentNextStep={this.nextStep}
+            prarentPreviousStep={this.previousStep}
+            data={data[0]}
           />
         )
         break
       case 2:
-        component = data[0] && (
-          <Privacy
-            nextStep={this.nextStep}
-            previousStep={this.previousStep}
-            data={data[0].privacyPolicy}
-          />
-        )
-        break
-      case 3:
         component = data[0] && (
           <FamilyParticipant
             nextStep={this.nextStep}
@@ -68,7 +58,7 @@ class Lifemap extends Component {
           />
         )
         break
-      case 4:
+      case 3:
         component = (
           <FamilyMembers
             nextStep={this.nextStep}
@@ -76,16 +66,16 @@ class Lifemap extends Component {
           />
         )
         break
-      case 5:
+      case 4:
         component = data[0] && (
           <SocioEconomic
             parentNextStep={this.nextStep}
-            previousStep={this.previousStep}
+            parentPreviousStep={this.previousStep}
             data={data[0].surveyEconomicQuestions}
           />
         )
         break
-      case 6:
+      case 5:
         component = (
           <BeginLifemap
             nextStep={this.nextStep}
@@ -94,7 +84,7 @@ class Lifemap extends Component {
           />
         )
         break
-      case 7:
+      case 6:
         component = data && (
           <StopLight
             previousStep={this.previousStep}
