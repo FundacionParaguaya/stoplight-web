@@ -7,11 +7,10 @@ const StopLightPresentational = ({
   nextStep,
   previousStep
 }) => {
-  console.log(data)
   return (
     <div>
       <div>
-        <p>{`${index + 1}. ${data.questionText}`}</p>
+        <p>{data.questionText}</p>
         <p>{`${index + 1}/${total}`}</p>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
