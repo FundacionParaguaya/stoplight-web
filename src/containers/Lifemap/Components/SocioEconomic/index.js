@@ -34,7 +34,7 @@ class SocioEconomic extends Component {
     let answersCopy = [...this.state.answers]
     answersCopy[index] = value
     this.setState({ answers: answersCopy })
-    if (this.state.step === this.state.surveyEconomicQuestions.length) {
+    if (step === this.state.surveyEconomicQuestions.length - 1) {
       this.props.parentNextStep()
     }
     this.setState({ step: step + 1 })
