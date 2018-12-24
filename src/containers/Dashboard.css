@@ -1,7 +1,5 @@
-.feather {
-  width: 16px;
-  height: 16px;
-  vertical-align: text-bottom;
+body {
+  font-size: 0.875rem;
 }
 
 /*
@@ -14,7 +12,7 @@
   bottom: 0;
   left: 0;
   z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
+  padding: 56px 0 0; /* Height of navbar */
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -63,7 +61,7 @@
  */
 
 [role='main'] {
-  padding-top: 48px; /* Space for fixed navbar */
+  padding-top: 55px; /* Space for fixed navbar */
   margin-bottom: 50px;
 }
 
@@ -77,6 +75,9 @@
   font-size: 1rem;
   background-color: rgba(0, 0, 0, 0.25);
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+}
+.navbar-brand .brand {
+  vertical-align: text-top;
 }
 
 .navbar .form-control {
@@ -98,4 +99,12 @@
 
 .nav-btn {
   padding: 15px;
+}
+
+.sidebar .nav-btn .feather {
+  color: inherit;
+}
+
+.nav-link {
+  padding: 0.6rem 1rem;
 }
