@@ -1,3 +1,5 @@
+/* PS Headline FONT */
+
 h1,
 h2,
 h3,
@@ -6,6 +8,8 @@ h5,
 h6 {
   font-family: 'Poppins', sans-serif !important;
 }
+
+/* DOTS */
 
 .bigdot {
   height: 25px;
@@ -112,4 +116,106 @@ main div {
 .nav-logo {
   max-height: 30px;
   padding-right: 15px;
+}
+
+/* SPINNER */
+
+.spin {
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 4000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 4000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 4000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@-ms-keyframes spin {
+  from {
+    -ms-transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+/* ICONS */
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+.feather.x2 {
+  width: 32px;
+  height: 32px;
+}
+
+.feather.x3 {
+  width: 64px;
+  height: 64px;
+}
+
+.feather.x4 {
+  width: 128px;
+  height: 128px;
+}
+
+.feather.m64 {
+  margin: 64px;
+}
+
+/* CARDS */
+
+.card {
+  border: none;
+  -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  margin-bottom: 30px;
+}
+
+.header-title {
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 0.875rem;
+  margin-top: 0;
 }
