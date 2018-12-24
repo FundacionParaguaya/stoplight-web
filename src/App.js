@@ -19,7 +19,6 @@ import Lifemap from './containers/Lifemap'
 
 import logo from './assets/logo_white.png'
 import Dots from './components/Dots'
-import BeginLifeMap from './containers/Lifemap/Components/BeginLifeMap'
 
 /**
  * This is the Entry Pyont
@@ -113,11 +112,6 @@ class App extends Component {
                       <Route exact path="/families" component={Families} />
                       <Route exact path="/family/:id" component={Family} />
                       <Route exact path="/lifemap" component={Lifemap} />
-                      <Route
-                        exact
-                        path="/question/:id"
-                        component={BeginLifeMap}
-                      />
                       <Route exact path="/surveys" component={Surveys} />
                       <Route exact path="/lifemap" component={Lifemap} />
                       <Route render={() => <Redirect to="/" />} />
