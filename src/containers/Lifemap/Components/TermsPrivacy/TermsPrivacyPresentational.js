@@ -13,7 +13,7 @@ const TermsPrivacyPresentational = ({
         <h1 className="display-3">{header}</h1>
         <p className="lead">{data.title}</p>
         <hr className="my-4" />
-        <p>{data.text}</p>
+        <p dangerouslySetInnerHTML={{__html:data.text.split("\\n").join("<br/>")}} />
         <p className="lead">
           <button
             className="btn btn-primary btn-lg"
