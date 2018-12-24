@@ -38,6 +38,7 @@ class Lifemap extends Component {
     let data = this.props.surveys.filter(
       survey => survey.id === this.props.location.state.surveyId
     )
+
     let component = null
     switch (this.state.step) {
       case 1:
@@ -50,6 +51,10 @@ class Lifemap extends Component {
         )
         break
       case 2:
+        // create draft at this point
+        // draft should remain in state and is filled with answers from each component
+        // might want to createa  function that creates the drafts
+        // might want to create a handler for submissions of each step, to add to draft state.
         component = data[0] && (
           <FamilyParticipant
             nextStep={this.nextStep}
