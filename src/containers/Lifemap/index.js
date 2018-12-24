@@ -97,6 +97,8 @@ class Lifemap extends Component {
           />
         )
         break
+      // Still missing Case 7 for Priorities & Achievements views
+      // Create a submit handler to send graphql mutation once Prorities & Achievements is submitted
       default:
         component = <div>NOTHING TO SEE HERE</div>
     }
