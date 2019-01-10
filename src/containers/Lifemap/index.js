@@ -60,6 +60,7 @@ class Lifemap extends Component {
             nextStep={this.nextStep}
             previousStep={this.previousStep}
             data={data[0].surveyConfig}
+            surveyId={this.props.location.state.surveyId}
           />
         )
         break

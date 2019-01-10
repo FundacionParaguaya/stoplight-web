@@ -1,10 +1,44 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormSpy, Form, Field } from 'react-final-form'
+import { createDraft, addSurveyData } from '../../../../redux/actions'
+import uuid from 'uuid/v1'
 
 class FamilyParticipant extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      draftId: uuid()
+    }
+  }
+
+  componentDidMount() {
+    let surveyId = this.props.surveyId
+    this.props.createDraft({
+      survey_id: surveyId,
+      survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
+      created: Date.now(),
+      draft_id: this.state.draftId,
+      personal_survey_data: {},
+      economic_survey_data: {},
+      indicator_survey_data: {},
+      family_data: { familyMembersList: [] }
+    })
+  }
+
+  dispatchUpdate(values, draft_id, addSurveyData) {
+    addSurveyData(draft_id, 'personal_survey_data', values)
+  }
+
+  addSurveyData = (text, field) => {
+    console.log(text, field)
+    this.props.addSurveyData(this.state.draft_id, 'personal_survey_data', {
+      [field]: text
+    })
+  }
+
   render() {
-    console.log(this.props)
+    console.log('draft', this.props.drafts)
     return (
       <div style={{ marginTop: 50 }}>
         <Form
@@ -24,8 +58,15 @@ class FamilyParticipant extends Component {
               <FormSpy
                 subscription={{ values: true }}
                 component={({ values }) => {
-                  if (values) {
-                    console.log('formspy stuff: ', values)
+                  if (
+                    this.props.drafts[0] &&
+                    values === this.props.drafts[0].personal_survey_data
+                  ) {
+                    Object.keys(values).map(field => {
+                      console.log(field)
+                      this.addSurveyData(values[field], field)
+                    })
+                    console.log(values)
                   }
                   return ''
                 }}
@@ -47,7 +88,10 @@ class FamilyParticipant extends Component {
                 </Field>
               </div>
               <div>
-                <Field name="lastName">
+                <Field
+                  name="lastName"
+                  onChange={(val, prevVal) => console.log(val, prevVal)}
+                >
                   {({ input, meta }) => (
                     <div className="form-group">
                       <label>Last name: </label>
@@ -182,9 +226,17 @@ class FamilyParticipant extends Component {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  createDraft,
+  addSurveyData
+}
+
+const mapStateToProps = ({ surveys, drafts }) => ({
+  surveys,
+  drafts
+})
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FamilyParticipant)
