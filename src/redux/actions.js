@@ -91,6 +91,7 @@ export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
 export const SUBMIT_DRAFT = 'SUBMIT_DRAFT'
 export const SUBMIT_DRAFT_COMMIT = 'SUBMIT_DRAFT_COMMIT'
 export const SUBMIT_DRAFT_ROLLBACK = 'SUBMIT_DRAFT_ROLLBACK'
+export const ADD_SURVEY_DATA_WHOLE = 'ADD_SURVEY_DATA_WHOLE'
 
 export const createDraft = payload => ({
   type: CREATE_DRAFT,
@@ -106,6 +107,13 @@ export const addSurveyData = (id, category, payload) => ({
   type: ADD_SURVEY_DATA,
   category,
   id,
+  payload
+})
+
+export const addSurveyDataWhole = (id, category, payload) => ({
+  type: ADD_SURVEY_DATA_WHOLE,
+  id,
+  category,
   payload
 })
 
