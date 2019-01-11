@@ -40,6 +40,7 @@ class FamilyMembers extends Component {
         <Form
           onSubmit={(values, form) => {
             console.log('submitted: ', values)
+            this.props.nextStep()
           }}
           initialValues={{}}
           render={({
@@ -99,7 +100,6 @@ class FamilyMembers extends Component {
                   type="submit"
                   className="btn btn-primary btn-sm btn-block"
                   disabled={pristine || invalid}
-                  onClick={() => this.props.nextStep()}
                 >
                   Submit
                 </button>

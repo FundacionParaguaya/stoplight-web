@@ -8,7 +8,8 @@ import {
   ADD_SURVEY_DATA,
   SUBMIT_DRAFT,
   SUBMIT_DRAFT_COMMIT,
-  SUBMIT_DRAFT_ROLLBACK
+  SUBMIT_DRAFT_ROLLBACK,
+  ADD_SURVEY_DATA_WHOLE
 } from './actions'
 
 export const user = (state = {}, action) => {
@@ -63,6 +64,18 @@ export const drafts = (state = [], action) => {
             }
           : draft
       )
+    case ADD_SURVEY_DATA_WHOLE:
+      return state.map(draft => {
+        return draft.draft_id === action.id
+          ? {
+              ...draft,
+              [action.category]: {
+                ...draft[action.category],
+                ...action.payload
+              }
+            }
+          : draft
+      })
     case SUBMIT_DRAFT:
       return state.map(draft =>
         draft.draft_id === action.id

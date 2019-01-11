@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormSpy, Form, Field } from 'react-final-form'
-import { createDraft, addSurveyData } from '../../../../redux/actions'
+import {
+  createDraft,
+  addSurveyData,
+  addSurveyDataWhole
+} from '../../../../redux/actions'
 import uuid from 'uuid/v1'
 
 class FamilyParticipant extends Component {
@@ -26,24 +30,18 @@ class FamilyParticipant extends Component {
     })
   }
 
-  dispatchUpdate(values, draft_id, addSurveyData) {
-    addSurveyData(draft_id, 'personal_survey_data', values)
-  }
-
-  addSurveyData = (text, field) => {
-    console.log(text, field)
-    this.props.addSurveyData(this.state.draft_id, 'personal_survey_data', {
-      [field]: text
-    })
-  }
-
   render() {
     console.log('draft', this.props.drafts)
     return (
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            console.log('submitted: ', values)
+            this.props.addSurveyDataWhole(
+              this.state.draftId,
+              'personal_survey_data',
+              values
+            )
+            this.props.nextStep()
           }}
           initialValues={{}}
           render={({
@@ -58,14 +56,7 @@ class FamilyParticipant extends Component {
               <FormSpy
                 subscription={{ values: true }}
                 component={({ values }) => {
-                  if (
-                    this.props.drafts[0] &&
-                    values === this.props.drafts[0].personal_survey_data
-                  ) {
-                    Object.keys(values).map(field => {
-                      console.log(field)
-                      this.addSurveyData(values[field], field)
-                    })
+                  if (values) {
                     console.log(values)
                   }
                   return ''
@@ -88,10 +79,7 @@ class FamilyParticipant extends Component {
                 </Field>
               </div>
               <div>
-                <Field
-                  name="lastName"
-                  onChange={(val, prevVal) => console.log(val, prevVal)}
-                >
+                <Field name="lastName">
                   {({ input, meta }) => (
                     <div className="form-group">
                       <label>Last name: </label>
@@ -213,7 +201,6 @@ class FamilyParticipant extends Component {
                   type="submit"
                   className="btn btn-primary btn-sm btn-block"
                   disabled={pristine || invalid}
-                  onClick={() => this.props.nextStep()}
                 >
                   Submit
                 </button>
@@ -228,7 +215,8 @@ class FamilyParticipant extends Component {
 
 const mapDispatchToProps = {
   createDraft,
-  addSurveyData
+  addSurveyData,
+  addSurveyDataWhole
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
