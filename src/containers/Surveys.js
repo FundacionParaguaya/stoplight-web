@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadSurveys } from '../redux/actions'
-
-class Surveys extends Component {
+import { logout, loadSurveys, loadFamilies } from './../redux/actions'
+import { Link } from 'react-router-dom'
+export class Surveys extends Component {
   componentDidMount() {
     this.loadData()
   }
@@ -12,26 +12,38 @@ class Surveys extends Component {
   }
 
   render() {
-    let data = this.props.surveys
-      ? this.props.surveys.surveyEconomicQuestions
-      : []
+    console.log(this.props.surveys)
     return (
       <div>
-        <ul>
-          {data &&
-            data.map((question, i) => <li key={i}>{question.questionText}</li>)}
-        </ul>
+        {this.props.surveys.map((survey, i) => (
+          <div key={survey.id} style={{ marginTop: 30 }}>
+            <Link
+              to={{
+                pathname: `/lifemap`,
+                state: {
+                  surveyId: survey.id
+                }
+              }}
+            >
+              <div className="card" style={{ marginTop: 50 }}>
+                <div className="card-body">{survey.title}</div>
+              </div>
+            </Link>
+          </div>
+        ))}
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  surveys: state.surveys
+const mapStateToProps = ({ surveys }) => ({
+  surveys
 })
 
 const mapDispatchToProps = {
-  loadSurveys
+  logout,
+  loadSurveys,
+  loadFamilies
 }
 
 export default connect(
