@@ -7,12 +7,12 @@ import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
 
 class FamilyMap extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      // set paraguay HQ
-      lat: -25.3092612,
-      lng: -57.5872545,
+      // set Hub HQ as default
+      lat: this.props.data.surveyLocation.latitude,
+      lng: this.props.data.surveyLocation.longitude,
       accuracy: 0
     }
     this.getLocation()
@@ -31,13 +31,12 @@ class FamilyMap extends Component {
     } else {
       return
     }
-    // call redux action to save location!
   }
 
   onMapCreated(map) {
-    map.setOptions({
-      disableDefaultUI: true
-    })
+    // map.setOptions({
+    //   disableDefaultUI: true
+    // })
   }
 
   onDragEnd(e) {
