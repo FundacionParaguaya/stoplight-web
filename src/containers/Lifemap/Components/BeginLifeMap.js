@@ -19,6 +19,14 @@ class BeginLifemap extends Component {
           >
             Continue
           </button>
+          <button
+            className="btn btn-primary btn-lg"
+            onClick={() => {
+              this.props.parentPreviousStep()
+            }}
+          >
+            Go Back
+          </button>
         </div>
       </div>
     )

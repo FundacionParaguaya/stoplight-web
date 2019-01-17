@@ -103,7 +103,7 @@ class App extends Component {
                     </div>
                   </nav>
 
-                  <main
+                  <div
                     role="main"
                     className="col-md-9 ml-sm-auto col-lg-10 px-4"
                   >
@@ -116,7 +116,7 @@ class App extends Component {
                       <Route exact path="/lifemap" component={Lifemap} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
-                  </main>
+                  </div>
                 </div>
               </div>
             </div>

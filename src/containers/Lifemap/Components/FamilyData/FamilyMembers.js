@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { FormSpy, Form, Field } from 'react-final-form'
+import { Form, Field } from 'react-final-form'
+import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class FamilyMembers extends Component {
   constructor(props) {
@@ -9,9 +10,11 @@ class FamilyMembers extends Component {
       memberCount: 0
     }
   }
-  myOnChange = event => {
+  handleChange = event => {
     this.setState({ memberCount: event.target.value })
   }
+
+  //TODO: handler to skip to map view if only 1 family member!
 
   render() {
     const forms = []
@@ -35,12 +38,42 @@ class FamilyMembers extends Component {
         </div>
       )
     }
+
     return (
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            console.log('submitted: ', values)
-            this.props.nextStep()
+            let draft = this.props.drafts.filter(
+              draft => (draft.id = this.props.draftId)
+            )[0]
+
+            // need to save familyMembersCount
+            let familyMembersCount = parseInt(values.memberCount) + 1
+            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+              familyMembersCount: familyMembersCount
+            })
+
+            console.log(familyMembersCount)
+            if (familyMembersCount < 2) {
+              this.props.jumpStep(3) // jump to map view # temporary jump to socioeconomic because no map view yet
+            } else {
+              // map through values and extract the firstNames of all family members
+              let additionalMembersList = Object.keys(values)
+                .filter(key => key.includes('membername'))
+                .map(key => {
+                  return { firstParticipant: false, firstName: values[key] }
+                })
+
+              // combine familyMembers with firstParticipant from primary participant screen
+              let familyMembersList = draft.family_data.familyMembersList.concat(
+                additionalMembersList
+              )
+              this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+                familyMembersList: familyMembersList
+              })
+
+              this.props.nextStep()
+            }
           }}
           initialValues={{}}
           render={({
@@ -52,15 +85,6 @@ class FamilyMembers extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-              <FormSpy
-                subscription={{ values: true }}
-                component={({ values }) => {
-                  if (values) {
-                    console.log('formspy stuff: ', values)
-                  }
-                  return ''
-                }}
-              />
               <div>
                 <label>Number of people living in this household: </label>
                 <div className="form-group">
@@ -68,12 +92,13 @@ class FamilyMembers extends Component {
                     {({ input, meta }) => {
                       const { onChange } = input
                       const mergedOnChange = e => {
-                        this.myOnChange(e)
+                        this.handleChange(e)
                         onChange(e)
                       }
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
+                          <option value="">-</option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
@@ -92,16 +117,24 @@ class FamilyMembers extends Component {
               </div>
               <div className="form-group">
                 <label>name: </label>
-                <p type="text" className="form-control" placeholder="" />
+                <p className="form-control" placeholder="">
+                  {this.props.surveyTakerName}
+                </p>
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-primary btn-lg"
                   disabled={pristine || invalid}
                 >
                   Submit
+                </button>
+                <button
+                  className="btn btn-primary btn-lg"
+                  onClick={() => this.props.previousStep()}
+                >
+                  Go Back
                 </button>
               </div>
             </form>
@@ -112,9 +145,17 @@ class FamilyMembers extends Component {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  addSurveyData,
+  addSurveyDataWhole
+}
+
+const mapStateToProps = ({ surveys, drafts }) => ({
+  surveys,
+  drafts
+})
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FamilyMembers)

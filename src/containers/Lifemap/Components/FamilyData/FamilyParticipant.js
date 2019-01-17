@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { FormSpy, Form, Field } from 'react-final-form'
+import { Form, Field } from 'react-final-form'
 import {
   createDraft,
   addSurveyData,
   addSurveyDataWhole
 } from '../../../../redux/actions'
-import uuid from 'uuid/v1'
+import DatePicker from '../DatePicker'
 
 class FamilyParticipant extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
-      draftId: uuid()
+      date: null
     }
   }
 
@@ -22,25 +22,29 @@ class FamilyParticipant extends Component {
       survey_id: surveyId,
       survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
       created: Date.now(),
-      draft_id: this.state.draftId,
+      draft_id: this.props.draftId,
       personal_survey_data: {},
       economic_survey_data: {},
-      indicator_survey_data: {},
-      family_data: { familyMembersList: [] }
+      family_data: {}
+    })
+  }
+  dateChange(date) {
+    this.setState({
+      date: date
     })
   }
 
   render() {
-    console.log('draft', this.props.drafts)
     return (
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            this.props.addSurveyDataWhole(
-              this.state.draftId,
-              'personal_survey_data',
-              values
-            )
+            values.firstParticipant = true
+            values.birthDate = this.state.date
+            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+              familyMembersList: [values]
+            })
+            this.props.setName(values['firstName'])
             this.props.nextStep()
           }}
           initialValues={{}}
@@ -53,15 +57,6 @@ class FamilyParticipant extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-              <FormSpy
-                subscription={{ values: true }}
-                component={({ values }) => {
-                  if (values) {
-                    console.log(values)
-                  }
-                  return ''
-                }}
-              />
               <div>
                 <Field name="firstName">
                   {({ input, meta }) => (
@@ -115,6 +110,14 @@ class FamilyParticipant extends Component {
                 </div>
               </div>
               <div>
+                <label>Birthdate: </label>
+                <DatePicker
+                  dateChange={this.dateChange.bind(this)}
+                  minYear={1900}
+                  maxYear={2019}
+                />
+              </div>
+              <div>
                 <label>Document type: </label>
                 <div className="form-group">
                   <Field
@@ -154,7 +157,7 @@ class FamilyParticipant extends Component {
                 <label>Country: </label>
                 <div className="form-group">
                   <Field
-                    name="country"
+                    name="birthCountry"
                     component="select"
                     className="custom-select"
                   >
@@ -199,10 +202,16 @@ class FamilyParticipant extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-primary btn-lg"
                   disabled={pristine || invalid}
                 >
                   Submit
+                </button>
+                <button
+                  className="btn btn-primary btn-lg"
+                  onClick={() => this.props.parentPreviousStep()}
+                >
+                  Go Back
                 </button>
               </div>
             </form>
