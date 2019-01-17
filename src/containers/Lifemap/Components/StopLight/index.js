@@ -11,16 +11,16 @@ class StopLight extends Component {
     }
   }
 
-  nextStep = value => {
+  nextStep = (value, codeName) => {
     const { step } = this.state
-    let description = value.description
     let answer = {}
-    answer[description] = value.value
+    answer[codeName] = value.value
     this.props.addSurveyDataWhole(
       this.props.draftId,
       'indicator_survey_data',
       answer
     )
+    console.log(this.props.drafts)
     if (this.state.step === this.props.data.length - 1) {
       this.props.nextStep()
     } else {
@@ -35,7 +35,6 @@ class StopLight extends Component {
 
   render() {
     let stopLightQuestions = this.props.data
-    console.log(this.props.drafts)
     return (
       <div style={{ marginTop: 50 }}>
         {
@@ -45,6 +44,7 @@ class StopLight extends Component {
             total={stopLightQuestions.length - 1}
             nextStep={this.nextStep}
             previousStep={this.previousStep}
+            parentPreviousStep={this.props.parentPreviousStep}
           />
         }
       </div>
