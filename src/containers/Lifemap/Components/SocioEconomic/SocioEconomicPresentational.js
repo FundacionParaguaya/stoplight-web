@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormSpy, Form, Field } from 'react-final-form'
-import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import {  addSurveyDataWhole } from '../../../../redux/actions'
 
 class SocioEconomicPresentational extends Component {
   goBack() {
@@ -19,24 +19,9 @@ class SocioEconomicPresentational extends Component {
         <div>{category}</div>
         <Form
           onSubmit={(values, form) => {
-            let surveyCategory = ''
-            switch (category) {
-              case 'Education':
-                surveyCategory = 'economic_survey_data'
-                break
-              case 'Family Details':
-                surveyCategory = 'family_data'
-                break
-              case 'Income & Employment':
-                surveyCategory = 'economic_survey_data'
-                break
-              default:
-                surveyCategory = false
-                break
-            }
             this.props.addSurveyDataWhole(
               this.props.draftId,
-              surveyCategory,
+              'economic_survey_data',
               values
             )
             if (this.props.index === this.props.total - 1) {
@@ -126,7 +111,6 @@ class SocioEconomicPresentational extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData,
   addSurveyDataWhole
 }
 
