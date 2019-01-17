@@ -6,27 +6,18 @@ import {
   addSurveyData,
   addSurveyDataWhole
 } from '../../../../redux/actions'
-import uuid from 'uuid/v1'
 
 class FamilyParticipant extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      draftId: uuid()
-    }
-  }
-
   componentDidMount() {
     let surveyId = this.props.surveyId
     this.props.createDraft({
       survey_id: surveyId,
       survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
       created: Date.now(),
-      draft_id: this.state.draftId,
+      draft_id: this.props.draftId,
       personal_survey_data: {},
       economic_survey_data: {},
-      indicator_survey_data: {},
-      family_data: { familyMembersList: [] }
+      family_data: {}
     })
   }
 
@@ -37,7 +28,7 @@ class FamilyParticipant extends Component {
         <Form
           onSubmit={(values, form) => {
             this.props.addSurveyDataWhole(
-              this.state.draftId,
+              this.props.draftId,
               'personal_survey_data',
               values
             )
@@ -57,7 +48,7 @@ class FamilyParticipant extends Component {
                 subscription={{ values: true }}
                 component={({ values }) => {
                   if (values) {
-                    console.log(values)
+                    //     console.log(values)
                   }
                   return ''
                 }}

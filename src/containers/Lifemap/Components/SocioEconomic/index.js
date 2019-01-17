@@ -34,9 +34,6 @@ class SocioEconomic extends Component {
     let answersCopy = [...this.state.answers]
     answersCopy[index] = value
     this.setState({ answers: answersCopy })
-    if (step === this.state.surveyEconomicQuestions.length - 1) {
-      this.props.parentNextStep()
-    }
     this.setState({ step: step + 1 })
   }
 
@@ -46,21 +43,23 @@ class SocioEconomic extends Component {
   }
 
   render() {
+    console.log(this.state.surveyEconomicQuestions)
     const splicedSurveyQuestions =
       this.state.surveyEconomicQuestions &&
       this.state.surveyEconomicQuestions.filter(
         (category, index) => index === this.state.step
       )
-    // console.log(splicedSurveyQuestions)
     return (
       <div style={{ marginTop: 50 }}>
         {
           <SocioEconomicPresentational
+            draftId={this.props.draftId}
             data={splicedSurveyQuestions[0]}
             index={this.state.step}
             total={this.state.surveyEconomicQuestions.length}
             nextStep={this.nextStep}
             previousStep={this.previousStep}
+            parentStep={this.props.parentNextStep}
           />
         }
       </div>
@@ -70,7 +69,12 @@ class SocioEconomic extends Component {
 
 const mapDispatchToProps = {}
 
+const mapStateToProps = ({ surveys, drafts }) => ({
+  surveys,
+  drafts
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SocioEconomic)

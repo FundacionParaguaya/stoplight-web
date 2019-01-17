@@ -1,18 +1,43 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormSpy, Form, Field } from 'react-final-form'
+import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class SocioEconomicPresentational extends Component {
   render() {
     const questions = this.props.data.sortedQuestions
     const category = this.props.data.category
-    console.log(questions)
     return (
       <div style={{ marginTop: 50 }}>
         <div>{category}</div>
         <Form
           onSubmit={(values, form) => {
-            console.log('submitted: ', values)
+            let surveyCategory = ''
+            switch (category) {
+              case 'Education':
+                surveyCategory = 'economic_survey_data'
+                break
+              case 'Family Details':
+                surveyCategory = 'family_data'
+                break
+              case 'Income & Employment':
+                surveyCategory = 'economic_survey_data'
+                break
+              default:
+                surveyCategory = false
+                break
+            }
+            this.props.addSurveyDataWhole(
+              this.props.draftId,
+              surveyCategory,
+              values
+            )
+            if (this.props.index === this.props.total - 1) {
+              this.props.parentStep()
+            } else {
+              this.props.nextStep()
+            }
+            console.log(this.props.drafts)
           }}
           initialValues={{}}
           render={({
@@ -28,7 +53,7 @@ class SocioEconomicPresentational extends Component {
                 subscription={{ values: true }}
                 component={({ values }) => {
                   if (values) {
-                    console.log('formspy stuff: ', values)
+                    //      console.log('formspy stuff: ', values)
                   }
                   return ''
                 }}
@@ -75,7 +100,6 @@ class SocioEconomicPresentational extends Component {
                   type="submit"
                   className="btn btn-primary btn-sm btn-block"
                   disabled={pristine || invalid}
-                  onClick={() => this.props.nextStep()}
                 >
                   Submit
                 </button>
@@ -88,9 +112,17 @@ class SocioEconomicPresentational extends Component {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  addSurveyData,
+  addSurveyDataWhole
+}
+
+const mapStateToProps = ({ surveys, drafts }) => ({
+  surveys,
+  drafts
+})
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SocioEconomicPresentational)
