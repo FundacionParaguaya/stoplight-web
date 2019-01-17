@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { loadSurveys } from '../../redux/actions'
 import FamilyParticipant from './Components/FamilyData/FamilyParticipant'
 import FamilyMembers from './Components/FamilyData/FamilyMembers'
+import FamilyGender from './Components/FamilyData/FamilyGender'
+import FamilyBirthDate from './Components/FamilyData/FamilyBirthDate'
+import FamilyMap from './Components/FamilyData/FamilyMap'
 import SocioEconomic from './Components/SocioEconomic/'
 import BeginLifemap from './Components/BeginLifeMap'
 import StopLight from './Components/StopLight'
@@ -73,11 +76,42 @@ class Lifemap extends Component {
           <FamilyMembers
             nextStep={this.nextStep}
             draftId={this.state.draftId}
+            data={data[0].surveyConfig}
             previousStep={this.previousStep}
           />
         )
         break
       case 4:
+        component = (
+          <FamilyGender
+            nextStep={this.nextStep}
+            draftId={this.state.draftId}
+            data={data[0].surveyConfig}
+            previousStep={this.previousStep}
+          />
+        )
+        break
+      case 5:
+        component = (
+          <FamilyBirthDate
+            nextStep={this.nextStep}
+            draftId={this.state.draftId}
+            data={data[0].surveyConfig}
+            previousStep={this.previousStep}
+          />
+        )
+        break
+      case 6:
+        component = (
+          <FamilyMap
+            nextStep={this.nextStep}
+            draftId={this.state.draftId}
+            data={data[0].surveyConfig}
+            previousStep={this.previousStep}
+          />
+        )
+        break
+      case 7:
         component = data[0] && (
           <SocioEconomic
             parentNextStep={this.nextStep}
@@ -87,7 +121,7 @@ class Lifemap extends Component {
           />
         )
         break
-      case 5:
+      case 8:
         component = (
           <BeginLifemap
             nextStep={this.nextStep}
@@ -96,7 +130,7 @@ class Lifemap extends Component {
           />
         )
         break
-      case 6:
+      case 9:
         component = data && (
           <StopLight
             draftId={this.state.draftId}
