@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormSpy, Form, Field } from 'react-final-form'
-import { addSurveyData } from '../../../../redux/actions'
+import {  addSurveyDataWhole } from '../../../../redux/actions'
 
 class SocioEconomicPresentational extends Component {
   render() {
@@ -98,7 +98,7 @@ class SocioEconomicPresentational extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData
+  addSurveyDataWhole
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
