@@ -16,7 +16,6 @@ class FamilyMembers extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
 
-
   render() {
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -44,22 +43,37 @@ class FamilyMembers extends Component {
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            let draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
+            let draft = this.props.drafts.filter(
+              draft => (draft.id = this.props.draftId)
+            )[0]
 
-            // map through values and extract the firstNames of all family members
-            let additionalMembersList = Object.keys(values)
-              .filter((key) => key.includes('membername'))
-              .map((key) => {return {firstParticipant: false, 'firstName': values[key]}})
+            // need to save familyMembersCount
+            let familyMembersCount = parseInt(values.memberCount) + 1
+            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+              familyMembersCount: familyMembersCount
+            })
 
-            // combine familyMembers with firstParticipant from primary participant screen
-            let familyMembersList = draft.family_data.familyMembersList.concat(additionalMembersList)
-            this.props.addSurveyDataWhole(
-              this.props.draftId,
-              'family_data',
-              {familyMembersList: familyMembersList}
-            )
+            console.log(familyMembersCount)
+            if (familyMembersCount < 2) {
+              this.props.jumpStep(4) // jump to map view # temporary jump to socioeconomic because no map view yet
+            } else {
+              // map through values and extract the firstNames of all family members
+              let additionalMembersList = Object.keys(values)
+                .filter(key => key.includes('membername'))
+                .map(key => {
+                  return { firstParticipant: false, firstName: values[key] }
+                })
 
-            this.props.nextStep()
+              // combine familyMembers with firstParticipant from primary participant screen
+              let familyMembersList = draft.family_data.familyMembersList.concat(
+                additionalMembersList
+              )
+              this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+                familyMembersList: familyMembersList
+              })
+
+              this.props.nextStep()
+            }
           }}
           initialValues={{}}
           render={({
@@ -84,7 +98,7 @@ class FamilyMembers extends Component {
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
-                          <option value="">Number of people living in this household</option>
+                          <option value="">-</option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
