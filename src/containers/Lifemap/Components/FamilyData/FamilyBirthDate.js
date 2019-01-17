@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 import { Form, Field } from 'react-final-form'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import DatePicker from '../DatePicker'
@@ -47,7 +48,7 @@ class FamilyBirthDate extends Component {
             <DatePicker
               dateChange={this.dateChange.bind(this, idx)}
               minYear={1900}
-              maxYear={2019}
+              maxYear={moment().format('YYYY')}
             />
           </div>
         </div>
@@ -67,9 +68,11 @@ class FamilyBirthDate extends Component {
               member.birthDate = familyMembersList.push(member)
             })
 
-            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
-              familyMembersList
-            })
+            this.props.addSurveyDataWhole(
+              this.props.draftId,
+              'family_data',
+              {familyMembersList: familyMembersList}
+          )
 
             this.props.nextStep()
           }}
