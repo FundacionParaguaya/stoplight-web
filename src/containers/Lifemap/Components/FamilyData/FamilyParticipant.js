@@ -26,10 +26,11 @@ class FamilyParticipant extends Component {
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
+            values.firstParticipant=true
             this.props.addSurveyDataWhole(
               this.props.draftId,
-              'personal_survey_data',
-              values
+              'family_data',
+              {familyMembersList: [values]}
             )
             this.props.setName(values['firstName'])
             this.props.nextStep()
@@ -145,7 +146,7 @@ class FamilyParticipant extends Component {
                 <label>Country: </label>
                 <div className="form-group">
                   <Field
-                    name="country"
+                    name="birthCountry"
                     component="select"
                     className="custom-select"
                   >
