@@ -109,7 +109,7 @@ h6 {
   background-color: #9f9a94;
 }
 
-main div {
+div[role^="main"] {
   background-color: white;
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { FormSpy, Form, Field } from 'react-final-form'
+import { Form, Field } from 'react-final-form'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class FamilyMembers extends Component {
@@ -55,7 +55,7 @@ class FamilyMembers extends Component {
 
             console.log(familyMembersCount)
             if (familyMembersCount < 2) {
-              this.props.jumpStep(4) // jump to map view # temporary jump to socioeconomic because no map view yet
+              this.props.jumpStep(3) // jump to map view # temporary jump to socioeconomic because no map view yet
             } else {
               // map through values and extract the firstNames of all family members
               let additionalMembersList = Object.keys(values)

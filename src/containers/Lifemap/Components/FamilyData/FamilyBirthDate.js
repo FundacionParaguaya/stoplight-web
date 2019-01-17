@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { Form, Field } from 'react-final-form'
+import { Form } from 'react-final-form'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import DatePicker from '../DatePicker'
 
