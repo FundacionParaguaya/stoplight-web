@@ -13,12 +13,16 @@ import StopLight from './Components/StopLight'
 import TermsPrivacy from './Components/TermsPrivacy'
 import uuid from 'uuid/v1'
 
+// TODO: place survey taker name + draftid in redux
+// TODO: moving back one parent step will place you on the first step of the parent
+
 class Lifemap extends Component {
   constructor(props) {
     super(props)
     this.state = {
       step: 1,
-      draftId: uuid()
+      draftId: uuid(),
+      surveyTakerName: ''
     }
   }
   componentDidMount() {
@@ -38,6 +42,11 @@ class Lifemap extends Component {
     const { step } = this.state
     this.setState({ step: step - 1 })
   }
+
+  setName = name => {
+    this.setState({ surveyTakerName: name })
+  }
+
   render() {
     let data = []
     if (this.props.surveys) {
@@ -64,10 +73,11 @@ class Lifemap extends Component {
         component = data[0] && (
           <FamilyParticipant
             nextStep={this.nextStep}
-            previousStep={this.previousStep}
+            parentPreviousStep={this.previousStep}
             data={data[0].surveyConfig}
             draftId={this.state.draftId}
             surveyId={this.props.location.state.surveyId}
+            setName={this.setName}
           />
         )
         break
@@ -78,6 +88,7 @@ class Lifemap extends Component {
             draftId={this.state.draftId}
             data={data[0].surveyConfig}
             previousStep={this.previousStep}
+            surveyTakerName={this.state.surveyTakerName}
           />
         )
         break
@@ -125,7 +136,7 @@ class Lifemap extends Component {
         component = (
           <BeginLifemap
             nextStep={this.nextStep}
-            previousStep={this.previousStep}
+            parentPreviousStep={this.previousStep}
             data={data[0].surveyStoplightQuestions.length}
           />
         )
@@ -134,9 +145,9 @@ class Lifemap extends Component {
         component = data && (
           <StopLight
             draftId={this.state.draftId}
-            previousStep={this.previousStep}
             data={data[0].surveyStoplightQuestions}
             nextStep={this.nextStep}
+            parentPreviousStep={this.previousStep}
           />
         )
         break

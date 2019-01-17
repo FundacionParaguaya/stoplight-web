@@ -4,6 +4,13 @@ import { Form, Field } from 'react-final-form'
 import {  addSurveyDataWhole } from '../../../../redux/actions'
 
 class SocioEconomicPresentational extends Component {
+  goBack() {
+    if (this.props.index === 0) {
+      this.props.parentPreviousStep()
+    } else {
+      this.props.previousStep()
+    }
+  }
   render() {
     const questions = this.props.data.sortedQuestions
     const category = this.props.data.category
@@ -74,7 +81,7 @@ class SocioEconomicPresentational extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-primary btn-lg"
                   disabled={pristine || invalid}
                 >
                   Submit
@@ -83,6 +90,12 @@ class SocioEconomicPresentational extends Component {
             </form>
           )}
         />
+        <button
+          className="btn btn-primary btn-lg"
+          onClick={() => this.goBack()}
+        >
+          Go Back
+        </button>
       </div>
     )
   }

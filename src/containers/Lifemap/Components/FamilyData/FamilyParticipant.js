@@ -22,7 +22,6 @@ class FamilyParticipant extends Component {
   }
 
   render() {
-    console.log('draft', this.props.drafts)
     return (
       <div style={{ marginTop: 50 }}>
         <Form
@@ -32,6 +31,7 @@ class FamilyParticipant extends Component {
               'personal_survey_data',
               values
             )
+            this.props.setName(values['firstName'])
             this.props.nextStep()
           }}
           initialValues={{}}
@@ -190,10 +190,16 @@ class FamilyParticipant extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-primary btn-lg"
                   disabled={pristine || invalid}
                 >
                   Submit
+                </button>
+                <button
+                  className="btn btn-primary btn-lg"
+                  onClick={() => this.props.parentPreviousStep()}
+                >
+                  Go Back
                 </button>
               </div>
             </form>

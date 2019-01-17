@@ -29,11 +29,8 @@ class SocioEconomic extends Component {
     return res
   }
 
-  nextStep = (index, value) => {
+  nextStep = () => {
     const { step } = this.state
-    let answersCopy = [...this.state.answers]
-    answersCopy[index] = value
-    this.setState({ answers: answersCopy })
     this.setState({ step: step + 1 })
   }
 
@@ -43,7 +40,6 @@ class SocioEconomic extends Component {
   }
 
   render() {
-    console.log(this.state.surveyEconomicQuestions)
     const splicedSurveyQuestions =
       this.state.surveyEconomicQuestions &&
       this.state.surveyEconomicQuestions.filter(
@@ -59,6 +55,7 @@ class SocioEconomic extends Component {
             total={this.state.surveyEconomicQuestions.length}
             nextStep={this.nextStep}
             previousStep={this.previousStep}
+            parentPreviousStep={this.props.parentPreviousStep}
             parentStep={this.props.parentNextStep}
           />
         }
