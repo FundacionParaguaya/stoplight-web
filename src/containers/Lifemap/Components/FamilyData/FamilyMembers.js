@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormSpy, Form, Field } from 'react-final-form'
+import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class FamilyMembers extends Component {
   constructor(props) {
@@ -39,7 +40,13 @@ class FamilyMembers extends Component {
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            console.log('submitted: ', values)
+            let format = { familyMembersList: [] }
+            format.familyMembersList = values
+            this.props.addSurveyDataWhole(
+              this.props.draftId,
+              'family_data',
+              format
+            )
             this.props.nextStep()
           }}
           initialValues={{}}
@@ -56,7 +63,7 @@ class FamilyMembers extends Component {
                 subscription={{ values: true }}
                 component={({ values }) => {
                   if (values) {
-                    console.log('formspy stuff: ', values)
+                    //  console.log('formspy stuff: ', values)
                   }
                   return ''
                 }}
@@ -112,9 +119,17 @@ class FamilyMembers extends Component {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  addSurveyData,
+  addSurveyDataWhole
+}
+
+const mapStateToProps = ({ surveys, drafts }) => ({
+  surveys,
+  drafts
+})
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FamilyMembers)

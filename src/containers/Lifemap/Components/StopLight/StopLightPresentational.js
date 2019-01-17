@@ -16,7 +16,7 @@ const StopLightPresentational = ({
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <button
           type="submit"
-          onClick={() => nextStep(index, data.stoplightColors[0].value)}
+          onClick={() => nextStep(data.stoplightColors[0])}
           styles={{ maxWidth: '10%' }}
         >
           <div
@@ -35,10 +35,7 @@ const StopLightPresentational = ({
             </div>
           </div>
         </button>
-        <button
-          type="submit"
-          onClick={() => nextStep(index, data.stoplightColors[1].value)}
-        >
+        <button type="submit" onClick={() => nextStep(data.stoplightColors[1])}>
           <div
             className="card text-white bg-danger mb-3"
             styles={{ maxWidth: '10%' }}
@@ -55,10 +52,7 @@ const StopLightPresentational = ({
             </div>
           </div>
         </button>
-        <button
-          type="submit"
-          onClick={() => nextStep(index, data.stoplightColors[2].value)}
-        >
+        <button type="submit" onClick={() => nextStep(data.stoplightColors[2])}>
           <div
             className="card text-white bg-warning mb-3"
             styles={{ maxWidth: '10%' }}
