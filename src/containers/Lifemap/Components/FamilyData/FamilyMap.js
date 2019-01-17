@@ -12,7 +12,8 @@ class FamilyMap extends Component {
     this.state = {
       // set paraguay HQ
       lat: -25.3092612,
-      lng: -57.5872545
+      lng: -57.5872545,
+      accuracy: 0
     }
     this.getLocation()
   }
@@ -73,12 +74,21 @@ class FamilyMap extends Component {
         </Gmaps>
         <Form
           onSubmit={(values, form) => {
-            // values.firstParticipant = true
-            // values.birthDate = this.state.date
-            // this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
-            //   familyMembersList: [values]
-            // })
-            // this.props.setName(values['firstName'])
+            // we want to update Family Data
+            let familyLocationInfo = {
+              latitude: this.state.lat,
+              longitude: this.state.lng,
+              accuracy: this.state.accuracy,
+              country: values.country,
+              postCode: values.postCode,
+              address: values.address
+            }
+
+            this.props.addSurveyDataWhole(
+              this.props.draftId,
+              'family_data',
+              familyLocationInfo
+            )
             this.props.nextStep()
           }}
           initialValues={{}}
@@ -92,7 +102,6 @@ class FamilyMap extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label> country </label>
                 <Field
                   name="country"
                   component="select"
