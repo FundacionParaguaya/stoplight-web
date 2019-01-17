@@ -16,6 +16,7 @@ class FamilyMap extends Component {
       accuracy: 0
     }
     this.getLocation()
+    this.onDragEnd = this.onDragEnd.bind(this)
   }
 
   async getLocation() {
@@ -23,7 +24,8 @@ class FamilyMap extends Component {
       await navigator.geolocation.getCurrentPosition(position => {
         this.setState({
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
+          accuracy: position.coords.accuracy
         })
       })
     } else {
@@ -39,9 +41,12 @@ class FamilyMap extends Component {
   }
 
   onDragEnd(e) {
-    console.log('onDragEnd', e)
-    console.log(e)
     //update the state
+    this.setState({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+      accuracy: 0
+    })
   }
 
   onCloseClick() {
