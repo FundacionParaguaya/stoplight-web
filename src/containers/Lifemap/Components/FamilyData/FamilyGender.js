@@ -16,29 +16,26 @@ class FamilyGender extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
 
-
   render() {
-
-    const draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
-    const members = draft.family_data.familyMembersList;
-    const forms = members.map((member,idx) => {
+    const draft = this.props.drafts.filter(
+      draft => (draft.id = this.props.draftId)
+    )[0]
+    const members = draft.family_data.familyMembersList
+    const forms = members.map((member, idx) => {
       return (
         <div key={idx}>
-        <Field
-          name={`gender-${idx}`}
-          component="select"
-          className="custom-select"
-        >
-          <option value="">Select gender</option>
-          {this.props.data.gender.map(gender => (
-            <option
-              value={gender.value}
-              key={gender.text + gender.value}
-            >
-              {gender.text}
-            </option>
-          ))}
-        </Field>
+          <Field
+            name={`gender-${idx}`}
+            component="select"
+            className="custom-select"
+          >
+            <option value="">Select gender</option>
+            {this.props.data.gender.map(gender => (
+              <option value={gender.value} key={gender.text + gender.value}>
+                {gender.text}
+              </option>
+            ))}
+          </Field>
         </div>
       )
     })
@@ -47,6 +44,7 @@ class FamilyGender extends Component {
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
+            console.log(this.props.drafts)
             // let format = { familyMembersList: [] }
             // format.familyMembersList = values
             // this.props.addSurveyDataWhole(

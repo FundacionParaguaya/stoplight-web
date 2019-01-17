@@ -1,13 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { FormSpy, Form, Field } from 'react-final-form'
+import { Form, Field } from 'react-final-form'
 import {
   createDraft,
   addSurveyData,
   addSurveyDataWhole
 } from '../../../../redux/actions'
+import DatePicker from '../DatePicker'
 
 class FamilyParticipant extends Component {
+  constructor() {
+    super()
+    this.state = {
+      date: null
+    }
+  }
+
   componentDidMount() {
     let surveyId = this.props.surveyId
     this.props.createDraft({
@@ -20,18 +28,22 @@ class FamilyParticipant extends Component {
       family_data: {}
     })
   }
+  dateChange(date) {
+    this.setState({
+      date: date
+    })
+  }
 
   render() {
     return (
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            values.firstParticipant=true
-            this.props.addSurveyDataWhole(
-              this.props.draftId,
-              'family_data',
-              {familyMembersList: [values]}
-            )
+            values.firstParticipant = true
+            values.birthDate = this.state.date
+            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+              familyMembersList: [values]
+            })
             this.props.setName(values['firstName'])
             this.props.nextStep()
           }}
@@ -96,6 +108,14 @@ class FamilyParticipant extends Component {
                     ))}
                   </Field>
                 </div>
+              </div>
+              <div>
+                <label>Birthdate: </label>
+                <DatePicker
+                  dateChange={this.dateChange.bind(this)}
+                  minYear={1900}
+                  maxYear={2019}
+                />
               </div>
               <div>
                 <label>Document type: </label>
