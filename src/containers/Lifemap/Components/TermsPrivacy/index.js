@@ -40,7 +40,6 @@ class TermsPrivacy extends Component {
             data={data}
             header={header}
             nextStep={nextStepFunc}
-            previousStep={this.previousStep}
           />
         }
       </div>
