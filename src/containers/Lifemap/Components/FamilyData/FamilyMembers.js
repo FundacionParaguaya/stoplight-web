@@ -16,7 +16,6 @@ class FamilyMembers extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
 
-
   render() {
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -44,30 +43,37 @@ class FamilyMembers extends Component {
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            let draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
+            let draft = this.props.drafts.filter(
+              draft => (draft.id = this.props.draftId)
+            )[0]
 
             // need to save familyMembersCount
-            console.log(values.familyMembersCount)
-            this.props.addSurveyDataWhole(
-              this.props.draftId,
-              'family_data',
-              {familyMembersCount: parseInt(values.memberCount)+1}
-            )
+            let familyMembersCount = parseInt(values.memberCount) + 1
+            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+              familyMembersCount: familyMembersCount
+            })
 
-            // map through values and extract the firstNames of all family members
-            let additionalMembersList = Object.keys(values)
-              .filter((key) => key.includes('membername'))
-              .map((key) => {return {firstParticipant: false, 'firstName': values[key]}})
+            console.log(familyMembersCount)
+            if (familyMembersCount < 2) {
+              this.props.jumpStep(4) // jump to map view # temporary jump to socioeconomic because no map view yet
+            } else {
+              // map through values and extract the firstNames of all family members
+              let additionalMembersList = Object.keys(values)
+                .filter(key => key.includes('membername'))
+                .map(key => {
+                  return { firstParticipant: false, firstName: values[key] }
+                })
 
-            // combine familyMembers with firstParticipant from primary participant screen
-            let familyMembersList = draft.family_data.familyMembersList.concat(additionalMembersList)
-            this.props.addSurveyDataWhole(
-              this.props.draftId,
-              'family_data',
-              {familyMembersList: familyMembersList}
-            )
+              // combine familyMembers with firstParticipant from primary participant screen
+              let familyMembersList = draft.family_data.familyMembersList.concat(
+                additionalMembersList
+              )
+              this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+                familyMembersList: familyMembersList
+              })
 
-            this.props.nextStep()
+              this.props.nextStep()
+            }
           }}
           initialValues={{}}
           render={({
