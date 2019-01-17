@@ -10,7 +10,7 @@ class FamilyMembers extends Component {
       memberCount: 0
     }
   }
-  myOnChange = event => {
+  handleChange = event => {
     this.setState({ memberCount: event.target.value })
   }
 
@@ -43,11 +43,15 @@ class FamilyMembers extends Component {
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            // map through values and extract the firstNames of all family members
-            let familyMembersList = Object.keys(values)
-              .filter((key) => key.includes('membername'))
-              .map((key) => {return {'firstName':values[key]}})
+            let draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
 
+            // map through values and extract the firstNames of all family members
+            let additionalMembersList = Object.keys(values)
+              .filter((key) => key.includes('membername'))
+              .map((key) => {return {firstParticipant: false, 'firstName':values[key]}})
+              
+            // combine familyMembers with firstParticipant from primary participant screen
+            let familyMembersList = draft.family_data.familyMembersList.concat(additionalMembersList)
             this.props.addSurveyDataWhole(
               this.props.draftId,
               'family_data',
@@ -72,12 +76,13 @@ class FamilyMembers extends Component {
                     {({ input, meta }) => {
                       const { onChange } = input
                       const mergedOnChange = e => {
-                        this.myOnChange(e)
+                        this.handleChange(e)
                         onChange(e)
                       }
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
+                          <option value="">Number of peolpe living in this household</option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
