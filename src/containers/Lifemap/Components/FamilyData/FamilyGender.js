@@ -16,45 +16,56 @@ class FamilyGender extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
 
-
   render() {
+    const draft = this.props.drafts.filter(
+      draft => (draft.id = this.props.draftId)
+    )[0]
+    const additionalMembersList = draft.family_data.familyMembersList.filter(
+      member => member.firstParticipant === false
+    )
 
-    const draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
-    const members = draft.family_data.familyMembersList;
-    const forms = members.map((member,idx) => {
+    const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
-        <Field
-          name={`gender-${idx}`}
-          component="select"
-          className="custom-select"
-        >
-          <option value="">Select gender</option>
-          {this.props.data.gender.map(gender => (
-            <option
-              value={gender.value}
-              key={gender.text + gender.value}
-            >
-              {gender.text}
-            </option>
-          ))}
-        </Field>
+          <Field
+            name={`gender${idx}`}
+            component="select"
+            className="custom-select"
+          >
+            <option value="">Select gender</option>
+            {this.props.data.gender.map(gender => (
+              <option value={gender.value} key={gender.text + gender.value}>
+                {gender.text}
+              </option>
+            ))}
+          </Field>
         </div>
       )
     })
+    console.log(forms)
 
     return (
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            // let format = { familyMembersList: [] }
-            // format.familyMembersList = values
-            // this.props.addSurveyDataWhole(
-            //   this.props.draftId,
-            //   'family_data',
-            //   format
-            // )
-            // this.props.nextStep()
+
+            let familyMembersList = draft.family_data.familyMembersList.filter(
+              member => member.firstParticipant === true
+            )
+
+            additionalMembersList.forEach((member, idx) => {
+              member.gender = values[`gender${idx}`]
+              familyMembersList.push(member)
+            })
+
+
+            this.props.addSurveyDataWhole(
+              this.props.draftId,
+              'family_data',
+              {familyMembersList: familyMembersList}
+            )
+
+            this.props.nextStep()
           }}
           initialValues={{}}
           render={({
@@ -68,7 +79,13 @@ class FamilyGender extends Component {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>gender: </label>
-                <p type="text" className="form-control" placeholder="" />
+                <p className="form-control" placeholder="">
+                  {
+                    draft.family_data.familyMembersList.filter(
+                      member => member.firstParticipant === true
+                    )[0].gender
+                  }
+                </p>
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>

@@ -39,6 +39,7 @@ class FamilyMembers extends Component {
         </div>
       )
     }
+
     return (
       <div style={{ marginTop: 50 }}>
         <Form
@@ -48,8 +49,8 @@ class FamilyMembers extends Component {
             // map through values and extract the firstNames of all family members
             let additionalMembersList = Object.keys(values)
               .filter((key) => key.includes('membername'))
-              .map((key) => {return {firstParticipant: false, 'firstName':values[key]}})
-              
+              .map((key) => {return {firstParticipant: false, 'firstName': values[key]}})
+
             // combine familyMembers with firstParticipant from primary participant screen
             let familyMembersList = draft.family_data.familyMembersList.concat(additionalMembersList)
             this.props.addSurveyDataWhole(
@@ -57,6 +58,7 @@ class FamilyMembers extends Component {
               'family_data',
               {familyMembersList: familyMembersList}
             )
+
             this.props.nextStep()
           }}
           initialValues={{}}
@@ -82,7 +84,7 @@ class FamilyMembers extends Component {
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
-                          <option value="">Number of peolpe living in this household</option>
+                          <option value="">Number of people living in this household</option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
@@ -101,7 +103,7 @@ class FamilyMembers extends Component {
               </div>
               <div className="form-group">
                 <label>name: </label>
-                <p type="text" className="form-control" placeholder="">
+                <p className="form-control" placeholder="">
                   {this.props.surveyTakerName}
                 </p>
               </div>
