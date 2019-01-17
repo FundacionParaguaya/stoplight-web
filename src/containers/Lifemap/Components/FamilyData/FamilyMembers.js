@@ -48,12 +48,10 @@ class FamilyMembers extends Component {
               .filter((key) => key.includes('membername'))
               .map((key) => {return {'firstName':values[key]}})
 
-            console.log(familyMembersList)
-            console.log(values)
             this.props.addSurveyDataWhole(
               this.props.draftId,
               'family_data',
-              familyMembersList
+              {familyMembersList: familyMembersList}
             )
             this.props.nextStep()
           }}
