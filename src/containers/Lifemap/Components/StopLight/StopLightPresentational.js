@@ -5,7 +5,8 @@ const StopLightPresentational = ({
   index,
   total,
   nextStep,
-  previousStep
+  previousStep,
+  parentPreviousStep
 }) => {
   return (
     <div>
@@ -16,7 +17,7 @@ const StopLightPresentational = ({
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <button
           type="submit"
-          onClick={() => nextStep(data.stoplightColors[0])}
+          onClick={() => nextStep(data.stoplightColors[0], data.codeName)}
           styles={{ maxWidth: '10%' }}
         >
           <div
@@ -35,13 +36,16 @@ const StopLightPresentational = ({
             </div>
           </div>
         </button>
-        <button type="submit" onClick={() => nextStep(data.stoplightColors[1])}>
+        <button
+          type="submit"
+          onClick={() => nextStep(data.stoplightColors[1], data.codeName)}
+        >
           <div
             className="card text-white bg-danger mb-3"
             styles={{ maxWidth: '10%' }}
           >
             <div className="card-header" styles={{ maxWidth: '25%' }}>
-              {data.stoplightColors[1].description}
+              {data.stoplightColors[2].description}
             </div>
             <div className="card-body">
               <img
@@ -52,7 +56,10 @@ const StopLightPresentational = ({
             </div>
           </div>
         </button>
-        <button type="submit" onClick={() => nextStep(data.stoplightColors[2])}>
+        <button
+          type="submit"
+          onClick={() => nextStep(data.stoplightColors[2], data.codeName)}
+        >
           <div
             className="card text-white bg-warning mb-3"
             styles={{ maxWidth: '10%' }}
@@ -68,6 +75,19 @@ const StopLightPresentational = ({
               />
             </div>
           </div>
+        </button>
+
+        <button
+          className="btn btn-primary btn-lg"
+          onClick={() => {
+            if (index === 0) {
+              parentPreviousStep()
+            } else {
+              previousStep()
+            }
+          }}
+        >
+          Go Back
         </button>
       </div>
     </div>
