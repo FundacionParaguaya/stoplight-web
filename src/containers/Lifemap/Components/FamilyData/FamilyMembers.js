@@ -96,16 +96,24 @@ class FamilyMembers extends Component {
               </div>
               <div className="form-group">
                 <label>name: </label>
-                <p type="text" className="form-control" placeholder="" />
+                <p type="text" className="form-control" placeholder="">
+                  {this.props.surveyTakerName}
+                </p>
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-primary btn-lg"
                   disabled={pristine || invalid}
                 >
                   Submit
+                </button>
+                <button
+                  className="btn btn-primary btn-lg"
+                  onClick={() => this.props.previousStep()}
+                >
+                  Go Back
                 </button>
               </div>
             </form>
