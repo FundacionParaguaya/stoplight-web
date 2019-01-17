@@ -20,12 +20,8 @@ class FamilyGender extends Component {
   render() {
 
     const draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
-    console.log(draft)
     const members = draft.family_data.familyMembersList;
-    console.log(members)
     const forms = members.map((member,idx) => {
-      console.log(idx)
-      console.log(this.props.data.gender)
       return (
         <div key={idx}>
         <Field
@@ -47,7 +43,6 @@ class FamilyGender extends Component {
       )
     })
 
-    console.log(forms)
     return (
       <div style={{ marginTop: 50 }}>
         <Form
