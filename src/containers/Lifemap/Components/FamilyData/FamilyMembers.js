@@ -46,6 +46,14 @@ class FamilyMembers extends Component {
           onSubmit={(values, form) => {
             let draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
 
+            // need to save familyMembersCount
+            console.log(values.familyMembersCount)
+            this.props.addSurveyDataWhole(
+              this.props.draftId,
+              'family_data',
+              {familyMembersCount: parseInt(values.memberCount)+1}
+            )
+
             // map through values and extract the firstNames of all family members
             let additionalMembersList = Object.keys(values)
               .filter((key) => key.includes('membername'))
@@ -84,7 +92,7 @@ class FamilyMembers extends Component {
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
-                          <option value="">Number of people living in this household</option>
+                          <option value="">-</option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
