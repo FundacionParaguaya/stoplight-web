@@ -42,7 +42,6 @@ class FamilyGender extends Component {
         </div>
       )
     })
-    console.log(forms)
 
     return (
       <div style={{ marginTop: 50 }}>
