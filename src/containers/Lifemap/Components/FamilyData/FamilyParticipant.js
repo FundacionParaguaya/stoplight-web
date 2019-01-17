@@ -57,15 +57,6 @@ class FamilyParticipant extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-              <FormSpy
-                subscription={{ values: true }}
-                component={({ values }) => {
-                  if (values) {
-                    //     console.log(values)
-                  }
-                  return ''
-                }}
-              />
               <div>
                 <Field name="firstName">
                   {({ input, meta }) => (

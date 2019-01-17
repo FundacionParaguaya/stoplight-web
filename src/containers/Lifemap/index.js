@@ -43,6 +43,12 @@ class Lifemap extends Component {
     this.setState({ step: step - 1 })
   }
 
+  jumpStep = (additionalSteps) => {
+    const { step } = this.state
+    console.log(step+additionalSteps)
+    this.setState({ step: step + additionalSteps })
+  }
+
   setName = name => {
     this.setState({ surveyTakerName: name })
   }
@@ -89,6 +95,7 @@ class Lifemap extends Component {
             data={data[0].surveyConfig}
             previousStep={this.previousStep}
             surveyTakerName={this.state.surveyTakerName}
+            jumpStep={this.jumpStep}
           />
         )
         break
