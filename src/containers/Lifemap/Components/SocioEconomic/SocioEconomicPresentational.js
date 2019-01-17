@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { FormSpy, Form, Field } from 'react-final-form'
+import { Form, Field } from 'react-final-form'
 import {  addSurveyDataWhole } from '../../../../redux/actions'
 
 class SocioEconomicPresentational extends Component {
@@ -34,15 +34,6 @@ class SocioEconomicPresentational extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-              <FormSpy
-                subscription={{ values: true }}
-                component={({ values }) => {
-                  if (values) {
-                    //      console.log('formspy stuff: ', values)
-                  }
-                  return ''
-                }}
-              />
               {questions.map(question => (
                 <div key={question.codeName}>
                   <label>{question.questionText} </label>
