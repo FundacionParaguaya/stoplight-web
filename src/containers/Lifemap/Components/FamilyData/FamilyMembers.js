@@ -15,7 +15,6 @@ class FamilyMembers extends Component {
   }
 
   //TODO: handler to skip to map view if only 1 family member!
-
   render() {
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -53,9 +52,8 @@ class FamilyMembers extends Component {
               familyMembersCount: familyMembersCount
             })
 
-            console.log(familyMembersCount)
             if (familyMembersCount < 2) {
-              this.props.jumpStep(3) // jump to map view # temporary jump to socioeconomic because no map view yet
+              this.props.jumpStep(3) // jump to map view
             } else {
               // map through values and extract the firstNames of all family members
               let additionalMembersList = Object.keys(values)
