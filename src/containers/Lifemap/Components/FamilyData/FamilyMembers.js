@@ -14,6 +14,9 @@ class FamilyMembers extends Component {
     this.setState({ memberCount: event.target.value })
   }
 
+  //TODO: handler to skip to map view if only 1 family member!
+
+
   render() {
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -40,12 +43,17 @@ class FamilyMembers extends Component {
       <div style={{ marginTop: 50 }}>
         <Form
           onSubmit={(values, form) => {
-            let format = { familyMembersList: [] }
-            format.familyMembersList = values
+            // map through values and extract the firstNames of all family members
+            let familyMembersList = Object.keys(values)
+              .filter((key) => key.includes('membername'))
+              .map((key) => {return {'firstName':values[key]}})
+
+            console.log(familyMembersList)
+            console.log(values)
             this.props.addSurveyDataWhole(
               this.props.draftId,
               'family_data',
-              format
+              familyMembersList
             )
             this.props.nextStep()
           }}
@@ -59,15 +67,6 @@ class FamilyMembers extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-              <FormSpy
-                subscription={{ values: true }}
-                component={({ values }) => {
-                  if (values) {
-                    //  console.log('formspy stuff: ', values)
-                  }
-                  return ''
-                }}
-              />
               <div>
                 <label>Number of people living in this household: </label>
                 <div className="form-group">
