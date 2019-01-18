@@ -219,3 +219,14 @@ div[role^="main"] {
   font-size: 0.875rem;
   margin-top: 0;
 }
+
+/*  IndicatorList List elements */
+.indicator-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.indicator-list ul li {
+  justify-content: space-between;
+  display: flex;
+}

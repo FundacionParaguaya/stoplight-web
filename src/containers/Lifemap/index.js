@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { loadSurveys } from '../../redux/actions'
+import BeginLifemap from './Components/BeginLifeMap'
 import FamilyParticipant from './Components/FamilyData/FamilyParticipant'
 import FamilyMembers from './Components/FamilyData/FamilyMembers'
 import FamilyGender from './Components/FamilyData/FamilyGender'
 import FamilyBirthDate from './Components/FamilyData/FamilyBirthDate'
 import FamilyMap from './Components/FamilyData/FamilyMap'
+import IndicatorList from './Components/PrioritiesAchievements/IndicatorList'
 import SocioEconomic from './Components/SocioEconomic/'
-import BeginLifemap from './Components/BeginLifeMap'
 import StopLight from './Components/StopLight'
 import TermsPrivacy from './Components/TermsPrivacy'
 import uuid from 'uuid/v1'
@@ -87,28 +88,28 @@ class Lifemap extends Component {
           />
         )
         break
-      case 3:
-        component = (
-          <FamilyMembers
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-            surveyTakerName={this.state.surveyTakerName}
-            jumpStep={this.jumpStep}
-          />
-        )
-        break
-      case 4:
-        component = (
-          <FamilyGender
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-          />
-        )
-        break
+      // case 3:
+      //   component = (
+      //     <FamilyMembers
+      //       nextStep={this.nextStep}
+      //       draftId={this.state.draftId}
+      //       data={survey.surveyConfig}
+      //       previousStep={this.previousStep}
+      //       surveyTakerName={this.state.surveyTakerName}
+      //       jumpStep={this.jumpStep}
+      //     />
+      //   )
+        // break
+      // case 4:
+      //   component = (
+      //     <FamilyGender
+      //       nextStep={this.nextStep}
+      //       draftId={this.state.draftId}
+      //       data={survey.surveyConfig}
+      //       previousStep={this.previousStep}
+      //     />
+      //   )
+      //   break
       case 5:
         component = (
           <FamilyBirthDate
@@ -148,7 +149,7 @@ class Lifemap extends Component {
           />
         )
         break
-      case 9:
+      case 3:
         component = survey && (
           <StopLight
             draftId={this.state.draftId}
@@ -158,7 +159,16 @@ class Lifemap extends Component {
           />
         )
         break
-      // Still missing Case 7 for Priorities & Achievements views
+        case 4:
+          component = survey && (
+            <IndicatorList
+              draftId={this.state.draftId}
+              data={survey.surveyStoplightQuestions}
+              nextStep={this.nextStep}
+              parentPreviousStep={this.previousStep}
+            />
+          )
+          break
       // Create a submit handler to send graphql mutation once Prorities & Achievements is submitted
       default:
         component = <div>NOTHING TO SEE HERE</div>
