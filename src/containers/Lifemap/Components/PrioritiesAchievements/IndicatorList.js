@@ -23,7 +23,7 @@ class IndicatorList extends Component {
         }
       })
       .map(indicatorGroup => {
-        return {dimenison: indicatorGroup.dimension, indicators: indicatorGroup.indicators.map(indicator => {
+        return {dimension: indicatorGroup.dimension, indicators: indicatorGroup.indicators.map(indicator => {
           indicator.answer = draft.indicatorSurveyDataList[indicator.codeName]
           switch (indicator.answer) {
             case 1:
