@@ -54,20 +54,20 @@ class Lifemap extends Component {
   }
 
   render() {
-    let data = []
+    let survey
     if (this.props.surveys) {
-      data = this.props.surveys.filter(
+      survey = this.props.surveys.filter(
         survey => survey.id === this.props.location.state.surveyId
-      )
+      )[0]
     }
     let component = null
     switch (this.state.step) {
       case 1:
-        component = data[0] && (
+        component = survey && (
           <TermsPrivacy
             parentNextStep={this.nextStep}
             prarentPreviousStep={this.previousStep}
-            data={data[0]}
+            data={survey}
           />
         )
         break
@@ -76,11 +76,11 @@ class Lifemap extends Component {
         // draft should remain in state and is filled with answers from each component
         // might want to createa  function that creates the drafts
         // might want to create a handler for submissions of each step, to add to draft state.
-        component = data[0] && (
+        component = survey && (
           <FamilyParticipant
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
-            data={data[0].surveyConfig}
+            data={survey.surveyConfig}
             draftId={this.state.draftId}
             surveyId={this.props.location.state.surveyId}
             setName={this.setName}
@@ -92,7 +92,7 @@ class Lifemap extends Component {
           <FamilyMembers
             nextStep={this.nextStep}
             draftId={this.state.draftId}
-            data={data[0].surveyConfig}
+            data={survey.surveyConfig}
             previousStep={this.previousStep}
             surveyTakerName={this.state.surveyTakerName}
             jumpStep={this.jumpStep}
@@ -104,7 +104,7 @@ class Lifemap extends Component {
           <FamilyGender
             nextStep={this.nextStep}
             draftId={this.state.draftId}
-            data={data[0].surveyConfig}
+            data={survey.surveyConfig}
             previousStep={this.previousStep}
           />
         )
@@ -114,7 +114,7 @@ class Lifemap extends Component {
           <FamilyBirthDate
             nextStep={this.nextStep}
             draftId={this.state.draftId}
-            data={data[0].surveyConfig}
+            data={survey.surveyConfig}
             previousStep={this.previousStep}
           />
         )
@@ -124,18 +124,18 @@ class Lifemap extends Component {
           <FamilyMap
             nextStep={this.nextStep}
             draftId={this.state.draftId}
-            data={data[0].surveyConfig}
+            data={survey.surveyConfig}
             previousStep={this.previousStep}
           />
         )
         break
       case 7:
-        component = data[0] && (
+        component = survey && (
           <SocioEconomic
             parentNextStep={this.nextStep}
             draftId={this.state.draftId}
             parentPreviousStep={this.previousStep}
-            data={data[0].surveyEconomicQuestions}
+            data={survey.surveyEconomicQuestions}
           />
         )
         break
@@ -144,15 +144,15 @@ class Lifemap extends Component {
           <BeginLifemap
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
-            data={data[0].surveyStoplightQuestions.length}
+            data={survey.surveyStoplightQuestions.length}
           />
         )
         break
       case 9:
-        component = data && (
+        component = survey && (
           <StopLight
             draftId={this.state.draftId}
-            data={data[0].surveyStoplightQuestions}
+            data={survey.surveyStoplightQuestions}
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
           />
