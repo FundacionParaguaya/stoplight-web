@@ -2,9 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Gmaps, Marker } from 'react-gmaps'
 import { Form, Field } from 'react-final-form'
+import countries from 'localized-countries'
+
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
+
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
+const countryList = countries(require('localized-countries/data/en')).array()
 
 class FamilyMap extends Component {
   constructor(props) {
@@ -56,7 +60,25 @@ class FamilyMap extends Component {
     console.log('onClick', e)
   }
 
+  generateCountriesOptions (){
+    const defaultCountry = this.props.data.surveyLocation.country
+      ? countryList.filter(item => item.code === this.props.data.surveyLocation.country)[0]
+      : ''
+
+    let countries = countryList.filter(
+      country => country.code !== defaultCountry.code
+    )
+    // Add default country to the beginning of the list
+    countries.unshift(defaultCountry)
+    // Add prefer not to say answer at the end of the list
+    countries.push({ code: 'NONE', label: 'I prefer not to say' })
+    return countries.map(country => {
+      return (<option key={country.code} value={country.code}>{country.label} </option>)
+    })
+  }
+
   render() {
+    let countriesOptions = this.generateCountriesOptions()
     return (
       <div style={{ marginTop: 50 }}>
         <Gmaps
@@ -105,13 +127,15 @@ class FamilyMap extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
+
               <div className="form-group">
                 <Field
                   name="country"
                   component="select"
                   className="custom-select"
                 >
-                  <option value="">Country</option>
+                <option value="">Select country</option>
+                  {countriesOptions}
                 </Field>
               </div>
               <Field name="postCode">

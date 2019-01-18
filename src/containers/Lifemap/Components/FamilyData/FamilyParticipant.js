@@ -8,6 +8,13 @@ import {
 } from '../../../../redux/actions'
 import DatePicker from '../DatePicker'
 
+import countries from 'localized-countries'
+
+// put this to its own component
+const countryList = countries(require('localized-countries/data/en')).array()
+
+console.log(countries)
+
 class FamilyParticipant extends Component {
   constructor() {
     super()
@@ -35,7 +42,30 @@ class FamilyParticipant extends Component {
     })
   }
 
+  generateCountriesOptions (){
+    const defaultCountry = this.props.data.surveyLocation.country
+      ? countryList.filter(item => item.code === this.props.data.surveyLocation.country)[0]
+      : ''
+
+    let countries = countryList.filter(
+      country => country.code !== defaultCountry.code
+    )
+    // Add default country to the beginning of the list
+    countries.unshift(defaultCountry)
+    // Add prefer not to say answer at the end of the list
+    countries.push({ code: 'NONE', label: 'I prefer not to say' })
+    return countries.map(country => {
+      return (<option key={country.code} value={country.code}>{country.label} </option>)
+    })
+
+  }
   render() {
+    // set default countryto beginning of list
+    console.log(this.props.data)
+    console.log(countryList)
+
+    let countriesOptions = this.generateCountriesOptions()
+
     return (
       <div style={{ marginTop: 50 }}>
         <Form
@@ -163,8 +193,7 @@ class FamilyParticipant extends Component {
                     className="custom-select"
                   >
                     <option value="">Select country</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
+                    {countriesOptions}
                   </Field>
                 </div>
               </div>
