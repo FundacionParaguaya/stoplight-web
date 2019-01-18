@@ -11,8 +11,8 @@ class FamilyMap extends Component {
     super(props)
     this.state = {
       // set Hub HQ as default
-      lat: this.props.data.surveyLocation.latitude,
-      lng: this.props.data.surveyLocation.longitude,
+      lat: this.props.data.surveyLocation.latitude || 0,
+      lng: this.props.data.surveyLocation.longitude || 0,
       accuracy: 0
     }
     this.getLocation()
