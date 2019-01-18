@@ -17,7 +17,7 @@ class StopLight extends Component {
     answer[codeName] = value.value
     this.props.addSurveyDataWhole(
       this.props.draftId,
-      'indicator_survey_data',
+      'indicatorSurveyDataList',
       answer
     )
     console.log(this.props.drafts)

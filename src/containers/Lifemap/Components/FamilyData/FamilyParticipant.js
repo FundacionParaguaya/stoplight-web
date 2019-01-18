@@ -25,6 +25,7 @@ class FamilyParticipant extends Component {
       draft_id: this.props.draftId,
       personal_survey_data: {},
       economic_survey_data: {},
+      indicatorSurveyDataList: [],
       family_data: {}
     })
   }
