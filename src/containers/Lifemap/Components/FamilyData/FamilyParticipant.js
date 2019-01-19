@@ -113,7 +113,6 @@ class FamilyParticipant extends Component {
                 <Field name="lastName">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>Last name: </label>
                       <input
                         type="text"
                         {...input}
@@ -132,7 +131,7 @@ class FamilyParticipant extends Component {
                     component="select"
                     className="custom-select"
                   >
-                    <option value="" disabled>{t('views.family.gender')}</option>
+                    <option value="" disabled>{t('views.family.selectGender')}</option>
                     {this.props.data.gender.map(gender => (
                       <option
                         value={gender.value}
@@ -187,7 +186,6 @@ class FamilyParticipant extends Component {
                 </Field>
               </div>
               <div>
-                <label>Country: </label>
                 <div className="form-group">
                   <Field
                     name="birthCountry"
@@ -218,7 +216,6 @@ class FamilyParticipant extends Component {
                 <Field name="phone">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>Phone: </label>
                       <input
                         type="text"
                         {...input}

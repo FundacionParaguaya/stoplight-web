@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Gmaps, Marker } from 'react-gmaps'
 import { Form, Field } from 'react-final-form'
+import { withI18n } from 'react-i18next'
 import countries from 'localized-countries'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
-
 
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
 const countryList = countries(require('localized-countries/data/en')).array()
@@ -52,17 +52,11 @@ class FamilyMap extends Component {
     })
   }
 
-  onCloseClick() {
-    console.log('onCloseClick')
-  }
-
-  onClick(e) {
-    console.log('onClick', e)
-  }
-
-  generateCountriesOptions (){
+  generateCountriesOptions() {
     const defaultCountry = this.props.data.surveyLocation.country
-      ? countryList.filter(item => item.code === this.props.data.surveyLocation.country)[0]
+      ? countryList.filter(
+          item => item.code === this.props.data.surveyLocation.country
+        )[0]
       : ''
 
     let countries = countryList.filter(
@@ -73,16 +67,21 @@ class FamilyMap extends Component {
     // Add prefer not to say answer at the end of the list
     countries.push({ code: 'NONE', label: 'I prefer not to say' })
     return countries.map(country => {
-      return (<option key={country.code} value={country.code}>{country.label} </option>)
+      return (
+        <option key={country.code} value={country.code}>
+          {country.label}{' '}
+        </option>
+      )
     })
   }
 
   render() {
+    const { t } = this.props
     let countriesOptions = this.generateCountriesOptions()
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> Map </h2>
-      <hr />
+        <h2> Map </h2>
+        <hr />
 
         <Gmaps
           width={'800px'}
@@ -130,14 +129,13 @@ class FamilyMap extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-
               <div className="form-group">
                 <Field
                   name="country"
                   component="select"
                   className="custom-select"
                 >
-                <option value="">Select country</option>
+                  <option value="">{t('views.family.selectACountry')}</option>
                   {countriesOptions}
                 </Field>
               </div>
@@ -148,7 +146,7 @@ class FamilyMap extends Component {
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Post Code"
+                      placeholder={t('views.family.postcode')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -161,7 +159,7 @@ class FamilyMap extends Component {
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Address"
+                      placeholder={t('views.family.streetOrHouseDescription')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -173,7 +171,7 @@ class FamilyMap extends Component {
                   className="btn btn-primary btn-lg"
                   disabled={pristine || invalid}
                 >
-                  Submit
+                  Continue
                 </button>
                 <button
                   className="btn btn-primary btn-lg"
@@ -200,7 +198,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FamilyMap)
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FamilyMap)
+)

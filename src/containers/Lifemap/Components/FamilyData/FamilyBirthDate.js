@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Form } from 'react-final-form'
+import { withI18n } from "react-i18next";
+
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
 
@@ -32,6 +34,7 @@ class FamilyBirthDate extends Component {
   //TODO: handler to skip to map view if only 1 family member!
 
   render() {
+    const { t } = this.props
     const draft = this.props.drafts.filter(
       draft => (draft.id = this.props.draftId)
     )[0]
@@ -42,15 +45,12 @@ class FamilyBirthDate extends Component {
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
-          <option value="">Select birthday</option>
-          <div>
-            <label> Birthdate: </label>
+            <label>{t('views.family.dateOfBirth')} </label>
             <DatePicker
               dateChange={this.dateChange.bind(this, idx)}
               minYear={1900}
               maxYear={moment().format('YYYY')}
             />
-          </div>
         </div>
       )
     })
@@ -89,7 +89,6 @@ class FamilyBirthDate extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Birthday</label>
                 <p className="form-control" placeholder="">
                   {
                     draft.family_data.familyMembersList.filter(
@@ -125,7 +124,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(FamilyBirthDate)
+)(FamilyBirthDate))
