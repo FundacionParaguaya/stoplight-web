@@ -30,10 +30,11 @@ class FamilyParticipant extends Component {
       survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
       created: Date.now(),
       draft_id: this.props.draftId,
-      personal_survey_data: {},
-      economic_survey_data: {},
+      familyData: {},
+      economicSurveyDataList: [],
       indicatorSurveyDataList: [],
-      family_data: {}
+      priorities: {},
+      achievements: {}
     })
   }
   dateChange(date) {

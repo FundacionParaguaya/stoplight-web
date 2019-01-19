@@ -22,21 +22,25 @@ class IndicatorList extends Component {
     super(props);
     this.state={
       modalIsOpen: false,
-      formType: null
+      modal: {
+        formType: null,
+        indicator: null
+      },
+      minPriorities: 0
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
   }
 
-  openModal(formType) {
-    if(formType){ // only open modal if formType is not null (i.e. not blank indicator)
-      this.setState({modalIsOpen: true, formType: formType});
+  openModal(indicator) {
+    if(indicator.formType){ // only open modal if formType is not null (i.e. not blank indicator)
+      this.setState({modalIsOpen: true, modal: {formType: indicator.formType, indicator: indicator.codeName}});
     }
   }
 
 
   closeModal() {
-  this.setState({modalIsOpen: false, formType: null});
+  this.setState({modalIsOpen: false, modal: {formType: null, indicator: null}});
   }
 
   // get this.props.surveys passed in
@@ -103,11 +107,12 @@ class IndicatorList extends Component {
                     <li
                       style={{
                         justifyContent: 'space-between',
-                        display: 'flex'
+                        display: 'flex',
+                        cursor: 'pointer',
                       }}
                       key={indicator.codeName}
                       className="list-group-item"
-                      onClick={() => this.openModal(indicator.formType)}
+                      onClick={() => this.openModal(indicator)}
                     >
                     <span style={{position: "absolute", left: "1%"}} className={indicator.dotClass}></span>
                       <span style={{paddingLeft: "5%"}}>{indicator.questionText}</span>
@@ -122,9 +127,7 @@ class IndicatorList extends Component {
                 style={customStyles}
                 contentLabel="Example Modal"
               >
-
-                <h2 ref={subtitle => this.subtitle = subtitle}>{this.state.formType}</h2>
-                <PrioritiesAchievementsForm formType={this.state.formType} closeModal={this.closeModal} />
+                <PrioritiesAchievementsForm formType={this.state.modal.formType} indicator={this.state.modal.indicator} draftId={this.props.draftId} closeModal={this.closeModal} />
               </Modal>
             </div>
           )
