@@ -135,7 +135,7 @@ class FamilyMap extends Component {
                   component="select"
                   className="custom-select"
                 >
-                  <option value="">{t('views.family.selectACountry')}</option>
+                  <option value="">{t('views.family.country')}</option>
                   {countriesOptions}
                 </Field>
               </div>
