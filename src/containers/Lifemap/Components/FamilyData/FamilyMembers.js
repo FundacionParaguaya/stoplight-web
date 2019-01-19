@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
+import { withI18n } from "react-i18next";
+
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class FamilyMembers extends Component {
@@ -16,6 +18,7 @@ class FamilyMembers extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
   render() {
+    const { t } = this.props
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
       forms.push(
@@ -23,12 +26,11 @@ class FamilyMembers extends Component {
           <Field name={`membername${i + 2}`}>
             {({ input, meta }) => (
               <div className="form-group">
-                <label>name: </label>
                 <input
                   type="text"
                   {...input}
                   className="form-control"
-                  placeholder=""
+                  placeholder={t('views.family.firstName')}
                 />
                 {meta.touched && meta.error && <span>{meta.error}</span>}
               </div>
@@ -155,7 +157,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(FamilyMembers)
+)(FamilyMembers))
