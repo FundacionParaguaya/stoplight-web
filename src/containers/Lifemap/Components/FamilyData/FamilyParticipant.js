@@ -188,7 +188,7 @@ class FamilyParticipant extends Component {
                     component="select"
                     className="custom-select"
                   >
-                    <option value="" disabled>{t('views.family.selectACountry')}</option>
+                    <option value="" disabled>{t('views.family.countryOfBirth')}</option>
                     {countriesOptions}
                   </Field>
                 </div>

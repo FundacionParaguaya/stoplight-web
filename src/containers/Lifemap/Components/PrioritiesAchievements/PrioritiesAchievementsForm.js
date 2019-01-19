@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
+import { withI18n } from 'react-I18next'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class PrioritiesAchievementsForm extends Component {
@@ -9,6 +10,8 @@ class PrioritiesAchievementsForm extends Component {
   }
 
   generatePriorityForm(){
+    const { t } = this.props
+
     return (
         <Form
           onSubmit={(values, form) => {
@@ -36,12 +39,12 @@ class PrioritiesAchievementsForm extends Component {
               <Field name="reason">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>Why don't you have it?</label>
+                  <label>{t('views.lifemap.whyDontYouHaveIt')}</label>
                     <input
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Write your answer here..."
+                      placeholder={t('views.lifemap.writeYourAnswerHere')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -50,12 +53,12 @@ class PrioritiesAchievementsForm extends Component {
               <Field name="action">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>What will you do to get it?</label>
+                  <label>{t('views.lifemap.whatWillYouDoToGetIt')}</label>
                     <input
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Write your answer here..."
+                      placeholder={t('views.lifemap.writeYourAnswerHere')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -64,7 +67,7 @@ class PrioritiesAchievementsForm extends Component {
               <Field name="estimatedDate">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label> How many months will it take? </label>
+                  <label>{t('views.lifemap.howManyMonthsWillItTake')}</label>
                     <input
                       type="number"
                       {...input}
@@ -97,6 +100,8 @@ class PrioritiesAchievementsForm extends Component {
   }
 
   generateAchievementForm(){
+    const { t } = this.props
+
     return (
         <Form
           onSubmit={(values, form) => {
@@ -123,12 +128,12 @@ class PrioritiesAchievementsForm extends Component {
               <Field name="action">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>How did you get it?</label>
+                  <label>{t('views.lifemap.howDidYouGetIt')}</label>
                     <input
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Write your answer here..."
+                      placeholder={t('views.lifemap.writeYourAnswerHere')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -137,12 +142,12 @@ class PrioritiesAchievementsForm extends Component {
               <Field name="roadmap">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>What did it take to achieve this?</label>
+                  <label>{t('views.lifemap.whatDidItTakeToAchieveThis')}</label>
                     <input
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Write your answer here..."
+                      placeholder={t('views.lifemap.writeYourAnswerHere')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -178,7 +183,6 @@ class PrioritiesAchievementsForm extends Component {
   }
 
   render() {
-    console.log(this.props.indicator)
     return (
     <div>
       <h2>{this.props.formType}</h2>
@@ -201,7 +205,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(PrioritiesAchievementsForm)
+)(PrioritiesAchievementsForm))
