@@ -68,6 +68,8 @@ class FamilyParticipant extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
+      <h2> Primary Participant </h2>
+      <hr />
         <Form
           onSubmit={(values, form) => {
             values.firstParticipant = true

@@ -16,7 +16,8 @@ class SocioEconomicPresentational extends Component {
     const category = this.props.data.category
     return (
       <div style={{ marginTop: 50 }}>
-        <div>{category}</div>
+        <h2>{category}</h2>
+        <hr />
         <Form
           onSubmit={(values, form) => {
             this.props.addSurveyDataWhole(

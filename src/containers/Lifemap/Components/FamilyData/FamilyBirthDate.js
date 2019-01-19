@@ -58,6 +58,8 @@ class FamilyBirthDate extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
+      <h2> Birth Date </h2>
+      <hr />
         <Form
           onSubmit={(values, form) => {
             let familyMembersList = draft.family_data.familyMembersList.filter(

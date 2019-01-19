@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 const TermsPrivacyPresentational = ({ data, header, nextStep }) => {
   return (
     <div style={{ marginTop: 50 }}>
-      <div className="jumbotron">
-        <h1 className="display-3">{header}</h1>
+      <h2>{header}</h2>
+      <hr />
+      <div>
         <p className="lead">{data.title}</p>
         <hr className="my-4" />
         <p
