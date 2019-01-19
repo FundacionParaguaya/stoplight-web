@@ -63,20 +63,20 @@ class IndicatorList extends Component {
           indicator.answer = draft.indicatorSurveyDataList[indicator.codeName]
           switch (indicator.answer) {
             case 1:
-              indicator.dot = "Red"
+              indicator.dotClass = "dot red"
               indicator.formType = "priority"
               break
             case 2:
-              indicator.dot = "Yellow"
+              indicator.dotClass = "dot gold"
               indicator.formType = "priority"
 
               break
             case 3:
-              indicator.dot = "Green"
+              indicator.dotClass = "dot green"
               indicator.formType="achievement"
               break
             default:
-              indicator.dot = "Grey"
+              indicator.dotClass = "grey"
               indicator.formType=null
           }
           return indicator
@@ -96,7 +96,7 @@ class IndicatorList extends Component {
               <h4>{indicatorGroup.dimension}</h4>
               <ul
                 style={{ listStyle: 'none' }}
-                className="list-group indicator-list"
+                className="list-group"
               >
                 {indicatorGroup.indicators.map(indicator => {
                   return (
@@ -106,11 +106,11 @@ class IndicatorList extends Component {
                         display: 'flex'
                       }}
                       key={indicator.codeName}
-                      className="list-group-item indicator-list"
+                      className="list-group-item"
                       onClick={() => this.openModal(indicator.formType)}
                     >
-                      <span>{indicator.questionText}</span>
-                      <span>{indicator.dot}</span>
+                    <span style={{position: "absolute", left: "1%"}} className={indicator.dotClass}></span>
+                      <span style={{paddingLeft: "5%"}}>{indicator.questionText}</span>
                     </li>
                   )
                 })}
