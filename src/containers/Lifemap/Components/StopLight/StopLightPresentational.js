@@ -1,4 +1,5 @@
 import React from 'react'
+import IndicatorCard from './IndicatorCard'
 
 const StopLightPresentational = ({
   data,
@@ -16,85 +17,54 @@ const StopLightPresentational = ({
         <p>{`${index + 1}/${total}`}</p>
       </div>
       <div>
-      <div  className="row">
-      <div className="col-lg-4">
-        <button
-          type="submit"
-          onClick={() => nextStep(data.stoplightColors[0], data.codeName)}
-        >
-          <div
-            className="card text-white bg-success mb-3"
-            styles={{ maxWidth: '10%' }}
-          >
+        <div className="row">
+          <div className="col-lg-4">
+            <button
+              type="submit"
+              onClick={() => nextStep(data.stoplightColors[0], data.codeName)}
+              className="bg-success"
+            >
+              <IndicatorCard
+                url={data.stoplightColors[0].url}
+                description={data.stoplightColors[0].description}
+                cardClass="card text-white bg-success mb-3"
+              />
+            </button>
+          </div>
+          <div className="col-lg-4">
+            <button
+              type="submit"
+              onClick={() => nextStep(data.stoplightColors[1], data.codeName)}
+              className="bg-warning"
 
-            <div className="card-body">
-              <img
-                src={data.stoplightColors[0].url}
-                alt={data.stoplightColors[0].description}
-                styles={{ maxWidth: '25%' }}
+            >
+              <IndicatorCard
+                url={data.stoplightColors[1].url}
+                description={data.stoplightColors[1].description}
+                cardClass="card text-white bg-warning mb-3"
               />
-            </div>
-            <div className="card-footer" styles={{ maxWidth: '25%' }}>
-              {data.stoplightColors[0].description}
-            </div>
+            </button>
           </div>
-        </button>
-        </div>
-        <div class="col-lg-4">
-        <button
-          type="submit"
-          onClick={() => nextStep(data.stoplightColors[1], data.codeName)}
-        >
-          <div
-            className="card text-white bg-danger mb-3"
-            styles={{ maxWidth: '10%' }}
-          >
-            <div className="card-body">
-              <img
-                src={data.stoplightColors[1].url}
-                alt={data.stoplightColors[1].description}
-                styles={{ maxWidth: '25%' }}
-              />
-              <div className="card-footer" styles={{ maxWidth: '25%' }}>
-                {data.stoplightColors[0].description}
-              </div>
-            </div>
-          </div>
-        </button>
-        </div>
-        <div class="col-lg-4">
-        <button
-          type="submit"
-          onClick={() => nextStep(data.stoplightColors[2], data.codeName)}
-        >
-          <div
-            className="card text-white bg-warning mb-3"
-            styles={{ maxWidth: '10%' }}
-          >
+          <div className="col-lg-4">
+            <button
+              type="submit"
+              onClick={() => nextStep(data.stoplightColors[2], data.codeName)}
+              className="bg-danger"
+            >
 
-            <div className="card-body">
-              <img
-                src={data.stoplightColors[2].url}
-                alt={data.stoplightColors[2].description}
-                styles={{ maxWidth: '25%' }}
-              />
-              <div className="card-footer" styles={{ maxWidth: '25%' }}>
-                {data.stoplightColors[0].description}
-              </div>
-            </div>
+            <IndicatorCard url={data.stoplightColors[2].url} description={data.stoplightColors[2].description} cardClass="card text-white bg-danger mb-3"/>
+            </button>
           </div>
-        </button>
-        </div>
         </div>
 
-        <hr/>
-        <br/>
+        <hr />
+        <br />
         <p>
-        {!data.required &&
-          <button type="submit"
-            onClick={() => nextStep(0, data.codeName)}>
-            Skip this question</button>
-        }
+          {!data.required && (
+            <button type="submit" onClick={() => nextStep(0, data.codeName)}>
+              Skip this question
+            </button>
+          )}
         </p>
 
         <button
