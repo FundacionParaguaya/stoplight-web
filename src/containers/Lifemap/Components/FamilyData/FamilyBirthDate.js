@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import { Form } from 'react-final-form'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
-import DatePicker from '../DatePicker'
+import DatePicker from '../../../../components/DatePicker'
 
 class FamilyBirthDate extends Component {
   constructor(props) {

@@ -6,7 +6,7 @@ import {
   addSurveyData,
   addSurveyDataWhole
 } from '../../../../redux/actions'
-import DatePicker from '../DatePicker'
+import DatePicker from '../../../../components/DatePicker'
 
 import countries from 'localized-countries'
 
