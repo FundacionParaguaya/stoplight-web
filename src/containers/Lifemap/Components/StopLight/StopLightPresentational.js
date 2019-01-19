@@ -13,8 +13,8 @@ const StopLightPresentational = ({
   return (
     <div>
       <div>
-      <h2>{data.dimension}</h2>
-      <h3>{data.questionText}</h3>
+        <h2>{data.dimension}</h2>
+        <h3>{data.questionText}</h3>
         <p>{`${index + 1}/${total}`}</p>
       </div>
       <div>
@@ -37,7 +37,6 @@ const StopLightPresentational = ({
               type="submit"
               onClick={() => nextStep(data.stoplightColors[1], data.codeName)}
               className="bg-warning"
-
             >
               <IndicatorCard
                 url={data.stoplightColors[1].url}
@@ -52,8 +51,11 @@ const StopLightPresentational = ({
               onClick={() => nextStep(data.stoplightColors[2], data.codeName)}
               className="bg-danger"
             >
-
-            <IndicatorCard url={data.stoplightColors[2].url} description={data.stoplightColors[2].description} cardClass="card text-white bg-danger mb-3"/>
+              <IndicatorCard
+                url={data.stoplightColors[2].url}
+                description={data.stoplightColors[2].description}
+                cardClass="card text-white bg-danger mb-3"
+              />
             </button>
           </div>
         </div>
