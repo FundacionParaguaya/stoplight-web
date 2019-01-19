@@ -58,7 +58,7 @@ class FamilyBirthDate extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> Birth Date </h2>
+      <h2> {t('views.birthDates')} </h2>
       <hr />
         <Form
           onSubmit={(values, form) => {
