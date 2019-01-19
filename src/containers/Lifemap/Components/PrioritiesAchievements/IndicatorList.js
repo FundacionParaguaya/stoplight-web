@@ -29,7 +29,9 @@ class IndicatorList extends Component {
   }
 
   openModal(formType) {
-    this.setState({modalIsOpen: true, formType: formType});
+    if(formType){ // only open modal if formType is not null (i.e. not blank indicator)
+      this.setState({modalIsOpen: true, formType: formType});
+    }
   }
 
 
@@ -62,15 +64,20 @@ class IndicatorList extends Component {
           switch (indicator.answer) {
             case 1:
               indicator.dot = "Red"
+              indicator.formType = "priority"
               break
             case 2:
               indicator.dot = "Yellow"
+              indicator.formType = "priority"
+
               break
             case 3:
               indicator.dot = "Green"
+              indicator.formType="achievement"
               break
             default:
-              indicator.dot = "blank"
+              indicator.dot = "Grey"
+              indicator.formType=null
           }
           return indicator
         })}
@@ -100,7 +107,7 @@ class IndicatorList extends Component {
                       }}
                       key={indicator.codeName}
                       className="list-group-item indicator-list"
-                      onClick={() => this.openModal('priority')}
+                      onClick={() => this.openModal(indicator.formType)}
                     >
                       <span>{indicator.questionText}</span>
                       <span>{indicator.dot}</span>
