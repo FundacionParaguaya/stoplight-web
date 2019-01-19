@@ -20,13 +20,14 @@ Modal.setAppElement('#root')
 class IndicatorList extends Component {
   constructor(props){
     super(props);
+
     this.state={
       modalIsOpen: false,
       modal: {
         formType: null,
         indicator: null
       },
-      minPriorities: 0
+      prioritiesMade: 0,
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
@@ -38,6 +39,9 @@ class IndicatorList extends Component {
     }
   }
 
+  addPriority(){
+    this.setState({prioritiesMade: this.state.prioritiesMade+1})
+  }
 
   closeModal() {
   this.setState({modalIsOpen: false, modal: {formType: null, indicator: null}});
@@ -73,22 +77,19 @@ class IndicatorList extends Component {
             case 2:
               indicator.dotClass = "dot gold"
               indicator.formType = "priority"
-
               break
             case 3:
               indicator.dotClass = "dot green"
               indicator.formType="achievement"
               break
             default:
-              indicator.dotClass = "grey"
+              indicator.dotClass = "dot grey"
               indicator.formType=null
           }
           return indicator
         })}
       })
 
-
-    console.log(groupedIndicatorList)
 
     return (
       <div>
