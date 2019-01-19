@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
+import { withI18n } from "react-i18next";
 import {
   createDraft,
   addSurveyData,
@@ -62,8 +63,10 @@ class FamilyParticipant extends Component {
   }
   render() {
     // set default countryto beginning of list
-    console.log(this.props.data)
-    console.log(countryList)
+    const { t } = this.props
+    console.log('t')
+    console.log(this.props.t)
+
 
     let countriesOptions = this.generateCountriesOptions()
 
@@ -100,7 +103,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder=""
+                        placeholder={t('views.family.firstName')}
                       />
                       {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>
@@ -266,7 +269,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(FamilyParticipant)
+)(FamilyParticipant))
