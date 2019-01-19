@@ -13,7 +13,8 @@ const StopLightPresentational = ({
   return (
     <div>
       <div>
-        <p>{data.questionText}</p>
+      <h2>{data.dimension}</h2>
+      <h3>{data.questionText}</h3>
         <p>{`${index + 1}/${total}`}</p>
       </div>
       <div>
