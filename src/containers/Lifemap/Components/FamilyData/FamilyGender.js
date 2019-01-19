@@ -51,7 +51,7 @@ class FamilyGender extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
-        <h2> Gender </h2>
+        <h2> {t('views.gender')} </h2>
         <hr />
         <Form
           onSubmit={(values, form) => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withI18n } from 'react-i18next'
 import Modal from 'react-modal';
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
@@ -52,6 +53,7 @@ class IndicatorList extends Component {
   // get dimensions from survey
 
   render() {
+    const { t } = this.props
     let draft = this.props.drafts.filter(draft => draft.id = this.props.draftId)[0]
 
     let dimensionList = [
@@ -93,7 +95,7 @@ class IndicatorList extends Component {
 
     return (
       <div>
-        <h2> Priorities & Achievements </h2>
+        <h2> {t('views.yourLifeMap')} </h2>
         <hr />
         {groupedIndicatorList.map(indicatorGroup => {
           return (
@@ -126,7 +128,7 @@ class IndicatorList extends Component {
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}
                 style={customStyles}
-                contentLabel="Example Modal"
+                contentLabel=""
               >
                 <PrioritiesAchievementsForm formType={this.state.modal.formType} indicator={this.state.modal.indicator} draftId={this.props.draftId} closeModal={this.closeModal} />
               </Modal>
@@ -149,7 +151,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(IndicatorList)
+)(IndicatorList))
