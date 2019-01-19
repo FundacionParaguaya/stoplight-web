@@ -64,15 +64,11 @@ class FamilyParticipant extends Component {
   render() {
     // set default countryto beginning of list
     const { t } = this.props
-    console.log('t')
-    console.log(this.props.t)
-
-
-    let countriesOptions = this.generateCountriesOptions()
+    const countriesOptions = this.generateCountriesOptions()
 
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> Primary Participant </h2>
+      <h2> {t('views.primaryParticipant')} </h2>
       <hr />
         <Form
           onSubmit={(values, form) => {
