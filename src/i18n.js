@@ -32,17 +32,17 @@ export const setLanguage = () => {
   } else {
     lng = language === 'en' || language === 'es' ? language : 'en'
   }
-
+  console.log('lng')
+  console.log(lng)
   i18n.changeLanguage(lng)
 }
 
 i18n.use(reactI18nextModule).init({
   resources,
-  lng: 'en',
+  lng:  language === 'en' || language === 'es' ? language : 'en',
   interpolation: {
     escapeValue: false // react already safes from xss
   }
 })
 
-console.log(i18n)
 export default i18n
