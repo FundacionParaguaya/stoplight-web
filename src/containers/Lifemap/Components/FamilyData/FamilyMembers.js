@@ -30,7 +30,7 @@ class FamilyMembers extends Component {
                   type="text"
                   {...input}
                   className="form-control"
-                  placeholder={t('views.family.firstName')}
+                  placeholder={t('views.family.name')}
                 />
                 {meta.touched && meta.error && <span>{meta.error}</span>}
               </div>
@@ -42,7 +42,7 @@ class FamilyMembers extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> Family Members </h2>
+      <h2> {t('views.familyMembers')} </h2>
       <hr />
         <Form
           onSubmit={(values, form) => {
@@ -88,7 +88,6 @@ class FamilyMembers extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div>
-                <label>Number of people living in this household: </label>
                 <div className="form-group">
                   <Field name="memberCount">
                     {({ input, meta }) => {
@@ -100,7 +99,7 @@ class FamilyMembers extends Component {
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
-                          <option value="">-</option>
+                          <option value="" disabled>{t('views.family.peopleLivingInThisHousehold')}</option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
@@ -118,7 +117,7 @@ class FamilyMembers extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label>name: </label>
+                <label>{t('views.family.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
                   {this.props.surveyTakerName}
                 </p>
