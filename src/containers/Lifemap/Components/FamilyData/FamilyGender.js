@@ -23,7 +23,8 @@ class FamilyGender extends Component {
     const additionalMembersList = draft.family_data.familyMembersList.filter(
       member => member.firstParticipant === false
     )
-
+    console.log("additional members list")
+    console.log(additionalMembersList)
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
@@ -45,9 +46,10 @@ class FamilyGender extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
+      <h2> Gender </h2>
+      <hr />
         <Form
           onSubmit={(values, form) => {
-
             let familyMembersList = draft.family_data.familyMembersList.filter(
               member => member.firstParticipant === true
             )

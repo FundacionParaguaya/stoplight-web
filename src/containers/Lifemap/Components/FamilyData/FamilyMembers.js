@@ -40,6 +40,8 @@ class FamilyMembers extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
+      <h2> Family Members </h2>
+      <hr />
         <Form
           onSubmit={(values, form) => {
             let draft = this.props.drafts.filter(

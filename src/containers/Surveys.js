@@ -14,7 +14,9 @@ export class Surveys extends Component {
   render() {
     console.log(this.props.surveys)
     return (
-      <div>
+      <div style={{ marginTop: 50 }} >
+      <h2> Surveys </h2>
+      <hr />
         {this.props.surveys.map((survey, i) => (
           <div key={survey.id} style={{ marginTop: 30 }}>
             <Link

@@ -81,6 +81,9 @@ class FamilyMap extends Component {
     let countriesOptions = this.generateCountriesOptions()
     return (
       <div style={{ marginTop: 50 }}>
+      <h2> Map </h2>
+      <hr />
+
         <Gmaps
           width={'800px'}
           height={'600px'}
