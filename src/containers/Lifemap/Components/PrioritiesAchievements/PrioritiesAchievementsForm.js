@@ -10,15 +10,16 @@ class PrioritiesAchievementsForm extends Component {
 
   generatePriorityForm(){
     return (
-      <div>
         <Form
           onSubmit={(values, form) => {
             // we want to update Family Data
             console.log(values)
+            let priorityObj = values
+            priorityObj.indicator = this.props.indicator
             this.props.addSurveyDataWhole(
               this.props.draftId,
-              'family_data',
-              values
+              'priorities',
+              {priorities: priorityObj}
             )
             this.closeModal() // bound to parent
           }}
@@ -92,21 +93,20 @@ class PrioritiesAchievementsForm extends Component {
             </form>
           )}
         />
-      </div>
     )
   }
 
   generateAchievementForm(){
     return (
-      <div>
         <Form
           onSubmit={(values, form) => {
             // we want to update Family Data
-            console.log(values)
+            let achievementObj = values
+            achievementObj.indicator = this.props.indicator
             this.props.addSurveyDataWhole(
               this.props.draftId,
-              'family_data',
-              values
+              'achievements',
+              {achievements: achievementObj}
             )
             this.closeModal() // bound to parent
           }}
@@ -120,7 +120,7 @@ class PrioritiesAchievementsForm extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-              <Field name="reason">
+              <Field name="action">
                 {({ input, meta }) => (
                   <div className="form-group">
                   <label>How did you get it?</label>
@@ -134,7 +134,7 @@ class PrioritiesAchievementsForm extends Component {
                   </div>
                 )}
               </Field>
-              <Field name="action">
+              <Field name="roadmap">
                 {({ input, meta }) => (
                   <div className="form-group">
                   <label>What did it take to achieve this?</label>
@@ -166,7 +166,6 @@ class PrioritiesAchievementsForm extends Component {
             </form>
           )}
         />
-      </div>
     )
   }
 
@@ -179,7 +178,15 @@ class PrioritiesAchievementsForm extends Component {
   }
 
   render() {
-    return (this.renderForm())
+    console.log(this.props.indicator)
+    return (
+    <div>
+      <h2>{this.props.formType}</h2>
+      <hr />
+      <h3>{this.props.indicator}</h3>
+      {this.renderForm()}
+    </div>
+  )
   }
 }
 
