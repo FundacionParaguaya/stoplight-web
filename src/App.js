@@ -18,8 +18,8 @@ import Surveys from './containers/Surveys'
 import Lifemap from './containers/Lifemap'
 
 import logo from './assets/logo_white.png'
-
 import Dots from './components/Dots'
+
 /**
  * This is the Entry Pyont
  * @param {object} state - redux state that contains user information
@@ -93,7 +93,7 @@ class App extends Component {
                         <li className="nav-item nav-btn">
                           <Link
                             className="btn btn-sm btn-success nav-link btn-block"
-                            to="/lifemap"
+                            to="/surveys"
                           >
                             <Plus className="feather" />
                             New Lifemap
@@ -103,7 +103,7 @@ class App extends Component {
                     </div>
                   </nav>
 
-                  <main
+                  <div
                     role="main"
                     className="col-md-9 ml-sm-auto col-lg-10 px-4"
                   >
@@ -111,11 +111,12 @@ class App extends Component {
                       <Route exact path="/" component={Dashboard} />
                       <Route exact path="/families" component={Families} />
                       <Route exact path="/family/:id" component={Family} />
+                      <Route exact path="/lifemap" component={Lifemap} />
                       <Route exact path="/surveys" component={Surveys} />
                       <Route exact path="/lifemap" component={Lifemap} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
-                  </main>
+                  </div>
                 </div>
               </div>
             </div>
