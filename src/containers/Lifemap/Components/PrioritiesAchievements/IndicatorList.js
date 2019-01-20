@@ -28,7 +28,8 @@ class IndicatorList extends Component {
         formType: null,
         indicator: null
       },
-      prioritiesMade: 0
+      numberPrioritiesMade: 0,
+      listOfPrioritiesMade: []
     }
   }
 
@@ -43,7 +44,18 @@ class IndicatorList extends Component {
   }
 
   addPriority = () => {
-    this.setState({ prioritiesMade: this.state.prioritiesMade + 1 }) // only if indicator was not answered yet
+    // only if indicator was not answered yet
+    console.log(this.state.listOfPrioritiesMade)
+    if (
+      this.state.listOfPrioritiesMade.filter(
+        priority => priority === this.state.modal.indicator
+      ).length===0
+    ) {
+      this.setState( prevState => ({
+        numberPrioritiesMade: prevState.numberPrioritiesMade + 1,
+        listOfPrioritiesMade: [...prevState.listOfPrioritiesMade, prevState.modal.indicator]
+      }))
+    }
   }
 
   closeModal = () => {
@@ -60,7 +72,7 @@ class IndicatorList extends Component {
   render() {
     const { t } = this.props
     let answeredEnoughPriorities =
-      this.state.prioritiesMade < this.props.minimumPriorities
+      this.state.numberPrioritiesMade < this.props.minimumPriorities
     let draft = this.props.drafts.filter(
       draft => draft.draftId === this.props.draftId
     )[0]
@@ -158,11 +170,11 @@ class IndicatorList extends Component {
         })}
         {answeredEnoughPriorities ? (
           <div>
-            {(this.props.minimumPriorities - this.state.prioritiesMade) > 1 ? (
+            {this.props.minimumPriorities - this.state.numberPrioritiesMade > 1 ? (
               <h5>
                 {t('views.lifemap.youNeedToAddPriorities').replace(
                   '%n',
-                  this.props.minimumPriorities - this.state.prioritiesMade
+                  this.props.minimumPriorities - this.state.numberPrioritiesMade
                 )}
               </h5>
             ) : (
