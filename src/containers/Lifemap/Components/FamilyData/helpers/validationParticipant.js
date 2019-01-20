@@ -1,3 +1,8 @@
+function validateEmail(email) {
+  var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
 export const validate = values => {
   const errors = {}
   if (!values.firstName) {
@@ -17,6 +22,9 @@ export const validate = values => {
   }
   if (!values.birthCountry) {
     errors.birthCountry = 'Required'
+  }
+  if(values.email && !validateEmail(values.email)){
+    errors.email = 'Please enter valid email'
   }
   return errors
 }

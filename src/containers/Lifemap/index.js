@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { loadSurveys } from '../../redux/actions'
+import { loadSurveys, submitDraft } from '../../redux/actions'
 import BeginLifemap from './Components/BeginLifeMap'
 import FamilyParticipant from './Components/FamilyData/FamilyParticipant'
 import FamilyMembers from './Components/FamilyData/FamilyMembers'
 import FamilyGender from './Components/FamilyData/FamilyGender'
 import FamilyBirthDate from './Components/FamilyData/FamilyBirthDate'
 import FamilyMap from './Components/FamilyData/FamilyMap'
+import FinalScreen from './Components/FinalScreen'
 import IndicatorList from './Components/PrioritiesAchievements/IndicatorList'
 import SocioEconomic from './Components/SocioEconomic/'
 import StopLight from './Components/StopLight'
@@ -21,12 +22,17 @@ class Lifemap extends Component {
     super(props)
     this.state = {
       step: 1,
-      draftId: 'lol',
-      surveyTakerName: ''
+      draftId: null,
+      surveyTakerName: '',
+      memberCount: 0
     }
   }
   componentDidMount() {
     this.loadData()
+  }
+
+  setMemberCount = num => {
+    this.setState({ memberCount: num })
   }
 
   setDraftId = id => {
@@ -35,6 +41,15 @@ class Lifemap extends Component {
 
   loadData = () => {
     this.props.loadSurveys()
+  }
+
+  submitDraft = () => {
+    let draft = this.props.drafts.filter(
+      draft => (draft.draftId === this.state.draftId)
+    )[0]
+    console.log(draft)
+    const res = this.props.submitDraft(draft)
+    console.log(res)
   }
 
   nextStep = () => {
@@ -100,6 +115,7 @@ class Lifemap extends Component {
             previousStep={this.previousStep}
             surveyTakerName={this.state.surveyTakerName}
             jumpStep={this.jumpStep}
+            setMemberCount={this.setMemberCount}
           />
         )
         break
@@ -110,6 +126,7 @@ class Lifemap extends Component {
             draftId={this.state.draftId}
             data={survey.surveyConfig}
             previousStep={this.previousStep}
+            memberCount={this.state.memberCount}
           />
         )
         break
@@ -120,6 +137,7 @@ class Lifemap extends Component {
             draftId={this.state.draftId}
             data={survey.surveyConfig}
             previousStep={this.previousStep}
+            memberCount={this.state.memberCount}
           />
         )
         break
@@ -172,6 +190,17 @@ class Lifemap extends Component {
           />
         )
         break
+      case 11:
+      this.submitDraft()
+      component = survey && (
+        <FinalScreen
+          draftId={this.state.draftId}
+          data={survey.surveyStoplightQuestions}
+          nextStep={this.nextStep}
+          parentPreviousStep={this.previousStep}
+        />
+      )
+      break
       // Create a submit handler to send redux store of graph as graphql mutation once Prorities & Achievements is submitted
       default:
         component = <div>NOTHING TO SEE HERE</div>
@@ -182,10 +211,12 @@ class Lifemap extends Component {
 
 const mapStateToProps = state => ({
   state: state,
-  surveys: state.surveys
+  surveys: state.surveys,
+  drafts: state.drafts
 })
 const mapDispatchToProps = {
-  loadSurveys
+  loadSurveys,
+  submitDraft
 }
 
 export default connect(

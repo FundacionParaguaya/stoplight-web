@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
-import { withI18n } from "react-i18next";
+import { withI18n } from 'react-i18next'
 import {
   createDraft,
   addSurveyData,
@@ -9,10 +9,10 @@ import {
 } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
 import uuid from 'uuid/v1'
-
 import countries from 'localized-countries'
 import { validate } from './helpers/validationParticipant'
 import Error from '../../ErrorComponent'
+import moment from 'moment'
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
@@ -38,11 +38,12 @@ class FamilyParticipant extends Component {
   async createDraft(values) {
     let surveyId = this.props.surveyId
     let draftId = uuid()
+    console.log(draftId)
     await this.props.createDraft({
       survey_id: surveyId,
       survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
       created: Date.now(),
-      draft_id: draftId,
+      draftId: draftId,
       familyData: {},
       economicSurveyDataList: [],
       indicatorSurveyDataList: [],
@@ -50,7 +51,7 @@ class FamilyParticipant extends Component {
       achievements: {}
     })
     values.firstParticipant = true
-    values.birthDate = this.state.date
+    values.birthDate = moment(this.state.date).format('X')
     this.props.setDraftId(draftId)
     this.props.addSurveyDataWhole(draftId, 'familyData', {
       familyMembersList: [values]
@@ -89,8 +90,8 @@ class FamilyParticipant extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> {t('views.primaryParticipant')} </h2>
-      <hr />
+        <h2> {t('views.primaryParticipant')} </h2>
+        <hr />
         <Form
           onSubmit={values => {
             this.createDraft(values)
@@ -108,7 +109,7 @@ class FamilyParticipant extends Component {
                           type="text"
                           {...input}
                           className="form-control"
-                           placeholder={t('views.family.firstName')}
+                          placeholder={t('views.family.firstName')}
                         />
                         <Error name="firstName" />
                       </div>
@@ -138,7 +139,9 @@ class FamilyParticipant extends Component {
                     component="select"
                     className="custom-select"
                   >
-                    <option value="" disabled>{t('views.family.selectGender')}</option>
+                    <option value="" disabled>
+                      {t('views.family.selectGender')}
+                    </option>
                     {this.props.data.gender.map(gender => (
                       <option
                         value={gender.value}
@@ -169,7 +172,9 @@ class FamilyParticipant extends Component {
                     component="select"
                     className="custom-select"
                   >
-                    <option value="" disabled>{t('views.family.documentType')}</option>
+                    <option value="" disabled>
+                      {t('views.family.documentType')}
+                    </option>
                     {this.props.data.documentType.map(docType => (
                       <option
                         value={docType.value}
@@ -204,7 +209,9 @@ class FamilyParticipant extends Component {
                     component="select"
                     className="custom-select"
                   >
-                    <option value="" disabled>{t('views.family.countryOfBirth')}</option>
+                    <option value="" disabled>
+                      {t('views.family.countryOfBirth')}
+                    </option>
                     {countriesOptions}
                   </Field>
                   <Error name="birthCountry" />
@@ -220,6 +227,7 @@ class FamilyParticipant extends Component {
                         className="form-control"
                         placeholder={t('views.family.email')}
                       />
+                      <Error name="email" />
                     </div>
                   )}
                 </Field>
@@ -278,7 +286,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default withI18n()(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FamilyParticipant))
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FamilyParticipant)
+)

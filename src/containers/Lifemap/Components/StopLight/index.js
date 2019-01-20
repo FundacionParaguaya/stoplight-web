@@ -16,7 +16,7 @@ class StopLight extends Component {
   nextStep = (value, codeName) => {
     const { step } = this.state
     let answer = {}
-    answer[codeName] = value.value
+    answer[codeName] = value.value || 0
     this.props.addSurveyDataWhole(
       this.props.draftId,
       'indicatorSurveyDataList',

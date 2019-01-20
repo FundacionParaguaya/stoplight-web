@@ -51,7 +51,7 @@ class FamilyMap extends Component {
       accuracy: 0
     })
   }
-  
+
   generateCountriesOptions() {
     const defaultCountry = this.props.data.surveyLocation.country
       ? countryList.filter(
@@ -118,6 +118,13 @@ class FamilyMap extends Component {
               familyLocationInfo
             )
             this.props.nextStep()
+          }}
+          validate={values => {
+            const errors = {}
+            if (!values) {
+              errors.values = 'Required'
+            }
+            return errors
           }}
           initialValues={{}}
           render={({

@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 
-import { shallow, mount, render } from 'enzyme'
+import { mount } from 'enzyme'
 import { expect } from 'chai'
 import Surveys from './../Surveys'
 

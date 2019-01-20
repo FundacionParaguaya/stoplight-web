@@ -11,15 +11,9 @@ class DatePicker extends React.Component {
       day: null,
       month: null,
       year: null,
-      selectDay: defaultDate
-        ? moment(defaultDate).date()
-        : dayLabel,
-      selectMonth: defaultDate
-        ? moment(defaultDate).month() + 1
-        : monthLabel,
-      selectYear: defaultDate
-        ? moment(defaultDate).year()
-        : yearLabel
+      selectDay: defaultDate ? moment(defaultDate).date() : dayLabel,
+      selectMonth: defaultDate ? moment(defaultDate).month() + 1 : monthLabel,
+      selectYear: defaultDate ? moment(defaultDate).year() : yearLabel
     }
   }
 
@@ -110,9 +104,11 @@ class DatePicker extends React.Component {
     if (selectDay === '' || selectMonth === '' || selectYear === '') {
       return false
     }
-    return selectDay !== this.props.dayLabel &&
-          selectMonth !== this.props.monthLabel &&
-          selectYear !== this.props.yearLabel
+    return (
+      selectDay !== this.props.dayLabel &&
+      selectMonth !== this.props.monthLabel &&
+      selectYear !== this.props.yearLabel
+    )
   }
 
   render() {

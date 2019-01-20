@@ -4,13 +4,12 @@ import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import ErrorComponent from '../../ErrorComponent'
 
 class FamilyGender extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      memberCount: 0
-    }
+    this.state = {}
   }
   handleChange = event => {
     this.setState({ memberCount: event.target.value })
@@ -21,13 +20,12 @@ class FamilyGender extends Component {
   render() {
     const { t } = this.props
     const draft = this.props.drafts.filter(
-      draft => (draft.id = this.props.draftId)
+      draft => draft.draftId === this.props.draftId
     )[0]
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
     )
-    console.log('additional members list')
-    console.log(additionalMembersList)
+
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
@@ -45,6 +43,7 @@ class FamilyGender extends Component {
               </option>
             ))}
           </Field>
+          <ErrorComponent name={`gender${idx}`} />
         </div>
       )
     })
@@ -69,6 +68,18 @@ class FamilyGender extends Component {
             })
 
             this.props.nextStep()
+          }}
+          validate={values => {
+            const errors = {}
+            if (!values.length === this.props.memberCount) {
+              errors.values = 'Required'
+            }
+            for (let i = 0; i < this.props.memberCount; i++) {
+              if (!values[`gender${i}`]) {
+                errors[`gender${i}`] = 'Required'
+              }
+            }
+            return errors
           }}
           initialValues={{}}
           render={({
