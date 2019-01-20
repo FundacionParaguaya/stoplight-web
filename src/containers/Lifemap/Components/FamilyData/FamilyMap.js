@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Gmaps, Marker } from 'react-gmaps'
 import { Form, Field } from 'react-final-form'
+import { withI18n } from 'react-i18next'
 import countries from 'localized-countries'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
@@ -50,15 +51,7 @@ class FamilyMap extends Component {
       accuracy: 0
     })
   }
-
-  onCloseClick() {
-    console.log('onCloseClick')
-  }
-
-  onClick(e) {
-    console.log('onClick', e)
-  }
-
+  
   generateCountriesOptions() {
     const defaultCountry = this.props.data.surveyLocation.country
       ? countryList.filter(
@@ -83,10 +76,11 @@ class FamilyMap extends Component {
   }
 
   render() {
+    const { t } = this.props
     let countriesOptions = this.generateCountriesOptions()
     return (
       <div style={{ marginTop: 50 }}>
-        <h2> Map </h2>
+        <h2> {t('views.location')} </h2>
         <hr />
 
         <Gmaps
@@ -141,7 +135,7 @@ class FamilyMap extends Component {
                   component="select"
                   className="custom-select"
                 >
-                  <option value="">Select country</option>
+                  <option value="">{t('views.family.country')}</option>
                   {countriesOptions}
                 </Field>
               </div>
@@ -152,7 +146,7 @@ class FamilyMap extends Component {
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Post Code"
+                      placeholder={t('views.family.postcode')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -165,7 +159,7 @@ class FamilyMap extends Component {
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder="Address"
+                      placeholder={t('views.family.streetOrHouseDescription')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -177,7 +171,7 @@ class FamilyMap extends Component {
                   className="btn btn-primary btn-lg"
                   disabled={pristine || invalid}
                 >
-                  Submit
+                  Continue
                 </button>
                 <button
                   className="btn btn-primary btn-lg"
@@ -204,7 +198,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FamilyMap)
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FamilyMap)
+)

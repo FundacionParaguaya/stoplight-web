@@ -1,7 +1,9 @@
 import React from 'react'
+import { withI18n } from 'react-i18next'
 import IndicatorCard from './IndicatorCard'
 
 const StopLightPresentational = ({
+  t,
   data,
   index,
   total,
@@ -9,7 +11,6 @@ const StopLightPresentational = ({
   previousStep,
   parentPreviousStep
 }) => {
-  console.log(data)
   return (
     <div>
       <div>
@@ -65,7 +66,7 @@ const StopLightPresentational = ({
         <p>
           {!data.required && (
             <button type="submit" onClick={() => nextStep(0, data.codeName)}>
-              Skip this question
+              {t('views.lifemap.skipThisQuestion')}
             </button>
           )}
         </p>
@@ -87,4 +88,4 @@ const StopLightPresentational = ({
   )
 }
 
-export default StopLightPresentational
+export default withI18n()(StopLightPresentational)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
+import { withI18n } from "react-i18next";
 import {
   createDraft,
   addSurveyData,
@@ -82,11 +83,14 @@ class FamilyParticipant extends Component {
   }
 
   render() {
-    let countriesOptions = this.generateCountriesOptions()
+    // set default countryto beginning of list
+    const { t } = this.props
+    const countriesOptions = this.generateCountriesOptions()
+
     return (
       <div style={{ marginTop: 50 }}>
-        <h2> Primary Participant </h2>
-        <hr />
+      <h2> {t('views.primaryParticipant')} </h2>
+      <hr />
         <Form
           onSubmit={values => {
             this.createDraft(values)
@@ -100,12 +104,11 @@ class FamilyParticipant extends Component {
                   {({ input, meta }) => {
                     return (
                       <div className="form-group">
-                        <label>First name: </label>
                         <input
                           type="text"
                           {...input}
                           className="form-control"
-                          placeholder=""
+                           placeholder={t('views.family.firstName')}
                         />
                         <Error name="firstName" />
                       </div>
@@ -117,12 +120,11 @@ class FamilyParticipant extends Component {
                 <Field name="lastName">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>Last name: </label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder=""
+                        placeholder={t('views.family.lastName')}
                       />
                       <Error name="lastName" />
                     </div>
@@ -130,14 +132,13 @@ class FamilyParticipant extends Component {
                 </Field>
               </div>
               <div>
-                <label>Gender: </label>
                 <div className="form-group">
                   <Field
                     name="gender"
                     component="select"
                     className="custom-select"
                   >
-                    <option value="">Select gender</option>
+                    <option value="" disabled>{t('views.family.selectGender')}</option>
                     {this.props.data.gender.map(gender => (
                       <option
                         value={gender.value}
@@ -151,7 +152,7 @@ class FamilyParticipant extends Component {
                 </div>
               </div>
               <div>
-                <label>Birthdate: </label>
+                <label>{t('views.family.dateOfBirth')}</label>
                 <DatePicker
                   dateChange={this.dateChange.bind(this)}
                   minYear={1900}
@@ -162,14 +163,13 @@ class FamilyParticipant extends Component {
                 <span className="badge badge-pill badge-danger">Required</span>
               )}
               <div>
-                <label>Document type: </label>
                 <div className="form-group">
                   <Field
                     name="documentType"
                     component="select"
                     className="custom-select"
                   >
-                    <option value="">Select type</option>
+                    <option value="" disabled>{t('views.family.documentType')}</option>
                     {this.props.data.documentType.map(docType => (
                       <option
                         value={docType.value}
@@ -186,12 +186,11 @@ class FamilyParticipant extends Component {
                 <Field name="documentNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>Document: </label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder=""
+                        placeholder={t('views.family.documentNumber')}
                       />
                       <Error name="documentNumber" />
                     </div>
@@ -199,14 +198,13 @@ class FamilyParticipant extends Component {
                 </Field>
               </div>
               <div>
-                <label>Country: </label>
                 <div className="form-group">
                   <Field
                     name="birthCountry"
                     component="select"
                     className="custom-select"
                   >
-                    <option value="">Select country</option>
+                    <option value="" disabled>{t('views.family.countryOfBirth')}</option>
                     {countriesOptions}
                   </Field>
                   <Error name="birthCountry" />
@@ -216,12 +214,11 @@ class FamilyParticipant extends Component {
                 <Field name="email">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>Email: </label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder=""
+                        placeholder={t('views.family.email')}
                       />
                     </div>
                   )}
@@ -231,12 +228,11 @@ class FamilyParticipant extends Component {
                 <Field name="phone">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>Phone: </label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder=""
+                        placeholder={t('views.family.phone')}
                       />
                       {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>
@@ -282,7 +278,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(FamilyParticipant)
+)(FamilyParticipant))

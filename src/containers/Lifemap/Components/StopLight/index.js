@@ -7,7 +7,9 @@ class StopLight extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 0
+      step: 0,
+      skippedAQuestion: false,
+      renderSkippedQuestionsScreen: false,
     }
   }
 
@@ -22,6 +24,13 @@ class StopLight extends Component {
     )
     console.log(this.props.drafts)
     if (this.state.step === this.props.data.length - 1) {
+      // render Skipped Questions
+      if(this.state.skippedAQuestion){
+        this.setState({showSkippedQuestions: true})
+      } else {
+        this.props.nextStep()
+      }
+    } else if (this.state.step > this.props.data.length-1) {
       this.props.nextStep()
     } else {
       this.setState({ step: step + 1 })
