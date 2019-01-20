@@ -30,11 +30,9 @@ class IndicatorList extends Component {
       },
       prioritiesMade: 0
     }
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
   }
 
-  openModal(indicator) {
+  openModal = indicator => {
     if (indicator.formType) {
       // only open modal if formType is not null (i.e. not blank indicator)
       this.setState({
@@ -44,11 +42,11 @@ class IndicatorList extends Component {
     }
   }
 
-  addPriority() {
-    this.setState({ prioritiesMade: this.state.prioritiesMade + 1 })
+  addPriority = () => {
+    this.setState({ prioritiesMade: this.state.prioritiesMade + 1 }) // only if indicator was not answered yet
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({
       modalIsOpen: false,
       modal: { formType: null, indicator: null }
@@ -61,6 +59,8 @@ class IndicatorList extends Component {
 
   render() {
     const { t } = this.props
+    let answeredEnoughPriorities =
+      this.state.prioritiesMade < this.props.minimumPriorities
     let draft = this.props.drafts.filter(
       draft => draft.draftId === this.props.draftId
     )[0]
@@ -150,18 +150,40 @@ class IndicatorList extends Component {
                   indicator={this.state.modal.indicator}
                   draftId={this.props.draftId}
                   closeModal={this.closeModal}
+                  addPriority={this.addPriority}
                 />
               </Modal>
             </div>
           )
         })}
-        <button
-          className="btn btn-success"
-          onClick={() => this.props.nextStep()}
-        >
-          {' '}
-          Continue{' '}
-        </button>
+        {answeredEnoughPriorities ? (
+          <div>
+            {(this.props.minimumPriorities - this.state.prioritiesMade) > 1 ? (
+              <h5>
+                {t('views.lifemap.youNeedToAddPriorities').replace(
+                  '%n',
+                  this.props.minimumPriorities - this.state.prioritiesMade
+                )}
+              </h5>
+            ) : (
+              <h5>{t('views.lifemap.youNeedToAddPriotity')}</h5>
+            )}
+            <button
+              className="btn btn-success"
+              onClick={() => this.props.nextStep()}
+              disabled
+            >
+              Continue
+            </button>
+          </div>
+        ) : (
+          <button
+            className="btn btn-success"
+            onClick={() => this.props.nextStep()}
+          >
+            Continue
+          </button>
+        )}
       </div>
     )
   }

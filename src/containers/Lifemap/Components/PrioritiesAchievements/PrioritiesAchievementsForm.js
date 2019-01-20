@@ -26,6 +26,7 @@ class PrioritiesAchievementsForm extends Component {
               'priorities',
               priorityObj
             )
+            this.props.addPriority()
           this.closeModal() // bound to parent
         }}
         validation={validate}
