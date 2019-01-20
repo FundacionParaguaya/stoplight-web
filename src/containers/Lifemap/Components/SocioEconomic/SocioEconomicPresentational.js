@@ -13,6 +13,7 @@ class SocioEconomicPresentational extends Component {
       this.props.previousStep()
     }
   }
+
   render() {
     const questions = this.props.data.sortedQuestions
     const category = this.props.data.category
@@ -38,6 +39,7 @@ class SocioEconomicPresentational extends Component {
           render={({ handleSubmit, pristine, invalid }) => (
             <form onSubmit={handleSubmit}>
               {questions.filter(question => question.forFamilyMember === false )
+
                 .map(question => (
                 <div key={question.codeName}>
                   <label>{question.questionText} </label>
