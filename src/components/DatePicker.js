@@ -138,10 +138,10 @@ class DatePicker extends React.Component {
     })
 
     return (
-      <div>
+      <div className="form-group row">
         <select
           defaultValue=""
-          className={this.props.className}
+          className="custom-select col-3"
           value={this.state.selectMonth}
           onChange={e => this.changeDate(e, 'selectMonth')}
         >
@@ -150,7 +150,7 @@ class DatePicker extends React.Component {
         </select>
         <select
           defaultValue=""
-          className={this.props.className}
+          className="custom-select col-3"
           value={this.state.selectDay}
           onChange={e => this.changeDate(e, 'selectDay')}
         >
@@ -161,7 +161,7 @@ class DatePicker extends React.Component {
         </select>
         <select
           defaultValue=""
-          className={this.props.className}
+          className="custom-select col-3"
           value={this.state.selectYear}
           onChange={e => this.changeDate(e, 'selectYear')}
         >
