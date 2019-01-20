@@ -54,7 +54,7 @@ export const drafts = (state = [], action) => {
       return [...state, { ...action.payload, status: 'In progress' }]
     case ADD_SURVEY_DATA:
       return state.map(draft =>
-        draft.draft_id === action.id
+        draft.draftId === action.id
           ? {
               ...draft,
               [action.category]: {
@@ -66,7 +66,7 @@ export const drafts = (state = [], action) => {
       )
     case ADD_SURVEY_DATA_WHOLE:
       return state.map(draft => {
-        return draft.draft_id === action.id
+        return draft.draftId === action.id
           ? {
               ...draft,
               [action.category]: {
@@ -78,7 +78,7 @@ export const drafts = (state = [], action) => {
       })
     case SUBMIT_DRAFT:
       return state.map(draft =>
-        draft.draft_id === action.id
+        draft.draftId === action.id
           ? {
               ...draft,
               status: 'Pending'
@@ -87,7 +87,7 @@ export const drafts = (state = [], action) => {
       )
     case SUBMIT_DRAFT_COMMIT:
       return state.map(draft =>
-        draft.draft_id === action.meta.id
+        draft.draftId === action.meta.id
           ? {
               ...draft,
               status: 'Success'
@@ -96,7 +96,7 @@ export const drafts = (state = [], action) => {
       )
     case SUBMIT_DRAFT_ROLLBACK:
       return state.map(draft =>
-        draft.draft_id === action.meta.id
+        draft.draftId === action.meta.id
           ? {
               ...draft,
               status: 'Error'
@@ -104,7 +104,7 @@ export const drafts = (state = [], action) => {
           : draft
       )
     case DELETE_DRAFT:
-      return state.filter(draft => draft.draft_id !== action.id)
+      return state.filter(draft => draft.draftId !== action.id)
     default:
       return state
   }

@@ -117,32 +117,38 @@ export const addSurveyDataWhole = (id, category, payload) => ({
   payload
 })
 
-export const submitDraft = (env, token, id, payload) => ({
-  type: SUBMIT_DRAFT,
-  env,
-  token,
-  payload,
-  id,
-  meta: {
-    offline: {
-      effect: {
-        url: `${env}/api/v1/snapshots`,
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { Authorization: `Bearer ${token}` }
-      },
-      commit: {
-        type: SUBMIT_DRAFT_COMMIT,
-        meta: {
-          id
-        }
-      },
-      rollback: {
-        type: SUBMIT_DRAFT_ROLLBACK,
-        meta: {
-          id
-        }
-      }
+export const submitDraft = (payload) => dispatch => {
+  console.log('action')
+  console.log(payload)
+  const platform = selectServer(store.getState().user.env)
+  fetch(`${platform.api}/graphql`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${store.getState().user.token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query:
+            'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+          variables: { newSnapshot: payload }
+    })
+  })
+  .then(res => {
+    if (res.status === 401) {
+      dispatch({ type: LOGOUT })
+      return Promise.reject('Error: Unauthorized.')
+    } else if (res.status === 500) {
+      dispatch({type: SUBMIT_DRAFT_ROLLBACK})
+      return Promise.reject('An error occured.')
+    } else {
+      return res.text()
     }
-  }
-})
+  })
+  .then(res => JSON.parse(res))
+  .then(res =>
+    dispatch({
+      type: SUBMIT_DRAFT_COMMIT,
+      payload: res.data
+    })
+  )
+}
