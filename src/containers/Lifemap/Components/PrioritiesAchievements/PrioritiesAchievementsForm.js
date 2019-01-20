@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import { validate } from './helpers/validation'
 
 class PrioritiesAchievementsForm extends Component {
   closeModal() {
@@ -174,8 +175,8 @@ class PrioritiesAchievementsForm extends Component {
     )
   }
 
-  renderForm () {
-    if(this.props.formType === 'priority'){
+  renderForm() {
+    if (this.props.formType === 'priority') {
       return this.generatePriorityForm()
     } else {
       return this.generateAchievementForm()
@@ -184,16 +185,15 @@ class PrioritiesAchievementsForm extends Component {
 
   render() {
     return (
-    <div>
-      <h2>{this.props.formType}</h2>
-      <hr />
-      <h3>{this.props.indicator}</h3>
-      {this.renderForm()}
-    </div>
-  )
+      <div>
+        <h2>{this.props.formType}</h2>
+        <hr />
+        <h3>{this.props.indicator}</h3>
+        {this.renderForm()}
+      </div>
+    )
   }
 }
-
 
 const mapDispatchToProps = {
   addSurveyData,

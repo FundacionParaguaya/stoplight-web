@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
-import {  addSurveyDataWhole } from '../../../../redux/actions'
-
+import { addSurveyDataWhole } from '../../../../redux/actions'
+import { validate } from './helpers/validation'
 class SocioEconomicPresentational extends Component {
   goBack() {
     if (this.props.index === 0) {
@@ -32,6 +32,7 @@ class SocioEconomicPresentational extends Component {
             }
             console.log(this.props.drafts)
           }}
+          validate={validate}
           initialValues={{}}
           render={({
             handleSubmit,
