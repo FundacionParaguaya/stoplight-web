@@ -21,12 +21,17 @@ class Lifemap extends Component {
     super(props)
     this.state = {
       step: 1,
-      draftId: 'lol',
-      surveyTakerName: ''
+      draftId: null,
+      surveyTakerName: '',
+      memberCount: 0
     }
   }
   componentDidMount() {
     this.loadData()
+  }
+
+  setMemberCount = num => {
+    this.setState({ memberCount: num })
   }
 
   setDraftId = id => {
@@ -100,6 +105,7 @@ class Lifemap extends Component {
             previousStep={this.previousStep}
             surveyTakerName={this.state.surveyTakerName}
             jumpStep={this.jumpStep}
+            setMemberCount={this.setMemberCount}
           />
         )
         break
@@ -110,6 +116,7 @@ class Lifemap extends Component {
             draftId={this.state.draftId}
             data={survey.surveyConfig}
             previousStep={this.previousStep}
+            memberCount={this.state.memberCount}
           />
         )
         break
@@ -120,6 +127,7 @@ class Lifemap extends Component {
             draftId={this.state.draftId}
             data={survey.surveyConfig}
             previousStep={this.previousStep}
+            memberCount={this.state.memberCount}
           />
         )
         break
