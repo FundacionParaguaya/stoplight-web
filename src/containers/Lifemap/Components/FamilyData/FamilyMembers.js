@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
-import { withI18n } from "react-i18next";
-
+import { withI18n } from 'react-i18next'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import ErrorComponent from '../../ErrorComponent'
 
 class FamilyMembers extends Component {
   constructor(props) {
@@ -36,14 +36,15 @@ class FamilyMembers extends Component {
               </div>
             )}
           </Field>
+          <ErrorComponent name={`membername${i + 2}`} />
         </div>
       )
     }
 
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> {t('views.familyMembers')} </h2>
-      <hr />
+        <h2> {t('views.familyMembers')} </h2>
+        <hr />
         <Form
           onSubmit={(values, form) => {
             let draft = this.props.drafts.filter(
@@ -77,6 +78,18 @@ class FamilyMembers extends Component {
               this.props.nextStep()
             }
           }}
+          validate={values => {
+            const errors = {}
+            if (!values.length === this.state.memberCount) {
+              errors.values = 'Required'
+            }
+            for (let i = 0; i < this.state.memberCount; i++) {
+              if (!values[`membername${i + 2}`]) {
+                errors[`membername${i + 2}`] = 'Required'
+              }
+            }
+            return errors
+          }}
           initialValues={{}}
           render={({
             handleSubmit,
@@ -99,7 +112,9 @@ class FamilyMembers extends Component {
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
-                          <option value="" disabled>{t('views.family.peopleLivingInThisHousehold')}</option>
+                          <option value="" disabled>
+                            {t('views.family.peopleLivingInThisHousehold')}
+                          </option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
@@ -117,18 +132,14 @@ class FamilyMembers extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label>{t('views.family.primaryParticipant')}</label>
+                <label>{t('views.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
                   {this.props.surveyTakerName}
                 </p>
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-lg"
-                  disabled={pristine || invalid}
-                >
+                <button type="submit" className="btn btn-primary btn-lg">
                   Submit
                 </button>
                 <button
@@ -156,7 +167,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default withI18n()(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FamilyMembers))
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FamilyMembers)
+)
