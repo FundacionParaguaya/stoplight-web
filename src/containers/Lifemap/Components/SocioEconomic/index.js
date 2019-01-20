@@ -16,6 +16,9 @@ class SocioEconomic extends Component {
     let categories = {}
     let res = []
     questions.forEach(question => {
+      if (question.required === true) {
+        question.questionText += ' *'
+      }
       if (!categories.hasOwnProperty(question.topic)) {
         categories[question.topic] = []
         categories[question.topic].push(question)
