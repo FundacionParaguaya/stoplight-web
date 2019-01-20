@@ -22,12 +22,22 @@ class IndicatorList extends Component {
   constructor(props) {
     super(props)
 
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+
+    let numberOfRedYellowIndicators = draft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 1 || indicator.value === 2
+    ).length
+
     this.state = {
+      draft: draft,
       modalIsOpen: false,
       modal: {
         formType: null,
         indicator: null
       },
+      numberOfPrioritiesRequired: this.props.minimumPriorities < numberOfRedYellowIndicators ? this.props.minimumPriorities : numberOfRedYellowIndicators,
       numberPrioritiesMade: 0,
       listOfPrioritiesMade: []
     }
@@ -49,11 +59,14 @@ class IndicatorList extends Component {
     if (
       this.state.listOfPrioritiesMade.filter(
         priority => priority === this.state.modal.indicator
-      ).length===0
+      ).length === 0
     ) {
-      this.setState( prevState => ({
+      this.setState(prevState => ({
         numberPrioritiesMade: prevState.numberPrioritiesMade + 1,
-        listOfPrioritiesMade: [...prevState.listOfPrioritiesMade, prevState.modal.indicator]
+        listOfPrioritiesMade: [
+          ...prevState.listOfPrioritiesMade,
+          prevState.modal.indicator
+        ]
       }))
     }
   }
@@ -72,10 +85,7 @@ class IndicatorList extends Component {
   render() {
     const { t } = this.props
     let answeredEnoughPriorities =
-      this.state.numberPrioritiesMade < this.props.minimumPriorities
-    let draft = this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
+      this.state.numberPrioritiesMade < this.state.numberOfPrioritiesRequired
 
     let dimensionList = [
       ...new Set(this.props.data.map(stoplight => stoplight.dimension))
@@ -93,7 +103,7 @@ class IndicatorList extends Component {
         return {
           dimension: indicatorGroup.dimension,
           indicators: indicatorGroup.indicators.map(indicator => {
-            indicator.answer = draft.indicatorSurveyDataList.filter(
+            indicator.answer = this.state.draft.indicatorSurveyDataList.filter(
               indicatorAnswer => indicatorAnswer.key === indicator.codeName
             )[0].value
             switch (indicator.answer) {
@@ -170,11 +180,12 @@ class IndicatorList extends Component {
         })}
         {answeredEnoughPriorities ? (
           <div>
-            {this.props.minimumPriorities - this.state.numberPrioritiesMade > 1 ? (
+            {this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade >
+            1 ? (
               <h5>
                 {t('views.lifemap.youNeedToAddPriorities').replace(
                   '%n',
-                  this.props.minimumPriorities - this.state.numberPrioritiesMade
+                  this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade
                 )}
               </h5>
             ) : (
