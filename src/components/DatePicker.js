@@ -1,7 +1,8 @@
 import React from 'react'
+import { withI18n } from 'react-i18next'
 import moment from 'moment'
 
-export default class DatePicker extends React.Component {
+class DatePicker extends React.Component {
   constructor(props) {
     super(props)
     const { dayLabel, monthLabel, yearLabel, defaultDate } = props
@@ -115,6 +116,7 @@ export default class DatePicker extends React.Component {
   }
 
   render() {
+    const { t } = this.props
     const dayElement = this.state.day.map((day, id) => {
       return (
         <option value={day} key={id}>
@@ -125,9 +127,9 @@ export default class DatePicker extends React.Component {
     const monthElement = this.state.month.map((month, id) => {
       return (
         <option value={month.value} key={id}>
-          {moment()
+        {t(`months.${moment()
             .month(month.value - 1)
-            .format('MMMM')}
+            .format('MMMM').toLowerCase()}`)}
         </option>
       )
     })
@@ -147,7 +149,7 @@ export default class DatePicker extends React.Component {
           value={this.state.selectMonth}
           onChange={e => this.changeDate(e, 'selectMonth')}
         >
-          <option value="">{this.props.monthLabel}</option>
+          <option value="" disabled>{t('views.family.selectMonth')}</option>
           {monthElement}
         </select>
         <select
@@ -156,8 +158,8 @@ export default class DatePicker extends React.Component {
           value={this.state.selectDay}
           onChange={e => this.changeDate(e, 'selectDay')}
         >
-          <option value="">
-            {this.props.dayLabel}
+          <option value="" disabled>
+            {t('general.day')}
           </option>
           {dayElement}
         </select>
@@ -167,8 +169,8 @@ export default class DatePicker extends React.Component {
           value={this.state.selectYear}
           onChange={e => this.changeDate(e, 'selectYear')}
         >
-          <option value="">
-            {this.props.yearLabel}
+          <option value="" disabled>
+            {t('general.year')}
           </option>
           {yearElement}
         </select>
@@ -176,3 +178,5 @@ export default class DatePicker extends React.Component {
     )
   }
 }
+
+export default withI18n()(DatePicker)
