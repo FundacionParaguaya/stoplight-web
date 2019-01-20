@@ -51,7 +51,7 @@ class FamilyMap extends Component {
       accuracy: 0
     })
   }
-
+  
   generateCountriesOptions() {
     const defaultCountry = this.props.data.surveyLocation.country
       ? countryList.filter(
@@ -114,7 +114,7 @@ class FamilyMap extends Component {
 
             this.props.addSurveyDataWhole(
               this.props.draftId,
-              'family_data',
+              'familyData',
               familyLocationInfo
             )
             this.props.nextStep()

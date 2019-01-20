@@ -12,7 +12,6 @@ import IndicatorList from './Components/PrioritiesAchievements/IndicatorList'
 import SocioEconomic from './Components/SocioEconomic/'
 import StopLight from './Components/StopLight'
 import TermsPrivacy from './Components/TermsPrivacy'
-import uuid from 'uuid/v1'
 
 // TODO: place survey taker name + draftid in redux
 // TODO: moving back one parent step will place you on the first step of the parent
@@ -22,12 +21,16 @@ class Lifemap extends Component {
     super(props)
     this.state = {
       step: 1,
-      draftId: uuid(),
+      draftId: 'lol',
       surveyTakerName: ''
     }
   }
   componentDidMount() {
     this.loadData()
+  }
+
+  setDraftId = id => {
+    this.setState({ draftId: id })
   }
 
   loadData = () => {
@@ -44,9 +47,9 @@ class Lifemap extends Component {
     this.setState({ step: step - 1 })
   }
 
-  jumpStep = (additionalSteps) => {
+  jumpStep = additionalSteps => {
     const { step } = this.state
-    console.log(step+additionalSteps)
+    console.log(step + additionalSteps)
     this.setState({ step: step + additionalSteps })
   }
 
@@ -82,9 +85,9 @@ class Lifemap extends Component {
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
             data={survey.surveyConfig}
-            draftId={this.state.draftId}
             surveyId={this.props.location.state.surveyId}
             setName={this.setName}
+            setDraftId={this.setDraftId}
           />
         )
         break
@@ -159,16 +162,16 @@ class Lifemap extends Component {
           />
         )
         break
-        case 10:
-          component = survey && (
-            <IndicatorList
-              draftId={this.state.draftId}
-              data={survey.surveyStoplightQuestions}
-              nextStep={this.nextStep}
-              parentPreviousStep={this.previousStep}
-            />
-          )
-          break
+      case 10:
+        component = survey && (
+          <IndicatorList
+            draftId={this.state.draftId}
+            data={survey.surveyStoplightQuestions}
+            nextStep={this.nextStep}
+            parentPreviousStep={this.previousStep}
+          />
+        )
+        break
       // Create a submit handler to send redux store of graph as graphql mutation once Prorities & Achievements is submitted
       default:
         component = <div>NOTHING TO SEE HERE</div>

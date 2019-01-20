@@ -38,7 +38,7 @@ class FamilyBirthDate extends Component {
     const draft = this.props.drafts.filter(
       draft => (draft.id = this.props.draftId)
     )[0]
-    const additionalMembersList = draft.family_data.familyMembersList.filter(
+    const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
     )
 
@@ -62,7 +62,7 @@ class FamilyBirthDate extends Component {
       <hr />
         <Form
           onSubmit={(values, form) => {
-            let familyMembersList = draft.family_data.familyMembersList.filter(
+            let familyMembersList = draft.familyData.familyMembersList.filter(
               member => member.firstParticipant === true
             )
 
@@ -70,11 +70,9 @@ class FamilyBirthDate extends Component {
               member.birthDate = familyMembersList.push(member)
             })
 
-            this.props.addSurveyDataWhole(
-              this.props.draftId,
-              'family_data',
-              {familyMembersList: familyMembersList}
-          )
+            this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
+              familyMembersList: familyMembersList
+            })
 
             this.props.nextStep()
           }}
@@ -91,7 +89,7 @@ class FamilyBirthDate extends Component {
               <div className="form-group">
                 <p className="form-control" placeholder="">
                   {
-                    draft.family_data.familyMembersList.filter(
+                    draft.familyData.familyMembersList.filter(
                       member => member.firstParticipant === true
                     )[0].birthDate
                   }
