@@ -137,6 +137,9 @@ export const submitDraft = (payload) => dispatch => {
     if (res.status === 401) {
       dispatch({ type: LOGOUT })
       return Promise.reject('Error: Unauthorized.')
+    } else if (res.status === 500) {
+      dispatch({type: SUBMIT_DRAFT_ROLLBACK})
+      return Promise.reject('An error occured.')
     } else {
       return res.text()
     }

@@ -4,6 +4,8 @@ import { Form, Field } from 'react-final-form'
 import { addSurveyDataWhole } from '../../../../redux/actions'
 import ErrorComponent from '../../ErrorComponent'
 class SocioEconomicPresentational extends Component {
+
+
   goBack() {
     if (this.props.index === 0) {
       this.props.parentPreviousStep()
@@ -35,7 +37,8 @@ class SocioEconomicPresentational extends Component {
           initialValues={{}}
           render={({ handleSubmit, pristine, invalid }) => (
             <form onSubmit={handleSubmit}>
-              {questions.map(question => (
+              {questions.filter(question => question.forFamilyMember === false )
+                .map(question => (
                 <div key={question.codeName}>
                   <label>{question.questionText} </label>
                   <div className="form-group">
@@ -73,6 +76,7 @@ class SocioEconomicPresentational extends Component {
                   <ErrorComponent name={question.codeName} />
                 </div>
               ))}
+
               <div style={{ paddingTop: 20 }}>
                 <button type="submit" className="btn btn-primary btn-lg">
                   Submit
