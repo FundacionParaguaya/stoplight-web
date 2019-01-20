@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withI18n } from 'react-i18next'
 import TermsPrivacyPresentational from './TermsPrivacyPresentational'
 
 class TermsPrivacy extends Component {
@@ -21,15 +22,16 @@ class TermsPrivacy extends Component {
   }
 
   render() {
+    const { t } = this.props
     let data = null
     let header = ''
     let nextStepFunc = this.nextStep
     if (this.state.step === 0) {
       data = this.props.data.termsConditions
-      header = 'Terms & Conditions'
+      header = t('views.termsConditions')
     } else {
       data = this.props.data.privacyPolicy
-      header = 'Privacy Policy'
+      header = t('views.privacyPolicy')
       nextStepFunc = this.props.parentNextStep
     }
 
@@ -49,7 +51,7 @@ class TermsPrivacy extends Component {
 
 const mapDispatchToProps = {}
 
-export default connect(
+export default withI18n()(connect(
   null,
   mapDispatchToProps
-)(TermsPrivacy)
+)(TermsPrivacy))

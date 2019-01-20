@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
+import { withI18n } from 'react-i18next'
+
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class FamilyGender extends Component {
@@ -17,6 +19,7 @@ class FamilyGender extends Component {
   //TODO: handler to skip to map view if only 1 family member!
 
   render() {
+    const { t } = this.props
     const draft = this.props.drafts.filter(
       draft => (draft.id = this.props.draftId)
     )[0]
@@ -33,7 +36,9 @@ class FamilyGender extends Component {
             component="select"
             className="custom-select"
           >
-            <option value="">Select gender</option>
+            <option value="" disabled>
+              {t('views.family.selectGender')}
+            </option>
             {this.props.data.gender.map(gender => (
               <option value={gender.value} key={gender.text + gender.value}>
                 {gender.text}
@@ -46,7 +51,7 @@ class FamilyGender extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
-        <h2> Gender </h2>
+        <h2> {t('views.gender')} </h2>
         <hr />
         <Form
           onSubmit={(values, form) => {
@@ -76,7 +81,6 @@ class FamilyGender extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>gender: </label>
                 <p className="form-control" placeholder="">
                   {
                     draft.familyData.familyMembersList.filter(
@@ -113,7 +117,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FamilyGender)
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FamilyGender)
+)

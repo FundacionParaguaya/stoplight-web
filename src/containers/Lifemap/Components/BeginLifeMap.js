@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
+import { withI18n } from 'react-i18next'
 import { connect } from 'react-redux'
 
 class BeginLifemap extends Component {
   render() {
+    const { t } = this.props
     return (
       <div style={{ marginTop: 50 }}>
         <p>
-          {`This life map has ${
-            this.props.data
-          } questions. It will take apporximately
-          35 minutes to complete!`}
+          {t('views.lifemap.thisLifeMapHas').replace('%n', this.props.data)}
         </p>
         <div style={{ paddingTop: 20 }}>
           <button
@@ -37,4 +36,4 @@ const mapStateToProps = ({ surveys }) => ({
   surveys
 })
 
-export default connect(mapStateToProps)(BeginLifemap)
+export default withI18n()(connect(mapStateToProps)(BeginLifemap))
