@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
-import { withI18n } from 'react-i18next'
+import { withI18n } from "react-i18next";
+
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
-import ErrorComponent from '../../ErrorComponent'
 
 class FamilyMembers extends Component {
   constructor(props) {
@@ -18,7 +18,6 @@ class FamilyMembers extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
   render() {
-    console.log(this.props.drafts)
     const { t } = this.props
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -37,19 +36,18 @@ class FamilyMembers extends Component {
               </div>
             )}
           </Field>
-          <ErrorComponent name={`membername${i + 2}`} />
         </div>
       )
     }
 
     return (
       <div style={{ marginTop: 50 }}>
-        <h2> {t('views.familyMembers')} </h2>
-        <hr />
+      <h2> {t('views.familyMembers')} </h2>
+      <hr />
         <Form
           onSubmit={(values, form) => {
             let draft = this.props.drafts.filter(
-              draft => draft.draftId === this.props.draftId
+              draft => (draft.draftId === this.props.draftId)
             )[0]
 
             // need to save familyMembersCount
@@ -75,22 +73,9 @@ class FamilyMembers extends Component {
               this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
                 familyMembersList: familyMembersList
               })
-              this.props.setMemberCount(additionalMembersList.length)
 
               this.props.nextStep()
             }
-          }}
-          validate={values => {
-            const errors = {}
-            if (!values.length === this.state.memberCount) {
-              errors.values = 'Required'
-            }
-            for (let i = 0; i < this.state.memberCount; i++) {
-              if (!values[`membername${i + 2}`]) {
-                errors[`membername${i + 2}`] = 'Required'
-              }
-            }
-            return errors
           }}
           initialValues={{}}
           render={({
@@ -114,9 +99,7 @@ class FamilyMembers extends Component {
                       const newInput = { ...input, onChange: mergedOnChange }
                       return (
                         <select {...newInput} className="custom-select">
-                          <option value="" disabled>
-                            {t('views.family.peopleLivingInThisHousehold')}
-                          </option>
+                          <option value="" disabled>{t('views.family.peopleLivingInThisHousehold')}</option>
                           <option value="0">1</option>
                           <option value="1">2</option>
                           <option value="2">3</option>
@@ -134,14 +117,18 @@ class FamilyMembers extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label>{t('views.primaryParticipant')}</label>
+                <label>{t('views.family.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
                   {this.props.surveyTakerName}
                 </p>
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
-                <button type="submit" className="btn btn-primary btn-lg">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg"
+                  disabled={pristine || invalid}
+                >
                   Submit
                 </button>
                 <button
@@ -169,9 +156,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default withI18n()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(FamilyMembers)
-)
+export default withI18n()(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FamilyMembers))
