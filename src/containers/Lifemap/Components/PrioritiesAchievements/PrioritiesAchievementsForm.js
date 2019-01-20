@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
-import { withI18n } from 'react-I18next'
+import { withI18n } from 'react-i18next'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class PrioritiesAchievementsForm extends Component {

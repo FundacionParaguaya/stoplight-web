@@ -12,18 +12,12 @@ export default class DatePicker extends React.Component {
       year: null,
       selectDay: defaultDate
         ? moment(defaultDate).date()
-        : props.mode === 'TH'
-        ? 'วันที่'
         : dayLabel,
       selectMonth: defaultDate
         ? moment(defaultDate).month() + 1
-        : props.mode === 'TH'
-        ? 'เดือน'
         : monthLabel,
       selectYear: defaultDate
         ? moment(defaultDate).year()
-        : props.mode === 'TH'
-        ? 'ปี'
         : yearLabel
     }
   }
@@ -115,9 +109,7 @@ export default class DatePicker extends React.Component {
     if (selectDay === '' || selectMonth === '' || selectYear === '') {
       return false
     }
-    return this.props.mode === 'TH'
-      ? selectDay !== 'วันที่' && selectMonth !== 'เดือน' && selectYear !== 'ปี'
-      : selectDay !== this.props.dayLabel &&
+    return selectDay !== this.props.dayLabel &&
           selectMonth !== this.props.monthLabel &&
           selectYear !== this.props.yearLabel
   }
@@ -165,7 +157,7 @@ export default class DatePicker extends React.Component {
           onChange={e => this.changeDate(e, 'selectDay')}
         >
           <option value="">
-            {this.props.mode === 'TH' ? 'วันที่' : this.props.dayLabel}
+            {this.props.dayLabel}
           </option>
           {dayElement}
         </select>
@@ -176,7 +168,7 @@ export default class DatePicker extends React.Component {
           onChange={e => this.changeDate(e, 'selectYear')}
         >
           <option value="">
-            {this.props.mode === 'TH' ? 'ปี' : this.props.yearLabel}
+            {this.props.yearLabel}
           </option>
           {yearElement}
         </select>
