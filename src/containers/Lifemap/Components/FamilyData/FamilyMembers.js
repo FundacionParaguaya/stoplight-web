@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
-
+import ErrorComponent from '../../ErrorComponent'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
 class FamilyMembers extends Component {
@@ -36,6 +36,7 @@ class FamilyMembers extends Component {
               </div>
             )}
           </Field>
+          <ErrorComponent name={`membername${i + 2}`} />
         </div>
       )
     }
@@ -73,9 +74,21 @@ class FamilyMembers extends Component {
               this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
                 familyMembersList: familyMembersList
               })
-
+              this.props.setMemberCount(additionalMembersList.length)
               this.props.nextStep()
             }
+          }}
+          validate={values => {
+            const errors = {}
+            if (!values.length === this.state.memberCount) {
+              errors.values = 'Required'
+            }
+            for (let i = 0; i < this.state.memberCount; i++) {
+              if (!values[`membername${i + 2}`]) {
+                errors[`membername${i + 2}`] = 'Required'
+              }
+            }
+            return errors
           }}
           initialValues={{}}
           render={({
@@ -119,7 +132,7 @@ class FamilyMembers extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label>{t('views.family.primaryParticipant')}</label>
+                <label>{t('views.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
                   {this.props.surveyTakerName}
                 </p>
@@ -129,7 +142,7 @@ class FamilyMembers extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
-                  disabled={pristine || invalid}
+                  disabled={pristine}
                 >
                   Submit
                 </button>
