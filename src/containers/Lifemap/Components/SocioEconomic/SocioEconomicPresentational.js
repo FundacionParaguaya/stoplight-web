@@ -43,7 +43,7 @@ class SocioEconomicPresentational extends Component {
               {questions
                 .filter(question => question.forFamilyMember === false)
                 .map(question => (
-                  <SocioEconomicQuestion  key={question.codeName} question={question} />
+                  <SocioEconomicQuestion key={question.codeName} question={question} />
                 ))}
               <div style={{ paddingTop: 20 }}>
                 <button type="submit" className="btn btn-primary btn-lg">

@@ -63,7 +63,7 @@ export const loadSurveys = () => dispatch => {
     },
     body: JSON.stringify({
       query:
-        'query { surveysByUser { title id minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value} surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
+      'query { surveysByUser { title id minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value} surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
     })
   })
     .then(res => {
@@ -87,6 +87,8 @@ export const loadSurveys = () => dispatch => {
 
 export const CREATE_DRAFT = 'CREATE_DRAFT'
 export const DELETE_DRAFT = 'DELETE_DRAFT'
+export const ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA =
+  'ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA'
 export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
 export const SUBMIT_DRAFT = 'SUBMIT_DRAFT'
 export const SUBMIT_DRAFT_COMMIT = 'SUBMIT_DRAFT_COMMIT'
@@ -103,6 +105,13 @@ export const deleteDraft = id => ({
   id
 })
 
+export const addSurveyPriorityAchievementData = (id, category, payload) => ({
+  type: ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
+  category,
+  id,
+  payload
+})
+
 export const addSurveyData = (id, category, payload) => ({
   type: ADD_SURVEY_DATA,
   category,
@@ -117,7 +126,7 @@ export const addSurveyDataWhole = (id, category, payload) => ({
   payload
 })
 
-export const submitDraft = (payload) => dispatch => {
+export const submitDraft = payload => dispatch => {
   console.log('action')
   console.log(payload)
   const platform = selectServer(store.getState().user.env)
@@ -129,26 +138,26 @@ export const submitDraft = (payload) => dispatch => {
     },
     body: JSON.stringify({
       query:
-            'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
-          variables: { newSnapshot: payload }
+      'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+      variables: { newSnapshot: payload }
     })
   })
-  .then(res => {
-    if (res.status === 401) {
-      dispatch({ type: LOGOUT })
-      return Promise.reject('Error: Unauthorized.')
-    } else if (res.status === 500) {
-      dispatch({type: SUBMIT_DRAFT_ROLLBACK})
-      return Promise.reject('An error occured.')
-    } else {
-      return res.text()
-    }
-  })
-  .then(res => JSON.parse(res))
-  .then(res =>
-    dispatch({
-      type: SUBMIT_DRAFT_COMMIT,
-      payload: res.data
+    .then(res => {
+      if (res.status === 401) {
+        dispatch({ type: LOGOUT })
+        return Promise.reject('Error: Unauthorized.')
+      } else if (res.status === 500) {
+        dispatch({ type: SUBMIT_DRAFT_ROLLBACK })
+        return Promise.reject('An error occured.')
+      } else {
+        return res.text()
+      }
     })
-  )
+    .then(res => JSON.parse(res))
+    .then(res =>
+      dispatch({
+        type: SUBMIT_DRAFT_COMMIT,
+        payload: res.data
+      })
+    )
 }

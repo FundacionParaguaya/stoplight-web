@@ -40,18 +40,18 @@ class FamilyParticipant extends Component {
     let draftId = uuid()
     console.log(draftId)
     await this.props.createDraft({
-      survey_id: surveyId,
-      survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
+      surveyId: surveyId,
       created: Date.now(),
       draftId: draftId,
       familyData: {},
       economicSurveyDataList: [],
       indicatorSurveyDataList: [],
-      priorities: {},
-      achievements: {}
+      priorities: [],
+      achievements: []
     })
     values.firstParticipant = true
     values.birthDate = moment(this.state.date).format('X')
+    values.socioEconomicAnswers=[]
     this.props.setDraftId(draftId)
     this.props.addSurveyDataWhole(draftId, 'familyData', {
       familyMembersList: [values]
