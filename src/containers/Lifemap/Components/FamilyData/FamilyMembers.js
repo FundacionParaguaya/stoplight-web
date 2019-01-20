@@ -16,6 +16,7 @@ class FamilyMembers extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
   render() {
+    console.log(this.props.draftId)
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
       forms.push(
@@ -40,8 +41,8 @@ class FamilyMembers extends Component {
 
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> Family Members </h2>
-      <hr />
+        <h2> Family Members </h2>
+        <hr />
         <Form
           onSubmit={(values, form) => {
             let draft = this.props.drafts.filter(
@@ -50,7 +51,7 @@ class FamilyMembers extends Component {
 
             // need to save familyMembersCount
             let familyMembersCount = parseInt(values.memberCount) + 1
-            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+            this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
               familyMembersCount: familyMembersCount
             })
 
@@ -65,10 +66,10 @@ class FamilyMembers extends Component {
                 })
 
               // combine familyMembers with firstParticipant from primary participant screen
-              let familyMembersList = draft.family_data.familyMembersList.concat(
+              let familyMembersList = draft.familyData.familyMembersList.concat(
                 additionalMembersList
               )
-              this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
+              this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
                 familyMembersList: familyMembersList
               })
 

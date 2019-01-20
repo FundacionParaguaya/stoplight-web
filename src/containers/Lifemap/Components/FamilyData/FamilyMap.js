@@ -6,7 +6,6 @@ import countries from 'localized-countries'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
-
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
 const countryList = countries(require('localized-countries/data/en')).array()
 
@@ -60,9 +59,11 @@ class FamilyMap extends Component {
     console.log('onClick', e)
   }
 
-  generateCountriesOptions (){
+  generateCountriesOptions() {
     const defaultCountry = this.props.data.surveyLocation.country
-      ? countryList.filter(item => item.code === this.props.data.surveyLocation.country)[0]
+      ? countryList.filter(
+          item => item.code === this.props.data.surveyLocation.country
+        )[0]
       : ''
 
     let countries = countryList.filter(
@@ -73,7 +74,11 @@ class FamilyMap extends Component {
     // Add prefer not to say answer at the end of the list
     countries.push({ code: 'NONE', label: 'I prefer not to say' })
     return countries.map(country => {
-      return (<option key={country.code} value={country.code}>{country.label} </option>)
+      return (
+        <option key={country.code} value={country.code}>
+          {country.label}{' '}
+        </option>
+      )
     })
   }
 
@@ -81,8 +86,8 @@ class FamilyMap extends Component {
     let countriesOptions = this.generateCountriesOptions()
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> Map </h2>
-      <hr />
+        <h2> Map </h2>
+        <hr />
 
         <Gmaps
           width={'800px'}
@@ -115,7 +120,7 @@ class FamilyMap extends Component {
 
             this.props.addSurveyDataWhole(
               this.props.draftId,
-              'family_data',
+              'familyData',
               familyLocationInfo
             )
             this.props.nextStep()
@@ -130,14 +135,13 @@ class FamilyMap extends Component {
             invalid
           }) => (
             <form onSubmit={handleSubmit}>
-
               <div className="form-group">
                 <Field
                   name="country"
                   component="select"
                   className="custom-select"
                 >
-                <option value="">Select country</option>
+                  <option value="">Select country</option>
                   {countriesOptions}
                 </Field>
               </div>
