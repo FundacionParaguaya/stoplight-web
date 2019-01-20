@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
+import moment from 'moment'
+
 import {
   createDraft,
   addSurveyData,
@@ -12,7 +14,7 @@ import uuid from 'uuid/v1'
 import countries from 'localized-countries'
 import { validate } from './helpers/validationParticipant'
 import Error from '../../ErrorComponent'
-import moment from 'moment'
+import family_face_large from '../../../../assets/family_face_large.png'
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
@@ -92,6 +94,9 @@ class FamilyParticipant extends Component {
       <div style={{ marginTop: 50 }}>
         <h2> {t('views.primaryParticipant')} </h2>
         <hr />
+        <div className="text-center">
+          <img src={family_face_large} alt="family_face_large" />
+        </div>
         <Form
           onSubmit={values => {
             this.createDraft(values)
@@ -258,7 +263,7 @@ class FamilyParticipant extends Component {
                     }
                   }}
                 >
-                  Submit
+                  Continue
                 </button>
                 <button
                   className="btn btn-primary btn-lg"

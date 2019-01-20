@@ -27,6 +27,7 @@ class Lifemap extends Component {
       memberCount: 0
     }
   }
+  
   componentDidMount() {
     this.loadData()
   }
