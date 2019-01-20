@@ -141,7 +141,11 @@ class FamilyMembers extends Component {
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
-                <button type="submit" className="btn btn-primary btn-lg">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg"
+                  disabled={pristine}
+                >
                   Submit
                 </button>
                 <button

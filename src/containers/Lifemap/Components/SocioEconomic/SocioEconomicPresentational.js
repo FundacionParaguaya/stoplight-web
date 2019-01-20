@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { addSurveyDataWhole } from '../../../../redux/actions'
-import { validate } from './helpers/validation'
+import ErrorComponent from '../../ErrorComponent'
 class SocioEconomicPresentational extends Component {
   goBack() {
     if (this.props.index === 0) {
@@ -30,18 +30,10 @@ class SocioEconomicPresentational extends Component {
             } else {
               this.props.nextStep()
             }
-            console.log(this.props.drafts)
           }}
-          validate={validate}
+          validate={this.props.validate}
           initialValues={{}}
-          render={({
-            handleSubmit,
-            submitting,
-            pristine,
-            values,
-            form,
-            invalid
-          }) => (
+          render={({ handleSubmit, pristine, invalid }) => (
             <form onSubmit={handleSubmit}>
               {questions.map(question => (
                 <div key={question.codeName}>
@@ -78,14 +70,11 @@ class SocioEconomicPresentational extends Component {
                       </Field>
                     )}
                   </div>
+                  <ErrorComponent name={question.codeName} />
                 </div>
               ))}
               <div style={{ paddingTop: 20 }}>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-lg"
-                  disabled={pristine || invalid}
-                >
+                <button type="submit" className="btn btn-primary btn-lg">
                   Submit
                 </button>
               </div>
