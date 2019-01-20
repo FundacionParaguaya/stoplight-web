@@ -220,6 +220,7 @@ class FamilyParticipant extends Component {
                         className="form-control"
                         placeholder={t('views.family.email')}
                       />
+                      <Error name="email" />
                     </div>
                   )}
                 </Field>
