@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import StopLightPresentational from './StopLightPresentational'
-import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import { addSurveyData } from '../../../../redux/actions'
 
 class StopLight extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class StopLight extends Component {
     const { step } = this.state
     let answer = {}
     answer[codeName] = value.value || 0
-    this.props.addSurveyDataWhole(
+    this.props.addSurveyData(
       this.props.draftId,
       'indicatorSurveyDataList',
       answer
@@ -63,7 +63,7 @@ class StopLight extends Component {
 
 const mapDispatchToProps = {
   addSurveyData,
-  addSurveyDataWhole
+  addSurveyData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({

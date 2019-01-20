@@ -27,6 +27,7 @@ class PrioritiesAchievementsForm extends Component {
             )
             this.closeModal() // bound to parent
           }}
+          validation={validate}
           initialValues={{}}
           render={({
             handleSubmit,

@@ -53,17 +53,56 @@ export const drafts = (state = [], action) => {
     case CREATE_DRAFT:
       return [...state, { ...action.payload, status: 'In progress' }]
     case ADD_SURVEY_DATA:
-      return state.map(draft =>
-        draft.draftId === action.id
-          ? {
-              ...draft,
-              [action.category]: {
-                ...draft[action.category],
-                ...action.payload
+      return state.map(draft => {
+        if (draft.draftId === action.id) {
+          const draftCategory = draft[action.category]
+
+          if (Array.isArray(draftCategory)) {
+            // if category is an Array
+            const item = draftCategory.filter(
+              item => item.key === Object.keys(action.payload)[0]
+            )[0]
+
+            if (item) {
+              // if item exists in array update it
+              const index = draftCategory.indexOf(item)
+              return {
+                ...draft,
+                [action.category]: [
+                  ...draftCategory.slice(0, index),
+                  {
+                    key: Object.keys(action.payload)[0],
+                    value: Object.values(action.payload)[0]
+                  },
+                  ...draftCategory.slice(index + 1)
+                ]
+              }
+            } else {
+              // if item is not in array push it
+              return {
+                ...draft,
+                [action.category]: [
+                  ...draftCategory,
+                  {
+                    key: Object.keys(action.payload)[0],
+                    value: Object.values(action.payload)[0]
+                  }
+                ]
               }
             }
-          : draft
-      )
+          } else {
+            // if category is an Object
+            const payload = action.payload
+            return {
+              ...draft,
+              [action.category]: {
+                ...draftCategory,
+                ...payload
+              }
+            }
+          }
+        } else return draft
+      })
     case ADD_SURVEY_DATA_WHOLE:
       return state.map(draft => {
         return draft.draftId === action.id

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form } from 'react-final-form'
-import { addSurveyDataWhole } from '../../../../redux/actions'
+import { addSurveyData } from '../../../../redux/actions'
 import SocioEconomicQuestion from './SocioEconomicQuestion'
 
 class SocioEconomicPresentational extends Component {
@@ -22,11 +22,14 @@ class SocioEconomicPresentational extends Component {
         <hr />
         <Form
           onSubmit={(values, form) => {
-            this.props.addSurveyDataWhole(
-              this.props.draftId,
-              'economicSurveyDataList',
-              values
-            )
+            Object.keys(values).forEach(key => {
+              this.props.addSurveyData(
+                this.props.draftId,
+                'economicSurveyDataList',
+                {[key]: values[key]}
+              )
+            })
+
             if (this.props.index === this.props.total - 1) {
               this.props.parentStep()
             } else {
@@ -40,7 +43,7 @@ class SocioEconomicPresentational extends Component {
               {questions
                 .filter(question => question.forFamilyMember === false)
                 .map(question => (
-                  <SocioEconomicQuestion question={question} />
+                  <SocioEconomicQuestion  key={question.codeName} question={question} />
                 ))}
               <div style={{ paddingTop: 20 }}>
                 <button type="submit" className="btn btn-primary btn-lg">
@@ -62,7 +65,7 @@ class SocioEconomicPresentational extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyDataWhole
+  addSurveyData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
