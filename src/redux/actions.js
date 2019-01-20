@@ -14,9 +14,11 @@ export const login = (username, token, env) => ({
 })
 
 export const LOGOUT = 'LOGOUT'
-export const logout = () => ({
-  type: LOGOUT
-})
+export const logout = () => dispatch => {
+  dispatch({
+    type: LOGOUT
+  })
+}
 
 export const LOAD_FAMILIES = 'LOAD_FAMILIES'
 export const loadFamilies = () => dispatch => {
@@ -61,7 +63,7 @@ export const loadSurveys = () => dispatch => {
     },
     body: JSON.stringify({
       query:
-        'query { surveysByUser{id surveyEconomicQuestions{ options {text value} answerType codeName createdAt description questionText }} }'
+      'query { surveysByUser { title id minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value} surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
     })
   })
     .then(res => {
@@ -76,7 +78,86 @@ export const loadSurveys = () => dispatch => {
     .then(res =>
       dispatch({
         type: LOAD_SURVEYS,
-        payload: res.data.surveysByUser['0']
+        payload: res.data.surveysByUser
+      })
+    )
+}
+
+// Drafts
+
+export const CREATE_DRAFT = 'CREATE_DRAFT'
+export const DELETE_DRAFT = 'DELETE_DRAFT'
+export const ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA =
+  'ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA'
+export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
+export const SUBMIT_DRAFT = 'SUBMIT_DRAFT'
+export const SUBMIT_DRAFT_COMMIT = 'SUBMIT_DRAFT_COMMIT'
+export const SUBMIT_DRAFT_ROLLBACK = 'SUBMIT_DRAFT_ROLLBACK'
+export const ADD_SURVEY_DATA_WHOLE = 'ADD_SURVEY_DATA_WHOLE'
+
+export const createDraft = payload => ({
+  type: CREATE_DRAFT,
+  payload
+})
+
+export const deleteDraft = id => ({
+  type: DELETE_DRAFT,
+  id
+})
+
+export const addSurveyPriorityAchievementData = (id, category, payload) => ({
+  type: ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
+  category,
+  id,
+  payload
+})
+
+export const addSurveyData = (id, category, payload) => ({
+  type: ADD_SURVEY_DATA,
+  category,
+  id,
+  payload
+})
+
+export const addSurveyDataWhole = (id, category, payload) => ({
+  type: ADD_SURVEY_DATA_WHOLE,
+  id,
+  category,
+  payload
+})
+
+export const submitDraft = payload => dispatch => {
+  console.log('action')
+  console.log(payload)
+  const platform = selectServer(store.getState().user.env)
+  fetch(`${platform.api}/graphql`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${store.getState().user.token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query:
+      'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+      variables: { newSnapshot: payload }
+    })
+  })
+    .then(res => {
+      if (res.status === 401) {
+        dispatch({ type: LOGOUT })
+        return Promise.reject('Error: Unauthorized.')
+      } else if (res.status === 500) {
+        dispatch({ type: SUBMIT_DRAFT_ROLLBACK })
+        return Promise.reject('An error occured.')
+      } else {
+        return res.text()
+      }
+    })
+    .then(res => JSON.parse(res))
+    .then(res =>
+      dispatch({
+        type: SUBMIT_DRAFT_COMMIT,
+        payload: res.data
       })
     )
 }
