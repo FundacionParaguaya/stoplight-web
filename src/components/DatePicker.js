@@ -10,15 +10,9 @@ export default class DatePicker extends React.Component {
       day: null,
       month: null,
       year: null,
-      selectDay: defaultDate
-        ? moment(defaultDate).date()
-        : dayLabel,
-      selectMonth: defaultDate
-        ? moment(defaultDate).month() + 1
-        : monthLabel,
-      selectYear: defaultDate
-        ? moment(defaultDate).year()
-        : yearLabel
+      selectDay: defaultDate ? moment(defaultDate).date() : dayLabel,
+      selectMonth: defaultDate ? moment(defaultDate).month() + 1 : monthLabel,
+      selectYear: defaultDate ? moment(defaultDate).year() : yearLabel
     }
   }
 
@@ -109,9 +103,11 @@ export default class DatePicker extends React.Component {
     if (selectDay === '' || selectMonth === '' || selectYear === '') {
       return false
     }
-    return selectDay !== this.props.dayLabel &&
-          selectMonth !== this.props.monthLabel &&
-          selectYear !== this.props.yearLabel
+    return (
+      selectDay !== this.props.dayLabel &&
+      selectMonth !== this.props.monthLabel &&
+      selectYear !== this.props.yearLabel
+    )
   }
 
   render() {
@@ -147,7 +143,9 @@ export default class DatePicker extends React.Component {
           value={this.state.selectMonth}
           onChange={e => this.changeDate(e, 'selectMonth')}
         >
-          <option value="">{this.props.monthLabel}</option>
+          <option value="" disabled>
+            {this.props.monthLabel}
+          </option>
           {monthElement}
         </select>
         <select
@@ -156,7 +154,7 @@ export default class DatePicker extends React.Component {
           value={this.state.selectDay}
           onChange={e => this.changeDate(e, 'selectDay')}
         >
-          <option value="">
+          <option value="" disabled>
             {this.props.dayLabel}
           </option>
           {dayElement}
@@ -167,7 +165,7 @@ export default class DatePicker extends React.Component {
           value={this.state.selectYear}
           onChange={e => this.changeDate(e, 'selectYear')}
         >
-          <option value="">
+          <option value="" disabled>
             {this.props.yearLabel}
           </option>
           {yearElement}

@@ -18,6 +18,7 @@ class FamilyMembers extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
   render() {
+    console.log(this.props.drafts)
     const { t } = this.props
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -48,7 +49,7 @@ class FamilyMembers extends Component {
         <Form
           onSubmit={(values, form) => {
             let draft = this.props.drafts.filter(
-              draft => (draft.id = this.props.draftId)
+              draft => draft.draftId === this.props.draftId
             )[0]
 
             // need to save familyMembersCount
@@ -74,6 +75,7 @@ class FamilyMembers extends Component {
               this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
                 familyMembersList: familyMembersList
               })
+              this.props.setMemberCount(additionalMembersList.length)
 
               this.props.nextStep()
             }
