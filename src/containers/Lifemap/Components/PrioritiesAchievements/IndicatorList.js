@@ -81,7 +81,7 @@ class IndicatorList extends Component {
         return {
           dimension: indicatorGroup.dimension,
           indicators: indicatorGroup.indicators.map(indicator => {
-            indicator.answer = draft.indicatorSurveyDataList[indicator.codeName]
+            indicator.answer = draft.indicatorSurveyDataList.filter(indicatorAnswer => indicatorAnswer.key===indicator.codeName)[0].value
             switch (indicator.answer) {
               case 1:
                 indicator.dotClass = 'dot red'
