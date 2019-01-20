@@ -1,7 +1,8 @@
 import React from 'react'
+import { withI18n } from 'react-i18next'
 import moment from 'moment'
 
-export default class DatePicker extends React.Component {
+class DatePicker extends React.Component {
   constructor(props) {
     super(props)
     const { dayLabel, monthLabel, yearLabel, defaultDate } = props
@@ -111,6 +112,7 @@ export default class DatePicker extends React.Component {
   }
 
   render() {
+    const { t } = this.props
     const dayElement = this.state.day.map((day, id) => {
       return (
         <option value={day} key={id}>
@@ -121,9 +123,9 @@ export default class DatePicker extends React.Component {
     const monthElement = this.state.month.map((month, id) => {
       return (
         <option value={month.value} key={id}>
-          {moment()
+        {t(`months.${moment()
             .month(month.value - 1)
-            .format('MMMM')}
+            .format('MMMM').toLowerCase()}`)}
         </option>
       )
     })
@@ -143,9 +145,7 @@ export default class DatePicker extends React.Component {
           value={this.state.selectMonth}
           onChange={e => this.changeDate(e, 'selectMonth')}
         >
-          <option value="" disabled>
-            {this.props.monthLabel}
-          </option>
+          <option value="" disabled>{t('views.family.selectMonth')}</option>
           {monthElement}
         </select>
         <select
@@ -155,7 +155,7 @@ export default class DatePicker extends React.Component {
           onChange={e => this.changeDate(e, 'selectDay')}
         >
           <option value="" disabled>
-            {this.props.dayLabel}
+            {t('general.day')}
           </option>
           {dayElement}
         </select>
@@ -166,7 +166,7 @@ export default class DatePicker extends React.Component {
           onChange={e => this.changeDate(e, 'selectYear')}
         >
           <option value="" disabled>
-            {this.props.yearLabel}
+            {t('general.year')}
           </option>
           {yearElement}
         </select>
@@ -174,3 +174,5 @@ export default class DatePicker extends React.Component {
     )
   }
 }
+
+export default withI18n()(DatePicker)
