@@ -9,10 +9,10 @@ import {
 } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
 import uuid from 'uuid/v1'
-
 import countries from 'localized-countries'
 import { validate } from './helpers/validationParticipant'
 import Error from '../../ErrorComponent'
+import moment from 'moment'
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
@@ -51,7 +51,7 @@ class FamilyParticipant extends Component {
       achievements: {}
     })
     values.firstParticipant = true
-    values.birthDate = this.state.date
+    values.birthDate = moment(this.state.date).format('X')
     this.props.setDraftId(draftId)
     this.props.addSurveyDataWhole(draftId, 'familyData', {
       familyMembersList: [values]

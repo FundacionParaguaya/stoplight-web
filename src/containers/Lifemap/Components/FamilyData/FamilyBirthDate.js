@@ -80,7 +80,7 @@ class FamilyBirthDate extends Component {
                   newDateError[i] = -1
                 }
               } else {
-                Object.keys(this.state.date).map(idx => {
+                Object.keys(this.state.date).forEach(idx => {
                   if (!this.state.date[idx]) {
                     newDateError[idx] = -1
                   }
@@ -92,7 +92,9 @@ class FamilyBirthDate extends Component {
                 member => member.firstParticipant === true
               )
               additionalMembersList.forEach((member, idx) => {
-                member.birthDate = familyMembersList.push(member)
+                let date = this.state.date[idx][idx]
+                member.birthDate = moment(date).format('X')
+                familyMembersList.push(member)
               })
               this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
                 familyMembersList: familyMembersList
