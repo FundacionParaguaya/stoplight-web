@@ -35,7 +35,8 @@ class IndicatorList extends Component {
       modalIsOpen: false,
       modal: {
         formType: null,
-        indicator: null
+        indicator: null,
+        questionText: null
       },
       numberOfPrioritiesRequired: this.props.minimumPriorities < numberOfRedYellowIndicators ? this.props.minimumPriorities : numberOfRedYellowIndicators,
       numberPrioritiesMade: 0,
@@ -48,7 +49,7 @@ class IndicatorList extends Component {
       // only open modal if formType is not null (i.e. not blank indicator)
       this.setState({
         modalIsOpen: true,
-        modal: { formType: indicator.formType, indicator: indicator.codeName }
+        modal: { formType: indicator.formType, indicator: indicator.codeName, questionText: indicator.questionText }
       })
     }
   }
@@ -74,7 +75,7 @@ class IndicatorList extends Component {
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
-      modal: { formType: null, indicator: null }
+      modal: { formType: null, indicator: null , questionText: null}
     })
   }
 
@@ -165,11 +166,14 @@ class IndicatorList extends Component {
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}
                 style={customStyles}
+                className="col-6"
                 contentLabel=""
               >
                 <PrioritiesAchievementsForm
                   formType={this.state.modal.formType}
                   indicator={this.state.modal.indicator}
+                  questionText={this.state.modal.questionText}
+                  modalTitle={t(`views.lifemap.${this.state.modal.formType}`)}
                   draftId={this.props.draftId}
                   closeModal={this.closeModal}
                   addPriority={this.addPriority}
