@@ -153,6 +153,7 @@ class IndicatorList extends Component {
             </div>
           )
         })}
+        <button className="btn btn-success" onClick={() => this.props.nextStep()}> Continue </button>
       </div>
     )
   }
