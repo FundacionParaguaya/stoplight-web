@@ -7,9 +7,11 @@ import {
   addSurveyDataWhole
 } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
+import uuid from 'uuid/v1'
 
 import countries from 'localized-countries'
-
+import { validate } from './helpers/validationParticipant'
+import Error from '../../ErrorComponent'
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
@@ -19,33 +21,48 @@ class FamilyParticipant extends Component {
   constructor() {
     super()
     this.state = {
-      date: null
+      date: null,
+      dateError: 0
     }
   }
 
-  componentDidMount() {
+  componentDidMount() {}
+  dateChange(date) {
+    this.setState({
+      date: date,
+      dateError: 1
+    })
+  }
+
+  async createDraft(values) {
     let surveyId = this.props.surveyId
-    this.props.createDraft({
+    let draftId = uuid()
+    await this.props.createDraft({
       survey_id: surveyId,
       survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
       created: Date.now(),
-      draft_id: this.props.draftId,
+      draft_id: draftId,
       familyData: {},
       economicSurveyDataList: [],
       indicatorSurveyDataList: [],
       priorities: {},
       achievements: {}
     })
-  }
-  dateChange(date) {
-    this.setState({
-      date: date
+    values.firstParticipant = true
+    values.birthDate = this.state.date
+    this.props.setDraftId(draftId)
+    this.props.addSurveyDataWhole(draftId, 'familyData', {
+      familyMembersList: [values]
     })
+    this.props.setName(values['firstName'])
+    this.props.nextStep()
   }
 
-  generateCountriesOptions (){
+  generateCountriesOptions() {
     const defaultCountry = this.props.data.surveyLocation.country
-      ? countryList.filter(item => item.code === this.props.data.surveyLocation.country)[0]
+      ? countryList.filter(
+          item => item.code === this.props.data.surveyLocation.country
+        )[0]
       : ''
 
     let countries = countryList.filter(
@@ -56,55 +73,44 @@ class FamilyParticipant extends Component {
     // Add prefer not to say answer at the end of the list
     countries.push({ code: 'NONE', label: 'I prefer not to say' })
     return countries.map(country => {
-      return (<option key={country.code} value={country.code}>{country.label} </option>)
+      return (
+        <option key={country.code} value={country.code}>
+          {country.label}{' '}
+        </option>
+      )
     })
-
   }
+
   render() {
-    // set default countryto beginning of list
-    console.log(this.props.data)
-    console.log(countryList)
-
     let countriesOptions = this.generateCountriesOptions()
-
     return (
       <div style={{ marginTop: 50 }}>
-      <h2> Primary Participant </h2>
-      <hr />
+        <h2> Primary Participant </h2>
+        <hr />
         <Form
-          onSubmit={(values, form) => {
-            values.firstParticipant = true
-            values.birthDate = this.state.date
-            this.props.addSurveyDataWhole(this.props.draftId, 'family_data', {
-              familyMembersList: [values]
-            })
-            this.props.setName(values['firstName'])
-            this.props.nextStep()
+          onSubmit={values => {
+            this.createDraft(values)
           }}
+          validate={validate}
           initialValues={{}}
-          render={({
-            handleSubmit,
-            submitting,
-            pristine,
-            values,
-            form,
-            invalid
-          }) => (
+          render={({ handleSubmit, submitError }) => (
             <form onSubmit={handleSubmit}>
               <div>
                 <Field name="firstName">
-                  {({ input, meta }) => (
-                    <div className="form-group">
-                      <label>First name: </label>
-                      <input
-                        type="text"
-                        {...input}
-                        className="form-control"
-                        placeholder=""
-                      />
-                      {meta.touched && meta.error && <span>{meta.error}</span>}
-                    </div>
-                  )}
+                  {({ input, meta }) => {
+                    return (
+                      <div className="form-group">
+                        <label>First name: </label>
+                        <input
+                          type="text"
+                          {...input}
+                          className="form-control"
+                          placeholder=""
+                        />
+                        <Error name="firstName" />
+                      </div>
+                    )
+                  }}
                 </Field>
               </div>
               <div>
@@ -118,7 +124,7 @@ class FamilyParticipant extends Component {
                         className="form-control"
                         placeholder=""
                       />
-                      {meta.touched && meta.error && <span>{meta.error}</span>}
+                      <Error name="lastName" />
                     </div>
                   )}
                 </Field>
@@ -141,6 +147,7 @@ class FamilyParticipant extends Component {
                       </option>
                     ))}
                   </Field>
+                  <Error name="gender" />
                 </div>
               </div>
               <div>
@@ -151,6 +158,9 @@ class FamilyParticipant extends Component {
                   maxYear={2019}
                 />
               </div>
+              {this.state.dateError === -1 && (
+                <span className="badge badge-pill badge-danger">Required</span>
+              )}
               <div>
                 <label>Document type: </label>
                 <div className="form-group">
@@ -169,6 +179,7 @@ class FamilyParticipant extends Component {
                       </option>
                     ))}
                   </Field>
+                  <Error name="documentType" />
                 </div>
               </div>
               <div>
@@ -182,7 +193,7 @@ class FamilyParticipant extends Component {
                         className="form-control"
                         placeholder=""
                       />
-                      {meta.touched && meta.error && <span>{meta.error}</span>}
+                      <Error name="documentNumber" />
                     </div>
                   )}
                 </Field>
@@ -198,6 +209,7 @@ class FamilyParticipant extends Component {
                     <option value="">Select country</option>
                     {countriesOptions}
                   </Field>
+                  <Error name="birthCountry" />
                 </div>
               </div>
               <div>
@@ -211,7 +223,6 @@ class FamilyParticipant extends Component {
                         className="form-control"
                         placeholder=""
                       />
-                      {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>
                   )}
                 </Field>
@@ -232,11 +243,16 @@ class FamilyParticipant extends Component {
                   )}
                 </Field>
               </div>
+
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
-                  disabled={pristine || invalid}
+                  onClick={() => {
+                    if (!this.state.date) {
+                      this.setState({ dateError: -1 })
+                    }
+                  }}
                 >
                   Submit
                 </button>
