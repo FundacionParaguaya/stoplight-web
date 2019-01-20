@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
+
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
-import ErrorComponent from '../../ErrorComponent'
 
 class FamilyMembers extends Component {
   constructor(props) {
@@ -18,7 +18,6 @@ class FamilyMembers extends Component {
 
   //TODO: handler to skip to map view if only 1 family member!
   render() {
-    console.log(this.props.drafts)
     const { t } = this.props
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -37,7 +36,6 @@ class FamilyMembers extends Component {
               </div>
             )}
           </Field>
-          <ErrorComponent name={`membername${i + 2}`} />
         </div>
       )
     }
@@ -75,22 +73,9 @@ class FamilyMembers extends Component {
               this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
                 familyMembersList: familyMembersList
               })
-              this.props.setMemberCount(additionalMembersList.length)
 
               this.props.nextStep()
             }
-          }}
-          validate={values => {
-            const errors = {}
-            if (!values.length === this.state.memberCount) {
-              errors.values = 'Required'
-            }
-            for (let i = 0; i < this.state.memberCount; i++) {
-              if (!values[`membername${i + 2}`]) {
-                errors[`membername${i + 2}`] = 'Required'
-              }
-            }
-            return errors
           }}
           initialValues={{}}
           render={({
@@ -134,7 +119,7 @@ class FamilyMembers extends Component {
                 </div>
               </div>
               <div className="form-group">
-                <label>{t('views.primaryParticipant')}</label>
+                <label>{t('views.family.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
                   {this.props.surveyTakerName}
                 </p>
@@ -144,7 +129,7 @@ class FamilyMembers extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg"
-                  disabled={pristine}
+                  disabled={pristine || invalid}
                 >
                   Submit
                 </button>
