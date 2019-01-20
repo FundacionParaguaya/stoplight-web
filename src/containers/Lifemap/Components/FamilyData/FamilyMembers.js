@@ -64,7 +64,7 @@ class FamilyMembers extends Component {
               let additionalMembersList = Object.keys(values)
                 .filter(key => key.includes('membername'))
                 .map(key => {
-                  return { firstParticipant: false, firstName: values[key] }
+                  return { firstParticipant: false, firstName: values[key], socioEconomicAnswers: [] }
                 })
 
               // combine familyMembers with firstParticipant from primary participant screen
