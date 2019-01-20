@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withI18n } from 'react-i18next'
 import StopLightPresentational from './StopLightPresentational'
 import { addSurveyData } from '../../../../redux/actions'
 
@@ -43,9 +44,12 @@ class StopLight extends Component {
   }
 
   render() {
+    const { t } = this.props
     let stopLightQuestions = this.props.data
     return (
       <div style={{ marginTop: 50 }}>
+      <h2>{t('views.yourLifeMap')}</h2>
+      <hr />
         {
           <StopLightPresentational
             data={stopLightQuestions[this.state.step]}
@@ -70,7 +74,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(StopLight)
+)(StopLight))
