@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withI18n } from 'react-i18next'
-import StopLightPresentational from './StopLightPresentational'
 import { addSurveyData } from '../../../../redux/actions'
+import StopLightPresentational from './StopLightPresentational'
+import SkippedQuestions from './SkippedQuestions'
 
 class StopLight extends Component {
   constructor(props) {
     super(props)
     this.state = {
       step: 0,
-      skippedAQuestion: false,
       renderSkippedQuestionsScreen: false,
+      skippedQuestionsList: []
     }
   }
 
@@ -18,6 +19,14 @@ class StopLight extends Component {
     const { step } = this.state
     let answer = {}
     answer[codeName] = value.value || 0
+    if (answer[codeName] === 0) {
+      this.setState(prevState => ({
+        skippedQuestionsList: [
+          ...prevState.skippedQuestionsList,
+          this.props.data[this.state.step]
+        ]
+      }))
+    }
     this.props.addSurveyData(
       this.props.draftId,
       'indicatorSurveyDataList',
@@ -26,12 +35,12 @@ class StopLight extends Component {
     console.log(this.props.drafts)
     if (this.state.step === this.props.data.length - 1) {
       // render Skipped Questions
-      if(this.state.skippedAQuestion){
-        this.setState({showSkippedQuestions: true})
+      if (this.state.skippedAQuestion) {
+        this.setState({ renderSkippedQuestionsScreen: true })
       } else {
         this.props.nextStep()
       }
-    } else if (this.state.step > this.props.data.length-1) {
+    } else if (this.state.step > this.props.data.length - 1) {
       this.props.nextStep()
     } else {
       this.setState({ step: step + 1 })
@@ -48,9 +57,9 @@ class StopLight extends Component {
     let stopLightQuestions = this.props.data
     return (
       <div style={{ marginTop: 50 }}>
-      <h2>{t('views.yourLifeMap')}</h2>
-      <hr />
-        {
+        <h2>{t('views.yourLifeMap')}</h2>
+        <hr />
+        {!this.state.renderSkippedQuestionsScreen ? (
           <StopLightPresentational
             data={stopLightQuestions[this.state.step]}
             index={this.state.step}
@@ -59,7 +68,9 @@ class StopLight extends Component {
             previousStep={this.previousStep}
             parentPreviousStep={this.props.parentPreviousStep}
           />
-        }
+        ) : (
+          <SkippedQuestions questions={this.state.skippedQuestionsList} />
+        )}
       </div>
     )
   }
@@ -74,7 +85,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default withI18n()(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StopLight))
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(StopLight)
+)
