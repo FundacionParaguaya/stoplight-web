@@ -17,6 +17,7 @@ class SocioEconomic extends Component {
     let res = []
     questions.forEach(question => {
       if (question.required === true) {
+        // add '*' to appear beside required question texts
         question.questionText += ' *'
       }
       if (!categories.hasOwnProperty(question.topic)) {
