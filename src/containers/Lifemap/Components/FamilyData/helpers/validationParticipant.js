@@ -1,6 +1,5 @@
 function validateEmail(email) {
   var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  console.log(re.test(email))
   return re.test(email);
 }
 
