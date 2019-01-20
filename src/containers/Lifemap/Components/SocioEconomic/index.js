@@ -45,6 +45,25 @@ class SocioEconomic extends Component {
       this.state.surveyEconomicQuestions.filter(
         (category, index) => index === this.state.step
       )
+
+    const requiredQuestions = splicedSurveyQuestions.map(data =>
+      data.sortedQuestions.filter(question => question.required)
+    )
+
+    let requiredCodeNames = requiredQuestions[0].map(
+      question => question.codeName
+    )
+
+    const validate = values => {
+      const errors = {}
+      requiredCodeNames.forEach(codeName => {
+        if (!values[codeName]) {
+          errors[codeName] = 'Required'
+        }
+      })
+      return errors
+    }
+
     return (
       <div style={{ marginTop: 50 }}>
         {
@@ -57,6 +76,8 @@ class SocioEconomic extends Component {
             previousStep={this.previousStep}
             parentPreviousStep={this.props.parentPreviousStep}
             parentStep={this.props.parentNextStep}
+            requiredQuestions={requiredQuestions}
+            validate={validate}
           />
         }
       </div>
