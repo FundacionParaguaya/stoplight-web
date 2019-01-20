@@ -52,12 +52,12 @@ class FamilyMembers extends Component {
             )[0]
 
             // need to save familyMembersCount
-            let familyMembersCount = parseInt(values.memberCount) + 1
+            let countFamilyMembers = parseInt(values.memberCount) + 1
             this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-              familyMembersCount: familyMembersCount
+              countFamilyMembers: countFamilyMembers
             })
 
-            if (familyMembersCount < 2) {
+            if (countFamilyMembers < 2) {
               this.props.jumpStep(3) // jump to map view
             } else {
               // map through values and extract the firstNames of all family members

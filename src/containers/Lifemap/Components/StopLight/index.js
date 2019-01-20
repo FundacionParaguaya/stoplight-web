@@ -62,7 +62,6 @@ class StopLight extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData,
   addSurveyData
 }
 
