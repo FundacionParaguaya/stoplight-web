@@ -84,7 +84,7 @@ class FamilyParticipant extends Component {
   }
 
   render() {
-    // set default countryto beginning of list
+    // set default country to beginning of list
     const { t } = this.props
     const countriesOptions = this.generateCountriesOptions()
 

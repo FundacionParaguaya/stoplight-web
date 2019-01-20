@@ -106,30 +106,30 @@ class Lifemap extends Component {
           />
         )
         break
-      case 3:
-        component = (
-          <FamilyMembers
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-            surveyTakerName={this.state.surveyTakerName}
-            jumpStep={this.jumpStep}
-            setMemberCount={this.setMemberCount}
-          />
-        )
-        break
-      case 4:
-        component = (
-          <FamilyGender
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-            memberCount={this.state.memberCount}
-          />
-        )
-        break
+      // case 3:
+      //   component = (
+      //     <FamilyMembers
+      //       nextStep={this.nextStep}
+      //       draftId={this.state.draftId}
+      //       data={survey.surveyConfig}
+      //       previousStep={this.previousStep}
+      //       surveyTakerName={this.state.surveyTakerName}
+      //       jumpStep={this.jumpStep}
+      //       setMemberCount={this.setMemberCount}
+      //     />
+      //   )
+      //   break
+      // case 4:
+      //   component = (
+      //     <FamilyGender
+      //       nextStep={this.nextStep}
+      //       draftId={this.state.draftId}
+      //       data={survey.surveyConfig}
+      //       previousStep={this.previousStep}
+      //       memberCount={this.state.memberCount}
+      //     />
+      //   )
+      //   break
       case 5:
         component = (
           <FamilyBirthDate
@@ -170,7 +170,7 @@ class Lifemap extends Component {
           />
         )
         break
-      case 9:
+      case 3:
         component = survey && (
           <StopLight
             draftId={this.state.draftId}
@@ -180,13 +180,14 @@ class Lifemap extends Component {
           />
         )
         break
-      case 10:
+      case 4:
         component = survey && (
           <IndicatorList
             draftId={this.state.draftId}
             data={survey.surveyStoplightQuestions}
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
+            minimumPriorities={survey.minimumPriorities}
           />
         )
         break
