@@ -32,8 +32,6 @@ export const setLanguage = () => {
   } else {
     lng = language === 'en' || language === 'es' ? language : 'en'
   }
-  console.log('lng')
-  console.log(lng)
   i18n.changeLanguage(lng)
 }
 
