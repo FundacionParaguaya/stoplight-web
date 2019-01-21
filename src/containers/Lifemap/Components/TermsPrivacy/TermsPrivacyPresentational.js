@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { withI18n } from 'react-i18next'
 import Checkbox from '../../../../assets/Checkbox.png'
-const TermsPrivacyPresentational = ({ data, header, nextStep }) => {
+const TermsPrivacyPresentational = ({ data, header, nextStep, t }) => {
   return (
     <div style={{ marginTop: 50 }}>
       <h2>{header}</h2>
@@ -25,11 +26,11 @@ const TermsPrivacyPresentational = ({ data, header, nextStep }) => {
             href="#"
             onClick={() => nextStep()}
           >
-            Agree
+            {t('general.agree')}
           </button>
           <Link to={`/`}>
-            <button className="btn btn-danger btn-lg col-4" href="#">
-              Disagree
+            <button className="btn btn-primary btn-lg col-4" href="#">
+              {t('general.disagree')}
             </button>
           </Link>
         </p>
@@ -38,4 +39,4 @@ const TermsPrivacyPresentational = ({ data, header, nextStep }) => {
   )
 }
 
-export default TermsPrivacyPresentational
+export default withI18n()(TermsPrivacyPresentational)
