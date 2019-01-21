@@ -14,7 +14,7 @@ class FinalScreen extends Component {
         <div className="text-center">
           <img src={lifemap_complete_image} alt="lifemap_complete_image" />
         </div>
-        <button className="btn btn-primary btn-lg btn-block">{t('general.close')}</button>
+        <button className="btn btn-primary btn-lg btn-block" onClick={() => this.props.nextStep()}>{t('general.close')}</button>
       </div>
     )
 
