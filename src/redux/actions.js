@@ -127,8 +127,6 @@ export const addSurveyDataWhole = (id, category, payload) => ({
 })
 
 export const submitDraft = payload => dispatch => {
-  console.log('action')
-  console.log(payload)
   const platform = selectServer(store.getState().user.env)
   fetch(`${platform.api}/graphql`, {
     method: 'POST',

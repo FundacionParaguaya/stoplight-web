@@ -18,8 +18,6 @@ import family_face_large from '../../../../assets/family_face_large.png'
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
-console.log(countries)
-
 class FamilyParticipant extends Component {
   constructor() {
     super()

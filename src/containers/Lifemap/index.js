@@ -48,7 +48,6 @@ class Lifemap extends Component {
     let draft = this.props.drafts.filter(
       draft => (draft.draftId === this.state.draftId)
     )[0]
-    console.log(draft)
     const res = this.props.submitDraft(draft)
     console.log(res)
   }
@@ -65,8 +64,11 @@ class Lifemap extends Component {
 
   jumpStep = additionalSteps => {
     const { step } = this.state
-    console.log(step + additionalSteps)
     this.setState({ step: step + additionalSteps })
+  }
+
+  jumpToStart = () => {
+    this.setState({step: 1})
   }
 
   setName = name => {
@@ -198,7 +200,7 @@ class Lifemap extends Component {
         <FinalScreen
           draftId={this.state.draftId}
           data={survey.surveyStoplightQuestions}
-          nextStep={this.nextStep}
+          nextStep={this.jumpToStart}
           parentPreviousStep={this.previousStep}
         />
       )

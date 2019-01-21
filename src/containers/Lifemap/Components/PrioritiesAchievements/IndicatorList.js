@@ -56,7 +56,6 @@ class IndicatorList extends Component {
 
   addPriority = () => {
     // only if indicator was not answered yet
-    console.log(this.state.listOfPrioritiesMade)
     if (
       this.state.listOfPrioritiesMade.filter(
         priority => priority === this.state.modal.indicator
