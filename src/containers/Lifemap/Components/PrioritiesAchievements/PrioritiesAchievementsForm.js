@@ -17,16 +17,14 @@ class PrioritiesAchievementsForm extends Component {
       <Form
         onSubmit={(values, form) => {
           // we want to update Family Data
-          console.log(values)
           let priorityObj = values
           priorityObj.indicator = this.props.indicator
-          console.log(priorityObj)
-            this.props.addSurveyPriorityAchievementData(
-              this.props.draftId,
-              'priorities',
-              priorityObj
-            )
-            this.props.addPriority()
+          this.props.addSurveyPriorityAchievementData(
+            this.props.draftId,
+            'priorities',
+            priorityObj
+          )
+          this.props.addPriority()
           this.closeModal() // bound to parent
         }}
         validation={validate}
@@ -111,11 +109,11 @@ class PrioritiesAchievementsForm extends Component {
           // we want to update Family Data
           let achievementObj = values
           achievementObj.indicator = this.props.indicator
-            this.props.addSurveyPriorityAchievementData(
-              this.props.draftId,
-              'achievements',
-              achievementObj
-            )
+          this.props.addSurveyPriorityAchievementData(
+            this.props.draftId,
+            'achievements',
+            achievementObj
+          )
           this.closeModal() // bound to parent
         }}
         initialValues={{}}

@@ -12,13 +12,12 @@ class StopLight extends Component {
       step: 0,
       renderSkippedQuestionsScreen: false,
       skippedQuestionsList: [],
-      imagesLoaded: 0,
+      imagesLoaded: 0
     }
   }
 
-
   nextStep = (value, codeName) => {
-    this.setState({imagesLoaded:0})
+    this.setState({ imagesLoaded: 0 })
 
     const { step } = this.state
     let answer = {}
@@ -36,9 +35,9 @@ class StopLight extends Component {
       'indicatorSurveyDataList',
       answer
     )
-    console.log(this.props.drafts)
+
     if (this.state.step === this.props.data.length - 1) {
-      // render Skipped Questions
+      // render Skipped Questions - to be implemented
       if (this.state.skippedAQuestion) {
         this.setState({ renderSkippedQuestionsScreen: true })
       } else {
@@ -51,15 +50,14 @@ class StopLight extends Component {
     }
   }
 
-  updateImageStatus = () =>{
-    this.setState({imagesLoaded: this.state.imagesLoaded + 1})
-  }
-
   previousStep = () => {
     const { step } = this.state
     this.setState({ step: step - 1, imagesLoaded: 0 })
   }
 
+  updateImageStatus = () => {
+    this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
+  }
   render() {
     const { t } = this.props
     let stopLightQuestions = this.props.data
