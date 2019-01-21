@@ -11,11 +11,15 @@ class StopLight extends Component {
     this.state = {
       step: 0,
       renderSkippedQuestionsScreen: false,
-      skippedQuestionsList: []
+      skippedQuestionsList: [],
+      imagesLoaded: 0,
     }
   }
 
+
   nextStep = (value, codeName) => {
+    this.setState({imagesLoaded:0})
+
     const { step } = this.state
     let answer = {}
     answer[codeName] = value.value || 0
@@ -47,9 +51,13 @@ class StopLight extends Component {
     }
   }
 
+  updateImageStatus = () =>{
+    this.setState({imagesLoaded: this.state.imagesLoaded + 1})
+  }
+
   previousStep = () => {
     const { step } = this.state
-    this.setState({ step: step - 1 })
+    this.setState({ step: step - 1, imagesLoaded: 0 })
   }
 
   render() {
@@ -67,6 +75,8 @@ class StopLight extends Component {
             nextStep={this.nextStep}
             previousStep={this.previousStep}
             parentPreviousStep={this.props.parentPreviousStep}
+            imagesLoaded={this.state.imagesLoaded}
+            updateImageStatus={this.updateImageStatus}
           />
         ) : (
           <SkippedQuestions questions={this.state.skippedQuestionsList} />

@@ -17,7 +17,7 @@ class BeginLifemap extends Component {
         <div style={{ paddingTop: 20 }}>
           <button
             type="submit"
-            className="btn btn-primary btn-sm btn-block"
+            className="btn btn-primary btn-block"
             onClick={() => this.props.nextStep()}
           >
             Continue
