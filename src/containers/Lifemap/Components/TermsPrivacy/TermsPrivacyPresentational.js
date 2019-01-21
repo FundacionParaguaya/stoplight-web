@@ -19,16 +19,16 @@ const TermsPrivacyPresentational = ({ data, header, nextStep }) => {
             __html: data.text.split('\\n').join('<br/>')
           }}
         />
-        <p className="lead">
+        <p className="lead text-center" >
           <button
-            className="btn btn-primary btn-lg"
+            className="btn btn-primary btn-lg col-4"
             href="#"
             onClick={() => nextStep()}
           >
             Agree
           </button>
           <Link to={`/`}>
-            <button className="btn btn-primary btn-lg" href="#">
+            <button className="btn btn-danger btn-lg col-4" href="#">
               Disagree
             </button>
           </Link>
