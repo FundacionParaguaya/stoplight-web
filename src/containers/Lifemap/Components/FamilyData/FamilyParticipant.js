@@ -25,7 +25,11 @@ class FamilyParticipant extends Component {
     super()
     this.state = {
       date: null,
-      dateError: 0
+      dateError: 0,
+      formAnswers :{
+        firstName: undefined,
+        lastName: undefined
+      },
     }
   }
 
@@ -40,7 +44,7 @@ class FamilyParticipant extends Component {
   async createDraft(values) {
     let surveyId = this.props.surveyId
     let draftId = uuid()
-    console.log(draftId)
+
     await this.props.createDraft({
       surveyId: surveyId,
       created: Date.now(),
@@ -51,6 +55,7 @@ class FamilyParticipant extends Component {
       priorities: [],
       achievements: []
     })
+
     values.firstParticipant = true
     values.birthDate = moment(this.state.date).format('X')
     values.socioEconomicAnswers=[]
@@ -114,7 +119,7 @@ class FamilyParticipant extends Component {
                           type="text"
                           {...input}
                           className="form-control"
-                          placeholder={t('views.family.firstName')}
+                          placeholder={this.state.formAnswers.firstName || t('views.family.firstName')}
                         />
                         <Error name="firstName" />
                       </div>
@@ -256,17 +261,17 @@ class FamilyParticipant extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg btn-block"
                   onClick={() => {
                     if (!this.state.date) {
                       this.setState({ dateError: -1 })
                     }
                   }}
                 >
-                  Continue
+                {t('general.continue')}
                 </button>
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-lg"
                   onClick={() => this.props.parentPreviousStep()}
                 >
                   Go Back

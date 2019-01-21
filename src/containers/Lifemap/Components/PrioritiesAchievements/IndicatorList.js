@@ -196,19 +196,19 @@ class IndicatorList extends Component {
               <h5>{t('views.lifemap.youNeedToAddPriotity')}</h5>
             )}
             <button
-              className="btn btn-success"
+              className="btn btn-primary btn-lg btn-block"
               onClick={() => this.props.nextStep()}
               disabled
             >
-              Continue
+              {t('general.continue')}
             </button>
           </div>
         ) : (
           <button
-            className="btn btn-success"
+            className="btn btn-primary btn-lg btn-block"
             onClick={() => this.props.nextStep()}
           >
-            Continue
+            {t('general.continue')}
           </button>
         )}
       </div>
