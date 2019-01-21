@@ -67,6 +67,10 @@ class Lifemap extends Component {
     this.setState({ step: step + additionalSteps })
   }
 
+  jumpToStart = () => {
+    this.setState({step: 1})
+  }
+
   setName = name => {
     this.setState({ surveyTakerName: name })
   }
@@ -196,7 +200,7 @@ class Lifemap extends Component {
         <FinalScreen
           draftId={this.state.draftId}
           data={survey.surveyStoplightQuestions}
-          nextStep={this.nextStep}
+          nextStep={this.jumpToStart}
           parentPreviousStep={this.previousStep}
         />
       )
