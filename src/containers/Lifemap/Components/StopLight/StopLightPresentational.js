@@ -63,16 +63,16 @@ const StopLightPresentational = ({
 
         <hr />
         <br />
-        <p>
+        <p clasName="col-4">
           {!data.required && (
-            <button type="submit" onClick={() => nextStep(0, data.codeName)}>
+            <button type="submit" className="btn btn-lg" onClick={() => nextStep(0, data.codeName)}>
               {t('views.lifemap.skipThisQuestion')}
             </button>
           )}
         </p>
 
         <button
-          className="btn btn-primary btn-lg"
+          className="btn btn-lg"
           onClick={() => {
             if (index === 0) {
               parentPreviousStep()

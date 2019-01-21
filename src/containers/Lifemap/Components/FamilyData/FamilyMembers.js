@@ -141,13 +141,13 @@ class FamilyMembers extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg btn-block"
                   disabled={pristine}
                 >
-                  Submit
+                  {t('general.continue')}
                 </button>
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-lg"
                   onClick={() => this.props.previousStep()}
                 >
                   Go Back

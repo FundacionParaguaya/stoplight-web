@@ -172,13 +172,13 @@ class FamilyMap extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg btn-block"
                   disabled={pristine || invalid}
                 >
-                  Continue
+                  {t('general.continue')}
                 </button>
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-lg"
                   onClick={() => this.props.previousStep()}
                 >
                   Go Back

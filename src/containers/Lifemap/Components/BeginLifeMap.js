@@ -23,7 +23,7 @@ class BeginLifemap extends Component {
             Continue
           </button>
           <button
-            className="btn btn-primary btn-lg"
+            className="btn btn-lg"
             onClick={() => {
               this.props.parentPreviousStep()
             }}
