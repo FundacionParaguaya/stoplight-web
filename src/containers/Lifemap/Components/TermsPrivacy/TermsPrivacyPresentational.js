@@ -21,6 +21,12 @@ const TermsPrivacyPresentational = ({ data, header, nextStep, t }) => {
           }}
         />
         <p className="lead text-center" >
+
+          <Link to={`/surveys`}>
+            <button className="btn btn-lg col-4" href="#">
+              {t('general.disagree')}
+            </button>
+          </Link>
           <button
             className="btn btn-primary btn-lg col-4"
             href="#"
@@ -28,11 +34,6 @@ const TermsPrivacyPresentational = ({ data, header, nextStep, t }) => {
           >
             {t('general.agree')}
           </button>
-          <Link to={`/`}>
-            <button className="btn btn-primary btn-lg col-4" href="#">
-              {t('general.disagree')}
-            </button>
-          </Link>
         </p>
       </div>
     </div>
