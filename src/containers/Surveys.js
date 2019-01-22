@@ -15,6 +15,7 @@ export class Surveys extends Component {
   }
 
   render() {
+    console.log(this.props.surveys)
     const { t } = this.props
     return (
       <div style={{ marginTop: 50 }}>
@@ -23,7 +24,7 @@ export class Surveys extends Component {
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
         </div>
-        {!this.props.surveys ? (
+        {this.props.surveys.length === 0 ? (
           <Spinner />
         ) : (
           this.props.surveys.map((survey, i) => (

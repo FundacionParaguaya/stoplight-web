@@ -12,6 +12,7 @@ const StopLightPresentational = ({
   imagesLoaded,
   updateImageStatus
 }) => {
+  let progressPercent = (index + 1)/(total + 1)*100
 
   return (
     <div>
@@ -20,8 +21,11 @@ const StopLightPresentational = ({
         <h3>{data.questionText}</h3>
         <p>{`${index + 1}/${total + 1}`}</p>
       </div>
+      <div className="progress" style={{marginBottom:'1em'}}>
+        <div className="progress-bar bg-success" role="progressbar" style={{"width": `${progressPercent}%`}} aria-valuenow={progressPercent} aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
       <div className="row">
-        <div className="col-lg-4">
+        <div className="col-4">
           <button
             type="submit"
             onClick={() => nextStep(data.stoplightColors[0], data.codeName)}
@@ -38,7 +42,7 @@ const StopLightPresentational = ({
             />
           </button>
         </div>
-        <div className="col-lg-4">
+        <div className="col-4">
           <button
             type="submit"
             onClick={() => nextStep(data.stoplightColors[1], data.codeName)}
@@ -55,7 +59,7 @@ const StopLightPresentational = ({
             />
           </button>
         </div>
-        <div className="col-lg-4">
+        <div className="col-4">
           <button
             type="submit"
             onClick={() => nextStep(data.stoplightColors[2], data.codeName)}
@@ -87,7 +91,7 @@ const StopLightPresentational = ({
           </button>
         )}
       </p>
-      
+
       <button
         className="btn btn-lg"
         onClick={() => {
