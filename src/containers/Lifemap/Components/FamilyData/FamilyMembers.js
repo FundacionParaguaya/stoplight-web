@@ -52,12 +52,12 @@ class FamilyMembers extends Component {
             )[0]
 
             // need to save familyMembersCount
-            let familyMembersCount = parseInt(values.memberCount) + 1
+            let countFamilyMembers = parseInt(values.memberCount) + 1
             this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-              familyMembersCount: familyMembersCount
+              countFamilyMembers: countFamilyMembers
             })
 
-            if (familyMembersCount < 2) {
+            if (countFamilyMembers < 2) {
               this.props.jumpStep(3) // jump to map view
             } else {
               // map through values and extract the firstNames of all family members
@@ -69,7 +69,8 @@ class FamilyMembers extends Component {
                 .map(key => {
                   let member = {
                     firstParticipant: false,
-                    firstName: values[key]
+                    firstName: values[key],
+                    socioEconomicAnswers: []
                   }
                   familyMembers.push(member)
                   return member
@@ -145,13 +146,13 @@ class FamilyMembers extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg btn-block"
                   disabled={pristine}
                 >
-                  Submit
+                  {t('general.continue')}
                 </button>
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-lg"
                   onClick={() => this.props.previousStep()}
                 >
                   Go Back

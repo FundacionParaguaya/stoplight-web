@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
+import moment from 'moment'
+
 import {
   createDraft,
   addSurveyData,
@@ -12,7 +14,7 @@ import uuid from 'uuid/v1'
 import countries from 'localized-countries'
 import { validate } from './helpers/validationParticipant'
 import Error from '../../ErrorComponent'
-import moment from 'moment'
+import family_face_large from '../../../../assets/family_face_large.png'
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
@@ -22,7 +24,7 @@ class FamilyParticipant extends Component {
     this.state = {
       date: null,
       dateError: 0,
-      submitted: false
+      submitted: false,
     }
   }
 
@@ -38,18 +40,19 @@ class FamilyParticipant extends Component {
     let surveyId = this.props.surveyId
     let draftId = uuid()
     await this.props.createDraft({
-      survey_id: surveyId,
-      survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
+      surveyId: surveyId,
       created: Date.now(),
       draftId: draftId,
       familyData: {},
       economicSurveyDataList: [],
       indicatorSurveyDataList: [],
-      priorities: {},
-      achievements: {}
+      priorities: [],
+      achievements: []
     })
+
     values.firstParticipant = true
     values.birthDate = moment(this.state.date).format('X')
+    values.socioEconomicAnswers=[]
     this.props.setDraftId(draftId)
     this.props.addSurveyDataWhole(draftId, 'familyData', {
       familyMembersList: [values]
@@ -110,7 +113,7 @@ class FamilyParticipant extends Component {
   }
 
   render() {
-    // set default countryto beginning of list
+    // set default country to beginning of list
     const { t } = this.props
     const countriesOptions = this.generateCountriesOptions()
     let draft,
@@ -126,6 +129,9 @@ class FamilyParticipant extends Component {
       <div style={{ marginTop: 50 }}>
         <h2> {t('views.primaryParticipant')} </h2>
         <hr />
+        <div className="text-center">
+          <img src={family_face_large} alt="family_face_large" />
+        </div>
         <Form
           onSubmit={values => {
             if (this.props.draftId) {
@@ -298,17 +304,17 @@ class FamilyParticipant extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg btn-block"
                   onClick={() => {
                     if (!this.state.date) {
                       this.setState({ dateError: -1 })
                     }
                   }}
                 >
-                  Submit
+                {t('general.continue')}
                 </button>
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-lg"
                   onClick={() => this.props.parentPreviousStep()}
                 >
                   Go Back

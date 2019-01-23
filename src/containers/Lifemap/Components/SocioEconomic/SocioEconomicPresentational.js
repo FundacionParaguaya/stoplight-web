@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form } from 'react-final-form'
-import { addSurveyDataWhole } from '../../../../redux/actions'
+import { addSurveyData } from '../../../../redux/actions'
+import { withI18n } from 'react-i18next'
 import SocioEconomicQuestion from './SocioEconomicQuestion'
 
 class SocioEconomicPresentational extends Component {
@@ -14,6 +15,7 @@ class SocioEconomicPresentational extends Component {
   }
 
   render() {
+    const { t } = this.props
     const questions = this.props.data.sortedQuestions
     const category = this.props.data.category
     return (
@@ -22,11 +24,14 @@ class SocioEconomicPresentational extends Component {
         <hr />
         <Form
           onSubmit={(values, form) => {
-            this.props.addSurveyDataWhole(
-              this.props.draftId,
-              'economicSurveyDataList',
-              values
-            )
+            Object.keys(values).forEach(key => {
+              this.props.addSurveyData(
+                this.props.draftId,
+                'economicSurveyDataList',
+                {[key]: values[key]}
+              )
+            })
+
             if (this.props.index === this.props.total - 1) {
               this.props.parentStep()
             } else {
@@ -40,18 +45,18 @@ class SocioEconomicPresentational extends Component {
               {questions
                 .filter(question => question.forFamilyMember === false)
                 .map(question => (
-                  <SocioEconomicQuestion question={question} />
+                  <SocioEconomicQuestion key={question.codeName} question={question} />
                 ))}
               <div style={{ paddingTop: 20 }}>
-                <button type="submit" className="btn btn-primary btn-lg">
-                  Submit
+                <button type="submit" className="btn btn-primary btn-lg btn-block">
+                  {t('general.continue')}
                 </button>
               </div>
             </form>
           )}
         />
         <button
-          className="btn btn-primary btn-lg"
+          className="btn btn-lg"
           onClick={() => this.goBack()}
         >
           Go Back
@@ -62,7 +67,7 @@ class SocioEconomicPresentational extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyDataWhole
+  addSurveyData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
@@ -70,7 +75,7 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
+export default withI18n()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SocioEconomicPresentational)
+)(SocioEconomicPresentational))
