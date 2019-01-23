@@ -132,7 +132,7 @@ class FamilyBirthDate extends Component {
                   Submit
                 </button>
                 <button
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-block"
                   onClick={() => this.props.previousStep()}
                 >
                   Go Back

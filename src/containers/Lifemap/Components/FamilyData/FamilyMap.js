@@ -86,8 +86,8 @@ class FamilyMap extends Component {
         <hr />
 
         <Gmaps
-          width={'800px'}
-          height={'600px'}
+          width={'560px'}
+          height={'560px'}
           lat={this.state.lat}
           lng={this.state.lng}
           zoom={12}
@@ -102,6 +102,7 @@ class FamilyMap extends Component {
             onDragEnd={this.onDragEnd}
           />
         </Gmaps>
+        <br />
         <Form
           onSubmit={(values, form) => {
             // we want to update Family Data

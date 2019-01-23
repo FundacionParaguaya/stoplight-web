@@ -111,6 +111,8 @@ h6 {
 
 main  > div{
   background-color: white;
+  margin: auto;
+  width: 50%;
 }
 
 .nav-logo {
