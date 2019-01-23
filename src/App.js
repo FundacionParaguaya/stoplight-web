@@ -69,43 +69,9 @@ class App extends Component {
 
               <div className="container-fluid">
                 <div className="row">
-                  <nav className="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
-                    <div className="sidebar-sticky">
-                      <ul className="nav flex-column">
-                        <li className="nav-item">
-                          <Link to="/" className="nav-link" href="#">
-                            <Home className="feather" />
-                            Dashboard
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link to="/families" className="nav-link" href="#">
-                            <Users className="feather" />
-                            Families
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link to="/surveys" className="nav-link" href="#">
-                            <Circle className="feather" />
-                            Snapshots
-                          </Link>
-                        </li>
-                        <li className="nav-item nav-btn">
-                          <Link
-                            className="btn btn-sm btn-success nav-link btn-block"
-                            to="/surveys"
-                          >
-                            <Plus className="feather" />
-                            New Lifemap
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </nav>
-
                   <main
                     role="main"
-                    className="col-md-9 ml-sm-auto col-lg-10 px-4 main"
+                    className="col-md-12 ml-sm-12 col-lg-12 px-4 main"
                   >
                   <div>
                     <Switch>

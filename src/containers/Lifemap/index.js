@@ -91,11 +91,14 @@ class Lifemap extends Component {
     switch (this.state.step) {
       case 1:
         component = survey && (
+          <div style={{width:'560px'}}>
           <TermsPrivacy
             parentNextStep={this.nextStep}
             prarentPreviousStep={this.previousStep}
             data={survey}
+
           />
+          </div>
         )
         break
       case 2:
@@ -104,6 +107,7 @@ class Lifemap extends Component {
         // might want to createa  function that creates the drafts
         // might want to create a handler for submissions of each step, to add to draft state.
         component = survey && (
+          <div style={{width:'560px'}}>
           <FamilyParticipant
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
@@ -115,10 +119,13 @@ class Lifemap extends Component {
             draftOngoing={this.state.draftOnGoing}
             draftIsOngoing={this.draftIsOngoing}
           />
+          </div>
         )
         break
       case 3:
         component = (
+          <div style={{width:'560px'}}>
+
           <FamilyMembers
             nextStep={this.nextStep}
             draftId={this.state.draftId}
@@ -128,10 +135,12 @@ class Lifemap extends Component {
             jumpStep={this.jumpStep}
             setMemberCount={this.setMemberCount}
           />
+          </div>
         )
         break
       case 4:
         component = (
+          <div style={{width:'560px'}}>
           <FamilyGender
             nextStep={this.nextStep}
             draftId={this.state.draftId}
@@ -140,10 +149,12 @@ class Lifemap extends Component {
             memberCount={this.state.memberCount}
             surveyTaker={this.state.surveyTakerName}
           />
+          </div>
         )
         break
       case 5:
         component = (
+          <div style={{width:'560px'}}>
           <FamilyBirthDate
             nextStep={this.nextStep}
             draftId={this.state.draftId}
@@ -152,49 +163,60 @@ class Lifemap extends Component {
             memberCount={this.state.memberCount}
             surveyTaker={this.state.surveyTakerName}
           />
+          </div>
         )
         break
       case 6:
         component = (
+          <div style={{width:'560px'}}>
           <FamilyMap
             nextStep={this.nextStep}
             draftId={this.state.draftId}
             data={survey.surveyConfig}
             previousStep={this.previousStep}
           />
+          </div>
         )
         break
       case 7:
         component = survey && (
+
+          <div style={{width:'560px'}}>
           <SocioEconomic
             parentNextStep={this.nextStep}
             draftId={this.state.draftId}
             parentPreviousStep={this.previousStep}
             data={survey.surveyEconomicQuestions}
           />
+          </div>
         )
         break
       case 8:
         component = (
+          <div style={{width:'560px'}}>
           <BeginLifemap
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
             data={survey.surveyStoplightQuestions.length}
           />
+          </div>
         )
         break
       case 9:
         component = survey && (
+          <div style={{width:'760px'}}>
           <StopLight
             draftId={this.state.draftId}
             data={survey.surveyStoplightQuestions}
             nextStep={this.nextStep}
             parentPreviousStep={this.previousStep}
           />
+          </div>
         )
         break
       case 10:
         component = survey && (
+        <div style={{width:'560px'}}>
           <IndicatorList
             draftId={this.state.draftId}
             data={survey.surveyStoplightQuestions}
@@ -202,17 +224,20 @@ class Lifemap extends Component {
             parentPreviousStep={this.previousStep}
             minimumPriorities={survey.minimumPriorities}
           />
+        </div>
         )
         break
       case 11:
         this.submitDraft()
         component = survey && (
+          <div style={{width:'560px'}}>
           <FinalScreen
             draftId={this.state.draftId}
             data={survey.surveyStoplightQuestions}
             nextStep={this.jumpToStart}
             parentPreviousStep={this.previousStep}
           />
+          </div>
         )
         break
       // Create a submit handler to send redux store of graph as graphql mutation once Prorities & Achievements is submitted
