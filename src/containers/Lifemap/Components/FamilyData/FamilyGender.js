@@ -128,12 +128,6 @@ class FamilyGender extends Component {
                 >
                   Go Back
                 </button>
-                <button
-                  className="btn btn-primary btn-sm btn-block"
-                  onClick={() => this.props.previousStep()}
-                >
-                  Go Back
-                </button>
               </div>
             </form>
           )}

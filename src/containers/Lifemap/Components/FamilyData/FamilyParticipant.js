@@ -108,7 +108,7 @@ class FamilyParticipant extends Component {
     res.documentType = user.documentType || ''
     res.birthCountry = user.birthCountry || ''
     res.email = user.email || null
-    res.phone = user.phone || null
+    res.phoneNumber = user.phoneNumber || null
     return res
   }
 
@@ -149,7 +149,7 @@ class FamilyParticipant extends Component {
             documentType: user.documentType || '',
             birthCountry: user.birthCountry || '',
             email: user.email || '',
-            phone: user.phone || ''
+            phoneNumber: user.phoneNumber || ''
           }}
           render={({ handleSubmit, submitError }) => (
             <form onSubmit={handleSubmit}>
@@ -286,7 +286,7 @@ class FamilyParticipant extends Component {
                 </Field>
               </div>
               <div>
-                <Field name="phone">
+                <Field name="phoneNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
                       <input
