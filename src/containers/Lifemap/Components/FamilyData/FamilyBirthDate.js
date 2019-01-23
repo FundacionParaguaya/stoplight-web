@@ -120,7 +120,7 @@ class FamilyBirthDate extends Component {
                 <p className="form-control" placeholder="">
                   {`${this.props.surveyTaker}: ${moment
                     .unix(date)
-                    .format('MM/DD/YYYY')}`}
+                    .format('MMMM - DD - YYYY')}`}
                 </p>
               </div>
               {forms}

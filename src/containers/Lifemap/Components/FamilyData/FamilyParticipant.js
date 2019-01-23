@@ -136,14 +136,14 @@ class FamilyParticipant extends Component {
           }}
           validate={validate}
           initialValues={{
-            firstName: user.firstName || 'First Name',
-            lastName: user.lastName || 'Last Name',
-            documentNumber: user.documentNumber || 'Document Number',
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            documentNumber: user.documentNumber || '',
             gender: user.gender || '',
             documentType: user.documentType || '',
             birthCountry: user.birthCountry || '',
-            email: user.email || 'Email',
-            phone: user.phone || 'Phone'
+            email: user.email || '',
+            phone: user.phone || ''
           }}
           render={({ handleSubmit, submitError }) => (
             <form onSubmit={handleSubmit}>
@@ -156,7 +156,7 @@ class FamilyParticipant extends Component {
                           type="text"
                           {...input}
                           className="form-control"
-                          placeholder="firstName"
+                          placeholder={t('views.family.firstName')}
                         />
                         <Error name="firstName" />
                       </div>
@@ -172,7 +172,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder="lastName"
+                        placeholder={t('views.family.lastName')}
                       />
                       <Error name="lastName" />
                     </div>
@@ -184,7 +184,7 @@ class FamilyParticipant extends Component {
                   <Field
                     name="gender"
                     component="select"
-                    className="custom-select"
+                    className="form-control  custom-select"
                   >
                     <option value="" disabled>
                       {t('views.family.selectGender')}
@@ -217,7 +217,7 @@ class FamilyParticipant extends Component {
                   <Field
                     name="documentType"
                     component="select"
-                    className="custom-select"
+                    className="form-control"
                   >
                     <option value="" disabled>
                       {t('views.family.documentType')}
@@ -242,7 +242,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder="documentNumber"
+                        placeholder={t('views.family.documentNumber')}
                       />
                       <Error name="documentNumber" />
                     </div>
@@ -254,7 +254,7 @@ class FamilyParticipant extends Component {
                   <Field
                     name="birthCountry"
                     component="select"
-                    className="custom-select"
+                    className="form-control"
                   >
                     <option value="" disabled>
                       {t('views.family.countryOfBirth')}
@@ -272,7 +272,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder="email"
+                        placeholder={t('views.family.email')}
                       />
                       <Error name="email" />
                     </div>
@@ -287,7 +287,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder="phone"
+                        placeholder={t('views.family.phone')}
                       />
                       {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>
