@@ -7,7 +7,7 @@ class BeginLifemap extends Component {
   render() {
     const { t } = this.props
     return (
-      <div style={{ marginTop: 50 }}>
+      <div style={{ marginTop: 50}} >
         <h3>
           {t('views.lifemap.thisLifeMapHas').replace('%n', this.props.data)}
         </h3>

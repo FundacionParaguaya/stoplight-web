@@ -17,7 +17,7 @@ const IndicatorCard = ({
       <div>{imagesLoaded !== 3 ? <Spinner /> : <div />}</div>
       <div className={cardClass} style={imgStyle}>
         <div className="card-body">
-          <img src={url} alt="" onLoad={() => cardImageLoaded()} />
+          <img src={url} className="img-fluid" alt="" onLoad={() => cardImageLoaded()} />
         </div>
         <div className="card-footer">{description}</div>
       </div>
