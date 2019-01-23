@@ -24,11 +24,16 @@ class Lifemap extends Component {
       step: 1,
       draftId: null,
       surveyTakerName: '',
-      memberCount: 0
+      memberCount: 0,
+      draftOnGoing: false
     }
   }
   componentDidMount() {
     this.loadData()
+  }
+
+  draftIsOngoing = () => {
+    this.setState({ draftOnGoing: true })
   }
 
   setMemberCount = num => {
@@ -45,7 +50,7 @@ class Lifemap extends Component {
 
   submitDraft = () => {
     let draft = this.props.drafts.filter(
-      draft => (draft.draftId === this.state.draftId)
+      draft => draft.draftId === this.state.draftId
     )[0]
     console.log(draft)
     const res = this.props.submitDraft(draft)
@@ -103,6 +108,9 @@ class Lifemap extends Component {
             surveyId={this.props.location.state.surveyId}
             setName={this.setName}
             setDraftId={this.setDraftId}
+            draftId={this.state.draftId}
+            draftOngoing={this.state.draftOnGoing}
+            draftIsOngoing={this.draftIsOngoing}
           />
         )
         break
@@ -127,6 +135,7 @@ class Lifemap extends Component {
             data={survey.surveyConfig}
             previousStep={this.previousStep}
             memberCount={this.state.memberCount}
+            surveyTaker={this.state.surveyTakerName}
           />
         )
         break
@@ -138,6 +147,7 @@ class Lifemap extends Component {
             data={survey.surveyConfig}
             previousStep={this.previousStep}
             memberCount={this.state.memberCount}
+            surveyTaker={this.state.surveyTakerName}
           />
         )
         break
@@ -191,16 +201,16 @@ class Lifemap extends Component {
         )
         break
       case 11:
-      this.submitDraft()
-      component = survey && (
-        <FinalScreen
-          draftId={this.state.draftId}
-          data={survey.surveyStoplightQuestions}
-          nextStep={this.nextStep}
-          parentPreviousStep={this.previousStep}
-        />
-      )
-      break
+        this.submitDraft()
+        component = survey && (
+          <FinalScreen
+            draftId={this.state.draftId}
+            data={survey.surveyStoplightQuestions}
+            nextStep={this.nextStep}
+            parentPreviousStep={this.previousStep}
+          />
+        )
+        break
       // Create a submit handler to send redux store of graph as graphql mutation once Prorities & Achievements is submitted
       default:
         component = <div>NOTHING TO SEE HERE</div>

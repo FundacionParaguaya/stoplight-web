@@ -16,14 +16,13 @@ import moment from 'moment'
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
-console.log(countries)
-
 class FamilyParticipant extends Component {
   constructor() {
     super()
     this.state = {
       date: null,
-      dateError: 0
+      dateError: 0,
+      submitted: false
     }
   }
 
@@ -38,7 +37,6 @@ class FamilyParticipant extends Component {
   async createDraft(values) {
     let surveyId = this.props.surveyId
     let draftId = uuid()
-    console.log(draftId)
     await this.props.createDraft({
       survey_id: surveyId,
       survey_version_id: this.props.surveys[surveyId]['survey_version_id'] || 1,
@@ -57,6 +55,7 @@ class FamilyParticipant extends Component {
       familyMembersList: [values]
     })
     this.props.setName(values['firstName'])
+    this.props.draftIsOngoing()
     this.props.nextStep()
   }
 
@@ -83,10 +82,45 @@ class FamilyParticipant extends Component {
     })
   }
 
+  updateDraftParticipant(values) {
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+    values.firstParticipant = true
+    let familyMembersListNew = draft.familyData.familyMembersList
+    familyMembersListNew[0] = values
+    this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
+      familyMembersList: familyMembersListNew
+    })
+    this.props.setName(values['firstName'])
+    this.props.nextStep()
+  }
+
+  initData(user) {
+    let res = {}
+    res.firstName = user.firstName
+    res.lastName = user.lastName
+    res.documentNumber = user.documentNumber
+    res.gender = user.gender || ''
+    res.documentType = user.documentType || ''
+    res.birthCountry = user.birthCountry || ''
+    res.email = user.email || null
+    res.phone = user.phone || null
+    return res
+  }
+
   render() {
     // set default countryto beginning of list
     const { t } = this.props
     const countriesOptions = this.generateCountriesOptions()
+    let draft,
+      user = {}
+    if (this.props.draftOngoing) {
+      draft = this.props.drafts.filter(
+        draft => draft.draftId === this.props.draftId
+      )[0]
+      user = this.initData(draft.familyData.familyMembersList[0])
+    }
 
     return (
       <div style={{ marginTop: 50 }}>
@@ -94,10 +128,23 @@ class FamilyParticipant extends Component {
         <hr />
         <Form
           onSubmit={values => {
-            this.createDraft(values)
+            if (this.props.draftId) {
+              this.updateDraftParticipant(values)
+            } else {
+              this.createDraft(values)
+            }
           }}
           validate={validate}
-          initialValues={{}}
+          initialValues={{
+            firstName: user.firstName || null,
+            lastName: user.lastName || null,
+            documentNumber: user.documentNumber || null,
+            gender: user.gender || '',
+            documentType: user.documentType || '',
+            birthCountry: user.birthCountry || '',
+            email: user.email || null,
+            phone: user.phone || null
+          }}
           render={({ handleSubmit, submitError }) => (
             <form onSubmit={handleSubmit}>
               <div>
@@ -109,7 +156,7 @@ class FamilyParticipant extends Component {
                           type="text"
                           {...input}
                           className="form-control"
-                          placeholder={t('views.family.firstName')}
+                          placeholder="firstName"
                         />
                         <Error name="firstName" />
                       </div>
@@ -125,7 +172,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.lastName')}
+                        placeholder="lastName"
                       />
                       <Error name="lastName" />
                     </div>
@@ -195,7 +242,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.documentNumber')}
+                        placeholder="documentNumber"
                       />
                       <Error name="documentNumber" />
                     </div>
@@ -225,7 +272,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.email')}
+                        placeholder="email"
                       />
                       <Error name="email" />
                     </div>
@@ -240,7 +287,7 @@ class FamilyParticipant extends Component {
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.phone')}
+                        placeholder="phone"
                       />
                       {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>
