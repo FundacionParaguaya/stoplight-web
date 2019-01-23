@@ -12,7 +12,7 @@ const SocioEconomicQuestion = ({ question }) => {
             {({ input, meta }) => (
               <div className="form-group">
                 <input
-                  type="text"
+                  type={question.answerType === 'string' ? 'text': 'number'}
                   {...input}
                   className="form-control"
                   placeholder=""
