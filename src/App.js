@@ -103,10 +103,11 @@ class App extends Component {
                     </div>
                   </nav>
 
-                  <div
+                  <main
                     role="main"
-                    className="col-md-9 ml-sm-auto col-lg-10 px-4"
+                    className="col-md-9 ml-sm-auto col-lg-10 px-4 main"
                   >
+                  <div>
                     <Switch>
                       <Route exact path="/" component={Dashboard} />
                       <Route exact path="/families" component={Families} />
@@ -116,7 +117,8 @@ class App extends Component {
                       <Route exact path="/lifemap" component={Lifemap} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
-                  </div>
+                    </div>
+                  </main>
                 </div>
               </div>
             </div>
