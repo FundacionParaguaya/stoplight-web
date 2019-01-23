@@ -136,14 +136,14 @@ class FamilyParticipant extends Component {
           }}
           validate={validate}
           initialValues={{
-            firstName: user.firstName || null,
-            lastName: user.lastName || null,
-            documentNumber: user.documentNumber || null,
+            firstName: user.firstName || 'First Name',
+            lastName: user.lastName || 'Last Name',
+            documentNumber: user.documentNumber || 'Document Number',
             gender: user.gender || '',
             documentType: user.documentType || '',
             birthCountry: user.birthCountry || '',
-            email: user.email || null,
-            phone: user.phone || null
+            email: user.email || 'Email',
+            phone: user.phone || 'Phone'
           }}
           render={({ handleSubmit, submitError }) => (
             <form onSubmit={handleSubmit}>
