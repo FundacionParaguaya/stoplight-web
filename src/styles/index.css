@@ -115,6 +115,9 @@ main  > div{
   width: 50%;
 }
 
+nav {
+  background-color: #7cd071 !important;
+}
 .nav-logo {
   max-height: 30px;
   padding-right: 15px;
