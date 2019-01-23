@@ -49,6 +49,10 @@ class FamilyBirthDate extends Component {
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
     )
+    const date = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === true
+    )[0].birthDate
+
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
@@ -114,11 +118,9 @@ class FamilyBirthDate extends Component {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <p className="form-control" placeholder="">
-                  {
-                    draft.familyData.familyMembersList.filter(
-                      member => member.firstParticipant === true
-                    )[0].birthDate
-                  }
+                  {`${this.props.surveyTaker}: ${moment
+                    .unix(date)
+                    .format('MM/DD/YYYY')}`}
                 </p>
               </div>
               {forms}
@@ -128,6 +130,12 @@ class FamilyBirthDate extends Component {
                   className="btn btn-primary btn-sm btn-block"
                 >
                   Submit
+                </button>
+                <button
+                  className="btn btn-primary btn-sm btn-block"
+                  onClick={() => this.props.previousStep()}
+                >
+                  Go Back
                 </button>
               </div>
             </form>
