@@ -117,10 +117,16 @@ class FamilyGender extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-primary btn-lg btn-block"
                   disabled={pristine || invalid}
                 >
-                  Submit
+                {t('general.continue')}
+                </button>
+                <button
+                  className="btn btn-lg"
+                  onClick={() => this.props.previousStep()}
+                >
+                  Go Back
                 </button>
                 <button
                   className="btn btn-primary btn-sm btn-block"

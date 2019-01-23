@@ -1,36 +1,49 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withI18n } from 'react-i18next'
+import { addSurveyData } from '../../../../redux/actions'
 import StopLightPresentational from './StopLightPresentational'
-import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import SkippedQuestions from './SkippedQuestions'
 
 class StopLight extends Component {
   constructor(props) {
     super(props)
     this.state = {
       step: 0,
-      skippedAQuestion: false,
       renderSkippedQuestionsScreen: false,
+      skippedQuestionsList: [],
+      imagesLoaded: 0
     }
   }
 
   nextStep = (value, codeName) => {
+    this.setState({ imagesLoaded: 0 })
+
     const { step } = this.state
     let answer = {}
     answer[codeName] = value.value || 0
-    this.props.addSurveyDataWhole(
+    if (answer[codeName] === 0) {
+      this.setState(prevState => ({
+        skippedQuestionsList: [
+          ...prevState.skippedQuestionsList,
+          this.props.data[this.state.step]
+        ]
+      }))
+    }
+    this.props.addSurveyData(
       this.props.draftId,
       'indicatorSurveyDataList',
       answer
     )
-    console.log(this.props.drafts)
+
     if (this.state.step === this.props.data.length - 1) {
-      // render Skipped Questions
-      if(this.state.skippedAQuestion){
-        this.setState({showSkippedQuestions: true})
+      // render Skipped Questions - to be implemented
+      if (this.state.skippedAQuestion) {
+        this.setState({ renderSkippedQuestionsScreen: true })
       } else {
         this.props.nextStep()
       }
-    } else if (this.state.step > this.props.data.length-1) {
+    } else if (this.state.step > this.props.data.length - 1) {
       this.props.nextStep()
     } else {
       this.setState({ step: step + 1 })
@@ -39,14 +52,20 @@ class StopLight extends Component {
 
   previousStep = () => {
     const { step } = this.state
-    this.setState({ step: step - 1 })
+    this.setState({ step: step - 1, imagesLoaded: 0 })
   }
 
+  updateImageStatus = () => {
+    this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
+  }
   render() {
+    const { t } = this.props
     let stopLightQuestions = this.props.data
     return (
       <div style={{ marginTop: 50 }}>
-        {
+        <h2>{t('views.yourLifeMap')}</h2>
+        <hr />
+        {!this.state.renderSkippedQuestionsScreen ? (
           <StopLightPresentational
             data={stopLightQuestions[this.state.step]}
             index={this.state.step}
@@ -54,16 +73,19 @@ class StopLight extends Component {
             nextStep={this.nextStep}
             previousStep={this.previousStep}
             parentPreviousStep={this.props.parentPreviousStep}
+            imagesLoaded={this.state.imagesLoaded}
+            updateImageStatus={this.updateImageStatus}
           />
-        }
+        ) : (
+          <SkippedQuestions questions={this.state.skippedQuestionsList} />
+        )}
       </div>
     )
   }
 }
 
 const mapDispatchToProps = {
-  addSurveyData,
-  addSurveyDataWhole
+  addSurveyData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
@@ -71,7 +93,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StopLight)
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(StopLight)
+)

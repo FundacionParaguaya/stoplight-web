@@ -22,36 +22,59 @@ class IndicatorList extends Component {
   constructor(props) {
     super(props)
 
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+
+    let numberOfRedYellowIndicators = draft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 1 || indicator.value === 2
+    ).length
+
     this.state = {
+      draft: draft,
       modalIsOpen: false,
       modal: {
         formType: null,
-        indicator: null
+        indicator: null,
+        questionText: null
       },
-      prioritiesMade: 0
+      numberOfPrioritiesRequired: this.props.minimumPriorities < numberOfRedYellowIndicators ? this.props.minimumPriorities : numberOfRedYellowIndicators,
+      numberPrioritiesMade: 0,
+      listOfPrioritiesMade: []
     }
-    this.openModal = this.openModal.bind(this)
-    this.closeModal = this.closeModal.bind(this)
   }
 
-  openModal(indicator) {
+  openModal = indicator => {
     if (indicator.formType) {
       // only open modal if formType is not null (i.e. not blank indicator)
       this.setState({
         modalIsOpen: true,
-        modal: { formType: indicator.formType, indicator: indicator.codeName }
+        modal: { formType: indicator.formType, indicator: indicator.codeName, questionText: indicator.questionText }
       })
     }
   }
 
-  addPriority() {
-    this.setState({ prioritiesMade: this.state.prioritiesMade + 1 })
+  addPriority = () => {
+    // only if indicator was not answered yet
+    if (
+      this.state.listOfPrioritiesMade.filter(
+        priority => priority === this.state.modal.indicator
+      ).length === 0
+    ) {
+      this.setState(prevState => ({
+        numberPrioritiesMade: prevState.numberPrioritiesMade + 1,
+        listOfPrioritiesMade: [
+          ...prevState.listOfPrioritiesMade,
+          prevState.modal.indicator
+        ]
+      }))
+    }
   }
 
-  closeModal() {
+  closeModal = () => {
     this.setState({
       modalIsOpen: false,
-      modal: { formType: null, indicator: null }
+      modal: { formType: null, indicator: null , questionText: null}
     })
   }
 
@@ -61,9 +84,8 @@ class IndicatorList extends Component {
 
   render() {
     const { t } = this.props
-    let draft = this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
+    let answeredEnoughPriorities =
+      this.state.numberPrioritiesMade < this.state.numberOfPrioritiesRequired
 
     let dimensionList = [
       ...new Set(this.props.data.map(stoplight => stoplight.dimension))
@@ -81,7 +103,9 @@ class IndicatorList extends Component {
         return {
           dimension: indicatorGroup.dimension,
           indicators: indicatorGroup.indicators.map(indicator => {
-            indicator.answer = draft.indicatorSurveyDataList[indicator.codeName]
+            indicator.answer = this.state.draft.indicatorSurveyDataList.filter(
+              indicatorAnswer => indicatorAnswer.key === indicator.codeName
+            )[0].value
             switch (indicator.answer) {
               case 1:
                 indicator.dotClass = 'dot red'
@@ -141,19 +165,51 @@ class IndicatorList extends Component {
                 isOpen={this.state.modalIsOpen}
                 onRequestClose={this.closeModal}
                 style={customStyles}
+                className="col-6"
                 contentLabel=""
               >
                 <PrioritiesAchievementsForm
                   formType={this.state.modal.formType}
                   indicator={this.state.modal.indicator}
+                  questionText={this.state.modal.questionText}
+                  modalTitle={t(`views.lifemap.${this.state.modal.formType}`)}
                   draftId={this.props.draftId}
                   closeModal={this.closeModal}
+                  addPriority={this.addPriority}
                 />
               </Modal>
             </div>
           )
         })}
-        <button className="btn btn-success" onClick={() => this.props.nextStep()}> Continue </button>
+        {answeredEnoughPriorities ? (
+          <div>
+            {this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade >
+            1 ? (
+              <h5>
+                {t('views.lifemap.youNeedToAddPriorities').replace(
+                  '%n',
+                  this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade
+                )}
+              </h5>
+            ) : (
+              <h5>{t('views.lifemap.youNeedToAddPriotity')}</h5>
+            )}
+            <button
+              className="btn btn-primary btn-lg btn-block"
+              onClick={() => this.props.nextStep()}
+              disabled
+            >
+              {t('general.continue')}
+            </button>
+          </div>
+        ) : (
+          <button
+            className="btn btn-primary btn-lg btn-block"
+            onClick={() => this.props.nextStep()}
+          >
+            {t('general.continue')}
+          </button>
+        )}
       </div>
     )
   }

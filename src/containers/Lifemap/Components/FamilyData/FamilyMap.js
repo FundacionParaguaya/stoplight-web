@@ -6,6 +6,8 @@ import { withI18n } from 'react-i18next'
 import countries from 'localized-countries'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import Error from '../../ErrorComponent'
+import { validate } from './helpers/validationMap'
 
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
 const countryList = countries(require('localized-countries/data/en')).array()
@@ -119,13 +121,7 @@ class FamilyMap extends Component {
             )
             this.props.nextStep()
           }}
-          validate={values => {
-            const errors = {}
-            if (!values) {
-              errors.values = 'Required'
-            }
-            return errors
-          }}
+          validate={validate}
           initialValues={{}}
           render={({
             handleSubmit,
@@ -142,9 +138,10 @@ class FamilyMap extends Component {
                   component="select"
                   className="custom-select"
                 >
-                  <option value="">{t('views.family.country')}</option>
+                  <option value="" disabled>{t('views.family.country') + ' *'}</option>
                   {countriesOptions}
                 </Field>
+                <Error name="country" />
               </div>
               <Field name="postCode">
                 {({ input, meta }) => (
@@ -175,13 +172,13 @@ class FamilyMap extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg btn-block"
                   disabled={pristine || invalid}
                 >
-                  Continue
+                  {t('general.continue')}
                 </button>
                 <button
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-lg"
                   onClick={() => this.props.previousStep()}
                 >
                   Go Back
