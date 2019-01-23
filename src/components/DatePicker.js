@@ -138,7 +138,8 @@ class DatePicker extends React.Component {
     })
 
     return (
-      <div className="form-group row">
+      <div className="form-group">
+      <div className="form-control ">
         <select
           defaultValue=""
           className="custom-select col-3"
@@ -170,6 +171,7 @@ class DatePicker extends React.Component {
           </option>
           {yearElement}
         </select>
+        </div>
       </div>
     )
   }

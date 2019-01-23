@@ -26,6 +26,23 @@ class FamilyGender extends Component {
       member => member.firstParticipant === false
     )
 
+    let genderText = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === true
+    )[0].gender
+    switch (genderText) {
+      case 'N':
+        genderText = 'Prefer not to answer'
+        break
+      case 'M':
+        genderText = 'Male'
+        break
+      case 'F':
+        genderText = 'Female'
+        break
+      default:
+        genderText = 'Other'
+    }
+
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
@@ -93,11 +110,7 @@ class FamilyGender extends Component {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <p className="form-control" placeholder="">
-                  {
-                    draft.familyData.familyMembersList.filter(
-                      member => member.firstParticipant === true
-                    )[0].gender
-                  }
+                  {`${this.props.surveyTaker}: ${genderText}`}
                 </p>
               </div>
               {forms}
