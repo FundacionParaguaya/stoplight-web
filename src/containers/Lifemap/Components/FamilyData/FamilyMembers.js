@@ -61,18 +61,23 @@ class FamilyMembers extends Component {
               this.props.jumpStep(3) // jump to map view
             } else {
               // map through values and extract the firstNames of all family members
+              let familyMembers = []
+              let familyParticipant = draft.familyData.familyMembersList[0]
+              familyMembers.push(familyParticipant)
               let additionalMembersList = Object.keys(values)
                 .filter(key => key.includes('membername'))
                 .map(key => {
-                  return { firstParticipant: false, firstName: values[key], socioEconomicAnswers: [] }
+                  let member = {
+                    firstParticipant: false,
+                    firstName: values[key],
+                    socioEconomicAnswers: []
+                  }
+                  familyMembers.push(member)
+                  return member
                 })
-
               // combine familyMembers with firstParticipant from primary participant screen
-              let familyMembersList = draft.familyData.familyMembersList.concat(
-                additionalMembersList
-              )
               this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-                familyMembersList: familyMembersList
+                familyMembersList: familyMembers
               })
               this.props.setMemberCount(additionalMembersList.length)
               this.props.nextStep()

@@ -24,10 +24,7 @@ class FamilyParticipant extends Component {
     this.state = {
       date: null,
       dateError: 0,
-      formAnswers :{
-        firstName: undefined,
-        lastName: undefined
-      },
+      submitted: false,
     }
   }
 
@@ -42,7 +39,6 @@ class FamilyParticipant extends Component {
   async createDraft(values) {
     let surveyId = this.props.surveyId
     let draftId = uuid()
-
     await this.props.createDraft({
       surveyId: surveyId,
       created: Date.now(),
@@ -62,6 +58,7 @@ class FamilyParticipant extends Component {
       familyMembersList: [values]
     })
     this.props.setName(values['firstName'])
+    this.props.draftIsOngoing()
     this.props.nextStep()
   }
 
@@ -88,10 +85,45 @@ class FamilyParticipant extends Component {
     })
   }
 
+  updateDraftParticipant(values) {
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+    values.firstParticipant = true
+    let familyMembersListNew = draft.familyData.familyMembersList
+    familyMembersListNew[0] = values
+    this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
+      familyMembersList: familyMembersListNew
+    })
+    this.props.setName(values['firstName'])
+    this.props.nextStep()
+  }
+
+  initData(user) {
+    let res = {}
+    res.firstName = user.firstName
+    res.lastName = user.lastName
+    res.documentNumber = user.documentNumber
+    res.gender = user.gender || ''
+    res.documentType = user.documentType || ''
+    res.birthCountry = user.birthCountry || ''
+    res.email = user.email || null
+    res.phone = user.phone || null
+    return res
+  }
+
   render() {
     // set default country to beginning of list
     const { t } = this.props
     const countriesOptions = this.generateCountriesOptions()
+    let draft,
+      user = {}
+    if (this.props.draftOngoing) {
+      draft = this.props.drafts.filter(
+        draft => draft.draftId === this.props.draftId
+      )[0]
+      user = this.initData(draft.familyData.familyMembersList[0])
+    }
 
     return (
       <div style={{ marginTop: 50 }}>
@@ -102,10 +134,23 @@ class FamilyParticipant extends Component {
         </div>
         <Form
           onSubmit={values => {
-            this.createDraft(values)
+            if (this.props.draftId) {
+              this.updateDraftParticipant(values)
+            } else {
+              this.createDraft(values)
+            }
           }}
           validate={validate}
-          initialValues={{}}
+          initialValues={{
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            documentNumber: user.documentNumber || '',
+            gender: user.gender || '',
+            documentType: user.documentType || '',
+            birthCountry: user.birthCountry || '',
+            email: user.email || '',
+            phone: user.phone || ''
+          }}
           render={({ handleSubmit, submitError }) => (
             <form onSubmit={handleSubmit}>
               <div>
@@ -117,7 +162,7 @@ class FamilyParticipant extends Component {
                           type="text"
                           {...input}
                           className="form-control"
-                          placeholder={this.state.formAnswers.firstName || t('views.family.firstName')}
+                          placeholder={t('views.family.firstName')}
                         />
                         <Error name="firstName" />
                       </div>
@@ -145,7 +190,7 @@ class FamilyParticipant extends Component {
                   <Field
                     name="gender"
                     component="select"
-                    className="custom-select"
+                    className="form-control  custom-select"
                   >
                     <option value="" disabled>
                       {t('views.family.selectGender')}
@@ -178,7 +223,7 @@ class FamilyParticipant extends Component {
                   <Field
                     name="documentType"
                     component="select"
-                    className="custom-select"
+                    className="form-control"
                   >
                     <option value="" disabled>
                       {t('views.family.documentType')}
@@ -215,7 +260,7 @@ class FamilyParticipant extends Component {
                   <Field
                     name="birthCountry"
                     component="select"
-                    className="custom-select"
+                    className="form-control"
                   >
                     <option value="" disabled>
                       {t('views.family.countryOfBirth')}
