@@ -104,7 +104,7 @@ class Login extends Component {
  */
   loginSuccess(access_token, user, env){
     try {
-      this.props.setLogin(user.username, access_token, env)
+      this.props.setLogin(access_token, env)
       this.setState({ authed: user.username })
       return <Redirect to="/dashboard" />
     } catch (e) {
@@ -201,8 +201,8 @@ const mapStateToProps = state => ({
   state: state
 })
 const mapDispatchToProps = dispatch => ({
-  setLogin: (username, token, env) => {
-    dispatch(login(username, token, env))
+  setLogin: (token, env) => {
+    dispatch(login(token, env))
   }
 })
 

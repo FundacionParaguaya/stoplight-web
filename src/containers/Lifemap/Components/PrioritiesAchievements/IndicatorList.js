@@ -163,6 +163,7 @@ class IndicatorList extends Component {
               <br />
               <Modal
                 isOpen={this.state.modalIsOpen}
+                shouldCloseOnOverlayClick={false}
                 onRequestClose={this.closeModal}
                 style={customStyles}
                 className="col-6"

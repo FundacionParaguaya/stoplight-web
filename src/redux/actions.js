@@ -6,9 +6,8 @@ function selectServer(name) {
 }
 
 export const LOGIN = 'LOGIN'
-export const login = (username, token, env) => ({
+export const login = ( token, env) => ({
   type: LOGIN,
-  username,
   token,
   env
 })
