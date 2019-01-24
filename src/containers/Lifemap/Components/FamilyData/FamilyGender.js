@@ -46,6 +46,7 @@ class FamilyGender extends Component {
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
+          <label>{member.firstName}</label>
           <Field
             name={`gender${idx}`}
             component="select"
