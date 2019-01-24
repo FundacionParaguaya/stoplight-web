@@ -100,12 +100,14 @@ class FamilyParticipant extends Component {
   }
 
   initData(user) {
+    console.log(user.birthDate)
     let res = {}
     res.firstName = user.firstName
     res.lastName = user.lastName
     res.documentNumber = user.documentNumber
     res.gender = user.gender || ''
     res.documentType = user.documentType || ''
+    res.birthDate = user.birthDate || null
     res.birthCountry = user.birthCountry || ''
     res.email = user.email || null
     res.phoneNumber = user.phoneNumber || null
@@ -213,6 +215,7 @@ class FamilyParticipant extends Component {
                   dateChange={this.dateChange.bind(this)}
                   minYear={1900}
                   maxYear={2019}
+                  defaultDate={user.birthDate}
                 />
               </div>
               {this.state.dateError === -1 && (
