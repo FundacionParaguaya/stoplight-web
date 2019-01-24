@@ -3,13 +3,11 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Link,
   Switch
 } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Users, Home, Circle, Power, Plus } from 'react-feather'
 
-import { logout } from './redux/actions'
+import { logout, login } from './redux/actions'
 import Login from './containers/Login'
 import Dashboard from './containers/Dashboard'
 import Families from './containers/Families'
@@ -17,15 +15,78 @@ import Family from './containers/Family'
 import Surveys from './containers/Surveys'
 import Lifemap from './containers/Lifemap'
 
-import logo from './assets/logo_white.png'
 import Dots from './components/Dots'
+
+function getParams(location) {
+  const searchParams = new URLSearchParams(location.search)
+  let env = document.referrer.split('.')[0].split('//')[1] || 'testing'
+  console.log(env)
+  switch (env) {
+    case 'testing':
+      env = 'test'
+      break;
+    case 'demo':
+      env='demo'
+      break;
+    case 'platform':
+      env='prod'
+      break;
+    default:
+
+  }
+  return {
+    sid: searchParams.get('sid') || '',
+    username: searchParams.get('username') || '',
+    env: env
+  }
+}
 
 /**
  * This is the Entry Pyont
  * @param {object} state - redux state that contains user information
  */
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      urlParams: getParams(window.location)
+    }
+    this.props.logout() // always logout first
+    if (this.state.urlParams.sid) {
+      this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env)
+    }
+  }
   render() {
+    if (this.state.urlParams.sid) {
+      return (
+        <Router>
+          <div>
+            <Dots />
+            <div className="container-fluid">
+              <div className="row" />
+              <a href="https://testing.povertystoplight.org">
+                {' '}
+                <button className="btn"> Go Back </button>{' '}
+              </a>
+            </div>
+            <div className="row">
+              <main
+                role="main"
+                className="col-md-12 ml-sm-12 col-lg-12 px-4 main"
+              >
+                <div>
+                  <Switch>
+                    <Route exact path="/surveys" component={Surveys} />
+                    <Route exact path="/lifemap" component={Lifemap} />
+                  </Switch>
+                </div>
+              </main>
+            </div>
+          </div>
+        </Router>
+      )
+    } else {
+
     return (
       <Router>
         <div>
@@ -45,13 +106,18 @@ class App extends Component {
             </div>
           ) : (
             <div>
-
               <div className="container-fluid">
-                <div className="row">
-                  <main
-                    role="main"
-                    className="col-md-12 ml-sm-12 col-lg-12 px-4 main"
-                  >
+                <div className="row" />
+                <a href="https://testing.povertystoplight.org">
+                  {' '}
+                  <button className="btn"> Go Back </button>{' '}
+                </a>
+              </div>
+              <div className="row">
+                <main
+                  role="main"
+                  className="col-md-12 ml-sm-12 col-lg-12 px-4 main"
+                >
                   <div>
                     <Switch>
                       <Route exact path="/" component={Dashboard} />
@@ -62,15 +128,15 @@ class App extends Component {
                       <Route exact path="/lifemap" component={Lifemap} />
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
-                    </div>
-                  </main>
-                </div>
+                  </div>
+                </main>
               </div>
             </div>
           )}
         </div>
       </Router>
     )
+  }
   }
 }
 
@@ -80,6 +146,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   logout: () => {
     dispatch(logout())
+  },
+  setLogin: (token, env) => {
+    dispatch(login(token, env))
   }
 })
 

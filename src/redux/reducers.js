@@ -18,7 +18,6 @@ export const user = (state = {}, action) => {
     case LOGIN:
       return {
         ...state,
-        username: action.username,
         token: action.token,
         env: action.env
       }
