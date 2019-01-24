@@ -29,7 +29,6 @@ class FamilyMembers extends Component {
     draft.familyData.familyMembersList.filter(member => member.firstParticipant===false).forEach((member,idx)=>{
       initialValues[`membername${idx+2}`] = member.firstName
     })
-    console.log(initialValues)
 
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
