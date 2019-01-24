@@ -51,8 +51,8 @@ class App extends Component {
     this.state={
       urlParams: getParams(window.location)
     }
-    this.props.logout() // always logout first
     if (this.state.urlParams.sid) {
+      this.props.logout() // always logout first
       this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env)
     }
   }
@@ -86,7 +86,6 @@ class App extends Component {
         </Router>
       )
     } else {
-
     return (
       <Router>
         <div>

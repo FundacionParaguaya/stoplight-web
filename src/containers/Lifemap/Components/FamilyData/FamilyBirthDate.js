@@ -56,7 +56,7 @@ class FamilyBirthDate extends Component {
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
-          <label>{t('views.family.dateOfBirth')} </label>
+        <label>{member.firstName}</label>
           <DatePicker
             dateChange={this.dateChange.bind(this, idx)}
             minYear={1900}
@@ -127,12 +127,12 @@ class FamilyBirthDate extends Component {
               <div style={{ paddingTop: 20 }}>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm btn-block"
+                  className="btn btn-primary btn-block"
                 >
-                  Submit
+                  {t('general.continue')}
                 </button>
                 <button
-                  className="btn btn-block"
+                  className="btn "
                   onClick={() => this.props.previousStep()}
                 >
                   Go Back
