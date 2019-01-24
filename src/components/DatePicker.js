@@ -5,15 +5,15 @@ import moment from 'moment'
 class DatePicker extends React.Component {
   constructor(props) {
     super(props)
-    const { dayLabel, monthLabel, yearLabel, defaultDate, day, month, year } = props
-
+    const { dayLabel, monthLabel, yearLabel, defaultDate} = props
+    let defaultDateMS = defaultDate * 1000 // convert to miliseconds because we save the date in seconds
     this.state = {
-      day: day || null,
-      month: month || null,
-      year: year || null,
-      selectDay: defaultDate ? moment(defaultDate).date() : dayLabel,
-      selectMonth: defaultDate ? moment(defaultDate).month() + 1 : monthLabel,
-      selectYear: defaultDate ? moment(defaultDate).year() : yearLabel
+      day: this.props.day || null,
+      month: this.props.month || null,
+      year: this.props.year || null,
+      selectDay: defaultDateMS ? moment(defaultDateMS).date() : dayLabel,
+      selectMonth: defaultDateMS ? moment(defaultDateMS).month() + 1 : monthLabel,
+      selectYear: defaultDateMS ? moment(defaultDateMS).year() : yearLabel
     }
   }
 

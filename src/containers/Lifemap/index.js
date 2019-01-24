@@ -25,7 +25,8 @@ class Lifemap extends Component {
       draftId: null,
       surveyTakerName: '',
       memberCount: 0,
-      draftOnGoing: false
+      draftOnGoing: false,
+      draft: null
     }
   }
 
@@ -133,6 +134,7 @@ class Lifemap extends Component {
             previousStep={this.previousStep}
             surveyTakerName={this.state.surveyTakerName}
             jumpStep={this.jumpStep}
+            memberCount={this.state.memberCount}
             setMemberCount={this.setMemberCount}
           />
           </div>
