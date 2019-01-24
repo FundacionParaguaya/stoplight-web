@@ -49,6 +49,8 @@ class FamilyBirthDate extends Component {
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
     )
+
+
     const date = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === true
     )[0].birthDate
