@@ -89,7 +89,7 @@ class PrioritiesAchievementsForm extends Component {
                 {t('general.close')}
               </button>
               <button
-                className="btn btn-primary btn-lg"
+                className="btn btn-lg"
                 onClick={() => this.closeModal()} // bound to parent
               >
                 Go Back
