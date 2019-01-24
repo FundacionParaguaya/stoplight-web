@@ -82,17 +82,17 @@ class PrioritiesAchievementsForm extends Component {
             </Field>
             <div style={{ paddingTop: 20 }}>
               <button
+                className="btn btn-lg"
+                onClick={() => this.closeModal()} // bound to parent
+              >
+                Go Back
+              </button>
+              <button
                 type="submit"
                 className="btn btn-primary btn-lg"
                 disabled={pristine || invalid}
               >
                 {t('general.close')}
-              </button>
-              <button
-                className="btn btn-lg"
-                onClick={() => this.closeModal()} // bound to parent
-              >
-                Go Back
               </button>
             </div>
           </form>
@@ -156,17 +156,17 @@ class PrioritiesAchievementsForm extends Component {
             </Field>
             <div style={{ paddingTop: 20 }} className="text-center">
               <button
+                className="btn btn-lg col-4"
+                onClick={() => this.closeModal()} // bound to parent
+              >
+                Go Back
+              </button>
+              <button
                 type="submit"
                 className="btn btn-primary btn-lg col-4"
                 disabled={pristine || invalid}
               >
                 {t('general.close')}
-              </button>
-              <button
-                className="btn btn-lg col-4"
-                onClick={() => this.closeModal()} // bound to parent
-              >
-                Go Back
               </button>
             </div>
           </form>
