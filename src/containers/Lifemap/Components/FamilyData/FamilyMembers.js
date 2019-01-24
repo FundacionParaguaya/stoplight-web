@@ -9,7 +9,7 @@ class FamilyMembers extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      memberCount: 0
+      memberCount: this.props.memberCount > 0 ? this.props.memberCount : null
     }
   }
   handleChange = event => {
@@ -19,6 +19,17 @@ class FamilyMembers extends Component {
   //TODO: handler to skip to map view if only 1 family member!
   render() {
     const { t } = this.props
+
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+
+
+    let initialValues = {memberCount: this.state.memberCount}
+    draft.familyData.familyMembersList.filter(member => member.firstParticipant===false).forEach((member,idx)=>{
+      initialValues[`membername${idx+2}`] = member.firstName
+    })
+
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
       forms.push(
@@ -47,10 +58,6 @@ class FamilyMembers extends Component {
         <hr />
         <Form
           onSubmit={(values, form) => {
-            let draft = this.props.drafts.filter(
-              draft => draft.draftId === this.props.draftId
-            )[0]
-
             // need to save familyMembersCount
             let countFamilyMembers = parseInt(values.memberCount) + 1
             this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
@@ -65,7 +72,7 @@ class FamilyMembers extends Component {
               let familyParticipant = draft.familyData.familyMembersList[0]
               familyMembers.push(familyParticipant)
               let additionalMembersList = Object.keys(values)
-                .filter(key => key.includes('membername'))
+                .filter(key => key.includes('membername')).slice(0,values.memberCount)
                 .map(key => {
                   let member = {
                     firstParticipant: false,
@@ -95,7 +102,7 @@ class FamilyMembers extends Component {
             }
             return errors
           }}
-          initialValues={{}}
+          initialValues={initialValues}
           render={({
             handleSubmit,
             submitting,
