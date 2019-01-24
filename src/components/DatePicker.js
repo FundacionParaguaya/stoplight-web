@@ -6,7 +6,7 @@ class DatePicker extends React.Component {
   constructor(props) {
     super(props)
     const { dayLabel, monthLabel, yearLabel, defaultDate} = props
-    let defaultDateMS = defaultDate * 1000 // convert to miliseconds
+    let defaultDateMS = defaultDate * 1000 // convert to miliseconds because we save the date in seconds
     this.state = {
       day: this.props.day || null,
       month: this.props.month || null,
