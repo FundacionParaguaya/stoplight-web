@@ -50,13 +50,13 @@ class App extends Component {
     this.state = {
       urlParams: getParams(window.location)
     }
-    if (this.state.urlParams.sid) {
-      this.props.logout() // always logout first
+    this.props.logout() // always logout first
+    if (this.state.urlParams.sid !== '') {
       this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env)
     }
   }
   render() {
-    if (this.state.urlParams.sid) {
+    if (this.state.urlParams.sid !== '') {
       return (
         <Router>
           <div>
@@ -85,8 +85,6 @@ class App extends Component {
         </Router>
       )
     } else {
-      console.log(this.props)
-
       return (
         <Router>
           <div>
