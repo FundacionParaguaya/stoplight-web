@@ -55,7 +55,6 @@ class App extends Component {
     }
   }
   render() {
-    if (this.state.urlParams.sid !== '') {
       return (
         <Router>
           <div>
@@ -69,15 +68,6 @@ class App extends Component {
           </div>
         </Router>
       )
-    } else {
-      return (
-        <Router>
-          <div>
-            <Dots />
-          </div>
-        </Router>
-      )
-    }
   }
 }
 
