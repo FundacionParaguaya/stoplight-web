@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { logout, loadSurveys, loadFamilies } from './../redux/actions'
+import { logout, loadSurveys, loadFamilies, saveStep, saveDraftId } from './../redux/actions'
 import { Link } from 'react-router-dom'
 import { withI18n } from 'react-i18next'
 import choose_lifemap_image from '../assets/choose_lifemap_image.png'
@@ -36,6 +36,7 @@ export class Surveys extends Component {
                     surveyId: survey.id
                   }
                 }}
+                onClick={() => {this.props.saveStep(1); this.props.saveDraftId(null)} }
               >
                 <div className="card" style={{ marginTop: 50 }}>
                   <div className="card-body">{survey.title}</div>
@@ -56,7 +57,9 @@ const mapStateToProps = ({ surveys }) => ({
 const mapDispatchToProps = {
   logout,
   loadSurveys,
-  loadFamilies
+  loadFamilies,
+  saveStep,
+  saveDraftId
 }
 
 export default withI18n()(

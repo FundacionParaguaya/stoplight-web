@@ -8,8 +8,12 @@ import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 class FamilyMembers extends Component {
   constructor(props) {
     super(props)
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+    let additionalMembersList = draft.familyData.familyMembersList.filter(member => member.firstParticipant===false)
     this.state = {
-      memberCount: this.props.memberCount > 0 ? this.props.memberCount : null
+      memberCount: additionalMembersList.length || null
     }
   }
   handleChange = event => {
@@ -26,7 +30,8 @@ class FamilyMembers extends Component {
 
 
     let initialValues = {memberCount: this.state.memberCount}
-    draft.familyData.familyMembersList.filter(member => member.firstParticipant===false).forEach((member,idx)=>{
+    let additionalMembersList = draft.familyData.familyMembersList.filter(member => member.firstParticipant===false)
+    additionalMembersList.forEach((member,idx)=>{
       initialValues[`membername${idx+2}`] = member.firstName
     })
 
@@ -92,7 +97,8 @@ class FamilyMembers extends Component {
           }}
           validate={values => {
             const errors = {}
-            if (!values.length === this.state.memberCount) {
+            console.log(values)
+            if (values.memberCount === null) {
               errors.values = 'Required'
             }
             for (let i = 0; i < this.state.memberCount; i++) {
@@ -105,6 +111,7 @@ class FamilyMembers extends Component {
           initialValues={initialValues}
           render={({
             handleSubmit,
+            submitError,
             submitting,
             pristine,
             values,
@@ -154,11 +161,12 @@ class FamilyMembers extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  disabled={pristine}
+                  disabled={invalid}
                 >
                   {t('general.continue')}
                 </button>
                 <button
+                  type="button"
                   className="btn btn-lg"
                   onClick={() => this.props.previousStep()}
                 >
