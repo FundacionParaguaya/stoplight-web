@@ -105,9 +105,6 @@ export const DELETE_DRAFT = 'DELETE_DRAFT'
 export const ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA =
   'ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA'
 export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
-export const SUBMIT_DRAFT = 'SUBMIT_DRAFT'
-export const SUBMIT_DRAFT_COMMIT = 'SUBMIT_DRAFT_COMMIT'
-export const SUBMIT_DRAFT_ROLLBACK = 'SUBMIT_DRAFT_ROLLBACK'
 export const ADD_SURVEY_DATA_WHOLE = 'ADD_SURVEY_DATA_WHOLE'
 
 export const createDraft = payload => ({
@@ -160,7 +157,6 @@ export const submitDraft = payload => dispatch => {
         dispatch({ type: LOGOUT })
         return Promise.reject('Error: Unauthorized.')
       } else if (res.status === 500) {
-        dispatch({ type: SUBMIT_DRAFT_ROLLBACK })
         return Promise.reject('An error occured.')
       } else {
         return res.text()
@@ -168,9 +164,6 @@ export const submitDraft = payload => dispatch => {
     })
     .then(res => JSON.parse(res))
     .then(res =>
-      dispatch({
-        type: SUBMIT_DRAFT_COMMIT,
-        payload: res.data
-      })
+      console.log('successfully submitted draft')
     )
 }
