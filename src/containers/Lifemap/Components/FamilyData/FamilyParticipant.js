@@ -103,7 +103,6 @@ class FamilyParticipant extends Component {
   }
 
   initData(user) {
-    console.log(user.birthDate)
     let res = {}
     res.firstName = user.firstName
     res.lastName = user.lastName
@@ -123,13 +122,11 @@ class FamilyParticipant extends Component {
     const countriesOptions = this.generateCountriesOptions()
     let draft,
       user = {}
-    console.log(this.props.draftOngoing)
     if (this.props.draftOngoing) {
       draft = this.props.drafts.filter(
         draft => draft.draftId === this.props.draftId
       )[0]
       user = this.initData(draft.familyData.familyMembersList[0])
-      console.log(user)
     }
 
     return (

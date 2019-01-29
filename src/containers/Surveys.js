@@ -22,7 +22,7 @@ export class Surveys extends Component {
     return (
       <div>
         <AppNavbar text={t('views.createLifemap')} showBack={false} />
-        {this.props.surveyStatus.surveyId ? (<div class="text-center"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div>): (<div> </div>)}
+        {this.props.surveyStatus.surveyId !== undefined ? (<div className="text-center"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div>): (<div> </div>)}
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
         </div>
