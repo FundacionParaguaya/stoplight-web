@@ -11,11 +11,6 @@ class FamilyGender extends Component {
     super(props)
     this.state = {}
   }
-  handleChange = event => {
-    this.setState({ memberCount: event.target.value })
-  }
-
-  //TODO: handler to skip to map view if only 1 family member!
 
   render() {
     const { t } = this.props
