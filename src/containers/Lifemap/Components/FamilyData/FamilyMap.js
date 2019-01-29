@@ -7,7 +7,6 @@ import countries from 'localized-countries'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import Error from '../../ErrorComponent'
-import { validate } from './helpers/validationMap'
 import AppNavbar from '../../../../components/AppNavbar'
 
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
@@ -127,7 +126,6 @@ class FamilyMap extends Component {
             )
             this.props.nextStep()
           }}
-          validate={validate}
           initialValues={{}}
           render={({
             handleSubmit,

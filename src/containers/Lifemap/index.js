@@ -92,6 +92,7 @@ class Lifemap extends Component {
   }
 
   jumpToStart = () => {
+    this.props.saveSurveyId(null) // reset the surveyId so resume draft doesnt show
     this.setState({ step: 1 })
   }
 
