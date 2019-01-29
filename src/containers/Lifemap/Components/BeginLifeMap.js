@@ -3,15 +3,22 @@ import { withI18n } from 'react-i18next'
 import { connect } from 'react-redux'
 import lifemap_begin_image from '../../../assets/lifemap_begin_image.png'
 
+import AppNavbar from '../../../components/AppNavbar'
+
 class BeginLifemap extends Component {
   render() {
     const { t } = this.props
     return (
-      <div style={{ marginTop: 50}} >
-        <h3>
-          {t('views.lifemap.thisLifeMapHas').replace('%n', this.props.data)}
-        </h3>
-        <div className="text-center">
+      <div>
+        <AppNavbar
+          text="Your Life Map"
+          showBack={true}
+          backHandler={this.props.parentPreviousStep}
+        />
+        <div className="text-center" style={{ padding: '100px 20px' }}>
+          <h2 style={{ paddingBottom: '50px' }}>
+            {t('views.lifemap.thisLifeMapHas').replace('%n', this.props.data)}
+          </h2>
           <img src={lifemap_begin_image} alt="lifemap_begin_image" />
         </div>
         <div style={{ paddingTop: 20 }}>
@@ -21,14 +28,6 @@ class BeginLifemap extends Component {
             onClick={() => this.props.nextStep()}
           >
             Continue
-          </button>
-          <button
-            className="btn btn-lg"
-            onClick={() => {
-              this.props.parentPreviousStep()
-            }}
-          >
-            Go Back
           </button>
         </div>
       </div>

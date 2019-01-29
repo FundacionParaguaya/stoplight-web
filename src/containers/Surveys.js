@@ -3,8 +3,11 @@ import { connect } from 'react-redux'
 import { logout, loadSurveys, loadFamilies, saveStep, saveDraftId } from './../redux/actions'
 import { Link } from 'react-router-dom'
 import { withI18n } from 'react-i18next'
+
 import choose_lifemap_image from '../assets/choose_lifemap_image.png'
 import Spinner from '../components/Spinner'
+import AppNavbar from '../components/AppNavbar'
+
 export class Surveys extends Component {
   componentDidMount() {
     this.loadData()
@@ -15,12 +18,11 @@ export class Surveys extends Component {
   }
 
   render() {
-    console.log(this.props.surveys)
     const { t } = this.props
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2>{t('views.createLifemap')}</h2>
-        <hr />
+      <div>
+        <AppNavbar text={t('views.createLifemap')} showBack={false} />
+
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
         </div>
@@ -38,7 +40,7 @@ export class Surveys extends Component {
                 }}
                 onClick={() => {this.props.saveStep(1); this.props.saveDraftId(null)} }
               >
-                <div className="card" style={{ marginTop: 50 }}>
+                <div className="card-list">
                   <div className="card-body">{survey.title}</div>
                 </div>
               </Link>

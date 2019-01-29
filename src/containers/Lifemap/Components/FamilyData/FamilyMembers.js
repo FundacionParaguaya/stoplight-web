@@ -5,14 +5,19 @@ import { withI18n } from 'react-i18next'
 import ErrorComponent from '../../ErrorComponent'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
+import AppNavbar from '../../../../components/AppNavbar'
 class FamilyMembers extends Component {
   constructor(props) {
     super(props)
     let draft = this.props.drafts.filter(
       draft => draft.draftId === this.props.draftId
     )[0]
-    let primaryMember = draft.familyData.familyMembersList.filter(member=>member.firstParticipant === true)[0]
-    let additionalMembersList = draft.familyData.familyMembersList.filter(member => member.firstParticipant===false)
+    let primaryMember = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === true
+    )[0]
+    let additionalMembersList = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === false
+    )
     this.state = {
       memberCount: additionalMembersList.length || null,
       primaryMemberName: primaryMember.firstName
@@ -30,11 +35,12 @@ class FamilyMembers extends Component {
       draft => draft.draftId === this.props.draftId
     )[0]
 
-
-    let initialValues = {memberCount: this.state.memberCount}
-    let additionalMembersList = draft.familyData.familyMembersList.filter(member => member.firstParticipant===false)
-    additionalMembersList.forEach((member,idx)=>{
-      initialValues[`membername${idx+2}`] = member.firstName
+    let initialValues = { memberCount: this.state.memberCount }
+    let additionalMembersList = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === false
+    )
+    additionalMembersList.forEach((member, idx) => {
+      initialValues[`membername${idx + 2}`] = member.firstName
     })
 
     const forms = []
@@ -59,9 +65,12 @@ class FamilyMembers extends Component {
     }
 
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2> {t('views.familyMembers')} </h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={t('views.familyMembers')}
+          showBack={true}
+          backHandler={this.props.previousStep}
+        />
         <Form
           onSubmit={(values, form) => {
             // need to save familyMembersCount
@@ -78,7 +87,8 @@ class FamilyMembers extends Component {
               let familyParticipant = draft.familyData.familyMembersList[0]
               familyMembers.push(familyParticipant)
               let additionalMembersList = Object.keys(values)
-                .filter(key => key.includes('membername')).slice(0,values.memberCount)
+                .filter(key => key.includes('membername'))
+                .slice(0, values.memberCount)
                 .map(key => {
                   let member = {
                     firstParticipant: false,
@@ -163,13 +173,6 @@ class FamilyMembers extends Component {
                   className="btn btn-primary btn-lg btn-block"
                 >
                   {t('general.continue')}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-lg"
-                  onClick={() => this.props.previousStep()}
-                >
-                  Go Back
                 </button>
               </div>
             </form>
