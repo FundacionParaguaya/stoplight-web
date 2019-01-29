@@ -5,7 +5,6 @@ import { withI18n } from 'react-i18next'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import AppNavbar from '../../../../components/AppNavbar'
-import ErrorComponent from '../../ErrorComponent'
 
 class FamilyGender extends Component {
   constructor(props) {
@@ -64,7 +63,6 @@ class FamilyGender extends Component {
               </option>
             ))}
           </Field>
-          <ErrorComponent name={`gender${idx}`} />
         </div>
       )
     })
@@ -92,18 +90,6 @@ class FamilyGender extends Component {
             })
 
             this.props.nextStep()
-          }}
-          validate={values => {
-            const errors = {}
-            if (!values.length === this.props.memberCount) {
-              errors.values = 'Required'
-            }
-            for (let i = 0; i < this.props.memberCount; i++) {
-              if (!values[`gender${i}`]) {
-                errors[`gender${i}`] = 'Required'
-              }
-            }
-            return errors
           }}
           initialValues={initialValues}
           render={({
