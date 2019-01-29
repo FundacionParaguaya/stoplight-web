@@ -102,9 +102,6 @@ class FamilyBirthDate extends Component {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <p className="form-control" placeholder="">
-                  {`${this.props.surveyTaker}: ${moment
-                    .unix(date)
-                    .format('MMMM - DD - YYYY')}`}
                 </p>
               </div>
               {forms}

@@ -97,19 +97,6 @@ const StopLightPresentational = ({
           </button>
         )}
       </p>
-
-      <button
-        className="btn btn-lg"
-        onClick={() => {
-          if (index === 0) {
-            parentPreviousStep()
-          } else {
-            previousStep()
-          }
-        }}
-      >
-        Go Back
-      </button>
     </div>
   )
 }
