@@ -103,7 +103,6 @@ class FamilyGender extends Component {
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <p className="form-control" placeholder="">
-                  {`${this.props.surveyTaker}: ${genderText}`}
                 </p>
               </div>
               {forms}
