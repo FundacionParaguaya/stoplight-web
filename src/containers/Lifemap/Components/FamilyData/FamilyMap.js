@@ -174,11 +174,12 @@ class FamilyMap extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  disabled={pristine || invalid}
+                  disabled={invalid}
                 >
                   {t('general.continue')}
                 </button>
                 <button
+                  type="button"
                   className="btn btn-lg"
                   onClick={() => this.props.previousStep()}
                 >

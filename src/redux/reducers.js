@@ -10,7 +10,9 @@ import {
   SUBMIT_DRAFT,
   SUBMIT_DRAFT_COMMIT,
   SUBMIT_DRAFT_ROLLBACK,
-  ADD_SURVEY_DATA_WHOLE
+  ADD_SURVEY_DATA_WHOLE,
+  SAVE_STEP,
+  SAVE_DRAFT_ID,
 } from './actions'
 
 export const user = (state = {}, action) => {
@@ -46,13 +48,30 @@ export const surveys = (state = [], action) => {
   }
 }
 
+
+export const surveyStatus = (state = {step:1}, action) => {
+  switch (action.type) {
+    case SAVE_STEP:
+    return {
+      ...state,
+      step: action.step,
+    }
+    case SAVE_DRAFT_ID:
+    return {
+      ...state,
+      draftId: action.draftId
+    }
+    default:
+      return state
+  }
+}
 //Drafts
 
 export const drafts = (state = [], action) => {
   switch (action.type) {
     case CREATE_DRAFT:
       return [...state, { ...action.payload, status: 'In progress' }]
-      case ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA:
+    case ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA:
       return state.map(draft => {
         // if this is the draft we are editing
         if (draft.draftId === action.id) {

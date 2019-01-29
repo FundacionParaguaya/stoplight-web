@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { loadSurveys, submitDraft } from '../../redux/actions'
+import { loadSurveys, submitDraft, saveStep, saveDraftId } from '../../redux/actions'
 import BeginLifemap from './Components/BeginLifeMap'
 import FamilyParticipant from './Components/FamilyData/FamilyParticipant'
 import FamilyMembers from './Components/FamilyData/FamilyMembers'
@@ -21,17 +21,27 @@ class Lifemap extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 1,
-      draftId: null,
+      step: this.props.surveyStatus.step || 1,
+      draftId: this.props.surveyStatus.draftId || null,
       surveyTakerName: '',
       memberCount: 0,
-      draftOnGoing: false,
+      draftOnGoing: this.props.surveyStatus.draftId ? true : false,
       draft: null
     }
   }
 
+  // Setup the `beforeunload` event listener
+   setupBeforeUnloadListener = () => {
+       window.addEventListener("beforeunload", (ev) => {
+           ev.preventDefault();
+           return ev.returnValue = 'Are you sure you want to close?';
+       });
+   };
+
   componentDidMount() {
     this.loadData()
+    this.setupBeforeUnloadListener();
+
   }
 
   draftIsOngoing = () => {
@@ -43,6 +53,7 @@ class Lifemap extends Component {
   }
 
   setDraftId = id => {
+    this.props.saveDraftId(id)
     this.setState({ draftId: id })
   }
 
@@ -60,11 +71,13 @@ class Lifemap extends Component {
 
   nextStep = () => {
     const { step } = this.state
+    this.props.saveStep(step+1)
     this.setState({ step: step + 1 })
   }
 
   previousStep = () => {
     const { step } = this.state
+    this.props.saveStep(step-1)
     this.setState({ step: step - 1 })
   }
 
@@ -97,8 +110,7 @@ class Lifemap extends Component {
             parentNextStep={this.nextStep}
             prarentPreviousStep={this.previousStep}
             data={survey}
-
-          />
+           />
           </div>
         )
         break
@@ -253,11 +265,14 @@ class Lifemap extends Component {
 const mapStateToProps = state => ({
   state: state,
   surveys: state.surveys,
-  drafts: state.drafts
+  drafts: state.drafts,
+  surveyStatus: state.surveyStatus
 })
 const mapDispatchToProps = {
   loadSurveys,
-  submitDraft
+  submitDraft,
+  saveStep,
+  saveDraftId
 }
 
 export default connect(
