@@ -125,7 +125,6 @@ class FamilyGender extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  disabled={pristine || invalid}
                 >
                 {t('general.continue')}
                 </button>

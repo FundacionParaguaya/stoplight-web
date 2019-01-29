@@ -50,7 +50,6 @@ class FamilyMembers extends Component {
                   className="form-control"
                   placeholder={t('views.family.name')}
                 />
-                {meta.touched && meta.error && <span>{meta.error}</span>}
               </div>
             )}
           </Field>
@@ -113,7 +112,6 @@ class FamilyMembers extends Component {
           initialValues={initialValues}
           render={({
             handleSubmit,
-            submitError,
             submitting,
             pristine,
             values,
@@ -163,7 +161,6 @@ class FamilyMembers extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  disabled={invalid}
                 >
                   {t('general.continue')}
                 </button>
