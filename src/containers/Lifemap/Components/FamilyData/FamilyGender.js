@@ -6,13 +6,12 @@ import { withI18n } from 'react-i18next'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import ErrorComponent from '../../ErrorComponent'
 
-import AppNavbar from '../../../../components/AppNavbar'
-
 class FamilyGender extends Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
+  //TODO: handler to skip to map view if only 1 family member!
 
   render() {
     const { t } = this.props
@@ -23,8 +22,8 @@ class FamilyGender extends Component {
       member => member.firstParticipant === false
     )
 
-    let initialValues = {}
-    additionalMembersList.forEach((member, idx) => {
+    let initialValues ={}
+    additionalMembersList.forEach((member,idx) => {
       initialValues[`gender${idx}`] = member.gender || null
     })
 
@@ -70,12 +69,9 @@ class FamilyGender extends Component {
     })
 
     return (
-      <div>
-        <AppNavbar
-          text={t('views.gender')}
-          showBack={true}
-          backHandler={this.props.previousStep}
-        />
+      <div style={{ marginTop: 50 }}>
+        <h2> {t('views.gender')} </h2>
+        <hr />
         <Form
           onSubmit={(values, form) => {
             let familyMembersList = draft.familyData.familyMembersList.filter(
@@ -126,7 +122,14 @@ class FamilyGender extends Component {
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
                 >
-                  {t('general.continue')}
+                {t('general.continue')}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-lg"
+                  onClick={() => this.props.previousStep()}
+                >
+                  Go Back
                 </button>
               </div>
             </form>

@@ -81,6 +81,8 @@ class FamilyMap extends Component {
   render() {
     const { t } = this.props
     let countriesOptions = this.generateCountriesOptions()
+    let defaultCountry = countriesOptions.shift()
+
     return (
       <div>
         <AppNavbar
@@ -142,9 +144,7 @@ class FamilyMap extends Component {
                   component="select"
                   className="custom-select form-control"
                 >
-                  <option value="" disabled>
-                    {t('views.family.country') + ' *'}
-                  </option>
+                  {defaultCountry}
                   {countriesOptions}
                 </Field>
                 <Error name="country" />
