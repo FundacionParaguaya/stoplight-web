@@ -74,7 +74,7 @@ class Lifemap extends Component {
   }
 
   jumpToStart = () => {
-    this.setState({step: 1})
+    this.setState({ step: 1 })
   }
 
   setName = name => {
@@ -92,13 +92,12 @@ class Lifemap extends Component {
     switch (this.state.step) {
       case 1:
         component = survey && (
-          <div style={{width:'560px'}}>
-          <TermsPrivacy
-            parentNextStep={this.nextStep}
-            prarentPreviousStep={this.previousStep}
-            data={survey}
-
-          />
+          <div>
+            <TermsPrivacy
+              parentNextStep={this.nextStep}
+              prarentPreviousStep={this.previousStep}
+              data={survey}
+            />
           </div>
         )
         break
@@ -108,137 +107,135 @@ class Lifemap extends Component {
         // might want to createa  function that creates the drafts
         // might want to create a handler for submissions of each step, to add to draft state.
         component = survey && (
-          <div style={{width:'560px'}}>
-          <FamilyParticipant
-            nextStep={this.nextStep}
-            parentPreviousStep={this.previousStep}
-            data={survey.surveyConfig}
-            surveyId={this.props.location.state.surveyId}
-            setName={this.setName}
-            setDraftId={this.setDraftId}
-            draftId={this.state.draftId}
-            draftOngoing={this.state.draftOnGoing}
-            draftIsOngoing={this.draftIsOngoing}
-          />
+          <div>
+            <FamilyParticipant
+              nextStep={this.nextStep}
+              parentPreviousStep={this.previousStep}
+              data={survey.surveyConfig}
+              surveyId={this.props.location.state.surveyId}
+              setName={this.setName}
+              setDraftId={this.setDraftId}
+              draftId={this.state.draftId}
+              draftOngoing={this.state.draftOnGoing}
+              draftIsOngoing={this.draftIsOngoing}
+            />
           </div>
         )
         break
       case 3:
         component = (
-          <div style={{width:'560px'}}>
-
-          <FamilyMembers
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-            surveyTakerName={this.state.surveyTakerName}
-            jumpStep={this.jumpStep}
-            memberCount={this.state.memberCount}
-            setMemberCount={this.setMemberCount}
-          />
+          <div>
+            <FamilyMembers
+              nextStep={this.nextStep}
+              draftId={this.state.draftId}
+              data={survey.surveyConfig}
+              previousStep={this.previousStep}
+              surveyTakerName={this.state.surveyTakerName}
+              jumpStep={this.jumpStep}
+              memberCount={this.state.memberCount}
+              setMemberCount={this.setMemberCount}
+            />
           </div>
         )
         break
       case 4:
         component = (
-          <div style={{width:'560px'}}>
-          <FamilyGender
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-            memberCount={this.state.memberCount}
-            surveyTaker={this.state.surveyTakerName}
-          />
+          <div>
+            <FamilyGender
+              nextStep={this.nextStep}
+              draftId={this.state.draftId}
+              data={survey.surveyConfig}
+              previousStep={this.previousStep}
+              memberCount={this.state.memberCount}
+              surveyTaker={this.state.surveyTakerName}
+            />
           </div>
         )
         break
       case 5:
         component = (
-          <div style={{width:'560px'}}>
-          <FamilyBirthDate
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-            memberCount={this.state.memberCount}
-            surveyTaker={this.state.surveyTakerName}
-          />
+          <div>
+            <FamilyBirthDate
+              nextStep={this.nextStep}
+              draftId={this.state.draftId}
+              data={survey.surveyConfig}
+              previousStep={this.previousStep}
+              memberCount={this.state.memberCount}
+              surveyTaker={this.state.surveyTakerName}
+            />
           </div>
         )
         break
       case 6:
         component = (
-          <div style={{width:'560px'}}>
-          <FamilyMap
-            nextStep={this.nextStep}
-            draftId={this.state.draftId}
-            data={survey.surveyConfig}
-            previousStep={this.previousStep}
-          />
+          <div>
+            <FamilyMap
+              nextStep={this.nextStep}
+              draftId={this.state.draftId}
+              data={survey.surveyConfig}
+              previousStep={this.previousStep}
+            />
           </div>
         )
         break
       case 7:
         component = survey && (
-
-          <div style={{width:'560px'}}>
-          <SocioEconomic
-            parentNextStep={this.nextStep}
-            draftId={this.state.draftId}
-            parentPreviousStep={this.previousStep}
-            data={survey.surveyEconomicQuestions}
-          />
+          <div>
+            <SocioEconomic
+              parentNextStep={this.nextStep}
+              draftId={this.state.draftId}
+              parentPreviousStep={this.previousStep}
+              data={survey.surveyEconomicQuestions}
+            />
           </div>
         )
         break
       case 8:
         component = (
-          <div style={{width:'560px'}}>
-          <BeginLifemap
-            nextStep={this.nextStep}
-            parentPreviousStep={this.previousStep}
-            data={survey.surveyStoplightQuestions.length}
-          />
+          <div>
+            <BeginLifemap
+              nextStep={this.nextStep}
+              parentPreviousStep={this.previousStep}
+              data={survey.surveyStoplightQuestions.length}
+            />
           </div>
         )
         break
       case 9:
         component = survey && (
-          <div style={{width:'760px'}}>
-          <StopLight
-            draftId={this.state.draftId}
-            data={survey.surveyStoplightQuestions}
-            nextStep={this.nextStep}
-            parentPreviousStep={this.previousStep}
-          />
+          <div style={{ width: '760px' }}>
+            <StopLight
+              draftId={this.state.draftId}
+              data={survey.surveyStoplightQuestions}
+              nextStep={this.nextStep}
+              parentPreviousStep={this.previousStep}
+            />
           </div>
         )
         break
       case 10:
         component = survey && (
-        <div style={{width:'560px'}}>
-          <IndicatorList
-            draftId={this.state.draftId}
-            data={survey.surveyStoplightQuestions}
-            nextStep={this.nextStep}
-            parentPreviousStep={this.previousStep}
-            minimumPriorities={survey.minimumPriorities}
-          />
-        </div>
+          <div>
+            <IndicatorList
+              draftId={this.state.draftId}
+              data={survey.surveyStoplightQuestions}
+              nextStep={this.nextStep}
+              parentPreviousStep={this.previousStep}
+              minimumPriorities={survey.minimumPriorities}
+            />
+          </div>
         )
         break
       case 11:
         this.submitDraft()
         component = survey && (
-          <div style={{width:'560px'}}>
-          <FinalScreen
-            draftId={this.state.draftId}
-            data={survey.surveyStoplightQuestions}
-            nextStep={this.jumpToStart}
-            parentPreviousStep={this.previousStep}
-          />
+          <div>
+            <FinalScreen
+              draftId={this.state.draftId}
+              data={survey.surveyStoplightQuestions}
+              nextStep={this.jumpToStart}
+              parentPreviousStep={this.previousStep}
+            />
           </div>
         )
         break
@@ -246,7 +243,7 @@ class Lifemap extends Component {
       default:
         component = <div>NOTHING TO SEE HERE</div>
     }
-    return <div style={{ marginTop: 50 }}>{component}</div>
+    return <div>{component}</div>
   }
 }
 

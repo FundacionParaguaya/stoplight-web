@@ -4,6 +4,7 @@ import { withI18n } from 'react-i18next'
 import { addSurveyData } from '../../../../redux/actions'
 import StopLightPresentational from './StopLightPresentational'
 import SkippedQuestions from './SkippedQuestions'
+import AppNavbar from '../../../../components/AppNavbar'
 
 class StopLight extends Component {
   constructor(props) {
@@ -58,13 +59,25 @@ class StopLight extends Component {
   updateImageStatus = () => {
     this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
   }
+
+  goBack() {
+    if (this.props.index === 0) {
+      return this.props.parentPreviousStep
+    } else {
+      return this.props.previousStep
+    }
+  }
+
   render() {
     const { t } = this.props
     let stopLightQuestions = this.props.data
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2>{t('views.yourLifeMap')}</h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={t('views.yourLifeMap')}
+          showBack={true}
+          backHandler={this.goBack()}
+        />
         {!this.state.renderSkippedQuestionsScreen ? (
           <StopLightPresentational
             data={stopLightQuestions[this.state.step]}
