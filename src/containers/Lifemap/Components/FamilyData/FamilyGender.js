@@ -4,6 +4,7 @@ import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import AppNavbar from '../../../../components/AppNavbar'
 import ErrorComponent from '../../ErrorComponent'
 
 class FamilyGender extends Component {
@@ -69,9 +70,12 @@ class FamilyGender extends Component {
     })
 
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2> {t('views.gender')} </h2>
-        <hr />
+        <div>
+        <AppNavbar
+          text={t('views.gender')}
+          showBack={true}
+          backHandler={this.props.previousStep}
+        />
         <Form
           onSubmit={(values, form) => {
             let familyMembersList = draft.familyData.familyMembersList.filter(
@@ -123,13 +127,6 @@ class FamilyGender extends Component {
                   className="btn btn-primary btn-lg btn-block"
                 >
                 {t('general.continue')}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-lg"
-                  onClick={() => this.props.previousStep()}
-                >
-                  Go Back
                 </button>
               </div>
             </form>
