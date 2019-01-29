@@ -108,7 +108,6 @@ class FamilyMembers extends Component {
           }}
           validate={values => {
             const errors = {}
-            console.log(values)
             if (values.memberCount === null) {
               errors.values = 'Required'
             }

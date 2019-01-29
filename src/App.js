@@ -50,7 +50,6 @@ class App extends Component {
     this.state = {
       urlParams: getParams(window.location)
     }
-    console.log(this.props)
 
     if (this.state.urlParams.sid !== '') {
       this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env)
