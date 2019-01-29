@@ -2,11 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { withI18n } from 'react-i18next'
 import Checkbox from '../../../../assets/Checkbox.png'
+import AppNavbar from '../../../../components/AppNavbar'
 const TermsPrivacyPresentational = ({ data, header, nextStep, t }) => {
   return (
-    <div style={{ marginTop: 50 }}>
-      <h2>{header}</h2>
-      <hr />
+    <div>
+      <AppNavbar text={header} showBack={false} />
       <div className="text-center">
         <img src={Checkbox} alt="chekbox" />
       </div>
@@ -20,8 +20,7 @@ const TermsPrivacyPresentational = ({ data, header, nextStep, t }) => {
             __html: data.text.split('\\n').join('<br/>')
           }}
         />
-        <p className="lead text-center" >
-
+        <p className="lead text-center">
           <Link to={`/surveys`}>
             <button className="btn btn-lg col-4" href="#">
               {t('general.disagree')}

@@ -6,16 +6,13 @@ import { withI18n } from 'react-i18next'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import ErrorComponent from '../../ErrorComponent'
 
+import AppNavbar from '../../../../components/AppNavbar'
+
 class FamilyGender extends Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
-  handleChange = event => {
-    this.setState({ memberCount: event.target.value })
-  }
-
-  //TODO: handler to skip to map view if only 1 family member!
 
   render() {
     const { t } = this.props
@@ -26,8 +23,8 @@ class FamilyGender extends Component {
       member => member.firstParticipant === false
     )
 
-    let initialValues ={}
-    additionalMembersList.forEach((member,idx) => {
+    let initialValues = {}
+    additionalMembersList.forEach((member, idx) => {
       initialValues[`gender${idx}`] = member.gender || null
     })
 
@@ -73,9 +70,12 @@ class FamilyGender extends Component {
     })
 
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2> {t('views.gender')} </h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={t('views.gender')}
+          showBack={true}
+          backHandler={this.props.previousStep}
+        />
         <Form
           onSubmit={(values, form) => {
             let familyMembersList = draft.familyData.familyMembersList.filter(
@@ -125,15 +125,8 @@ class FamilyGender extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  disabled={pristine || invalid}
                 >
-                {t('general.continue')}
-                </button>
-                <button
-                  className="btn btn-lg"
-                  onClick={() => this.props.previousStep()}
-                >
-                  Go Back
+                  {t('general.continue')}
                 </button>
               </div>
             </form>
