@@ -11,9 +11,11 @@ class FamilyMembers extends Component {
     let draft = this.props.drafts.filter(
       draft => draft.draftId === this.props.draftId
     )[0]
+    let primaryMember = draft.familyData.familyMembersList.filter(member=>member.firstParticipant === true)[0]
     let additionalMembersList = draft.familyData.familyMembersList.filter(member => member.firstParticipant===false)
     this.state = {
-      memberCount: additionalMembersList.length || null
+      memberCount: additionalMembersList.length || null,
+      primaryMemberName: primaryMember.firstName
     }
   }
   handleChange = event => {
@@ -153,7 +155,7 @@ class FamilyMembers extends Component {
               <div className="form-group">
                 <label>{t('views.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
-                  {this.props.surveyTakerName}
+                  {this.state.primaryMemberName}
                 </p>
               </div>
               {forms}
