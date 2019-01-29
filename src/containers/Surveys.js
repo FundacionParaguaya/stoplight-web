@@ -38,7 +38,7 @@ export class Surveys extends Component {
                     surveyId: survey.id
                   }
                 }}
-                onClick={() => {this.props.saveStep(1); this.props.saveDraftId(null); this.props.saveSurveyId(null) }}
+                onClick={() => {this.props.saveStep(1); this.props.saveDraftId(null); }}
               >
                 <div className="card-list">
                   <div className="card-body">{survey.title}</div>
