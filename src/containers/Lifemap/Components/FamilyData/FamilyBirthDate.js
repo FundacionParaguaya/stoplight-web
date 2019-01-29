@@ -6,6 +6,7 @@ import { withI18n } from 'react-i18next'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
+import AppNavbar from '../../../../components/AppNavbar'
 
 class FamilyBirthDate extends Component {
   constructor(props) {
@@ -50,7 +51,6 @@ class FamilyBirthDate extends Component {
       member => member.firstParticipant === false
     )
 
-
     const date = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === true
     )[0].birthDate
@@ -58,7 +58,7 @@ class FamilyBirthDate extends Component {
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx}>
-        <label>{member.firstName}</label>
+          <label>{member.firstName}</label>
           <DatePicker
             dateChange={this.dateChange.bind(this, idx)}
             minYear={1900}
@@ -72,9 +72,12 @@ class FamilyBirthDate extends Component {
     })
 
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2> {t('views.birthDates')} </h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={t('views.birthDates')}
+          showBack={true}
+          backHandler={this.props.previousStep}
+        />
         <Form
           onSubmit={(values, form) => {
             let newDateError = this.state.dateError
@@ -127,18 +130,8 @@ class FamilyBirthDate extends Component {
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-block"
-                >
+                <button type="submit" className="btn btn-primary btn-block">
                   {t('general.continue')}
-                </button>
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => this.props.previousStep()}
-                >
-                  Go Back
                 </button>
               </div>
             </form>
