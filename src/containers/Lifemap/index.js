@@ -74,7 +74,6 @@ class Lifemap extends Component {
 
     this.props.submitDraft(draft)
     this.props.saveSurveyId(null)
-    this.jumpToStart()
   }
 
   nextStep = () => {
@@ -92,10 +91,6 @@ class Lifemap extends Component {
   jumpStep = additionalSteps => {
     const { step } = this.state
     this.setState({ step: step + additionalSteps })
-  }
-
-  jumpToStart = () => {
-    this.setState({ step: 1 })
   }
 
   setName = name => {
