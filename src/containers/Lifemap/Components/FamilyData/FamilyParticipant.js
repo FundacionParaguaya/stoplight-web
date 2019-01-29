@@ -15,6 +15,9 @@ import countries from 'localized-countries'
 import { validate } from './helpers/validationParticipant'
 import Error from '../../ErrorComponent'
 import family_face_large from '../../../../assets/family_face_large.png'
+
+import AppNavbar from '../../../../components/AppNavbar'
+
 // put this to its own component
 const countryList = countries(require('localized-countries/data/en')).array()
 
@@ -24,7 +27,7 @@ class FamilyParticipant extends Component {
     this.state = {
       date: null,
       dateError: 0,
-      submitted: false,
+      submitted: false
     }
   }
 
@@ -52,7 +55,7 @@ class FamilyParticipant extends Component {
 
     values.firstParticipant = true
     values.birthDate = moment(this.state.date).format('X')
-    values.socioEconomicAnswers=[]
+    values.socioEconomicAnswers = []
     this.props.setDraftId(draftId)
     this.props.addSurveyDataWhole(draftId, 'familyData', {
       familyMembersList: [values]
@@ -120,17 +123,22 @@ class FamilyParticipant extends Component {
     const countriesOptions = this.generateCountriesOptions()
     let draft,
       user = {}
+    console.log(this.props.draftOngoing)
     if (this.props.draftOngoing) {
       draft = this.props.drafts.filter(
         draft => draft.draftId === this.props.draftId
       )[0]
       user = this.initData(draft.familyData.familyMembersList[0])
+      console.log(user)
     }
 
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2> {t('views.primaryParticipant')} </h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={t('views.primaryParticipant')}
+          showBack={true}
+          backHandler={this.props.parentPreviousStep}
+        />
         <div className="text-center">
           <img src={family_face_large} alt="family_face_large" />
         </div>
@@ -209,18 +217,22 @@ class FamilyParticipant extends Component {
                   <Error name="gender" />
                 </div>
               </div>
-              <div>
-                <label>{t('views.family.dateOfBirth')}</label>
+              <div className="date-div">
+                <label className="date-label m0">
+                  {t('views.family.dateOfBirth')}
+                </label>
                 <DatePicker
                   dateChange={this.dateChange.bind(this)}
                   minYear={1900}
                   maxYear={2019}
                   defaultDate={user.birthDate}
                 />
+                {this.state.dateError === -1 && (
+                  <span className="badge badge-pill badge-danger">
+                    Required
+                  </span>
+                )}
               </div>
-              {this.state.dateError === -1 && (
-                <span className="badge badge-pill badge-danger">Required</span>
-              )}
               <div>
                 <div className="form-group">
                   <Field
@@ -304,7 +316,7 @@ class FamilyParticipant extends Component {
                 </Field>
               </div>
 
-              <div style={{ paddingTop: 20 }}>
+              <div>
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
@@ -314,13 +326,7 @@ class FamilyParticipant extends Component {
                     }
                   }}
                 >
-                {t('general.continue')}
-                </button>
-                <button
-                  className="btn btn-lg"
-                  onClick={() => this.props.parentPreviousStep()}
-                >
-                  Go Back
+                  {t('general.continue')}
                 </button>
               </div>
             </form>

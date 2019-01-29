@@ -5,14 +5,16 @@ import moment from 'moment'
 class DatePicker extends React.Component {
   constructor(props) {
     super(props)
-    const { dayLabel, monthLabel, yearLabel, defaultDate} = props
+    const { dayLabel, monthLabel, yearLabel, defaultDate } = props
     let defaultDateMS = defaultDate * 1000 // convert to miliseconds because we save the date in seconds
     this.state = {
       day: this.props.day || null,
       month: this.props.month || null,
       year: this.props.year || null,
       selectDay: defaultDateMS ? moment(defaultDateMS).date() : dayLabel,
-      selectMonth: defaultDateMS ? moment(defaultDateMS).month() + 1 : monthLabel,
+      selectMonth: defaultDateMS
+        ? moment(defaultDateMS).month() + 1
+        : monthLabel,
       selectYear: defaultDateMS ? moment(defaultDateMS).year() : yearLabel
     }
   }
@@ -123,9 +125,12 @@ class DatePicker extends React.Component {
     const monthElement = this.state.month.map((month, id) => {
       return (
         <option value={month.value} key={id}>
-        {t(`months.${moment()
-            .month(month.value - 1)
-            .format('MMMM').toLowerCase()}`)}
+          {t(
+            `months.${moment()
+              .month(month.value - 1)
+              .format('MMMM')
+              .toLowerCase()}`
+          )}
         </option>
       )
     })
@@ -138,39 +143,41 @@ class DatePicker extends React.Component {
     })
 
     return (
-      <div className="form-group">
-      <div className="form-control ">
-        <select
-          defaultValue=""
-          className="custom-select col-3"
-          value={this.state.selectMonth}
-          onChange={e => this.changeDate(e, 'selectMonth')}
-        >
-          <option value="" disabled>{t('views.family.selectMonth')}</option>
-          {monthElement}
-        </select>
-        <select
-          defaultValue=""
-          className="custom-select col-3"
-          value={this.state.selectDay}
-          onChange={e => this.changeDate(e, 'selectDay')}
-        >
-          <option value="" disabled>
-            {t('general.day')}
-          </option>
-          {dayElement}
-        </select>
-        <select
-          defaultValue=""
-          className="custom-select col-3"
-          value={this.state.selectYear}
-          onChange={e => this.changeDate(e, 'selectYear')}
-        >
-          <option value="" disabled>
-            {t('general.year')}
-          </option>
-          {yearElement}
-        </select>
+      <div className="form-group m0">
+        <div className="p0 row justify-content-around">
+          <select
+            defaultValue=""
+            className="custom-select col-3 form-control "
+            value={this.state.selectMonth}
+            onChange={e => this.changeDate(e, 'selectMonth')}
+          >
+            <option value="" disabled>
+              {t('views.family.selectMonth')}
+            </option>
+            {monthElement}
+          </select>
+          <select
+            defaultValue=""
+            className="custom-select col-3 form-control "
+            value={this.state.selectDay}
+            onChange={e => this.changeDate(e, 'selectDay')}
+          >
+            <option value="" disabled>
+              {t('general.day')}
+            </option>
+            {dayElement}
+          </select>
+          <select
+            defaultValue=""
+            className="custom-select col-3 form-control "
+            value={this.state.selectYear}
+            onChange={e => this.changeDate(e, 'selectYear')}
+          >
+            <option value="" disabled>
+              {t('general.year')}
+            </option>
+            {yearElement}
+          </select>
         </div>
       </div>
     )

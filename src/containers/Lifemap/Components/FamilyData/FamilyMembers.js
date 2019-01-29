@@ -5,11 +5,22 @@ import { withI18n } from 'react-i18next'
 import ErrorComponent from '../../ErrorComponent'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 
+import AppNavbar from '../../../../components/AppNavbar'
 class FamilyMembers extends Component {
   constructor(props) {
     super(props)
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+    let primaryMember = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === true
+    )[0]
+    let additionalMembersList = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === false
+    )
     this.state = {
-      memberCount: this.props.memberCount > 0 ? this.props.memberCount : null
+      memberCount: additionalMembersList.length || null,
+      primaryMemberName: primaryMember.firstName
     }
   }
   handleChange = event => {
@@ -24,10 +35,12 @@ class FamilyMembers extends Component {
       draft => draft.draftId === this.props.draftId
     )[0]
 
-
-    let initialValues = {memberCount: this.state.memberCount}
-    draft.familyData.familyMembersList.filter(member => member.firstParticipant===false).forEach((member,idx)=>{
-      initialValues[`membername${idx+2}`] = member.firstName
+    let initialValues = { memberCount: this.state.memberCount }
+    let additionalMembersList = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === false
+    )
+    additionalMembersList.forEach((member, idx) => {
+      initialValues[`membername${idx + 2}`] = member.firstName
     })
 
     const forms = []
@@ -43,7 +56,6 @@ class FamilyMembers extends Component {
                   className="form-control"
                   placeholder={t('views.family.name')}
                 />
-                {meta.touched && meta.error && <span>{meta.error}</span>}
               </div>
             )}
           </Field>
@@ -53,9 +65,12 @@ class FamilyMembers extends Component {
     }
 
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2> {t('views.familyMembers')} </h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={t('views.familyMembers')}
+          showBack={true}
+          backHandler={this.props.previousStep}
+        />
         <Form
           onSubmit={(values, form) => {
             // need to save familyMembersCount
@@ -72,7 +87,8 @@ class FamilyMembers extends Component {
               let familyParticipant = draft.familyData.familyMembersList[0]
               familyMembers.push(familyParticipant)
               let additionalMembersList = Object.keys(values)
-                .filter(key => key.includes('membername')).slice(0,values.memberCount)
+                .filter(key => key.includes('membername'))
+                .slice(0, values.memberCount)
                 .map(key => {
                   let member = {
                     firstParticipant: false,
@@ -92,7 +108,8 @@ class FamilyMembers extends Component {
           }}
           validate={values => {
             const errors = {}
-            if (!values.length === this.state.memberCount) {
+            console.log(values)
+            if (values.memberCount === null) {
               errors.values = 'Required'
             }
             for (let i = 0; i < this.state.memberCount; i++) {
@@ -146,7 +163,7 @@ class FamilyMembers extends Component {
               <div className="form-group">
                 <label>{t('views.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
-                  {this.props.surveyTakerName}
+                  {this.state.primaryMemberName}
                 </p>
               </div>
               {forms}
@@ -154,15 +171,8 @@ class FamilyMembers extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  disabled={pristine}
                 >
                   {t('general.continue')}
-                </button>
-                <button
-                  className="btn btn-lg"
-                  onClick={() => this.props.previousStep()}
-                >
-                  Go Back
                 </button>
               </div>
             </form>

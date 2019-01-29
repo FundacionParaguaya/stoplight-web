@@ -19,6 +19,22 @@ export const logout = () => dispatch => {
   })
 }
 
+export const SAVE_STEP = 'SAVE_STEP'
+export const SAVE_DRAFT_ID = 'SAVE_DRAFT_ID'
+export const SAVE_SURVEY_ID = 'SAVE_SURVEY_ID'
+export const saveStep = (step) => ({
+  type: SAVE_STEP,
+  step
+})
+export const saveDraftId = (draftId) => ({
+  type: SAVE_DRAFT_ID,
+  draftId
+})
+export const saveSurveyId = (surveyId) => ({
+  type: SAVE_SURVEY_ID,
+  surveyId
+})
+
 export const LOAD_FAMILIES = 'LOAD_FAMILIES'
 export const loadFamilies = () => dispatch => {
   const platform = selectServer(store.getState().user.env)

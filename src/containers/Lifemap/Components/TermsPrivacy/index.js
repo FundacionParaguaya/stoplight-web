@@ -36,7 +36,7 @@ class TermsPrivacy extends Component {
     }
 
     return (
-      <div style={{ marginTop: 50 }}>
+      <div>
         {
           <TermsPrivacyPresentational
             data={data}
