@@ -110,6 +110,7 @@ class FamilyMap extends Component {
         <Form
           onSubmit={(values, form) => {
             // we want to update Family Data
+            console.log(values)
             let familyLocationInfo = {
               latitude: this.state.lat,
               longitude: this.state.lng,
@@ -126,7 +127,7 @@ class FamilyMap extends Component {
             )
             this.props.nextStep()
           }}
-          initialValues={{}}
+          initialValues={{country: this.props.data.surveyLocation.country}}
           render={({
             handleSubmit,
             submitting,

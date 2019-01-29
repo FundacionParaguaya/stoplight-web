@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { logout, loadSurveys, loadFamilies, saveStep, saveDraftId } from './../redux/actions'
+import { logout, loadSurveys, loadFamilies, saveStep, saveDraftId, saveSurveyId } from './../redux/actions'
 import { Link } from 'react-router-dom'
 import { withI18n } from 'react-i18next'
 
@@ -22,7 +22,7 @@ export class Surveys extends Component {
     return (
       <div>
         <AppNavbar text={t('views.createLifemap')} showBack={false} />
-        {this.props.surveyStatus.surveyId !== undefined ? (<div className="text-center"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div>): (<div> </div>)}
+        {this.props.surveyStatus.surveyId !== null ? (<div className="text-center"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div>): (<div> </div>)}
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
         </div>
@@ -62,7 +62,8 @@ const mapDispatchToProps = {
   loadSurveys,
   loadFamilies,
   saveStep,
-  saveDraftId
+  saveDraftId,
+  saveSurveyId
 }
 
 export default withI18n()(
