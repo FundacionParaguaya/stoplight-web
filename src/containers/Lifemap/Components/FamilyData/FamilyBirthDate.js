@@ -134,7 +134,8 @@ class FamilyBirthDate extends Component {
                   {t('general.continue')}
                 </button>
                 <button
-                  className="btn "
+                  type="button"
+                  className="btn"
                   onClick={() => this.props.previousStep()}
                 >
                   Go Back

@@ -130,6 +130,7 @@ class FamilyGender extends Component {
                 {t('general.continue')}
                 </button>
                 <button
+                  type="button"
                   className="btn btn-lg"
                   onClick={() => this.props.previousStep()}
                 >
