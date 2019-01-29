@@ -31,7 +31,6 @@ class FamilyBirthDate extends Component {
       dateCopy.push(dateObj)
       this.setState({
         date: dateCopy,
-        dateError: dateErr
       })
     }
   }
@@ -64,9 +63,6 @@ class FamilyBirthDate extends Component {
             minYear={1900}
             maxYear={moment().format('YYYY')}
           />
-          {this.state.dateError[idx] === -1 && (
-            <span className="badge badge-pill badge-danger">Required</span>
-          )}
         </div>
       )
     })
@@ -80,29 +76,12 @@ class FamilyBirthDate extends Component {
         />
         <Form
           onSubmit={(values, form) => {
-            let newDateError = this.state.dateError
-            if (
-              this.props.memberCount !== Object.keys(this.state.date).length
-            ) {
-              if (Object.keys(this.state.date).length === 0) {
-                for (let i = 0; i < this.props.memberCount; i++) {
-                  newDateError[i] = -1
-                }
-              } else {
-                Object.keys(this.state.date).forEach(idx => {
-                  if (!this.state.date[idx]) {
-                    newDateError[idx] = -1
-                  }
-                })
-              }
-              this.setState({ dateErr: newDateError })
-            } else {
               let familyMembersList = draft.familyData.familyMembersList.filter(
                 member => member.firstParticipant === true
               )
               additionalMembersList.forEach((member, idx) => {
-                let date = this.state.date[idx][idx]
-                member.birthDate = moment(date).format('X')
+                let date = this.state.date[idx]  ? this.state.date[idx][idx] : null
+                member.birthDate = date ? moment(date).format('X') : null
                 familyMembersList.push(member)
               })
               this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
@@ -110,7 +89,7 @@ class FamilyBirthDate extends Component {
               })
               this.props.nextStep()
             }
-          }}
+          }
           initialValues={{}}
           render={({
             handleSubmit,

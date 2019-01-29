@@ -5,7 +5,8 @@ import {
   loadSurveys,
   submitDraft,
   saveStep,
-  saveDraftId
+  saveDraftId,
+  saveSurveyId
 } from '../../redux/actions'
 import BeginLifemap from './Components/BeginLifeMap'
 import FamilyParticipant from './Components/FamilyData/FamilyParticipant'
@@ -100,11 +101,25 @@ class Lifemap extends Component {
 
   render() {
     let survey
-    if (this.props.surveys) {
+    if(!this.props.location || !this.props.location.state){ this.props.history.push('/surveys')}
+    if(this.props.location.state.surveyId && this.props.location.state.surveyId !== this.props.surveyStatus.surveyId){
+      if (this.props.surveys) {
+        survey = this.props.surveys.filter(
+          survey => survey.id === this.props.location.state.surveyId
+        )[0]
+      }
+      this.props.saveSurveyId(this.props.location.state.surveyId)
+    } else if(this.props.surveyStatus.surveyId){
       survey = this.props.surveys.filter(
-        survey => survey.id === this.props.location.state.surveyId
+        survey => survey.id === this.props.surveyStatus.surveyId
       )[0]
+    } else {
+      // redirect to surveys
+      // this..goback()
+      // this.browserHistory.push('/surveys')
+      this.props.history.push(`/surveys`)
     }
+
     let component = null
     switch (this.state.step) {
       case 1:
@@ -274,7 +289,8 @@ const mapDispatchToProps = {
   loadSurveys,
   submitDraft,
   saveStep,
-  saveDraftId
+  saveDraftId,
+  saveSurveyId
 }
 
 export default connect(

@@ -13,6 +13,7 @@ import {
   ADD_SURVEY_DATA_WHOLE,
   SAVE_STEP,
   SAVE_DRAFT_ID,
+  SAVE_SURVEY_ID
 } from './actions'
 
 export const user = (state = {}, action) => {
@@ -60,6 +61,11 @@ export const surveyStatus = (state = {step:1}, action) => {
     return {
       ...state,
       draftId: action.draftId
+    }
+    case SAVE_SURVEY_ID:
+    return {
+      ...state,
+      surveyId: action.surveyId
     }
     default:
       return state
