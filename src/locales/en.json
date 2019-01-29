@@ -40,7 +40,7 @@
   },
   "views": {
     "dashboard": "Dashboard",
-    "createLifemap": "Create a life map",
+    "createLifemap": "Choose Life Map",
     "latestDrafts": "Latest life maps",
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",

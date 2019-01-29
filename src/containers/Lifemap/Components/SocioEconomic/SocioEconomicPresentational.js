@@ -5,12 +5,14 @@ import { addSurveyData } from '../../../../redux/actions'
 import { withI18n } from 'react-i18next'
 import SocioEconomicQuestion from './SocioEconomicQuestion'
 
+import AppNavbar from '../../../../components/AppNavbar'
+
 class SocioEconomicPresentational extends Component {
   goBack() {
     if (this.props.index === 0) {
-      this.props.parentPreviousStep()
+      return this.props.parentPreviousStep
     } else {
-      this.props.previousStep()
+      return this.props.previousStep
     }
   }
 
@@ -19,16 +21,19 @@ class SocioEconomicPresentational extends Component {
     const questions = this.props.data.sortedQuestions
     const category = this.props.data.category
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2>{category}</h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={category}
+          showBack={true}
+          backHandler={this.goBack()}
+        />
         <Form
           onSubmit={(values, form) => {
             Object.keys(values).forEach(key => {
               this.props.addSurveyData(
                 this.props.draftId,
                 'economicSurveyDataList',
-                {[key]: values[key]}
+                { [key]: values[key] }
               )
             })
 
@@ -45,22 +50,22 @@ class SocioEconomicPresentational extends Component {
               {questions
                 .filter(question => question.forFamilyMember === false)
                 .map(question => (
-                  <SocioEconomicQuestion key={question.codeName} question={question} />
+                  <SocioEconomicQuestion
+                    key={question.codeName}
+                    question={question}
+                  />
                 ))}
               <div style={{ paddingTop: 20 }}>
-                <button type="submit" className="btn btn-primary btn-lg btn-block">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg btn-block"
+                >
                   {t('general.continue')}
                 </button>
               </div>
             </form>
           )}
         />
-        <button
-          className="btn btn-lg"
-          onClick={() => this.goBack()}
-        >
-          Go Back
-        </button>
       </div>
     )
   }
@@ -75,7 +80,9 @@ const mapStateToProps = ({ surveys, drafts }) => ({
   drafts
 })
 
-export default withI18n()(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SocioEconomicPresentational))
+export default withI18n()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SocioEconomicPresentational)
+)

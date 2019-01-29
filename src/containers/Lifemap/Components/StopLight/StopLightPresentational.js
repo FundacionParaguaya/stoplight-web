@@ -12,29 +12,35 @@ const StopLightPresentational = ({
   imagesLoaded,
   updateImageStatus
 }) => {
-  let progressPercent = (index + 1)/(total + 1)*100
+  let progressPercent = ((index + 1) / (total + 1)) * 100
 
   return (
     <div>
       <div>
         <h2>{data.dimension}</h2>
         <h3>{data.questionText}</h3>
-        <p>{`${index + 1}/${total + 1}`}</p>
       </div>
-      <div className="progress" style={{marginBottom:'1em'}}>
-        <div className="progress-bar bg-success" role="progressbar" style={{"width": `${progressPercent}%`}} aria-valuenow={progressPercent} aria-valuemin="0" aria-valuemax="100"></div>
+      <div className="progress" style={{ marginBottom: '1em' }}>
+        <div
+          className="progress-bar bg-success"
+          role="progressbar"
+          style={{ width: `${progressPercent}%` }}
+          aria-valuenow={progressPercent}
+          aria-valuemin="0"
+          aria-valuemax="100"
+        />
       </div>
       <div className="row">
         <div className="col-4">
           <button
             type="submit"
             onClick={() => nextStep(data.stoplightColors[0], data.codeName)}
-            className="bg-success"
+            className="bg-success stoplight-btn"
           >
             <IndicatorCard
               url={data.stoplightColors[0].url}
               description={data.stoplightColors[0].description}
-              cardClass="card text-white bg-success mb-3"
+              cardClass="card card-stoplight text-white bg-success mb-3"
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
                 updateImageStatus()

@@ -9,6 +9,60 @@ h6 {
   font-family: 'Poppins', sans-serif !important;
 }
 
+.h2,
+h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Form Element fixes */
+.custom-select,
+select,
+select.form-control,
+select.form-control:focus,
+select:focus {
+  background: none;
+  background-image: none;
+}
+
+.btn {
+  text-transform: none;
+  border: none;
+  box-shadow: none;
+  transition: all 0.4s;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600;
+}
+
+.btn-primary:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+input.form-control::placeholder {
+  color: #666;
+}
+
+.form-control {
+  font-size: 1rem;
+  padding: 1rem 0.6rem;
+}
+
+.p0 {
+  padding: 0 !important;
+}
+
+.m0 {
+  margin: 0 !important;
+}
+
+.date-label {
+  padding-left: 0.5rem;
+}
+.date-div {
+  margin: 35px 0;
+}
+
 /* DOTS */
 
 .bigdot {
@@ -82,7 +136,7 @@ h6 {
 }
 
 .green {
-  background-color: #50aa47;
+  background-color: #89bd76;
 }
 
 .palegreen {
@@ -109,7 +163,7 @@ h6 {
   background-color: #9f9a94;
 }
 
-main  > div{
+main > div {
   background-color: white;
   margin: auto;
   width: 50%;
@@ -210,7 +264,20 @@ nav {
 
 /* CARDS */
 
-.card {
+.main-card {
+  border: none;
+  -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
+
+  max-width: 48em;
+  margin: 20px auto;
+  padding: 1rem !important;
+
+  height: 90vh;
+  overflow: scroll;
+}
+
+.card-list {
   border: none;
   -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
@@ -235,3 +302,40 @@ nav {
   justify-content: space-between;
   display: flex;
 }
+
+.stoplight-btn {
+  padding: 0;
+}
+
+.card-stoplight {
+  padding: 0;
+}
+
+/* App Navbar */
+
+.app-navbar {
+  background-color: #faefe1;
+  margin: -1rem -1rem 0 -1rem;
+  text-align: center;
+}
+
+.app-navbar h2 {
+  line-height: 3;
+}
+
+.app-navbar-close {
+  float: right;
+  color: #787878;
+}
+
+.app-navbar-back {
+  float: left;
+  color: #787878;
+}
+
+/* .sticky-btn {
+  margin: -1rem -0 0 -1rem;
+  bottom: 0px;
+  position: sticky;
+  width: 105%;
+} */
