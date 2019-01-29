@@ -8,6 +8,7 @@ import countries from 'localized-countries'
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import Error from '../../ErrorComponent'
 import { validate } from './helpers/validationMap'
+import AppNavbar from '../../../../components/AppNavbar'
 
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
 const countryList = countries(require('localized-countries/data/en')).array()
@@ -81,12 +82,14 @@ class FamilyMap extends Component {
     const { t } = this.props
     let countriesOptions = this.generateCountriesOptions()
     return (
-      <div style={{ marginTop: 50 }}>
-        <h2> {t('views.location')} </h2>
-        <hr />
+      <div>
+        <AppNavbar
+          text={t('views.location')}
+          showBack={true}
+          backHandler={this.props.previousStep}
+        />
 
         <Gmaps
-          width={'560px'}
           height={'560px'}
           lat={this.state.lat}
           lng={this.state.lng}
@@ -137,9 +140,11 @@ class FamilyMap extends Component {
                 <Field
                   name="country"
                   component="select"
-                  className="custom-select"
+                  className="custom-select form-control"
                 >
-                  <option value="" disabled>{t('views.family.country') + ' *'}</option>
+                  <option value="" disabled>
+                    {t('views.family.country') + ' *'}
+                  </option>
                   {countriesOptions}
                 </Field>
                 <Error name="country" />
@@ -177,13 +182,6 @@ class FamilyMap extends Component {
                   disabled={invalid}
                 >
                   {t('general.continue')}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-lg"
-                  onClick={() => this.props.previousStep()}
-                >
-                  Go Back
                 </button>
               </div>
             </form>

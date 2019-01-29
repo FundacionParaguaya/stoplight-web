@@ -7,7 +7,7 @@ class FinalScreen extends Component {
   render() {
     const { t } = this.props
     return (
-      <div style={{ marginTop: 50 }} className="text-center">
+      <div className="text-center">
         <h2> {t('views.yourLifeMap')} </h2>
         <hr />
         <h3> {t('views.lifemap.great')}</h3>
