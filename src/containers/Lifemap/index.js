@@ -92,7 +92,8 @@ class Lifemap extends Component {
   }
 
   jumpToStart = () => {
-    this.props.saveSurveyId(null) // reset the surveyId so resume draft doesnt show
+    this.submitDraft()
+    this.props.saveSurveyId(undefined) // reset the surveyId so resume draft doesnt show
     this.setState({ step: 1 })
   }
 
@@ -260,7 +261,6 @@ class Lifemap extends Component {
         )
         break
       case 11:
-        this.submitDraft()
         component = survey && (
           <div>
             <FinalScreen
