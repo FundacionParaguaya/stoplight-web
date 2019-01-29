@@ -69,7 +69,7 @@ class SocioEconomic extends Component {
     }
 
     return (
-      <div style={{ marginTop: 50 }}>
+      <div>
         {
           <SocioEconomicPresentational
             draftId={this.props.draftId}
