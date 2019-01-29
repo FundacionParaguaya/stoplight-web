@@ -7,9 +7,6 @@ import {
   CREATE_DRAFT,
   ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
   ADD_SURVEY_DATA,
-  SUBMIT_DRAFT,
-  SUBMIT_DRAFT_COMMIT,
-  SUBMIT_DRAFT_ROLLBACK,
   ADD_SURVEY_DATA_WHOLE,
   SAVE_STEP,
   SAVE_DRAFT_ID,
@@ -170,33 +167,6 @@ export const drafts = (state = [], action) => {
             }
           : draft
       })
-    case SUBMIT_DRAFT:
-      return state.map(draft =>
-        draft.draftId === action.id
-          ? {
-              ...draft,
-              status: 'Pending'
-            }
-          : draft
-      )
-    case SUBMIT_DRAFT_COMMIT:
-      return state.map(draft =>
-        draft.draftId === action.meta.id
-          ? {
-              ...draft,
-              status: 'Success'
-            }
-          : draft
-      )
-    case SUBMIT_DRAFT_ROLLBACK:
-      return state.map(draft =>
-        draft.draftId === action.meta.id
-          ? {
-              ...draft,
-              status: 'Error'
-            }
-          : draft
-      )
     case DELETE_DRAFT:
       return state.filter(draft => draft.draftId !== action.id)
     default:

@@ -70,8 +70,11 @@ class Lifemap extends Component {
     let draft = this.props.drafts.filter(
       draft => draft.draftId === this.state.draftId
     )[0]
-    const res = this.props.submitDraft(draft)
-    console.log(res)
+    console.log(draft)
+
+    this.props.submitDraft(draft)
+    this.props.saveSurveyId(null)
+    this.jumpToStart()
   }
 
   nextStep = () => {
@@ -92,8 +95,6 @@ class Lifemap extends Component {
   }
 
   jumpToStart = () => {
-    this.submitDraft()
-    this.props.saveSurveyId(undefined) // reset the surveyId so resume draft doesnt show
     this.setState({ step: 1 })
   }
 
@@ -266,7 +267,7 @@ class Lifemap extends Component {
             <FinalScreen
               draftId={this.state.draftId}
               data={survey.surveyStoplightQuestions}
-              nextStep={this.jumpToStart}
+              submitDraft={this.submitDraft}
               parentPreviousStep={this.previousStep}
             />
           </div>
