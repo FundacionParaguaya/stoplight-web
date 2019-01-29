@@ -50,24 +50,29 @@ class App extends Component {
     this.state = {
       urlParams: getParams(window.location)
     }
+    console.log(this.props)
+
     if (this.state.urlParams.sid !== '') {
       this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env)
     }
   }
   render() {
+    if(this.props.state.user.token){
       return (
         <Router>
-          <div>
-            <Dots />
-            <div className="main-card card">
-              <Switch>
-                <Route exact path="/surveys" component={Surveys} />
-                <Route exact path="/lifemap" component={Lifemap} />
-              </Switch>
-            </div>
-          </div>
+        <div>
+        <Dots />
+        <div className="main-card card">
+        <Switch>
+        <Route exact path="/surveys" component={Surveys} />
+        <Route exact path="/lifemap" component={Lifemap} />
+        </Switch>
+        </div>
+        </div>
         </Router>
       )
+    } else { return <div> <Dots/></div>}
+
   }
 }
 
