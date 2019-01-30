@@ -92,7 +92,7 @@ class PrioritiesAchievementsForm extends Component {
                 className="btn btn-primary btn-lg"
                 disabled={pristine || invalid}
               >
-                {t('general.close')}
+                {t('general.save')}
               </button>
             </div>
           </form>
@@ -166,7 +166,7 @@ class PrioritiesAchievementsForm extends Component {
                 className="btn btn-primary btn-lg col-4"
                 disabled={pristine || invalid}
               >
-                {t('general.close')}
+                {t('general.save')}
               </button>
             </div>
           </form>
