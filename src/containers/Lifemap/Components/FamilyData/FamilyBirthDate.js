@@ -35,12 +35,9 @@ class FamilyBirthDate extends Component {
     }
   }
 
-  handleChange = event => {
-    this.setState({ memberCount: event.target.value })
-  }
 
   //TODO: handler to skip to map view if only 1 family member!
-
+g
   render() {
     const { t } = this.props
     const draft = this.props.drafts.filter(
@@ -62,6 +59,7 @@ class FamilyBirthDate extends Component {
             dateChange={this.dateChange.bind(this, idx)}
             minYear={1900}
             maxYear={moment().format('YYYY')}
+            defaultDate={member.birthDate ? moment(member.birthDate).format('X') : null}
           />
         </div>
       )
