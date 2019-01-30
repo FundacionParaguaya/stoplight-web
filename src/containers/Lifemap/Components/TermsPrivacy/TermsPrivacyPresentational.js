@@ -6,7 +6,7 @@ import AppNavbar from '../../../../components/AppNavbar'
 const TermsPrivacyPresentational = ({ data, header, nextStep, t }) => {
   return (
     <div>
-      <AppNavbar text={header} showBack={false} />
+      <AppNavbar text={header} showBack={true} />
       <div className="text-center">
         <img src={Checkbox} alt="chekbox" />
       </div>
