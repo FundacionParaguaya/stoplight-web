@@ -186,9 +186,9 @@ class PrioritiesAchievementsForm extends Component {
   render() {
     return (
       <div>
-        <h2>{this.props.modalTitle}</h2>
-        <hr />
         <h3>{this.props.questionText}</h3>
+        <hr />
+        <h2>{this.props.modalTitle}</h2>
         {this.renderForm()}
       </div>
     )
