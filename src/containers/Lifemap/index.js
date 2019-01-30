@@ -99,15 +99,20 @@ class Lifemap extends Component {
 
   render() {
     let survey
-    if(!this.props.location || !this.props.location.state){ this.props.history.push('/surveys')}
-    if(this.props.location.state.surveyId && this.props.location.state.surveyId !== this.props.surveyStatus.surveyId){
+    if (!this.props.location || !this.props.location.state) {
+      this.props.history.push('/surveys')
+    }
+    if (
+      this.props.location.state.surveyId &&
+      this.props.location.state.surveyId !== this.props.surveyStatus.surveyId
+    ) {
       if (this.props.surveys) {
         survey = this.props.surveys.filter(
           survey => survey.id === this.props.location.state.surveyId
         )[0]
       }
       this.props.saveSurveyId(this.props.location.state.surveyId)
-    } else if(this.props.surveyStatus.surveyId){
+    } else if (this.props.surveyStatus.surveyId) {
       survey = this.props.surveys.filter(
         survey => survey.id === this.props.surveyStatus.surveyId
       )[0]
@@ -233,7 +238,7 @@ class Lifemap extends Component {
         break
       case 9:
         component = survey && (
-          <div style={{ width: '760px' }}>
+          <div style={{ width: '1024px !important' }}>
             <StopLight
               draftId={this.state.draftId}
               data={survey.surveyStoplightQuestions}
