@@ -109,7 +109,7 @@ class FamilyMembers extends Component {
           validate={values => {
             const errors = {}
             if (values.memberCount === null) {
-              errors.values = 'Required'
+              errors.memberCount = 'Required'
             }
             for (let i = 0; i < this.state.memberCount; i++) {
               if (!values[`membername${i + 2}`]) {
@@ -157,6 +157,7 @@ class FamilyMembers extends Component {
                       )
                     }}
                   </Field>
+                  <ErrorComponent name='memberCount' />
                 </div>
               </div>
               <div className="form-group">
