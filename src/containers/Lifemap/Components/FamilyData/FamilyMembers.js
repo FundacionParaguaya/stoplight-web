@@ -9,18 +9,8 @@ import AppNavbar from '../../../../components/AppNavbar'
 class FamilyMembers extends Component {
   constructor(props) {
     super(props)
-    let draft = this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
-    let primaryMember = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === true
-    )[0]
-    let additionalMembersList = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === false
-    )
     this.state = {
-      memberCount: additionalMembersList.length || null,
-      primaryMemberName: primaryMember.firstName
+      memberCount: this.props.memberCount > 0 ? this.props.memberCount : null
     }
   }
   handleChange = event => {
@@ -36,30 +26,30 @@ class FamilyMembers extends Component {
     )[0]
 
     let initialValues = { memberCount: this.state.memberCount }
-    let additionalMembersList = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === false
-    )
-    additionalMembersList.forEach((member, idx) => {
-      initialValues[`membername${idx + 2}`] = member.firstName
-    })
+    draft.familyData.familyMembersList
+      .filter(member => member.firstParticipant === false)
+      .forEach((member, idx) => {
+        initialValues[`membername${idx + 2}`] = member.firstName
+      })
 
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
       forms.push(
-        <div key={`membernId${i + 2}`}>
+        <div key={`membernId${i + 2}`} >
           <Field name={`membername${i + 2}`}>
             {({ input, meta }) => (
               <div className="form-group">
+              <label>{t('views.family.familyMember')} {i+2}</label>
                 <input
                   type="text"
                   {...input}
                   className="form-control"
                   placeholder={t('views.family.name')}
                 />
+                <ErrorComponent name={`membername${i + 2}`} />
               </div>
             )}
           </Field>
-          <ErrorComponent name={`membername${i + 2}`} />
         </div>
       )
     }
@@ -109,8 +99,9 @@ class FamilyMembers extends Component {
           validate={values => {
             const errors = {}
             if (values.memberCount === null) {
-              errors.values = 'Required'
+              errors.memberCount = 'Required'
             }
+
             for (let i = 0; i < this.state.memberCount; i++) {
               if (!values[`membername${i + 2}`]) {
                 errors[`membername${i + 2}`] = 'Required'
@@ -130,6 +121,7 @@ class FamilyMembers extends Component {
             <form onSubmit={handleSubmit}>
               <div>
                 <div className="form-group">
+                <label>{t('views.family.peopleLivingInThisHousehold')}</label>
                   <Field name="memberCount">
                     {({ input, meta }) => {
                       const { onChange } = input
@@ -141,7 +133,6 @@ class FamilyMembers extends Component {
                       return (
                         <select {...newInput} className="custom-select">
                           <option value="" disabled>
-                            {t('views.family.peopleLivingInThisHousehold')}
                           </option>
                           <option value="0">1</option>
                           <option value="1">2</option>
@@ -157,12 +148,13 @@ class FamilyMembers extends Component {
                       )
                     }}
                   </Field>
+                  <ErrorComponent name='memberCount' />
                 </div>
               </div>
               <div className="form-group">
                 <label>{t('views.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
-                  {this.state.primaryMemberName}
+                  {this.props.surveyTakerName}
                 </p>
               </div>
               {forms}

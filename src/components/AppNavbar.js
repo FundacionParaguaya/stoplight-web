@@ -33,7 +33,7 @@ class AppNavbar extends Component {
     const { t } = this.props
     return (
       <div className="app-navbar">
-        <h2>
+        <h1>
           {this.props.showBack === true ? (
             <button
               className="btn btn-link app-navbar-back"
@@ -57,11 +57,11 @@ class AppNavbar extends Component {
               <Modal.Title> Exit Survey </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              You have unifineshd data.
+              {t('modals.yourLifemapIsNotComplete')}
               <br />
               <strong>This data will be lost.</strong> <br />
               <br />
-              Are you sure you want to exit this survey?
+              {t('modals.areYouSureYouWantToExit')}
             </Modal.Body>
             <Modal.Footer>
               <button class="btn btn-secondary" onClick={this.handleClose}>
@@ -72,7 +72,7 @@ class AppNavbar extends Component {
               </button>
             </Modal.Footer>
           </Modal>
-        </h2>
+        </h1>
       </div>
     )
   }

@@ -98,6 +98,7 @@ class FamilyMap extends Component {
           loadingMessage={'Please wait while the map is loading.'}
           params={params}
           onMapCreated={this.onMapCreated}
+          scrollwheel={false}
         >
           <Marker
             lat={this.state.lat}
@@ -138,6 +139,7 @@ class FamilyMap extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
+              <label>{t('views.family.selectACountry')}</label>
                 <Field
                   name="country"
                   component="select"
@@ -151,11 +153,11 @@ class FamilyMap extends Component {
               <Field name="postCode">
                 {({ input, meta }) => (
                   <div className="form-group">
+                  <label>{t('views.family.postcode')}</label>
                     <input
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder={t('views.family.postcode')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
@@ -164,11 +166,11 @@ class FamilyMap extends Component {
               <Field name="address">
                 {({ input, meta }) => (
                   <div className="form-group">
+                  <label>{t('views.family.streetOrHouseDescription')}</label>
                     <input
                       type="text"
                       {...input}
                       className="form-control"
-                      placeholder={t('views.family.streetOrHouseDescription')}
                     />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>

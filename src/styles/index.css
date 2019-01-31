@@ -319,8 +319,8 @@ nav {
   text-align: center;
 }
 
-.app-navbar h2 {
-  line-height: 3;
+.app-navbar h1 {
+  line-height: 2;
 }
 
 .app-navbar-close {
@@ -331,6 +331,15 @@ nav {
 .app-navbar-back {
   float: left;
   color: #787878;
+}
+
+/* Form Overrides */
+.form-input-element {
+  margin: -0.6rem 0.2rem;
+}
+
+.form-label {
+  margin-bottom: 0rem;
 }
 
 /* .sticky-btn {
