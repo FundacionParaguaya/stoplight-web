@@ -17,8 +17,8 @@ const StopLightPresentational = ({
   return (
     <div>
       <div>
-        <h2>{data.dimension}</h2>
-        <h3>{data.questionText}</h3>
+        <h4 style={{color:'grey'}}>{data.dimension}</h4>
+        <h2>{data.questionText}</h2>
       </div>
       <div className="progress" style={{ marginBottom: '1em' }}>
         <div

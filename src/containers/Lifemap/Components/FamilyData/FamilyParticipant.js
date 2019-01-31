@@ -139,6 +139,7 @@ class FamilyParticipant extends Component {
           text={t('views.primaryParticipant')}
           showBack={true}
           backHandler={this.props.parentPreviousStep}
+          draftOngoing={this.props.draftId ? true : false}
         />
         <div className="text-center">
           <img src={family_face_large} alt="family_face_large" />

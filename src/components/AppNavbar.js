@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import { X, ArrowLeft } from 'react-feather'
 import { Modal } from 'react-bootstrap'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 
 import { withI18n } from 'react-i18next'
@@ -33,6 +34,9 @@ class AppNavbar extends Component {
     const { t } = this.props
     return (
       <div className="app-navbar">
+        <Helmet>
+          <title>{this.props.text}</title>
+        </Helmet>
         <h1>
           {this.props.showBack === true ? (
             <button
@@ -47,7 +51,7 @@ class AppNavbar extends Component {
           {this.props.text}
           <button
             className="btn btn-link app-navbar-close"
-            onClick={this.handleShow}
+            onClick={this.props.hasOwnProperty('draftOngoing') && this.props.draftOngoing === false ? this.handleExit : this.handleShow}
           >
             <X />
           </button>
@@ -57,11 +61,11 @@ class AppNavbar extends Component {
               <Modal.Title> Exit Survey </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {t('modals.yourLifemapIsNotComplete')}
+              {t('views.modals.yourLifemapIsNotComplete')}
               <br />
               <strong>This data will be lost.</strong> <br />
               <br />
-              {t('modals.areYouSureYouWantToExit')}
+              {t('views.modals.areYouSureYouWantToExit')}
             </Modal.Body>
             <Modal.Footer>
               <button class="btn btn-secondary" onClick={this.handleClose}>
