@@ -33,7 +33,7 @@ class AppNavbar extends Component {
     const { t } = this.props
     return (
       <div className="app-navbar">
-        <h2>
+        <h1>
           {this.props.showBack === true ? (
             <button
               className="btn btn-link app-navbar-back"
@@ -72,7 +72,7 @@ class AppNavbar extends Component {
               </button>
             </Modal.Footer>
           </Modal>
-        </h2>
+        </h1>
       </div>
     )
   }

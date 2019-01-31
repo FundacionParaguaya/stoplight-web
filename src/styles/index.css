@@ -319,8 +319,8 @@ nav {
   text-align: center;
 }
 
-.app-navbar h2 {
-  line-height: 3;
+.app-navbar h1 {
+  line-height: 2;
 }
 
 .app-navbar-close {
