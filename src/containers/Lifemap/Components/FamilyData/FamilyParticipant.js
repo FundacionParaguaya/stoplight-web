@@ -35,7 +35,7 @@ class FamilyParticipant extends Component {
   dateChange(date) {
     this.setState({
       date: date,
-      dateError: 1
+      dateError: moment(this.state.date).format('X') === "Invalid date"?  -1 : 1
     })
   }
 
@@ -93,10 +93,13 @@ class FamilyParticipant extends Component {
       draft => draft.draftId === this.props.draftId
     )[0]
     values.firstParticipant = true
-    let familyMembersListNew = draft.familyData.familyMembersList
-    familyMembersListNew[0] = values
+    let primaryParticipantList = draft.familyData.familyMembersList.filter((member) => member.firstParticipant===true)
+    primaryParticipantList[0] = values
+    primaryParticipantList[0].birthDate = moment(this.state.date).format('X')
+    primaryParticipantList[0].socioEconomicAnswers = []
+
     this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-      familyMembersList: familyMembersListNew
+      familyMembersList: primaryParticipantList
     })
     this.props.setName(values['firstName'])
     this.props.nextStep()
@@ -127,6 +130,7 @@ class FamilyParticipant extends Component {
         draft => draft.draftId === this.props.draftId
       )[0]
       user = this.initData(draft.familyData.familyMembersList[0])
+      if(this.state.date === null && user.birthDate !== null) {this.setState({date: new Date(parseInt(user.birthDate*1000)), dateError: 1})} // preload user's birthdate to state date element
     }
 
     return (
@@ -141,10 +145,15 @@ class FamilyParticipant extends Component {
         </div>
         <Form
           onSubmit={values => {
-            if (this.props.draftId) {
-              this.updateDraftParticipant(values)
+            if(moment(this.state.date).format('X') === "Invalid date"){
+              this.setState({dateError: -1})
             } else {
-              this.createDraft(values)
+
+              if (this.props.draftId) {
+                this.updateDraftParticipant(values)
+              } else {
+                this.createDraft(values)
+              }
             }
           }}
           validate={validate}
@@ -165,11 +174,11 @@ class FamilyParticipant extends Component {
                   {({ input, meta }) => {
                     return (
                       <div className="form-group">
+                      <label> {t('views.family.firstName')} </label>
                         <input
                           type="text"
                           {...input}
                           className="form-control"
-                          placeholder={t('views.family.firstName')}
                         />
                         <Error name="firstName" />
                       </div>
@@ -181,11 +190,11 @@ class FamilyParticipant extends Component {
                 <Field name="lastName">
                   {({ input, meta }) => (
                     <div className="form-group">
+                    <label> {t('views.family.lastName')} </label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.lastName')}
                       />
                       <Error name="lastName" />
                     </div>
@@ -194,13 +203,13 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
+                <label> {t('views.family.selectGender')} </label>
                   <Field
                     name="gender"
                     component="select"
-                    className="form-control  custom-select"
+                    className="form-control custom-select"
                   >
                     <option value="" disabled>
-                      {t('views.family.selectGender')}
                     </option>
                     {this.props.data.gender.map(gender => (
                       <option
@@ -215,7 +224,7 @@ class FamilyParticipant extends Component {
                 </div>
               </div>
               <div className="date-div">
-                <label className="date-label m0">
+                <label className="form-label date-label m0">
                   {t('views.family.dateOfBirth')}
                 </label>
                 <DatePicker
@@ -232,13 +241,13 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
+                <label> {t('views.family.documentType')} </label>
                   <Field
                     name="documentType"
                     component="select"
                     className="form-control"
                   >
                     <option value="" disabled>
-                      {t('views.family.documentType')}
                     </option>
                     {this.props.data.documentType.map(docType => (
                       <option
@@ -256,11 +265,11 @@ class FamilyParticipant extends Component {
                 <Field name="documentNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
+                    <label>{t('views.family.documentNumber')}</label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.documentNumber')}
                       />
                       <Error name="documentNumber" />
                     </div>
@@ -269,13 +278,13 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
+                <label>{t('views.family.countryOfBirth')}</label>
                   <Field
                     name="birthCountry"
                     component="select"
                     className="form-control"
                   >
                     <option value="" disabled>
-                      {t('views.family.countryOfBirth')}
                     </option>
                     {countriesOptions}
                   </Field>
@@ -286,11 +295,11 @@ class FamilyParticipant extends Component {
                 <Field name="email">
                   {({ input, meta }) => (
                     <div className="form-group">
+                    <label>{t('views.family.email')}</label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.email')}
                       />
                       <Error name="email" />
                     </div>
@@ -301,11 +310,11 @@ class FamilyParticipant extends Component {
                 <Field name="phoneNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
+                    <label>{t('views.family.phone')}</label>
                       <input
                         type="text"
                         {...input}
                         className="form-control"
-                        placeholder={t('views.family.phone')}
                       />
                       {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>

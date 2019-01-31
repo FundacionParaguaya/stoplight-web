@@ -22,14 +22,15 @@ export class Surveys extends Component {
     return (
       <div>
         <AppNavbar text={t('views.createLifemap')} showBack={false} />
-        {this.props.surveyStatus.surveyId !== null ? (<div className="text-center"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div>): (<div> </div>)}
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
         </div>
         {this.props.surveys.length === 0 ? (
           <Spinner />
         ) : (
-          this.props.surveys.map((survey, i) => (
+          <div>
+          {this.props.surveyStatus.surveyId !== null ? (<div className="card-list"><div className="card-body"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div></div>): (<div> </div>)}
+          {this.props.surveys.map((survey, i) => (
             <div key={survey.id} style={{ marginTop: 30 }}>
               <Link
                 to={{
@@ -45,7 +46,8 @@ export class Surveys extends Component {
                 </div>
               </Link>
             </div>
-          ))
+          ))}
+          </div>
         )}
       </div>
     )

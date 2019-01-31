@@ -6,7 +6,9 @@ const ErrorComponent = ({ name }) => (
     subscription={{ touched: true, error: true }}
     render={({ meta: { touched, error } }) =>
       touched && error ? (
-        <span className="badge badge-pill badge-danger">{error}</span>
+        <span
+        style={{marginTop:" 1rem"}}
+        className="badge badge-pill badge-danger">{error}</span>
       ) : null
     }
   />

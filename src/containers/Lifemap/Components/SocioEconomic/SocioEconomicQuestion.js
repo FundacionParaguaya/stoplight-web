@@ -12,31 +12,33 @@ const SocioEconomicQuestion = ({ question }) => {
             {({ input, meta }) => (
               <div className="form-group">
                 <input
-                  type={question.answerType === 'string' ? 'text': 'number'}
+                  type={question.answerType === 'string' ? 'text' : 'number'}
                   {...input}
                   className="form-control"
                   placeholder=""
                 />
-                {meta.touched && meta.error && <span>{meta.error}</span>}
+                <ErrorComponent name={question.codeName} />
               </div>
             )}
           </Field>
         ) : (
-          <Field
-            name={question.codeName}
-            component="select"
-            className="custom-select"
-          >
-            <option value="">Select type</option>
-            {question.options.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.text}
-              </option>
-            ))}
-          </Field>
+          <div>
+            <Field
+              name={question.codeName}
+              component="select"
+              className="custom-select"
+            >
+              <option value="">Select type</option>
+              {question.options.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.text}
+                </option>
+              ))}
+            </Field>
+            <ErrorComponent name={question.codeName} />
+          </div>
         )}
       </div>
-      <ErrorComponent name={question.codeName} />
     </div>
   )
 }

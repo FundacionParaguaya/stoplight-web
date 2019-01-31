@@ -27,27 +27,9 @@ class FamilyGender extends Component {
       initialValues[`gender${idx}`] = member.gender || null
     })
 
-    // build initial values
-    let genderText = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === true
-    )[0].gender
-    // switch (genderText) {
-    //   case 'N':
-    //     genderText = 'Prefer not to answer'
-    //     break
-    //   case 'M':
-    //     genderText = 'Male'
-    //     break
-    //   case 'F':
-    //     genderText = 'Female'
-    //     break
-    //   default:
-    //     genderText = 'Other'
-    // }
-
     const forms = additionalMembersList.map((member, idx) => {
       return (
-        <div key={idx}>
+        <div key={idx} className="form-group">
           <label>{member.firstName}</label>
           <Field
             name={`gender${idx}`}
@@ -79,7 +61,7 @@ class FamilyGender extends Component {
             let familyMembersList = draft.familyData.familyMembersList.filter(
               member => member.firstParticipant === true
             )
-
+            console.log(familyMembersList)
             additionalMembersList.forEach((member, idx) => {
               member.gender = values[`gender${idx}`]
               familyMembersList.push(member)
