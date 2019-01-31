@@ -9,18 +9,8 @@ import AppNavbar from '../../../../components/AppNavbar'
 class FamilyMembers extends Component {
   constructor(props) {
     super(props)
-    let draft = this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
-    let primaryMember = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === true
-    )[0]
-    let additionalMembersList = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === false
-    )
     this.state = {
-      memberCount: additionalMembersList.length || null,
-      primaryMemberName: primaryMember.firstName
+      memberCount: this.props.memberCount > 0 ? this.props.memberCount : null
     }
   }
   handleChange = event => {
@@ -36,12 +26,11 @@ class FamilyMembers extends Component {
     )[0]
 
     let initialValues = { memberCount: this.state.memberCount }
-    let additionalMembersList = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === false
-    )
-    additionalMembersList.forEach((member, idx) => {
-      initialValues[`membername${idx + 2}`] = member.firstName
-    })
+    draft.familyData.familyMembersList
+      .filter(member => member.firstParticipant === false)
+      .forEach((member, idx) => {
+        initialValues[`membername${idx + 2}`] = member.firstName
+      })
 
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
@@ -56,10 +45,10 @@ class FamilyMembers extends Component {
                   className="form-control"
                   placeholder={t('views.family.name')}
                 />
+                <ErrorComponent name={`membername${i + 2}`} />
               </div>
             )}
           </Field>
-          <ErrorComponent name={`membername${i + 2}`} />
         </div>
       )
     }
@@ -110,6 +99,7 @@ class FamilyMembers extends Component {
             const errors = {}
             if (values.memberCount === null) {
               errors.memberCount = 'Required'
+
             }
             for (let i = 0; i < this.state.memberCount; i++) {
               if (!values[`membername${i + 2}`]) {
@@ -163,7 +153,7 @@ class FamilyMembers extends Component {
               <div className="form-group">
                 <label>{t('views.primaryParticipant')}</label>
                 <p className="form-control" placeholder="">
-                  {this.state.primaryMemberName}
+                  {this.props.surveyTakerName}
                 </p>
               </div>
               {forms}
@@ -171,6 +161,7 @@ class FamilyMembers extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
+                  disabled={pristine}
                 >
                   {t('general.continue')}
                 </button>
