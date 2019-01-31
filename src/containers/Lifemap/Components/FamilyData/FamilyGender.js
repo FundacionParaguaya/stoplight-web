@@ -61,7 +61,7 @@ class FamilyGender extends Component {
             let familyMembersList = draft.familyData.familyMembersList.filter(
               member => member.firstParticipant === true
             )
-
+            console.log(familyMembersList)
             additionalMembersList.forEach((member, idx) => {
               member.gender = values[`gender${idx}`]
               familyMembersList.push(member)

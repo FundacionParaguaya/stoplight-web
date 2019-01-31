@@ -35,7 +35,7 @@ class FamilyParticipant extends Component {
   dateChange(date) {
     this.setState({
       date: date,
-      dateError: 1
+      dateError: moment(this.state.date).format('X') === "Invalid date"?  -1 : 1
     })
   }
 
@@ -95,6 +95,7 @@ class FamilyParticipant extends Component {
     values.firstParticipant = true
     let familyMembersListNew = draft.familyData.familyMembersList
     familyMembersListNew[0] = values
+    familyMembersListNew[0].birthDate = moment(this.state.date).format('X')
     this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
       familyMembersList: familyMembersListNew
     })
@@ -127,6 +128,7 @@ class FamilyParticipant extends Component {
         draft => draft.draftId === this.props.draftId
       )[0]
       user = this.initData(draft.familyData.familyMembersList[0])
+      if(this.state.date === null && user.birthDate !== null) {this.setState({date: new Date(parseInt(user.birthDate*1000)), dateError: 1})} // preload user's birthdate to state date element
     }
 
     return (
@@ -141,10 +143,15 @@ class FamilyParticipant extends Component {
         </div>
         <Form
           onSubmit={values => {
-            if (this.props.draftId) {
-              this.updateDraftParticipant(values)
+            if(moment(this.state.date).format('X') === "Invalid date"){
+              this.setState({dateError: -1})
             } else {
-              this.createDraft(values)
+
+              if (this.props.draftId) {
+                this.updateDraftParticipant(values)
+              } else {
+                this.createDraft(values)
+              }
             }
           }}
           validate={validate}

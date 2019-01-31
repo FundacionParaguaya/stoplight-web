@@ -45,12 +45,10 @@ class FamilyBirthDate extends Component {
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
     )
-
-    const date = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === true
-    )[0].birthDate
+    console.log(additionalMembersList)
 
     const forms = additionalMembersList.map((member, idx) => {
+      console.log(member)
       return (
         <div key={idx} className="form-group">
           <label>{member.firstName}</label>
@@ -58,7 +56,7 @@ class FamilyBirthDate extends Component {
             dateChange={this.dateChange.bind(this, idx)}
             minYear={1900}
             maxYear={moment().format('YYYY')}
-            defaultDate={member.birthDate ? moment(member.birthDate).format('X') : null}
+            defaultDate={member.birthDate ? moment(parseInt(member.birthDate)*1000).format('X') : null}
           />
         </div>
       )
