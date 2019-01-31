@@ -51,7 +51,7 @@ class AppNavbar extends Component {
           {this.props.text}
           <button
             className="btn btn-link app-navbar-close"
-            onClick={this.handleShow}
+            onClick={this.props.hasOwnProperty('draftOngoing') && this.props.draftOngoing === false ? this.handleExit : this.handleShow}
           >
             <X />
           </button>
@@ -61,11 +61,11 @@ class AppNavbar extends Component {
               <Modal.Title> Exit Survey </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {t('modals.yourLifemapIsNotComplete')}
+              {t('views.modals.yourLifemapIsNotComplete')}
               <br />
               <strong>This data will be lost.</strong> <br />
               <br />
-              {t('modals.areYouSureYouWantToExit')}
+              {t('views.modals.areYouSureYouWantToExit')}
             </Modal.Body>
             <Modal.Footer>
               <button class="btn btn-secondary" onClick={this.handleClose}>
