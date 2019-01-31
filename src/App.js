@@ -8,10 +8,6 @@ import {
 import { connect } from 'react-redux'
 
 import { logout, login } from './redux/actions'
-import Login from './containers/Login'
-import Dashboard from './containers/Dashboard'
-import Families from './containers/Families'
-import Family from './containers/Family'
 import Surveys from './containers/Surveys'
 import Lifemap from './containers/Lifemap'
 

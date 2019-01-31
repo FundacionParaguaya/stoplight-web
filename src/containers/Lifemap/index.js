@@ -275,6 +275,7 @@ class Lifemap extends Component {
         break
       // Create a submit handler to send redux store of graph as graphql mutation once Prorities & Achievements is submitted
       default:
+
         component = <div>NOTHING TO SEE HERE</div>
     }
     return <div>{component}</div>
