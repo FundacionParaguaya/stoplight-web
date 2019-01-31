@@ -57,11 +57,11 @@ class AppNavbar extends Component {
               <Modal.Title> Exit Survey </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              You have an unfinished draft.
+              {t('modals.yourLifemapIsNotComplete')}
               <br />
               <strong>This data will be lost.</strong> <br />
               <br />
-              Are you sure you want to exit this survey?
+              {t('modals.areYouSureYouWantToExit')}
             </Modal.Body>
             <Modal.Footer>
               <button class="btn btn-secondary" onClick={this.handleClose}>

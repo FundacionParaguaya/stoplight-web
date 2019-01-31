@@ -46,6 +46,10 @@ class FamilyBirthDate extends Component {
       member => member.firstParticipant === false
     )
 
+    const date = draft.familyData.familyMembersList.filter(
+      member => member.firstParticipant === true
+    )[0].birthDate
+
     const forms = additionalMembersList.map((member, idx) => {
       return (
         <div key={idx} className="form-group">
