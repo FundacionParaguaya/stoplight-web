@@ -17,7 +17,7 @@ class FamilyMembers extends Component {
     let memberCount = draft.familyData.countFamilyMembers || null
 
     this.state = {
-      memberCount: memberCount
+      memberCount: memberCount-1
     }
   }
   handleChange = event => {
