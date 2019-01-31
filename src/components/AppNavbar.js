@@ -57,7 +57,7 @@ class AppNavbar extends Component {
               <Modal.Title> Exit Survey </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              You have unifineshd data.
+              You have an unfinished draft.
               <br />
               <strong>This data will be lost.</strong> <br />
               <br />
