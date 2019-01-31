@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import { X, ArrowLeft } from 'react-feather'
 import { Modal } from 'react-bootstrap'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 
 import { withI18n } from 'react-i18next'
@@ -33,6 +34,9 @@ class AppNavbar extends Component {
     const { t } = this.props
     return (
       <div className="app-navbar">
+        <Helmet>
+          <title>{this.props.text}</title>
+        </Helmet>
         <h1>
           {this.props.showBack === true ? (
             <button
