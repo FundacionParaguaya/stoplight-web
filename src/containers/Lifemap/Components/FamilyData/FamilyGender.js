@@ -27,14 +27,9 @@ class FamilyGender extends Component {
       initialValues[`gender${idx}`] = member.gender || null
     })
 
-    // build initial values
-    let genderText = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === true
-    )[0].gender
-
     const forms = additionalMembersList.map((member, idx) => {
       return (
-        <div key={idx}>
+        <div key={idx} className="form-group">
           <label>{member.firstName}</label>
           <Field
             name={`gender${idx}`}

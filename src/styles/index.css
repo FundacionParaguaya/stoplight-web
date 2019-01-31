@@ -333,6 +333,15 @@ nav {
   color: #787878;
 }
 
+/* Form Overrides */
+.form-input-element {
+  margin: -0.6rem 0.2rem;
+}
+
+.form-label {
+  margin-bottom: 0rem;
+}
+
 /* .sticky-btn {
   margin: -1rem -0 0 -1rem;
   bottom: 0px;
