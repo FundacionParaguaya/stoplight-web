@@ -37,7 +37,6 @@ class FamilyBirthDate extends Component {
 
 
   //TODO: handler to skip to map view if only 1 family member!
-g
   render() {
     const { t } = this.props
     const draft = this.props.drafts.filter(
@@ -47,13 +46,9 @@ g
       member => member.firstParticipant === false
     )
 
-    const date = draft.familyData.familyMembersList.filter(
-      member => member.firstParticipant === true
-    )[0].birthDate
-
     const forms = additionalMembersList.map((member, idx) => {
       return (
-        <div key={idx}>
+        <div key={idx} className="form-group">
           <label>{member.firstName}</label>
           <DatePicker
             dateChange={this.dateChange.bind(this, idx)}

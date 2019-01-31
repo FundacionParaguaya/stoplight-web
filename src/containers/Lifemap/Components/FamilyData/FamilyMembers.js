@@ -35,10 +35,11 @@ class FamilyMembers extends Component {
     const forms = []
     for (let i = 0; i < this.state.memberCount; i++) {
       forms.push(
-        <div key={`membernId${i + 2}`}>
+        <div key={`membernId${i + 2}`} >
           <Field name={`membername${i + 2}`}>
             {({ input, meta }) => (
               <div className="form-group">
+              <label>{t('views.family.familyMember')} {i+2}</label>
                 <input
                   type="text"
                   {...input}
@@ -99,8 +100,8 @@ class FamilyMembers extends Component {
             const errors = {}
             if (values.memberCount === null) {
               errors.memberCount = 'Required'
-
             }
+
             for (let i = 0; i < this.state.memberCount; i++) {
               if (!values[`membername${i + 2}`]) {
                 errors[`membername${i + 2}`] = 'Required'
@@ -120,6 +121,7 @@ class FamilyMembers extends Component {
             <form onSubmit={handleSubmit}>
               <div>
                 <div className="form-group">
+                <label>{t('views.family.peopleLivingInThisHousehold')}</label>
                   <Field name="memberCount">
                     {({ input, meta }) => {
                       const { onChange } = input
@@ -131,7 +133,6 @@ class FamilyMembers extends Component {
                       return (
                         <select {...newInput} className="custom-select">
                           <option value="" disabled>
-                            {t('views.family.peopleLivingInThisHousehold')}
                           </option>
                           <option value="0">1</option>
                           <option value="1">2</option>
