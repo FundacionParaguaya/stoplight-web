@@ -9,8 +9,15 @@ import AppNavbar from '../../../../components/AppNavbar'
 class FamilyMembers extends Component {
   constructor(props) {
     super(props)
+
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+
+    let memberCount = draft.familyData.countFamilyMembers || null
+
     this.state = {
-      memberCount: this.props.memberCount > 0 ? this.props.memberCount : null
+      memberCount: memberCount
     }
   }
   handleChange = event => {
@@ -24,6 +31,7 @@ class FamilyMembers extends Component {
     let draft = this.props.drafts.filter(
       draft => draft.draftId === this.props.draftId
     )[0]
+
 
     let initialValues = { memberCount: this.state.memberCount }
     draft.familyData.familyMembersList

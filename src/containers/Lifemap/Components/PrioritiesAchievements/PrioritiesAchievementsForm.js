@@ -90,7 +90,7 @@ class PrioritiesAchievementsForm extends Component {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg"
-                disabled={pristine || invalid}
+                disabled={invalid}
               >
                 {t('general.save')}
               </button>
@@ -105,7 +105,7 @@ class PrioritiesAchievementsForm extends Component {
     const { t } = this.props
     return (
       <Form
-        onSubmit={(values, form) => {
+        onSubmit={(values, form, invalid) => {
           // we want to update Family Data
           let achievementObj = values
           achievementObj.indicator = this.props.indicator
@@ -114,7 +114,9 @@ class PrioritiesAchievementsForm extends Component {
             'achievements',
             achievementObj
           )
-          this.closeModal() // bound to parent
+          if(!invalid){
+            this.closeModal() // bound to parent
+          }
         }}
         initialValues={{}}
         render={({
