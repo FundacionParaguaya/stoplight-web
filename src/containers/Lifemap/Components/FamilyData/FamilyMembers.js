@@ -162,7 +162,6 @@ class FamilyMembers extends Component {
                 <button
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
-                  disabled={pristine}
                 >
                   {t('general.continue')}
                 </button>
