@@ -103,7 +103,6 @@ class PrioritiesAchievementsForm extends Component {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg"
-                disabled={invalid}
               >
                 {t('general.save')}
               </button>
@@ -179,7 +178,6 @@ class PrioritiesAchievementsForm extends Component {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg col-4"
-                disabled={pristine || invalid}
               >
                 {t('general.save')}
               </button>
@@ -201,9 +199,9 @@ class PrioritiesAchievementsForm extends Component {
   render() {
     return (
       <div>
-        <h3>{this.props.questionText}</h3>
+        <h1 className="h2">{this.props.questionText}</h1>
         <hr />
-        <h2>{this.props.modalTitle}</h2>
+        <h4>{this.props.modalTitle}</h4>
         {this.renderForm()}
       </div>
     )
