@@ -18,7 +18,11 @@ class PrioritiesAchievementsForm extends Component {
       <Form
         onSubmit={(values, form) => {
           // we want to update Family Data
-          let priorityObj = values
+          let priorityObj = {
+            reason: values.reason || '',
+            action: values.action || '',
+            estimatedDate: values.estimatedDate
+          }
           priorityObj.indicator = this.props.indicator
           this.props.addSurveyPriorityAchievementData(
             this.props.draftId,
@@ -56,7 +60,6 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder={t('views.lifemap.writeYourAnswerHere')}
-                    required
                   />
                   {meta.touched && meta.error && <span>{meta.error}</span>}
                 </div>
@@ -71,7 +74,6 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder={t('views.lifemap.writeYourAnswerHere')}
-                    required
                   />
                   {meta.touched && meta.error && <span>{meta.error}</span>}
                 </div>
@@ -119,7 +121,10 @@ class PrioritiesAchievementsForm extends Component {
       <Form
         onSubmit={(values, form) => {
           // we want to update Family Data
-          let achievementObj = values
+          let achievementObj = {
+            action: values.action,
+            roadmap: values.roadmap || ''
+          }
           achievementObj.indicator = this.props.indicator
           this.props.addSurveyPriorityAchievementData(
             this.props.draftId,
@@ -162,7 +167,6 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder={t('views.lifemap.writeYourAnswerHere')}
-                    required
                   />
                   {meta.touched && meta.error && <span>{meta.error}</span>}
                 </div>
