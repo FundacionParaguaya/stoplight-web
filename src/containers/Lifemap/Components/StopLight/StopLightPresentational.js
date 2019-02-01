@@ -89,7 +89,8 @@ const StopLightPresentational = ({
         {!data.required && (
           <button
             type="submit"
-            className="btn btn-lg"
+            className="btn btn-link"
+            style={{color:'grey'}}
             onClick={() => nextStep(0, data.codeName)}
           >
             {t('views.lifemap.skipThisQuestion')}
