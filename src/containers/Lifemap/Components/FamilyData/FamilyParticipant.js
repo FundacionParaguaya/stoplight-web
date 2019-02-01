@@ -93,17 +93,14 @@ class FamilyParticipant extends Component {
       draft => draft.draftId === this.props.draftId
     )[0]
     values.firstParticipant = true
-    let additionalFamilyMembers= draft.familyData.familyMembersList.filter((member) => member.firstParticipant===false)
-    let primaryParticipant = values
-    primaryParticipant.birthDate = moment(this.state.date).format('X')
-    primaryParticipant.socioEconomicAnswers = []
+    let primaryParticipantList = draft.familyData.familyMembersList.filter((member) => member.firstParticipant===true)
+    primaryParticipantList[0] = values
+    primaryParticipantList[0].birthDate = moment(this.state.date).format('X')
+    primaryParticipantList[0].socioEconomicAnswers = []
 
-    console.log(primaryParticipant)
     this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-      familyMembersList: [primaryParticipant].concat(additionalFamilyMembers)
+      familyMembersList: primaryParticipantList
     })
-
-
     this.props.setName(values['firstName'])
     this.props.nextStep()
   }

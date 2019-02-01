@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withI18n } from 'react-i18next'
+import { withRouter } from 'react-router-dom'
 import TermsPrivacyPresentational from './TermsPrivacyPresentational'
 
 class TermsPrivacy extends Component {
@@ -17,6 +18,9 @@ class TermsPrivacy extends Component {
   }
 
   previousStep = () => {
+    if(this.state.step === 0){
+      this.props.history.push('/surveys')
+    }
     const { step } = this.state
     this.setState({ step: step - 1 })
   }
@@ -26,6 +30,7 @@ class TermsPrivacy extends Component {
     let data = null
     let header = ''
     let nextStepFunc = this.nextStep
+    let prevStepFunc = this.previousStep
     if (this.state.step === 0) {
       data = this.props.data.termsConditions
       header = t('views.termsConditions')
@@ -42,6 +47,7 @@ class TermsPrivacy extends Component {
             data={data}
             header={header}
             nextStep={nextStepFunc}
+            previousStep={prevStepFunc}
           />
         }
       </div>
@@ -51,7 +57,7 @@ class TermsPrivacy extends Component {
 
 const mapDispatchToProps = {}
 
-export default withI18n()(connect(
+export default withRouter(withI18n()(connect(
   null,
   mapDispatchToProps
-)(TermsPrivacy))
+)(TermsPrivacy)))

@@ -16,7 +16,7 @@ const StopLightPresentational = ({
 
   return (
     <div>
-      <div>
+      <div class="text-center">
         <h4 style={{color:'grey'}}>{data.dimension}</h4>
         <h2>{data.questionText}</h2>
       </div>

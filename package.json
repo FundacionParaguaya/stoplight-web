@@ -20,6 +20,8 @@
     "react-i18next": "^9.0.4",
     "react-modal": "^3.8.1",
     "react-nl2br": "^0.4.0",
+    "react-preload": "^0.6.0",
+    "react-preload-image": "^1.0.4",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.3",
