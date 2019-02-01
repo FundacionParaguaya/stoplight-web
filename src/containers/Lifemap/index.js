@@ -257,6 +257,7 @@ class Lifemap extends Component {
               nextStep={this.nextStep}
               parentPreviousStep={this.previousStep}
               minimumPriorities={survey.minimumPriorities}
+
             />
           </div>
         )
