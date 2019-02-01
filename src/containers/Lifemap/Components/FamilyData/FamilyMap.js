@@ -82,12 +82,14 @@ class FamilyMap extends Component {
     let countriesOptions = this.generateCountriesOptions()
     let defaultCountry = countriesOptions.shift()
 
+    let draft = this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+    let familyMemberCount = draft.familyData.countFamilyMembers
     return (
       <div>
         <AppNavbar
           text={t('views.location')}
           showBack={true}
-          backHandler={this.props.previousStep}
+          backHandler={familyMemberCount > 1 ? this.props.previousStep : () => this.props.jumpStep(-3)}
         />
 
         <Gmaps
