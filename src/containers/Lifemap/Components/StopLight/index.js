@@ -60,11 +60,11 @@ class StopLight extends Component {
     this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
   }
 
-  goBack() {
-    if (this.props.index === 0) {
-      return this.props.parentPreviousStep
+  goBack = () => {
+    if (this.state.step <= 0) {
+      this.props.parentPreviousStep()
     } else {
-      return this.props.previousStep
+      this.previousStep()
     }
   }
 
@@ -76,9 +76,8 @@ class StopLight extends Component {
         <AppNavbar
           text={t('views.yourLifeMap')}
           showBack={true}
-          backHandler={this.previousStep()}
+          backHandler={() => this.goBack()}
         />
-        {!this.state.renderSkippedQuestionsScreen ? (
           <StopLightPresentational
             data={stopLightQuestions[this.state.step]}
             index={this.state.step}
@@ -89,9 +88,6 @@ class StopLight extends Component {
             imagesLoaded={this.state.imagesLoaded}
             updateImageStatus={this.updateImageStatus}
           />
-        ) : (
-          <SkippedQuestions questions={this.state.skippedQuestionsList} />
-        )}
       </div>
     )
   }

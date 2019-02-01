@@ -134,7 +134,7 @@ class IndicatorList extends Component {
       <AppNavbar
         text={t('views.yourLifeMap')}
         showBack={true}
-        backHandler={this.props.previousStep}
+        backHandler={this.props.parentPreviousStep}
       />
         {groupedIndicatorList.map(indicatorGroup => {
           return (

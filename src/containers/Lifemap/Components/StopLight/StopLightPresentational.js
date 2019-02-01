@@ -13,10 +13,9 @@ const StopLightPresentational = ({
   updateImageStatus
 }) => {
   let progressPercent = ((index + 1) / (total + 1)) * 100
-
   return (
     <div>
-      <div class="text-center">
+      <div className="text-center">
         <h4 style={{color:'grey'}}>{data.dimension}</h4>
         <h2>{data.questionText}</h2>
       </div>
