@@ -32,7 +32,8 @@ class Lifemap extends Component {
       surveyTakerName: '',
       memberCount: 0,
       draftOnGoing: this.props.surveyStatus.draftId ? true : false,
-      draft: null
+      draft: null,
+      submitError: false
     }
   }
 
@@ -72,8 +73,14 @@ class Lifemap extends Component {
     )[0]
     console.log(draft)
 
-    this.props.submitDraft(draft)
-    this.props.saveSurveyId(null)
+    // if(this.props.submitDraft(draft)){
+      this.setState({submitError: false})
+      this.props.saveSurveyId(null)
+      this.props.history.push('/surveys')
+    // } else {
+      // this.setState({submitError: true})
+    // }
+
   }
 
   nextStep = () => {
@@ -238,7 +245,7 @@ class Lifemap extends Component {
         break
       case 9:
         component = survey && (
-          <div style={{ width: '1024px !important' }}>
+          <div style={{ width: '1024px !important', zIndex:'9999' }}>
             <StopLight
               draftId={this.state.draftId}
               data={survey.surveyStoplightQuestions}
@@ -257,6 +264,7 @@ class Lifemap extends Component {
               nextStep={this.nextStep}
               parentPreviousStep={this.previousStep}
               minimumPriorities={survey.minimumPriorities}
+
             />
           </div>
         )
@@ -269,6 +277,7 @@ class Lifemap extends Component {
               data={survey.surveyStoplightQuestions}
               submitDraft={this.submitDraft}
               parentPreviousStep={this.previousStep}
+              submitError={this.state.submitError}
             />
           </div>
         )

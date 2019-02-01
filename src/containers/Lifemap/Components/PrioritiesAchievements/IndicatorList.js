@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withI18n } from 'react-i18next'
 import Modal from 'react-modal'
+import AppNavbar from '../../../../components/AppNavbar'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import PrioritiesAchievementsForm from './PrioritiesAchievementsForm'
@@ -130,8 +131,11 @@ class IndicatorList extends Component {
 
     return (
       <div>
-        <h2> {t('views.yourLifeMap')} </h2>
-        <hr />
+      <AppNavbar
+        text={t('views.yourLifeMap')}
+        showBack={true}
+        backHandler={this.props.parentPreviousStep}
+      />
         {groupedIndicatorList.map(indicatorGroup => {
           return (
             <div key={indicatorGroup.dimension}>

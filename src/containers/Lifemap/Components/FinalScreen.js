@@ -7,7 +7,7 @@ import AppNavbar from '../../../components/AppNavbar'
 class FinalScreen extends Component {
   render() {
 
-    const { t, submitDraft} = this.props
+    const { t, submitDraft, submitError} = this.props
     return (
       <div>
       <AppNavbar
@@ -21,11 +21,10 @@ class FinalScreen extends Component {
         <div className="text-center">
           <img src={lifemap_complete_image} alt="lifemap_complete_image" />
         </div>
-        <Link to={`/surveys`} href="#">
+        {submitError && (<div style={{color: 'red', margin: '1em'}}> There was an error in submitting. The data is still in your browser. Please do not close the browser and contact Poverty Stoplight as soon as possible.</div>)}
           <button className="btn btn-primary btn-lg btn-block" onClick={() => submitDraft()}>
             {t('general.close')}
           </button>
-        </Link>
       </div>
       </div>
     )

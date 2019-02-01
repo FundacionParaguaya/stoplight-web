@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { withI18n } from 'react-i18next'
 import Checkbox from '../../../../assets/Checkbox.png'
 import AppNavbar from '../../../../components/AppNavbar'
-const TermsPrivacyPresentational = ({ data, header, nextStep, t }) => {
+const TermsPrivacyPresentational = ({ data, header, nextStep, previousStep, t }) => {
   return (
     <div>
-      <AppNavbar text={header} showBack={true} />
+      <AppNavbar text={header} showBack={true} draftOngoing={false} backHandler={() => previousStep()}/>
       <div className="text-center">
         <img src={Checkbox} alt="chekbox" />
       </div>

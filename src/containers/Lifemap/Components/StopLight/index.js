@@ -3,14 +3,15 @@ import { connect } from 'react-redux'
 import { withI18n } from 'react-i18next'
 import { addSurveyData } from '../../../../redux/actions'
 import StopLightPresentational from './StopLightPresentational'
-import SkippedQuestions from './SkippedQuestions'
 import AppNavbar from '../../../../components/AppNavbar'
 
 class StopLight extends Component {
   constructor(props) {
     super(props)
+
+    let draft = this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
     this.state = {
-      step: 0,
+      step: draft.indicatorSurveyDataList.length > 0? draft.indicatorSurveyDataList.length -1 : 0,
       renderSkippedQuestionsScreen: false,
       skippedQuestionsList: [],
       imagesLoaded: 0
@@ -60,11 +61,11 @@ class StopLight extends Component {
     this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
   }
 
-  goBack() {
-    if (this.props.index === 0) {
-      return this.props.parentPreviousStep
+  goBack = () => {
+    if (this.state.step <= 0) {
+      this.props.parentPreviousStep()
     } else {
-      return this.props.previousStep
+      this.previousStep()
     }
   }
 
@@ -76,9 +77,8 @@ class StopLight extends Component {
         <AppNavbar
           text={t('views.yourLifeMap')}
           showBack={true}
-          backHandler={this.goBack()}
+          backHandler={() => this.goBack()}
         />
-        {!this.state.renderSkippedQuestionsScreen ? (
           <StopLightPresentational
             data={stopLightQuestions[this.state.step]}
             index={this.state.step}
@@ -89,9 +89,6 @@ class StopLight extends Component {
             imagesLoaded={this.state.imagesLoaded}
             updateImageStatus={this.updateImageStatus}
           />
-        ) : (
-          <SkippedQuestions questions={this.state.skippedQuestionsList} />
-        )}
       </div>
     )
   }
