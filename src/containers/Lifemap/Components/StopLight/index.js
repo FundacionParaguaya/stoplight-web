@@ -3,14 +3,15 @@ import { connect } from 'react-redux'
 import { withI18n } from 'react-i18next'
 import { addSurveyData } from '../../../../redux/actions'
 import StopLightPresentational from './StopLightPresentational'
-import SkippedQuestions from './SkippedQuestions'
 import AppNavbar from '../../../../components/AppNavbar'
 
 class StopLight extends Component {
   constructor(props) {
     super(props)
+
+    let draft = this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
     this.state = {
-      step: 0,
+      step: draft.indicatorSurveyDataList.length -1 || 0,
       renderSkippedQuestionsScreen: false,
       skippedQuestionsList: [],
       imagesLoaded: 0
