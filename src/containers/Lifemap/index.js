@@ -213,6 +213,7 @@ class Lifemap extends Component {
               draftId={this.state.draftId}
               data={survey.surveyConfig}
               previousStep={this.previousStep}
+              jumpStep={this.jumpStep}
             />
           </div>
         )
