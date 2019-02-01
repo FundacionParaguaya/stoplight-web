@@ -238,7 +238,7 @@ class Lifemap extends Component {
         break
       case 9:
         component = survey && (
-          <div style={{ width: '1024px !important' }}>
+          <div style={{ width: '1024px !important', zIndex:'9999' }}>
             <StopLight
               draftId={this.state.draftId}
               data={survey.surveyStoplightQuestions}
