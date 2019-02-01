@@ -11,7 +11,7 @@ class StopLight extends Component {
 
     let draft = this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
     this.state = {
-      step: draft.indicatorSurveyDataList.length -1 || 0,
+      step: draft.indicatorSurveyDataList.length > 0? draft.indicatorSurveyDataList.length -1 : 0,
       renderSkippedQuestionsScreen: false,
       skippedQuestionsList: [],
       imagesLoaded: 0
