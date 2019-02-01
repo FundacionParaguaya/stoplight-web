@@ -4,6 +4,7 @@ import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 import { addSurveyPriorityAchievementData } from '../../../../redux/actions'
 import { validate } from './helpers/validation'
+import Error from '../../ErrorComponent'
 
 class PrioritiesAchievementsForm extends Component {
   closeModal() {
@@ -25,9 +26,17 @@ class PrioritiesAchievementsForm extends Component {
             priorityObj
           )
           this.props.addPriority()
-          this.closeModal() // bound to parent
+          if(values.estimatedDate){
+            this.closeModal() // bound to parent
+          }
         }}
-        validation={validate}
+        validation={ values => {
+          const errors = {}
+          if (!values.estimatedDate) {
+            errors.estimatedDate = 'Required'
+          }
+          return errors
+        }}
         initialValues={{}}
         render={({
           handleSubmit,
@@ -75,8 +84,9 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder="0"
+                    required
                   />
-                  {meta.touched && meta.error && <span>{meta.error}</span>}
+                  <Error name="estimatedDate" />
                 </div>
               )}
             </Field>
@@ -105,7 +115,7 @@ class PrioritiesAchievementsForm extends Component {
     const { t } = this.props
     return (
       <Form
-        onSubmit={(values, form, invalid) => {
+        onSubmit={(values, form) => {
           // we want to update Family Data
           let achievementObj = values
           achievementObj.indicator = this.props.indicator
@@ -114,9 +124,7 @@ class PrioritiesAchievementsForm extends Component {
             'achievements',
             achievementObj
           )
-          if(!invalid){
             this.closeModal() // bound to parent
-          }
         }}
         initialValues={{}}
         render={({
@@ -166,7 +174,6 @@ class PrioritiesAchievementsForm extends Component {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg col-4"
-                disabled={pristine || invalid}
               >
                 {t('general.save')}
               </button>
