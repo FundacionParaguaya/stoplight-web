@@ -56,6 +56,7 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder={t('views.lifemap.writeYourAnswerHere')}
+                    required
                   />
                   {meta.touched && meta.error && <span>{meta.error}</span>}
                 </div>
@@ -70,6 +71,7 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder={t('views.lifemap.writeYourAnswerHere')}
+                    required
                   />
                   {meta.touched && meta.error && <span>{meta.error}</span>}
                 </div>
