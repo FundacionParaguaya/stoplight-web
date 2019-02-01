@@ -304,10 +304,18 @@ nav {
 }
 
 .stoplight-btn {
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none;
 }
 
 .card-stoplight {
+  padding: 0;
+  box-shadow: none;
+  margin: 0 !important;
+}
+
+.card-stoplight .card-body {
   padding: 0;
 }
 
@@ -349,11 +357,8 @@ nav {
   width: 105%;
 } */
 
-
 /* pa1nd Stytles */
 
 button.bg-success:hover {
-
-    background-color: #3f8638 !important
-
+  background-color: #3f8638 !important;
 }
