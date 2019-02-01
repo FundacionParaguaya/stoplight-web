@@ -86,6 +86,7 @@ class PrioritiesAchievementsForm extends Component {
                     placeholder="0"
                     required
                   />
+                  {meta.touched && meta.error && <span>{meta.error}</span>}
                   <Error name="estimatedDate" />
                 </div>
               )}
@@ -145,6 +146,7 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder={t('views.lifemap.writeYourAnswerHere')}
+                    required
                   />
                   {meta.touched && meta.error && <span>{meta.error}</span>}
                 </div>
@@ -159,6 +161,7 @@ class PrioritiesAchievementsForm extends Component {
                     {...input}
                     className="form-control"
                     placeholder={t('views.lifemap.writeYourAnswerHere')}
+                    required
                   />
                   {meta.touched && meta.error && <span>{meta.error}</span>}
                 </div>
@@ -174,6 +177,7 @@ class PrioritiesAchievementsForm extends Component {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg col-4"
+                disabled={pristine || invalid}
               >
                 {t('general.save')}
               </button>

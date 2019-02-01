@@ -73,13 +73,13 @@ class Lifemap extends Component {
     )[0]
     console.log(draft)
 
-    if(this.props.submitDraft(draft)){
+    // if(this.props.submitDraft(draft)){
       this.setState({submitError: false})
       this.props.saveSurveyId(null)
       this.props.history.push('/surveys')
-    } else {
-      this.setState({submitError: true})
-    }
+    // } else {
+      // this.setState({submitError: true})
+    // }
 
   }
 
