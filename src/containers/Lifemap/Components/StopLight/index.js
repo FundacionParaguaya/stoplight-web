@@ -76,7 +76,7 @@ class StopLight extends Component {
         <AppNavbar
           text={t('views.yourLifeMap')}
           showBack={true}
-          backHandler={this.goBack()}
+          backHandler={this.previousStep()}
         />
         {!this.state.renderSkippedQuestionsScreen ? (
           <StopLightPresentational

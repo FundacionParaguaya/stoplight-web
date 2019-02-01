@@ -37,7 +37,7 @@ class AppNavbar extends Component {
         <Helmet>
           <title>{this.props.text}</title>
         </Helmet>
-        <h1>
+        <h1 className="h2">
           {this.props.showBack === true ? (
             <button
               className="btn btn-link app-navbar-back"
