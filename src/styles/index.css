@@ -320,7 +320,7 @@ nav {
 }
 
 .app-navbar h1 {
-  line-height: 2;
+  line-height: 3;
 }
 
 .app-navbar-close {
@@ -348,3 +348,12 @@ nav {
   position: sticky;
   width: 105%;
 } */
+
+
+/* pa1nd Stytles */
+
+button.bg-success:hover {
+
+    background-color: #3f8638 !important
+
+}

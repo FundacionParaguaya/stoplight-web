@@ -1,6 +1,5 @@
 import React from 'react'
 import Spinner from '../../../../components/Spinner'
-
 const IndicatorCard = ({
   url,
   description,

@@ -13,10 +13,9 @@ const StopLightPresentational = ({
   updateImageStatus
 }) => {
   let progressPercent = ((index + 1) / (total + 1)) * 100
-
   return (
     <div>
-      <div>
+      <div className="text-center">
         <h4 style={{color:'grey'}}>{data.dimension}</h4>
         <h2>{data.questionText}</h2>
       </div>
@@ -90,7 +89,8 @@ const StopLightPresentational = ({
         {!data.required && (
           <button
             type="submit"
-            className="btn btn-lg"
+            className="btn btn-link"
+            style={{color:'grey'}}
             onClick={() => nextStep(0, data.codeName)}
           >
             {t('views.lifemap.skipThisQuestion')}
