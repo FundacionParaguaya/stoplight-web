@@ -158,6 +158,8 @@ export const submitDraft = payload => dispatch => {
         return Promise.reject('Error: Unauthorized.')
       } else if (res.status === 500) {
         return Promise.reject('An error occured.')
+      } else if (res.status === 400){
+        return Promise.reject('400 Bad Request')
       } else {
         return res.text()
       }
@@ -166,4 +168,5 @@ export const submitDraft = payload => dispatch => {
     .then(res =>
       console.log('successfully submitted draft')
     )
+    .catch(err => console.log(err))
 }
