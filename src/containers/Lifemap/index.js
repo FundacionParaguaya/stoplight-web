@@ -37,7 +37,7 @@ class Lifemap extends Component {
       submitError: false
     }
     this.props.saveSurveyStatus('pending')
-    
+
   }
 
   // Setup the `beforeunload` event listener
@@ -50,7 +50,7 @@ class Lifemap extends Component {
 
   componentDidMount() {
     this.loadData()
-    this.setupBeforeUnloadListener()
+    // this.setupBeforeUnloadListener()
   }
 
   draftIsOngoing = () => {
@@ -75,17 +75,6 @@ class Lifemap extends Component {
       draft => draft.draftId === this.state.draftId
     )[0]
     this.props.submitDraft(draft)
-    // window.location.href = 'https://testing.povertystoplight.org'
-
-    // this.props.submitDraft(draft).then( () =>{
-    //   this.setState({submitError: false})
-    //   this.props.saveSurveyId(null)
-    //   this.props.history.push('/surveys')
-    // })
-    // .catch((e) =>{
-    //   console.log(e)
-    //  })
-
   }
 
   nextStep = () => {
@@ -117,7 +106,6 @@ class Lifemap extends Component {
 
     if(this.props.surveyStatus.status === "success"){
       this.props.saveSurveyId(null)
-      this.props.saveSurveyStatus('pending')
       window.location.href = 'https://testing.povertystoplight.org'
     } else if (this.props.surveyStatus.status === 'fail' && this.state.submitError===false){
         this.setState({submitError:true})
@@ -139,9 +127,6 @@ class Lifemap extends Component {
         survey => survey.id === this.props.surveyStatus.surveyId
       )[0]
     } else {
-      // redirect to surveys
-      // this..goback()
-      // this.browserHistory.push('/surveys')
       this.props.history.push(`/surveys`)
     }
 

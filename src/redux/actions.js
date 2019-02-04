@@ -182,11 +182,8 @@ export const submitDraft = payload => (dispatch, getState) =>  {
     .catch(err => dispatch(submitDraftFail(err)))
 }
 
-const submitDraftSuccess = draft => ({
+const submitDraftSuccess = () => ({
   type: SUBMIT_DRAFT_SUCCESS,
-  payload: {
-    ...draft
-  }
 });
 
 const submitDraftFail = error => ({
