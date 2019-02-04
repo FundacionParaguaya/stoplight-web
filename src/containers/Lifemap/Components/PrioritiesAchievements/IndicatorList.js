@@ -39,7 +39,10 @@ class IndicatorList extends Component {
         indicator: null,
         questionText: null
       },
-      numberOfPrioritiesRequired: this.props.minimumPriorities < numberOfRedYellowIndicators ? this.props.minimumPriorities : numberOfRedYellowIndicators,
+      numberOfPrioritiesRequired:
+        this.props.minimumPriorities < numberOfRedYellowIndicators
+          ? this.props.minimumPriorities
+          : numberOfRedYellowIndicators,
       numberPrioritiesMade: 0,
       listOfPrioritiesMade:  draft.priorities.map(priority => { return priority.indicator }) ||[],
       listOfAchievementsMade: draft.achievements.map(achievement => { return achievement.indicator }) || []
@@ -51,7 +54,11 @@ class IndicatorList extends Component {
       // only open modal if formType is not null (i.e. not blank indicator)
       this.setState({
         modalIsOpen: true,
-        modal: { formType: indicator.formType, indicator: indicator.codeName, questionText: indicator.questionText }
+        modal: {
+          formType: indicator.formType,
+          indicator: indicator.codeName,
+          questionText: indicator.questionText
+        }
       })
     }
   }
@@ -91,7 +98,7 @@ class IndicatorList extends Component {
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
-      modal: { formType: null, indicator: null , questionText: null}
+      modal: { formType: null, indicator: null, questionText: null }
     })
   }
 
@@ -156,11 +163,11 @@ class IndicatorList extends Component {
 
     return (
       <div>
-      <AppNavbar
-        text={t('views.yourLifeMap')}
-        showBack={true}
-        backHandler={this.props.parentPreviousStep}
-      />
+        <AppNavbar
+          text={t('views.yourLifeMap')}
+          showBack={true}
+          backHandler={this.props.parentPreviousStep}
+        />
         {groupedIndicatorList.map(indicatorGroup => {
           return (
             <div key={indicatorGroup.dimension}>
@@ -182,9 +189,9 @@ class IndicatorList extends Component {
                       <div
                         style={{ position: 'absolute', left: '1%' }}
                         className={indicator.dotClass}
-                      >
-                      </div>
-                      <div style={{ paddingLeft: '5%', float:'left', }}>
+                      />
+                      {true ? <div className="filled" /> : ''}
+                      <div style={{ paddingLeft: '5%', float: 'left' }}>
                         {indicator.questionText}
                       </div>
                     </li>
@@ -216,12 +223,14 @@ class IndicatorList extends Component {
         })}
         {answeredEnoughPriorities ? (
           <div>
-            {this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade >
+            {this.state.numberOfPrioritiesRequired -
+              this.state.numberPrioritiesMade >
             1 ? (
               <h5>
                 {t('views.lifemap.youNeedToAddPriorities').replace(
                   '%n',
-                  this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade
+                  this.state.numberOfPrioritiesRequired -
+                    this.state.numberPrioritiesMade
                 )}
               </h5>
             ) : (
