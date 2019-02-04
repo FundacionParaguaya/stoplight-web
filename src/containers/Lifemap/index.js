@@ -72,11 +72,19 @@ class Lifemap extends Component {
       draft => draft.draftId === this.state.draftId
     )[0]
     console.log(draft)
-
-      this.props.submitDraft(draft)
-      this.setState({submitError: false})
-      this.props.saveSurveyId(null)
-      this.props.history.push('/surveys')
+    this.props.submitDraft(draft)
+    this.props.saveSurveyId(null)
+    // window.location.href = 'https://testing.povertystoplight.org'
+    this.props.history.push('/surveys')
+    // this.props.submitDraft(draft).then( () =>{
+    //   this.setState({submitError: false})
+    //   this.props.saveSurveyId(null)
+    //   this.props.history.push('/surveys')
+    // })
+    // .catch((e) =>{
+    //   this.setState({submitError:true})
+    //   console.log(e)
+    //  })
 
   }
 
