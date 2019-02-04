@@ -71,7 +71,6 @@ class Lifemap extends Component {
     let draft = this.props.drafts.filter(
       draft => draft.draftId === this.state.draftId
     )[0]
-    console.log(draft)
     this.props.submitDraft(draft)
     this.props.saveSurveyId(null)
     // window.location.href = 'https://testing.povertystoplight.org'
