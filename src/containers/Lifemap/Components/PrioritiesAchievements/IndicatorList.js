@@ -101,6 +101,8 @@ class IndicatorList extends Component {
         }
       })
       .map(indicatorGroup => {
+        console.log(indicatorGroup)
+        console.log(this.state.draft)
         return {
           dimension: indicatorGroup.dimension,
           indicators: indicatorGroup.indicators.map(indicator => {
