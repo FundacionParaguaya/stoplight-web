@@ -128,6 +128,7 @@ class IndicatorList extends Component {
                 indicator.dotClass = 'dot grey'
                 indicator.formType = null
             }
+
             return indicator
           })
         }
@@ -157,13 +158,15 @@ class IndicatorList extends Component {
                       className="list-group-item"
                       onClick={() => this.openModal(indicator)}
                     >
-                      <span
+                    {indicator.isAnswered ? (<div className="filled" style={{position: 'absolute'}}></div>) : (<div style={{position: 'absolute'}}> </div>)}
+                      <div
                         style={{ position: 'absolute', left: '1%' }}
                         className={indicator.dotClass}
-                      />
-                      <span style={{ paddingLeft: '5%' }}>
+                      >
+                      </div>
+                      <div style={{ paddingLeft: '5%', float:'left', }}>
                         {indicator.questionText}
-                      </span>
+                      </div>
                     </li>
                   )
                 })}
