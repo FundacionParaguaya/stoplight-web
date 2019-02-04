@@ -39,7 +39,10 @@ class IndicatorList extends Component {
         indicator: null,
         questionText: null
       },
-      numberOfPrioritiesRequired: this.props.minimumPriorities < numberOfRedYellowIndicators ? this.props.minimumPriorities : numberOfRedYellowIndicators,
+      numberOfPrioritiesRequired:
+        this.props.minimumPriorities < numberOfRedYellowIndicators
+          ? this.props.minimumPriorities
+          : numberOfRedYellowIndicators,
       numberPrioritiesMade: 0,
       listOfPrioritiesMade: []
     }
@@ -50,7 +53,11 @@ class IndicatorList extends Component {
       // only open modal if formType is not null (i.e. not blank indicator)
       this.setState({
         modalIsOpen: true,
-        modal: { formType: indicator.formType, indicator: indicator.codeName, questionText: indicator.questionText }
+        modal: {
+          formType: indicator.formType,
+          indicator: indicator.codeName,
+          questionText: indicator.questionText
+        }
       })
     }
   }
@@ -75,7 +82,7 @@ class IndicatorList extends Component {
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
-      modal: { formType: null, indicator: null , questionText: null}
+      modal: { formType: null, indicator: null, questionText: null }
     })
   }
 
@@ -108,8 +115,18 @@ class IndicatorList extends Component {
               indicatorAnswer => indicatorAnswer.key === indicator.codeName
             )[0].value
 
-            indicator.isAnswered = this.state.draft.priorities.filter(priority =>  indicator.codeName === priority.indicator).length > 0 ? true : false
-            indicator.isAnswered = this.state.draft.achievements.filter(achievement =>  indicator.codeName === achievement.indicator).length > 0 ? true : false
+            indicator.isAnswered =
+              this.state.draft.priorities.filter(
+                priority => indicator.codeName === priority.indicator
+              ).length > 0
+                ? true
+                : false
+            indicator.isAnswered =
+              this.state.draft.achievements.filter(
+                achievement => indicator.codeName === achievement.indicator
+              ).length > 0
+                ? true
+                : false
 
             switch (indicator.answer) {
               case 1:
@@ -136,11 +153,11 @@ class IndicatorList extends Component {
 
     return (
       <div>
-      <AppNavbar
-        text={t('views.yourLifeMap')}
-        showBack={true}
-        backHandler={this.props.parentPreviousStep}
-      />
+        <AppNavbar
+          text={t('views.yourLifeMap')}
+          showBack={true}
+          backHandler={this.props.parentPreviousStep}
+        />
         {groupedIndicatorList.map(indicatorGroup => {
           return (
             <div key={indicatorGroup.dimension}>
@@ -158,13 +175,12 @@ class IndicatorList extends Component {
                       className="list-group-item"
                       onClick={() => this.openModal(indicator)}
                     >
-                    {indicator.isAnswered ? (<div className="filled" style={{position: 'absolute'}}></div>) : (<div style={{position: 'absolute'}}> </div>)}
                       <div
                         style={{ position: 'absolute', left: '1%' }}
                         className={indicator.dotClass}
-                      >
-                      </div>
-                      <div style={{ paddingLeft: '5%', float:'left', }}>
+                      />
+                      {true ? <div className="filled" /> : ''}
+                      <div style={{ paddingLeft: '5%', float: 'left' }}>
                         {indicator.questionText}
                       </div>
                     </li>
@@ -195,12 +211,14 @@ class IndicatorList extends Component {
         })}
         {answeredEnoughPriorities ? (
           <div>
-            {this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade >
+            {this.state.numberOfPrioritiesRequired -
+              this.state.numberPrioritiesMade >
             1 ? (
               <h5>
                 {t('views.lifemap.youNeedToAddPriorities').replace(
                   '%n',
-                  this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade
+                  this.state.numberOfPrioritiesRequired -
+                    this.state.numberPrioritiesMade
                 )}
               </h5>
             ) : (
