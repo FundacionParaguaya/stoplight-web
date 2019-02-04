@@ -101,14 +101,16 @@ class IndicatorList extends Component {
         }
       })
       .map(indicatorGroup => {
-        console.log(indicatorGroup)
-        console.log(this.state.draft)
         return {
           dimension: indicatorGroup.dimension,
           indicators: indicatorGroup.indicators.map(indicator => {
             indicator.answer = this.state.draft.indicatorSurveyDataList.filter(
               indicatorAnswer => indicatorAnswer.key === indicator.codeName
             )[0].value
+
+            indicator.isAnswered = this.state.draft.priorities.filter(priority =>  indicator.codeName === priority.indicator).length > 0 ? true : false
+            indicator.isAnswered = this.state.draft.achievements.filter(achievement =>  indicator.codeName === achievement.indicator).length > 0 ? true : false
+
             switch (indicator.answer) {
               case 1:
                 indicator.dotClass = 'dot red'
