@@ -50,7 +50,7 @@ class FamilyParticipant extends Component {
       economicSurveyDataList: [],
       indicatorSurveyDataList: [],
       priorities: [],
-      achievements: []
+      achievements: [],
     })
 
     values.firstParticipant = true

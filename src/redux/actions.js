@@ -22,6 +22,7 @@ export const logout = () => dispatch => {
 export const SAVE_STEP = 'SAVE_STEP'
 export const SAVE_DRAFT_ID = 'SAVE_DRAFT_ID'
 export const SAVE_SURVEY_ID = 'SAVE_SURVEY_ID'
+export const SAVE_SURVEY_STATUS = 'SAVE_SURVEY_STATUS'
 export const saveStep = (step) => ({
   type: SAVE_STEP,
   step
@@ -33,6 +34,10 @@ export const saveDraftId = (draftId) => ({
 export const saveSurveyId = (surveyId) => ({
   type: SAVE_SURVEY_ID,
   surveyId
+})
+export const saveSurveyStatus = (status) => ({
+  type: SAVE_SURVEY_STATUS,
+  status
 })
 
 export const LOAD_FAMILIES = 'LOAD_FAMILIES'
@@ -138,7 +143,14 @@ export const addSurveyDataWhole = (id, category, payload) => ({
   payload
 })
 
-export const submitDraft = payload => dispatch => {
+
+export const SUBMIT_DRAFT_STARTED= 'SUBMIT_DRAFT_STARTED'
+export const SUBMIT_DRAFT_SUCCESS= 'SUBMIT_DRAFT_SUCCESS'
+export const SUBMIT_DRAFT_FAIL= 'SUBMIT_DRAFT_FAIL'
+
+export const submitDraft = payload => (dispatch, getState) =>  {
+  dispatch(submitDraftStarted())
+  console.log('current state:', getState());
   const platform = selectServer(store.getState().user.env)
   fetch(`${platform.api}/graphql`, {
     method: 'POST',
@@ -153,22 +165,38 @@ export const submitDraft = payload => dispatch => {
     })
   })
     .then(res => {
+      console.log(res.status)
       if (res.status === 401) {
-        dispatch({ type: LOGOUT })
-        return Promise.reject('Error: Unauthorized.')
+        // dispatch({ type: LOGOUT })
+        throw new Error('Error: Unauthorized.')
       } else if (res.status === 500) {
-        return Promise.reject('An error occured.')
+        throw new Error('An error occured.')
       } else if (res.status === 400){
-        return Promise.reject('400 Bad Request')
+        throw new Error('400 Bad Request')
       } else if (res.status !== 200){
-        return Promise.reject(`An unknown error occured, status: ${res.status}`)
+        throw new Error(`An unknown error occured, status: ${res.status}`)
       } else {
-        return res.text()
+        dispatch(submitDraftSuccess(res))
       }
     })
-    .then(res => JSON.parse(res))
-    .then(res =>
-      console.log('successfully submitted draft')
-    )
-    .catch(err => console.log(err))
+    .catch(err => dispatch(submitDraftFail(err)))
 }
+
+const submitDraftSuccess = draft => ({
+  type: SUBMIT_DRAFT_SUCCESS,
+  payload: {
+    ...draft
+  }
+});
+
+const submitDraftFail = error => ({
+  type: SUBMIT_DRAFT_FAIL,
+  payload: {
+    error
+  }
+});
+
+
+const submitDraftStarted =()=>({
+  type: SUBMIT_DRAFT_STARTED
+})

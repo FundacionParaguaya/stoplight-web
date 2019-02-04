@@ -6,7 +6,8 @@ import {
   submitDraft,
   saveStep,
   saveDraftId,
-  saveSurveyId
+  saveSurveyId,
+  saveSurveyStatus
 } from '../../redux/actions'
 import BeginLifemap from './Components/BeginLifeMap'
 import FamilyParticipant from './Components/FamilyData/FamilyParticipant'
@@ -35,6 +36,8 @@ class Lifemap extends Component {
       draft: null,
       submitError: false
     }
+    this.props.saveSurveyStatus('pending')
+    
   }
 
   // Setup the `beforeunload` event listener
@@ -72,16 +75,14 @@ class Lifemap extends Component {
       draft => draft.draftId === this.state.draftId
     )[0]
     this.props.submitDraft(draft)
-    this.props.saveSurveyId(null)
     // window.location.href = 'https://testing.povertystoplight.org'
-    this.props.history.push('/surveys')
+
     // this.props.submitDraft(draft).then( () =>{
     //   this.setState({submitError: false})
     //   this.props.saveSurveyId(null)
     //   this.props.history.push('/surveys')
     // })
     // .catch((e) =>{
-    //   this.setState({submitError:true})
     //   console.log(e)
     //  })
 
@@ -113,6 +114,16 @@ class Lifemap extends Component {
     if (!this.props.location || !this.props.location.state) {
       this.props.history.push('/surveys')
     }
+
+    if(this.props.surveyStatus.status === "success"){
+      this.props.saveSurveyId(null)
+      this.props.saveSurveyStatus('pending')
+      window.location.href = 'https://testing.povertystoplight.org'
+    } else if (this.props.surveyStatus.status === 'fail' && this.state.submitError===false){
+        this.setState({submitError:true})
+        console.log(this.props.surveyStatus.error)
+    }
+
     if (
       this.props.location.state.surveyId &&
       this.props.location.state.surveyId !== this.props.surveyStatus.surveyId
@@ -307,7 +318,8 @@ const mapDispatchToProps = {
   submitDraft,
   saveStep,
   saveDraftId,
-  saveSurveyId
+  saveSurveyId,
+  saveSurveyStatus
 }
 
 export default connect(
