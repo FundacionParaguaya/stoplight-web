@@ -39,9 +39,13 @@ class IndicatorList extends Component {
         indicator: null,
         questionText: null
       },
-      numberOfPrioritiesRequired: this.props.minimumPriorities < numberOfRedYellowIndicators ? this.props.minimumPriorities : numberOfRedYellowIndicators,
+      numberOfPrioritiesRequired:
+        this.props.minimumPriorities < numberOfRedYellowIndicators
+          ? this.props.minimumPriorities
+          : numberOfRedYellowIndicators,
       numberPrioritiesMade: 0,
-      listOfPrioritiesMade: []
+      listOfPrioritiesMade:  draft.priorities.map(priority => { return priority.indicator }) ||[],
+      listOfAchievementsMade: draft.achievements.map(achievement => { return achievement.indicator }) || []
     }
   }
 
@@ -50,7 +54,11 @@ class IndicatorList extends Component {
       // only open modal if formType is not null (i.e. not blank indicator)
       this.setState({
         modalIsOpen: true,
-        modal: { formType: indicator.formType, indicator: indicator.codeName, questionText: indicator.questionText }
+        modal: {
+          formType: indicator.formType,
+          indicator: indicator.codeName,
+          questionText: indicator.questionText
+        }
       })
     }
   }
@@ -72,10 +80,25 @@ class IndicatorList extends Component {
     }
   }
 
+  addAchievement = () => {
+    if (
+      this.state.listOfAchievementsMade.filter(
+        achievement => achievement === this.state.modal.indicator
+      ).length === 0
+    ) {
+      this.setState(prevState => ({
+        listOfAchievementsMade: [
+          ...prevState.listOfAchievementsMade,
+          prevState.modal.indicator
+        ]
+      }))
+    }
+  }
+
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
-      modal: { formType: null, indicator: null , questionText: null}
+      modal: { formType: null, indicator: null, questionText: null }
     })
   }
 
@@ -91,6 +114,7 @@ class IndicatorList extends Component {
     let dimensionList = [
       ...new Set(this.props.data.map(stoplight => stoplight.dimension))
     ]
+
     let groupedIndicatorList = dimensionList
       .map(dimension => {
         return {
@@ -101,14 +125,16 @@ class IndicatorList extends Component {
         }
       })
       .map(indicatorGroup => {
-        console.log(indicatorGroup)
-        console.log(this.state.draft)
         return {
           dimension: indicatorGroup.dimension,
           indicators: indicatorGroup.indicators.map(indicator => {
             indicator.answer = this.state.draft.indicatorSurveyDataList.filter(
               indicatorAnswer => indicatorAnswer.key === indicator.codeName
             )[0].value
+
+            // filter through the answered priorities & indicators in the draft and set the isAnswered property if they have been answered.
+            indicator.isAnswered = (this.state.listOfPrioritiesMade.includes(indicator.codeName) || this.state.listOfAchievementsMade.includes(indicator.codeName) )
+
             switch (indicator.answer) {
               case 1:
                 indicator.dotClass = 'dot red'
@@ -126,6 +152,7 @@ class IndicatorList extends Component {
                 indicator.dotClass = 'dot grey'
                 indicator.formType = null
             }
+
             return indicator
           })
         }
@@ -133,11 +160,11 @@ class IndicatorList extends Component {
 
     return (
       <div>
-      <AppNavbar
-        text={t('views.yourLifeMap')}
-        showBack={true}
-        backHandler={this.props.parentPreviousStep}
-      />
+        <AppNavbar
+          text={t('views.yourLifeMap')}
+          showBack={true}
+          backHandler={this.props.parentPreviousStep}
+        />
         {groupedIndicatorList.map(indicatorGroup => {
           return (
             <div key={indicatorGroup.dimension}>
@@ -155,13 +182,14 @@ class IndicatorList extends Component {
                       className="list-group-item"
                       onClick={() => this.openModal(indicator)}
                     >
-                      <span
+                      <div
                         style={{ position: 'absolute', left: '1%' }}
                         className={indicator.dotClass}
                       />
-                      <span style={{ paddingLeft: '5%' }}>
+                      {indicator.isAnswered ? <div className="filled" /> : ''}
+                      <div style={{ paddingLeft: '5%', float: 'left' }}>
                         {indicator.questionText}
-                      </span>
+                      </div>
                     </li>
                   )
                 })}
@@ -183,6 +211,7 @@ class IndicatorList extends Component {
                   draftId={this.props.draftId}
                   closeModal={this.closeModal}
                   addPriority={this.addPriority}
+                  addAchievement={this.addAchievement}
                 />
               </Modal>
             </div>
@@ -190,12 +219,14 @@ class IndicatorList extends Component {
         })}
         {answeredEnoughPriorities ? (
           <div>
-            {this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade >
+            {this.state.numberOfPrioritiesRequired -
+              this.state.numberPrioritiesMade >
             1 ? (
               <h5>
                 {t('views.lifemap.youNeedToAddPriorities').replace(
                   '%n',
-                  this.state.numberOfPrioritiesRequired - this.state.numberPrioritiesMade
+                  this.state.numberOfPrioritiesRequired -
+                    this.state.numberPrioritiesMade
                 )}
               </h5>
             ) : (
