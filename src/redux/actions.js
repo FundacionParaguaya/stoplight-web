@@ -160,6 +160,8 @@ export const submitDraft = payload => dispatch => {
         return Promise.reject('An error occured.')
       } else if (res.status === 400){
         return Promise.reject('400 Bad Request')
+      } else if (res.status !== 200){
+        return Promise.reject(`An unknown error occured, status: ${res.status}`)
       } else {
         return res.text()
       }

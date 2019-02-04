@@ -14,7 +14,7 @@ class FamilyMembers extends Component {
       draft => draft.draftId === this.props.draftId
     )[0]
 
-    let memberCount = draft.familyData.countFamilyMembers || null
+    let memberCount = draft.familyData.countFamilyMembers || 1
 
     this.state = {
       memberCount: memberCount-1
@@ -73,6 +73,8 @@ class FamilyMembers extends Component {
           onSubmit={(values, form) => {
             // need to save familyMembersCount
             let countFamilyMembers = parseInt(values.memberCount) + 1
+            console.log(values.memberCount)
+            console.log(countFamilyMembers)
             this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
               countFamilyMembers: countFamilyMembers
             })

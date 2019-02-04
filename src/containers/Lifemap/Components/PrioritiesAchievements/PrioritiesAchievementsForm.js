@@ -12,8 +12,8 @@ class PrioritiesAchievementsForm extends Component {
   }
 
   generatePriorityForm() {
-    const { t } = this.props
-
+    const { t, draftId, indicator } = this.props
+    const initialValues = this.props.drafts.filter(draft => draft.draftId === draftId)[0].priorities.filter((priority) => priority.indicator === indicator)[0]
     return (
       <Form
         onSubmit={(values, form) => {
@@ -41,7 +41,7 @@ class PrioritiesAchievementsForm extends Component {
           }
           return errors
         }}
-        initialValues={{}}
+        initialValues={initialValues}
         render={({
           handleSubmit,
           submitting,
@@ -116,7 +116,8 @@ class PrioritiesAchievementsForm extends Component {
   }
 
   generateAchievementForm() {
-    const { t } = this.props
+    const { t, draftId, indicator } = this.props
+    const initialValues = this.props.drafts.filter(draft => draft.draftId === draftId)[0].achievements.filter((achievement) => achievement.indicator === indicator)[0]
     return (
       <Form
         onSubmit={(values, form) => {
@@ -133,7 +134,7 @@ class PrioritiesAchievementsForm extends Component {
           )
             this.closeModal() // bound to parent
         }}
-        initialValues={{}}
+        initialValues={initialValues}
         render={({
           handleSubmit,
           submitting,
