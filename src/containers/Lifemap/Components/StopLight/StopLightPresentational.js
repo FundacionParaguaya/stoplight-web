@@ -16,7 +16,7 @@ const StopLightPresentational = ({
   return (
     <div>
       <div className="text-center">
-        <h4 style={{color:'grey'}}>{data.dimension}</h4>
+        <h4 style={{ color: 'grey' }}>{data.dimension}</h4>
         <h2>{data.questionText}</h2>
       </div>
       <div className="progress" style={{ marginBottom: '1em' }}>
@@ -34,7 +34,7 @@ const StopLightPresentational = ({
           <button
             type="submit"
             onClick={() => nextStep(data.stoplightColors[0], data.codeName)}
-            className="bg-success stoplight-btn"
+            className="stoplight-btn"
           >
             <IndicatorCard
               url={data.stoplightColors[0].url}
@@ -51,12 +51,12 @@ const StopLightPresentational = ({
           <button
             type="submit"
             onClick={() => nextStep(data.stoplightColors[1], data.codeName)}
-            className="bg-warning"
+            className="stoplight-btn"
           >
             <IndicatorCard
               url={data.stoplightColors[1].url}
               description={data.stoplightColors[1].description}
-              cardClass="card text-white bg-warning mb-3"
+              cardClass="card card-stoplight text-white bg-warning mb-3"
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
                 updateImageStatus()
@@ -68,12 +68,12 @@ const StopLightPresentational = ({
           <button
             type="submit"
             onClick={() => nextStep(data.stoplightColors[2], data.codeName)}
-            className="bg-danger"
+            className="stoplight-btn"
           >
             <IndicatorCard
               url={data.stoplightColors[2].url}
               description={data.stoplightColors[2].description}
-              cardClass="card text-white bg-danger mb-3"
+              cardClass="card card-stoplight text-white bg-danger mb-3"
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
                 updateImageStatus()
@@ -90,7 +90,7 @@ const StopLightPresentational = ({
           <button
             type="submit"
             className="btn btn-link"
-            style={{color:'grey'}}
+            style={{ color: 'grey' }}
             onClick={() => nextStep(0, data.codeName)}
           >
             {t('views.lifemap.skipThisQuestion')}
