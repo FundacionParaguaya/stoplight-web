@@ -41,7 +41,8 @@ class IndicatorList extends Component {
       },
       numberOfPrioritiesRequired: this.props.minimumPriorities < numberOfRedYellowIndicators ? this.props.minimumPriorities : numberOfRedYellowIndicators,
       numberPrioritiesMade: 0,
-      listOfPrioritiesMade: []
+      listOfPrioritiesMade:  draft.priorities.map(priority => { return priority.indicator }) ||[],
+      listOfAchievementsMade: draft.achievements.map(achievement => { return achievement.indicator }) || []
     }
   }
 
@@ -72,6 +73,21 @@ class IndicatorList extends Component {
     }
   }
 
+  addAchievement = () => {
+    if (
+      this.state.listOfAchievementsMade.filter(
+        achievement => achievement === this.state.modal.indicator
+      ).length === 0
+    ) {
+      this.setState(prevState => ({
+        listOfAchievementsMade: [
+          ...prevState.listOfAchievementsMade,
+          prevState.modal.indicator
+        ]
+      }))
+    }
+  }
+
   closeModal = () => {
     this.setState({
       modalIsOpen: false,
@@ -91,6 +107,7 @@ class IndicatorList extends Component {
     let dimensionList = [
       ...new Set(this.props.data.map(stoplight => stoplight.dimension))
     ]
+
     let groupedIndicatorList = dimensionList
       .map(dimension => {
         return {
@@ -108,8 +125,9 @@ class IndicatorList extends Component {
               indicatorAnswer => indicatorAnswer.key === indicator.codeName
             )[0].value
 
-            indicator.isAnswered = this.state.draft.priorities.filter(priority =>  indicator.codeName === priority.indicator).length > 0 ? true : false
-            indicator.isAnswered = this.state.draft.achievements.filter(achievement =>  indicator.codeName === achievement.indicator).length > 0 ? true : false
+            // filter through the answered priorities & indicators in the draft and set the isAnswered property if they have been answered.
+            indicator.isAnswered = this.state.listOfPrioritiesMade.includes(indicator.codeName)
+            indicator.isAnswered = this.state.listOfAchievementsMade.includes(indicator.codeName)
 
             switch (indicator.answer) {
               case 1:
@@ -133,6 +151,8 @@ class IndicatorList extends Component {
           })
         }
       })
+      console.log(this.state.listOfPrioritiesMade)
+      console.log(this.state.listOfAchievementsMade)
 
     return (
       <div>
@@ -158,7 +178,7 @@ class IndicatorList extends Component {
                       className="list-group-item"
                       onClick={() => this.openModal(indicator)}
                     >
-                    {indicator.isAnswered ? (<div className="filled" style={{position: 'absolute'}}></div>) : (<div style={{position: 'absolute'}}> </div>)}
+                    {indicator.isAnswered ? (<div className="filled" style={{position: 'absolute'}}></div>) : ('')}
                       <div
                         style={{ position: 'absolute', left: '1%' }}
                         className={indicator.dotClass}
@@ -188,6 +208,7 @@ class IndicatorList extends Component {
                   draftId={this.props.draftId}
                   closeModal={this.closeModal}
                   addPriority={this.addPriority}
+                  addAchievement={this.addAchievement}
                 />
               </Modal>
             </div>
