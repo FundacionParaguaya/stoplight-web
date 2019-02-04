@@ -362,3 +362,12 @@ nav {
 button.bg-success:hover {
   background-color: #3f8638 !important;
 }
+
+.filled {
+  position: absolute;
+  background-color: #77abe9;
+  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+  margin: 3px;
+}

@@ -127,6 +127,7 @@ class PrioritiesAchievementsForm extends Component {
             roadmap: values.roadmap || ''
           }
           achievementObj.indicator = this.props.indicator
+          this.props.addAchievement()
           this.props.addSurveyPriorityAchievementData(
             this.props.draftId,
             'achievements',
