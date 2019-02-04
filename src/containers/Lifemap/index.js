@@ -110,7 +110,7 @@ class Lifemap extends Component {
     } else if (this.props.surveyStatus.status === 'fail' && this.state.submitError===false){
         this.setState({submitError:true})
         console.log(this.props.surveyStatus.error)
-    }
+    } 
 
     if (
       this.props.location.state.surveyId &&
