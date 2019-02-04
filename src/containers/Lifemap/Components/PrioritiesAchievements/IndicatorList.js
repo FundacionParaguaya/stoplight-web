@@ -133,8 +133,7 @@ class IndicatorList extends Component {
             )[0].value
 
             // filter through the answered priorities & indicators in the draft and set the isAnswered property if they have been answered.
-            indicator.isAnswered = this.state.listOfPrioritiesMade.includes(indicator.codeName)
-            indicator.isAnswered = this.state.listOfAchievementsMade.includes(indicator.codeName)
+            indicator.isAnswered = (this.state.listOfPrioritiesMade.includes(indicator.codeName) || this.state.listOfAchievementsMade.includes(indicator.codeName) )
 
             switch (indicator.answer) {
               case 1:
@@ -158,8 +157,6 @@ class IndicatorList extends Component {
           })
         }
       })
-      console.log(this.state.listOfPrioritiesMade)
-      console.log(this.state.listOfAchievementsMade)
 
     return (
       <div>
@@ -185,12 +182,11 @@ class IndicatorList extends Component {
                       className="list-group-item"
                       onClick={() => this.openModal(indicator)}
                     >
-                    {indicator.isAnswered ? (<div className="filled" style={{position: 'absolute'}}></div>) : ('')}
                       <div
                         style={{ position: 'absolute', left: '1%' }}
                         className={indicator.dotClass}
                       />
-                      {true ? <div className="filled" /> : ''}
+                      {indicator.isAnswered ? <div className="filled" /> : ''}
                       <div style={{ paddingLeft: '5%', float: 'left' }}>
                         {indicator.questionText}
                       </div>
