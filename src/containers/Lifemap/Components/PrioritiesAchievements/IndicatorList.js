@@ -44,7 +44,7 @@ class IndicatorList extends Component {
           ? this.props.minimumPriorities
           : numberOfRedYellowIndicators,
       numberPrioritiesMade: 0,
-      listOfPrioritiesMade:  draft.priorities.map(priority => { return priority.indicator }) ||[],
+      listOfPrioritiesMade: draft.priorities.map(priority => { return priority.indicator }) ||[],
       listOfAchievementsMade: draft.achievements.map(achievement => { return achievement.indicator }) || []
     }
   }
