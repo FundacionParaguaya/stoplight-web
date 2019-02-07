@@ -31,7 +31,6 @@ class FamilyParticipant extends Component {
     }
   }
 
-  componentDidMount() {}
   dateChange(date) {
     this.setState({
       date: date,
@@ -51,6 +50,7 @@ class FamilyParticipant extends Component {
       indicatorSurveyDataList: [],
       priorities: [],
       achievements: [],
+
     })
 
     values.firstParticipant = true
