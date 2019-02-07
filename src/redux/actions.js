@@ -19,6 +19,7 @@ export const logout = () => dispatch => {
   })
 }
 
+// Todo - make this one action that accepts payload
 export const SAVE_STEP = 'SAVE_STEP'
 export const SAVE_DRAFT_ID = 'SAVE_DRAFT_ID'
 export const SAVE_SURVEY_ID = 'SAVE_SURVEY_ID'
