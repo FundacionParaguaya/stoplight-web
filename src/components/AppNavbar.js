@@ -68,10 +68,10 @@ class AppNavbar extends Component {
               {t('views.modals.areYouSureYouWantToExit')}
             </Modal.Body>
             <Modal.Footer>
-              <button class="btn btn-secondary" onClick={this.handleClose}>
+              <button className="btn btn-secondary" onClick={this.handleClose}>
                 No
               </button>
-              <button class="btn btn-danger" onClick={this.handleExit}>
+              <button className="btn btn-danger" onClick={this.handleExit}>
                 Yes
               </button>
             </Modal.Footer>

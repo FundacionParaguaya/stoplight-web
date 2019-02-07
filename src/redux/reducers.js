@@ -10,7 +10,11 @@ import {
   ADD_SURVEY_DATA_WHOLE,
   SAVE_STEP,
   SAVE_DRAFT_ID,
-  SAVE_SURVEY_ID
+  SAVE_SURVEY_ID,
+  SAVE_SURVEY_STATUS,
+  SUBMIT_DRAFT_STARTED,
+  SUBMIT_DRAFT_SUCCESS,
+  SUBMIT_DRAFT_FAIL
 } from './actions'
 
 export const user = (state = {}, action) => {
@@ -47,7 +51,7 @@ export const surveys = (state = [], action) => {
 }
 
 
-export const surveyStatus = (state = {step:1}, action) => {
+export const surveyStatus = (state = {step:1, status: ''}, action) => {
   switch (action.type) {
     case SAVE_STEP:
     return {
@@ -63,6 +67,28 @@ export const surveyStatus = (state = {step:1}, action) => {
     return {
       ...state,
       surveyId: action.surveyId
+    }
+    case SAVE_SURVEY_STATUS:
+    return {
+      ...state,
+      status: action.status
+    }
+    case SUBMIT_DRAFT_STARTED:
+    return {
+      ...state,
+      status: 'pending',
+    }
+    case SUBMIT_DRAFT_SUCCESS:
+    return {
+      ...state,
+      status: 'success',
+      error: ''
+    }
+    case SUBMIT_DRAFT_FAIL:
+    return {
+      ...state,
+      status: 'fail',
+      error: action.payload.error
     }
     default:
       return state
