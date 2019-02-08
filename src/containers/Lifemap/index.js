@@ -106,6 +106,7 @@ class Lifemap extends Component {
 
     if(this.props.surveyStatus.status === "success"){
       this.props.saveSurveyId(null)
+      this.props.saveStep(null)
       window.location.href = 'https://testing.povertystoplight.org'
     } else if (this.props.surveyStatus.status === 'fail' && this.state.submitError===false){
         this.setState({submitError:true})
