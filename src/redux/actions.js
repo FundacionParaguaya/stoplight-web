@@ -109,6 +109,7 @@ export const loadSurveys = () => dispatch => {
 export const CREATE_DRAFT = 'CREATE_DRAFT'
 export const DELETE_DRAFT = 'DELETE_DRAFT'
 export const ADD_SURVEY_FAMILY_MEMBER_DATA = 'ADD_SURVEY_FAMILY_MEMBER_DATA'
+export const REMOVE_FAMILY_MEMBERS = 'REMOVE_FAMILY_MEMBERS'
 export const ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA =
   'ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA'
 export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
@@ -137,6 +138,12 @@ export const addSurveyFamilyMemberData = ({ id, index, payload, isSocioEconomicA
   index,
   isSocioEconomicAnswer,
   payload
+})
+
+export const removeFamilyMembers = (id, afterIndex) => ({
+  type: REMOVE_FAMILY_MEMBERS,
+  id,
+  afterIndex
 })
 
 export const addSurveyData = (id, category, payload) => ({

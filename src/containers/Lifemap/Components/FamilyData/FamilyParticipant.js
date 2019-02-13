@@ -6,8 +6,6 @@ import moment from 'moment'
 
 import {
   createDraft,
-  addSurveyData,
-  addSurveyDataWhole,
   addSurveyFamilyMemberData
 } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
@@ -336,8 +334,6 @@ class FamilyParticipant extends Component {
 
 const mapDispatchToProps = {
   createDraft,
-  addSurveyData,
-  addSurveyDataWhole,
   addSurveyFamilyMemberData
 }
 
