@@ -4,7 +4,7 @@ import moment from 'moment'
 import { Form } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 
-import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import { addSurveyData } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
 import AppNavbar from '../../../../components/AppNavbar'
 
@@ -79,7 +79,7 @@ class FamilyBirthDate extends Component {
                 member.birthDate = date ? moment(date).format('X') : null
                 familyMembersList.push(member)
               })
-              this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
+              this.props.addSurveyData(this.props.draftId, 'familyData', {
                 familyMembersList: familyMembersList
               })
               this.props.nextStep()
@@ -115,7 +115,6 @@ class FamilyBirthDate extends Component {
 
 const mapDispatchToProps = {
   addSurveyData,
-  addSurveyDataWhole
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
