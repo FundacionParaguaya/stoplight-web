@@ -6,7 +6,7 @@ function selectServer(name) {
 }
 
 export const LOGIN = 'LOGIN'
-export const login = ( token, env) => ({
+export const login = (token, env) => ({
   type: LOGIN,
   token,
   env
@@ -24,19 +24,19 @@ export const SAVE_STEP = 'SAVE_STEP'
 export const SAVE_DRAFT_ID = 'SAVE_DRAFT_ID'
 export const SAVE_SURVEY_ID = 'SAVE_SURVEY_ID'
 export const SAVE_SURVEY_STATUS = 'SAVE_SURVEY_STATUS'
-export const saveStep = (step) => ({
+export const saveStep = step => ({
   type: SAVE_STEP,
   step
 })
-export const saveDraftId = (draftId) => ({
+export const saveDraftId = draftId => ({
   type: SAVE_DRAFT_ID,
   draftId
 })
-export const saveSurveyId = (surveyId) => ({
+export const saveSurveyId = surveyId => ({
   type: SAVE_SURVEY_ID,
   surveyId
 })
-export const saveSurveyStatus = (status) => ({
+export const saveSurveyStatus = status => ({
   type: SAVE_SURVEY_STATUS,
   status
 })
@@ -84,7 +84,7 @@ export const loadSurveys = () => dispatch => {
     },
     body: JSON.stringify({
       query:
-      'query { surveysByUser { title id minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value} surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
+        'query { surveysByUser { title id minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value} surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
     })
   })
     .then(res => {
@@ -108,6 +108,7 @@ export const loadSurveys = () => dispatch => {
 
 export const CREATE_DRAFT = 'CREATE_DRAFT'
 export const DELETE_DRAFT = 'DELETE_DRAFT'
+export const ADD_SURVEY_FAMILY_MEMBER_DATA = 'ADD_SURVEY_FAMILY_MEMBER_DATA'
 export const ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA =
   'ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA'
 export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
@@ -130,6 +131,14 @@ export const addSurveyPriorityAchievementData = (id, category, payload) => ({
   payload
 })
 
+export const addSurveyFamilyMemberData = ({ id, index, payload, isSocioEconomicAnswer}) => ({
+  type: ADD_SURVEY_FAMILY_MEMBER_DATA,
+  id,
+  index,
+  isSocioEconomicAnswer,
+  payload
+})
+
 export const addSurveyData = (id, category, payload) => ({
   type: ADD_SURVEY_DATA,
   category,
@@ -144,14 +153,13 @@ export const addSurveyDataWhole = (id, category, payload) => ({
   payload
 })
 
+export const SUBMIT_DRAFT_STARTED = 'SUBMIT_DRAFT_STARTED'
+export const SUBMIT_DRAFT_SUCCESS = 'SUBMIT_DRAFT_SUCCESS'
+export const SUBMIT_DRAFT_FAIL = 'SUBMIT_DRAFT_FAIL'
 
-export const SUBMIT_DRAFT_STARTED= 'SUBMIT_DRAFT_STARTED'
-export const SUBMIT_DRAFT_SUCCESS= 'SUBMIT_DRAFT_SUCCESS'
-export const SUBMIT_DRAFT_FAIL= 'SUBMIT_DRAFT_FAIL'
-
-export const submitDraft = payload => (dispatch, getState) =>  {
+export const submitDraft = payload => (dispatch, getState) => {
   dispatch(submitDraftStarted())
-  console.log('current state:', getState());
+  console.log('current state:', getState())
   const platform = selectServer(store.getState().user.env)
   fetch(`${platform.api}/graphql`, {
     method: 'POST',
@@ -161,7 +169,7 @@ export const submitDraft = payload => (dispatch, getState) =>  {
     },
     body: JSON.stringify({
       query:
-      'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+        'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
       variables: { newSnapshot: payload }
     })
   })
@@ -172,9 +180,9 @@ export const submitDraft = payload => (dispatch, getState) =>  {
         throw new Error('Error: Unauthorized.')
       } else if (res.status === 500) {
         throw new Error('An error occured.')
-      } else if (res.status === 400){
+      } else if (res.status === 400) {
         throw new Error('400 Bad Request')
-      } else if (res.status !== 200){
+      } else if (res.status !== 200) {
         throw new Error(`An unknown error occured, status: ${res.status}`)
       } else {
         dispatch(submitDraftSuccess(res))
@@ -184,17 +192,16 @@ export const submitDraft = payload => (dispatch, getState) =>  {
 }
 
 const submitDraftSuccess = () => ({
-  type: SUBMIT_DRAFT_SUCCESS,
-});
+  type: SUBMIT_DRAFT_SUCCESS
+})
 
 const submitDraftFail = error => ({
   type: SUBMIT_DRAFT_FAIL,
   payload: {
     error
   }
-});
+})
 
-
-const submitDraftStarted =()=>({
+const submitDraftStarted = () => ({
   type: SUBMIT_DRAFT_STARTED
 })
