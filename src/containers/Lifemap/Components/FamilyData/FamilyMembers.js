@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 import ErrorComponent from '../../ErrorComponent'
-import { addSurveyData, addSurveyDataWhole, addSurveyFamilyMemberData } from '../../../../redux/actions'
+import { addSurveyData, addSurveyDataWhole, addSurveyFamilyMemberData, removeFamilyMembers } from '../../../../redux/actions'
 
 
 import AppNavbar from '../../../../components/AppNavbar'
@@ -87,25 +87,40 @@ class FamilyMembers extends Component {
           onSubmit={(values, form) => {
             // need to save familyMembersCount
             let countFamilyMembers = parseInt(values.memberCount) + 1
-            this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-              countFamilyMembers: countFamilyMembers
-            })
-
-            if (countFamilyMembers < 2) {
+            let additionalFamilyMembers = Object.keys(values)
+            .filter(key => key.includes('membername'))
+            //remove family members if fields reduced
+            console.log(countFamilyMembers)
+            console.log(draft.familyData.familyMembersList.length)
+            if(countFamilyMembers < draft.familyData.familyMembersList.length) {
+              console.log('removing family members', countFamilyMembers, draft.familyData.familyMembersList.length)
+              this.props.removeFamilyMembers(this.props.draftId,countFamilyMembers)
+              this.props.setMemberCount(this.state.countFamilyMembers)
+              this.props.addSurveyData(this.props.draftId, 'familyData', {
+                countFamilyMembers: countFamilyMembers
+              })
+              this.props.nextStep()
+            } else if (countFamilyMembers < 2){
+              this.props.setMemberCount(1)
               this.props.jumpStep(3) // jump to map view
             } else {
-              // map through values and extract the firstNames of all family members
-              let additionalFamilyMembers = Object.keys(values)
-                  .filter(key => key.includes('membername'))
+              this.props.addSurveyData(this.props.draftId, 'familyData', {
+                countFamilyMembers: countFamilyMembers
+              })
 
-              additionalFamilyMembers.forEach((key,index) => {
+              if (countFamilyMembers < 2) {
+              } else {
+                // map through values and extract the firstNames of all family members
+
+
+                additionalFamilyMembers.forEach((key,index) => {
                   console.log(key)
                   this.addFamilyMemberName(values[key], index+1)
                 })
-
-              // combine familyMembers with firstParticipant from primary participant screen
-              this.props.setMemberCount(additionalFamilyMembers.length)
-              this.props.nextStep()
+                // combine familyMembers with firstParticipant from primary participant screen
+                this.props.setMemberCount(additionalFamilyMembers.length)
+                this.props.nextStep()
+            }
             }
           }}
           validate={values => {
@@ -189,7 +204,8 @@ class FamilyMembers extends Component {
 const mapDispatchToProps = {
   addSurveyData,
   addSurveyDataWhole,
-  addSurveyFamilyMemberData
+  addSurveyFamilyMemberData,
+  removeFamilyMembers
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({

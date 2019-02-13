@@ -6,6 +6,7 @@ import {
   LOGOUT,
   CREATE_DRAFT,
   ADD_SURVEY_FAMILY_MEMBER_DATA,
+  REMOVE_FAMILY_MEMBERS,
   ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
   ADD_SURVEY_DATA,
   ADD_SURVEY_DATA_WHOLE,
@@ -271,7 +272,20 @@ export const drafts = (state = [], action) => {
           return draft
         }
       })
-
+    case REMOVE_FAMILY_MEMBERS:
+      return state.map(draft =>
+        draft.draftId === action.id
+          ? {
+              ...draft,
+              familyData: {
+                ...draft.familyData,
+                familyMembersList: draft.familyData.familyMembersList.filter(
+                  (item, index) => index < action.afterIndex
+                )
+              }
+            }
+          : draft
+      )
     case ADD_SURVEY_DATA:
       return state.map(draft => {
         if (draft.draftId === action.id) {
