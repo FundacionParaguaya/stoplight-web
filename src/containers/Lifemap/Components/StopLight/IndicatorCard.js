@@ -28,7 +28,7 @@ const IndicatorCard = ({
           </div>
         </div>
         <div className="card-footer">
-          {checkedAnswer ? <div>Checked</div> : ''}{' '}
+          {checkedAnswer ? <div>Checked</div> : ''} {' '}
         </div>
       </div>
     </div>
