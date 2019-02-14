@@ -6,8 +6,7 @@ import moment from 'moment'
 
 import {
   createDraft,
-  addSurveyData,
-  addSurveyDataWhole
+  addSurveyFamilyMemberData
 } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
 import uuid from 'uuid/v1'
@@ -34,35 +33,57 @@ class FamilyParticipant extends Component {
   dateChange(date) {
     this.setState({
       date: date,
-      dateError: moment(this.state.date).format('X') === "Invalid date"?  -1 : 1
+      dateError: moment(this.state.date).format('X') === 'Invalid date' ? -1 : 1
     })
   }
 
-  async createDraft(values) {
-    let surveyId = this.props.surveyId
-    let draftId = uuid()
-    await this.props.createDraft({
-      surveyId: surveyId,
-      created: Date.now(),
-      draftId: draftId,
-      familyData: {},
-      economicSurveyDataList: [],
-      indicatorSurveyDataList: [],
-      priorities: [],
-      achievements: [],
-
+  addSurveyData = (text, field) => {
+    this.props.addSurveyFamilyMemberData({
+      id: this.draftId,
+      index: 0,
+      payload: {
+        [field]: text
+      }
     })
+  }
 
-    values.firstParticipant = true
-    values.birthDate = moment(this.state.date).format('X')
-    values.socioEconomicAnswers = []
-    this.props.setDraftId(draftId)
-    this.props.addSurveyDataWhole(draftId, 'familyData', {
-      familyMembersList: [values]
+  getDraft() {
+    if (!this.props.draftId) {
+      let surveyId = this.props.surveyId
+      let draftId = uuid()
+      this.props.createDraft({
+        surveyId: surveyId,
+        created: Date.now(),
+        draftId: draftId,
+        economicSurveyDataList: [],
+        indicatorSurveyDataList: [],
+        priorities: [],
+        achievements: [],
+        familyData: {
+          familyMembersList: [
+            {
+              firstParticipant: true,
+              socioEconomicAnswers: []
+            }
+          ]
+        }
+      })
+      this.props.setDraftId(draftId)
+      this.props.draftIsOngoing()
+    }
+    return this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
+  }
+
+  addSurveyData = (text, field) => {
+    this.props.addSurveyFamilyMemberData({
+      id: this.props.draftId,
+      index: 0,
+      payload: {
+        [field]: text
+      }
     })
-    this.props.setName(values['firstName'])
-    this.props.draftIsOngoing()
-    this.props.nextStep()
   }
 
   generateCountriesOptions() {
@@ -88,23 +109,6 @@ class FamilyParticipant extends Component {
     })
   }
 
-  updateDraftParticipant(values) {
-    let draft = this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
-    values.firstParticipant = true
-    let primaryParticipantList = draft.familyData.familyMembersList.filter((member) => member.firstParticipant===true)
-    primaryParticipantList[0] = values
-    primaryParticipantList[0].birthDate = moment(this.state.date).format('X')
-    primaryParticipantList[0].socioEconomicAnswers = []
-
-    this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-      familyMembersList: primaryParticipantList
-    })
-    this.props.setName(values['firstName'])
-    this.props.nextStep()
-  }
-
   initData(user) {
     let res = {}
     res.firstName = user.firstName
@@ -126,11 +130,14 @@ class FamilyParticipant extends Component {
     let draft,
       user = {}
     if (this.props.draftOngoing) {
-      draft = this.props.drafts.filter(
-        draft => draft.draftId === this.props.draftId
-      )[0]
+      draft = this.getDraft()
       user = this.initData(draft.familyData.familyMembersList[0])
-      if(this.state.date === null && user.birthDate !== null) {this.setState({date: new Date(parseInt(user.birthDate*1000)), dateError: 1})} // preload user's birthdate to state date element
+      if (this.state.date === null && user.birthDate !== null) {
+        this.setState({
+          date: new Date(parseInt(user.birthDate * 1000)),
+          dateError: 1
+        })
+      }
     }
 
     return (
@@ -146,15 +153,15 @@ class FamilyParticipant extends Component {
         </div>
         <Form
           onSubmit={values => {
-            if(moment(this.state.date).format('X') === "Invalid date"){
-              this.setState({dateError: -1})
+            if (moment(this.state.date).format('X') === 'Invalid date') {
+              this.setState({ dateError: -1 })
             } else {
-
-              if (this.props.draftId) {
-                this.updateDraftParticipant(values)
-              } else {
-                this.createDraft(values)
-              }
+              draft = this.getDraft()
+              values.birthDate = moment(this.state.date).format('X')
+              Object.keys(values).forEach(key => {
+                this.addSurveyData(values[key], key)
+              })
+              this.props.nextStep()
             }
           }}
           validate={validate}
@@ -175,7 +182,7 @@ class FamilyParticipant extends Component {
                   {({ input, meta }) => {
                     return (
                       <div className="form-group">
-                      <label> {t('views.family.firstName')} </label>
+                        <label> {t('views.family.firstName')} </label>
                         <input
                           type="text"
                           {...input}
@@ -191,12 +198,8 @@ class FamilyParticipant extends Component {
                 <Field name="lastName">
                   {({ input, meta }) => (
                     <div className="form-group">
-                    <label> {t('views.family.lastName')} </label>
-                      <input
-                        type="text"
-                        {...input}
-                        className="form-control"
-                      />
+                      <label> {t('views.family.lastName')} </label>
+                      <input type="text" {...input} className="form-control" />
                       <Error name="lastName" />
                     </div>
                   )}
@@ -204,14 +207,13 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
-                <label> {t('views.family.selectGender')} </label>
+                  <label> {t('views.family.selectGender')} </label>
                   <Field
                     name="gender"
                     component="select"
                     className="form-control custom-select"
                   >
-                    <option value="" disabled>
-                    </option>
+                    <option value="" disabled />
                     {this.props.data.gender.map(gender => (
                       <option
                         value={gender.value}
@@ -242,14 +244,13 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
-                <label> {t('views.family.documentType')} </label>
+                  <label> {t('views.family.documentType')} </label>
                   <Field
                     name="documentType"
                     component="select"
                     className="form-control"
                   >
-                    <option value="" disabled>
-                    </option>
+                    <option value="" disabled />
                     {this.props.data.documentType.map(docType => (
                       <option
                         value={docType.value}
@@ -266,12 +267,8 @@ class FamilyParticipant extends Component {
                 <Field name="documentNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
-                    <label>{t('views.family.documentNumber')}</label>
-                      <input
-                        type="text"
-                        {...input}
-                        className="form-control"
-                      />
+                      <label>{t('views.family.documentNumber')}</label>
+                      <input type="text" {...input} className="form-control" />
                       <Error name="documentNumber" />
                     </div>
                   )}
@@ -279,14 +276,13 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
-                <label>{t('views.family.countryOfBirth')}</label>
+                  <label>{t('views.family.countryOfBirth')}</label>
                   <Field
                     name="birthCountry"
                     component="select"
                     className="form-control"
                   >
-                    <option value="" disabled>
-                    </option>
+                    <option value="" disabled />
                     {countriesOptions}
                   </Field>
                   <Error name="birthCountry" />
@@ -296,12 +292,8 @@ class FamilyParticipant extends Component {
                 <Field name="email">
                   {({ input, meta }) => (
                     <div className="form-group">
-                    <label>{t('views.family.email')}</label>
-                      <input
-                        type="text"
-                        {...input}
-                        className="form-control"
-                      />
+                      <label>{t('views.family.email')}</label>
+                      <input type="text" {...input} className="form-control" />
                       <Error name="email" />
                     </div>
                   )}
@@ -311,12 +303,8 @@ class FamilyParticipant extends Component {
                 <Field name="phoneNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
-                    <label>{t('views.family.phone')}</label>
-                      <input
-                        type="text"
-                        {...input}
-                        className="form-control"
-                      />
+                      <label>{t('views.family.phone')}</label>
+                      <input type="text" {...input} className="form-control" />
                       {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>
                   )}
@@ -346,8 +334,7 @@ class FamilyParticipant extends Component {
 
 const mapDispatchToProps = {
   createDraft,
-  addSurveyData,
-  addSurveyDataWhole
+  addSurveyFamilyMemberData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({

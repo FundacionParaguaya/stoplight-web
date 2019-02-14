@@ -4,7 +4,7 @@ import moment from 'moment'
 import { Form } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 
-import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import { addSurveyFamilyMemberData } from '../../../../redux/actions'
 import DatePicker from '../../../../components/DatePicker'
 import AppNavbar from '../../../../components/AppNavbar'
 
@@ -23,19 +23,22 @@ class FamilyBirthDate extends Component {
 
   dateChange = (idx, date) => {
     if (date) {
-      let dateObj = {}
-      dateObj[idx] = date
-      let dateCopy = this.state.date
-      let dateErr = this.state.dateError
-      dateErr[idx] = 1
-      dateCopy.push(dateObj)
-      this.setState({
-        date: dateCopy,
-      })
+      this.addFamilyBirthDate(moment(date).format('X'), idx + 1)
     }
   }
 
+  getDraft = () =>
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
 
+  addFamilyBirthDate = (birthDate, index) => {
+    this.props.addSurveyFamilyMemberData({
+      id: this.props.draftId,
+      index,
+      payload: {
+        birthDate
+      }
+    })
+  }
   //TODO: handler to skip to map view if only 1 family member!
   render() {
     const { t } = this.props
@@ -45,7 +48,6 @@ class FamilyBirthDate extends Component {
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
     )
-    console.log(additionalMembersList)
 
     const forms = additionalMembersList.map((member, idx) => {
       console.log(member)
@@ -56,7 +58,11 @@ class FamilyBirthDate extends Component {
             dateChange={this.dateChange.bind(this, idx)}
             minYear={1900}
             maxYear={moment().format('YYYY')}
-            defaultDate={member.birthDate ? moment(parseInt(member.birthDate)*1000).format('X') : null}
+            defaultDate={
+              member.birthDate
+                ? moment(parseInt(member.birthDate) * 1000).format('X')
+                : null
+            }
           />
         </div>
       )
@@ -71,20 +77,9 @@ class FamilyBirthDate extends Component {
         />
         <Form
           onSubmit={(values, form) => {
-              let familyMembersList = draft.familyData.familyMembersList.filter(
-                member => member.firstParticipant === true
-              )
-              additionalMembersList.forEach((member, idx) => {
-                let date = this.state.date[idx]  ? this.state.date[idx][idx] : null
-                member.birthDate = date ? moment(date).format('X') : null
-                familyMembersList.push(member)
-              })
-              this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-                familyMembersList: familyMembersList
-              })
-              this.props.nextStep()
-            }
-          }
+            // date update being handled by dateCHange
+            this.props.nextStep()
+          }}
           initialValues={{}}
           render={({
             handleSubmit,
@@ -96,8 +91,7 @@ class FamilyBirthDate extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <p className="form-control" placeholder="">
-                </p>
+                <p className="form-control" placeholder="" />
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
@@ -114,8 +108,7 @@ class FamilyBirthDate extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData,
-  addSurveyDataWhole
+  addSurveyFamilyMemberData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
