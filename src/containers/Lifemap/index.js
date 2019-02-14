@@ -59,6 +59,8 @@ class Lifemap extends Component {
 
   setMemberCount = num => {
     this.setState({ memberCount: num })
+    console.log('num',num)
+    console.log(this.state.memberCount)
   }
 
   setDraftId = id => {
