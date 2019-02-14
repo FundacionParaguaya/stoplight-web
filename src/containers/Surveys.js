@@ -20,7 +20,7 @@ export class Surveys extends Component {
   render() {
     const { t } = this.props
     return (
-      <div>
+      <div className="small-card">
         <AppNavbar text={t('views.createLifemap')} showBack={false} draftOngoing={this.props.surveyStatus.draftId !== null ? true : false} />
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
