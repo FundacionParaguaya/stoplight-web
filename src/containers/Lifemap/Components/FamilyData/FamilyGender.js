@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 
-import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import { addSurveyFamilyMemberData } from '../../../../redux/actions'
 import AppNavbar from '../../../../components/AppNavbar'
 
 class FamilyGender extends Component {
@@ -11,19 +11,30 @@ class FamilyGender extends Component {
     super(props)
     this.state = {}
   }
-  //TODO: handler to skip to map view if only 1 family member!
+
+  getDraft = () =>
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+
+  addFamilyMemberGender = (gender, index) => {
+    this.props.addSurveyFamilyMemberData({
+      id: this.props.draftId,
+      index,
+      payload: {
+        gender
+      }
+    })
+  }
 
   render() {
     const { t } = this.props
-    const draft = this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
+    const draft = this.getDraft()
+
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
     )
 
-    let initialValues ={}
-    additionalMembersList.forEach((member,idx) => {
+    let initialValues = {}
+    additionalMembersList.forEach((member, idx) => {
       initialValues[`gender${idx}`] = member.gender || null
     })
 
@@ -50,7 +61,7 @@ class FamilyGender extends Component {
     })
 
     return (
-        <div>
+      <div>
         <AppNavbar
           text={t('views.gender')}
           showBack={true}
@@ -58,17 +69,12 @@ class FamilyGender extends Component {
         />
         <Form
           onSubmit={(values, form) => {
-            let familyMembersList = draft.familyData.familyMembersList.filter(
-              member => member.firstParticipant === true
-            )
-            additionalMembersList.forEach((member, idx) => {
-              member.gender = values[`gender${idx}`]
-              familyMembersList.push(member)
-            })
 
-            this.props.addSurveyDataWhole(this.props.draftId, 'familyData', {
-              familyMembersList: familyMembersList
-            })
+            Object.keys(values)
+              .filter(key => key.includes('gender'))
+              .forEach((key, index) => {
+                this.addFamilyMemberGender(values[key], index + 1)
+              })
 
             this.props.nextStep()
           }}
@@ -83,8 +89,7 @@ class FamilyGender extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <p className="form-control" placeholder="">
-                </p>
+                <p className="form-control" placeholder="" />
               </div>
               {forms}
               <div style={{ paddingTop: 20 }}>
@@ -92,7 +97,7 @@ class FamilyGender extends Component {
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
                 >
-                {t('general.continue')}
+                  {t('general.continue')}
                 </button>
               </div>
             </form>
@@ -104,8 +109,7 @@ class FamilyGender extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData,
-  addSurveyDataWhole
+  addSurveyFamilyMemberData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({

@@ -5,6 +5,8 @@ import {
   LOAD_SURVEYS,
   LOGOUT,
   CREATE_DRAFT,
+  ADD_SURVEY_FAMILY_MEMBER_DATA,
+  REMOVE_FAMILY_MEMBERS,
   ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
   ADD_SURVEY_DATA,
   ADD_SURVEY_DATA_WHOLE,
@@ -50,46 +52,45 @@ export const surveys = (state = [], action) => {
   }
 }
 
-
-export const surveyStatus = (state = {step:1, status: ''}, action) => {
+export const surveyStatus = (state = { step: 1, status: '' }, action) => {
   switch (action.type) {
     case SAVE_STEP:
-    return {
-      ...state,
-      step: action.step,
-    }
+      return {
+        ...state,
+        step: action.step
+      }
     case SAVE_DRAFT_ID:
-    return {
-      ...state,
-      draftId: action.draftId
-    }
+      return {
+        ...state,
+        draftId: action.draftId
+      }
     case SAVE_SURVEY_ID:
-    return {
-      ...state,
-      surveyId: action.surveyId
-    }
+      return {
+        ...state,
+        surveyId: action.surveyId
+      }
     case SAVE_SURVEY_STATUS:
-    return {
-      ...state,
-      status: action.status
-    }
+      return {
+        ...state,
+        status: action.status
+      }
     case SUBMIT_DRAFT_STARTED:
-    return {
-      ...state,
-      status: 'pending',
-    }
+      return {
+        ...state,
+        status: 'pending'
+      }
     case SUBMIT_DRAFT_SUCCESS:
-    return {
-      ...state,
-      status: 'success',
-      error: ''
-    }
+      return {
+        ...state,
+        status: 'success',
+        error: ''
+      }
     case SUBMIT_DRAFT_FAIL:
-    return {
-      ...state,
-      status: 'fail',
-      error: action.payload.error
-    }
+      return {
+        ...state,
+        status: 'fail',
+        error: action.payload.error
+      }
     default:
       return state
   }
@@ -130,6 +131,161 @@ export const drafts = (state = [], action) => {
           return draft
         }
       })
+    case ADD_SURVEY_FAMILY_MEMBER_DATA:
+      return state.map(draft => {
+        // if this is the draft we are editing
+        if (draft.draftId === action.id) {
+          const familyMember = draft.familyData.familyMembersList[action.index]
+
+          if (action.isSocioEconomicAnswer) {
+            if (familyMember.socioEconomicAnswers) {
+              // if its a socio economic edition
+              const item = familyMember.socioEconomicAnswers.filter(
+                item => item.key === Object.keys(action.payload)[0]
+              )[0]
+
+              if (item) {
+                // if updating an existing answer
+                const index = familyMember.socioEconomicAnswers.indexOf(item)
+
+                return {
+                  ...draft,
+                  familyData: {
+                    ...draft.familyData,
+                    familyMembersList: [
+                      ...draft.familyData.familyMembersList.slice(
+                        0,
+                        action.index
+                      ),
+                      {
+                        ...familyMember,
+                        socioEconomicAnswers: [
+                          ...familyMember.socioEconomicAnswers.slice(0, index),
+                          {
+                            key: Object.keys(action.payload)[0],
+                            value: Object.values(action.payload)[0]
+                          },
+                          ...familyMember.socioEconomicAnswers.slice(index + 1)
+                        ]
+                      },
+                      ...draft.familyData.familyMembersList.slice(
+                        action.index + 1
+                      )
+                    ]
+                  }
+                }
+              } else {
+                // if adding a new answer
+                return {
+                  ...draft,
+                  familyData: {
+                    ...draft.familyData,
+                    familyMembersList: [
+                      ...draft.familyData.familyMembersList.slice(
+                        0,
+                        action.index
+                      ),
+                      {
+                        ...familyMember,
+                        socioEconomicAnswers: [
+                          ...familyMember.socioEconomicAnswers,
+                          {
+                            key: Object.keys(action.payload)[0],
+                            value: Object.values(action.payload)[0]
+                          }
+                        ]
+                      },
+                      ...draft.familyData.familyMembersList.slice(
+                        action.index + 1
+                      )
+                    ]
+                  }
+                }
+              }
+            } else {
+              // adding socioEconomicAnswers for the first time
+              return {
+                ...draft,
+                familyData: {
+                  ...draft.familyData,
+                  familyMembersList: [
+                    ...draft.familyData.familyMembersList.slice(
+                      0,
+                      action.index
+                    ),
+                    {
+                      ...familyMember,
+                      socioEconomicAnswers: [
+                        {
+                          key: Object.keys(action.payload)[0],
+                          value: Object.values(action.payload)[0]
+                        }
+                      ]
+                    },
+                    ...draft.familyData.familyMembersList.slice(
+                      action.index + 1
+                    )
+                  ]
+                }
+              }
+            }
+          } else {
+            // NON SOCIO ECONOMIC ANSSER
+            if (typeof action.index !== 'undefined') {
+              // if family member exists
+              const payload = action.payload
+              return {
+                ...draft,
+                familyData: {
+                  ...draft.familyData,
+                  familyMembersList: [
+                    ...draft.familyData.familyMembersList.slice(
+                      0,
+                      action.index
+                    ),
+                    {
+                      ...familyMember,
+                      ...payload
+                    },
+                    ...draft.familyData.familyMembersList.slice(
+                      action.index + 1
+                    )
+                  ]
+                }
+              }
+            } else {
+              // if family member doesn't exists
+              const payload = action.payload
+              return {
+                ...draft,
+                familyData: {
+                  ...draft.familyData,
+                  familyMembersList: [
+                    ...draft.familyData.familyMembersList,
+                    ...payload
+                  ]
+                }
+              }
+            }
+          }
+        } else {
+          return draft
+        }
+      })
+    case REMOVE_FAMILY_MEMBERS:
+      return state.map(draft =>
+        draft.draftId === action.id
+          ? {
+              ...draft,
+              familyData: {
+                ...draft.familyData,
+                familyMembersList: draft.familyData.familyMembersList.filter(
+                  (item, index) => index < action.afterIndex
+                )
+              }
+            }
+          : draft
+      )
     case ADD_SURVEY_DATA:
       return state.map(draft => {
         if (draft.draftId === action.id) {
