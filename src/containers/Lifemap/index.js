@@ -32,7 +32,6 @@ class Lifemap extends Component {
       draftId: this.props.surveyStatus.draftId || null,
       surveyTakerName: '',
       memberCount: 0,
-      isDraftOnGoing: this.props.surveyStatus.draftId ? true : false,
       draft: null,
       submitError: false
     }
@@ -51,10 +50,6 @@ class Lifemap extends Component {
   componentDidMount() {
     this.loadData()
     // this.setupBeforeUnloadListener()
-  }
-
-  setDraftOnGoing = () => {
-    this.setState({ draftOnGoing: true })
   }
 
   setMemberCount = num => {
@@ -138,9 +133,10 @@ class Lifemap extends Component {
     switch (this.state.step) {
       case 1:
         component = survey && (
-          <div>
+          <div
+          className="small-card"
+          >
             <TermsPrivacy
-              className="small-card"
               parentNextStep={this.nextStep}
               prarentPreviousStep={this.previousStep}
               data={survey}
@@ -155,7 +151,7 @@ class Lifemap extends Component {
         // might want to create a handler for submissions of each step, to add to draft state.
         component = survey && (
           <div
-          className="small-card "
+          className="small-card"
           >
             <FamilyParticipant
               nextStep={this.nextStep}
@@ -165,8 +161,6 @@ class Lifemap extends Component {
               setName={this.setName}
               setDraftId={this.setDraftId}
               draftId={this.state.draftId}
-              isDraftOnGoing={this.state.isDraftOnGoing}
-              setDraftOnGoing={this.setDraftOnGoing}
             />
           </div>
         )
