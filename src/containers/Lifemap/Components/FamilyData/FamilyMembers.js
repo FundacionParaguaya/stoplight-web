@@ -95,18 +95,27 @@ class FamilyMembers extends Component {
             )
             //remove family members if fields reduced
             if (
-              countFamilyMembers < draft.familyData.familyMembersList.length
+              countFamilyMembers < draft.familyData.familyMembersList.length && this.state.memberCount >= 1
             ) {
               this.props.removeFamilyMembers(
                 this.props.draftId,
                 countFamilyMembers
               )
-              this.props.setMemberCount(this.state.countFamilyMembers)
+              console.log('statecount', this.state.memberCount)
+              this.props.setMemberCount(this.state.memberCount)
               this.props.addSurveyData(this.props.draftId, 'familyData', {
                 countFamilyMembers: countFamilyMembers
               })
               this.props.nextStep()
-            } else if (countFamilyMembers < 2) {
+            } else if (countFamilyMembers <= 1) {
+              console.log('count',countFamilyMembers)
+              this.props.removeFamilyMembers(
+                this.props.draftId,
+                1
+              )
+              this.props.addSurveyData(this.props.draftId, 'familyData', {
+                countFamilyMembers: 1
+              })
               this.props.setMemberCount(1)
               this.props.jumpStep(3) // jump to map view
             } else {
