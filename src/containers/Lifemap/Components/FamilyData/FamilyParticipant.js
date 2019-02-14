@@ -69,8 +69,8 @@ class FamilyParticipant extends Component {
         }
       })
       this.props.setDraftId(draftId)
-      this.props.draftIsOngoing()
     }
+    this.props.setDraftOnGoing()
     return this.props.drafts.filter(
       draft => draft.draftId === this.props.draftId
     )[0]
@@ -129,7 +129,7 @@ class FamilyParticipant extends Component {
     const countriesOptions = this.generateCountriesOptions()
     let draft,
       user = {}
-    if (this.props.draftOngoing) {
+    if (this.props.isDraftOnGoing) {
       draft = this.getDraft()
       user = this.initData(draft.familyData.familyMembersList[0])
       if (this.state.date === null && user.birthDate !== null) {
@@ -146,7 +146,7 @@ class FamilyParticipant extends Component {
           text={t('views.primaryParticipant')}
           showBack={true}
           backHandler={this.props.parentPreviousStep}
-          draftOngoing={this.props.draftId ? true : false}
+          draftOngoing={this.props.isDraftOnGoing ? true : false}
         />
         <div className="text-center">
           <img src={family_face_large} alt="family_face_large" />

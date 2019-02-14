@@ -32,7 +32,7 @@ class Lifemap extends Component {
       draftId: this.props.surveyStatus.draftId || null,
       surveyTakerName: '',
       memberCount: 0,
-      draftOnGoing: this.props.surveyStatus.draftId ? true : false,
+      isDraftOnGoing: this.props.surveyStatus.draftId ? true : false,
       draft: null,
       submitError: false
     }
@@ -53,7 +53,7 @@ class Lifemap extends Component {
     // this.setupBeforeUnloadListener()
   }
 
-  draftIsOngoing = () => {
+  setDraftOnGoing = () => {
     this.setState({ draftOnGoing: true })
   }
 
@@ -109,6 +109,7 @@ class Lifemap extends Component {
     if(this.props.surveyStatus.status === "success"){
       this.props.saveSurveyId(null)
       this.props.saveStep(null)
+      this.setState({draftId: null, draftIsOngoing: false})
       window.location.href = 'https://testing.povertystoplight.org'
     } else if (this.props.surveyStatus.status === 'fail' && this.state.submitError===false){
         this.setState({submitError:true})
@@ -161,8 +162,8 @@ class Lifemap extends Component {
               setName={this.setName}
               setDraftId={this.setDraftId}
               draftId={this.state.draftId}
-              draftOngoing={this.state.draftOnGoing}
-              draftIsOngoing={this.draftIsOngoing}
+              isDraftOnGoing={this.state.isDraftOnGoing}
+              setDraftOnGoing={this.setDraftOnGoing}
             />
           </div>
         )
