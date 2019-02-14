@@ -5,7 +5,8 @@ const IndicatorCard = ({
   description,
   cardClass,
   cardImageLoaded,
-  imagesLoaded
+  imagesLoaded,
+  checkedAnswer
 }) => {
   let imgStyle =
     imagesLoaded !== 3
@@ -19,6 +20,7 @@ const IndicatorCard = ({
           <img src={url} className="img-fluid" alt="" onLoad={() => cardImageLoaded()} />
           <div style={{marginTop: '1em'}}><p >{description}</p></div>
       </div>
+      <div className="card-footer">{checkedAnswer?(<div>Checked</div>) : ("")} </div>
     </div>
     </div>
   )

@@ -9,7 +9,7 @@ class StopLight extends Component {
   constructor(props) {
     super(props)
 
-    let draft = this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+    let draft = this.getDraft()
     this.state = {
       step: draft.indicatorSurveyDataList.length > 0? draft.indicatorSurveyDataList.length -1 : 0,
       renderSkippedQuestionsScreen: false,
@@ -17,6 +17,8 @@ class StopLight extends Component {
       imagesLoaded: 0
     }
   }
+
+  getDraft = () => this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
 
   nextStep = (value, codeName) => {
     this.setState({ imagesLoaded: 0 })
@@ -61,6 +63,13 @@ class StopLight extends Component {
     this.setState({ imagesLoaded: this.state.imagesLoaded + 1 })
   }
 
+  getCheckedIndicator = () => {
+    let draft = this.getDraft()
+    let checkedAnswer = draft.indicatorSurveyDataList.filter(indicator => indicator.key == this.props.data[this.state.step].codeName )[0].value
+    console.log(checkedAnswer)
+    return checkedAnswer || null
+  }
+
   goBack = () => {
     if (this.state.step <= 0) {
       this.props.parentPreviousStep()
@@ -71,6 +80,7 @@ class StopLight extends Component {
 
   render() {
     const { t } = this.props
+    this.getCheckedIndicator()
     let stopLightQuestions = this.props.data
     return (
       <div>
@@ -88,6 +98,7 @@ class StopLight extends Component {
             parentPreviousStep={this.props.parentPreviousStep}
             imagesLoaded={this.state.imagesLoaded}
             updateImageStatus={this.updateImageStatus}
+            checkedAnswer = {this.getCheckedIndicator()}
           />
       </div>
     )
