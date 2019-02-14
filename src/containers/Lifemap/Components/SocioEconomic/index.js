@@ -18,10 +18,8 @@ class SocioEconomic extends Component {
     questions.forEach(question => {
       if (question.required === true) {
         // add '*' to appear beside required question texts
-        let asteriskSet = new RegExp("/\*$/")
-        if(!asteriskSet.test(question.questionText)){
-          question.questionText += ' *'
-        }
+        question.questionText = question.questionText.split(' *')[0]
+        question.questionText += ' *'
       }
       if (!categories.hasOwnProperty(question.topic)) {
         categories[question.topic] = []
