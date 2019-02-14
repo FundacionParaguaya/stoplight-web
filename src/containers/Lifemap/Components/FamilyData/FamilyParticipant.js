@@ -21,12 +21,13 @@ import AppNavbar from '../../../../components/AppNavbar'
 const countryList = countries(require('localized-countries/data/en')).array()
 
 class FamilyParticipant extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       date: null,
       dateError: 0,
-      submitted: false
+      submitted: false,
+      draftId: this.props.draftId || null
     }
   }
 
@@ -37,9 +38,39 @@ class FamilyParticipant extends Component {
     })
   }
 
+  async createDraft() {
+    let surveyId = this.props.surveyId
+    let draftId = uuid()
+    await this.props.createDraft({
+      surveyId: surveyId,
+      created: Date.now(),
+      draftId: draftId,
+      economicSurveyDataList: [],
+      indicatorSurveyDataList: [],
+      priorities: [],
+      achievements: [],
+      familyData: {
+        familyMembersList: [
+          {
+            firstParticipant: true,
+            socioEconomicAnswers: []
+          }
+        ]
+      }
+    })
+    await this.setState({ draftId: draftId })
+    await this.props.setDraftId(draftId)
+  }
+  getDraft = () => {
+    return this.props.drafts.filter(
+      draft => draft.draftId === this.state.draftId
+    )[0]
+  }
+
   addSurveyData = (text, field) => {
+    console.log(this.state.draftId)
     this.props.addSurveyFamilyMemberData({
-      id: this.draftId,
+      id: this.state.draftId,
       index: 0,
       payload: {
         [field]: text
@@ -47,42 +78,10 @@ class FamilyParticipant extends Component {
     })
   }
 
-  getDraft() {
-    if (!this.props.draftId) {
-      let surveyId = this.props.surveyId
-      let draftId = uuid()
-      this.props.createDraft({
-        surveyId: surveyId,
-        created: Date.now(),
-        draftId: draftId,
-        economicSurveyDataList: [],
-        indicatorSurveyDataList: [],
-        priorities: [],
-        achievements: [],
-        familyData: {
-          familyMembersList: [
-            {
-              firstParticipant: true,
-              socioEconomicAnswers: []
-            }
-          ]
-        }
-      })
-      this.props.setDraftId(draftId)
-      this.props.draftIsOngoing()
-    }
-    return this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
-  }
-
-  addSurveyData = (text, field) => {
-    this.props.addSurveyFamilyMemberData({
-      id: this.props.draftId,
-      index: 0,
-      payload: {
-        [field]: text
-      }
+  savePrimaryParticipantData = (values ) => {
+    values.birthDate = moment(this.state.date).format('X')
+    Object.keys(values).forEach(key => {
+      this.addSurveyData(values[key], key)
     })
   }
 
@@ -123,13 +122,15 @@ class FamilyParticipant extends Component {
     return res
   }
 
+  componentDidMount() {}
   render() {
     // set default country to beginning of list
     const { t } = this.props
     const countriesOptions = this.generateCountriesOptions()
     let draft,
       user = {}
-    if (this.props.draftOngoing) {
+
+    if (this.state.draftId) {
       draft = this.getDraft()
       user = this.initData(draft.familyData.familyMembersList[0])
       if (this.state.date === null && user.birthDate !== null) {
@@ -146,7 +147,7 @@ class FamilyParticipant extends Component {
           text={t('views.primaryParticipant')}
           showBack={true}
           backHandler={this.props.parentPreviousStep}
-          draftOngoing={this.props.draftId ? true : false}
+          draftOngoing={this.state.draftId ? true : false}
         />
         <div className="text-center">
           <img src={family_face_large} alt="family_face_large" />
@@ -156,12 +157,18 @@ class FamilyParticipant extends Component {
             if (moment(this.state.date).format('X') === 'Invalid date') {
               this.setState({ dateError: -1 })
             } else {
-              draft = this.getDraft()
-              values.birthDate = moment(this.state.date).format('X')
-              Object.keys(values).forEach(key => {
-                this.addSurveyData(values[key], key)
-              })
-              this.props.nextStep()
+              if (!this.state.draftId) {
+                this.createDraft()
+                  .then(() => {
+                    this.savePrimaryParticipantData(values)
+                  })
+                  .then(() => {
+                    this.props.nextStep()
+                  })
+              } else {
+                this.savePrimaryParticipantData(values)
+                this.props.nextStep()
+              }
             }
           }}
           validate={validate}

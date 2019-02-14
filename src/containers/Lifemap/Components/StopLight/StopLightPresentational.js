@@ -10,7 +10,8 @@ const StopLightPresentational = ({
   previousStep,
   parentPreviousStep,
   imagesLoaded,
-  updateImageStatus
+  updateImageStatus,
+  checkedAnswer
 }) => {
   let progressPercent = ((index + 1) / (total + 1)) * 100
   return (
@@ -40,6 +41,7 @@ const StopLightPresentational = ({
               url={data.stoplightColors[0].url}
               description={data.stoplightColors[0].description}
               cardClass="card card-stoplight text-white bg-success mb-3"
+              checkedAnswer={checkedAnswer === 3 ? true : false}
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
                 updateImageStatus()
@@ -57,6 +59,7 @@ const StopLightPresentational = ({
               url={data.stoplightColors[1].url}
               description={data.stoplightColors[1].description}
               cardClass="card card-stoplight text-white bg-warning mb-3"
+              checkedAnswer={checkedAnswer === 2 ? true : false}
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
                 updateImageStatus()
@@ -74,6 +77,7 @@ const StopLightPresentational = ({
               url={data.stoplightColors[2].url}
               description={data.stoplightColors[2].description}
               cardClass="card card-stoplight text-white bg-danger mb-3"
+              checkedAnswer={checkedAnswer === 1 ? true : false}
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
                 updateImageStatus()

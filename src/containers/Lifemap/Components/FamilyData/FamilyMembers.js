@@ -111,7 +111,7 @@ class FamilyMembers extends Component {
               console.log('count',countFamilyMembers)
               this.props.removeFamilyMembers(
                 this.props.draftId,
-                1
+                countFamilyMembers //should be 1
               )
               this.props.addSurveyData(this.props.draftId, 'familyData', {
                 countFamilyMembers: 1
