@@ -269,12 +269,27 @@ nav {
   -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
 
-  max-width: 48em;
-  margin: 20px auto;
-  padding: 1rem !important;
 
   height: 90vh;
   overflow: scroll;
+
+}
+
+.small-card {
+  max-width: 48em;
+  min-width: 48em;
+  margin: 20px auto;
+  padding: 1rem !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wide-card {
+  max-width: 760px;
+  margin: 20px auto;
+  padding: 1rem !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card-list {

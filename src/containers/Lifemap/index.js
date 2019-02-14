@@ -140,6 +140,7 @@ class Lifemap extends Component {
         component = survey && (
           <div>
             <TermsPrivacy
+              className="small-card"
               parentNextStep={this.nextStep}
               prarentPreviousStep={this.previousStep}
               data={survey}
@@ -153,7 +154,9 @@ class Lifemap extends Component {
         // might want to createa  function that creates the drafts
         // might want to create a handler for submissions of each step, to add to draft state.
         component = survey && (
-          <div>
+          <div
+          className="small-card "
+          >
             <FamilyParticipant
               nextStep={this.nextStep}
               parentPreviousStep={this.previousStep}
@@ -170,7 +173,9 @@ class Lifemap extends Component {
         break
       case 3:
         component = (
-          <div>
+          <div
+          className="small-card"
+          >
             <FamilyMembers
               nextStep={this.nextStep}
               draftId={this.state.draftId}
@@ -186,7 +191,9 @@ class Lifemap extends Component {
         break
       case 4:
         component = (
-          <div>
+          <div
+          className="small-card"
+          >
             <FamilyGender
               nextStep={this.nextStep}
               draftId={this.state.draftId}
@@ -200,7 +207,9 @@ class Lifemap extends Component {
         break
       case 5:
         component = (
-          <div>
+          <div
+          className="small-card"
+          >
             <FamilyBirthDate
               nextStep={this.nextStep}
               draftId={this.state.draftId}
@@ -214,7 +223,9 @@ class Lifemap extends Component {
         break
       case 6:
         component = (
-          <div>
+          <div
+          className="small-card"
+          >
             <FamilyMap
               nextStep={this.nextStep}
               draftId={this.state.draftId}
@@ -227,7 +238,9 @@ class Lifemap extends Component {
         break
       case 7:
         component = survey && (
-          <div>
+          <div
+          className="small-card"
+          >
             <SocioEconomic
               parentNextStep={this.nextStep}
               draftId={this.state.draftId}
@@ -239,7 +252,9 @@ class Lifemap extends Component {
         break
       case 8:
         component = (
-          <div>
+          <div
+          className="small-card"
+          >
             <BeginLifemap
               nextStep={this.nextStep}
               parentPreviousStep={this.previousStep}
@@ -250,7 +265,7 @@ class Lifemap extends Component {
         break
       case 9:
         component = survey && (
-          <div style={{ width: '1024px !important', zIndex:'9999' }}>
+          <div className="wide-card">
             <StopLight
               draftId={this.state.draftId}
               data={survey.surveyStoplightQuestions}
@@ -262,7 +277,9 @@ class Lifemap extends Component {
         break
       case 10:
         component = survey && (
-          <div>
+          <div
+          className="small-card"
+          >
             <IndicatorList
               draftId={this.state.draftId}
               data={survey.surveyStoplightQuestions}
@@ -276,7 +293,9 @@ class Lifemap extends Component {
         break
       case 11:
         component = survey && (
-          <div>
+          <div
+          className="small-card"
+          >
             <FinalScreen
               draftId={this.state.draftId}
               data={survey.surveyStoplightQuestions}
@@ -290,9 +309,9 @@ class Lifemap extends Component {
       // Create a submit handler to send redux store of graph as graphql mutation once Prorities & Achievements is submitted
       default:
 
-        component = <div>NOTHING TO SEE HERE</div>
+        component = <div class="small-card">NOTHING TO SEE HERE</div>
     }
-    return <div>{component}</div>
+    return <div >{component}</div>
   }
 }
 
