@@ -16,10 +16,30 @@ class SocioEconomicPresentational extends Component {
     }
   }
 
+  getDraft = () =>
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+
+  getSocioEconomicAnswer = (question) => {
+    let draft = this.getDraft()
+    let currentAnswer = draft.economicSurveyDataList.filter(answer => answer.key === question.codeName)[0] ? draft.economicSurveyDataList.filter(answer => answer.key === question.codeName)[0].value : null
+    return currentAnswer
+  }
+
+  initData = (questions) => {
+    // loop through questions and build array from it
+    let res = {}
+    questions.forEach((question) => {
+      res[question.codeName] = this.getSocioEconomicAnswer(question)
+    })
+    return res
+
+  }
+
   render() {
     const { t } = this.props
     const questions = this.props.data.sortedQuestions
     const category = this.props.data.category
+    let initialValues = this.initData(questions)
     return (
       <div>
         <AppNavbar
@@ -44,7 +64,7 @@ class SocioEconomicPresentational extends Component {
             }
           }}
           validate={this.props.validate}
-          initialValues={{}}
+          initialValues={initialValues}
           render={({ handleSubmit, pristine, invalid }) => (
             <form onSubmit={handleSubmit}>
               {questions
