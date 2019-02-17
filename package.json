@@ -7,6 +7,7 @@
     "final-form": "^4.11.0",
     "i18next": "^13.1.4",
     "localized-countries": "^1.0.2",
+    "material-icons-react": "^1.0.4",
     "moment": "^2.22.2",
     "query-string": "^6.2.0",
     "react": "^16.6.3",
