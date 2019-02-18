@@ -25,7 +25,7 @@ export class Surveys extends Component {
   };
 
   render() {
-    const { t, surveyStatus } = this.props;
+    const { t, surveyStatus, surveys, saveStep, saveDraftId } = this.props;
     return (
       <div className="small-card">
         <AppNavbar
@@ -36,7 +36,7 @@ export class Surveys extends Component {
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
         </div>
-        {this.props.surveys.length === 0 ? (
+        {surveys.length === 0 ? (
           <Spinner />
         ) : (
           <div>
@@ -57,7 +57,7 @@ export class Surveys extends Component {
             ) : (
               <div> </div>
             )}
-            {this.props.surveys.map((survey, i) => (
+            {surveys.map((survey, i) => (
               <div key={survey.id} style={{ marginTop: 30 }}>
                 <Link
                   to={{
@@ -67,8 +67,8 @@ export class Surveys extends Component {
                     }
                   }}
                   onClick={() => {
-                    this.props.saveStep(1);
-                    this.props.saveDraftId(null);
+                    saveStep(1);
+                    saveDraftId(null);
                   }}
                 >
                   <div className="card-list">
