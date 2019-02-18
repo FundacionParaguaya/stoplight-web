@@ -52,7 +52,8 @@ class App extends Component {
     }
   }
   render() {
-    if (this.props.state.user.token) {
+    const { state: { user: { token } } } = this.props;
+    if (token) {
       return (
         <Router>
           <div>
