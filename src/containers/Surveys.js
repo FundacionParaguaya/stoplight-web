@@ -57,7 +57,7 @@ export class Surveys extends Component {
             ) : (
               <div> </div>
             )}
-            {surveys.map((survey, i) => (
+            {surveys.map(survey => (
               <div key={survey.id} style={{ marginTop: 30 }}>
                 <Link
                   to={{
@@ -67,7 +67,7 @@ export class Surveys extends Component {
                     }
                   }}
                   onClick={() => {
-                    saveStep(1);
+                    // saveStep(1);
                     saveDraftId(null);
                   }}
                 >
