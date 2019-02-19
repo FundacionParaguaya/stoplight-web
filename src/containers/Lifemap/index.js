@@ -96,6 +96,8 @@ class Lifemap extends Component {
   }
 
   render() {
+    // const { match } = this.props;
+
     let survey
     if (!this.props.location || !this.props.location.state) {
       this.props.history.push('/surveys')

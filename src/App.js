@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 import { logout, login } from "./redux/actions";
 import Surveys from "./containers/Surveys";
-import Lifemap from "./containers/Lifemap";
+import LifemapRouter from "./containers/Lifemap/LifemapRouter";
 
 import Dots from "./components/Dots";
 
@@ -61,7 +61,7 @@ class App extends Component {
             <div className="main-card card">
               <Switch>
                 <Route exact path="/surveys" component={Surveys} />
-                <Route exact path="/lifemap" component={Lifemap} />
+                <Route exact path="/lifemap" component={LifemapRouter} />
               </Switch>
             </div>
           </div>
