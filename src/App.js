@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 import { logout, login } from "./redux/actions";
 import Surveys from "./containers/Surveys";
-import LifemapRouter from "./containers/Lifemap/LifemapRouter";
+import LifemapRouter from "./containers/Lifemap";
 
 import Dots from "./components/Dots";
 
