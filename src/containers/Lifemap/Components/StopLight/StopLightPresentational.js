@@ -41,6 +41,7 @@ const StopLightPresentational = ({
               url={data.stoplightColors[0].url}
               description={data.stoplightColors[0].description}
               cardClass="card card-stoplight text-white bg-success mb-3"
+              checkColor="bg-success"
               checkedAnswer={checkedAnswer === 3 ? true : false}
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
@@ -59,6 +60,7 @@ const StopLightPresentational = ({
               url={data.stoplightColors[1].url}
               description={data.stoplightColors[1].description}
               cardClass="card card-stoplight text-white bg-warning mb-3"
+              checkColor="bg-warning"
               checkedAnswer={checkedAnswer === 2 ? true : false}
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {
@@ -77,6 +79,7 @@ const StopLightPresentational = ({
               url={data.stoplightColors[2].url}
               description={data.stoplightColors[2].description}
               cardClass="card card-stoplight text-white bg-danger mb-3"
+              checkColor="bg-danger"
               checkedAnswer={checkedAnswer === 1 ? true : false}
               imagesLoaded={imagesLoaded}
               cardImageLoaded={() => {

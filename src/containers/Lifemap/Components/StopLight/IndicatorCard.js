@@ -1,12 +1,15 @@
 import React from 'react'
 import Spinner from '../../../../components/Spinner'
+import { CheckCircleOutline } from '@material-ui/icons';
+
 const IndicatorCard = ({
   url,
   description,
   cardClass,
   cardImageLoaded,
   imagesLoaded,
-  checkedAnswer
+  checkedAnswer,
+  checkColor
 }) => {
   let imgStyle =
     imagesLoaded !== 3
@@ -28,7 +31,7 @@ const IndicatorCard = ({
           </div>
         </div>
         <div className="card-footer">
-          {checkedAnswer ? <div>Checked</div> : ''} {' '}
+          {checkedAnswer ? <CheckCircleOutline color={checkColor} fontSize="large"/>: ''} {' '}
         </div>
       </div>
     </div>
