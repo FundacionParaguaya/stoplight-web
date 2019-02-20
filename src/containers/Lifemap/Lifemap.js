@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   loadSurveys,
@@ -96,7 +96,7 @@ class Lifemap extends Component {
   }
 
   render() {
-    // const { match } = this.props;
+    const { match } = this.props;
 
     let survey
     if (!this.props.location || !this.props.location.state) {
@@ -143,6 +143,11 @@ class Lifemap extends Component {
               prarentPreviousStep={this.previousStep}
               data={survey}
             />
+            <Link to={`${match.path}/terms`}>
+            <button className="btn btn-lg col-4" href="#">
+              {/* {t('general.disagree')} */}wut
+            </button>
+            </Link>
           </div>
         )
         break
@@ -307,7 +312,7 @@ class Lifemap extends Component {
 
         component = <div class="small-card">NOTHING TO SEE HERE</div>
     }
-    return <div >{component}</div>
+    return <div>{component}</div>
   }
 }
 
