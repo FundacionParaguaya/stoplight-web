@@ -1,15 +1,16 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import Lifemap from "./Lifemap";
 
 const LifemapRouter = ({ match }) => (
   <>
-    <Switch>
-      <Route exact path={`${match.path}`} component={Lifemap} />
-      <Route path={`${match.path}/terms`} render={() => <h1>test</h1>} />
-    </Switch>
+    <Route exact path={`${match.path}`} component={Lifemap} />
+    <Route path={`${match.path}/:surveyId`} component={Lifemap} />
   </>
 );
 
-export default connect(null, {})(LifemapRouter);
+export default connect(
+  null,
+  {}
+)(LifemapRouter);
