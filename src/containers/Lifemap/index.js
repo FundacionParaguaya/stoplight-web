@@ -7,7 +7,7 @@ const LifemapRouter = ({ match }) => (
   <>
     <Switch>
       <Route exact path={`${match.path}`} component={Lifemap} />
-      <Route path={`${match.path}/terms`} component={Lifemap} />
+      <Route path={`${match.path}/terms`} render={() => <h1>test</h1>} />
     </Switch>
   </>
 );

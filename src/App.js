@@ -61,7 +61,7 @@ class App extends Component {
             <div className="main-card card">
               <Switch>
                 <Route exact path="/surveys" component={Surveys} />
-                <Route exact path="/lifemap" component={Lifemap} />
+                <Route path="/lifemap" component={Lifemap} />
               </Switch>
             </div>
           </div>
