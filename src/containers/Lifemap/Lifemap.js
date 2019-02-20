@@ -143,11 +143,6 @@ class Lifemap extends Component {
               prarentPreviousStep={this.previousStep}
               data={survey}
             />
-            <Link to={`${match.path}/terms`}>
-            <button className="btn btn-lg col-4" href="#">
-              {/* {t('general.disagree')} */}wut
-            </button>
-            </Link>
           </div>
         )
         break

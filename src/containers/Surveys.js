@@ -61,7 +61,7 @@ export class Surveys extends Component {
               <div key={survey.id} style={{ marginTop: 30 }}>
                 <Link
                   to={{
-                    pathname: `/lifemap`,
+                    pathname: `/lifemap/${survey.id}`,
                     state: {
                       surveyId: survey.id
                     }
