@@ -140,7 +140,6 @@ class Lifemap extends Component {
           >
             <TermsPrivacy
               parentNextStep={this.nextStep}
-              prarentPreviousStep={this.previousStep}
               data={survey}
             />
           </div>
