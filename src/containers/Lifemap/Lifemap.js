@@ -114,15 +114,15 @@ class Lifemap extends Component {
     }
 
     if (
-      this.props.location.state.surveyId &&
-      this.props.location.state.surveyId !== this.props.surveyStatus.surveyId
+      match.params.surveyId &&
+      parseInt(match.params.surveyId) !== this.props.surveyStatus.surveyId
     ) {
       if (this.props.surveys) {
         survey = this.props.surveys.filter(
-          survey => survey.id === this.props.location.state.surveyId
+          survey => survey.id === parseInt(match.params.surveyId)
         )[0]
       }
-      this.props.saveSurveyId(this.props.location.state.surveyId)
+      this.props.saveSurveyId(match.params.surveyId)
     } else if (this.props.surveyStatus.surveyId) {
       survey = this.props.surveys.filter(
         survey => survey.id === this.props.surveyStatus.surveyId

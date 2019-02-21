@@ -1,6 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route } from "react-router-dom";
 import Lifemap from "./Lifemap";
 
 const LifemapRouter = ({ match }) => (
@@ -10,7 +9,4 @@ const LifemapRouter = ({ match }) => (
   </>
 );
 
-export default connect(
-  null,
-  {}
-)(LifemapRouter);
+export default LifemapRouter;
