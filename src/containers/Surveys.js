@@ -59,22 +59,24 @@ export class Surveys extends Component {
             )}
             {surveys.map(survey => (
               <div key={survey.id} style={{ marginTop: 30 }}>
-                <Link
-                  to={{
-                    pathname: `/lifemap/${survey.id}`,
-                    state: {
-                      surveyId: survey.id
-                    }
-                  }}
-                  onClick={() => {
-                    // saveStep(1);
-                    saveDraftId(null);
-                  }}
-                >
-                  <div className="card-list">
-                    <div className="card-body">{survey.title}</div>
+                <div className="card-list">
+                  <div className="card-body">
+                    <Link
+                      to={{
+                        pathname: `/lifemap/${survey.id}`,
+                        state: {
+                          surveyId: survey.id
+                        }
+                      }}
+                      onClick={() => {
+                        // saveStep(1);
+                        saveDraftId(null);
+                      }}
+                    >
+                      {survey.title}
+                    </Link>
                   </div>
-                </Link>
+                </div>
               </div>
             ))}
           </div>
