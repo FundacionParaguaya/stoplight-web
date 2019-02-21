@@ -122,7 +122,7 @@ class Lifemap extends Component {
           survey => survey.id === parseInt(match.params.surveyId)
         )[0]
       }
-      this.props.saveSurveyId(match.params.surveyId)
+      // this.props.saveSurveyId(match.params.surveyId)
     } else if (this.props.surveyStatus.surveyId) {
       survey = this.props.surveys.filter(
         survey => survey.id === this.props.surveyStatus.surveyId
