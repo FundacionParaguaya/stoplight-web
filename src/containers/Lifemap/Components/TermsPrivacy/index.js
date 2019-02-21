@@ -42,14 +42,12 @@ class TermsPrivacy extends Component {
 
     return (
       <div>
-        {
-          <TermsPrivacyPresentational
-            data={data}
-            header={header}
-            nextStep={nextStepFunc}
-            previousStep={prevStepFunc}
-          />
-        }
+        <TermsPrivacyPresentational
+          data={data}
+          header={header}
+          nextStep={nextStepFunc}
+          previousStep={prevStepFunc}
+        />
       </div>
     )
   }
