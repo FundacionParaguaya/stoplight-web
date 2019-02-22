@@ -1,43 +1,41 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withI18n } from 'react-i18next'
-import { withRouter } from 'react-router-dom'
-import TermsPrivacyPresentational from './TermsPrivacyPresentational'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withI18n } from "react-i18next";
+import TermsPrivacyPresentational from "./TermsPrivacyPresentational";
 
 class TermsPrivacy extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       step: 0
-    }
+    };
   }
 
   nextStep = () => {
-    const { step } = this.state
-    this.setState({ step: step + 1 })
-  }
+    const { step } = this.state;
+    this.setState({ step: step + 1 });
+  };
 
   previousStep = () => {
-    if(this.state.step === 0){
-      this.props.history.push('/surveys')
+    if (this.state.step === 0) {
+      this.props.history.push("/surveys");
     }
-    const { step } = this.state
-    this.setState({ step: step - 1 })
-  }
+    const { step } = this.state;
+    this.setState({ step: step - 1 });
+  };
 
   render() {
-    const { t } = this.props
-    let data = null
-    let header = ''
-    let nextStepFunc = this.nextStep
-    let prevStepFunc = this.previousStep
+    const { t } = this.props;
+    let data = null;
+    let header = "";
+    let nextStepFunc = this.nextStep;
+    let prevStepFunc = this.previousStep;
     if (this.state.step === 0) {
-      data = this.props.data.termsConditions
-      header = t('views.termsConditions')
+      data = this.props.data.termsConditions;
+      header = t("views.termsConditions");
     } else {
-      data = this.props.data.privacyPolicy
-      header = t('views.privacyPolicy')
-      nextStepFunc = this.props.parentNextStep
+      data = this.props.data.privacyPolicy;
+      header = t("views.privacyPolicy");
     }
 
     return (
@@ -45,17 +43,18 @@ class TermsPrivacy extends Component {
         <TermsPrivacyPresentational
           data={data}
           header={header}
+          step={this.state.step}
           nextStep={nextStepFunc}
           previousStep={prevStepFunc}
         />
       </div>
-    )
+    );
   }
 }
 
-const mapDispatchToProps = {}
-
-export default withRouter(withI18n()(connect(
-  null,
-  mapDispatchToProps
-)(TermsPrivacy)))
+export default withI18n()(
+  connect(
+    null,
+    {}
+  )(TermsPrivacy)
+);
