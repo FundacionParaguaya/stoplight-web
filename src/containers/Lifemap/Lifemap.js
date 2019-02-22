@@ -175,7 +175,7 @@ class Lifemap extends Component {
             </div>            
           )}
         />
-        <Route render={() => <h1>Error</h1>} />
+        <Route render={() => <h1>Not Found</h1>} />
       </Switch>
     );
 
