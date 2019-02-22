@@ -57,7 +57,7 @@ export const surveyStatus = (
   state = {
     step: 1, // global step parameter (which component/view is the survey at?)
     status: '', // Survey Status (sent, submitted, etc)
-    indicatorStep: 1, // Internal Step position of the StoplightIndicators View
+    stoplightIndicatorStep: 0, // Internal Step position of the StoplightIndicators View
     socioEconomicStep: 0 // Internal Step position of the SocioEconomic View
   },
   action
