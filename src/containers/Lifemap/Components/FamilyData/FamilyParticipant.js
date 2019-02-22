@@ -1,46 +1,47 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Form, Field } from 'react-final-form'
-import { withI18n } from 'react-i18next'
-import moment from 'moment'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { Form, Field } from "react-final-form";
+import { withI18n } from "react-i18next";
+import moment from "moment";
 
 import {
   createDraft,
   addSurveyFamilyMemberData
-} from '../../../../redux/actions'
-import DatePicker from '../../../../components/DatePicker'
-import uuid from 'uuid/v1'
-import countries from 'localized-countries'
-import { validate } from './helpers/validationParticipant'
-import Error from '../../ErrorComponent'
-import family_face_large from '../../../../assets/family_face_large.png'
+} from "../../../../redux/actions";
+import DatePicker from "../../../../components/DatePicker";
+import uuid from "uuid/v1";
+import countries from "localized-countries";
+import { validate } from "./helpers/validationParticipant";
+import Error from "../../ErrorComponent";
+import family_face_large from "../../../../assets/family_face_large.png";
 
-import AppNavbar from '../../../../components/AppNavbar'
+import AppNavbar from "../../../../components/AppNavbar";
 
 // put this to its own component
-const countryList = countries(require('localized-countries/data/en')).array()
+const countryList = countries(require("localized-countries/data/en")).array();
 
 class FamilyParticipant extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       date: null,
       dateError: 0,
       submitted: false,
       draftId: this.props.draftId || null
-    }
+    };
   }
 
   dateChange(date) {
     this.setState({
       date: date,
-      dateError: moment(this.state.date).format('X') === 'Invalid date' ? -1 : 1
-    })
+      dateError: moment(this.state.date).format("X") === "Invalid date" ? -1 : 1
+    });
   }
 
   async createDraft() {
-    let surveyId = this.props.surveyId
-    let draftId = uuid()
+    let surveyId = this.props.surveyId;
+    let draftId = uuid();
     await this.props.createDraft({
       surveyId: surveyId,
       created: Date.now(),
@@ -57,94 +58,112 @@ class FamilyParticipant extends Component {
           }
         ]
       }
-    })
-    await this.setState({ draftId: draftId })
-    await this.props.setDraftId(draftId)
+    });
+    await this.setState({ draftId: draftId });
+    await this.props.setDraftId(draftId);
   }
   getDraft = () => {
     return this.props.drafts.filter(
       draft => draft.draftId === this.state.draftId
-    )[0]
-  }
+    )[0];
+  };
 
   addSurveyData = (text, field) => {
-    console.log(this.state.draftId)
+    console.log(this.state.draftId);
     this.props.addSurveyFamilyMemberData({
       id: this.state.draftId,
       index: 0,
       payload: {
         [field]: text
       }
-    })
-  }
+    });
+  };
 
-  savePrimaryParticipantData = (values ) => {
-    values.birthDate = moment(this.state.date).format('X')
+  savePrimaryParticipantData = values => {
+    values.birthDate = moment(this.state.date).format("X");
     Object.keys(values).forEach(key => {
-      this.addSurveyData(values[key], key)
-    })
-  }
+      this.addSurveyData(values[key], key);
+    });
+  };
 
   generateCountriesOptions() {
     const defaultCountry = this.props.data.surveyLocation.country
       ? countryList.filter(
           item => item.code === this.props.data.surveyLocation.country
         )[0]
-      : ''
+      : "";
 
     let countries = countryList.filter(
       country => country.code !== defaultCountry.code
-    )
+    );
     // Add default country to the beginning of the list
-    countries.unshift(defaultCountry)
+    countries.unshift(defaultCountry);
     // Add prefer not to say answer at the end of the list
-    countries.push({ code: 'NONE', label: 'I prefer not to say' })
+    countries.push({ code: "NONE", label: "I prefer not to say" });
     return countries.map(country => {
       return (
         <option key={country.code} value={country.code}>
-          {country.label}{' '}
+          {country.label}{" "}
         </option>
-      )
-    })
+      );
+    });
   }
 
   initData(user) {
-    let res = {}
-    res.firstName = user.firstName
-    res.lastName = user.lastName
-    res.documentNumber = user.documentNumber
-    res.gender = user.gender || ''
-    res.documentType = user.documentType || ''
-    res.birthDate = user.birthDate || null
-    res.birthCountry = user.birthCountry || ''
-    res.email = user.email || null
-    res.phoneNumber = user.phoneNumber || null
-    return res
+    let res = {};
+    res.firstName = user.firstName;
+    res.lastName = user.lastName;
+    res.documentNumber = user.documentNumber;
+    res.gender = user.gender || "";
+    res.documentType = user.documentType || "";
+    res.birthDate = user.birthDate || null;
+    res.birthCountry = user.birthCountry || "";
+    res.email = user.email || null;
+    res.phoneNumber = user.phoneNumber || null;
+    return res;
   }
 
-  componentDidMount() {}
+  nextStep() {
+    this.setState({
+      submitted: true
+    });
+  }
+
   render() {
     // set default country to beginning of list
-    const { t } = this.props
-    const countriesOptions = this.generateCountriesOptions()
+    const { t, location: { state: { surveyId } } } = this.props;
+    const countriesOptions = this.generateCountriesOptions();
     let draft,
-      user = {}
+      user = {};
 
     if (this.state.draftId) {
-      draft = this.getDraft()
-      user = this.initData(draft.familyData.familyMembersList[0])
+      draft = this.getDraft();
+      user = this.initData(draft.familyData.familyMembersList[0]);
       if (this.state.date === null && user.birthDate !== null) {
         this.setState({
           date: new Date(parseInt(user.birthDate * 1000)),
           dateError: 1
-        })
+        });
       }
+    }
+
+    if (this.state.submitted) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/lifemap/${surveyId}/2`,
+            state: {
+              surveyId
+            }
+          }}
+        />
+      );
     }
 
     return (
       <div>
         <AppNavbar
-          text={t('views.primaryParticipant')}
+          text={t("views.primaryParticipant")}
           showBack={true}
           backHandler={this.props.parentPreviousStep}
           draftOngoing={this.state.draftId ? true : false}
@@ -154,33 +173,33 @@ class FamilyParticipant extends Component {
         </div>
         <Form
           onSubmit={values => {
-            if (moment(this.state.date).format('X') === 'Invalid date') {
-              this.setState({ dateError: -1 })
+            if (moment(this.state.date).format("X") === "Invalid date") {
+              this.setState({ dateError: -1 });
             } else {
               if (!this.state.draftId) {
                 this.createDraft()
                   .then(() => {
-                    this.savePrimaryParticipantData(values)
+                    this.savePrimaryParticipantData(values);
                   })
                   .then(() => {
-                    this.props.nextStep()
-                  })
+                    this.nextStep();
+                  });
               } else {
-                this.savePrimaryParticipantData(values)
-                this.props.nextStep()
+                this.savePrimaryParticipantData(values);
+                this.nextStep();
               }
             }
           }}
           validate={validate}
           initialValues={{
-            firstName: user.firstName || '',
-            lastName: user.lastName || '',
-            documentNumber: user.documentNumber || '',
-            gender: user.gender || '',
-            documentType: user.documentType || '',
-            birthCountry: user.birthCountry || '',
-            email: user.email || '',
-            phoneNumber: user.phoneNumber || ''
+            firstName: user.firstName || "",
+            lastName: user.lastName || "",
+            documentNumber: user.documentNumber || "",
+            gender: user.gender || "",
+            documentType: user.documentType || "",
+            birthCountry: user.birthCountry || "",
+            email: user.email || "",
+            phoneNumber: user.phoneNumber || ""
           }}
           render={({ handleSubmit, submitError }) => (
             <form onSubmit={handleSubmit}>
@@ -189,7 +208,7 @@ class FamilyParticipant extends Component {
                   {({ input, meta }) => {
                     return (
                       <div className="form-group">
-                        <label> {t('views.family.firstName')} </label>
+                        <label> {t("views.family.firstName")} </label>
                         <input
                           type="text"
                           {...input}
@@ -197,7 +216,7 @@ class FamilyParticipant extends Component {
                         />
                         <Error name="firstName" />
                       </div>
-                    )
+                    );
                   }}
                 </Field>
               </div>
@@ -205,7 +224,7 @@ class FamilyParticipant extends Component {
                 <Field name="lastName">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label> {t('views.family.lastName')} </label>
+                      <label> {t("views.family.lastName")} </label>
                       <input type="text" {...input} className="form-control" />
                       <Error name="lastName" />
                     </div>
@@ -214,7 +233,7 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
-                  <label> {t('views.family.selectGender')} </label>
+                  <label> {t("views.family.selectGender")} </label>
                   <Field
                     name="gender"
                     component="select"
@@ -235,7 +254,7 @@ class FamilyParticipant extends Component {
               </div>
               <div className="date-div">
                 <label className="form-label date-label m0">
-                  {t('views.family.dateOfBirth')}
+                  {t("views.family.dateOfBirth")}
                 </label>
                 <DatePicker
                   dateChange={this.dateChange.bind(this)}
@@ -251,7 +270,7 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
-                  <label> {t('views.family.documentType')} </label>
+                  <label> {t("views.family.documentType")} </label>
                   <Field
                     name="documentType"
                     component="select"
@@ -274,7 +293,7 @@ class FamilyParticipant extends Component {
                 <Field name="documentNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>{t('views.family.documentNumber')}</label>
+                      <label>{t("views.family.documentNumber")}</label>
                       <input type="text" {...input} className="form-control" />
                       <Error name="documentNumber" />
                     </div>
@@ -283,7 +302,7 @@ class FamilyParticipant extends Component {
               </div>
               <div>
                 <div className="form-group">
-                  <label>{t('views.family.countryOfBirth')}</label>
+                  <label>{t("views.family.countryOfBirth")}</label>
                   <Field
                     name="birthCountry"
                     component="select"
@@ -299,7 +318,7 @@ class FamilyParticipant extends Component {
                 <Field name="email">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>{t('views.family.email')}</label>
+                      <label>{t("views.family.email")}</label>
                       <input type="text" {...input} className="form-control" />
                       <Error name="email" />
                     </div>
@@ -310,7 +329,7 @@ class FamilyParticipant extends Component {
                 <Field name="phoneNumber">
                   {({ input, meta }) => (
                     <div className="form-group">
-                      <label>{t('views.family.phone')}</label>
+                      <label>{t("views.family.phone")}</label>
                       <input type="text" {...input} className="form-control" />
                       {meta.touched && meta.error && <span>{meta.error}</span>}
                     </div>
@@ -324,34 +343,34 @@ class FamilyParticipant extends Component {
                   className="btn btn-primary btn-lg btn-block"
                   onClick={() => {
                     if (!this.state.date) {
-                      this.setState({ dateError: -1 })
+                      this.setState({ dateError: -1 });
                     }
                   }}
                 >
-                  {t('general.continue')}
+                  {t("general.continue")}
                 </button>
               </div>
             </form>
           )}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = {
   createDraft,
   addSurveyFamilyMemberData
-}
+};
 
 const mapStateToProps = ({ surveys, drafts }) => ({
   surveys,
   drafts
-})
+});
 
 export default withI18n()(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(FamilyParticipant)
-)
+);
