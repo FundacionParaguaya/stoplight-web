@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   loadSurveys,
@@ -134,7 +134,7 @@ class Lifemap extends Component {
     }
 
     return (
-      <>
+      <Switch>
         <Route
           exact
           path={match.url}
@@ -142,11 +142,13 @@ class Lifemap extends Component {
             <Redirect
               to={{
                 pathname: `${match.url}/terms`,
-                state: {}
+                state: {
+                  surveyId: match.params.surveyId
+                }
               }}
             />
           )}
-        /> 
+        />
         <Route
           exact
           path={`${match.url}/terms`}
@@ -156,7 +158,25 @@ class Lifemap extends Component {
             </div>            
           )}
         />
-      </>
+        <Route
+          path={`${match.url}/1`}
+          render={props => (
+            <div className="small-card">
+              <FamilyParticipant
+                {...props}
+                nextStep={this.nextStep}
+                parentPreviousStep={this.previousStep}
+                data={survey.surveyConfig}
+                surveyId={match.params.surveyId}
+                setName={this.setName}
+                setDraftId={this.setDraftId}
+                draftId={this.state.draftId}
+              />
+            </div>            
+          )}
+        />
+        <Route render={() => <h1>Error</h1>} />
+      </Switch>
     );
 
     let component = null;
