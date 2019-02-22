@@ -10,7 +10,7 @@ const TermsPrivacyPresentational = ({
   nextStep,
   previousStep,
   t,
-  location
+  location: { state: { surveyId } }
 }) => {
   return (
     <div>
@@ -50,17 +50,13 @@ const TermsPrivacyPresentational = ({
           ) : (
             <Link
               to={{
-                pathname: `/lifemap/${location.state.surveyId}/1`,
+                pathname: `/lifemap/${surveyId}/1`,
                 state: {
-                  surveyId: location.state.surveyId
+                  surveyId: surveyId
                 }
               }}
             >
-              <button
-                className="btn btn-primary btn-lg col-4"
-                href="#"
-                onClick={() => nextStep()}
-              >
+              <button className="btn btn-primary btn-lg col-4">
                 {t("general.agree")}
               </button>
             </Link>

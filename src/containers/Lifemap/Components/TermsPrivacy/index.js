@@ -7,48 +7,67 @@ class TermsPrivacy extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 0
+      step: 0,
+      header: "",
+      body: null
     };
   }
 
+  firstView = () => {
+    const {
+      t,
+      data: { termsConditions }
+    } = this.props;
+    return {
+      header: t("views.termsConditions"),
+      body: termsConditions
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      header: this.firstView().header,
+      body: this.firstView().body,
+    });
+  }
+
   nextStep = () => {
+    const {
+      t,
+      data: { privacyPolicy }
+    } = this.props;
     const { step } = this.state;
-    this.setState({ step: step + 1 });
+    this.setState({
+      step: step + 1,
+      header: t("views.privacyPolicy"),
+      body: privacyPolicy
+    });
   };
 
   previousStep = () => {
-    if (this.state.step === 0) {
+    const { step } = this.state;
+    if (step === 0) {
       this.props.history.push("/surveys");
     }
-    const { step } = this.state;
-    this.setState({ step: step - 1 });
+    this.setState({
+      step: step - 1,
+      header: this.firstView().header,
+      body: this.firstView().body,
+    });
   };
 
   render() {
-    const { t } = this.props;
-    let data = null;
-    let header = "";
-    let nextStepFunc = this.nextStep;
-    let prevStepFunc = this.previousStep;
-    if (this.state.step === 0) {
-      data = this.props.data.termsConditions;
-      header = t("views.termsConditions");
-    } else {
-      data = this.props.data.privacyPolicy;
-      header = t("views.privacyPolicy");
-    }
-
-    return (
+    return this.state.body && (
       <div>
         <TermsPrivacyPresentational
-          data={data}
-          header={header}
+          data={this.state.body}
+          header={this.state.header}
           step={this.state.step}
-          nextStep={nextStepFunc}
-          previousStep={prevStepFunc}
+          nextStep={this.nextStep}
+          previousStep={this.previousStep}
         />
       </div>
-    );
+    )
   }
 }
 
