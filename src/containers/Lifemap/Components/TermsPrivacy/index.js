@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { withI18n } from "react-i18next";
 import TermsPrivacyPresentational from "./TermsPrivacyPresentational";
 
@@ -9,11 +10,14 @@ class TermsPrivacy extends Component {
     this.state = {
       step: 0,
       header: "",
-      body: null
+      body: null,
+      termsAccepted: false,
+      privacyAccepted: false,
+      action: null
     };
   }
 
-  firstView = () => {
+  viewData = () => {
     const {
       t,
       data: { termsConditions }
@@ -21,13 +25,13 @@ class TermsPrivacy extends Component {
     return {
       header: t("views.termsConditions"),
       body: termsConditions
-    }
-  }
+    };
+  };
 
   componentDidMount() {
     this.setState({
-      header: this.firstView().header,
-      body: this.firstView().body,
+      ...this.state,
+      ...this.viewData()
     });
   }
 
@@ -36,38 +40,75 @@ class TermsPrivacy extends Component {
       t,
       data: { privacyPolicy }
     } = this.props;
-    const { step } = this.state;
-    this.setState({
-      step: step + 1,
-      header: t("views.privacyPolicy"),
-      body: privacyPolicy
+    this.setState(prevState => {
+      if (prevState.step === 0) {
+        return {
+          ...prevState,
+          step: prevState.step + 1,
+          termsAccepted: true,
+          header: t("views.privacyPolicy"),
+          body: privacyPolicy,
+          action: "next"
+        };
+      } else {
+        return {
+          ...prevState,
+          privacyAccepted: true
+        };
+      }
     });
   };
 
   previousStep = () => {
+    const {
+      t,
+      data: { termsConditions }
+    } = this.props;
     const { step } = this.state;
     if (step === 0) {
       this.props.history.push("/surveys");
     }
     this.setState({
       step: step - 1,
-      header: this.firstView().header,
-      body: this.firstView().body,
+      action: "back",
+      termsAccepted: false,
+      header: t("views.termsConditions"),
+      body: termsConditions
     });
   };
 
   render() {
-    return this.state.body && (
-      <div>
-        <TermsPrivacyPresentational
-          data={this.state.body}
-          header={this.state.header}
-          step={this.state.step}
-          nextStep={this.nextStep}
-          previousStep={this.previousStep}
+    const { privacyAccepted } = this.state;
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+
+    if (privacyAccepted) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/lifemap/${surveyId}/1`,
+            state: { surveyId }
+          }}
         />
-      </div>
-    )
+      );
+    }
+
+    return (
+      this.state.body && (
+        <div>
+          <TermsPrivacyPresentational
+            data={this.state.body}
+            header={this.state.header}
+            step={this.state.step}
+            nextStep={this.nextStep}
+            previousStep={this.previousStep}
+          />
+        </div>
+      )
+    );
   }
 }
 
