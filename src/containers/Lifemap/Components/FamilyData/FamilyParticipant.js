@@ -4,7 +4,6 @@ import { Redirect } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import { withI18n } from "react-i18next";
 import moment from "moment";
-
 import {
   createDraft,
   addSurveyFamilyMemberData

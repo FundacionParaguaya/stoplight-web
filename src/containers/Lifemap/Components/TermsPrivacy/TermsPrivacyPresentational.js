@@ -1,16 +1,14 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withI18n } from "react-i18next";
 import Checkbox from "../../../../assets/Checkbox.png";
 import AppNavbar from "../../../../components/AppNavbar";
 const TermsPrivacyPresentational = ({
   data,
   header,
-  step,
   nextStep,
   previousStep,
   t,
-  location: { state: { surveyId } }
 }) => {
   return (
     <div>
@@ -39,32 +37,17 @@ const TermsPrivacyPresentational = ({
               {t("general.disagree")}
             </button>
           </Link>
-          {step === 0 ? (
-            <button
-              className="btn btn-primary btn-lg col-4"
-              href="#"
-              onClick={() => nextStep()}
-            >
-              {t("general.agree")}
-            </button>
-          ) : (
-            <Link
-              to={{
-                pathname: `/lifemap/${surveyId}/1`,
-                state: {
-                  surveyId: surveyId
-                }
-              }}
-            >
-              <button className="btn btn-primary btn-lg col-4">
-                {t("general.agree")}
-              </button>
-            </Link>
-          )}
+          <button
+            className="btn btn-primary btn-lg col-4"
+            href="#"
+            onClick={() => nextStep()}
+          >
+            {t("general.agree")}
+          </button>
         </p>
       </div>
     </div>
   );
 };
 
-export default withRouter(withI18n()(TermsPrivacyPresentational));
+export default withI18n()(TermsPrivacyPresentational);
