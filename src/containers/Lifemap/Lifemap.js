@@ -185,7 +185,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <FamilyMembers
                 {...props}
-                nextStep={this.nextStep}
+                // nextStep={this.nextStep}
                 draftId={this.state.draftId}
                 data={survey.surveyConfig}
                 previousStep={this.previousStep}
@@ -195,6 +195,12 @@ class Lifemap extends Component {
                 setMemberCount={this.setMemberCount}
               />
             </div>
+          )}
+        />
+        <Route
+          path={`${match.url}/3`}
+          render={props => (
+            <h1>step 3</h1>
           )}
         />
         <Route render={() => <h1>Not Found</h1>} />

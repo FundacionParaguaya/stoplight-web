@@ -38,6 +38,7 @@ class FamilyParticipant extends Component {
     });
   }
 
+  // TODO: possible error saving drafts
   async createDraft() {
     let surveyId = this.props.surveyId;
     let draftId = uuid();
