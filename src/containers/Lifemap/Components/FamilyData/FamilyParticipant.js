@@ -149,6 +149,7 @@ class FamilyParticipant extends Component {
     if (this.state.submitted) {
       return (
         <Redirect
+          push
           to={{
             pathname: `/lifemap/${surveyId}/2`,
             state: {

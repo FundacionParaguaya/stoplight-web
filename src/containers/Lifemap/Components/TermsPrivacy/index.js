@@ -88,6 +88,7 @@ class TermsPrivacy extends Component {
     if (privacyAccepted) {
       return (
         <Redirect
+          push
           to={{
             pathname: `/lifemap/${surveyId}/1`,
             state: { surveyId }
