@@ -20,7 +20,8 @@ class FamilyMembers extends Component {
     let memberCount = draft.familyData.countFamilyMembers || "";
 
     this.state = {
-      memberCount: memberCount - 1
+      memberCount: memberCount - 1,
+      submitted: false,
     };
   }
 
