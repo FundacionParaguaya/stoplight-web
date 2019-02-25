@@ -239,6 +239,21 @@ class Lifemap extends Component {
             </div>
           )}
         />
+        <Route
+          path={`${match.url}/6`}
+          render={props => (
+            <div className="small-card">
+              <SocioEconomic
+                {...props}
+                // parentNextStep={this.nextStep}
+                draftId={this.state.draftId}
+                parentPreviousStep={this.previousStep}
+                data={survey.surveyEconomicQuestions}
+              />
+            </div>
+          )}
+        />
+
         <Route render={() => <h1>Not Found</h1>} />
       </Switch>
     );
