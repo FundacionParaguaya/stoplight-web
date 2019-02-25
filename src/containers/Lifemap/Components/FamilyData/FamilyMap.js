@@ -1,28 +1,30 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Gmaps, Marker } from 'react-gmaps'
-import { Form, Field } from 'react-final-form'
-import { withI18n } from 'react-i18next'
-import countries from 'localized-countries'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { Gmaps, Marker } from "react-gmaps";
+import { Form, Field } from "react-final-form";
+import { withI18n } from "react-i18next";
+import countries from "localized-countries";
 
-import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
-import Error from '../../ErrorComponent'
-import AppNavbar from '../../../../components/AppNavbar'
+import { addSurveyData, addSurveyDataWhole } from "../../../../redux/actions";
+import Error from "../../ErrorComponent";
+import AppNavbar from "../../../../components/AppNavbar";
 
-const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
-const countryList = countries(require('localized-countries/data/en')).array()
+const params = { v: "3.exp", key: "AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM" };
+const countryList = countries(require("localized-countries/data/en")).array();
 
 class FamilyMap extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       // set Hub HQ as default
       lat: this.props.data.surveyLocation.latitude || 0,
       lng: this.props.data.surveyLocation.longitude || 0,
-      accuracy: 0
-    }
-    this.getLocation()
-    this.onDragEnd = this.onDragEnd.bind(this)
+      accuracy: 0,
+      submitted: false
+    };
+    this.getLocation();
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   async getLocation() {
@@ -32,10 +34,10 @@ class FamilyMap extends Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
           accuracy: position.coords.accuracy
-        })
-      })
+        });
+      });
     } else {
-      return
+      return;
     }
   }
 
@@ -51,7 +53,7 @@ class FamilyMap extends Component {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
       accuracy: 0
-    })
+    });
   }
 
   generateCountriesOptions() {
@@ -59,46 +61,82 @@ class FamilyMap extends Component {
       ? countryList.filter(
           item => item.code === this.props.data.surveyLocation.country
         )[0]
-      : ''
+      : "";
 
     let countries = countryList.filter(
       country => country.code !== defaultCountry.code
-    )
+    );
     // Add default country to the beginning of the list
-    countries.unshift(defaultCountry)
+    countries.unshift(defaultCountry);
     // Add prefer not to say answer at the end of the list
-    countries.push({ code: 'NONE', label: 'I prefer not to say' })
+    countries.push({ code: "NONE", label: "I prefer not to say" });
     return countries.map(country => {
       return (
         <option key={country.code} value={country.code}>
-          {country.label}{' '}
+          {country.label}{" "}
         </option>
-      )
-    })
+      );
+    });
   }
 
-  render() {
-    const { t } = this.props
-    let countriesOptions = this.generateCountriesOptions()
-    let defaultCountry = countriesOptions.shift()
+  handleSubmit() {
+    this.setState({
+      submitted: true
+    });
+  }
 
-    let draft = this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
-    let familyMemberCount = draft.familyData.countFamilyMembers
-    console.log(familyMemberCount)
+  nextStep = () => {
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    return (
+      <Redirect
+        push
+        to={{
+          pathname: `/lifemap/${surveyId}/6`,
+          state: {
+            surveyId
+          }
+        }}
+      />
+    );
+  };
+
+  render() {
+    const { t } = this.props;
+    let countriesOptions = this.generateCountriesOptions();
+    let defaultCountry = countriesOptions.shift();
+
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0];
+    let familyMemberCount = draft.familyData.countFamilyMembers;
+    console.log(familyMemberCount);
+
+    if (this.state.submitted) {
+      return this.nextStep();
+    }
+
     return (
       <div>
         <AppNavbar
-          text={t('views.location')}
+          text={t("views.location")}
           showBack={true}
-          backHandler={familyMemberCount > 1 ? this.props.previousStep : () => this.props.jumpStep(-3)}
+          backHandler={
+            familyMemberCount > 1
+              ? this.props.previousStep
+              : () => this.props.jumpStep(-3)
+          }
         />
 
         <Gmaps
-          height={'560px'}
+          height={"560px"}
           lat={this.state.lat}
           lng={this.state.lng}
           zoom={12}
-          loadingMessage={'Please wait while the map is loading.'}
+          loadingMessage={"Please wait while the map is loading."}
           params={params}
           onMapCreated={this.onMapCreated}
           scrollwheel={false}
@@ -114,7 +152,7 @@ class FamilyMap extends Component {
         <Form
           onSubmit={(values, form) => {
             // we want to update Family Data
-            console.log(values)
+            console.log(values);
             let familyLocationInfo = {
               latitude: this.state.lat,
               longitude: this.state.lng,
@@ -122,16 +160,16 @@ class FamilyMap extends Component {
               country: values.country,
               postCode: values.postCode,
               address: values.address
-            }
+            };
 
             this.props.addSurveyDataWhole(
               this.props.draftId,
-              'familyData',
+              "familyData",
               familyLocationInfo
-            )
-            this.props.nextStep()
+            );
+            this.handleSubmit();
           }}
-          initialValues={{country: this.props.data.surveyLocation.country}}
+          initialValues={{ country: this.props.data.surveyLocation.country }}
           render={({
             handleSubmit,
             submitting,
@@ -142,7 +180,7 @@ class FamilyMap extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-              <label>{t('views.family.selectACountry')}</label>
+                <label>{t("views.family.selectACountry")}</label>
                 <Field
                   name="country"
                   component="select"
@@ -156,12 +194,8 @@ class FamilyMap extends Component {
               <Field name="postCode">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>{t('views.family.postcode')}</label>
-                    <input
-                      type="text"
-                      {...input}
-                      className="form-control"
-                    />
+                    <label>{t("views.family.postcode")}</label>
+                    <input type="text" {...input} className="form-control" />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -169,12 +203,8 @@ class FamilyMap extends Component {
               <Field name="address">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>{t('views.family.streetOrHouseDescription')}</label>
-                    <input
-                      type="text"
-                      {...input}
-                      className="form-control"
-                    />
+                    <label>{t("views.family.streetOrHouseDescription")}</label>
+                    <input type="text" {...input} className="form-control" />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -185,30 +215,30 @@ class FamilyMap extends Component {
                   className="btn btn-primary btn-lg btn-block"
                   disabled={invalid}
                 >
-                  {t('general.continue')}
+                  {t("general.continue")}
                 </button>
               </div>
             </form>
           )}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = {
   addSurveyData,
   addSurveyDataWhole
-}
+};
 
 const mapStateToProps = ({ surveys, drafts }) => ({
   surveys,
   drafts
-})
+});
 
 export default withI18n()(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(FamilyMap)
-)
+);
