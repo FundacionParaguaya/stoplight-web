@@ -168,7 +168,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <FamilyParticipant
                 {...props}
-                nextStep={this.nextStep}
+                // nextStep={this.nextStep}
                 parentPreviousStep={this.previousStep}
                 data={survey.surveyConfig}
                 surveyId={match.params.surveyId}
@@ -200,7 +200,33 @@ class Lifemap extends Component {
         <Route
           path={`${match.url}/3`}
           render={props => (
-            <h1>step 3</h1>
+            <div className="small-card">
+              <FamilyGender
+                {...props}
+                // nextStep={this.nextStep}
+                draftId={this.state.draftId}
+                data={survey.surveyConfig}
+                previousStep={this.previousStep}
+                memberCount={this.state.memberCount}
+                surveyTaker={this.state.surveyTakerName}
+              />
+            </div>
+          )}
+        />
+        <Route
+          path={`${match.url}/4`}
+          render={props => (
+            <div className="small-card">
+              <FamilyBirthDate
+                // nextStep={this.nextStep}
+                {...props}
+                draftId={this.state.draftId}
+                data={survey.surveyConfig}
+                previousStep={this.previousStep}
+                memberCount={this.state.memberCount}
+                surveyTaker={this.state.surveyTakerName}
+              />
+            </div>
           )}
         />
         <Route render={() => <h1>Not Found</h1>} />

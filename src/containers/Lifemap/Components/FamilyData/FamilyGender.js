@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom';
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 
@@ -9,7 +10,9 @@ import AppNavbar from '../../../../components/AppNavbar'
 class FamilyGender extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      submitte: false,
+    }
   }
 
   getDraft = () =>
@@ -25,9 +28,38 @@ class FamilyGender extends Component {
     })
   }
 
+  handleSubmit() {
+    this.setState({
+      submitted: true
+    });
+  }
+
+  nextStep = () => {
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    return (
+      <Redirect
+        push
+        to={{
+          pathname: `/lifemap/${surveyId}/4`,
+          state: {
+            surveyId
+          }
+        }}
+      />
+    );
+  };
+
   render() {
     const { t } = this.props
     const draft = this.getDraft()
+
+    if (this.state.submitted) {
+      return this.nextStep();
+    }
 
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
@@ -76,7 +108,8 @@ class FamilyGender extends Component {
                 this.addFamilyMemberGender(values[key], index + 1)
               })
 
-            this.props.nextStep()
+            // this.props.nextStep()
+            this.handleSubmit();
           }}
           initialValues={initialValues}
           render={({
