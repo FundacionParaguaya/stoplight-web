@@ -259,7 +259,6 @@ class Lifemap extends Component {
             <div className="small-card">
               <BeginLifemap
                 {...props}
-                // nextStep={this.nextStep}
                 parentPreviousStep={this.previousStep}
                 data={survey.surveyStoplightQuestions.length}
               />
@@ -267,10 +266,23 @@ class Lifemap extends Component {
           )}
         />
 
+        <Route
+          path={`${match.url}/8`}
+          render={props => (
+            <div className="wide-card">
+              <StopLight
+                {...props}
+                draftId={this.state.draftId}
+                data={survey.surveyStoplightQuestions}
+                parentPreviousStep={this.previousStep}
+              />
+            </div>
+          )}
+        />
         <Route render={() => <h1>Not Found</h1>} />
       </Switch>
     );
-
+/*
     let component = null;
     switch (this.state.step) {
       case 1:
@@ -422,6 +434,7 @@ class Lifemap extends Component {
         component = <div class="small-card">NOTHING TO SEE HERE</div>;
     }
     return <div>{component}</div>;
+*/
   }
 }
 
