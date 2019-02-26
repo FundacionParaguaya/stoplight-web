@@ -18,10 +18,11 @@ class FamilyMap extends Component {
     let draft = this.getDraft()
     let lat = this.props.data.surveyLocation.latitude || 0
     let lng = this.props.data.surveyLocation.longitude || 0
+    // check if latitude has already been set and override it
     if(draft.familyData.hasOwnProperty('latitude')  && draft.familyData.hasOwnProperty('longitude') ){
       lat = draft.familyData.latitude
       lng = draft.familyData.longitude
-    } 
+    }
     this.state = {
       // set Hub HQ as default
       lat: lat,
