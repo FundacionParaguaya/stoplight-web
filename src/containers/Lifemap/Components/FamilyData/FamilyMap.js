@@ -95,7 +95,7 @@ class FamilyMap extends Component {
       <Redirect
         push
         to={{
-          pathname: `/lifemap/${surveyId}/6`,
+          pathname: `/lifemap/${surveyId}/6/0`,
           state: {
             surveyId
           }

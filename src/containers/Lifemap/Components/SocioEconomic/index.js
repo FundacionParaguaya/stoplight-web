@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Route } from "react-router-dom";
 import SocioEconomicPresentational from "./SocioEconomicPresentational";
 
 class SocioEconomic extends Component {
@@ -46,30 +47,55 @@ class SocioEconomic extends Component {
   };
 
   render() {
-    const splicedSurveyQuestions =
-      this.state.surveyEconomicQuestions &&
-      this.state.surveyEconomicQuestions.filter(
-        (category, index) => index === this.state.step
-      );
+    return this.state.surveyEconomicQuestions.map(
+      (question, idx, questions) => {
+        const splicedSurveyQuestions =
+          questions && questions.filter((category, index) => index === idx);
 
-    const requiredQuestions = splicedSurveyQuestions.map(data =>
-      data.sortedQuestions.filter(question => question.required)
+        const requiredQuestions = splicedSurveyQuestions.map(data =>
+          data.sortedQuestions.filter(question => question.required)
+        );
+
+        let requiredCodeNames = requiredQuestions[0].map(
+          question => question.codeName
+        );
+
+        const validate = values => {
+          const errors = {};
+          requiredCodeNames.forEach(codeName => {
+            if (!values[codeName]) {
+              errors[codeName] = "Required";
+            }
+          });
+          return errors;
+        };
+        return (
+          <Route
+            path={`${this.props.match.url}/${idx}`}
+            render={props => {
+              return (
+                <div>
+                  <SocioEconomicPresentational
+                    {...props}
+                    draftId={this.props.draftId}
+                    data={splicedSurveyQuestions[0]}
+                    index={idx}
+                    total={this.state.surveyEconomicQuestions.length}
+                    nextStep={this.nextStep}
+                    previousStep={this.previousStep}
+                    parentPreviousStep={this.props.parentPreviousStep}
+                    parentStep={this.props.parentNextStep}
+                    requiredQuestions={requiredQuestions}
+                    validate={validate}
+                  />
+                </div>
+              );
+            }}
+          />
+        );
+      }
     );
-
-    let requiredCodeNames = requiredQuestions[0].map(
-      question => question.codeName
-    );
-
-    const validate = values => {
-      const errors = {};
-      requiredCodeNames.forEach(codeName => {
-        if (!values[codeName]) {
-          errors[codeName] = "Required";
-        }
-      });
-      return errors;
-    };
-
+    /*
     return (
       <div>
         <SocioEconomicPresentational
@@ -86,6 +112,7 @@ class SocioEconomic extends Component {
         />
       </div>
     );
+    */
   }
 }
 
