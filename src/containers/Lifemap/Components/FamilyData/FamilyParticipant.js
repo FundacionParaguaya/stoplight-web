@@ -111,9 +111,12 @@ class FamilyParticipant extends Component {
 
   initData(user) {
     let res = {};
-    res.firstName = user.firstName;
-    res.lastName = user.lastName;
-    res.documentNumber = user.documentNumber;
+    // TODO: fix later
+    user = user || {};
+    res.firstName = user.firstName || "";
+    res.lastName = user.lastName || "";
+    res.documentNumber = user.documentNumber || "";
+    // up here
     res.gender = user.gender || "";
     res.documentType = user.documentType || "";
     res.birthDate = user.birthDate || null;
