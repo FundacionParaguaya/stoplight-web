@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withI18n } from 'react-i18next'
-import { addSurveyData } from '../../../../redux/actions'
+import { addSurveyData, modifySurveyStatus } from '../../../../redux/actions'
 import StopLightPresentational from './StopLightPresentational'
 import AppNavbar from '../../../../components/AppNavbar'
 
 class StopLight extends Component {
   constructor(props) {
     super(props)
-
-    let draft = this.getDraft()
     this.state = {
-      step:
-        draft.indicatorSurveyDataList.length > 0
-          ? draft.indicatorSurveyDataList.length - 1
-          : 0,
+      step: this.props.surveyStatus.stoplightIndicatorStep,
       renderSkippedQuestionsScreen: false,
       skippedQuestionsList: [],
       imagesLoaded: 0
@@ -55,12 +50,15 @@ class StopLight extends Component {
       this.props.nextStep()
     } else {
       this.setState({ step: step + 1 })
+      this.props.modifySurveyStatus('stoplightIndicatorStep',step+1)
     }
   }
 
   previousStep = () => {
     const { step } = this.state
     this.setState({ step: step - 1, imagesLoaded: 0 })
+    this.props.modifySurveyStatus('stoplightIndicatorStep',step-1)
+
   }
 
   updateImageStatus = () => {
@@ -117,12 +115,14 @@ class StopLight extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData
+  addSurveyData,
+  modifySurveyStatus
 }
 
-const mapStateToProps = ({ surveys, drafts }) => ({
+const mapStateToProps = ({ surveys, drafts, surveyStatus }) => ({
   surveys,
-  drafts
+  drafts,
+  surveyStatus
 })
 
 export default withI18n()(
