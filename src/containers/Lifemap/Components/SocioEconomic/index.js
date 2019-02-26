@@ -124,24 +124,6 @@ class SocioEconomic extends Component {
         );
       }
     );
-    /*
-    return (
-      <div>
-        <SocioEconomicPresentational
-          draftId={this.props.draftId}
-          data={splicedSurveyQuestions[0]}
-          index={this.state.step}
-          total={this.state.surveyEconomicQuestions.length}
-          nextStep={this.nextStep}
-          previousStep={this.previousStep}
-          parentPreviousStep={this.props.parentPreviousStep}
-          parentStep={this.props.parentNextStep}
-          requiredQuestions={requiredQuestions}
-          validate={validate}
-        />
-      </div>
-    );
-    */
   }
 }
 
