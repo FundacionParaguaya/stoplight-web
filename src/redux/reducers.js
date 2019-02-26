@@ -52,7 +52,7 @@ export const surveys = (state = [], action) => {
   }
 }
 
-export const surveyStatus = (state = { step: 1, status: '' }, action) => {
+export const surveyStatus = (state = { step: 1, status: '', draftId: null, surveyId: null }, action) => {
   switch (action.type) {
     case SAVE_STEP:
       return {
