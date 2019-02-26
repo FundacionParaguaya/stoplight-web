@@ -10,6 +10,7 @@ import {
   ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
   ADD_SURVEY_DATA,
   ADD_SURVEY_DATA_WHOLE,
+  MODIFY_SURVEY_STATUS,
   SAVE_STEP,
   SAVE_DRAFT_ID,
   SAVE_SURVEY_ID,
@@ -52,8 +53,21 @@ export const surveys = (state = [], action) => {
   }
 }
 
-export const surveyStatus = (state = { step: 1, status: '' }, action) => {
+export const surveyStatus = (
+  state = {
+    step: 1, // global step parameter (which component/view is the survey at?)
+    status: '', // Survey Status (sent, submitted, etc)
+    stoplightIndicatorStep: 0, // Internal Step position of the StoplightIndicators View
+    socioEconomicStep: 0 // Internal Step position of the SocioEconomic View
+  },
+  action
+) => {
   switch (action.type) {
+    case MODIFY_SURVEY_STATUS:
+    return {
+      ...state,
+      [action.category] : action.payload
+    }
     case SAVE_STEP:
       return {
         ...state,

@@ -15,19 +15,31 @@ const countryList = countries(require("localized-countries/data/en")).array();
 
 class FamilyMap extends Component {
   constructor(props) {
-    super(props);
+    super(props)
+    let draft = this.getDraft()
+    let lat = this.props.data.surveyLocation.latitude || 0
+    let lng = this.props.data.surveyLocation.longitude || 0
+    // check if latitude has already been set and override it
+    if(draft.familyData.hasOwnProperty('latitude')  && draft.familyData.hasOwnProperty('longitude') ){
+      lat = draft.familyData.latitude
+      lng = draft.familyData.longitude
+    }
     this.state = {
       // set Hub HQ as default
-      lat: this.props.data.surveyLocation.latitude || 0,
-      lng: this.props.data.surveyLocation.longitude || 0,
+      lat: lat,
+      lng: lng,
       accuracy: 0,
-      submitted: false
-    };
-    this.getLocation();
-    this.onDragEnd = this.onDragEnd.bind(this);
+      moved: false
+    }
+    this.getLocation()
+    this.onDragEnd = this.onDragEnd.bind(this)
   }
 
+  getDraft = () =>
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+
   async getLocation() {
+    if(!this.state.moved){
     if (navigator.geolocation) {
       await navigator.geolocation.getCurrentPosition(position => {
         this.setState({
@@ -40,6 +52,8 @@ class FamilyMap extends Component {
       return;
     }
   }
+}
+
 
   onMapCreated(map) {
     // map.setOptions({
@@ -52,8 +66,9 @@ class FamilyMap extends Component {
     this.setState({
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
-      accuracy: 0
-    });
+      accuracy: 0,
+      moved: true
+    })
   }
 
   generateCountriesOptions() {
