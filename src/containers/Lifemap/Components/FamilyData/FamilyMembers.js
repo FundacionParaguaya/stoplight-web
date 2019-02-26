@@ -159,11 +159,9 @@ class FamilyMembers extends Component {
               if (countFamilyMembers < 2) {
               } else {
                 // map through values and extract the firstNames of all family members
-
                 additionalFamilyMembers.forEach((key, index) => {
-                  console.log(key);
-                  this.addFamilyMemberName(values[key], index + 1);
-                });
+                  this.addFamilyMemberName(values[key], index + 1)
+                })
                 // combine familyMembers with firstParticipant from primary participant screen
                 this.props.setMemberCount(additionalFamilyMembers.length);
                 this.handleSubmit();
@@ -227,7 +225,7 @@ class FamilyMembers extends Component {
               <div className="form-group">
                 <label>{t("views.primaryParticipant")}</label>
                 <p className="form-control" placeholder="">
-                  {this.props.surveyTakerName}
+                  {draft.familyData.familyMembersList[0].firstName}
                 </p>
               </div>
               {forms}
