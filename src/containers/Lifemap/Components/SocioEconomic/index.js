@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import SocioEconomicPresentational from "./SocioEconomicPresentational";
 
 class SocioEconomic extends Component {
@@ -9,7 +9,8 @@ class SocioEconomic extends Component {
     this.state = {
       step: 0,
       surveyEconomicQuestions: this.formatQuestions(this.props.data),
-      answers: []
+      answers: [],
+      completed: false,
     };
   }
 
@@ -46,6 +47,31 @@ class SocioEconomic extends Component {
     this.setState({ step: step - 1 });
   };
 
+  setComplete = () => {
+    this.setState({
+      completed: true
+    });
+  }
+
+  nextStep = () => {
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    return (
+      <Redirect
+        push
+        to={{
+          pathname: `/lifemap/${surveyId}/7`,
+          state: {
+            surveyId
+          }
+        }}
+      />
+    );
+  };
+
   render() {
     return this.state.surveyEconomicQuestions.map(
       (question, idx, questions) => {
@@ -69,28 +95,31 @@ class SocioEconomic extends Component {
           });
           return errors;
         };
+
+        if (this.state.completed) {
+          return this.nextStep();
+        }
+
         return (
           <Route
             path={`${this.props.match.url}/${idx}`}
-            render={props => {
-              return (
-                <div>
-                  <SocioEconomicPresentational
-                    {...props}
-                    draftId={this.props.draftId}
-                    data={splicedSurveyQuestions[0]}
-                    index={idx}
-                    total={this.state.surveyEconomicQuestions.length}
-                    nextStep={this.nextStep}
-                    previousStep={this.previousStep}
-                    parentPreviousStep={this.props.parentPreviousStep}
-                    parentStep={this.props.parentNextStep}
-                    requiredQuestions={requiredQuestions}
-                    validate={validate}
-                  />
-                </div>
-              );
-            }}
+            render={props => (
+              <div>
+                <SocioEconomicPresentational
+                  {...props}
+                  draftId={this.props.draftId}
+                  data={splicedSurveyQuestions[0]}
+                  index={idx}
+                  total={this.state.surveyEconomicQuestions.length}
+                  nextStep={this.nextStep}
+                  previousStep={this.previousStep}
+                  parentPreviousStep={this.props.parentPreviousStep}
+                  parentStep={this.setComplete}
+                  requiredQuestions={requiredQuestions}
+                  validate={validate}
+                />
+              </div>
+            )}
           />
         );
       }

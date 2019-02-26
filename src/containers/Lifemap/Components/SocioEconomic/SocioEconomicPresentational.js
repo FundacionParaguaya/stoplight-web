@@ -1,45 +1,86 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Form } from 'react-final-form'
-import { addSurveyData } from '../../../../redux/actions'
-import { withI18n } from 'react-i18next'
-import SocioEconomicQuestion from './SocioEconomicQuestion'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { Form } from "react-final-form";
+import { addSurveyData } from "../../../../redux/actions";
+import { withI18n } from "react-i18next";
+import SocioEconomicQuestion from "./SocioEconomicQuestion";
 
-import AppNavbar from '../../../../components/AppNavbar'
+import AppNavbar from "../../../../components/AppNavbar";
 
 class SocioEconomicPresentational extends Component {
+  state = {
+    submitted: false
+  };
+
   goBack() {
     if (this.props.index === 0) {
-      return this.props.parentPreviousStep
+      return this.props.parentPreviousStep;
     } else {
-      return this.props.previousStep
+      return this.props.previousStep;
     }
   }
 
   getDraft = () =>
-    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0];
 
-  getSocioEconomicAnswer = (question) => {
-    let draft = this.getDraft()
-    let currentAnswer = draft.economicSurveyDataList.filter(answer => answer.key === question.codeName)[0] ? draft.economicSurveyDataList.filter(answer => answer.key === question.codeName)[0].value : null
-    return currentAnswer
-  }
+  getSocioEconomicAnswer = question => {
+    let draft = this.getDraft();
+    let currentAnswer = draft.economicSurveyDataList.filter(
+      answer => answer.key === question.codeName
+    )[0]
+      ? draft.economicSurveyDataList.filter(
+          answer => answer.key === question.codeName
+        )[0].value
+      : null;
+    return currentAnswer;
+  };
 
-  initData = (questions) => {
+  initData = questions => {
     // loop through questions and build array from it
-    let res = {}
-    questions.forEach((question) => {
-      res[question.codeName] = this.getSocioEconomicAnswer(question)
-    })
-    return res
+    let res = {};
+    questions.forEach(question => {
+      res[question.codeName] = this.getSocioEconomicAnswer(question);
+    });
+    return res;
+  };
 
+  handleSubmit() {
+    this.setState({
+      submitted: true
+    });
   }
+
+  nextStep = () => {
+    const {
+      index,
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    return (
+      <Redirect
+        push
+        to={{
+          pathname: `/lifemap/${surveyId}/6/${index + 1}`,
+          state: {
+            surveyId
+          }
+        }}
+      />
+    );
+  };
 
   render() {
-    const { t } = this.props
-    const questions = this.props.data.sortedQuestions
-    const category = this.props.data.category
-    let initialValues = this.initData(questions)
+    const { t } = this.props;
+    const questions = this.props.data.sortedQuestions;
+    const category = this.props.data.category;
+    let initialValues = this.initData(questions);
+
+    if (this.state.submitted) {
+      return this.nextStep();
+    }
+
     return (
       <div>
         <AppNavbar
@@ -52,15 +93,15 @@ class SocioEconomicPresentational extends Component {
             Object.keys(values).forEach(key => {
               this.props.addSurveyData(
                 this.props.draftId,
-                'economicSurveyDataList',
+                "economicSurveyDataList",
                 { [key]: values[key] }
-              )
-            })
+              );
+            });
 
             if (this.props.index === this.props.total - 1) {
-              this.props.parentStep()
+              this.props.parentStep();
             } else {
-              this.props.nextStep()
+              this.handleSubmit();
             }
           }}
           validate={this.props.validate}
@@ -80,29 +121,29 @@ class SocioEconomicPresentational extends Component {
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
                 >
-                  {t('general.continue')}
+                  {t("general.continue")}
                 </button>
               </div>
             </form>
           )}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = {
   addSurveyData
-}
+};
 
 const mapStateToProps = ({ surveys, drafts }) => ({
   surveys,
   drafts
-})
+});
 
 export default withI18n()(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(SocioEconomicPresentational)
-)
+);
