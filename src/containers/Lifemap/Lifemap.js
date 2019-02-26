@@ -140,6 +140,7 @@ class Lifemap extends Component {
           path={match.url}
           render={() => (
             <Redirect
+              push
               to={{
                 pathname: `${match.url}/terms`,
                 state: {
