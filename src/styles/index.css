@@ -386,3 +386,10 @@ button.bg-success:hover {
   width: 18px;
   margin: 3px;
 }
+
+.map-input{
+  background: white;
+  z-index: 9999;
+  position: absolute;
+  margin: 0.8em;
+}
