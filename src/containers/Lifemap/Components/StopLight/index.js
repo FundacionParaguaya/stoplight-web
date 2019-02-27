@@ -80,7 +80,7 @@ class StopLight extends Component {
         this.jumpToNextStep();
       }
     } else if (this.state.step > this.props.data.length - 1) {
-      this.jumpToNextStep()
+      this.jumpToNextStep();
     } else {
       this.setState({ step: step + 1 });
       this.props.modifySurveyStatus("stoplightIndicatorStep", step + 1);

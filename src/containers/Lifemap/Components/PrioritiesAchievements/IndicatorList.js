@@ -102,6 +102,20 @@ class IndicatorList extends Component {
     })
   }
 
+  jumpToNextStep = () => {
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/10`,
+      state: {
+        surveyId
+      }
+    });
+  };
+
   // get this.props.surveys passed in
 
   // get dimensions from survey
@@ -234,7 +248,7 @@ class IndicatorList extends Component {
             )}
             <button
               className="btn btn-primary btn-lg btn-block"
-              onClick={() => this.props.nextStep()}
+              onClick={this.jumpToNextStep}
               disabled
             >
               {t('general.continue')}
@@ -243,7 +257,7 @@ class IndicatorList extends Component {
         ) : (
           <button
             className="btn btn-primary btn-lg btn-block"
-            onClick={() => this.props.nextStep()}
+            onClick={this.jumpToNextStep}
           >
             {t('general.continue')}
           </button>
