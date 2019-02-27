@@ -143,19 +143,22 @@ class FamilyMap extends Component {
             getSuggestionItemProps,
             loading
           }) => (
-            <div>
+            <div className="map-input">
               <input
                 {...getInputProps({
                   placeholder: 'Search Places ...',
                   className: 'location-search-input'
+
                 })}
+                className="form-group form-control"
+                style={{"marginBottom":"0"}}
               />
-              <div className="autocomplete-dropdown-container">
+              <div className="autocomplete-dropdown-container list-group" >
                 {loading && <div>Loading...</div>}
                 {suggestions.map(suggestion => {
                   const className = suggestion.active
-                    ? 'suggestion-item--active'
-                    : 'suggestion-item'
+                    ? 'suggestion-item--active list-group-item'
+                    : 'suggestion-item list-group-item'
                   // inline style for demonstration purpose
                   const style = suggestion.active
                     ? { backgroundColor: '#fafafa', cursor: 'pointer' }
