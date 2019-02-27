@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux'
 
-import { user ,families,surveys} from './reducers'
+import { user, families, surveys, drafts, surveyStatus } from './reducers'
 
 export default combineReducers({
-  user,families,surveys
+  user,
+  families,
+  surveys,
+  drafts,
+  surveyStatus
 })
