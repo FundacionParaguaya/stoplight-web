@@ -151,12 +151,6 @@ class FamilyMap extends Component {
     if (this.state.submitted) {
       return this.nextStep();
     }
-
-    let draft = this.props.drafts.filter(
-      draft => draft.draftId === this.props.draftId
-    )[0]
-    let familyMemberCount = draft.familyData.countFamilyMembers
-    console.log(familyMemberCount)
     return (
       <div>
         <AppNavbar
