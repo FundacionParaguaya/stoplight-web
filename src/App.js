@@ -3,126 +3,71 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Link,
   Switch
 } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Users, Home, Circle, Power, Plus } from 'react-feather'
 
-import { logout } from './redux/actions'
-import Login from './containers/Login'
-import Dashboard from './containers/Dashboard'
-import Families from './containers/Families'
-import Family from './containers/Family'
+import { logout, login } from './redux/actions'
 import Surveys from './containers/Surveys'
 import Lifemap from './containers/Lifemap'
 
-import logo from './assets/logo_white.png'
-
 import Dots from './components/Dots'
+
+function getParams(location) {
+  const searchParams = new URLSearchParams(location.search)
+  let env = document.referrer.split('.')[0].split('//')[1] || 'testing'
+  console.log(env)
+  switch (env) {
+    case 'testing':
+      env = 'test'
+      break
+    case 'demo':
+      env = 'demo'
+      break
+    case 'platform':
+      env = 'prod'
+      break
+    default:
+  }
+  return {
+    sid: searchParams.get('sid') || '',
+    username: searchParams.get('username') || '',
+    env: env
+  }
+}
+
 /**
  * This is the Entry Pyont
  * @param {object} state - redux state that contains user information
  */
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      urlParams: getParams(window.location)
+    }
+
+    if (this.state.urlParams.sid !== '') {
+      this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env)
+    }
+  }
   render() {
-    return (
-      <Router>
+    if(this.props.state.user.token){
+      return (
+        <Router>
         <div>
-          <Dots />
-          {this.props.state.user.username == null ? (
-            <div>
-              <Route
-                render={props =>
-                  props.location.pathname === '/login' ? (
-                    ''
-                  ) : (
-                    <Redirect to="/login" />
-                  )
-                }
-              />
-              <Route exact path="/login" component={Login} />
-            </div>
-          ) : (
-            <div>
-              <nav className="navbar navbar-dark bg-primary fixed-top flex-md-nowrap p-0 shadow">
-                <Link
-                  to="/"
-                  className="navbar-brand col-md-3 col-lg-2 mr-0"
-                  href="#"
-                >
-                  <img src={logo} alt="" className="nav-logo" />
-                  <span className="brand">Stoplight</span>
-                </Link>
-
-                <ul className="navbar-nav px-3">
-                  <li className="nav-item text-nowrap">
-                    <button
-                      className="nav-link btn btn-link"
-                      onClick={this.props.logout}
-                    >
-                      <Power className="feather" /> Sign out
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="container-fluid">
-                <div className="row">
-                  <nav className="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
-                    <div className="sidebar-sticky">
-                      <ul className="nav flex-column">
-                        <li className="nav-item">
-                          <Link to="/" className="nav-link" href="#">
-                            <Home className="feather" />
-                            Dashboard
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link to="/families" className="nav-link" href="#">
-                            <Users className="feather" />
-                            Families
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link to="/surveys" className="nav-link" href="#">
-                            <Circle className="feather" />
-                            Snapshots
-                          </Link>
-                        </li>
-                        <li className="nav-item nav-btn">
-                          <Link
-                            className="btn btn-sm btn-success nav-link btn-block"
-                            to="/lifemap"
-                          >
-                            <Plus className="feather" />
-                            New Lifemap
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </nav>
-
-                  <main
-                    role="main"
-                    className="col-md-9 ml-sm-auto col-lg-10 px-4"
-                  >
-                    <Switch>
-                      <Route exact path="/" component={Dashboard} />
-                      <Route exact path="/families" component={Families} />
-                      <Route exact path="/family/:id" component={Family} />
-                      <Route exact path="/surveys" component={Surveys} />
-                      <Route exact path="/lifemap" component={Lifemap} />
-                      <Route render={() => <Redirect to="/" />} />
-                    </Switch>
-                  </main>
-                </div>
-              </div>
-            </div>
-          )}
+        <Dots />
+        <div className="main-card card">
+        <Switch>
+        <Route exact path="/surveys" component={Surveys} />
+        <Route exact path="/lifemap" component={Lifemap} />
+        </Switch>
         </div>
-      </Router>
-    )
+        </div>
+        </Router>
+      )
+    } else { return <div> <Dots/></div>}
+
   }
 }
 
@@ -132,6 +77,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   logout: () => {
     dispatch(logout())
+  },
+  setLogin: (token, env) => {
+    dispatch(login(token, env))
   }
 })
 
