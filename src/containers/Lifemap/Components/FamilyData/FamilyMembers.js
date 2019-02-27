@@ -107,12 +107,14 @@ class FamilyMembers extends Component {
                 countFamilyMembers: countFamilyMembers
               })
               this.props.nextStep()
-            } else if (countFamilyMembers <= 1) {
-              console.log('count',countFamilyMembers)
-              this.props.removeFamilyMembers(
-                this.props.draftId,
-                countFamilyMembers //should be 1
-              )
+            } else if (countFamilyMembers <= 1 ) {
+              if(draft.familyData.familyMembersList.filter(mbr => !mbr.firstParticipant) > 0){
+                console.log('count',countFamilyMembers)
+                this.props.removeFamilyMembers(
+                  this.props.draftId,
+                  countFamilyMembers //should be 1
+                )
+              }
               this.props.addSurveyData(this.props.draftId, 'familyData', {
                 countFamilyMembers: 1
               })
