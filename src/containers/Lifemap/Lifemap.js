@@ -266,7 +266,6 @@ class Lifemap extends Component {
             </div>
           )}
         />
-
         <Route
           path={`${match.url}/8`}
           render={props => (
@@ -280,162 +279,39 @@ class Lifemap extends Component {
             </div>
           )}
         />
+        <Route
+          path={`${match.url}/9`}
+          render={props => (
+            <div className="small-card">
+              <IndicatorList
+                {...props}
+                draftId={this.state.draftId}
+                data={survey.surveyStoplightQuestions}
+                nextStep={this.nextStep}
+                parentPreviousStep={this.previousStep}
+                minimumPriorities={survey.minimumPriorities}
+              />
+            </div>
+          )}
+        />
+        <Route
+          path={`${match.url}/10`}
+          render={props => (
+            <div className="small-card">
+              <FinalScreen
+                {...props}
+                draftId={this.state.draftId}
+                data={survey.surveyStoplightQuestions}
+                submitDraft={this.submitDraft}
+                parentPreviousStep={this.previousStep}
+                submitError={this.state.submitError}
+              />
+            </div>
+          )}
+        />
         <Route render={() => <h1>Not Found</h1>} />
       </Switch>
     );
-/*
-    let component = null;
-    switch (this.state.step) {
-      case 1:
-        component = survey && (
-          <div className="small-card">
-            <TermsPrivacy parentNextStep={this.nextStep} data={survey} />
-          </div>
-        );
-        break;
-      case 2:
-        // create draft at this point
-        // draft should remain in state and is filled with answers from each component
-        // might want to createa  function that creates the drafts
-        // might want to create a handler for submissions of each step, to add to draft state.
-        component = survey && (
-          <div className="small-card">
-            <FamilyParticipant
-              nextStep={this.nextStep}
-              parentPreviousStep={this.previousStep}
-              data={survey.surveyConfig}
-              surveyId={this.props.location.state.surveyId}
-              setName={this.setName}
-              setDraftId={this.setDraftId}
-              draftId={this.state.draftId}
-            />
-          </div>
-        );
-        break;
-      case 3:
-        component = (
-          <div className="small-card">
-            <FamilyMembers
-              nextStep={this.nextStep}
-              draftId={this.state.draftId}
-              data={survey.surveyConfig}
-              previousStep={this.previousStep}
-              surveyTakerName={this.state.surveyTakerName}
-              jumpStep={this.jumpStep}
-              memberCount={this.state.memberCount}
-              setMemberCount={this.setMemberCount}
-            />
-          </div>
-        );
-        break;
-      case 4:
-        component = (
-          <div className="small-card">
-            <FamilyGender
-              nextStep={this.nextStep}
-              draftId={this.state.draftId}
-              data={survey.surveyConfig}
-              previousStep={this.previousStep}
-              memberCount={this.state.memberCount}
-              surveyTaker={this.state.surveyTakerName}
-            />
-          </div>
-        );
-        break;
-      case 5:
-        component = (
-          <div className="small-card">
-            <FamilyBirthDate
-              nextStep={this.nextStep}
-              draftId={this.state.draftId}
-              data={survey.surveyConfig}
-              previousStep={this.previousStep}
-              memberCount={this.state.memberCount}
-              surveyTaker={this.state.surveyTakerName}
-            />
-          </div>
-        );
-        break;
-      case 6:
-        component = (
-          <div className="small-card">
-            <FamilyMap
-              nextStep={this.nextStep}
-              draftId={this.state.draftId}
-              data={survey.surveyConfig}
-              previousStep={this.previousStep}
-              jumpStep={this.jumpStep}
-            />
-          </div>
-        );
-        break;
-      case 7:
-        component = survey && (
-          <div className="small-card">
-            <SocioEconomic
-              parentNextStep={this.nextStep}
-              draftId={this.state.draftId}
-              parentPreviousStep={this.previousStep}
-              data={survey.surveyEconomicQuestions}
-            />
-          </div>
-        );
-        break;
-      case 8:
-        component = (
-          <div className="small-card">
-            <BeginLifemap
-              nextStep={this.nextStep}
-              parentPreviousStep={this.previousStep}
-              data={survey.surveyStoplightQuestions.length}
-            />
-          </div>
-        );
-        break;
-      case 9:
-        component = survey && (
-          <div className="wide-card">
-            <StopLight
-              draftId={this.state.draftId}
-              data={survey.surveyStoplightQuestions}
-              nextStep={this.nextStep}
-              parentPreviousStep={this.previousStep}
-            />
-          </div>
-        );
-        break;
-      case 10:
-        component = survey && (
-          <div className="small-card">
-            <IndicatorList
-              draftId={this.state.draftId}
-              data={survey.surveyStoplightQuestions}
-              nextStep={this.nextStep}
-              parentPreviousStep={this.previousStep}
-              minimumPriorities={survey.minimumPriorities}
-            />
-          </div>
-        );
-        break;
-      case 11:
-        component = survey && (
-          <div className="small-card">
-            <FinalScreen
-              draftId={this.state.draftId}
-              data={survey.surveyStoplightQuestions}
-              submitDraft={this.submitDraft}
-              parentPreviousStep={this.previousStep}
-              submitError={this.state.submitError}
-            />
-          </div>
-        );
-        break;
-      // Create a submit handler to send redux store of graph as graphql mutation once Prorities & Achievements is submitted
-      default:
-        component = <div class="small-card">NOTHING TO SEE HERE</div>;
-    }
-    return <div>{component}</div>;
-*/
   }
 }
 

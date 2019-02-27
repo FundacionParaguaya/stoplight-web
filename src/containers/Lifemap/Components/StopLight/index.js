@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { withI18n } from "react-i18next";
 import { addSurveyData, modifySurveyStatus } from "../../../../redux/actions";
 import StopLightPresentational from "./StopLightPresentational";
@@ -17,14 +17,42 @@ class StopLight extends Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      location: {
+        state: { surveyId }
+      },
+      match
+    } = this.props;
+    if (this.state.step !== prevState.step) {
+      this.props.history.push({
+        pathname: `${match.url}/${this.state.step}`,
+        state: { surveyId }
+      });
+    }
+  }
+
   getDraft = () =>
     this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0];
 
-  nextStep = (value, codeName) => {
-    this.setState({ imagesLoaded: 0 });
+  jumpToNextStep = () => {
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/9`,
+      state: {
+        surveyId
+      }
+    });
+  };
 
+  nextStep = (value, codeName) => {
     const { step } = this.state;
 
+    this.setState({ imagesLoaded: 0 });
     let answer = {};
     answer[codeName] = value.value || 0;
     if (answer[codeName] === 0) {
@@ -49,10 +77,10 @@ class StopLight extends Component {
         // skippedAQuestion is a flag that is true if the user has skipped a question
         this.setState({ renderSkippedQuestionsScreen: true }); // todo, not working at the moment
       } else {
-        this.props.nextStep();
+        this.jumpToNextStep();
       }
     } else if (this.state.step > this.props.data.length - 1) {
-      this.props.nextStep();
+      this.jumpToNextStep()
     } else {
       this.setState({ step: step + 1 });
       this.props.modifySurveyStatus("stoplightIndicatorStep", step + 1);
@@ -92,11 +120,11 @@ class StopLight extends Component {
   };
 
   render() {
-    const { t, match } = this.props;
+    const { t, match, location } = this.props;
     this.getCheckedIndicator();
     let stopLightQuestions = this.props.data;
     return (
-      <>
+      <Switch>
         <Route
           exact
           path={match.url}
@@ -106,7 +134,7 @@ class StopLight extends Component {
               to={{
                 pathname: `${match.url}/${this.state.step}`,
                 state: {
-                  surveyId: match.params.surveyId
+                  surveyId: location.state.surveyId
                 }
               }}
             />
@@ -137,7 +165,7 @@ class StopLight extends Component {
             </div>
           )}
         />
-      </>
+      </Switch>
     );
   }
 }
