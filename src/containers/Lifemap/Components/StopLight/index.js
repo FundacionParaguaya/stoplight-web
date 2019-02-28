@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withI18n } from 'react-i18next'
-import { addSurveyData } from '../../../../redux/actions'
+import { addSurveyData, modifySurveyStatus } from '../../../../redux/actions'
 import StopLightPresentational from './StopLightPresentational'
 import AppNavbar from '../../../../components/AppNavbar'
 
 class StopLight extends Component {
   constructor(props) {
     super(props)
-
-    let draft = this.getDraft()
     this.state = {
-      step:
-        draft.indicatorSurveyDataList.length > 0
-          ? draft.indicatorSurveyDataList.length - 1
-          : 0,
+      step: this.props.surveyStatus.stoplightIndicatorStep,
       renderSkippedQuestionsScreen: false,
       skippedQuestionsList: [],
       imagesLoaded: 0
@@ -28,6 +23,7 @@ class StopLight extends Component {
     this.setState({ imagesLoaded: 0 })
 
     const { step } = this.state
+
     let answer = {}
     answer[codeName] = value.value || 0
     if (answer[codeName] === 0) {
@@ -44,10 +40,11 @@ class StopLight extends Component {
       answer
     )
 
-    if (this.state.step === this.props.data.length - 1) {
+    // check if the step is > the number of questions
+    if (this.state.step === this.props.data.length - 1) { // true if on the last question e.g. 54/54
       // render Skipped Questions - to be implemented
-      if (this.state.skippedAQuestion) {
-        this.setState({ renderSkippedQuestionsScreen: true })
+      if (this.state.skippedAQuestion) { // skippedAQuestion is a flag that is true if the user has skipped a question
+        this.setState({ renderSkippedQuestionsScreen: true }) // todo, not working at the moment
       } else {
         this.props.nextStep()
       }
@@ -55,12 +52,15 @@ class StopLight extends Component {
       this.props.nextStep()
     } else {
       this.setState({ step: step + 1 })
+      this.props.modifySurveyStatus('stoplightIndicatorStep',step+1)
     }
   }
 
   previousStep = () => {
     const { step } = this.state
     this.setState({ step: step - 1, imagesLoaded: 0 })
+    this.props.modifySurveyStatus('stoplightIndicatorStep',step-1)
+
   }
 
   updateImageStatus = () => {
@@ -117,12 +117,14 @@ class StopLight extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData
+  addSurveyData,
+  modifySurveyStatus
 }
 
-const mapStateToProps = ({ surveys, drafts }) => ({
+const mapStateToProps = ({ surveys, drafts, surveyStatus }) => ({
   surveys,
-  drafts
+  drafts,
+  surveyStatus
 })
 
 export default withI18n()(
