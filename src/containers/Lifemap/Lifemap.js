@@ -27,13 +27,18 @@ import TermsPrivacy from "./Components/TermsPrivacy";
 class Lifemap extends Component {
   constructor(props) {
     super(props);
+    let env = this.props.user.env
+    if(env === "test"){
+      env = "testing"
+    }
     this.state = {
       step: this.props.surveyStatus.step || 1,
       draftId: this.props.surveyStatus.draftId || null,
       surveyTakerName: "",
       memberCount: 0,
       draft: null,
-      submitError: false
+      submitError: false,
+      envUrl: `https://${env}.povertystoplight.org`
     };
     this.props.saveSurveyStatus("not sent");
   }
@@ -106,7 +111,7 @@ class Lifemap extends Component {
       this.props.saveSurveyId(null);
       this.props.saveStep(null);
       this.setState({ draftId: null, draftIsOngoing: false });
-      window.location.href = "https://testing.povertystoplight.org";
+      window.location.href = this.state.envUrl
     } else if (
       this.props.surveyStatus.status === "fail" &&
       this.state.submitError === false
@@ -319,7 +324,8 @@ const mapStateToProps = state => ({
   state: state,
   surveys: state.surveys,
   drafts: state.drafts,
-  surveyStatus: state.surveyStatus
+  surveyStatus: state.surveyStatus,
+  user: state.user
 });
 const mapDispatchToProps = {
   loadSurveys,

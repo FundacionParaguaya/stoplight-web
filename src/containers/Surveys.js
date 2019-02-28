@@ -40,7 +40,7 @@ export class Surveys extends Component {
           <Spinner />
         ) : (
           <div>
-            {surveyStatus.surveyId !== null ? (
+            {surveyStatus.draftId !== null ? (
               <div className="card-list">
                 <div className="card-body">
                   <Link
