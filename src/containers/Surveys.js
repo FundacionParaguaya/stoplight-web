@@ -29,7 +29,7 @@ export class Surveys extends Component {
           <Spinner />
         ) : (
           <div>
-          {this.props.surveyStatus.surveyId !== null ? (<div className="card-list"><div className="card-body"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div></div>): (<div> </div>)}
+          {this.props.surveyStatus.draftId !== null ? (<div className="card-list"><div className="card-body"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div></div>): (<div> </div>)}
           {this.props.surveys.map((survey, i) => (
             <div key={survey.id} style={{ marginTop: 30 }}>
               <Link
