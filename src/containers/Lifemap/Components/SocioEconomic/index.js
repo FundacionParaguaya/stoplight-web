@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { modifySurveyStatus } from '../../../../redux/actions'
 import SocioEconomicPresentational from './SocioEconomicPresentational'
 
 class SocioEconomic extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 0,
+      step: this.props.surveyStatus.socioEconomicStep,
       surveyEconomicQuestions: this.formatQuestions(this.props.data),
       answers: []
     }
@@ -38,11 +39,13 @@ class SocioEconomic extends Component {
   nextStep = () => {
     const { step } = this.state
     this.setState({ step: step + 1 })
+    this.props.modifySurveyStatus('socioEconomicStep', step+1)
   }
 
   previousStep = () => {
     const { step } = this.state
     this.setState({ step: step - 1 })
+    this.props.modifySurveyStatus('socioEconomicStep', step-1)
   }
 
   render() {
@@ -91,11 +94,14 @@ class SocioEconomic extends Component {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  modifySurveyStatus
+}
 
-const mapStateToProps = ({ surveys, drafts }) => ({
+const mapStateToProps = ({ surveys, drafts, surveyStatus }) => ({
   surveys,
-  drafts
+  drafts,
+  surveyStatus
 })
 
 export default connect(

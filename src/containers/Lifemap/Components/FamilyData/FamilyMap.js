@@ -4,6 +4,10 @@ import { Gmaps, Marker } from 'react-gmaps'
 import { Form, Field } from 'react-final-form'
 import { withI18n } from 'react-i18next'
 import countries from 'localized-countries'
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng
+} from 'react-places-autocomplete'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
 import Error from '../../ErrorComponent'
@@ -15,28 +19,57 @@ const countryList = countries(require('localized-countries/data/en')).array()
 class FamilyMap extends Component {
   constructor(props) {
     super(props)
+    let draft = this.getDraft()
+    let lat = this.props.data.surveyLocation.latitude || 0
+    let lng = this.props.data.surveyLocation.longitude || 0
+    // check if latitude has already been set and override it
+    if (
+      draft.familyData.hasOwnProperty('latitude') &&
+      draft.familyData.hasOwnProperty('longitude')
+    ) {
+      lat = draft.familyData.latitude
+      lng = draft.familyData.longitude
+    }
     this.state = {
       // set Hub HQ as default
-      lat: this.props.data.surveyLocation.latitude || 0,
-      lng: this.props.data.surveyLocation.longitude || 0,
-      accuracy: 0
+      address:'',
+      lat: lat,
+      lng: lng,
+      accuracy: 0,
+      moved: false
     }
     this.getLocation()
     this.onDragEnd = this.onDragEnd.bind(this)
   }
 
+  getDraft = () =>
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+
   async getLocation() {
-    if (navigator.geolocation) {
-      await navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          accuracy: position.coords.accuracy
+    if (!this.state.moved) {
+      if (navigator.geolocation) {
+        await navigator.geolocation.getCurrentPosition(position => {
+          this.setState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            accuracy: position.coords.accuracy
+          })
         })
-      })
-    } else {
-      return
+      } else {
+        return
+      }
     }
+  }
+
+  handleChange = address => {
+    this.setState({ address })
+  }
+
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({lat: latLng.lat, lng: latLng.lng}))
+      .catch(error => console.error('Error', error))
   }
 
   onMapCreated(map) {
@@ -50,7 +83,8 @@ class FamilyMap extends Component {
     this.setState({
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
-      accuracy: 0
+      accuracy: 0,
+      moved: true
     })
   }
 
@@ -82,7 +116,9 @@ class FamilyMap extends Component {
     let countriesOptions = this.generateCountriesOptions()
     let defaultCountry = countriesOptions.shift()
 
-    let draft = this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+    let draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.draftId
+    )[0]
     let familyMemberCount = draft.familyData.countFamilyMembers
     console.log(familyMemberCount)
     return (
@@ -90,9 +126,58 @@ class FamilyMap extends Component {
         <AppNavbar
           text={t('views.location')}
           showBack={true}
-          backHandler={familyMemberCount > 1 ? this.props.previousStep : () => this.props.jumpStep(-3)}
+          backHandler={
+            familyMemberCount > 1
+              ? this.props.previousStep
+              : () => this.props.jumpStep(-3)
+          }
         />
+        <PlacesAutocomplete
+          value={this.state.address}
+          onChange={this.handleChange}
+          onSelect={this.handleSelect}
+        >
+          {({
+            getInputProps,
+            suggestions,
+            getSuggestionItemProps,
+            loading
+          }) => (
+            <div className="map-input">
+              <input
+                {...getInputProps({
+                  placeholder: 'Search Places ...',
+                  className: 'location-search-input'
 
+                })}
+                className="form-group form-control"
+                style={{"marginBottom":"0"}}
+              />
+              <div className="autocomplete-dropdown-container list-group" >
+                {loading && <div>Loading...</div>}
+                {suggestions.map(suggestion => {
+                  const className = suggestion.active
+                    ? 'suggestion-item--active list-group-item'
+                    : 'suggestion-item list-group-item'
+                  // inline style for demonstration purpose
+                  const style = suggestion.active
+                    ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                    : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                  return (
+                    <div
+                      {...getSuggestionItemProps(suggestion, {
+                        className,
+                        style
+                      })}
+                    >
+                      <span>{suggestion.description}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </PlacesAutocomplete>
         <Gmaps
           height={'560px'}
           lat={this.state.lat}
@@ -131,7 +216,7 @@ class FamilyMap extends Component {
             )
             this.props.nextStep()
           }}
-          initialValues={{country: this.props.data.surveyLocation.country}}
+          initialValues={{ country: this.props.data.surveyLocation.country }}
           render={({
             handleSubmit,
             submitting,
@@ -142,7 +227,7 @@ class FamilyMap extends Component {
           }) => (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-              <label>{t('views.family.selectACountry')}</label>
+                <label>{t('views.family.selectACountry')}</label>
                 <Field
                   name="country"
                   component="select"
@@ -156,12 +241,8 @@ class FamilyMap extends Component {
               <Field name="postCode">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>{t('views.family.postcode')}</label>
-                    <input
-                      type="text"
-                      {...input}
-                      className="form-control"
-                    />
+                    <label>{t('views.family.postcode')}</label>
+                    <input type="text" {...input} className="form-control" />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -169,12 +250,8 @@ class FamilyMap extends Component {
               <Field name="address">
                 {({ input, meta }) => (
                   <div className="form-group">
-                  <label>{t('views.family.streetOrHouseDescription')}</label>
-                    <input
-                      type="text"
-                      {...input}
-                      className="form-control"
-                    />
+                    <label>{t('views.family.streetOrHouseDescription')}</label>
+                    <input type="text" {...input} className="form-control" />
                     {meta.touched && meta.error && <span>{meta.error}</span>}
                   </div>
                 )}
