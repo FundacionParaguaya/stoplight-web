@@ -53,6 +53,7 @@ export const surveys = (state = [], action) => {
   }
 }
 
+
 export const surveyStatus = (
   state = {
     step: 1, // global step parameter (which component/view is the survey at?)
