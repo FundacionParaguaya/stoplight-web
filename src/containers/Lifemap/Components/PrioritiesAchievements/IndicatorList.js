@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 import AppNavbar from '../../../../components/AppNavbar'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import { STEPS } from '../../../../constants'
 import PrioritiesAchievementsForm from './PrioritiesAchievementsForm'
 
 const customStyles = {
@@ -109,7 +110,7 @@ class IndicatorList extends Component {
       }
     } = this.props;
     this.props.history.push({
-      pathname: `/lifemap/${surveyId}/10`,
+      pathname: `/lifemap/${surveyId}/${STEPS[10].slug}`,
       state: {
         surveyId
       }

@@ -6,6 +6,7 @@ import { Form } from "react-final-form";
 import { withI18n } from "react-i18next";
 
 import { addSurveyFamilyMemberData } from "../../../../redux/actions";
+import { STEPS } from '../../../../constants';
 import DatePicker from "../../../../components/DatePicker";
 import AppNavbar from "../../../../components/AppNavbar";
 
@@ -58,7 +59,7 @@ class FamilyBirthDate extends Component {
       <Redirect
         push
         to={{
-          pathname: `/lifemap/${surveyId}/5`,
+          pathname: `/lifemap/${surveyId}/${STEPS[5].slug}`,
           state: {
             surveyId
           }

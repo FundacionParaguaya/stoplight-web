@@ -186,7 +186,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/2`}
+          path={`${match.url}/${STEPS[2].slug}`}
           render={props => (
             <div className="small-card">
               <FamilyMembers
@@ -203,7 +203,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/3`}
+          path={`${match.url}/${STEPS[3].slug}`}
           render={props => (
             <div className="small-card">
               <FamilyGender
@@ -218,7 +218,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/4`}
+          path={`${match.url}/${STEPS[4].slug}`}
           render={props => (
             <div className="small-card">
               <FamilyBirthDate
@@ -233,7 +233,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/5`}
+          path={`${match.url}/${STEPS[5].slug}`}
           render={props => (
             <div className="small-card">
               <FamilyMap
@@ -247,12 +247,11 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/6`}
+          path={`${match.url}/${STEPS[6].slug}`}
           render={props => (
             <div className="small-card">
               <SocioEconomic
                 {...props}
-                // parentNextStep={this.nextStep}
                 draftId={this.state.draftId}
                 parentPreviousStep={this.previousStep}
                 data={survey.surveyEconomicQuestions}
@@ -261,7 +260,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/7`}
+          path={`${match.url}/${STEPS[7].slug}`}
           render={props => (
             <div className="small-card">
               <BeginLifemap
@@ -273,7 +272,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/8`}
+          path={`${match.url}/${STEPS[8].slug}`}
           render={props => (
             <div className="wide-card">
               <StopLight
@@ -286,7 +285,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/9`}
+          path={`${match.url}/${STEPS[9].slug}`}
           render={props => (
             <div className="small-card">
               <IndicatorList
@@ -301,7 +300,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/10`}
+          path={`${match.url}/${STEPS[10].slug}`}
           render={props => (
             <div className="small-card">
               <FinalScreen

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import { withI18n } from "react-i18next";
+import { STEPS } from '../../../../constants';
 import ErrorComponent from "../../ErrorComponent";
 import {
   addSurveyData,
@@ -60,7 +61,7 @@ class FamilyMembers extends Component {
       <Redirect
         push
         to={{
-          pathname: `/lifemap/${surveyId}/3`,
+          pathname: `/lifemap/${surveyId}/${STEPS[3].slug}`,
           state: {
             surveyId
           }
