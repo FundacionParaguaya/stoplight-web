@@ -1,24 +1,30 @@
 import React from 'react'
 import icon_stoplight from '../assets/icon_stoplight.png'
+import { connect } from 'react-redux'
 
 const Nav = props => {
+  let env = props.user.env
+  if(env === "test"){
+    env = "testing"
+  }
+  let envUrl = `https://${env}.povertystoplight.org`
   return (
     <div >
       <nav className="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm ">
       <ul className="navbar-nav povstop-logo-nav">
       <li className="nav-item " >
-        <a className="nav-link" href="#"><img src={icon_stoplight} height="42px"/></a>
+        <a className="nav-link" href={`${envUrl}`}><img src={icon_stoplight} height="42px"/></a>
       </li>
       </ul>
       <ul className="navbar-nav">
       <li className="nav-item " >
-        <a className="nav-link" href="#" >Surveys </a>
+        <a className="nav-link" href={`${envUrl}/#surveys`} >Surveys </a>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="#">Households</a>
+        <a className="nav-link" href={`${envUrl}/#families`}>Households</a>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="#">Map</a>
+        <a className="nav-link" href={`${envUrl}/#map`}>Map</a>
       </li>
     </ul>
       </nav>
@@ -27,4 +33,8 @@ const Nav = props => {
   )
 }
 
-export default Nav
+const mapStateToProps = ({ user }) => ({
+  user
+})
+
+export default connect(mapStateToProps)(Nav)
