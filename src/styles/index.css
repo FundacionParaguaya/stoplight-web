@@ -279,6 +279,11 @@ nav > ul > li > a {
   color: white !important;
 }
 
+ul.ml-auto > li > a {
+  border-right: 0px transparent;
+  border-left: .25px solid #666;
+}
+
 .povstop-logo-nav{
   margin-left: -20px;
 }
