@@ -27,6 +27,11 @@ const Nav = props => {
         <a className="nav-link" href={`${envUrl}/#map`}>Map</a>
       </li>
     </ul>
+    <ul class="nav navbar-nav ml-auto">
+    <li className="nav-item">
+      <a className="nav-link" href={`https://intercom.help/poverty-stoplight`} target="__blank">FAQ</a>
+    </li>
+    </ul>
       </nav>
     </div>
 
