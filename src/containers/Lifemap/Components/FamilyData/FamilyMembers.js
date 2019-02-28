@@ -51,6 +51,20 @@ class FamilyMembers extends Component {
     });
   }
 
+  jumpToMap = () => {
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/${STEPS[5].slug}`,
+      state: {
+        surveyId
+      }
+    });
+  };
+
   nextStep = () => {
     const {
       location: {
@@ -140,7 +154,7 @@ class FamilyMembers extends Component {
               this.props.addSurveyData(this.props.draftId, "familyData", {
                 countFamilyMembers: countFamilyMembers
               })
-              this.props.nextStep()
+              this.handleSubmit();
             } else if (countFamilyMembers <= 1 ) {
               if(draft.familyData.familyMembersList.filter(mbr => !mbr.firstParticipant) > 0){
                 console.log('count',countFamilyMembers)
@@ -153,7 +167,7 @@ class FamilyMembers extends Component {
                 countFamilyMembers: 1
               });
               this.props.setMemberCount(1);
-              this.props.jumpStep(3); // jump to map view
+              this.jumpToMap(); // jump to map view
             } else {
               this.props.addSurveyData(this.props.draftId, "familyData", {
                 countFamilyMembers: countFamilyMembers
