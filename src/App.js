@@ -11,6 +11,7 @@ import { logout, login } from './redux/actions'
 import Surveys from './containers/Surveys'
 import Lifemap from './containers/Lifemap'
 
+import Nav from './components/Nav'
 import Dots from './components/Dots'
 
 function getParams(location) {
@@ -57,6 +58,9 @@ class App extends Component {
         <Router>
         <div>
         <Dots />
+        <div>
+          <Nav />
+        </div>
         <div className="main-card card">
         <Switch>
         <Route exact path="/surveys" component={Surveys} />
