@@ -11,6 +11,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete'
 
 import { addSurveyData, addSurveyDataWhole } from "../../../../redux/actions";
+import { STEPS } from '../../../../constants';
 import Error from "../../ErrorComponent";
 import AppNavbar from "../../../../components/AppNavbar";
 
@@ -128,7 +129,7 @@ class FamilyMap extends Component {
       <Redirect
         push
         to={{
-          pathname: `/lifemap/${surveyId}/6/0`,
+          pathname: `/lifemap/${surveyId}/${STEPS[6].slug}/0`,
           state: {
             surveyId
           }

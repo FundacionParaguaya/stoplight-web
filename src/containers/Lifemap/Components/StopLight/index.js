@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { withI18n } from "react-i18next";
 import { addSurveyData, modifySurveyStatus } from "../../../../redux/actions";
+import { STEPS } from '../../../../constants';
 import StopLightPresentational from "./StopLightPresentational";
 import AppNavbar from "../../../../components/AppNavbar";
 
@@ -42,7 +43,7 @@ class StopLight extends Component {
       }
     } = this.props;
     this.props.history.push({
-      pathname: `/lifemap/${surveyId}/9`,
+      pathname: `/lifemap/${surveyId}/${STEPS[9].slug}`,
       state: {
         surveyId
       }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import { modifySurveyStatus } from "../../../../redux/actions";
+import { STEPS } from '../../../../constants';
 import SocioEconomicPresentational from "./SocioEconomicPresentational";
 
 class SocioEconomic extends Component {
@@ -66,7 +67,7 @@ class SocioEconomic extends Component {
       <Redirect
         push
         to={{
-          pathname: `/lifemap/${surveyId}/7`,
+          pathname: `/lifemap/${surveyId}/${STEPS[7].slug}`,
           state: {
             surveyId
           }

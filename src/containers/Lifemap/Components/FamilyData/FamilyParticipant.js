@@ -8,6 +8,7 @@ import {
   createDraft,
   addSurveyFamilyMemberData
 } from "../../../../redux/actions";
+import { STEPS } from '../../../../constants';
 import DatePicker from "../../../../components/DatePicker";
 import uuid from "uuid/v1";
 import countries from "localized-countries";
@@ -155,7 +156,7 @@ class FamilyParticipant extends Component {
         <Redirect
           push
           to={{
-            pathname: `/lifemap/${surveyId}/2`,
+            pathname: `/lifemap/${surveyId}/${STEPS[2].slug}`,
             state: {
               surveyId
             }

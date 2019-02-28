@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Form } from "react-final-form";
 import { addSurveyData } from "../../../../redux/actions";
+import { STEPS } from '../../../../constants';
 import { withI18n } from "react-i18next";
 import SocioEconomicQuestion from "./SocioEconomicQuestion";
 
@@ -62,7 +63,7 @@ class SocioEconomicPresentational extends Component {
       <Redirect
         push
         to={{
-          pathname: `/lifemap/${surveyId}/6/${index + 1}`,
+          pathname: `/lifemap/${surveyId}/${STEPS[6].slug}/${index + 1}`,
           state: {
             surveyId
           }

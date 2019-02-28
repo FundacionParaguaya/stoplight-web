@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withI18n } from "react-i18next";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { STEPS } from '../../../constants'
 import lifemap_begin_image from "../../../assets/lifemap_begin_image.png";
 
 import AppNavbar from "../../../components/AppNavbar";
@@ -27,7 +28,7 @@ class BeginLifemap extends Component {
       <Redirect
         push
         to={{
-          pathname: `/lifemap/${surveyId}/8`,
+          pathname: `/lifemap/${surveyId}/${STEPS[8].slug}`,
           state: {
             surveyId
           }
