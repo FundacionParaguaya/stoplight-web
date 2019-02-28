@@ -138,15 +138,17 @@ class FamilyMembers extends Component {
               this.props.setMemberCount(this.state.memberCount);
               this.props.addSurveyData(this.props.draftId, "familyData", {
                 countFamilyMembers: countFamilyMembers
-              });
-              this.handleSubmit();
-            } else if (countFamilyMembers <= 1) {
-              console.log("count", countFamilyMembers);
-              this.props.removeFamilyMembers(
-                this.props.draftId,
-                countFamilyMembers //should be 1
-              );
-              this.props.addSurveyData(this.props.draftId, "familyData", {
+              })
+              this.props.nextStep()
+            } else if (countFamilyMembers <= 1 ) {
+              if(draft.familyData.familyMembersList.filter(mbr => !mbr.firstParticipant) > 0){
+                console.log('count',countFamilyMembers)
+                this.props.removeFamilyMembers(
+                  this.props.draftId,
+                  countFamilyMembers //should be 1
+                )
+              }
+              this.props.addSurveyData(this.props.draftId, 'familyData', {
                 countFamilyMembers: 1
               });
               this.props.setMemberCount(1);

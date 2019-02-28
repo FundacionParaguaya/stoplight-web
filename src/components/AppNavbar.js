@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 
 import { withI18n } from 'react-i18next'
+
 class AppNavbar extends Component {
   constructor(props, context) {
     super(props, context)
@@ -14,7 +15,7 @@ class AppNavbar extends Component {
     this.handleClose = this.handleClose.bind(this)
 
     this.state = {
-      show: false
+      show: false,
     }
   }
 
@@ -27,7 +28,11 @@ class AppNavbar extends Component {
   }
 
   handleExit() {
-    window.location.href = 'https://testing.povertystoplight.org'
+    let env = this.props.user.env
+    if(env === "test"){
+      env = "testing"
+    }
+    window.location.href = `https://${env}.povertystoplight.org`
   }
 
   render() {
@@ -82,4 +87,8 @@ class AppNavbar extends Component {
   }
 }
 
-export default withI18n()(connect()(AppNavbar))
+const mapStateToProps = ({user}) => ({
+  user
+})
+
+export default withI18n()(connect(mapStateToProps)(AppNavbar))
