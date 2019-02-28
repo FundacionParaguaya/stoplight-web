@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { withI18n } from "react-i18next";
+import { STEPS } from '../../../../constants';
 import TermsPrivacyPresentational from "./TermsPrivacyPresentational";
 
 class TermsPrivacy extends Component {
@@ -90,7 +91,7 @@ class TermsPrivacy extends Component {
         <Redirect
           push
           to={{
-            pathname: `/lifemap/${surveyId}/1`,
+            pathname: `/lifemap/${surveyId}/${STEPS[1].slug}`,
             state: { surveyId }
           }}
         />

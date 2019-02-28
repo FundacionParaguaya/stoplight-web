@@ -9,6 +9,7 @@ import {
   saveSurveyId,
   saveSurveyStatus
 } from "../../redux/actions";
+import { STEPS } from "../../constants";
 import BeginLifemap from "./Components/BeginLifeMap";
 import FamilyParticipant from "./Components/FamilyData/FamilyParticipant";
 import FamilyMembers from "./Components/FamilyData/FamilyMembers";
@@ -38,7 +39,7 @@ class Lifemap extends Component {
       memberCount: 0,
       draft: null,
       submitError: false,
-      envUrl: `https://${env}.povertystoplight.org`
+      envUrl: `https://${env}.povertystoplight.org`,
     };
     this.props.saveSurveyStatus("not sent");
   }
@@ -169,7 +170,7 @@ class Lifemap extends Component {
           )}
         />
         <Route
-          path={`${match.url}/1`}
+          path={`${match.url}/${STEPS[1].slug}`}
           render={props => (
             <div className="small-card">
               <FamilyParticipant
