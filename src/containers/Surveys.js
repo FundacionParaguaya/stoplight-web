@@ -31,7 +31,7 @@ export class Surveys extends Component {
   };
 
   render() {
-    const { t, surveyStatus, surveys, saveStep, saveDraftId } = this.props;
+    const { t, surveyStatus, surveys, drafts, saveStep, saveDraftId } = this.props;
     return (
       <div className="small-card">
         <AppNavbar
@@ -46,22 +46,21 @@ export class Surveys extends Component {
           <Spinner />
         ) : (
           <div>
-            {surveyStatus.draftId !== null ? (
+            {surveyStatus.draftId !== null && (
               <div className="card-list">
                 <div className="card-body">
                   <Link
                     to={{
-                      pathname: `/lifemap`,
-                      state: { surveyId: surveyStatus.surveyId }
+                      pathname: `/lifemap/${drafts.filter(draft => draft.draftId === surveyStatus.draftId)[0].surveyId}`,
+                      state: { surveyId: drafts.filter(draft => draft.draftId === surveyStatus.draftId)[0].surveyId }
                     }}
+                    onClick={() => saveStep(STEPS[0].id)}
                   >
                     {" "}
                     Click to resume latest Draft{" "}
                   </Link>
                 </div>
               </div>
-            ) : (
-              <div> </div>
             )}
             {surveys.map(survey => (
               <div key={survey.id} style={{ marginTop: 30 }}>
@@ -92,9 +91,10 @@ export class Surveys extends Component {
   }
 }
 
-const mapStateToProps = ({ surveys, surveyStatus }) => ({
+const mapStateToProps = ({ surveys, surveyStatus, drafts }) => ({
   surveys,
-  surveyStatus
+  surveyStatus,
+  drafts
 });
 
 const mapDispatchToProps = {
