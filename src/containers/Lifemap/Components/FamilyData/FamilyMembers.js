@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import { withI18n } from "react-i18next";
 import { STEPS } from '../../../../constants';
@@ -103,7 +102,7 @@ class FamilyMembers extends Component {
     }
 
     if (this.state.submitted) {
-      return this.props.parentNextStep();
+      this.props.parentNextStep();
     }
 
     return (
