@@ -146,7 +146,7 @@ class FamilyParticipant extends Component {
       <div>
         <AppNavbar
           text={t("views.primaryParticipant")}
-          showBack={true}
+          showBack
           backHandler={this.props.parentPreviousStep}
           draftOngoing={this.state.draftId ? true : false}
         />
