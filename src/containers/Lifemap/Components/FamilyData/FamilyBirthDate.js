@@ -98,7 +98,7 @@ class FamilyBirthDate extends Component {
     });
 
     if (this.state.submitted) {
-      return this.nextStep();
+      this.props.parentNextStep();
     }
 
     return (

@@ -52,7 +52,6 @@ class TermsPrivacy extends Component {
           action: "next"
         };
       } else {
-        this.props.saveStep(1);
         return {
           ...prevState,
           privacyAccepted: true

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { modifySurveyStatus } from "../../../../redux/actions";
-import { STEPS } from '../../../../constants';
+import { STEPS } from "../../../../constants";
 import SocioEconomicPresentational from "./SocioEconomicPresentational";
 
 class SocioEconomic extends Component {
@@ -12,7 +12,6 @@ class SocioEconomic extends Component {
       step: this.props.surveyStatus.socioEconomicStep,
       surveyEconomicQuestions: this.formatQuestions(this.props.data),
       answers: [],
-      completed: false
     };
   }
 
@@ -39,44 +38,25 @@ class SocioEconomic extends Component {
     return res;
   };
 
-  nextStep = () => {
-    const { step } = this.state;
-    this.setState({ step: step + 1 });
-    this.props.modifySurveyStatus("socioEconomicStep", step + 1);
-  };
+  // TODO: restore functionality
+  // nextStep = () => {
+  //   const { step } = this.state;
+  //   this.setState({ step: step + 1 });
+  //   this.props.modifySurveyStatus("socioEconomicStep", step + 1);
+  // };
 
-  previousStep = () => {
-    const { step } = this.state;
-    this.setState({ step: step - 1 });
-    this.props.modifySurveyStatus("socioEconomicStep", step - 1);
-  };
+  // previousStep = () => {
+  //   const { step } = this.state;
+  //   this.setState({ step: step - 1 });
+  //   this.props.modifySurveyStatus("socioEconomicStep", step - 1);
+  // };
 
   setComplete = () => {
-    this.setState({
-      completed: true
-    });
-  };
-
-  nextStep = () => {
-    const {
-      location: {
-        state: { surveyId }
-      }
-    } = this.props;
-    return (
-      <Redirect
-        push
-        to={{
-          pathname: `/lifemap/${surveyId}/${STEPS[7].slug}`,
-          state: {
-            surveyId
-          }
-        }}
-      />
-    );
+    this.props.parentNextStep();
   };
 
   render() {
+    const { match, location } = this.props;
     return this.state.surveyEconomicQuestions.map(
       (question, idx, questions) => {
         const splicedSurveyQuestions =
@@ -100,31 +80,44 @@ class SocioEconomic extends Component {
           return errors;
         };
 
-        if (this.state.completed) {
-          return this.nextStep();
-        }
-
         return (
-          <Route
-            path={`${this.props.match.url}/${idx}`}
-            render={props => (
-              <div>
-                <SocioEconomicPresentational
-                  {...props}
-                  draftId={this.props.draftId}
-                  data={splicedSurveyQuestions[0]}
-                  index={idx}
-                  total={this.state.surveyEconomicQuestions.length}
-                  nextStep={this.nextStep}
-                  previousStep={this.previousStep}
-                  parentPreviousStep={this.props.parentPreviousStep}
-                  parentStep={this.setComplete}
-                  requiredQuestions={requiredQuestions}
-                  validate={validate}
+          <Switch>
+            <Route
+              exact
+              path={match.url}
+              render={() => (
+                <Redirect
+                  push
+                  to={{
+                    pathname: `${match.url}/0`,
+                    state: {
+                      surveyId: location.state.surveyId
+                    }
+                  }}
                 />
-              </div>
-            )}
-          />
+              )}
+            />
+            <Route
+              path={`${this.props.match.url}/${idx}`}
+              render={props => (
+                <div>
+                  <SocioEconomicPresentational
+                    {...props}
+                    draftId={this.props.draftId}
+                    data={splicedSurveyQuestions[0]}
+                    index={idx}
+                    total={this.state.surveyEconomicQuestions.length}
+                    nextStep={this.nextStep}
+                    previousStep={this.previousStep}
+                    parentPreviousStep={this.props.parentPreviousStep}
+                    parentStep={this.setComplete}
+                    requiredQuestions={requiredQuestions}
+                    validate={validate}
+                  />
+                </div>
+              )}
+            />
+          </Switch>
         );
       }
     );

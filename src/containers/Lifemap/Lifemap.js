@@ -236,6 +236,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <FamilyGender
                 {...props}
+                parentNextStep={this.nextStep}
                 draftId={this.state.draftId}
                 data={survey.surveyConfig}
                 previousStep={this.previousStep}
@@ -251,6 +252,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <FamilyBirthDate
                 {...props}
+                parentNextStep={this.nextStep}
                 draftId={this.state.draftId}
                 data={survey.surveyConfig}
                 previousStep={this.previousStep}
@@ -266,6 +268,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <FamilyMap
                 {...props}
+                parentNextStep={this.nextStep}
                 draftId={this.state.draftId}
                 data={survey.surveyConfig}
                 previousStep={this.previousStep}
@@ -280,6 +283,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <SocioEconomic
                 {...props}
+                parentNextStep={this.nextStep}
                 draftId={this.state.draftId}
                 parentPreviousStep={this.previousStep}
                 data={survey.surveyEconomicQuestions}
@@ -293,6 +297,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <BeginLifemap
                 {...props}
+                parentNextStep={this.nextStep}
                 parentPreviousStep={this.previousStep}
                 data={survey.surveyStoplightQuestions.length}
               />

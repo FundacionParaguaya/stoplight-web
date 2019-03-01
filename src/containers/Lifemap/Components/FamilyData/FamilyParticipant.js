@@ -28,7 +28,6 @@ class FamilyParticipant extends Component {
     this.state = {
       date: null,
       dateError: 0,
-      submitted: false,
       draftId: this.props.draftId || null
     };
   }
@@ -128,12 +127,6 @@ class FamilyParticipant extends Component {
     return res;
   }
 
-  nextStep() {
-    this.setState({
-      submitted: true
-    });
-  }
-
   render() {
     // set default country to beginning of list
     const { t } = this.props;
@@ -150,10 +143,6 @@ class FamilyParticipant extends Component {
           dateError: 1
         });
       }
-    }
-
-    if (this.state.submitted) {
-      this.props.parentNextStep();
     }
 
     return (
@@ -178,11 +167,11 @@ class FamilyParticipant extends Component {
                     this.savePrimaryParticipantData(values);
                   })
                   .then(() => {
-                    this.nextStep();
+                    this.props.parentNextStep();
                   });
               } else {
                 this.savePrimaryParticipantData(values);
-                this.nextStep();
+                this.props.parentNextStep();
               }
             }
           }}

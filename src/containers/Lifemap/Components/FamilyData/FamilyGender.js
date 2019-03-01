@@ -35,31 +35,12 @@ class FamilyGender extends Component {
     });
   }
 
-  nextStep = () => {
-    const {
-      location: {
-        state: { surveyId }
-      }
-    } = this.props;
-    return (
-      <Redirect
-        push
-        to={{
-          pathname: `/lifemap/${surveyId}/${STEPS[4].slug}`,
-          state: {
-            surveyId
-          }
-        }}
-      />
-    );
-  };
-
   render() {
     const { t } = this.props
     const draft = this.getDraft()
 
     if (this.state.submitted) {
-      return this.nextStep();
+      this.props.parentNextStep();
     }
 
     const additionalMembersList = draft.familyData.familyMembersList.filter(
