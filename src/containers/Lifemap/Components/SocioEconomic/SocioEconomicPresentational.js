@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Form } from "react-final-form";
-import { addSurveyData } from "../../../../redux/actions";
-import { STEPS } from '../../../../constants';
+import { addSurveyData, modifySurveyStatus } from "../../../../redux/actions";
+import { STEPS } from "../../../../constants";
 import { withI18n } from "react-i18next";
 import SocioEconomicQuestion from "./SocioEconomicQuestion";
 
@@ -11,10 +10,11 @@ import AppNavbar from "../../../../components/AppNavbar";
 
 class SocioEconomicPresentational extends Component {
   state = {
+    step: this.props.surveyStatus.socioEconomicStep || 0,
     submitted: false
   };
 
-  goBack() {
+  goBack = () => {
     if (this.props.index === 0) {
       return this.props.parentPreviousStep;
     } else {
@@ -53,23 +53,19 @@ class SocioEconomicPresentational extends Component {
   }
 
   nextStep = () => {
+    const { step } = this.state;
     const {
       index,
       location: {
         state: { surveyId }
       }
     } = this.props;
-    return (
-      <Redirect
-        push
-        to={{
-          pathname: `/lifemap/${surveyId}/${STEPS[6].slug}/${index + 1}`,
-          state: {
-            surveyId
-          }
-        }}
-      />
-    );
+    this.setState({ step: step + 1 });
+    this.props.modifySurveyStatus("socioEconomicStep", step + 1);
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/${STEPS[6].slug}/${index + 1}`,
+      state: { surveyId }
+    });
   };
 
   render() {
@@ -79,7 +75,7 @@ class SocioEconomicPresentational extends Component {
     let initialValues = this.initData(questions);
 
     if (this.state.submitted) {
-      return this.nextStep();
+      this.nextStep();
     }
 
     return (
@@ -87,7 +83,7 @@ class SocioEconomicPresentational extends Component {
         <AppNavbar
           text={category}
           showBack={true}
-          backHandler={this.goBack()}
+          backHandler={this.goBack}
         />
         <Form
           onSubmit={(values, form) => {
@@ -134,12 +130,14 @@ class SocioEconomicPresentational extends Component {
 }
 
 const mapDispatchToProps = {
-  addSurveyData
+  addSurveyData,
+  modifySurveyStatus,
 };
 
-const mapStateToProps = ({ surveys, drafts }) => ({
+const mapStateToProps = ({ surveys, drafts, surveyStatus }) => ({
   surveys,
-  drafts
+  drafts,
+  surveyStatus
 });
 
 export default withI18n()(

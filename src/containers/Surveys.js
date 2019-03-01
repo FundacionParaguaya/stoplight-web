@@ -5,6 +5,7 @@ import {
   loadSurveys,
   loadFamilies,
   initStep,
+  initSurveyStatus,
   saveStep,
   saveDraftId,
   saveSurveyId
@@ -25,6 +26,7 @@ export class Surveys extends Component {
   loadData = () => {
     this.props.loadSurveys();
     this.props.initStep();
+    this.props.initSurveyStatus("socioEconomicStep");
   };
 
   render() {
@@ -98,6 +100,7 @@ const mapDispatchToProps = {
   logout,
   loadSurveys,
   loadFamilies,
+  initSurveyStatus,
   initStep,
   saveStep,
   saveDraftId,
