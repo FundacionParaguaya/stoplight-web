@@ -28,9 +28,9 @@ import TermsPrivacy from "./Components/TermsPrivacy";
 class Lifemap extends Component {
   constructor(props) {
     super(props);
-    let env = this.props.user.env
-    if(env === "test"){
-      env = "testing"
+    let env = this.props.user.env;
+    if (env === "test") {
+      env = "testing";
     }
     this.state = {
       step: this.props.surveyStatus.step || 0,
@@ -39,7 +39,7 @@ class Lifemap extends Component {
       memberCount: 0,
       draft: null,
       submitError: false,
-      envUrl: `https://${env}.povertystoplight.org`,
+      envUrl: `https://${env}.povertystoplight.org`
     };
     this.props.saveSurveyStatus("not sent");
   }
@@ -59,8 +59,6 @@ class Lifemap extends Component {
 
   setMemberCount = num => {
     this.setState({ memberCount: num });
-    console.log("num", num);
-    console.log(this.state.memberCount);
   };
 
   setDraftId = id => {
@@ -140,13 +138,12 @@ class Lifemap extends Component {
       this.props.saveSurveyId(null);
       this.props.saveStep(null);
       this.setState({ draftId: null, draftIsOngoing: false });
-      window.location.href = this.state.envUrl
+      window.location.href = this.state.envUrl;
     } else if (
       this.props.surveyStatus.status === "fail" &&
       this.state.submitError === false
     ) {
       this.setState({ submitError: true });
-      console.log(this.props.surveyStatus.error);
     }
 
     if (
@@ -204,6 +201,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <FamilyParticipant
                 {...props}
+                parentNextStep={this.nextStep}
                 parentPreviousStep={this.previousStep}
                 data={survey.surveyConfig}
                 surveyId={match.params.surveyId}
@@ -220,6 +218,7 @@ class Lifemap extends Component {
             <div className="small-card">
               <FamilyMembers
                 {...props}
+                parentNextStep={this.nextStep}
                 draftId={this.state.draftId}
                 data={survey.surveyConfig}
                 previousStep={this.previousStep}

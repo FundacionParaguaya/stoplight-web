@@ -16,11 +16,8 @@ import AppNavbar from "../../../../components/AppNavbar";
 class FamilyMembers extends Component {
   constructor(props) {
     super(props);
-
     let draft = this.getDraft();
-
     let memberCount = draft.familyData.countFamilyMembers || "";
-
     this.state = {
       memberCount: memberCount - 1,
       submitted: false,
@@ -67,26 +64,6 @@ class FamilyMembers extends Component {
     });
   };
 
-  nextStep = () => {
-    const {
-      location: {
-        state: { surveyId }
-      }
-    } = this.props;
-    this.props.saveStep(3);
-    return (
-      <Redirect
-        push
-        to={{
-          pathname: `/lifemap/${surveyId}/${STEPS[3].slug}`,
-          state: {
-            surveyId
-          }
-        }}
-      />
-    );
-  };
-
   //TODO: handler to skip to map view if only 1 family member!
   render() {
     const { t } = this.props;
@@ -126,7 +103,7 @@ class FamilyMembers extends Component {
     }
 
     if (this.state.submitted) {
-      return this.nextStep();
+      return this.props.parentNextStep();
     }
 
     return (

@@ -129,7 +129,6 @@ class FamilyParticipant extends Component {
   }
 
   nextStep() {
-    this.props.saveStep(2);
     this.setState({
       submitted: true
     });
@@ -137,7 +136,7 @@ class FamilyParticipant extends Component {
 
   render() {
     // set default country to beginning of list
-    const { t, location: { state: { surveyId } } } = this.props;
+    const { t } = this.props;
     const countriesOptions = this.generateCountriesOptions();
     let draft,
       user = {};
@@ -154,17 +153,7 @@ class FamilyParticipant extends Component {
     }
 
     if (this.state.submitted) {
-      return (
-        <Redirect
-          push
-          to={{
-            pathname: `/lifemap/${surveyId}/${STEPS[2].slug}`,
-            state: {
-              surveyId
-            }
-          }}
-        />
-      );
+      this.props.parentNextStep();
     }
 
     return (
