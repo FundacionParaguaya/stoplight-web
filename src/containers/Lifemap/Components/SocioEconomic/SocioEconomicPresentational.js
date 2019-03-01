@@ -11,14 +11,13 @@ import AppNavbar from "../../../../components/AppNavbar";
 class SocioEconomicPresentational extends Component {
   state = {
     step: this.props.surveyStatus.socioEconomicStep || 0,
-    submitted: false
   };
 
   goBack = () => {
     if (this.props.index === 0) {
-      return this.props.parentPreviousStep;
+      this.props.parentPreviousStep();
     } else {
-      return this.props.previousStep;
+      this.previousStep();
     }
   }
 
@@ -46,11 +45,21 @@ class SocioEconomicPresentational extends Component {
     return res;
   };
 
-  handleSubmit() {
-    this.setState({
-      submitted: true
+  previousStep = () => {
+    const { step } = this.state;
+    const {
+      index,
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    this.setState({ step: step - 1 });
+    this.props.modifySurveyStatus("socioEconomicStep", step - 1);
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/${STEPS[6].slug}/${index - 1}`,
+      state: { surveyId }
     });
-  }
+  };
 
   nextStep = () => {
     const { step } = this.state;
@@ -74,10 +83,6 @@ class SocioEconomicPresentational extends Component {
     const category = this.props.data.category;
     let initialValues = this.initData(questions);
 
-    if (this.state.submitted) {
-      this.nextStep();
-    }
-
     return (
       <div>
         <AppNavbar
@@ -98,7 +103,7 @@ class SocioEconomicPresentational extends Component {
             if (this.props.index === this.props.total - 1) {
               this.props.parentStep();
             } else {
-              this.handleSubmit();
+              this.nextStep();
             }
           }}
           validate={this.props.validate}
