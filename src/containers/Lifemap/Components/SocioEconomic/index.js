@@ -13,6 +13,10 @@ class SocioEconomic extends Component {
       answers: []
     };
   }
+  
+  componentDidMount() {
+    this.props.modifySurveyStatus("socioEconomicStep", this.state.step);
+  }
 
   formatQuestions = questions => {
     let categories = {};
@@ -35,12 +39,6 @@ class SocioEconomic extends Component {
       res.push({ category: key, sortedQuestions: categories[key] });
     }
     return res;
-  };
-
-  previousStep = () => {
-    const { step } = this.state;
-    this.setState({ step: step - 1 });
-    this.props.modifySurveyStatus("socioEconomicStep", step - 1);
   };
 
   render() {
@@ -95,8 +93,6 @@ class SocioEconomic extends Component {
                     data={splicedSurveyQuestions[0]}
                     index={idx}
                     total={this.state.surveyEconomicQuestions.length}
-                    nextStep={this.nextStep}
-                    previousStep={this.previousStep}
                     parentPreviousStep={this.props.parentPreviousStep}
                     parentStep={this.props.parentNextStep}
                     requiredQuestions={requiredQuestions}
