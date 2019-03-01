@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { withI18n } from "react-i18next";
 import { addSurveyData, modifySurveyStatus } from "../../../../redux/actions";
-import { STEPS } from '../../../../constants';
 import StopLightPresentational from "./StopLightPresentational";
 import AppNavbar from "../../../../components/AppNavbar";
 
@@ -11,7 +10,7 @@ class StopLight extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: this.props.surveyStatus.stoplightIndicatorStep,
+      step: this.props.surveyStatus.stoplightIndicatorStep || 0,
       renderSkippedQuestionsScreen: false,
       skippedQuestionsList: [],
       imagesLoaded: 0
@@ -31,24 +30,14 @@ class StopLight extends Component {
         state: { surveyId }
       });
     }
+    const goBack = this.goBack;
+    window.onpopstate = (e) => {
+      goBack();
+    }
   }
 
   getDraft = () =>
     this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0];
-
-  jumpToNextStep = () => {
-    const {
-      location: {
-        state: { surveyId }
-      }
-    } = this.props;
-    this.props.history.push({
-      pathname: `/lifemap/${surveyId}/${STEPS[9].slug}`,
-      state: {
-        surveyId
-      }
-    });
-  };
 
   nextStep = (value, codeName) => {
     const { step } = this.state;
@@ -78,10 +67,10 @@ class StopLight extends Component {
         // skippedAQuestion is a flag that is true if the user has skipped a question
         this.setState({ renderSkippedQuestionsScreen: true }); // todo, not working at the moment
       } else {
-        this.jumpToNextStep();
+        this.props.parentNextStep();
       }
     } else if (this.state.step > this.props.data.length - 1) {
-      this.jumpToNextStep();
+      this.props.parentNextStep();
     } else {
       this.setState({ step: step + 1 });
       this.props.modifySurveyStatus("stoplightIndicatorStep", step + 1);
@@ -108,7 +97,6 @@ class StopLight extends Component {
             indicator.key === this.props.data[this.state.step].codeName
         )[0].value
       : null;
-    console.log(checkedAnswer);
     return checkedAnswer || null;
   };
 
@@ -149,7 +137,7 @@ class StopLight extends Component {
               <AppNavbar
                 text={t("views.yourLifeMap")}
                 showBack
-                backHandler={() => this.goBack()}
+                backHandler={this.goBack}
               />
               <StopLightPresentational
                 {...props}
@@ -161,7 +149,7 @@ class StopLight extends Component {
                 parentPreviousStep={this.props.parentPreviousStep}
                 imagesLoaded={this.state.imagesLoaded}
                 updateImageStatus={this.updateImageStatus}
-                checkedAnswer={this.getCheckedIndicator()}
+                checkedAnswer={this.getCheckedIndicator}
               />
             </div>
           )}

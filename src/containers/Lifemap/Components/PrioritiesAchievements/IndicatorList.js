@@ -249,7 +249,7 @@ class IndicatorList extends Component {
             )}
             <button
               className="btn btn-primary btn-lg btn-block"
-              onClick={this.jumpToNextStep}
+              onClick={this.props.parentNextStep}
               disabled
             >
               {t('general.continue')}
@@ -258,7 +258,7 @@ class IndicatorList extends Component {
         ) : (
           <button
             className="btn btn-primary btn-lg btn-block"
-            onClick={this.jumpToNextStep}
+            onClick={this.props.parentNextStep}
           >
             {t('general.continue')}
           </button>

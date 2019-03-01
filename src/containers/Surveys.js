@@ -27,6 +27,7 @@ export class Surveys extends Component {
     this.props.loadSurveys();
     this.props.initStep();
     this.props.initSurveyStatus("socioEconomicStep");
+    this.props.initSurveyStatus("stoplightIndicatorStep");
   };
 
   render() {

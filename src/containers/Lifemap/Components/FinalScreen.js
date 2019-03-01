@@ -32,7 +32,7 @@ class FinalScreen extends Component {
         <div style={{ paddingTop: 20 }}>
           <button
             className="btn btn-primary btn-lg btn-block"
-            onClick={() => submitDraft()}
+            onClick={submitDraft}
           >
             {t('general.close')}
           </button>
