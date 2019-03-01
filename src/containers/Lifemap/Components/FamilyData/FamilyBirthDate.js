@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import moment from "moment";
 import { Form } from "react-final-form";
 import { withI18n } from "react-i18next";
-
 import { addSurveyFamilyMemberData } from "../../../../redux/actions";
-import { STEPS } from '../../../../constants';
 import DatePicker from "../../../../components/DatePicker";
 import AppNavbar from "../../../../components/AppNavbar";
 
@@ -20,7 +17,6 @@ class FamilyBirthDate extends Component {
     this.state = {
       date: [],
       dateError: errorArr,
-      submitted: false
     };
   }
 
@@ -43,31 +39,6 @@ class FamilyBirthDate extends Component {
     });
   };
 
-  handleSubmit() {
-    this.setState({
-      submitted: true
-    });
-  }
-
-  nextStep = () => {
-    const {
-      location: {
-        state: { surveyId }
-      }
-    } = this.props;
-    return (
-      <Redirect
-        push
-        to={{
-          pathname: `/lifemap/${surveyId}/${STEPS[5].slug}`,
-          state: {
-            surveyId
-          }
-        }}
-      />
-    );
-  };
-
   //TODO: handler to skip to map view if only 1 family member!
   render() {
     const { t } = this.props;
@@ -79,7 +50,6 @@ class FamilyBirthDate extends Component {
     );
 
     const forms = additionalMembersList.map((member, idx) => {
-      console.log(member);
       return (
         <div key={idx} className="form-group">
           <label>{member.firstName}</label>
@@ -97,10 +67,6 @@ class FamilyBirthDate extends Component {
       );
     });
 
-    if (this.state.submitted) {
-      this.props.parentNextStep();
-    }
-
     return (
       <div>
         <AppNavbar
@@ -111,7 +77,7 @@ class FamilyBirthDate extends Component {
         <Form
           onSubmit={(values, form) => {
             // date update being handled by dateCHange
-            this.handleSubmit();
+            this.props.parentNextStep();
           }}
           initialValues={{}}
           render={({

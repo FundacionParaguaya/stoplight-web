@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
 import { withI18n } from "react-i18next";
-import { STEPS } from '../../../../constants';
+import { STEPS } from "../../../../constants";
 import ErrorComponent from "../../ErrorComponent";
 import {
   addSurveyData,
@@ -19,7 +19,6 @@ class FamilyMembers extends Component {
     let memberCount = draft.familyData.countFamilyMembers || "";
     this.state = {
       memberCount: memberCount - 1,
-      submitted: false,
     };
   }
 
@@ -40,27 +39,6 @@ class FamilyMembers extends Component {
 
   handleChange = event => {
     this.setState({ memberCount: event.target.value });
-  };
-
-  handleSubmit() {
-    this.setState({
-      submitted: true
-    });
-  }
-
-  jumpToMap = () => {
-    const {
-      location: {
-        state: { surveyId }
-      }
-    } = this.props;
-    this.props.saveStep(5);
-    this.props.history.push({
-      pathname: `/lifemap/${surveyId}/${STEPS[5].slug}`,
-      state: {
-        surveyId
-      }
-    });
   };
 
   //TODO: handler to skip to map view if only 1 family member!
@@ -101,10 +79,6 @@ class FamilyMembers extends Component {
       );
     }
 
-    if (this.state.submitted) {
-      this.props.parentNextStep();
-    }
-
     return (
       <div>
         <AppNavbar
@@ -128,25 +102,27 @@ class FamilyMembers extends Component {
                 this.props.draftId,
                 countFamilyMembers
               );
-              console.log("statecount", this.state.memberCount);
               this.props.setMemberCount(this.state.memberCount);
               this.props.addSurveyData(this.props.draftId, "familyData", {
                 countFamilyMembers: countFamilyMembers
-              })
-              this.handleSubmit();
-            } else if (countFamilyMembers <= 1 ) {
-              if(draft.familyData.familyMembersList.filter(mbr => !mbr.firstParticipant) > 0){
-                console.log('count',countFamilyMembers)
+              });
+              this.props.parentNextStep();
+            } else if (countFamilyMembers <= 1) {
+              if (
+                draft.familyData.familyMembersList.filter(
+                  mbr => !mbr.firstParticipant
+                ) > 0
+              ) {
                 this.props.removeFamilyMembers(
                   this.props.draftId,
                   countFamilyMembers //should be 1
-                )
+                );
               }
-              this.props.addSurveyData(this.props.draftId, 'familyData', {
+              this.props.addSurveyData(this.props.draftId, "familyData", {
                 countFamilyMembers: 1
               });
               this.props.setMemberCount(1);
-              this.jumpToMap(); // jump to map view
+              this.props.jumpStep(3); // jump to map view
             } else {
               this.props.addSurveyData(this.props.draftId, "familyData", {
                 countFamilyMembers: countFamilyMembers
@@ -156,11 +132,11 @@ class FamilyMembers extends Component {
               } else {
                 // map through values and extract the firstNames of all family members
                 additionalFamilyMembers.forEach((key, index) => {
-                  this.addFamilyMemberName(values[key], index + 1)
-                })
+                  this.addFamilyMemberName(values[key], index + 1);
+                });
                 // combine familyMembers with firstParticipant from primary participant screen
                 this.props.setMemberCount(additionalFamilyMembers.length);
-                this.handleSubmit();
+                this.props.parentNextStep();
               }
             }
           }}

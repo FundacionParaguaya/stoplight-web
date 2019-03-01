@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { modifySurveyStatus } from "../../../../redux/actions";
-import { STEPS } from "../../../../constants";
 import SocioEconomicPresentational from "./SocioEconomicPresentational";
 
 class SocioEconomic extends Component {
@@ -89,7 +88,7 @@ class SocioEconomic extends Component {
                 <Redirect
                   push
                   to={{
-                    pathname: `${match.url}/0`,
+                    pathname: `${match.url}/${this.state.step}`,
                     state: {
                       surveyId: location.state.surveyId
                     }
