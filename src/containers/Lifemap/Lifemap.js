@@ -324,9 +324,9 @@ class Lifemap extends Component {
             <div className="small-card">
               <IndicatorList
                 {...props}
+                parentNextStep={this.nextStep}
                 draftId={this.state.draftId}
                 data={survey.surveyStoplightQuestions}
-                nextStep={this.nextStep}
                 parentPreviousStep={this.previousStep}
                 minimumPriorities={survey.minimumPriorities}
               />
