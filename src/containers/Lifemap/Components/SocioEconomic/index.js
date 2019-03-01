@@ -8,9 +8,9 @@ class SocioEconomic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: this.props.surveyStatus.socioEconomicStep,
+      step: this.props.surveyStatus.socioEconomicStep || 0,
       surveyEconomicQuestions: this.formatQuestions(this.props.data),
-      answers: [],
+      answers: []
     };
   }
 
@@ -37,21 +37,10 @@ class SocioEconomic extends Component {
     return res;
   };
 
-  // TODO: restore functionality
-  // nextStep = () => {
-  //   const { step } = this.state;
-  //   this.setState({ step: step + 1 });
-  //   this.props.modifySurveyStatus("socioEconomicStep", step + 1);
-  // };
-
-  // previousStep = () => {
-  //   const { step } = this.state;
-  //   this.setState({ step: step - 1 });
-  //   this.props.modifySurveyStatus("socioEconomicStep", step - 1);
-  // };
-
-  setComplete = () => {
-    this.props.parentNextStep();
+  previousStep = () => {
+    const { step } = this.state;
+    this.setState({ step: step - 1 });
+    this.props.modifySurveyStatus("socioEconomicStep", step - 1);
   };
 
   render() {
@@ -109,7 +98,7 @@ class SocioEconomic extends Component {
                     nextStep={this.nextStep}
                     previousStep={this.previousStep}
                     parentPreviousStep={this.props.parentPreviousStep}
-                    parentStep={this.setComplete}
+                    parentStep={this.props.parentNextStep}
                     requiredQuestions={requiredQuestions}
                     validate={validate}
                   />

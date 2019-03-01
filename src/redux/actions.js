@@ -20,6 +20,7 @@ export const logout = () => dispatch => {
 };
 
 // Todo - make this one action that accepts payload
+export const INIT_SURVEY_STATUS = "INIT_SURVEY_STATUS";
 export const MODIFY_SURVEY_STATUS = "MODIFY_SURVEY_STATUS";
 export const INIT_STEP = "INIT_STEP";
 export const SAVE_STEP = "SAVE_STEP";
@@ -27,15 +28,21 @@ export const SAVE_DRAFT_ID = "SAVE_DRAFT_ID";
 export const SAVE_SURVEY_ID = "SAVE_SURVEY_ID";
 export const SAVE_SURVEY_STATUS = "SAVE_SURVEY_STATUS";
 
+
+export const initSurveyStatus = (category, payload = null) => ({
+  type: INIT_SURVEY_STATUS,
+  category,
+  payload,
+});
+
 export const modifySurveyStatus = (category, payload) => ({
   type: MODIFY_SURVEY_STATUS,
   category,
   payload
 });
 
-export const initStep = step => ({
+export const initStep = () => ({
   type: INIT_STEP,
-  step
 });
 
 export const saveStep = step => ({
