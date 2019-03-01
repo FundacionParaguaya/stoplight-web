@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import { withI18n } from "react-i18next";
 import moment from "moment";
 import {
   createDraft,
   addSurveyFamilyMemberData,
-  saveStep
 } from "../../../../redux/actions";
-import { STEPS } from '../../../../constants';
 import DatePicker from "../../../../components/DatePicker";
 import uuid from "uuid/v1";
 import countries from "localized-countries";
@@ -346,7 +343,6 @@ class FamilyParticipant extends Component {
 const mapDispatchToProps = {
   createDraft,
   addSurveyFamilyMemberData,
-  saveStep
 };
 
 const mapStateToProps = ({ surveys, drafts }) => ({
