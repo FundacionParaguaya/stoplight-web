@@ -11,6 +11,7 @@ import {
   ADD_SURVEY_DATA,
   ADD_SURVEY_DATA_WHOLE,
   MODIFY_SURVEY_STATUS,
+  INIT_STEP,
   SAVE_STEP,
   SAVE_DRAFT_ID,
   SAVE_SURVEY_ID,
@@ -56,7 +57,7 @@ export const surveys = (state = [], action) => {
 
 export const surveyStatus = (
   state = {
-    step: 1, // global step parameter (which component/view is the survey at?)
+    step: null, // global step parameter (which component/view is the survey at?)
     status: '', // Survey Status (sent, submitted, etc)
     stoplightIndicatorStep: 0, // Internal Step position of the StoplightIndicators View
     socioEconomicStep: 0 // Internal Step position of the SocioEconomic View
@@ -69,6 +70,11 @@ export const surveyStatus = (
       ...state,
       [action.category] : action.payload
     }
+    case INIT_STEP:
+      return {
+        ...state,
+        step: null
+      }
     case SAVE_STEP:
       return {
         ...state,

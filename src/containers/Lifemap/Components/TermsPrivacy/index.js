@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { withI18n } from "react-i18next";
 import { saveStep } from "../../../../redux/actions";
 import { STEPS } from "../../../../constants";

@@ -4,6 +4,7 @@ import {
   logout,
   loadSurveys,
   loadFamilies,
+  initStep,
   saveStep,
   saveDraftId,
   saveSurveyId
@@ -23,6 +24,7 @@ export class Surveys extends Component {
 
   loadData = () => {
     this.props.loadSurveys();
+    this.props.initStep();
   };
 
   render() {
@@ -96,9 +98,10 @@ const mapDispatchToProps = {
   logout,
   loadSurveys,
   loadFamilies,
+  initStep,
   saveStep,
   saveDraftId,
-  saveSurveyId
+  saveSurveyId,
 };
 
 export default withI18n()(
