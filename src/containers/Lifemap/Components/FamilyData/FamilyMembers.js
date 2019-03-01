@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
 import { withI18n } from "react-i18next";
-import { STEPS } from "../../../../constants";
 import ErrorComponent from "../../ErrorComponent";
 import {
   addSurveyData,

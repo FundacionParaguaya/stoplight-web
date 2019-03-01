@@ -5,7 +5,6 @@ import { addSurveyData, modifySurveyStatus } from "../../../../redux/actions";
 import { STEPS } from "../../../../constants";
 import { withI18n } from "react-i18next";
 import SocioEconomicQuestion from "./SocioEconomicQuestion";
-
 import AppNavbar from "../../../../components/AppNavbar";
 
 class SocioEconomicPresentational extends Component {
