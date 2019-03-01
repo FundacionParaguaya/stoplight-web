@@ -112,6 +112,10 @@ export const loadSurveys = () => dispatch => {
     )
 }
 
+// export const loadStoplightImage = () => dispatch =>{
+//   fetc
+// }
+
 // Drafts
 
 export const CREATE_DRAFT = 'CREATE_DRAFT'

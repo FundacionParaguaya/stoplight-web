@@ -30,7 +30,6 @@ class Lifemap extends Component {
     this.state = {
       step: this.props.surveyStatus.step || 1,
       draftId: this.props.surveyStatus.draftId || null,
-      surveyTakerName: '',
       memberCount: 0,
       draft: null,
       submitError: false
@@ -39,6 +38,11 @@ class Lifemap extends Component {
 
   }
 
+  getSurvey = () => {
+      return this.props.surveys.filter(
+           survey => survey.id === this.props.surveyStatus.surveyId
+        )[0]
+      }
   // Setup the `beforeunload` event listener
   setupBeforeUnloadListener = () => {
     window.addEventListener('beforeunload', ev => {
@@ -48,8 +52,20 @@ class Lifemap extends Component {
   }
 
   componentDidMount() {
-    this.loadData()
-    // this.setupBeforeUnloadListener()
+    this.preloadStoplightImages()
+  }
+
+  preloadStoplightImages = () => {
+    // we want to get the images from the survey
+    let survey = this.getSurvey()
+    survey.surveyStoplightQuestions.forEach(question => {
+      question.stoplightColors.forEach(stoplight => {
+        // cache the images in browser immediatel
+        const img = new Image()
+        img.src = stoplight.url
+      })
+    })
+
   }
 
   setMemberCount = num => {
@@ -61,10 +77,6 @@ class Lifemap extends Component {
   setDraftId = id => {
     this.props.saveDraftId(id)
     this.setState({ draftId: id })
-  }
-
-  loadData = () => {
-    this.props.loadSurveys()
   }
 
   submitDraft = () => {
@@ -116,15 +128,11 @@ class Lifemap extends Component {
       this.props.location.state.surveyId !== this.props.surveyStatus.surveyId
     ) {
       if (this.props.surveys) {
-        survey = this.props.surveys.filter(
-          survey => survey.id === this.props.location.state.surveyId
-        )[0]
+        survey = this.getSurvey()
       }
       this.props.saveSurveyId(this.props.location.state.surveyId)
     } else if (this.props.surveyStatus.surveyId) {
-      survey = this.props.surveys.filter(
-        survey => survey.id === this.props.surveyStatus.surveyId
-      )[0]
+      survey = this.getSurvey()
     } else {
       this.props.history.push(`/surveys`)
     }
