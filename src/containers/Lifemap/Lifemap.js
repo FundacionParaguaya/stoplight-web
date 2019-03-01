@@ -310,9 +310,10 @@ class Lifemap extends Component {
             <div className="wide-card">
               <StopLight
                 {...props}
+                parentNextStep={this.nextStep}
+                parentPreviousStep={this.previousStep}
                 draftId={this.state.draftId}
                 data={survey.surveyStoplightQuestions}
-                parentPreviousStep={this.previousStep}
               />
             </div>
           )}
