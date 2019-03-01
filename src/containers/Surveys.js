@@ -8,6 +8,7 @@ import {
   saveDraftId,
   saveSurveyId
 } from "./../redux/actions";
+import { STEPS } from '../constants';
 import { Link } from "react-router-dom";
 import { withI18n } from "react-i18next";
 
@@ -69,7 +70,7 @@ export class Surveys extends Component {
                         }
                       }}
                       onClick={() => {
-                        // saveStep(1);
+                        saveStep(STEPS[0].id);
                         saveDraftId(null);
                       }}
                     >

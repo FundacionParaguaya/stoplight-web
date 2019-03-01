@@ -33,7 +33,7 @@ class Lifemap extends Component {
       env = "testing"
     }
     this.state = {
-      step: this.props.surveyStatus.step || 1,
+      step: this.props.surveyStatus.step || 0,
       draftId: this.props.surveyStatus.draftId || null,
       surveyTakerName: "",
       memberCount: 0,
@@ -80,20 +80,48 @@ class Lifemap extends Component {
   };
 
   nextStep = () => {
-    const { step } = this.state;
+    const {
+      location: {
+        state: { surveyId }
+      },
+      match,
+      surveyStatus: { step }
+    } = this.props;
     this.props.saveStep(step + 1);
-    this.setState({ step: step + 1 });
+    this.props.history.push({
+      pathname: `${match.url}/${STEPS[step + 1].slug}`,
+      state: { surveyId }
+    });
   };
 
   previousStep = () => {
-    const { step } = this.state;
+    const {
+      location: {
+        state: { surveyId }
+      },
+      match,
+      surveyStatus: { step }
+    } = this.props;
     this.props.saveStep(step - 1);
-    this.setState({ step: step - 1 });
+    this.props.history.push({
+      pathname: `${match.url}/${STEPS[step - 1].slug}`,
+      state: { surveyId }
+    });
   };
 
   jumpStep = additionalSteps => {
-    const { step } = this.state;
-    this.setState({ step: step + additionalSteps });
+    const {
+      location: {
+        state: { surveyId }
+      },
+      match,
+      surveyStatus: { step }
+    } = this.props;
+    this.props.saveStep(step + additionalSteps);
+    this.props.history.push({
+      pathname: `${match.url}/${STEPS[step + additionalSteps].slug}`,
+      state: { surveyId }
+    });
   };
 
   setName = name => {
@@ -130,6 +158,7 @@ class Lifemap extends Component {
           survey => survey.id === parseInt(match.params.surveyId)
         )[0];
       }
+      // TODO: test parsing
       // this.props.saveSurveyId(match.params.surveyId)
     } else if (this.props.surveyStatus.surveyId) {
       survey = this.props.surveys.filter(
@@ -148,7 +177,7 @@ class Lifemap extends Component {
             <Redirect
               push
               to={{
-                pathname: `${match.url}/terms`,
+                pathname: `${match.url}/${STEPS[0].slug}`,
                 state: {
                   surveyId: match.params.surveyId
                 }
@@ -158,7 +187,7 @@ class Lifemap extends Component {
         />
         <Route
           exact
-          path={`${match.url}/terms`}
+          path={`${match.url}/${STEPS[0].slug}`}
           render={props => (
             <div className="small-card">
               <TermsPrivacy

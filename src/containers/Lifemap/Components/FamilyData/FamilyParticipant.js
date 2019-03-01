@@ -6,7 +6,8 @@ import { withI18n } from "react-i18next";
 import moment from "moment";
 import {
   createDraft,
-  addSurveyFamilyMemberData
+  addSurveyFamilyMemberData,
+  saveStep
 } from "../../../../redux/actions";
 import { STEPS } from '../../../../constants';
 import DatePicker from "../../../../components/DatePicker";
@@ -128,6 +129,7 @@ class FamilyParticipant extends Component {
   }
 
   nextStep() {
+    this.props.saveStep(2);
     this.setState({
       submitted: true
     });
@@ -365,7 +367,8 @@ class FamilyParticipant extends Component {
 
 const mapDispatchToProps = {
   createDraft,
-  addSurveyFamilyMemberData
+  addSurveyFamilyMemberData,
+  saveStep
 };
 
 const mapStateToProps = ({ surveys, drafts }) => ({

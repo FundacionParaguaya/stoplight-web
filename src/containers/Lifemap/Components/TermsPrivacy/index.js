@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { withI18n } from "react-i18next";
-import { STEPS } from '../../../../constants';
+import { saveStep } from "../../../../redux/actions";
+import { STEPS } from "../../../../constants";
 import TermsPrivacyPresentational from "./TermsPrivacyPresentational";
 
 class TermsPrivacy extends Component {
@@ -52,6 +53,7 @@ class TermsPrivacy extends Component {
           action: "next"
         };
       } else {
+        this.props.saveStep(1);
         return {
           ...prevState,
           privacyAccepted: true
@@ -80,22 +82,9 @@ class TermsPrivacy extends Component {
 
   render() {
     const { privacyAccepted } = this.state;
-    const {
-      location: {
-        state: { surveyId }
-      }
-    } = this.props;
 
     if (privacyAccepted) {
-      return (
-        <Redirect
-          push
-          to={{
-            pathname: `/lifemap/${surveyId}/${STEPS[1].slug}`,
-            state: { surveyId }
-          }}
-        />
-      );
+      this.props.parentNextStep();
     }
 
     return (
@@ -114,9 +103,11 @@ class TermsPrivacy extends Component {
   }
 }
 
+const mapDispatchToProps = { saveStep };
+
 export default withI18n()(
   connect(
     null,
-    {}
+    mapDispatchToProps
   )(TermsPrivacy)
 );

@@ -8,7 +8,8 @@ import ErrorComponent from "../../ErrorComponent";
 import {
   addSurveyData,
   addSurveyFamilyMemberData,
-  removeFamilyMembers
+  removeFamilyMembers,
+  saveStep
 } from "../../../../redux/actions";
 
 import AppNavbar from "../../../../components/AppNavbar";
@@ -57,6 +58,7 @@ class FamilyMembers extends Component {
         state: { surveyId }
       }
     } = this.props;
+    this.props.saveStep(5);
     this.props.history.push({
       pathname: `/lifemap/${surveyId}/${STEPS[5].slug}`,
       state: {
@@ -71,6 +73,7 @@ class FamilyMembers extends Component {
         state: { surveyId }
       }
     } = this.props;
+    this.props.saveStep(3);
     return (
       <Redirect
         push
@@ -265,7 +268,8 @@ class FamilyMembers extends Component {
 const mapDispatchToProps = {
   addSurveyData,
   addSurveyFamilyMemberData,
-  removeFamilyMembers
+  removeFamilyMembers,
+  saveStep
 };
 
 const mapStateToProps = ({ surveys, drafts }) => ({

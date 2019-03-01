@@ -1,4 +1,8 @@
 export const STEPS = {
+  0: {
+    slug: 'terms',
+    id: 0,
+  },
   1: {
     slug: 'family-participant',
     id: 1,
