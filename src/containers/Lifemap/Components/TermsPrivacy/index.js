@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { withI18n } from "react-i18next";
-import { saveStep } from "../../../../redux/actions";
-import { STEPS } from "../../../../constants";
 import TermsPrivacyPresentational from "./TermsPrivacyPresentational";
 
 class TermsPrivacy extends Component {
@@ -101,11 +98,4 @@ class TermsPrivacy extends Component {
   }
 }
 
-const mapDispatchToProps = { saveStep };
-
-export default withI18n()(
-  connect(
-    null,
-    mapDispatchToProps
-  )(TermsPrivacy)
-);
+export default withI18n()(TermsPrivacy);
