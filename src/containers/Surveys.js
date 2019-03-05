@@ -37,7 +37,7 @@ export class Surveys extends Component {
         <AppNavbar
           text={t("views.createLifemap")}
           showBack={false}
-          draftOngoing={surveyStatus.draftId !== null ? true : false}
+          draftOngoing={surveyStatus.draftId ? true : false}
         />
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
@@ -46,7 +46,7 @@ export class Surveys extends Component {
           <Spinner />
         ) : (
           <div>
-            {surveyStatus.draftId !== null && (
+            {surveyStatus.draftId && (
               <div className="card-list">
                 <div className="card-body">
                   <Link
