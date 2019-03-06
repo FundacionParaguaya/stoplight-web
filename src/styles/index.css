@@ -262,6 +262,32 @@ nav {
   margin: 64px;
 }
 
+/* NAV */
+nav {
+  max-height: 50px;
+}
+nav > ul > li {
+  border-right: .25px solid #666;
+}
+
+nav > ul > li:hover{
+  background-color: #3e9b3f !important;
+  color: white !important;
+}
+
+nav > ul > li > a {
+  color: white !important;
+}
+
+ul.ml-auto > li > a {
+  border-right: 0px transparent;
+  border-left: .25px solid #666;
+}
+
+.povstop-logo-nav{
+  margin-left: -20px;
+}
+
 /* CARDS */
 
 .main-card {

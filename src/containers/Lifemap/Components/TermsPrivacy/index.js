@@ -1,63 +1,101 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withI18n } from 'react-i18next'
-import { withRouter } from 'react-router-dom'
-import TermsPrivacyPresentational from './TermsPrivacyPresentational'
+import React, { Component } from "react";
+import { withI18n } from "react-i18next";
+import TermsPrivacyPresentational from "./TermsPrivacyPresentational";
 
 class TermsPrivacy extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      step: 0
-    }
+      step: 0,
+      header: "",
+      body: null,
+      termsAccepted: false,
+      privacyAccepted: false,
+      action: null
+    };
+  }
+
+  viewData = () => {
+    const {
+      t,
+      data: { termsConditions }
+    } = this.props;
+    return {
+      header: t("views.termsConditions"),
+      body: termsConditions
+    };
+  };
+
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      ...this.viewData()
+    });
   }
 
   nextStep = () => {
-    const { step } = this.state
-    this.setState({ step: step + 1 })
-  }
+    const {
+      t,
+      data: { privacyPolicy }
+    } = this.props;
+    this.setState(prevState => {
+      if (prevState.step === 0) {
+        return {
+          ...prevState,
+          step: prevState.step + 1,
+          termsAccepted: true,
+          header: t("views.privacyPolicy"),
+          body: privacyPolicy,
+          action: "next"
+        };
+      } else {
+        return {
+          ...prevState,
+          privacyAccepted: true
+        };
+      }
+    });
+  };
 
   previousStep = () => {
-    if(this.state.step === 0){
-      this.props.history.push('/surveys')
+    const {
+      t,
+      data: { termsConditions }
+    } = this.props;
+    const { step } = this.state;
+    if (step === 0) {
+      this.props.history.push("/surveys");
     }
-    const { step } = this.state
-    this.setState({ step: step - 1 })
-  }
+    this.setState({
+      step: step - 1,
+      action: "back",
+      termsAccepted: false,
+      header: t("views.termsConditions"),
+      body: termsConditions
+    });
+  };
 
   render() {
-    const { t } = this.props
-    let data = null
-    let header = ''
-    let nextStepFunc = this.nextStep
-    let prevStepFunc = this.previousStep
-    if (this.state.step === 0) {
-      data = this.props.data.termsConditions
-      header = t('views.termsConditions')
-    } else {
-      data = this.props.data.privacyPolicy
-      header = t('views.privacyPolicy')
-      nextStepFunc = this.props.parentNextStep
+    const { privacyAccepted } = this.state;
+
+    if (privacyAccepted) {
+      this.props.parentNextStep();
     }
 
     return (
-      <div>
-        {
+      this.state.body && (
+        <div>
           <TermsPrivacyPresentational
-            data={data}
-            header={header}
-            nextStep={nextStepFunc}
-            previousStep={prevStepFunc}
+            data={this.state.body}
+            header={this.state.header}
+            step={this.state.step}
+            nextStep={this.nextStep}
+            previousStep={this.previousStep}
           />
-        }
-      </div>
-    )
+        </div>
+      )
+    );
   }
 }
 
-const mapDispatchToProps = {}
-
-export default withRouter(withI18n()(connect(
-  null,
-  mapDispatchToProps
-)(TermsPrivacy)))
+export default withI18n()(TermsPrivacy);

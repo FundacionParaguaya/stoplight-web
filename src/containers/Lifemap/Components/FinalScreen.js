@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withI18n } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import lifemap_complete_image from '../../../assets/lifemap_complete_image.png'
 import AppNavbar from '../../../components/AppNavbar'
 
@@ -33,7 +32,7 @@ class FinalScreen extends Component {
         <div style={{ paddingTop: 20 }}>
           <button
             className="btn btn-primary btn-lg btn-block"
-            onClick={() => submitDraft()}
+            onClick={submitDraft}
           >
             {t('general.close')}
           </button>
