@@ -14,6 +14,7 @@ class AppNavbar extends Component {
 
     this.handleShow = this.handleShow.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.handleExit = this.handleExit.bind(this)
 
     this.state = {
       show: false,
