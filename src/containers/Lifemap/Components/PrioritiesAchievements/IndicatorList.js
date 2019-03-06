@@ -5,6 +5,7 @@ import Modal from 'react-modal'
 import AppNavbar from '../../../../components/AppNavbar'
 
 import { addSurveyData, addSurveyDataWhole } from '../../../../redux/actions'
+import { STEPS } from '../../../../constants'
 import PrioritiesAchievementsForm from './PrioritiesAchievementsForm'
 
 const customStyles = {
@@ -101,6 +102,20 @@ class IndicatorList extends Component {
       modal: { formType: null, indicator: null, questionText: null }
     })
   }
+
+  jumpToNextStep = () => {
+    const {
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/${STEPS[10].slug}`,
+      state: {
+        surveyId
+      }
+    });
+  };
 
   // get this.props.surveys passed in
 
@@ -234,7 +249,7 @@ class IndicatorList extends Component {
             )}
             <button
               className="btn btn-primary btn-lg btn-block"
-              onClick={() => this.props.nextStep()}
+              onClick={this.props.parentNextStep}
               disabled
             >
               {t('general.continue')}
@@ -243,7 +258,7 @@ class IndicatorList extends Component {
         ) : (
           <button
             className="btn btn-primary btn-lg btn-block"
-            onClick={() => this.props.nextStep()}
+            onClick={this.props.parentNextStep}
           >
             {t('general.continue')}
           </button>
