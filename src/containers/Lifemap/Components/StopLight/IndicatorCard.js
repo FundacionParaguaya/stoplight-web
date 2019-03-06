@@ -1,5 +1,8 @@
 import React from 'react'
 import Spinner from '../../../../components/Spinner'
+
+import MaterialIcon from 'material-icons-react'
+
 const IndicatorCard = ({
   url,
   description,
@@ -23,12 +26,20 @@ const IndicatorCard = ({
             alt=""
             onLoad={() => cardImageLoaded()}
           />
-          <div style={{ marginTop: '1em' }}>
+          <div style={{ padding: '1em' }}>
             <p>{description}</p>
           </div>
         </div>
         <div className="card-footer">
-          {checkedAnswer ? <div>Checked</div> : ''} {' '}
+          {checkedAnswer ? (
+            <div className="checked-circle">
+              <span className="checked-icon">
+                <MaterialIcon icon="done" size={45} />
+              </span>
+            </div>
+          ) : (
+            ''
+          )}{' '}
         </div>
       </div>
     </div>
