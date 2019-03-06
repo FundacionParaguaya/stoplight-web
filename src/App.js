@@ -12,6 +12,7 @@ import i18n from './i18n'
 import Surveys from './containers/Surveys'
 import Lifemap from './containers/Lifemap'
 
+import Nav from './components/Nav'
 import Dots from './components/Dots'
 
 
@@ -65,6 +66,9 @@ class App extends Component {
         <Router>
         <div>
         <Dots />
+        <div>
+          <Nav />
+        </div>
         <div className="main-card card">
         <Switch>
         <Route exact path="/surveys" component={Surveys} />
