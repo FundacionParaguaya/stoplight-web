@@ -1,15 +1,13 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { logout, login } from "./redux/actions";
+import i18n from "./i18n";
 import Surveys from "./containers/Surveys";
 import Lifemap from "./containers/Lifemap";
 
+import Nav from "./components/Nav";
 import Dots from "./components/Dots";
 
 function getParams(location) {
@@ -42,6 +40,7 @@ function getParams(location) {
 class App extends Component {
   constructor(props) {
     super(props);
+    let url = new URL(window.location);
     this.state = {
       urlParams: getParams(window.location)
     };
@@ -49,14 +48,26 @@ class App extends Component {
     if (this.state.urlParams.sid !== "") {
       this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env);
     }
+
+    if (url.searchParams.get("lang")) {
+      let lang = url.searchParams.get("lang");
+      i18n.changeLanguage(lang);
+    }
   }
   render() {
-    const { state: { user: { token } } } = this.props;
+    const {
+      state: {
+        user: { token }
+      }
+    } = this.props;
     if (token) {
       return (
         <Router>
           <div>
             <Dots />
+            <div>
+              <Nav />
+            </div>
             <div className="main-card card">
               <Switch>
                 <Route exact path="/surveys" component={Surveys} />
@@ -69,7 +80,6 @@ class App extends Component {
     } else {
       return (
         <div>
-          {" "}
           <Dots />
         </div>
       );
