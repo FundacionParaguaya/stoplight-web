@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
-import { X, ArrowLeft } from 'react-feather'
+import MaterialIcon from 'material-icons-react'
+
 import { Modal } from 'react-bootstrap'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
@@ -48,7 +49,7 @@ class AppNavbar extends Component {
               className="btn btn-link app-navbar-back"
               onClick={this.props.backHandler}
             >
-              <ArrowLeft />
+              <MaterialIcon size={38} icon="arrow_back" />
             </button>
           ) : (
             ''
@@ -56,9 +57,14 @@ class AppNavbar extends Component {
           {this.props.text}
           <button
             className="btn btn-link app-navbar-close"
-            onClick={this.props.hasOwnProperty('draftOngoing') && this.props.draftOngoing === false ? this.handleExit : this.handleShow}
+            onClick={
+              this.props.hasOwnProperty('draftOngoing') &&
+              this.props.draftOngoing === false
+                ? this.handleExit
+                : this.handleShow
+            }
           >
-            <X />
+            <MaterialIcon size={38} icon="clear" />
           </button>
 
           <Modal show={this.state.show} onHide={this.handleClose}>

@@ -6,7 +6,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .h2,
@@ -30,7 +30,7 @@ select:focus {
   border: none;
   box-shadow: none;
   transition: all 0.4s;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
   font-weight: 600;
 }
 
@@ -269,10 +269,8 @@ nav {
   -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
 
-
   height: 90vh;
   overflow: scroll;
-
 }
 
 .small-card {
@@ -387,9 +385,44 @@ button.bg-success:hover {
   margin: 3px;
 }
 
-.map-input{
+.map-input {
   background: white;
   z-index: 9999;
   position: absolute;
   margin: 0.8em;
+}
+
+.card-footer {
+  background-color: transparent;
+}
+
+.checked-circle {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: -40px;
+}
+
+.bg-success .checked-circle {
+  background-color: #89bd76 !important;
+}
+
+.bg-warning .checked-circle {
+  background-color: #f0cb17 !important;
+}
+
+.bg-danger .checked-circle {
+  background-color: #e1504d !important;
+}
+
+.checked-icon {
+  height: 70px;
+  line-height: 70px;
+  font-size: -webkit-xxx-large;
+}
+
+.checked-icon .material-icons {
+  padding-top: 16px;
 }
