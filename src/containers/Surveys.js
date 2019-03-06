@@ -1,76 +1,116 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { logout, loadSurveys, loadFamilies, saveStep, saveDraftId, saveSurveyId } from './../redux/actions'
-import { Link } from 'react-router-dom'
-import { withI18n } from 'react-i18next'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  logout,
+  loadSurveys,
+  loadFamilies,
+  initStep,
+  initSurveyStatus,
+  saveStep,
+  saveDraftId,
+  saveSurveyId
+} from "./../redux/actions";
+import { STEPS } from '../constants';
+import { Link } from "react-router-dom";
+import { withI18n } from "react-i18next";
 
-import choose_lifemap_image from '../assets/choose_lifemap_image.png'
-import Spinner from '../components/Spinner'
-import AppNavbar from '../components/AppNavbar'
+import choose_lifemap_image from "../assets/choose_lifemap_image.png";
+import Spinner from "../components/Spinner";
+import AppNavbar from "../components/AppNavbar";
 
 export class Surveys extends Component {
   componentDidMount() {
-    this.loadData()
+    this.loadData();
   }
 
   loadData = () => {
-    this.props.loadSurveys()
-  }
+    this.props.loadSurveys();
+    this.props.initStep();
+    this.props.initSurveyStatus("socioEconomicStep");
+    this.props.initSurveyStatus("stoplightIndicatorStep");
+  };
 
   render() {
-    const { t } = this.props
+    const { t, surveyStatus, surveys, drafts, saveStep, saveDraftId } = this.props;
     return (
       <div className="small-card">
-        <AppNavbar text={t('views.createLifemap')} showBack={false} draftOngoing={this.props.surveyStatus.draftId !== null ? true : false} />
+        <AppNavbar
+          text={t("views.createLifemap")}
+          showBack={false}
+          draftOngoing={surveyStatus.draftId ? true : false}
+        />
         <div className="text-center">
           <img src={choose_lifemap_image} alt="choose_lifemap_image" />
         </div>
-        {this.props.surveys.length === 0 ? (
+        {surveys.length === 0 ? (
           <Spinner />
         ) : (
           <div>
-          {this.props.surveyStatus.draftId !== null ? (<div className="card-list"><div className="card-body"><Link to={{pathname:`/lifemap`, state:{surveyId: this.props.surveyStatus.surveyId}}} > Click to resume latest Draft </Link></div></div>): (<div> </div>)}
-          {this.props.surveys.map((survey, i) => (
-            <div key={survey.id} style={{ marginTop: 30 }}>
-              <Link
-                to={{
-                  pathname: `/lifemap`,
-                  state: {
-                    surveyId: survey.id
-                  }
-                }}
-                onClick={() => {this.props.saveStep(1); this.props.saveDraftId(null); }}
-              >
-                <div className="card-list">
-                  <div className="card-body">{survey.title}</div>
+            {surveyStatus.draftId && (
+              <div className="card-list">
+                <div className="card-body">
+                  <Link
+                    to={{
+                      pathname: `/lifemap/${drafts.filter(draft => draft.draftId === surveyStatus.draftId)[0].surveyId}`,
+                      state: { surveyId: drafts.filter(draft => draft.draftId === surveyStatus.draftId)[0].surveyId }
+                    }}
+                    onClick={() => saveStep(STEPS[0].id)}
+                  >
+                    {" "}
+                    Click to resume latest Draft{" "}
+                  </Link>
                 </div>
-              </Link>
-            </div>
-          ))}
+              </div>
+            )}
+            {surveys.map(survey => (
+              <div key={survey.id} style={{ marginTop: 30 }}>
+                <div className="card-list">
+                  <div className="card-body">
+                    <Link
+                      to={{
+                        pathname: `/lifemap/${survey.id}`,
+                        state: {
+                          surveyId: survey.id
+                        }
+                      }}
+                      onClick={() => {
+                        saveStep(STEPS[0].id);
+                        saveDraftId(null);
+                      }}
+                    >
+                      {survey.title}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ surveys, surveyStatus }) => ({
+const mapStateToProps = ({ surveys, surveyStatus, drafts }) => ({
   surveys,
-  surveyStatus
-})
+  surveyStatus,
+  drafts
+});
 
 const mapDispatchToProps = {
   logout,
   loadSurveys,
   loadFamilies,
+  initSurveyStatus,
+  initStep,
   saveStep,
   saveDraftId,
-  saveSurveyId
-}
+  saveSurveyId,
+};
 
 export default withI18n()(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(Surveys)
-)
+);

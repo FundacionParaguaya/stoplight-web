@@ -7,8 +7,6 @@ const StopLightPresentational = ({
   index,
   total,
   nextStep,
-  previousStep,
-  parentPreviousStep,
   imagesLoaded,
   updateImageStatus,
   checkedAnswer
