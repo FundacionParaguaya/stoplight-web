@@ -1,19 +1,14 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Form, Field } from 'react-final-form'
-import { withI18n } from 'react-i18next'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Form, Field } from "react-final-form";
+import { withI18n } from "react-i18next";
 
-import { addSurveyFamilyMemberData } from '../../../../redux/actions'
-import AppNavbar from '../../../../components/AppNavbar'
+import { addSurveyFamilyMemberData } from "../../../../redux/actions";
+import AppNavbar from "../../../../components/AppNavbar";
 
 class FamilyGender extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
   getDraft = () =>
-    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0];
 
   addFamilyMemberGender = (gender, index) => {
     this.props.addSurveyFamilyMemberData({
@@ -22,21 +17,21 @@ class FamilyGender extends Component {
       payload: {
         gender
       }
-    })
-  }
+    });
+  };
 
   render() {
-    const { t } = this.props
-    const draft = this.getDraft()
+    const { t } = this.props;
+    const draft = this.getDraft();
 
     const additionalMembersList = draft.familyData.familyMembersList.filter(
       member => member.firstParticipant === false
-    )
+    );
 
-    let initialValues = {}
+    let initialValues = {};
     additionalMembersList.forEach((member, idx) => {
-      initialValues[`gender${idx}`] = member.gender || null
-    })
+      initialValues[`gender${idx}`] = member.gender || null;
+    });
 
     const forms = additionalMembersList.map((member, idx) => {
       return (
@@ -48,7 +43,7 @@ class FamilyGender extends Component {
             className="custom-select"
           >
             <option value="" disabled>
-              {t('views.family.selectGender')}
+              {t("views.family.selectGender")}
             </option>
             {this.props.data.gender.map(gender => (
               <option value={gender.value} key={gender.text + gender.value}>
@@ -57,26 +52,24 @@ class FamilyGender extends Component {
             ))}
           </Field>
         </div>
-      )
-    })
+      );
+    });
 
     return (
       <div>
         <AppNavbar
-          text={t('views.gender')}
+          text={t("views.gender")}
           showBack={true}
           backHandler={this.props.previousStep}
         />
         <Form
           onSubmit={(values, form) => {
-
             Object.keys(values)
-              .filter(key => key.includes('gender'))
+              .filter(key => key.includes("gender"))
               .forEach((key, index) => {
-                this.addFamilyMemberGender(values[key], index + 1)
-              })
-
-            this.props.nextStep()
+                this.addFamilyMemberGender(values[key], index + 1);
+              });
+            this.props.parentNextStep();
           }}
           initialValues={initialValues}
           render={({
@@ -97,29 +90,29 @@ class FamilyGender extends Component {
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
                 >
-                  {t('general.continue')}
+                  {t("general.continue")}
                 </button>
               </div>
             </form>
           )}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = {
   addSurveyFamilyMemberData
-}
+};
 
 const mapStateToProps = ({ surveys, drafts }) => ({
   surveys,
   drafts
-})
+});
 
 export default withI18n()(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(FamilyGender)
-)
+);
