@@ -1,110 +1,124 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { modifySurveyStatus } from '../../../../redux/actions'
-import SocioEconomicPresentational from './SocioEconomicPresentational'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Route, Redirect, Switch } from "react-router-dom";
+import { modifySurveyStatus } from "../../../../redux/actions";
+import SocioEconomicPresentational from "./SocioEconomicPresentational";
 
 class SocioEconomic extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      step: this.props.surveyStatus.socioEconomicStep,
+      step: this.props.surveyStatus.socioEconomicStep || 0,
       surveyEconomicQuestions: this.formatQuestions(this.props.data),
       answers: []
-    }
+    };
+  }
+  
+  componentDidMount() {
+    this.props.modifySurveyStatus("socioEconomicStep", this.state.step);
   }
 
   formatQuestions = questions => {
-    let categories = {}
-    let res = []
+    let categories = {};
+    let res = [];
     questions.forEach(question => {
       if (question.required === true) {
         // add '*' to appear beside required question texts
         // but remove first if it already exists
-        question.questionText = question.questionText.split(' *')[0]
-        question.questionText += ' *'
+        question.questionText = question.questionText.split(" *")[0];
+        question.questionText += " *";
       }
       if (!categories.hasOwnProperty(question.topic)) {
-        categories[question.topic] = []
-        categories[question.topic].push(question)
+        categories[question.topic] = [];
+        categories[question.topic].push(question);
       } else {
-        categories[question.topic].push(question)
+        categories[question.topic].push(question);
       }
-    })
+    });
     for (var key in categories) {
-      res.push({ category: key, sortedQuestions: categories[key] })
+      res.push({ category: key, sortedQuestions: categories[key] });
     }
-    return res
-  }
-
-  nextStep = () => {
-    const { step } = this.state
-    this.setState({ step: step + 1 })
-    this.props.modifySurveyStatus('socioEconomicStep', step+1)
-  }
-
-  previousStep = () => {
-    const { step } = this.state
-    this.setState({ step: step - 1 })
-    this.props.modifySurveyStatus('socioEconomicStep', step-1)
-  }
+    return res;
+  };
 
   render() {
-    const splicedSurveyQuestions =
-      this.state.surveyEconomicQuestions &&
-      this.state.surveyEconomicQuestions.filter(
-        (category, index) => index === this.state.step
-      )
+    const { match, location } = this.props;
+    return this.state.surveyEconomicQuestions.map(
+      (question, idx, questions) => {
+        const splicedSurveyQuestions =
+          questions && questions.filter((category, index) => index === idx);
 
-    const requiredQuestions = splicedSurveyQuestions.map(data =>
-      data.sortedQuestions.filter(question => question.required)
-    )
+        const requiredQuestions = splicedSurveyQuestions.map(data =>
+          data.sortedQuestions.filter(question => question.required)
+        );
 
-    let requiredCodeNames = requiredQuestions[0].map(
-      question => question.codeName
-    )
+        let requiredCodeNames = requiredQuestions[0].map(
+          question => question.codeName
+        );
 
-    const validate = values => {
-      const errors = {}
-      requiredCodeNames.forEach(codeName => {
-        if (!values[codeName]) {
-          errors[codeName] = 'Required'
-        }
-      })
-      return errors
-    }
+        const validate = values => {
+          const errors = {};
+          requiredCodeNames.forEach(codeName => {
+            if (!values[codeName]) {
+              errors[codeName] = "Required";
+            }
+          });
+          return errors;
+        };
 
-    return (
-      <div>
-        {
-          <SocioEconomicPresentational
-            draftId={this.props.draftId}
-            data={splicedSurveyQuestions[0]}
-            index={this.state.step}
-            total={this.state.surveyEconomicQuestions.length}
-            nextStep={this.nextStep}
-            previousStep={this.previousStep}
-            parentPreviousStep={this.props.parentPreviousStep}
-            parentStep={this.props.parentNextStep}
-            requiredQuestions={requiredQuestions}
-            validate={validate}
-          />
-        }
-      </div>
-    )
+        return (
+          <Switch>
+            <Route
+              exact
+              path={match.url}
+              render={() => (
+                <Redirect
+                  push
+                  to={{
+                    pathname: `${match.url}/${this.state.step}`,
+                    state: {
+                      surveyId: location.state.surveyId
+                    }
+                  }}
+                />
+              )}
+            />
+            <Route
+              path={`${this.props.match.url}/${idx}`}
+              render={props => (
+                <div>
+                  <SocioEconomicPresentational
+                    {...props}
+                    draftId={this.props.draftId}
+                    data={splicedSurveyQuestions[0]}
+                    index={idx}
+                    total={this.state.surveyEconomicQuestions.length}
+                    parentPreviousStep={this.props.parentPreviousStep}
+                    parentStep={this.props.parentNextStep}
+                    requiredQuestions={requiredQuestions}
+                    validate={validate}
+                  />
+                </div>
+              )}
+            />
+          </Switch>
+        );
+      }
+    );
   }
 }
 
 const mapDispatchToProps = {
   modifySurveyStatus
-}
+};
 
 const mapStateToProps = ({ surveys, drafts, surveyStatus }) => ({
   surveys,
   drafts,
   surveyStatus
-})
+});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SocioEconomic)
+)(SocioEconomic);

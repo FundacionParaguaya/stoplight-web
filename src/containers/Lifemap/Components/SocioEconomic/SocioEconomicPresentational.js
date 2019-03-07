@@ -1,66 +1,108 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Form } from 'react-final-form'
-import { addSurveyData } from '../../../../redux/actions'
-import { withI18n } from 'react-i18next'
-import SocioEconomicQuestion from './SocioEconomicQuestion'
-
-import AppNavbar from '../../../../components/AppNavbar'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Form } from "react-final-form";
+import { addSurveyData, modifySurveyStatus } from "../../../../redux/actions";
+import { STEPS } from "../../../../constants";
+import { withI18n } from "react-i18next";
+import SocioEconomicQuestion from "./SocioEconomicQuestion";
+import AppNavbar from "../../../../components/AppNavbar";
 
 class SocioEconomicPresentational extends Component {
-  goBack() {
+  state = {
+    step: this.props.surveyStatus.socioEconomicStep || 0,
+  };
+
+  goBack = () => {
     if (this.props.index === 0) {
-      return this.props.parentPreviousStep
+      this.props.parentPreviousStep();
     } else {
-      return this.props.previousStep
+      this.previousStep();
     }
   }
 
   getDraft = () =>
-    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0]
+    this.props.drafts.filter(draft => draft.draftId === this.props.draftId)[0];
 
-  getSocioEconomicAnswer = (question) => {
-    let draft = this.getDraft()
-    let currentAnswer = draft.economicSurveyDataList.filter(answer => answer.key === question.codeName)[0] ? draft.economicSurveyDataList.filter(answer => answer.key === question.codeName)[0].value : null
-    return currentAnswer
-  }
+  getSocioEconomicAnswer = question => {
+    let draft = this.getDraft();
+    let currentAnswer = draft.economicSurveyDataList.filter(
+      answer => answer.key === question.codeName
+    )[0]
+      ? draft.economicSurveyDataList.filter(
+          answer => answer.key === question.codeName
+        )[0].value
+      : null;
+    return currentAnswer;
+  };
 
-  initData = (questions) => {
+  initData = questions => {
     // loop through questions and build array from it
-    let res = {}
-    questions.forEach((question) => {
-      res[question.codeName] = this.getSocioEconomicAnswer(question)
-    })
-    return res
+    let res = {};
+    questions.forEach(question => {
+      res[question.codeName] = this.getSocioEconomicAnswer(question);
+    });
+    return res;
+  };
 
-  }
+  previousStep = () => {
+    const { step } = this.state;
+    const {
+      index,
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    this.setState({ step: step - 1 });
+    this.props.modifySurveyStatus("socioEconomicStep", step - 1);
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/${STEPS[6].slug}/${index - 1}`,
+      state: { surveyId }
+    });
+  };
+
+  nextStep = () => {
+    const { step } = this.state;
+    const {
+      index,
+      location: {
+        state: { surveyId }
+      }
+    } = this.props;
+    this.setState({ step: step + 1 });
+    this.props.modifySurveyStatus("socioEconomicStep", step + 1);
+    this.props.history.push({
+      pathname: `/lifemap/${surveyId}/${STEPS[6].slug}/${index + 1}`,
+      state: { surveyId }
+    });
+  };
 
   render() {
-    const { t } = this.props
-    const questions = this.props.data.sortedQuestions
-    const category = this.props.data.category
-    let initialValues = this.initData(questions)
+    const { t } = this.props;
+    const questions = this.props.data.sortedQuestions;
+    const category = this.props.data.category;
+    let initialValues = this.initData(questions);
+
     return (
       <div>
         <AppNavbar
           text={category}
           showBack={true}
-          backHandler={this.goBack()}
+          backHandler={this.goBack}
         />
         <Form
           onSubmit={(values, form) => {
             Object.keys(values).forEach(key => {
               this.props.addSurveyData(
                 this.props.draftId,
-                'economicSurveyDataList',
+                "economicSurveyDataList",
                 { [key]: values[key] }
-              )
-            })
+              );
+            });
 
             if (this.props.index === this.props.total - 1) {
-              this.props.parentStep()
+              this.props.parentStep();
             } else {
-              this.props.nextStep()
+              this.nextStep();
             }
           }}
           validate={this.props.validate}
@@ -80,29 +122,31 @@ class SocioEconomicPresentational extends Component {
                   type="submit"
                   className="btn btn-primary btn-lg btn-block"
                 >
-                  {t('general.continue')}
+                  {t("general.continue")}
                 </button>
               </div>
             </form>
           )}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = {
-  addSurveyData
-}
+  addSurveyData,
+  modifySurveyStatus,
+};
 
-const mapStateToProps = ({ surveys, drafts }) => ({
+const mapStateToProps = ({ surveys, drafts, surveyStatus }) => ({
   surveys,
-  drafts
-})
+  drafts,
+  surveyStatus
+});
 
 export default withI18n()(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(SocioEconomicPresentational)
-)
+);

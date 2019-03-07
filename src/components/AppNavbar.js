@@ -1,20 +1,23 @@
 import React, { Component } from 'react'
 
-import { X, ArrowLeft } from 'react-feather'
+import MaterialIcon from 'material-icons-react'
+
 import { Modal } from 'react-bootstrap'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 
 import { withI18n } from 'react-i18next'
+
 class AppNavbar extends Component {
   constructor(props, context) {
     super(props, context)
 
     this.handleShow = this.handleShow.bind(this)
     this.handleClose = this.handleClose.bind(this)
+    this.handleExit = this.handleExit.bind(this)
 
     this.state = {
-      show: false
+      show: false,
     }
   }
 
@@ -27,7 +30,11 @@ class AppNavbar extends Component {
   }
 
   handleExit() {
-    window.location.href = 'https://testing.povertystoplight.org'
+    let env = this.props.user.env
+    if(env === "test"){
+      env = "testing"
+    }
+    window.location.href = `https://${env}.povertystoplight.org`
   }
 
   render() {
@@ -43,7 +50,7 @@ class AppNavbar extends Component {
               className="btn btn-link app-navbar-back"
               onClick={this.props.backHandler}
             >
-              <ArrowLeft />
+              <MaterialIcon size={38} icon="arrow_back" />
             </button>
           ) : (
             ''
@@ -51,9 +58,14 @@ class AppNavbar extends Component {
           {this.props.text}
           <button
             className="btn btn-link app-navbar-close"
-            onClick={this.props.hasOwnProperty('draftOngoing') && this.props.draftOngoing === false ? this.handleExit : this.handleShow}
+            onClick={
+              this.props.hasOwnProperty('draftOngoing') &&
+              this.props.draftOngoing === false
+                ? this.handleExit
+                : this.handleShow
+            }
           >
-            <X />
+            <MaterialIcon size={38} icon="clear" />
           </button>
 
           <Modal show={this.state.show} onHide={this.handleClose}>
@@ -82,4 +94,8 @@ class AppNavbar extends Component {
   }
 }
 
-export default withI18n()(connect()(AppNavbar))
+const mapStateToProps = ({user}) => ({
+  user
+})
+
+export default withI18n()(connect(mapStateToProps)(AppNavbar))

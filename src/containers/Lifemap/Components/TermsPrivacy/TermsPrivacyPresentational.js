@@ -1,12 +1,23 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { withI18n } from 'react-i18next'
-import Checkbox from '../../../../assets/Checkbox.png'
-import AppNavbar from '../../../../components/AppNavbar'
-const TermsPrivacyPresentational = ({ data, header, nextStep, previousStep, t }) => {
+import React from "react";
+import { Link } from "react-router-dom";
+import { withI18n } from "react-i18next";
+import Checkbox from "../../../../assets/Checkbox.png";
+import AppNavbar from "../../../../components/AppNavbar";
+const TermsPrivacyPresentational = ({
+  data,
+  header,
+  nextStep,
+  previousStep,
+  t,
+}) => {
   return (
     <div>
-      <AppNavbar text={header} showBack={true} draftOngoing={false} backHandler={() => previousStep()}/>
+      <AppNavbar
+        text={header}
+        showBack={true}
+        draftOngoing={false}
+        backHandler={() => previousStep()}
+      />
       <div className="text-center">
         <img src={Checkbox} alt="chekbox" />
       </div>
@@ -17,13 +28,13 @@ const TermsPrivacyPresentational = ({ data, header, nextStep, previousStep, t })
         </div>
         <p
           dangerouslySetInnerHTML={{
-            __html: data.text.split('\\n').join('<br/>')
+            __html: data.text.split("\\n").join("<br/>")
           }}
         />
         <p className="lead text-center">
-          <Link to={`/surveys`}>
+          <Link to="/surveys">
             <button className="btn btn-lg col-4" href="#">
-              {t('general.disagree')}
+              {t("general.disagree")}
             </button>
           </Link>
           <button
@@ -31,12 +42,12 @@ const TermsPrivacyPresentational = ({ data, header, nextStep, previousStep, t })
             href="#"
             onClick={() => nextStep()}
           >
-            {t('general.agree')}
+            {t("general.agree")}
           </button>
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default withI18n()(TermsPrivacyPresentational)
+export default withI18n()(TermsPrivacyPresentational);
