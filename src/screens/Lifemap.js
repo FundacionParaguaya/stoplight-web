@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
+import Terms from './Terms'
 
 class Lifemap extends Component {
   render() {
-    return <h1>Lifemap</h1>
+    return (
+      <div>
+        <p>Lifemap</p>
+        <Route path={`${this.props.match.path}/terms`} component={Terms} />
+      </div>
+    )
   }
 }
 

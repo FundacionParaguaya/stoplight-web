@@ -9,7 +9,7 @@ import { theme } from './theme'
 class Header extends Component {
   render() {
     const { classes } = this.props
-    console.log(theme)
+
     return (
       <AppBar className={classes.header} position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
