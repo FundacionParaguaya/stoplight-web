@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { updateUser } from '../redux/actions'
 
 export class Surveys extends Component {
   componentDidMount() {
     const { location, updateUser } = this.props
-
-    console.log(document.referrer.split('.').length > 1)
 
     // check for user token from the location params
     if (location.search) {
