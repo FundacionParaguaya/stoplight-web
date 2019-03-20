@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-import Terms from './Terms'
+import TermsView from './Terms'
+import PrimaryParticipant from './PrimaryParticipant'
 
 class Lifemap extends Component {
   render() {
     return (
       <div>
-        <p>Lifemap</p>
-        <Route path={`${this.props.match.path}/terms`} component={Terms} />
+        <h1>Lifemap</h1>
+        <Route path={`${this.props.match.path}/terms`} component={TermsView} />
+        <Route
+          path={`${this.props.match.path}/privacy`}
+          component={TermsView}
+        />
+        <Route
+          path={`${this.props.match.path}/primary-participan`}
+          component={PrimaryParticipant}
+        />
       </div>
     )
   }
