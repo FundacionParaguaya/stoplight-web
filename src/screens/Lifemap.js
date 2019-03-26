@@ -14,7 +14,7 @@ class Lifemap extends Component {
           component={TermsView}
         />
         <Route
-          path={`${this.props.match.path}/primary-participan`}
+          path={`${this.props.match.path}/primary-participant`}
           component={PrimaryParticipant}
         />
       </div>

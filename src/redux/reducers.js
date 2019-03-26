@@ -18,7 +18,7 @@ export const user = (state = null, action) => {
   }
 }
 
-// Current surcey
+// Current survey
 export const currentSurvey = (state = null, action) => {
   switch (action.type) {
     case UPDATE_SURVEY:
