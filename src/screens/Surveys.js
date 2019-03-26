@@ -40,7 +40,11 @@ export class Surveys extends Component {
 
   componentDidMount() {
     // check for user token from the location params
-    const token = this.props.location.search.match(/sid=(.*)&/)[1] || null
+    const token =
+      (this.props.user && this.props.user.token) ||
+      (this.props.location.search.match(/sid=(.*)&/)
+        ? this.props.location.search.match(/sid=(.*)&/)[1]
+        : null)
 
     if (!this.props.user && token) {
       this.setupUser(token)
