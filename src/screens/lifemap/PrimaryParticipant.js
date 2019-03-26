@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Button from '@material-ui/core/Button'
 import uuid from 'uuid/v1'
-import { updateDraft } from '../redux/actions'
+import { updateDraft } from '../../redux/actions'
 
 export class Terms extends Component {
   createNewDraft() {
@@ -27,15 +28,28 @@ export class Terms extends Component {
       }
     })
   }
+
+  handleContinue = () => {
+    // validation happens here
+    this.props.history.push('/lifemap/location')
+  }
+
   componentDidMount() {
     // if there is no current draft in the store create a new one
     if (!this.props.currentDraft) {
       this.createNewDraft()
     }
   }
+
   render() {
-    console.log(this.props.currentDraft)
-    return <div>Primary Participant</div>
+    return (
+      <div>
+        <h2>Primary Participant</h2>
+        <Button variant="contained" fullWidth onClick={this.handleContinue}>
+          Continue
+        </Button>
+      </div>
+    )
   }
 }
 
