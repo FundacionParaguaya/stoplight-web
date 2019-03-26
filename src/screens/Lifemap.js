@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import TermsView from './Terms'
-import PrimaryParticipant from './PrimaryParticipant'
+import PrimaryParticipant from './lifemap/PrimaryParticipant'
+import Location from './lifemap/Location'
 
 class Lifemap extends Component {
   render() {
@@ -16,6 +17,10 @@ class Lifemap extends Component {
         <Route
           path={`${this.props.match.path}/primary-participant`}
           component={PrimaryParticipant}
+        />
+        <Route
+          path={`${this.props.match.path}/location`}
+          component={Location}
         />
       </div>
     )
