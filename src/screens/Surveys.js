@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import { updateUser, updateSurvey, updateDraft } from '../redux/actions'
+import { updateUser, updateSurvey } from '../redux/actions'
 import { getSurveys } from '../api'
 
 export class Surveys extends Component {
@@ -97,7 +97,7 @@ const styles = {
 
 const mapStateToProps = ({ user }) => ({ user })
 
-const mapDispatchToProps = { updateUser, updateSurvey, updateDraft }
+const mapDispatchToProps = { updateUser, updateSurvey }
 
 export default withRouter(
   withStyles(styles)(
