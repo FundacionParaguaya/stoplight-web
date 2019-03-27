@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import { updateUser, updateSurvey } from '../redux/actions'
+import { updateUser, updateSurvey, updateDraft } from '../redux/actions'
 import { getSurveys } from '../api'
 
 export class Surveys extends Component {
@@ -62,8 +62,7 @@ export class Surveys extends Component {
     })
 
     return {
-      questionsPerScreen,
-      totalScreens
+      questionsPerScreen
     }
   }
 
@@ -74,6 +73,9 @@ export class Surveys extends Component {
   }
 
   componentDidMount() {
+    // clear current draft from store
+    this.props.updateDraft(null)
+
     // check for user token from the location params
     const token = this.props.location.search.match(/sid=(.*)&/)
       ? this.props.location.search.match(/sid=(.*)&/)[1]
@@ -128,7 +130,7 @@ const styles = {
 
 const mapStateToProps = ({ user }) => ({ user })
 
-const mapDispatchToProps = { updateUser, updateSurvey }
+const mapDispatchToProps = { updateUser, updateSurvey, updateDraft }
 
 export default withRouter(
   withStyles(styles)(

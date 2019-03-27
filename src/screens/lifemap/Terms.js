@@ -28,7 +28,7 @@ export class Terms extends Component {
     const { classes, currentSurvey } = this.props
 
     return (
-      <div className={classes.mainContainerTermsAndPolicy}>
+      <div>
         <div className={classes.titleAndIconContainerPolicy}>
           <i
             onClick={this.props.history.goBack}
@@ -115,10 +115,6 @@ const styles = {
     alignItems: 'center'
   },
   titleMainTerms: {
-    margin: 'auto'
-  },
-  mainContainerTermsAndPolicy: {
-    width: 600,
     margin: 'auto'
   },
   list: {

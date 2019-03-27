@@ -13,7 +13,6 @@ class Lifemap extends Component {
   render() {
     return (
       <div>
-        <h1>Lifemap</h1>
         <Route path={`${this.props.match.path}/terms`} component={TermsView} />
         <Route
           path={`${this.props.match.path}/privacy`}

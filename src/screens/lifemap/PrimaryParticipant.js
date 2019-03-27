@@ -66,9 +66,9 @@ export class PrimaryParticipant extends Component {
 
   render() {
     const { t } = this.props
-    const participant = this.props.currentDraft.familyData.familyMembersList[0]
-
-    console.log(this.props.currentSurvey.surveyConfig.documentType)
+    const participant = this.props.currentDraft
+      ? this.props.currentDraft.familyData.familyMembersList[0]
+      : {}
 
     return (
       <div>
