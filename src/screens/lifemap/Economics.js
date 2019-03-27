@@ -3,11 +3,10 @@ import { connect } from 'react-redux'
 import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
 
-export class Location extends Component {
+export class SocioEconomict extends Component {
   handleContinue = () => {
-    console.log(this.props.currentSurvey)
     // validation happens here
-    // this.props.history.push('/lifemap/location')
+    this.props.history.push('/lifemap/location')
   }
 
   componentDidMount() {
@@ -36,4 +35,4 @@ const mapDispatchToProps = { updateDraft }
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Location)
+)(SocioEconomict)

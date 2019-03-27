@@ -33,8 +33,44 @@ export class Surveys extends Component {
       .catch(error => {})
   }
 
+  getEconomicScreens(survey) {
+    let currentDimension = ''
+    let questionsPerScreen = []
+    let totalScreens = 0
+
+    // go trough all questions and separate them by screen
+    survey.surveyEconomicQuestions.forEach(question => {
+      // if the dimention of the questions change, change the page
+      if (question.topic !== currentDimension) {
+        currentDimension = question.topic
+        totalScreens += 1
+      }
+
+      // if there is object for n screen create one
+      if (!questionsPerScreen[totalScreens - 1]) {
+        questionsPerScreen[totalScreens - 1] = {
+          forFamilyMember: [],
+          forFamily: []
+        }
+      }
+
+      if (question.forFamilyMember) {
+        questionsPerScreen[totalScreens - 1].forFamilyMember.push(question)
+      } else {
+        questionsPerScreen[totalScreens - 1].forFamily.push(question)
+      }
+    })
+
+    return {
+      currentScreen: 0,
+      questionsPerScreen,
+      totalScreens
+    }
+  }
+
   handleClickOnSurvey = survey => {
-    this.props.updateSurvey(survey)
+    const economicScreens = this.getEconomicScreens(survey)
+    this.props.updateSurvey({ ...survey, economicScreens })
     this.props.history.push('/lifemap/terms')
   }
 
