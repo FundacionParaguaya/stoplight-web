@@ -13,7 +13,6 @@ export class Surveys extends Component {
   }
 
   setupUser(token) {
-    console.log(token)
     this.props.updateUser({
       username: 'cannot get user name at this stage',
       token,
