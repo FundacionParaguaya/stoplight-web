@@ -7,7 +7,7 @@ export class Location extends Component {
   handleContinue = () => {
     console.log(this.props.currentSurvey)
     // validation happens here
-    // this.props.history.push('/lifemap/location')
+    this.props.history.push('/lifemap/economics/0')
   }
 
   componentDidMount() {

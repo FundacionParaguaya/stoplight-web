@@ -13,6 +13,7 @@ export class Surveys extends Component {
   }
 
   setupUser(token) {
+    console.log(token)
     this.props.updateUser({
       username: 'cannot get user name at this stage',
       token,
@@ -62,7 +63,6 @@ export class Surveys extends Component {
     })
 
     return {
-      currentScreen: 0,
       questionsPerScreen,
       totalScreens
     }
@@ -76,15 +76,11 @@ export class Surveys extends Component {
 
   componentDidMount() {
     // check for user token from the location params
-    const token =
-      (this.props.user && this.props.user.token) ||
-      (this.props.location.search.match(/sid=(.*)&/)
-        ? this.props.location.search.match(/sid=(.*)&/)[1]
-        : null)
+    const token = this.props.location.search.match(/sid=(.*)&/)
+      ? this.props.location.search.match(/sid=(.*)&/)[1]
+      : null
 
-    if (!this.props.user && token) {
-      this.setupUser(token)
-    }
+    this.setupUser(token)
 
     if (this.props.user) {
       this.getSurveys()
