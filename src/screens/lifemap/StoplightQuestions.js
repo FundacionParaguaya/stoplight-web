@@ -3,34 +3,29 @@ import { connect } from 'react-redux'
 import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
 
-export class Economics extends Component {
+export class StoplightQuestions extends Component {
   state = {
-    questions: null,
-    topic: ''
+    question: null
   }
   handleContinue = () => {
-    // validation happens here
-
-    const currentEconomicsPage = this.props.match.params.page
+    const currentQuestionPage = this.props.match.params.page
     if (
-      currentEconomicsPage <
-      this.props.currentSurvey.economicScreens.totalScreens - 1
+      currentQuestionPage <
+      this.props.currentSurvey.surveyStoplightQuestions.length - 1
     ) {
       this.props.history.push(
-        `/lifemap/economics/${parseInt(currentEconomicsPage, 10) + 1}`
+        `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
       )
     } else {
-      this.props.history.push('/lifemap/begin-stoplight')
+      this.props.history.push('/lifemap/overview')
     }
   }
 
   setCurrentScreen() {
-    const questions = this.props.currentSurvey.economicScreens
-      .questionsPerScreen[this.props.match.params.page]
-
     this.setState({
-      questions,
-      topic: questions.forFamily[0].topic
+      question: this.props.currentSurvey.surveyStoplightQuestions[
+        this.props.match.params.page
+      ]
     })
   }
 
@@ -45,17 +40,12 @@ export class Economics extends Component {
   }
 
   render() {
-    const { questions, topic } = this.state
+    const { question } = this.state
 
     return (
       <div>
-        <h2>{topic}</h2>
+        <h2>{question && question.questionText}</h2>
 
-        {/* List of questions for current topic */}
-        {questions &&
-          questions.forFamily.map(question => (
-            <p key={question.codeName}>{question.questionText}</p>
-          ))}
         <Button variant="contained" fullWidth onClick={this.handleContinue}>
           Continue
         </Button>
@@ -74,4 +64,4 @@ const mapDispatchToProps = { updateDraft }
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Economics)
+)(StoplightQuestions)
