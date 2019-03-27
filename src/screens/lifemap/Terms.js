@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import Checkbox from '../../assets/Checkbox.png'
+import { withTranslation } from 'react-i18next'
+import TopTitleContainer from './reusable/TopTitleContainer'
 export class Terms extends Component {
   state = {
     title:
@@ -25,24 +27,15 @@ export class Terms extends Component {
     this.props.history.push('/')
   }
   render() {
-    const { classes, currentSurvey } = this.props
-
+    const { classes, t } = this.props
     return (
       <div>
-        <div className={classes.titleAndIconContainerPolicy}>
-          <i
-            onClick={this.props.history.goBack}
-            style={{ cursor: 'pointer', fontSize: 32 }}
-            className="material-icons"
-          >
-            arrow_back
-          </i>
-          {this.props.location.pathname === '/lifemap/terms' ? (
-            <h2 className={classes.titleMainTerms}>Terms and Conditions</h2>
-          ) : (
-            <h2 className={classes.titleMainTerms}>Privacy Policy</h2>
-          )}
-        </div>
+        {this.props.location.pathname === '/lifemap/terms' ? (
+          <TopTitleContainer title={t('views.termsConditions')} />
+        ) : (
+          <TopTitleContainer title={t('views.privacyPolicy')} />
+        )}
+
         <div className={classes.CheckboxImgAndTitleContainer}>
           <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
           <div className={classes.lowerTitle}>{this.state.title}</div>
@@ -57,7 +50,7 @@ export class Terms extends Component {
             className={classes.buttonTermsDisagree}
             onClick={this.handleDisagree}
           >
-            Disagree
+            {t('general.disagree')}
           </Button>
           <Button
             className={classes.buttonTermsAgree}
@@ -65,7 +58,7 @@ export class Terms extends Component {
             color="primary"
             onClick={this.handleContinue}
           >
-            Agree
+            {t('general.agree')}
           </Button>
         </div>
       </div>
@@ -108,15 +101,6 @@ const styles = {
   termsCheckboxImage: {
     margin: 'auto'
   },
-  titleAndIconContainerPolicy: {
-    backgroundColor: '#faefe1',
-    display: 'flex',
-    padding: '10px 25px 10px 10px',
-    alignItems: 'center'
-  },
-  titleMainTerms: {
-    margin: 'auto'
-  },
   list: {
     display: 'flex',
     flexDirection: 'column'
@@ -126,11 +110,6 @@ const styles = {
   }
 }
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
-
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-
-    {}
-  )(Terms)
+  connect(mapStateToProps)(withTranslation()(Terms))
 )
