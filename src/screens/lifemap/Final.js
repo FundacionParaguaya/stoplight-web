@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 export class Final extends Component {
   handleSubmit = () => {
     // submiting to server happens here
-    this.props.history.push('/surveys')
+    this.props.history.push(`/surveys?sid=${this.props.user.token}&lang=en`)
   }
   render() {
     return (
@@ -19,7 +19,7 @@ export class Final extends Component {
   }
 }
 
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+const mapStateToProps = ({ currentdDraft, user }) => ({ currentdDraft, user })
 
 export default connect(
   mapStateToProps,
