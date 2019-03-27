@@ -7,6 +7,7 @@ import EconomicsScreen from './lifemap/Economics'
 import BeginStoplight from './lifemap/BeginStoplight'
 import StoplightQuestions from './lifemap/StoplightQuestions'
 import OverviewScreen from './lifemap/Overview'
+import FinalScreen from './lifemap/Final'
 
 class Lifemap extends Component {
   render() {
@@ -41,6 +42,10 @@ class Lifemap extends Component {
         <Route
           path={`${this.props.match.path}/overview`}
           component={OverviewScreen}
+        />
+        <Route
+          path={`${this.props.match.path}/final`}
+          component={FinalScreen}
         />
       </div>
     )
