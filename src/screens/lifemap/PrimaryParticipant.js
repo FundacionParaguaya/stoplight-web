@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import uuid from 'uuid/v1'
 import { updateDraft } from '../../redux/actions'
 
-export class Terms extends Component {
+export class PrimaryParticipant extends Component {
   createNewDraft() {
     const { currentSurvey } = this.props
 
@@ -63,4 +63,4 @@ const mapDispatchToProps = { updateDraft }
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Terms)
+)(PrimaryParticipant)
