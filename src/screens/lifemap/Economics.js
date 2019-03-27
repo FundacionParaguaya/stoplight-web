@@ -4,19 +4,56 @@ import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
 
 export class SocioEconomict extends Component {
+  state = {
+    questions: {},
+    topic: ''
+  }
   handleContinue = () => {
     // validation happens here
-    this.props.history.push('/lifemap/location')
+
+    const currentEconomicsPage = this.props.match.params.page
+    if (
+      currentEconomicsPage <
+      this.props.currentSurvey.economicScreens.totalScreens - 1
+    ) {
+      this.props.history.push(
+        `/lifemap/economics/${parseInt(currentEconomicsPage, 10) + 1}`
+      )
+    } else {
+      this.props.history.push('/lifemap/begin-stoplight')
+    }
+  }
+
+  setCurrentScreen() {
+    const questions = this.props.currentSurvey.economicScreens
+      .questionsPerScreen[this.props.match.params.page]
+
+    this.setState({
+      questions,
+      topic: questions.forFamily[0].topic
+    })
   }
 
   componentDidMount() {
-    // get user location happens here
+    this.setCurrentScreen()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match.params.page !== this.props.match.params.page) {
+      this.setCurrentScreen()
+    }
   }
 
   render() {
+    const { questions, topic } = this.state
+
     return (
       <div>
-        <h2>Location</h2>
+        <h2>{topic}</h2>
+        {questions.forFamily &&
+          questions.forFamily.map(question => (
+            <p key={question.codeName}>{question.questionText}</p>
+          ))}
         <Button variant="contained" fullWidth onClick={this.handleContinue}>
           Continue
         </Button>
