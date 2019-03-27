@@ -14,7 +14,7 @@ export class Economics extends Component {
     const currentEconomicsPage = this.props.match.params.page
     if (
       currentEconomicsPage <
-      this.props.currentSurvey.economicScreens.totalScreens - 1
+      this.props.currentSurvey.economicScreens.questionsPerScreen.length - 1
     ) {
       this.props.history.push(
         `/lifemap/economics/${parseInt(currentEconomicsPage, 10) + 1}`

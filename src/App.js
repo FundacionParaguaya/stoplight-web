@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { MuiThemeProvider } from '@material-ui/core/styles'
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline' // provides css reset
 import { PersistGate } from 'redux-persist/integration/react'
 import Header from './Header'
@@ -12,6 +12,8 @@ import defaultTheme from './theme'
 
 class App extends Component {
   render() {
+    const { classes } = this.props
+
     return (
       <MuiThemeProvider theme={defaultTheme}>
         <React.Fragment>
@@ -21,7 +23,7 @@ class App extends Component {
               <Router>
                 <div>
                   <Header />
-                  <div style={{ marginTop: 60 }}>
+                  <div className={classes.appContainer}>
                     <Switch>
                       <Route path="/surveys" component={SurveysComponent} />
                       <Route path="/lifemap" component={Lifemap} />
@@ -37,4 +39,12 @@ class App extends Component {
   }
 }
 
-export default App
+const styles = {
+  appContainer: {
+    marginTop: 70,
+    width: 720,
+    margin: 'auto'
+  }
+}
+
+export default withStyles(styles)(App)
