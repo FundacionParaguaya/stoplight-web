@@ -46,7 +46,7 @@ export class PrimaryParticipant extends Component {
       familyData: {
         ...currentDraft.familyData,
         familyMembersList: [
-          ...currentDraft.familyData.familyMembersList.slice(0, 0),
+          ...currentDraft.familyData.familyMembersList.slice(0),
           {
             ...currentDraft.familyData.familyMembersList[0],
             ...{
@@ -73,8 +73,6 @@ export class PrimaryParticipant extends Component {
     const participant = this.props.currentDraft
       ? this.props.currentDraft.familyData.familyMembersList[0]
       : {}
-
-    console.log(participant)
 
     return (
       <div>

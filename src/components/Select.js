@@ -8,8 +8,6 @@ import countries from 'localized-countries'
 
 const countryList = countries(require('localized-countries/data/en')).array()
 
-console.log(countryList)
-
 class SelectInput extends Component {
   render() {
     return (
