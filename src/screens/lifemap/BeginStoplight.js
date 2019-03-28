@@ -14,7 +14,7 @@ export class Begin extends Component {
         <TopTitleContainer title={t('views.yourLifeMap')} />
         <div className={classes.BeginStopLightContainer}>
           <h2 className={classes.StopLightTitleContainer}>
-            {t('views.lifemap.thisLifeMapHas').replace('%n', questions)}}
+            {t('views.lifemap.thisLifeMapHas').replace('%n', questions)}
           </h2>
           <img
             style={{ margin: '70px 0 100px 0' }}

@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import uuid from 'uuid/v1'
 import { updateDraft } from '../../redux/actions'
-
+import TopTitleContainer from './reusable/TopTitleContainer'
 export class PrimaryParticipant extends Component {
   createNewDraft() {
     const { currentSurvey } = this.props
@@ -72,7 +72,7 @@ export class PrimaryParticipant extends Component {
 
     return (
       <div>
-        <h2>{t('views.primaryParticipant')}</h2>
+        <TopTitleContainer title={t('views.primaryParticipant')} />
         <TextField
           label={t('views.family.firstName')}
           value={participant.firstName || ''}
