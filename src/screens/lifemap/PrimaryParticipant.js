@@ -9,10 +9,6 @@ import Input from '../../components/Input'
 import Select from '../../components/Select'
 
 export class PrimaryParticipant extends Component {
-  state = {
-    householdSizeArray: []
-  }
-
   createNewDraft() {
     const { currentSurvey } = this.props
 
@@ -45,8 +41,6 @@ export class PrimaryParticipant extends Component {
   updateDraft = (field, event) => {
     const { currentDraft } = this.props
 
-    // update only the first item of familyMembersList
-    //  which is the primary participant
     this.props.updateDraft({
       ...currentDraft,
       familyData: {
@@ -65,46 +59,11 @@ export class PrimaryParticipant extends Component {
     })
   }
 
-  updateFamilyMembersCount = event => {
-    const { currentDraft } = this.props
-
-    this.props.updateDraft({
-      ...currentDraft,
-      familyData: {
-        ...currentDraft.familyData,
-        ...{ countFamilyMembers: event.target.value }
-      }
-    })
-  }
-
-  setHouseholdSizeArray() {
-    const { t } = this.props
-    const householdSizeArray = []
-
-    for (var i = 1; i <= 26; i++) {
-      householdSizeArray.push({
-        value: i === 26 ? -1 : i,
-        text:
-          i === 1
-            ? t('views.family.onlyPerson')
-            : i === 26
-            ? t('views.family.preferNotToSay')
-            : `${i}`
-      })
-    }
-
-    this.setState({
-      householdSizeArray
-    })
-  }
-
   componentDidMount() {
     // if there is no current draft in the store create a new one
     if (!this.props.currentDraft) {
       this.createNewDraft()
     }
-
-    this.setHouseholdSizeArray()
   }
 
   render() {
@@ -156,13 +115,6 @@ export class PrimaryParticipant extends Component {
           value={participant.birthCountry}
           onChange={e => this.updateDraft('birthCountry', e)}
           country
-        />
-
-        <Select
-          label={t('views.family.peopleLivingInThisHousehold')}
-          value={this.props.currentDraft.familyData.countFamilyMembers}
-          onChange={this.updateFamilyMembersCount}
-          options={this.state.householdSizeArray}
         />
 
         <Input
