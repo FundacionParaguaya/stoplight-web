@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
-import TitleBar from '../../components/TitleBar'
-import { Gmaps, Marker } from 'react-gmaps'
-
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from 'react-places-autocomplete'
-import { isAbsolute } from 'path'
+
+import { Gmaps, Marker } from 'react-gmaps'
+import { updateDraft } from '../../redux/actions'
+import Input from '../../components/Input'
+import TitleBar from '../../components/TitleBar'
+import Select from '../../components/Select'
+
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
+
 export class Location extends Component {
   state = {
     address: '',
@@ -27,6 +30,41 @@ export class Location extends Component {
     this.props.history.push('/lifemap/economics/0')
   }
 
+  handleChange = address => {
+    this.setState({ address })
+  }
+
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({ lat: latLng.lat, lng: latLng.lng }))
+      .catch(error => console.error('Error', error))
+  }
+
+  updateDraft = (field, event) => {
+    const { currentDraft } = this.props
+
+    this.props.updateDraft({
+      ...currentDraft,
+      familyData: {
+        ...currentDraft.familyData,
+        ...{
+          [field]: event.target.value
+        }
+      }
+    })
+  }
+
+  onDragEnd(e) {
+    //update the state
+    this.setState({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+      accuracy: 0,
+      moved: true
+    })
+  }
+
   componentDidMount() {
     // get user location happens here
     navigator.geolocation.getCurrentPosition(position => {
@@ -38,32 +76,18 @@ export class Location extends Component {
     })
   }
 
-  handleChange = address => {
-    this.setState({ address })
-  }
-
-  handleSelect = address => {
-    geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
-      .then(latLng => this.setState({ lat: latLng.lat, lng: latLng.lng }))
-      .catch(error => console.error('Error', error))
-  }
-  onDragEnd(e) {
-    //update the state
-    this.setState({
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
-      accuracy: 0,
-      moved: true
-    })
-  }
   render() {
     const { t, classes } = this.props
-    console.log(this.props)
-    console.log(this.state)
+
+    const familyData = this.props.currentDraft.familyData
+
+    console.log(familyData)
+
     return (
       <div>
         <TitleBar title={t('views.location')} />
+
+        {/* Map */}
         <PlacesAutocomplete
           value={this.state.address}
           onChange={this.handleChange}
@@ -135,7 +159,33 @@ export class Location extends Component {
             />
           </Gmaps>
         </div>
-        <Button variant="contained" fullWidth onClick={this.handleContinue}>
+
+        {/* Map End */}
+
+        <Select
+          label={t('views.family.selectACountry')}
+          value={familyData.country}
+          onChange={e => this.updateDraft('country', e)}
+          country
+        />
+        <Input
+          label={t('views.family.postcode')}
+          value={familyData.postCode}
+          onChange={e => this.updateDraft('postCode', e)}
+        />
+
+        <Input
+          label={t('views.family.streetOrHouseDescription')}
+          value={familyData.treetOrHouseDescription}
+          onChange={e => this.updateDraft('treetOrHouseDescription', e)}
+        />
+        <Button
+          style={{ marginTop: 35 }}
+          variant="contained"
+          fullWidth
+          onClick={this.handleContinue}
+          color="primary"
+        >
           {t('general.continue')}
         </Button>
       </div>
@@ -143,16 +193,7 @@ export class Location extends Component {
   }
 }
 
-const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
-  currentSurvey,
-  currentDraft
-})
-
-const mapDispatchToProps = { updateDraft }
 const styles = {
-  // locationSuggestionsContainer: {
-  //   borderRadius: 18
-  // },
   locationSuggestion: {
     height: 40,
     display: 'flex',
@@ -184,9 +225,17 @@ const styles = {
     backgroundColor: 'white'
   },
   mapContainer: {
-    margin: '0px auto 40px auto'
+    margin: '0px auto 35px auto'
   }
 }
+
+const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
+  currentSurvey,
+  currentDraft
+})
+
+const mapDispatchToProps = { updateDraft }
+
 export default withStyles(styles)(
   connect(
     mapStateToProps,
