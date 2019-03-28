@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles'
+import { withTranslation } from 'react-i18next'
+import TopTitleContainer from './reusable/TopTitleContainer'
 
 export class Economics extends Component {
   state = {
@@ -46,18 +49,17 @@ export class Economics extends Component {
 
   render() {
     const { questions, topic } = this.state
-
+    const { t } = this.props
     return (
       <div>
-        <h2>{topic}</h2>
-
+        <TopTitleContainer title={topic} />
         {/* List of questions for current topic */}
         {questions &&
           questions.forFamily.map(question => (
             <p key={question.codeName}>{question.questionText}</p>
           ))}
         <Button variant="contained" fullWidth onClick={this.handleContinue}>
-          Continue
+          {t('general.continue')}
         </Button>
       </div>
     )
@@ -70,8 +72,10 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 })
 
 const mapDispatchToProps = { updateDraft }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Economics)
+const styles = {}
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withTranslation()(Economics))
+)

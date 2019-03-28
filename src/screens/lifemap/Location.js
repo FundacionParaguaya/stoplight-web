@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles'
+import { withTranslation } from 'react-i18next'
+import TopTitleContainer from './reusable/TopTitleContainer'
 
 export class Location extends Component {
   handleContinue = () => {
@@ -15,11 +18,13 @@ export class Location extends Component {
   }
 
   render() {
+    const { t } = this.props
     return (
       <div>
-        <h2>Location</h2>
+        <TopTitleContainer title={t('views.location')} />
+
         <Button variant="contained" fullWidth onClick={this.handleContinue}>
-          Continue
+          {t('general.continue')}
         </Button>
       </div>
     )
@@ -32,8 +37,10 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 })
 
 const mapDispatchToProps = { updateDraft }
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Location)
+const styles = {}
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withTranslation()(Location))
+)
