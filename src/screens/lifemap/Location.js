@@ -4,7 +4,8 @@ import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
-import TopTitleContainer from './reusable/TopTitleContainer'
+import TitleBar from '../../components/TitleBar'
+
 
 export class Location extends Component {
   handleContinue = () => {
@@ -21,7 +22,7 @@ export class Location extends Component {
     const { t } = this.props
     return (
       <div>
-        <TopTitleContainer title={t('views.location')} />
+        <TitleBar title={t('views.location')} />
 
         <Button variant="contained" fullWidth onClick={this.handleContinue}>
           {t('general.continue')}
