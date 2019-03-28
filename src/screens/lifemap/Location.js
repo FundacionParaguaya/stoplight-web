@@ -7,7 +7,6 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from 'react-places-autocomplete'
-
 import { Gmaps, Marker } from 'react-gmaps'
 import { updateDraft } from '../../redux/actions'
 import Input from '../../components/Input'
