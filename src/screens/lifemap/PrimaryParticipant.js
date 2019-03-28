@@ -82,21 +82,53 @@ export class PrimaryParticipant extends Component {
 
         <Input
           label={t('views.family.firstName')}
-          value={participant.firstName || ''}
+          value={participant.firstName}
           onChange={e => this.updateDraft('firstName', e)}
         />
 
         <Input
           label={t('views.family.lastName')}
-          value={participant.lastName || ''}
+          value={participant.lastName}
           onChange={e => this.updateDraft('lastName', e)}
         />
 
         <Select
-          label={t('views.family.gender')}
+          label={t('views.family.selectGender')}
           value={participant.gender}
           onChange={e => this.updateDraft('gender', e)}
           options={surveyConfig.gender}
+        />
+
+        <Select
+          label={t('views.family.documentType')}
+          value={participant.documentType}
+          onChange={e => this.updateDraft('documentType', e)}
+          options={surveyConfig.documentType}
+        />
+
+        <Input
+          label={t('views.family.documentNumber')}
+          value={participant.documentNumber}
+          onChange={e => this.updateDraft('documentNumber', e)}
+        />
+
+        <Select
+          label={t('views.family.countryOfBirth')}
+          value={participant.birthCountry}
+          onChange={e => this.updateDraft('birthCountry', e)}
+          country
+        />
+
+        <Input
+          label={t('views.family.email')}
+          value={participant.email}
+          onChange={e => this.updateDraft('email', e)}
+        />
+
+        <Input
+          label={t('views.family.phone')}
+          value={participant.phone}
+          onChange={e => this.updateDraft('phone', e)}
         />
 
         <Button variant="contained" fullWidth onClick={this.handleContinue}>
