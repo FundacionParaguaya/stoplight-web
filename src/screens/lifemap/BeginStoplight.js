@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
-import TopTitleContainer from './reusable/TopTitleContainer'
+import TitleBar from '../../components/TitleBar'
+
 import lifemap_begin_image from '../../assets/lifemap_begin_image.png'
 export class Begin extends Component {
   render() {
@@ -11,7 +12,7 @@ export class Begin extends Component {
     let questions = currentSurvey.surveyStoplightQuestions.length
     return (
       <div>
-        <TopTitleContainer title={t('views.yourLifeMap')} />
+        <TitleBar title={t('views.yourLifeMap')} />
         <div className={classes.BeginStopLightContainer}>
           <h2 className={classes.StopLightTitleContainer}>
             {t('views.lifemap.thisLifeMapHas').replace('%n', questions)}

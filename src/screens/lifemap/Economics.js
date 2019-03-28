@@ -4,7 +4,7 @@ import { updateDraft } from '../../redux/actions'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
-import TopTitleContainer from './reusable/TopTitleContainer'
+import TitleBar from '../../components/TitleBar'
 
 export class Economics extends Component {
   state = {
@@ -52,7 +52,7 @@ export class Economics extends Component {
     const { t } = this.props
     return (
       <div>
-        <TopTitleContainer title={topic} />
+        <TitleBar title={topic} />
         {/* List of questions for current topic */}
         {questions &&
           questions.forFamily.map(question => (

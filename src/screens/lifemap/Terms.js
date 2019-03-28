@@ -4,7 +4,8 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import Checkbox from '../../assets/Checkbox.png'
 import { withTranslation } from 'react-i18next'
-import TopTitleContainer from './reusable/TopTitleContainer'
+import TitleBar from '../../components/TitleBar'
+
 export class Terms extends Component {
   state = {
     title:
@@ -31,9 +32,9 @@ export class Terms extends Component {
     return (
       <div>
         {this.props.location.pathname === '/lifemap/terms' ? (
-          <TopTitleContainer title={t('views.termsConditions')} />
+          <TitleBar title={t('views.termsConditions')} />
         ) : (
-          <TopTitleContainer title={t('views.privacyPolicy')} />
+          <TitleBar title={t('views.privacyPolicy')} />
         )}
 
         <div className={classes.CheckboxImgAndTitleContainer}>

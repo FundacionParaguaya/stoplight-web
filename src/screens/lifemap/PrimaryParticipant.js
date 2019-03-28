@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withTranslation } from 'react-i18next'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
 import uuid from 'uuid/v1'
 import { updateDraft } from '../../redux/actions'
-import TopTitleContainer from './reusable/TopTitleContainer'
+import TitleBar from '../../components/TitleBar'
+import Input from '../../components/Input'
+import Select from '../../components/Select'
+
 export class PrimaryParticipant extends Component {
   createNewDraft() {
     const { currentSurvey } = this.props
@@ -65,28 +67,38 @@ export class PrimaryParticipant extends Component {
   }
 
   render() {
-    const { t } = this.props
+    const { t, currentSurvey } = this.props
+    const { surveyConfig } = currentSurvey
+
     const participant = this.props.currentDraft
       ? this.props.currentDraft.familyData.familyMembersList[0]
       : {}
 
+    console.log(participant)
+
     return (
       <div>
-        <TopTitleContainer title={t('views.primaryParticipant')} />
-        <TextField
+        <TitleBar title={t('views.primaryParticipant')} />
+
+        <Input
           label={t('views.family.firstName')}
           value={participant.firstName || ''}
-          fullWidth
           onChange={e => this.updateDraft('firstName', e)}
-          margin="normal"
         />
-        <TextField
+
+        <Input
           label={t('views.family.lastName')}
           value={participant.lastName || ''}
-          fullWidth
           onChange={e => this.updateDraft('lastName', e)}
-          margin="normal"
         />
+
+        <Select
+          label={t('views.family.gender')}
+          value={participant.gender}
+          onChange={e => this.updateDraft('gender', e)}
+          options={surveyConfig.gender}
+        />
+
         <Button variant="contained" fullWidth onClick={this.handleContinue}>
           {t('general.continue')}
         </Button>
