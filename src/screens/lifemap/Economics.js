@@ -54,6 +54,7 @@ export class Economics extends Component {
       <div>
         <TitleBar title={topic} />
         {/* List of questions for current topic */}
+
         {questions &&
           questions.forFamily.map(question => (
             <p key={question.codeName}>{question.questionText}</p>
