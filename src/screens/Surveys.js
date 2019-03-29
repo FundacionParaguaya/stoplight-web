@@ -75,6 +75,7 @@ export class Surveys extends Component {
   componentDidMount() {
     // clear current draft from store
     this.props.updateDraft(null)
+    this.props.updateSurvey(null)
 
     // check for user token from the location params
     const token = this.props.location.search.match(/sid=(.*)&/)
