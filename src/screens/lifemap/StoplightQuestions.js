@@ -31,7 +31,7 @@ export class StoplightQuestions extends Component {
     })
   }
   skipQuestion = () => {
-    let { codeName, dimension, questionText } = this.state.question
+    let { codeName } = this.state.question
     const { currentDraft } = this.props
     let dataList = this.props.currentDraft.indicatorSurveyDataList
     let update = false
@@ -40,8 +40,6 @@ export class StoplightQuestions extends Component {
       if (e.key === codeName) {
         update = true
         e.value = 0
-        e.dimension = dimension
-        e.questionText = questionText
       }
     })
     ///////////if the question is in the data list then update the question
@@ -60,9 +58,7 @@ export class StoplightQuestions extends Component {
           ...currentDraft.indicatorSurveyDataList,
           {
             key: codeName,
-            value: 0,
-            dimension: dimension,
-            questionText: questionText
+            value: 0
           }
         ]
       })
@@ -70,7 +66,7 @@ export class StoplightQuestions extends Component {
     }
   }
   submitQuestion(value) {
-    let { codeName, dimension, questionText } = this.state.question
+    let { codeName } = this.state.question
     const { currentDraft } = this.props
     let dataList = this.props.currentDraft.indicatorSurveyDataList
     let update = false
@@ -79,8 +75,6 @@ export class StoplightQuestions extends Component {
       if (e.key === codeName) {
         update = true
         e.value = value
-        e.dimension = dimension
-        e.questionText = questionText
       }
     })
     ///////////if the question is in the data list then update the question
@@ -99,9 +93,7 @@ export class StoplightQuestions extends Component {
           ...currentDraft.indicatorSurveyDataList,
           {
             key: codeName,
-            value: value,
-            dimension: dimension,
-            questionText: questionText
+            value: value
           }
         ]
       })
