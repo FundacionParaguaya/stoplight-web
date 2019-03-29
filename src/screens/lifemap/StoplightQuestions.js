@@ -70,7 +70,7 @@ export class StoplightQuestions extends Component {
     const { currentDraft } = this.props
     let dataList = this.props.currentDraft.indicatorSurveyDataList
     let update = false
-    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true
+    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
     dataList.forEach(e => {
       if (e.key === codeName) {
         update = true

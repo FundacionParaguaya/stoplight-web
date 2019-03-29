@@ -20,7 +20,6 @@ export class Location extends Component {
     address: '',
     lat: '',
     lng: '',
-    accuracy: 0,
     moved: false
   }
   handleContinue = () => {
@@ -33,50 +32,84 @@ export class Location extends Component {
   }
 
   handleSelect = address => {
+    const { currentDraft } = this.props
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
-      .then(latLng => this.setState({ lat: latLng.lat, lng: latLng.lng }))
+      .then(latLng => {
+        this.setState({ lat: latLng.lat, lng: latLng.lng, address: address })
+        console.log(latLng)
+        this.props.updateDraft({
+          ...currentDraft,
+          familyData: {
+            ...currentDraft.familyData,
+            latitude: latLng.lat,
+            longitude: latLng.lng
+          }
+        })
+      })
       .catch(error => console.error('Error', error))
   }
 
   updateDraft = (field, event) => {
     const { currentDraft } = this.props
+    this.props.updateDraft({
+      ...currentDraft,
+      familyData: {
+        ...currentDraft.familyData,
+
+        [field]: event.target.value
+      }
+    })
+  }
+
+  onDragEnd = e => {
+    const { currentDraft } = this.props
+    //update the state
+    this.setState({
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+      moved: true
+    })
 
     this.props.updateDraft({
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
-        ...{
-          [field]: event.target.value
-        }
+        latitude: this.state.lat,
+        longitude: this.state.lng
       }
     })
   }
 
-  onDragEnd(e) {
-    //update the state
-    this.setState({
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
-      accuracy: 0,
-      moved: true
-    })
-  }
-
   componentDidMount() {
+    const { currentDraft } = this.props
     // get user location happens here
-    navigator.geolocation.getCurrentPosition(position => {
-      this.setState({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-        accuracy: position.coords.accuracy
+    if (!currentDraft.familyData.latitude) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        })
+        this.props.updateDraft({
+          ...currentDraft,
+          familyData: {
+            ...currentDraft.familyData,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }
+        })
       })
-    })
+    } else {
+      this.setState({
+        lat: currentDraft.familyData.latitude,
+        lng: currentDraft.familyData.longitude
+      })
+    }
   }
 
   render() {
     const { t, classes } = this.props
-
+    console.log(this.state)
     const familyData = this.props.currentDraft.familyData
 
     return (
