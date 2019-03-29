@@ -67,7 +67,7 @@ export class StoplightQuestions extends Component {
   }
   submitQuestion(value) {
     let { codeName } = this.state.question
-    const { currentDraft, t } = this.props
+    const { currentDraft } = this.props
     let dataList = this.props.currentDraft.indicatorSurveyDataList
     let update = false
     //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true
@@ -113,7 +113,7 @@ export class StoplightQuestions extends Component {
   render() {
     const { question } = this.state
     const { classes, t } = this.props
-    console.log(this.props)
+
     let sortedQuestions
     if (question) {
       sortedQuestions = question.stoplightColors

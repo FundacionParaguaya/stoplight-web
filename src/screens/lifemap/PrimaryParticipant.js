@@ -68,8 +68,6 @@ export class PrimaryParticipant extends Component {
   updateFamilyMembersCount = event => {
     const { currentDraft } = this.props
 
-    console.log(event.target.value)
-
     this.props.updateDraft({
       ...currentDraft,
       familyData: {
@@ -116,8 +114,6 @@ export class PrimaryParticipant extends Component {
     const participant = this.props.currentDraft
       ? this.props.currentDraft.familyData.familyMembersList[0]
       : {}
-
-    console.log(this.state.householdSizeArray)
 
     return (
       <div>
