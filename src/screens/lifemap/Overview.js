@@ -36,18 +36,28 @@ export class Overview extends Component {
     // })
   }
   render() {
-    const { t, classes, currentDraft } = this.props
+    const { t, classes, currentDraft, currentSurvey } = this.props
     let groupedAnswers
-    if (currentDraft.indicatorSurveyDataList.length) {
-      groupedAnswers = currentDraft.indicatorSurveyDataList.reduce(function(
-        r,
-        a
-      ) {
+    let userAnswers = []
+    if (currentSurvey) {
+      currentSurvey.surveyStoplightQuestions.forEach(e => {
+        currentDraft.indicatorSurveyDataList.forEach(ele => {
+          if (e.codeName == ele.key) {
+            userAnswers.push({
+              value: ele.value,
+              questionText: e.questionText,
+              dimension: e.dimension,
+              key: ele.key
+            })
+          }
+        })
+      })
+      console.log(userAnswers)
+      groupedAnswers = userAnswers.reduce(function(r, a) {
         r[a.dimension] = r[a.dimension] || []
         r[a.dimension].push(a)
         return r
-      },
-      {})
+      }, {})
     }
 
     return (

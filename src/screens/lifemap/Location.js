@@ -192,6 +192,7 @@ export class Location extends Component {
         {/* Map End */}
 
         <Select
+          required
           label={t('views.family.selectACountry')}
           value={familyData.country}
           onChange={e => this.updateDraft('country', e)}
