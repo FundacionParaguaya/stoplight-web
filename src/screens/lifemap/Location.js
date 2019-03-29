@@ -24,7 +24,6 @@ export class Location extends Component {
     moved: false
   }
   handleContinue = () => {
-    console.log(this.props.currentSurvey)
     // validation happens here
     this.props.history.push('/lifemap/economics/0')
   }
@@ -79,8 +78,6 @@ export class Location extends Component {
     const { t, classes } = this.props
 
     const familyData = this.props.currentDraft.familyData
-
-    console.log(familyData)
 
     return (
       <div>
