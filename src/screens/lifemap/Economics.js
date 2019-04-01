@@ -83,8 +83,7 @@ export class Economics extends Component {
   render() {
     const { questions, topic } = this.state
     const { t, currentDraft } = this.props
-    console.log(questions)
-    console.log(currentDraft)
+
     return (
       <div>
         <TitleBar title={topic} />

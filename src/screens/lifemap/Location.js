@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import PlacesAutocomplete, {
@@ -20,7 +21,8 @@ export class Location extends Component {
     address: '',
     lat: '',
     lng: '',
-    moved: false
+    moved: false,
+    error: false
   }
   handleContinue = () => {
     // validation happens here
@@ -37,7 +39,7 @@ export class Location extends Component {
       .then(results => getLatLng(results[0]))
       .then(latLng => {
         this.setState({ lat: latLng.lat, lng: latLng.lng, address: address })
-        console.log(latLng)
+
         this.props.updateDraft({
           ...currentDraft,
           familyData: {
@@ -47,7 +49,11 @@ export class Location extends Component {
           }
         })
       })
-      .catch(error => console.error('Error', error))
+      .catch(error =>
+        this.setState({
+          error: error.message
+        })
+      )
   }
 
   updateDraft = (field, event) => {
@@ -82,22 +88,26 @@ export class Location extends Component {
   }
 
   componentDidMount() {
+    this._ismounted = true
+
     const { currentDraft } = this.props
     // get user location happens here
     if (!currentDraft.familyData.latitude) {
       navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        })
-        this.props.updateDraft({
-          ...currentDraft,
-          familyData: {
-            ...currentDraft.familyData,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        })
+        if (this._ismounted) {
+          this.setState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          })
+          this.props.updateDraft({
+            ...currentDraft,
+            familyData: {
+              ...currentDraft.familyData,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            }
+          })
+        }
       })
     } else {
       this.setState({
@@ -107,9 +117,14 @@ export class Location extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this._ismounted = false
+  }
+
   render() {
     const { t, classes } = this.props
-    console.log(this.state)
+    const { error, lat, lng } = this.state
+
     const familyData = this.props.currentDraft.familyData
 
     return (
@@ -173,22 +188,22 @@ export class Location extends Component {
         <div className={classes.mapContainer}>
           <Gmaps
             height="560px"
-            lat={this.state.lat}
-            lng={this.state.lng}
+            lat={lat}
+            lng={lng}
             zoom={12}
             loadingMessage="Please wait while the map is loading."
             params={params}
             scrollwheel={false}
           >
             <Marker
-              lat={this.state.lat}
-              lng={this.state.lng}
+              lat={lat}
+              lng={lng}
               draggable={true}
               onDragEnd={e => this.onDragEnd(e)}
             />
           </Gmaps>
         </div>
-
+        {error && <Typography color="error">{error}</Typography>}
         {/* Map End */}
 
         <Select

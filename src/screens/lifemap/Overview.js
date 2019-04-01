@@ -16,15 +16,12 @@ export class Overview extends Component {
   }
   handleContinue = () => {}
   updateAnswer = () => {
-    let details = {
-      howManyMonthsWillItTakeText: this.state.howManyMonthsWillItTakeText,
-      whyDontYouHaveItText: this.state.whyDontYouHaveItText,
-      whatWillYouDoToGetItText: this.state.whatWillYouDoToGetItText
-    }
-    console.log(details)
-
+    // let details = {
+    //   howManyMonthsWillItTakeText: this.state.howManyMonthsWillItTakeText,
+    //   whyDontYouHaveItText: this.state.whyDontYouHaveItText,
+    //   whatWillYouDoToGetItText: this.state.whatWillYouDoToGetItText
+    // }
     ///////// UPDATE THE DRAFT !!!!! (NOT WORKING RIGHT NOW )
-
     // let dataList = this.props.currentDraft.indicatorSurveyDataList
     // let update = false
     // //////////////// CHECK IF THE QUESTION details are ALREADY IN THE DATA LIST and if they are,  set update to true and edit the answers
@@ -42,7 +39,7 @@ export class Overview extends Component {
     if (currentSurvey) {
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
-          if (e.codeName == ele.key) {
+          if (e.codeName === ele.key) {
             userAnswers.push({
               value: ele.value,
               questionText: e.questionText,
@@ -52,7 +49,7 @@ export class Overview extends Component {
           }
         })
       })
-      console.log(userAnswers)
+
       groupedAnswers = userAnswers.reduce(function(r, a) {
         r[a.dimension] = r[a.dimension] || []
         r[a.dimension].push(a)
