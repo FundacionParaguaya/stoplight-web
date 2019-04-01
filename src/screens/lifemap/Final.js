@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import { submitDraft } from '../../api'
 import TitleBar from '../../components/TitleBar'
@@ -34,7 +35,7 @@ export class Final extends Component {
       )
   }
   render() {
-    const { t } = this.props
+    const { t, classes } = this.props
     const { error } = this.state
 
     return (
