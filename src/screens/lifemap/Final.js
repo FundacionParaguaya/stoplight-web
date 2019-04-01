@@ -6,7 +6,8 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import { submitDraft } from '../../api'
-
+import TitleBar from '../../components/TitleBar'
+import finalImg from '../../assets/lifemap_complete_image.png'
 export class Final extends Component {
   state = {
     loading: false,
@@ -39,6 +40,7 @@ export class Final extends Component {
 
     return (
       <div>
+        <TitleBar title={t('views.yourLifeMap')} />
         <div className={classes.container}>
           <Typography variant="h2" gutterBottom>
             {t('views.lifemap.great')}
@@ -46,6 +48,7 @@ export class Final extends Component {
           <Typography variant="h4" gutterBottom>
             {t('views.lifemap.youHaveCompletedTheLifemap')}
           </Typography>
+          <img className={classes.finalImg} src={finalImg} alt="" />
           {error && <Typography color="error">{error}</Typography>}
           {this.state.loading ? (
             <CircularProgress size={50} thickness={2} />
@@ -68,6 +71,10 @@ export class Final extends Component {
 const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user })
 
 const styles = {
+  finalImg: {
+    marginTop: 40,
+    marginBottom: 60
+  },
   container: {
     marginTop: 10,
     display: 'flex',
