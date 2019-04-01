@@ -12,11 +12,14 @@ class SelectInput extends Component {
   render() {
     return (
       <FormControl className={this.props.classes.container} fullWidth>
-        <InputLabel shrink>{this.props.label}</InputLabel>
+        <InputLabel>{this.props.label}</InputLabel>
         <Select
           value={this.props.value || ''}
           fullWidth
           onChange={this.props.onChange}
+          inputProps={{
+            name: this.props.label
+          }}
         >
           {!!this.props.country
             ? countryList.map(country => (
