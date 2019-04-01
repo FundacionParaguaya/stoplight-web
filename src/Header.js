@@ -3,17 +3,22 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 import logo from './assets/icon_stoplight.png'
 import { theme } from './theme'
 
 class Header extends Component {
   render() {
-    const { classes } = this.props
+    const { classes, user } = this.props
 
     return (
       <AppBar className={classes.header} position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
-          <div className={classes.menuLink}>
+          <a
+            href={`https://${user.env}.povertystoplight.org`}
+            className={classes.menuLink}
+          >
             <img
               style={{ marginTop: 1 }}
               src={logo}
@@ -21,16 +26,25 @@ class Header extends Component {
               width={48}
               height={48}
             />
-          </div>
-          <div className={classes.menuLink}>
+          </a>
+          <NavLink
+            to={`/surveys?sid=${this.props.user.token}&lang=en`}
+            className={classes.menuLink}
+          >
             <Typography className={classes.menuLinkText}>Surveys</Typography>
-          </div>
-          <div className={classes.menuLink}>
+          </NavLink>
+          <a
+            href={`https://${user.env}.povertystoplight.org/#families`}
+            className={classes.menuLink}
+          >
             <Typography className={classes.menuLinkText}>Households</Typography>
-          </div>
-          <div className={classes.menuLink}>
+          </a>
+          <a
+            href={`https://${user.env}.povertystoplight.org/#map`}
+            className={classes.menuLink}
+          >
             <Typography className={classes.menuLinkText}>Map</Typography>
-          </div>
+          </a>
         </Toolbar>
       </AppBar>
     )
@@ -57,8 +71,16 @@ const styles = {
     alignItems: 'center',
     paddingLeft: 15,
     paddingRight: 15,
+    textDecoration: 'none',
     borderRight: `1px solid ${theme.palette.primary.dark}`
   }
 }
 
-export default withStyles(styles)(Header)
+const mapStateToProps = ({ user }) => ({ user })
+
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    {}
+  )(Header)
+)

@@ -12,7 +12,7 @@ import FinalScreen from './lifemap/Final'
 class Lifemap extends Component {
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Route path={`${this.props.match.path}/terms`} component={TermsView} />
         <Route
           path={`${this.props.match.path}/privacy`}
@@ -46,7 +46,7 @@ class Lifemap extends Component {
           path={`${this.props.match.path}/final`}
           component={FinalScreen}
         />
-      </div>
+      </React.Fragment>
     )
   }
 }
