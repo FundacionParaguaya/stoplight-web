@@ -43,7 +43,11 @@ const styles = {
   appContainer: {
     marginTop: 70,
     width: 720,
-    margin: 'auto'
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'center'
   }
 }
 

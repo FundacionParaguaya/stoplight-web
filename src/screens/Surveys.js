@@ -3,14 +3,12 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions'
 import { getSurveys } from '../api'
 
 export class Surveys extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { surveys: [] }
-  }
+  state = { surveys: [], loading: true }
 
   setupUser(token) {
     this.props.updateUser({
@@ -31,6 +29,11 @@ export class Surveys extends Component {
         })
       })
       .catch(error => {})
+      .finally(() =>
+        this.setState({
+          loading: false
+        })
+      )
   }
 
   getEconomicScreens(survey) {
@@ -105,26 +108,36 @@ export class Surveys extends Component {
     const { classes } = this.props
 
     return (
-      <div>
+      <React.Fragment>
         <h1>Surveys</h1>
         <div className={classes.list}>
+          {this.state.loading && (
+            <div className={classes.spinnerWrapper}>
+              <CircularProgress size={50} thickness={2} />
+            </div>
+          )}
           {this.state.surveys.map(survey => (
             <Button
               variant="contained"
               className={classes.button}
               key={survey.id}
               onClick={() => this.handleClickOnSurvey(survey)}
+              fullWidth
             >
               {survey.title}
             </Button>
           ))}
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }
 
 const styles = {
+  spinnerWrapper: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
   list: {
     display: 'flex',
     flexDirection: 'column'
