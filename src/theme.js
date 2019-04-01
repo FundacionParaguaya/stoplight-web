@@ -6,6 +6,12 @@ export const theme = {
     primary: {
       main: '#7cd071',
       dark: '#50aa47'
+    },
+    secondary: {
+      main: '#f0cb17'
+    },
+    error: {
+      main: '#e1504d'
     }
   },
   typography: {
