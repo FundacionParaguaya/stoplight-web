@@ -85,7 +85,7 @@ export class Economics extends Component {
     const { t, currentDraft } = this.props
 
     return (
-      <div>
+      <form onSubmit={this.handleContinue}>
         <TitleBar title={topic} />
         {/* List of questions for current topic */}
 
@@ -112,6 +112,7 @@ export class Economics extends Component {
               return (
                 <div key={q.codeName}>
                   <Input
+                    required={q.required}
                     label={q.questionText}
                     value={selectValue}
                     onChange={e => this.updateDraft(q.codeName, e)}
@@ -121,10 +122,10 @@ export class Economics extends Component {
             }
           })}
 
-        <Button variant="contained" fullWidth onClick={this.handleContinue}>
+        <Button color="primary" type="submit" variant="contained" fullWidth>
           {t('general.continue')}
         </Button>
-      </div>
+      </form>
     )
   }
 }

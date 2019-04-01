@@ -99,12 +99,40 @@ export class PrimaryParticipant extends Component {
     })
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     // if there is no current draft in the store create a new one
-    if (!this.props.currentDraft) {
-      this.createNewDraft()
-    }
 
+    if (!this.props.currentDraft) {
+      await this.createNewDraft()
+    }
+    if (this.props.currentDraft) {
+      console.log('redux0')
+      if (
+        !this.props.currentDraft.familyData.familyMembersList[0].birthCountry
+      ) {
+        console.log('redux')
+        const { currentDraft } = this.props
+        // update only the first item of familyMembersList
+        //  which is the primary participant
+        this.props.updateDraft({
+          ...currentDraft,
+          familyData: {
+            ...currentDraft.familyData,
+            familyMembersList: [
+              ...currentDraft.familyData.familyMembersList.slice(0, 0),
+              {
+                ...currentDraft.familyData.familyMembersList[0],
+                ...{
+                  birthCountry: this.props.currentSurvey.surveyConfig
+                    .surveyLocation.country
+                }
+              },
+              ...currentDraft.familyData.familyMembersList.slice(1)
+            ]
+          }
+        })
+      }
+    }
     this.setHouseholdSizeArray()
   }
 
@@ -117,16 +145,18 @@ export class PrimaryParticipant extends Component {
       : {}
 
     return (
-      <div>
+      <form onSubmit={this.handleContinue}>
         <TitleBar title={t('views.primaryParticipant')} />
 
         <Input
+          required={true}
           label={t('views.family.firstName')}
           value={participant.firstName}
           onChange={e => this.updateDraft('firstName', e)}
         />
 
         <Input
+          required={true}
           label={t('views.family.lastName')}
           value={participant.lastName}
           onChange={e => this.updateDraft('lastName', e)}
@@ -153,6 +183,7 @@ export class PrimaryParticipant extends Component {
         />
 
         <Input
+          required={true}
           label={t('views.family.documentNumber')}
           value={participant.documentNumber}
           onChange={e => this.updateDraft('documentNumber', e)}
@@ -160,7 +191,10 @@ export class PrimaryParticipant extends Component {
 
         <Select
           label={t('views.family.countryOfBirth')}
-          value={participant.birthCountry}
+          value={
+            participant.birthCountry ||
+            currentSurvey.surveyConfig.surveyLocation.country
+          }
           onChange={e => this.updateDraft('birthCountry', e)}
           country
         />
@@ -188,10 +222,10 @@ export class PrimaryParticipant extends Component {
           onChange={e => this.updateDraft('phone', e)}
         />
 
-        <Button variant="contained" fullWidth onClick={this.handleContinue}>
+        <Button color="primary" type="submit " variant="contained" fullWidth>
           {t('general.continue')}
         </Button>
-      </div>
+      </form>
     )
   }
 }

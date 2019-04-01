@@ -6,6 +6,7 @@ class Input extends Component {
   render() {
     return (
       <TextField
+        required={this.props.required || false}
         className={this.props.classes.input}
         label={this.props.label}
         value={this.props.value || ''}
