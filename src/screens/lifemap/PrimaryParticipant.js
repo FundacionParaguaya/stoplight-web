@@ -7,6 +7,7 @@ import { updateDraft } from '../../redux/actions'
 import TitleBar from '../../components/TitleBar'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
+import DatePicker from '../../components/DatePicker'
 
 export class PrimaryParticipant extends Component {
   state = {
@@ -136,6 +137,12 @@ export class PrimaryParticipant extends Component {
           value={participant.gender}
           onChange={e => this.updateDraft('gender', e)}
           options={surveyConfig.gender}
+        />
+
+        <DatePicker
+          label={t('views.family.dateOfBirth')}
+          onChange={e => this.updateDraft('birthDate', e)}
+          value={participant.birthDate}
         />
 
         <Select

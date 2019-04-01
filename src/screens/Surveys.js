@@ -77,10 +77,15 @@ export class Surveys extends Component {
     this.props.updateDraft(null)
     this.props.updateSurvey(null)
 
-    // check for user token from the location params
-    const token = this.props.location.search.match(/sid=(.*)&/)
-      ? this.props.location.search.match(/sid=(.*)&/)[1]
-      : null
+    let token = null
+
+    // check for user token from the location params,
+    // else check if there is one in the store
+    if (this.props.location.search.match(/sid=(.*)&/)) {
+      token = this.props.location.search.match(/sid=(.*)&/)[1]
+    } else if (this.props.user.token) {
+      token = this.props.user.token
+    }
 
     this.setupUser(token)
 
