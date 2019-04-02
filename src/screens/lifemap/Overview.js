@@ -6,31 +6,116 @@ import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import { updateDraft } from '../../redux/actions'
 import Input from '../../components/Input'
+import TextField from '@material-ui/core/TextField'
 export class Overview extends Component {
   state = {
-    showAnswerDetailsModal: false,
+    prioritiesModal: false,
+    achievementsModal: false,
     modalTitle: '',
     howManyMonthsWillItTakeText: '',
     whyDontYouHaveItText: '',
-    whatWillYouDoToGetItText: ''
+    whatWillYouDoToGetItText: '',
+    whatDidItTake: '',
+    howDidYouGetIt: '',
+    questionKey: '',
+    questionValue: ''
   }
-  handleContinue = () => {}
-  updateAnswer = () => {
-    // let details = {
-    //   howManyMonthsWillItTakeText: this.state.howManyMonthsWillItTakeText,
-    //   whyDontYouHaveItText: this.state.whyDontYouHaveItText,
-    //   whatWillYouDoToGetItText: this.state.whatWillYouDoToGetItText
-    // }
-    ///////// UPDATE THE DRAFT !!!!! (NOT WORKING RIGHT NOW )
-    // let dataList = this.props.currentDraft.indicatorSurveyDataList
-    // let update = false
-    // //////////////// CHECK IF THE QUESTION details are ALREADY IN THE DATA LIST and if they are,  set update to true and edit the answers
-    // dataList.forEach(e => {
-    //   if (e.questionText === this.state.modalTitle) {
-    //     update = true
-    //     e.details=details
-    //   }
-    // })
+  updateAnswer = e => {
+    e.preventDefault()
+    const { currentDraft } = this.props
+    if (this.state.questionValue === 3) {
+      let achievementsNew = currentDraft.achievements
+      let update = false
+      //////////////// check if the question is already in the achievements list and update it
+      achievementsNew.forEach(e => {
+        if (e.indicator === this.state.questionKey) {
+          update = true
+          e.action = this.state.whatDidItTake
+          e.roadmap = this.state.howDidYouGetIt
+        }
+      })
+      if (update) {
+        let achievements = achievementsNew
+        this.props.updateDraft({
+          ...currentDraft,
+          achievements
+        })
+      } else {
+        //////////// add the question to the achievements list if it doesnt exist
+        this.props.updateDraft({
+          ...currentDraft,
+          achievements: [
+            ...currentDraft.achievements,
+            {
+              action: this.state.whatDidItTake,
+              roadmap: this.state.howDidYouGetIt,
+              indicator: this.state.questionKey
+            }
+          ]
+        })
+      }
+    } else {
+      let prioritiesNew = currentDraft.priorities
+      let update = false
+      //////////////// check if the question is already in the priorities list and update it
+      prioritiesNew.forEach(e => {
+        if (e.indicator === this.state.questionKey) {
+          update = true
+          e.action = this.state.whatDidItTake
+          e.roadmap = this.state.howDidYouGetIt
+        }
+      })
+      if (update) {
+        let priorities = prioritiesNew
+        this.props.updateDraft({
+          ...currentDraft,
+          priorities
+        })
+      } else {
+        //////////// add the question to the priorities list if it doesnt exist
+        this.props.updateDraft({
+          ...currentDraft,
+          priorities: [
+            ...currentDraft.priorities,
+            {
+              reason: this.state.whyDontYouHaveItText,
+              action: this.state.whatWillYouDoToGetItText,
+              estimatedDate: this.state.howManyMonthsWillItTakeText,
+              indicator: this.state.questionKey
+            }
+          ]
+        })
+      }
+    }
+    this.setState({
+      prioritiesModal: false,
+      achievementsModal: false,
+      modalTitle: '',
+      howManyMonthsWillItTakeText: '',
+      whyDontYouHaveItText: '',
+      whatWillYouDoToGetItText: '',
+      whatDidItTake: '',
+      howDidYouGetIt: '',
+      questionKey: '',
+      questionValue: ''
+    })
+  }
+  showModal = (key, value, title) => {
+    if (value === 1 || value === 2) {
+      this.setState({
+        prioritiesModal: true,
+        modalTitle: title,
+        questionKey: key,
+        questionValue: 1
+      })
+    } else if (value == 3) {
+      this.setState({
+        achievementsModal: true,
+        modalTitle: title,
+        questionKey: key,
+        questionValue: 3
+      })
+    }
   }
   render() {
     const { t, classes, currentDraft, currentSurvey } = this.props
@@ -59,8 +144,11 @@ export class Overview extends Component {
 
     return (
       <div>
-        {this.state.showAnswerDetailsModal ? (
-          <div className={classes.modalPopupContainer}>
+        {this.state.prioritiesModal ? (
+          <form
+            onSubmit={this.updateAnswer}
+            className={classes.modalPopupContainer}
+          >
             <div className={classes.modalAnswersDetailsContainer}>
               <h1 className={classes.containerTitle}>
                 {this.state.modalTitle}
@@ -73,26 +161,31 @@ export class Overview extends Component {
                 }
               />
               <Input
+                required
                 label={t('views.lifemap.whatWillYouDoToGetIt')}
                 value={this.state.whatWillYouDoToGetItText}
                 onChange={e =>
                   this.setState({ whatWillYouDoToGetItText: e.target.value })
                 }
               />
-              <Input
+              <TextField
+                inputProps={{ min: '1' }}
                 label={t('views.lifemap.howManyMonthsWillItTake')}
                 value={this.state.howManyMonthsWillItTakeText}
                 onChange={e =>
                   this.setState({ howManyMonthsWillItTakeText: e.target.value })
                 }
+                type="number"
+                required
               />
+
               <div className={classes.buttonsContainer}>
                 <Button
                   size="large"
                   className={classes.modalButtonAnswersBack}
                   onClick={() =>
                     this.setState({
-                      showAnswerDetailsModal: false,
+                      prioritiesModal: false,
                       modalTitle: '',
                       howManyMonthsWillItTakeText: '',
                       whyDontYouHaveItText: '',
@@ -106,14 +199,66 @@ export class Overview extends Component {
                   size="large"
                   variant="contained"
                   color="primary"
+                  type="submit"
                   className={classes.modalButtonAnswersSave}
-                  onClick={this.updateAnswer}
                 >
                   {t('general.save')}
                 </Button>
               </div>
             </div>
-          </div>
+          </form>
+        ) : null}
+
+        {this.state.achievementsModal ? (
+          <form
+            onSubmit={this.updateAnswer}
+            className={classes.modalPopupContainer}
+          >
+            <div className={classes.modalAnswersDetailsContainer}>
+              <h1 className={classes.containerTitle}>
+                {this.state.modalTitle}
+              </h1>
+              <Input
+                label={t('views.lifemap.whyDontYouHaveIt')}
+                value={this.state.whatDidItTake}
+                onChange={e => this.setState({ whatDidItTake: e.target.value })}
+              />
+              <Input
+                required
+                label={t('views.lifemap.whatWillYouDoToGetIt')}
+                value={this.state.howDidYouGetIt}
+                onChange={e =>
+                  this.setState({ howDidYouGetIt: e.target.value })
+                }
+              />
+
+              <div className={classes.buttonsContainer}>
+                <Button
+                  size="large"
+                  className={classes.modalButtonAnswersBack}
+                  onClick={() =>
+                    this.setState({
+                      achievementsModal: false,
+                      modalTitle: '',
+                      whatDidItTake: '',
+                      howDidYouGetIt: ''
+                    })
+                  }
+                >
+                  Go Back
+                </Button>
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  className={classes.modalButtonAnswersSave}
+                  type="submit"
+                >
+                  {t('general.save')}
+                </Button>
+              </div>
+            </div>
+          </form>
         ) : null}
         <TitleBar title={t('views.yourLifeMap')} />
         <div>
@@ -123,6 +268,8 @@ export class Overview extends Component {
                 <h1>{elem}</h1>
                 {groupedAnswers[elem].map(e => {
                   let color
+                  let disBool = false
+                  let displayType = 'none'
                   if (e.value === 3) {
                     color = '#89bd76'
                   } else if (e.value === 2) {
@@ -131,14 +278,20 @@ export class Overview extends Component {
                     color = '#e1504d'
                   } else if (e.value === 0) {
                     color = 'grey'
+                    disBool = true
                   }
+                  currentDraft.priorities.forEach(prior => {
+                    if (prior.indicator === e.key) displayType = 'block'
+                  })
+                  currentDraft.achievements.forEach(achieve => {
+                    if (achieve.indicator === e.key) displayType = 'block'
+                  })
+
                   return (
                     <Button
+                      disabled={disBool}
                       onClick={() =>
-                        this.setState({
-                          showAnswerDetailsModal: true,
-                          modalTitle: e.questionText
-                        })
+                        this.showModal(e.key, e.value, e.questionText)
                       }
                       key={e.key}
                       className={classes.overviewAnswers}
@@ -147,7 +300,13 @@ export class Overview extends Component {
                         <div
                           style={{ backgroundColor: color }}
                           className={classes.roundBox}
-                        />
+                        >
+                          <div
+                            style={{ display: displayType }}
+                            className={classes.roundBoxSmall}
+                          />
+                        </div>
+
                         <p>{e.questionText}</p>
                       </div>
                     </Button>
@@ -171,6 +330,12 @@ export class Overview extends Component {
   }
 }
 const styles = {
+  roundBoxSmall: {
+    width: 15,
+    height: 15,
+    borderRadius: '50%',
+    backgroundColor: '#856DFF'
+  },
   buttonsContainer: {
     marginTop: 20,
     display: 'flex'

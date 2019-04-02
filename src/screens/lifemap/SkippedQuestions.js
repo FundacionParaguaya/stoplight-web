@@ -5,6 +5,8 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import TitleBar from '../../components/TitleBar'
 import { withTranslation } from 'react-i18next'
+import SkippedImg from '../../assets/skipped.png'
+import Typography from '@material-ui/core/Typography'
 export class SkippedQuestions extends Component {
   goToQuestion = e => {
     const { currentDraft, currentSurvey } = this.props
@@ -52,7 +54,19 @@ export class SkippedQuestions extends Component {
           //   }
           title={t('views.skippedIndicators')}
         />
-
+        <div className={classes.container}>
+          <Typography variant="h4" gutterBottom>
+            {t('views.lifemap.youSkipped')}
+          </Typography>
+          <Typography variant="h5" gutterBottom>
+            {t('views.lifemap.whyNotTryAgain')}
+          </Typography>
+          <img
+            className={classes.skippedQuestionsImg}
+            src={SkippedImg}
+            alt=""
+          />
+        </div>
         {Object.keys(groupedAnswers).map(elem => {
           return (
             <div className={classes.SkippedQuestionsContainer} key={elem}>
@@ -89,6 +103,17 @@ export class SkippedQuestions extends Component {
 }
 
 const styles = {
+  skippedQuestionsImg: {
+    marginTop: 20,
+    marginBottom: 30
+  },
+  container: {
+    marginTop: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   titleAndIconContainerPolicy: {
     backgroundColor: '#faefe1',
     display: 'flex',
