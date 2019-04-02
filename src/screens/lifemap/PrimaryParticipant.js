@@ -70,27 +70,26 @@ export class PrimaryParticipant extends Component {
     })
   }
 
-  updateFamilyMembersCount = async event => {
+  updateFamilyMembersCount = async (field, value) => {
+    console.log(value)
     const { currentDraft } = this.props
 
-    if (event.target.value === 1) {
+    if (value === 1) {
       let name = currentDraft.familyData.familyMembersList
       name.splice(1)
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
           ...currentDraft.familyData,
-          ...{ countFamilyMembers: event.target.value },
+          ...{ countFamilyMembers: value },
           familyMembersList: name
         }
       })
-    } else if (
-      currentDraft.familyData.familyMembersList.length < event.target.value
-    ) {
+    } else if (currentDraft.familyData.familyMembersList.length < value) {
       let names2 = currentDraft.familyData.familyMembersList
       for (
         let i = currentDraft.familyData.familyMembersList.length;
-        i <= event.target.value - 1;
+        i <= value - 1;
         i++
       ) {
         names2.push({ firstName: '', gender: '', birthDate: '' })
@@ -99,23 +98,20 @@ export class PrimaryParticipant extends Component {
         ...currentDraft,
         familyData: {
           ...currentDraft.familyData,
-          ...{ countFamilyMembers: event.target.value },
+          ...{ countFamilyMembers: value },
           familyMembersList: names2
         }
       })
-    } else if (
-      currentDraft.familyData.familyMembersList.length > event.target.value
-    ) {
+    } else if (currentDraft.familyData.familyMembersList.length > value) {
       let names3 = currentDraft.familyData.familyMembersList
-      let deleteFrom =
-        currentDraft.familyData.familyMembersList.length - event.target.value
+      let deleteFrom = currentDraft.familyData.familyMembersList.length - value
       names3.splice(-deleteFrom, deleteFrom)
 
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
           ...currentDraft.familyData,
-          ...{ countFamilyMembers: event.target.value },
+          ...{ countFamilyMembers: value },
           familyMembersList: names3
         }
       })
@@ -208,20 +204,25 @@ export class PrimaryParticipant extends Component {
             onChange={this.updateDraft}
           />
           <Select
+            required
             label={t('views.family.selectGender')}
             value={participant.gender}
-            onChange={e => this.updateDraft('gender', e)}
+            field="gender"
+            onChange={this.updateDraft}
             options={surveyConfig.gender}
           />
           <DatePicker
+            required
             label={t('views.family.dateOfBirth')}
             onChange={e => this.updateDraft('birthDate', e)}
             value={participant.birthDate}
           />
           <Select
+            required
             label={t('views.family.documentType')}
             value={participant.documentType}
-            onChange={e => this.updateDraft('documentType', e)}
+            field="documentType"
+            onChange={this.updateDraft}
             options={surveyConfig.documentType}
           />
           <Input
@@ -232,21 +233,25 @@ export class PrimaryParticipant extends Component {
             onChange={this.updateDraft}
           />
           <Select
+            required
             label={t('views.family.countryOfBirth')}
             value={
               participant.birthCountry ||
               currentSurvey.surveyConfig.surveyLocation.country
             }
-            onChange={e => this.updateDraft('birthCountry', e)}
+            field="birthCountry"
+            onChange={this.updateDraft}
             country
           />
           <Select
+            required
             label={t('views.family.peopleLivingInThisHousehold')}
             value={
               this.props.currentDraft
                 ? this.props.currentDraft.familyData.countFamilyMembers
                 : null
             }
+            field="countFamilyMembers"
             onChange={this.updateFamilyMembersCount}
             options={this.state.householdSizeArray}
           />

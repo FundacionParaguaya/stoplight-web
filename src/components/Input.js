@@ -35,7 +35,6 @@ class Input extends Component {
     this.validate()
   }
   render() {
-    const { errorMessage } = this.state
     const { error } = this.props
 
     return (
@@ -46,7 +45,7 @@ class Input extends Component {
         onChange={this.validate}
         error={error}
         fullWidth
-        helperText={error && errorMessage}
+        helperText={error && this.state.errorMessage}
       />
     )
   }
