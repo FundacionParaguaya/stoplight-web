@@ -23,65 +23,6 @@ export class FamilyMembers extends Component {
   handleContinue = () => {
     this.props.history.push('/lifemap/gender-and-birthrates')
   }
-  //   componentDidMount() {
-  //     const { currentDraft } = this.props
-  //     if (currentDraft.familyData.familyMembersList.length < 2) {
-  //       console.log('fresh')
-  //       let names = []
-  //       names.push(currentDraft.familyData.familyMembersList[0])
-  //       for (let i = 1; i <= currentDraft.familyData.countFamilyMembers; i++) {
-  //         names.push({ firstName: '', gender: '', birthDate: '' })
-  //       }
-  //       this.props.updateDraft({
-  //         ...currentDraft,
-  //         familyData: {
-  //           ...currentDraft.familyData,
-  //           familyMembersList: names
-  //         }
-  //       })
-  //     } else if (
-  //       currentDraft.familyData.familyMembersList.length - 1 <
-  //       currentDraft.familyData.countFamilyMembers
-  //     ) {
-  //       console.log(currentDraft.familyData.countFamilyMembers)
-  //       console.log('plus')
-  //       let names2 = currentDraft.familyData.familyMembersList
-  //       for (
-  //         let i = currentDraft.familyData.familyMembersList.length;
-  //         i <= currentDraft.familyData.countFamilyMembers;
-  //         i++
-  //       ) {
-  //         names2.push({ firstName: '', gender: '', birthDate: '' })
-  //       }
-  //       this.props.updateDraft({
-  //         ...currentDraft,
-  //         familyData: {
-  //           ...currentDraft.familyData,
-  //           familyMembersList: names2
-  //         }
-  //       })
-  //     } else if (
-  //       currentDraft.familyData.familyMembersList.length - 1 >
-  //       currentDraft.familyData.countFamilyMembers
-  //     ) {
-  //       let names3 = currentDraft.familyData.familyMembersList
-  //       let deleteFrom =
-  //         currentDraft.familyData.familyMembersList.length -
-  //         1 -
-  //         currentDraft.familyData.countFamilyMembers
-
-  //       console.log('minus')
-  //       names3.splice(-deleteFrom, deleteFrom)
-
-  //       this.props.updateDraft({
-  //         ...currentDraft,
-  //         familyData: {
-  //           ...currentDraft.familyData,
-  //           familyMembersList: names3
-  //         }
-  //       })
-  //     }
-  //   }
 
   render() {
     const { classes, t, currentDraft } = this.props
