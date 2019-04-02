@@ -150,11 +150,9 @@ export class PrimaryParticipant extends Component {
       await this.createNewDraft()
     }
     if (this.props.currentDraft) {
-      console.log('redux0')
       if (
         !this.props.currentDraft.familyData.familyMembersList[0].birthCountry
       ) {
-        console.log('redux')
         const { currentDraft } = this.props
         // update only the first item of familyMembersList
         //  which is the primary participant

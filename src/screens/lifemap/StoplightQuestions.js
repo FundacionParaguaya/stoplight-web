@@ -11,15 +11,34 @@ export class StoplightQuestions extends Component {
   }
   handleContinue = () => {
     const currentQuestionPage = this.props.match.params.page
-    if (
-      currentQuestionPage <
-      this.props.currentSurvey.surveyStoplightQuestions.length - 1
-    ) {
-      this.props.history.push(
-        `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
-      )
+    const { currentDraft } = this.props
+    let goToSkipped = false
+    currentDraft.indicatorSurveyDataList.forEach(ele => {
+      if (ele.value === 0) {
+        goToSkipped = true
+      }
+    })
+    if (this.props.location.state) {
+      if (this.props.location.state.skippedReturn) {
+        if (goToSkipped) {
+          this.props.history.push('/lifemap/skipped-questions')
+        } else {
+          this.props.history.push('/lifemap/overview')
+        }
+      }
     } else {
-      this.props.history.push('/lifemap/overview')
+      if (
+        currentQuestionPage <
+        this.props.currentSurvey.surveyStoplightQuestions.length - 1
+      ) {
+        this.props.history.push(
+          `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
+        )
+      } else if (goToSkipped) {
+        this.props.history.push('/lifemap/skipped-questions')
+      } else if (!goToSkipped) {
+        this.props.history.push('/lifemap/overview')
+      }
     }
   }
 
@@ -112,9 +131,17 @@ export class StoplightQuestions extends Component {
 
   render() {
     const { question } = this.state
-    const { classes, t } = this.props
-
+    const { classes, t, currentDraft } = this.props
+    let prevQuestion
     let sortedQuestions
+
+    if (currentDraft) {
+      prevQuestion = `stoplight/${this.props.match.params.page - 1}`
+      if (this.props.match.params.page == 0) {
+        prevQuestion = 'begin-stoplight'
+      }
+    }
+
     if (question) {
       sortedQuestions = question.stoplightColors
       let compare = (a, b) => {
@@ -126,7 +153,10 @@ export class StoplightQuestions extends Component {
     }
     return (
       <div>
-        <TitleBar title="Your life map" />
+        <TitleBar
+          uniqueBack={() => this.props.history.push(`/lifemap/${prevQuestion}`)}
+          title={t('views.yourLifeMap')}
+        />
         <p className={classes.questionDimension}>
           {question && question.dimension}
         </p>
