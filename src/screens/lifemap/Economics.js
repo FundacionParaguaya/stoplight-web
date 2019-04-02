@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateDraft } from '../../redux/actions'
-import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import TitleBar from '../../components/TitleBar'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
+import Form from '../../components/Form'
 export class Economics extends Component {
   state = {
     questions: null,
@@ -37,7 +37,7 @@ export class Economics extends Component {
       topic: questions.forFamily[0].topic
     })
   }
-  updateDraft(codeName, answer) {
+  updateDraft = (codeName, value) => {
     const { currentDraft } = this.props
     let dataList = this.props.currentDraft.economicSurveyDataList
     let update = false
@@ -45,7 +45,7 @@ export class Economics extends Component {
     dataList.forEach(e => {
       if (e.key === codeName) {
         update = true
-        e.value = answer.target.value
+        e.value = value
       }
     })
 
@@ -64,7 +64,7 @@ export class Economics extends Component {
           ...currentDraft.economicSurveyDataList,
           {
             key: codeName,
-            value: answer.target.value
+            value: value
           }
         ]
       })
@@ -85,47 +85,48 @@ export class Economics extends Component {
     const { t, currentDraft } = this.props
 
     return (
-      <form onSubmit={this.handleContinue}>
+      <div>
         <TitleBar title={topic} />
-        {/* List of questions for current topic */}
+        <Form
+          onSubmit={this.handleContinue}
+          submitLabel={t('general.continue')}
+        >
+          {/* List of questions for current topic */}
 
-        {questions &&
-          questions.forFamily.map(q => {
-            let selectValue
-            currentDraft.economicSurveyDataList.forEach(e => {
-              if (e.key === q.codeName) {
-                selectValue = e.value
-              }
-            })
-            if (q.answerType === 'select') {
-              return (
-                <div key={q.codeName}>
+          {questions &&
+            questions.forFamily.map(question => {
+              let selectValue
+              currentDraft.economicSurveyDataList.forEach(e => {
+                if (e.key === question.codeName) {
+                  selectValue = e.value
+                }
+              })
+              if (question.answerType === 'select') {
+                return (
                   <Select
-                    label={q.questionText}
+                    key={question.codeName}
+                    label={question.questionText}
                     value={selectValue}
-                    onChange={e => this.updateDraft(q.codeName, e)}
-                    options={q.options}
+                    options={question.options}
+                    field={question.codeName}
+                    onChange={this.updateDraft}
                   />
-                </div>
-              )
-            } else {
-              return (
-                <div key={q.codeName}>
+                )
+              } else {
+                return (
                   <Input
-                    required={q.required}
-                    label={q.questionText}
+                    key={question.codeName}
+                    required={question.required}
+                    label={question.questionText}
                     value={selectValue}
-                    onChange={e => this.updateDraft(q.codeName, e)}
+                    field={question.codeName}
+                    onChange={this.updateDraft}
                   />
-                </div>
-              )
-            }
-          })}
-
-        <Button color="primary" type="submit" variant="contained" fullWidth>
-          {t('general.continue')}
-        </Button>
-      </form>
+                )
+              }
+            })}
+        </Form>
+      </div>
     )
   }
 }

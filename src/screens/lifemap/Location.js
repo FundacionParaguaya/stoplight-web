@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import PlacesAutocomplete, {
@@ -12,6 +11,7 @@ import { updateDraft } from '../../redux/actions'
 import Input from '../../components/Input'
 import TitleBar from '../../components/TitleBar'
 import Select from '../../components/Select'
+import Form from '../../components/Form'
 
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' }
 
@@ -49,14 +49,14 @@ export class Location extends Component {
       .catch(error => console.error('Error', error))
   }
 
-  updateDraft = (field, event) => {
+  updateDraft = (field, value) => {
     const { currentDraft } = this.props
     this.props.updateDraft({
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
 
-        [field]: event.target.value
+        [field]: value
       }
     })
   }
@@ -191,32 +191,32 @@ export class Location extends Component {
 
         {/* Map End */}
 
-        <Select
-          label={t('views.family.selectACountry')}
-          value={familyData.country}
-          onChange={e => this.updateDraft('country', e)}
-          country
-        />
-        <Input
-          label={t('views.family.postcode')}
-          value={familyData.postCode}
-          onChange={e => this.updateDraft('postCode', e)}
-        />
-
-        <Input
-          label={t('views.family.streetOrHouseDescription')}
-          value={familyData.treetOrHouseDescription}
-          onChange={e => this.updateDraft('treetOrHouseDescription', e)}
-        />
-        <Button
-          style={{ marginTop: 35 }}
-          variant="contained"
-          fullWidth
-          onClick={this.handleContinue}
-          color="primary"
+        <Form
+          onSubmit={this.handleContinue}
+          submitLabel={t('general.continue')}
         >
-          {t('general.continue')}
-        </Button>
+          <Select
+            required
+            label={t('views.family.selectACountry')}
+            value={familyData.country}
+            field="country"
+            onChange={this.updateDraft}
+            country
+          />
+          <Input
+            label={t('views.family.postcode')}
+            value={familyData.postCode}
+            field="postCode"
+            onChange={this.updateDraft}
+          />
+
+          <Input
+            label={t('views.family.streetOrHouseDescription')}
+            value={familyData.streetOrHouseDescription}
+            field="streetOrHouseDescription"
+            onChange={this.updateDraft}
+          />
+        </Form>
       </div>
     )
   }

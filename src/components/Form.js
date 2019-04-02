@@ -21,9 +21,8 @@ class Form extends Component {
   }
 
   render() {
-    // console.log(this.state.errors)
-    const children = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {
+    const children = React.Children.map(this.props.children, child => {
+      return React.cloneElement(child, {
         setError: (isError, field) => {
           const { errors } = this.state
 
@@ -42,7 +41,7 @@ class Form extends Component {
           this.state.showErrors &&
           this.state.errors.some(error => error === child.props.field)
       })
-    )
+    })
 
     return (
       <div>

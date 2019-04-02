@@ -17,8 +17,6 @@ class DatePicker extends Component {
 
     const { t } = this.props
 
-    console.log(value)
-
     // if it's from onChange update value
     if (event) {
       this.setState({
@@ -50,7 +48,6 @@ class DatePicker extends Component {
 
   render() {
     const { classes, error } = this.props
-    // console.log(value)
     // format either the date from the stored draft, or today
 
     return (
