@@ -46,9 +46,10 @@ export class SkippedQuestions extends Component {
     return (
       <div>
         <TitleBar
-          uniqueBack={() =>
-            this.props.history.push(`/lifemap/stoplight/${finalQuestion}`)
-          }
+          //do not delete uniqueBack for now, we are probably going to use that in the future
+          //   uniqueBack={() =>
+          //     this.props.history.push(`/lifemap/stoplight/${finalQuestion}`)
+          //   }
           title={t('views.skippedIndicators')}
         />
 

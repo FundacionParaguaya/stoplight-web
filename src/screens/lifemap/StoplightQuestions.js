@@ -132,16 +132,16 @@ export class StoplightQuestions extends Component {
   render() {
     const { question } = this.state
     const { classes, t, currentDraft } = this.props
-    let prevQuestion
+
+    //do not delete this for now, we are probably going to use that in the future
+    // let prevQuestion
+    // if (currentDraft) {
+    //   prevQuestion = `stoplight/${this.props.match.params.page - 1}`
+    //   if (this.props.match.params.page == 0) {
+    //     prevQuestion = 'begin-stoplight'
+    //   }
+    // }
     let sortedQuestions
-
-    if (currentDraft) {
-      prevQuestion = `stoplight/${this.props.match.params.page - 1}`
-      if (this.props.match.params.page == 0) {
-        prevQuestion = 'begin-stoplight'
-      }
-    }
-
     if (question) {
       sortedQuestions = question.stoplightColors
       let compare = (a, b) => {
@@ -154,7 +154,8 @@ export class StoplightQuestions extends Component {
     return (
       <div>
         <TitleBar
-          uniqueBack={() => this.props.history.push(`/lifemap/${prevQuestion}`)}
+          //do not delete uniqueBack for now, we are probably going to use that in the future
+          // uniqueBack={() => this.props.history.push(`/lifemap/${prevQuestion}`)}
           title={t('views.yourLifeMap')}
         />
         <p className={classes.questionDimension}>
