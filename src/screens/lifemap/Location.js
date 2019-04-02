@@ -24,7 +24,6 @@ export class Location extends Component {
   }
   handleContinue = () => {
     // validation happens here
-
     this.props.history.push('/lifemap/economics/0')
   }
 

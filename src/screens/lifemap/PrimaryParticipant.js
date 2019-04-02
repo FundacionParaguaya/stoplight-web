@@ -39,13 +39,17 @@ export class PrimaryParticipant extends Component {
   }
 
   handleContinue = () => {
+    const { currentDraft } = this.props
     // validation happens here
-    this.props.history.push('/lifemap/location')
+    if (currentDraft.familyData.countFamilyMembers == '1') {
+      this.props.history.push('/lifemap/location')
+    } else {
+      this.props.history.push('/lifemap/family-members')
+    }
   }
 
   updateDraft = (field, event) => {
     const { currentDraft } = this.props
-
     // update only the first item of familyMembersList
     //  which is the primary participant
     this.props.updateDraft({
@@ -66,16 +70,56 @@ export class PrimaryParticipant extends Component {
     })
   }
 
-  updateFamilyMembersCount = event => {
+  updateFamilyMembersCount = async event => {
     const { currentDraft } = this.props
 
-    this.props.updateDraft({
-      ...currentDraft,
-      familyData: {
-        ...currentDraft.familyData,
-        ...{ countFamilyMembers: event.target.value }
+    if (event.target.value == 1) {
+      let name = currentDraft.familyData.familyMembersList
+      name.splice(1)
+      this.props.updateDraft({
+        ...currentDraft,
+        familyData: {
+          ...currentDraft.familyData,
+          ...{ countFamilyMembers: event.target.value },
+          familyMembersList: name
+        }
+      })
+    } else if (
+      currentDraft.familyData.familyMembersList.length < event.target.value
+    ) {
+      let names2 = currentDraft.familyData.familyMembersList
+      for (
+        let i = currentDraft.familyData.familyMembersList.length;
+        i <= event.target.value - 1;
+        i++
+      ) {
+        names2.push({ firstName: '', gender: '', birthDate: '' })
       }
-    })
+      this.props.updateDraft({
+        ...currentDraft,
+        familyData: {
+          ...currentDraft.familyData,
+          ...{ countFamilyMembers: event.target.value },
+          familyMembersList: names2
+        }
+      })
+    } else if (
+      currentDraft.familyData.familyMembersList.length > event.target.value
+    ) {
+      let names3 = currentDraft.familyData.familyMembersList
+      let deleteFrom =
+        currentDraft.familyData.familyMembersList.length - event.target.value
+      names3.splice(-deleteFrom, deleteFrom)
+
+      this.props.updateDraft({
+        ...currentDraft,
+        familyData: {
+          ...currentDraft.familyData,
+          ...{ countFamilyMembers: event.target.value },
+          familyMembersList: names3
+        }
+      })
+    }
   }
 
   setHouseholdSizeArray() {
