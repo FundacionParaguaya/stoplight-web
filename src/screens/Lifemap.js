@@ -10,6 +10,7 @@ import OverviewScreen from './lifemap/Overview'
 import FinalScreen from './lifemap/Final'
 import FamilyMembers from './lifemap/FamilyMembers'
 import GenderAndBirthrates from './lifemap/GenderAndBirthrates'
+import SkippedQuestions from './lifemap/SkippedQuestions'
 class Lifemap extends Component {
   render() {
     return (
@@ -47,6 +48,10 @@ class Lifemap extends Component {
         <Route
           path={`${this.props.match.path}/stoplight/:page`}
           component={StoplightQuestions}
+        />
+        <Route
+          path={`${this.props.match.path}/skipped-questions`}
+          component={SkippedQuestions}
         />
         <Route
           path={`${this.props.match.path}/overview`}

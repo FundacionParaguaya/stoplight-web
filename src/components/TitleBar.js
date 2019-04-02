@@ -7,7 +7,7 @@ function TopTitleContainer(props) {
   return (
     <div className={classes.titleAndIconContainerPolicy}>
       <i
-        onClick={props.history.goBack}
+        onClick={props.uniqueBack || props.history.goBack}
         style={{ cursor: 'pointer', fontSize: 32 }}
         className="material-icons"
       >
