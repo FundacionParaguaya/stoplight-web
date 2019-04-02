@@ -8,7 +8,8 @@ import BeginStoplight from './lifemap/BeginStoplight'
 import StoplightQuestions from './lifemap/StoplightQuestions'
 import OverviewScreen from './lifemap/Overview'
 import FinalScreen from './lifemap/Final'
-
+import FamilyMembers from './lifemap/FamilyMembers'
+import GenderAndBirthrates from './lifemap/GenderAndBirthrates'
 class Lifemap extends Component {
   render() {
     return (
@@ -22,6 +23,15 @@ class Lifemap extends Component {
           path={`${this.props.match.path}/primary-participant`}
           component={PrimaryParticipantScreen}
         />
+        <Route
+          path={`${this.props.match.path}/gender-and-birthrates`}
+          component={GenderAndBirthrates}
+        />
+        <Route
+          path={`${this.props.match.path}/family-members`}
+          component={FamilyMembers}
+        />
+
         <Route
           path={`${this.props.match.path}/location`}
           component={Location}
