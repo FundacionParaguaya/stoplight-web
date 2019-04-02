@@ -21,7 +21,7 @@ class Form extends Component {
   }
 
   render() {
-    console.log(this.state.errors)
+    // console.log(this.state.errors)
     const children = React.Children.map(this.props.children, child =>
       React.cloneElement(child, {
         setError: (isError, field) => {

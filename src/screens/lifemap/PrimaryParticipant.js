@@ -214,7 +214,8 @@ export class PrimaryParticipant extends Component {
           <DatePicker
             required
             label={t('views.family.dateOfBirth')}
-            onChange={e => this.updateDraft('birthDate', e)}
+            field="birthDate"
+            onChange={this.updateDraft}
             value={participant.birthDate}
           />
           <Select
