@@ -1,88 +1,92 @@
 import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
+import Typography from '@material-ui/core/Typography'
 import Form from '../../components/Form'
 import Input from '../../components/Input'
-import TextField from '@material-ui/core/TextField'
 import { updateDraft } from '../../redux/actions'
 
-class Achievement extends Component {
+class Priority extends Component {
+  achievement = this.props.currentDraft.achievements.find(
+    item => item.indicator === this.props.match.params.indicator
+  )
+
   state = {
-    question: null,
-    modalTitle: '',
-    whyDontYouHaveItText: '',
-    howManyMonthsWillItTakeText: ''
+    question: this.props.currentSurvey.surveyStoplightQuestions.find(
+      indicator => indicator.codeName === this.props.match.params.indicator
+    ),
+    roadmap: (this.achievement && this.achievement.roadmap) || '',
+    action: (this.achievement && this.achievement.action) || ''
+  }
+
+  updateAnswer = (field, value) => {
+    this.setState({
+      [field]: field === 'estimatedDate' ? parseInt(value, 10) : value
+    })
+  }
+
+  savePriority = () => {
+    const { currentDraft } = this.props
+    const { question, roadmap, action } = this.state
+
+    const achievement = {
+      roadmap,
+      action,
+      indicator: question.codeName
+    }
+
+    const item = currentDraft.achievements.filter(
+      item => item.indicator === question.codeName
+    )[0]
+
+    // If item exists update it
+    if (item) {
+      const index = currentDraft.achievements.indexOf(item)
+      this.props.updateDraft({
+        ...currentDraft,
+        achievements: [
+          ...currentDraft.achievements.slice(0, index),
+          achievement,
+          ...currentDraft.achievements.slice(index + 1)
+        ]
+      })
+    } else {
+      // If item does not exist create it
+      this.props.updateDraft({
+        ...currentDraft,
+        achievements: [...currentDraft.achievements, achievement]
+      })
+    }
+
+    this.props.history.goBack()
   }
 
   render() {
-    const { classes, t } = this.props
+    const { t } = this.props
+    const { question } = this.state
 
     return (
-      <div className={classes.modalPopupContainer}>
-        <div className={classes.modalAnswersDetailsContainer}>
-          <h1 className={classes.containerTitle}>{this.state.modalTitle}</h1>
-          <Form onSubmit={this.updateAnswer} submitLabel={t('general.save')}>
-            <Input
-              label={t('views.lifemap.whyDontYouHaveIt')}
-              value={this.state.whyDontYouHaveItText}
-              onChange={e =>
-                this.setState({ whyDontYouHaveItText: e.target.value })
-              }
-            />
-            <Input
-              required
-              label={t('views.lifemap.whatWillYouDoToGetIt')}
-              value={this.state.whatWillYouDoToGetItText}
-              onChange={e =>
-                this.setState({ whatWillYouDoToGetItText: e.target.value })
-              }
-            />
-            <TextField
-              inputProps={{ min: '1' }}
-              label={t('views.lifemap.howManyMonthsWillItTake')}
-              value={this.state.howManyMonthsWillItTakeText}
-              onChange={e =>
-                this.setState({
-                  howManyMonthsWillItTakeText: e.target.value
-                })
-              }
-              type="number"
-              required
-            />
-          </Form>
-        </div>
+      <div>
+        <Typography variant="h3" gutterBottom>
+          {question.questionText}
+        </Typography>
+        <Form onSubmit={this.savePriority} submitLabel={t('general.save')}>
+          <Input
+            required
+            label={t('views.lifemap.howDidYouGetIt')}
+            value={this.state.action}
+            field="action"
+            onChange={this.updateAnswer}
+          />
+          <Input
+            label={t('views.lifemap.whatDidItTakeToAchieveThis')}
+            value={this.state.roadmap}
+            field="roadmap"
+            onChange={this.updateAnswer}
+          />
+        </Form>
       </div>
     )
-  }
-}
-
-const styles = {
-  containerTitle: {
-    zIndex: 12
-  },
-  modalAnswersDetailsContainer: {
-    zIndex: 11,
-    width: 650,
-    height: 500,
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: '120px',
-    margin: 'auto'
-  },
-  modalPopupContainer: {
-    position: 'fixed',
-    width: '100vw',
-    top: '0px',
-    right: '0px',
-    bottom: '0px',
-    left: '0px',
-    height: '100vh',
-    backgroundColor: 'white',
-    zIndex: 1
   }
 }
 
@@ -92,9 +96,7 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 })
 const mapDispatchToProps = { updateDraft }
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(Achievement))
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(Priority))
