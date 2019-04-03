@@ -67,8 +67,6 @@ class Priority extends Component {
     const { t } = this.props
     const { question } = this.state
 
-    console.log(this.priority)
-
     return (
       <div>
         <Typography variant="h3" gutterBottom>
