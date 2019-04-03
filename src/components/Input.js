@@ -46,6 +46,8 @@ class Input extends Component {
         error={error}
         fullWidth
         helperText={error && this.state.errorMessage}
+        type={this.props.months ? 'number' : 'string'}
+        inputProps={this.props.months ? { min: '1' } : {}}
       />
     )
   }

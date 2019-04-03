@@ -7,7 +7,9 @@ import TitleBar from '../../components/TitleBar'
 import { withTranslation } from 'react-i18next'
 export class StoplightQuestions extends Component {
   state = {
-    question: null
+    question: this.props.currentSurvey.surveyStoplightQuestions[
+      this.props.match.params.page
+    ]
   }
   handleContinue = () => {
     const currentQuestionPage = this.props.match.params.page
@@ -42,13 +44,6 @@ export class StoplightQuestions extends Component {
     }
   }
 
-  setCurrentScreen() {
-    this.setState({
-      question: this.props.currentSurvey.surveyStoplightQuestions[
-        this.props.match.params.page
-      ]
-    })
-  }
   skipQuestion = () => {
     let { codeName } = this.state.question
     const { currentDraft } = this.props
@@ -119,9 +114,6 @@ export class StoplightQuestions extends Component {
       this.handleContinue()
     }
   }
-  componentDidMount() {
-    this.setCurrentScreen()
-  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
@@ -131,7 +123,7 @@ export class StoplightQuestions extends Component {
 
   render() {
     const { question } = this.state
-    const { classes, t, currentDraft } = this.props
+    const { classes, t } = this.props
 
     //do not delete this for now, we are probably going to use that in the future
     // let prevQuestion

@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import { updateDraft } from '../../redux/actions'
 import Input from '../../components/Input'
-import TextField from '@material-ui/core/TextField'
 export class Overview extends Component {
   state = {
     prioritiesModal: false,
@@ -108,7 +107,7 @@ export class Overview extends Component {
         questionKey: key,
         questionValue: 1
       })
-    } else if (value == 3) {
+    } else if (value === 3) {
       this.setState({
         achievementsModal: true,
         modalTitle: title,
@@ -142,73 +141,10 @@ export class Overview extends Component {
       }, {})
     }
 
+    console.log(currentDraft)
+
     return (
       <div>
-        {this.state.prioritiesModal ? (
-          <form
-            onSubmit={this.updateAnswer}
-            className={classes.modalPopupContainer}
-          >
-            <div className={classes.modalAnswersDetailsContainer}>
-              <h1 className={classes.containerTitle}>
-                {this.state.modalTitle}
-              </h1>
-              <Input
-                label={t('views.lifemap.whyDontYouHaveIt')}
-                value={this.state.whyDontYouHaveItText}
-                onChange={e =>
-                  this.setState({ whyDontYouHaveItText: e.target.value })
-                }
-              />
-              <Input
-                required
-                label={t('views.lifemap.whatWillYouDoToGetIt')}
-                value={this.state.whatWillYouDoToGetItText}
-                onChange={e =>
-                  this.setState({ whatWillYouDoToGetItText: e.target.value })
-                }
-              />
-              <TextField
-                inputProps={{ min: '1' }}
-                label={t('views.lifemap.howManyMonthsWillItTake')}
-                value={this.state.howManyMonthsWillItTakeText}
-                onChange={e =>
-                  this.setState({ howManyMonthsWillItTakeText: e.target.value })
-                }
-                type="number"
-                required
-              />
-
-              <div className={classes.buttonsContainer}>
-                <Button
-                  size="large"
-                  className={classes.modalButtonAnswersBack}
-                  onClick={() =>
-                    this.setState({
-                      prioritiesModal: false,
-                      modalTitle: '',
-                      howManyMonthsWillItTakeText: '',
-                      whyDontYouHaveItText: '',
-                      whatWillYouDoToGetItText: ''
-                    })
-                  }
-                >
-                  Go Back
-                </Button>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  className={classes.modalButtonAnswersSave}
-                >
-                  {t('general.save')}
-                </Button>
-              </div>
-            </div>
-          </form>
-        ) : null}
-
         {this.state.achievementsModal ? (
           <form
             onSubmit={this.updateAnswer}
@@ -260,40 +196,46 @@ export class Overview extends Component {
             </div>
           </form>
         ) : null}
+
         <TitleBar title={t('views.yourLifeMap')} />
         <div>
           {Object.keys(groupedAnswers).map(elem => {
             return (
               <div key={elem}>
                 <h1>{elem}</h1>
-                {groupedAnswers[elem].map(e => {
+                {groupedAnswers[elem].map(indicator => {
                   let color
                   let disBool = false
                   let displayType = 'none'
-                  if (e.value === 3) {
+                  if (indicator.value === 3) {
                     color = '#89bd76'
-                  } else if (e.value === 2) {
+                  } else if (indicator.value === 2) {
                     color = '#f0cb17'
-                  } else if (e.value === 1) {
+                  } else if (indicator.value === 1) {
                     color = '#e1504d'
-                  } else if (e.value === 0) {
+                  } else if (indicator.value === 0) {
                     color = 'grey'
                     disBool = true
                   }
                   currentDraft.priorities.forEach(prior => {
-                    if (prior.indicator === e.key) displayType = 'block'
+                    if (prior.indicator === indicator.key) displayType = 'block'
                   })
                   currentDraft.achievements.forEach(achieve => {
-                    if (achieve.indicator === e.key) displayType = 'block'
+                    if (achieve.indicator === indicator.key)
+                      displayType = 'block'
                   })
 
                   return (
                     <Button
-                      disabled={disBool}
+                      disabled={!indicator.value}
                       onClick={() =>
-                        this.showModal(e.key, e.value, e.questionText)
+                        this.props.history.push(
+                          `${
+                            indicator.value === 3 ? 'achievement' : 'priority'
+                          }/${indicator.key}`
+                        )
                       }
-                      key={e.key}
+                      key={indicator.key}
                       className={classes.overviewAnswers}
                     >
                       <div className={classes.buttonInsideContainer}>
@@ -307,7 +249,7 @@ export class Overview extends Component {
                           />
                         </div>
 
-                        <p>{e.questionText}</p>
+                        <p>{indicator.questionText}</p>
                       </div>
                     </Button>
                   )
@@ -385,6 +327,7 @@ const styles = {
     marginRight: '10px'
   }
 }
+
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
