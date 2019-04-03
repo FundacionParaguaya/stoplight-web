@@ -115,6 +115,14 @@ export class StoplightQuestions extends Component {
     }
   }
 
+  setCurrentScreen() {
+    this.setState({
+      question: this.props.currentSurvey.surveyStoplightQuestions[
+        this.props.match.params.page
+      ]
+    })
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
       this.setCurrentScreen()

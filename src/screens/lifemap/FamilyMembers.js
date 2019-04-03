@@ -1,22 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
 import { updateDraft } from '../../redux/actions'
-import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import TitleBar from '../../components/TitleBar'
+import Form from '../../components/Form'
 import Input from '../../components/Input'
 import TextField from '@material-ui/core/TextField'
 export class FamilyMembers extends Component {
-  updateDraft = (event, index) => {
+  updateDraft = (memberIndex, firstName) => {
     const { currentDraft } = this.props
-    let currList = currentDraft.familyData.familyMembersList
-    currList[index].firstName = event.target.value
+
+    // update only the family member that is edited
     this.props.updateDraft({
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
-        familyMembersList: currList
+        familyMembersList: currentDraft.familyData.familyMembersList.map(
+          (item, index) => {
+            if (memberIndex === index) {
+              return {
+                ...item,
+                firstName
+              }
+            } else {
+              return item
+            }
+          }
+        )
       }
     })
   }
@@ -25,60 +35,42 @@ export class FamilyMembers extends Component {
   }
 
   render() {
-    const { classes, t, currentDraft } = this.props
+    const { t, currentDraft } = this.props
+    const { familyMembersList } = currentDraft.familyData
+
+    const membersList = currentDraft.familyData.familyMembersList.slice(0)
+
     return (
       <div>
         <TitleBar title={t('views.familyMembers')} />
-        <div className={classes.container}>
-          {currentDraft.familyData.familyMembersList.map((e, index) => {
-            if (e.firstParticipant) {
-              return (
-                <TextField
-                  disabled
-                  key={index}
-                  label={t('views.family.firstName')}
-                  value={e.firstName}
-                  margin="dense"
-                  className={e.firstName}
-                />
-              )
-            } else {
-              return (
-                <Input
-                  key={index}
-                  label={t('views.family.familyMember')}
-                  value={e.firstName}
-                  margin="dense"
-                  onChange={e => this.updateDraft(e, index)}
-                />
-              )
-            }
-          })}
-        </div>
-        <Button
-          color="primary"
-          onClick={this.handleContinue}
-          variant="contained"
+        <TextField
+          disabled
+          label={`${t('views.family.familyMember')} 1 - ${t(
+            'views.family.participant'
+          )}`}
+          value={`${familyMembersList[0].firstName} ${
+            familyMembersList[0].lastName
+          }`}
+          margin="dense"
           fullWidth
+        />
+        <Form
+          onSubmit={this.handleContinue}
+          submitLabel={t('general.continue')}
         >
-          {t('general.continue')}
-        </Button>
+          {membersList.slice(1).map((item, index) => (
+            <Input
+              required
+              key={index}
+              field={index + 1}
+              label={`${t('views.family.familyMember')} ${index + 2}`}
+              value={item.firstName}
+              onChange={this.updateDraft}
+            />
+          ))}
+        </Form>
       </div>
     )
-  }
-}
-
-const styles = {
-  primaryParticipan: {
-    marginTop: 40,
-    marginBottom: 60
-  },
-  container: {
-    marginTop: 10,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
   }
 }
 
@@ -88,9 +80,8 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 })
 
 const mapDispatchToProps = { updateDraft }
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(FamilyMembers))
-)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(FamilyMembers))

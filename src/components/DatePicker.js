@@ -29,16 +29,18 @@ class DatePicker extends Component {
     }
 
     // validate
-    if (
-      this.props.required &&
-      ((!event && !this.props.value) || (event && !value))
-    ) {
-      this.props.setError(true, this.props.field)
-      this.setState({
-        errorMessage: t('validation.fieldIsRequired')
-      })
-    } else {
-      this.props.setError(false, this.props.field)
+    if (this.props.setError) {
+      if (
+        this.props.required &&
+        ((!event && !this.props.value) || (event && !value))
+      ) {
+        this.props.setError(true, this.props.field)
+        this.setState({
+          errorMessage: t('validation.fieldIsRequired')
+        })
+      } else {
+        this.props.setError(false, this.props.field)
+      }
     }
   }
 

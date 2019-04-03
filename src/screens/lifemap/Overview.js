@@ -141,8 +141,6 @@ export class Overview extends Component {
       }, {})
     }
 
-    console.log(currentDraft)
-
     return (
       <div>
         {this.state.achievementsModal ? (
@@ -205,7 +203,6 @@ export class Overview extends Component {
                 <h1>{elem}</h1>
                 {groupedAnswers[elem].map(indicator => {
                   let color
-                  let disBool = false
                   let displayType = 'none'
                   if (indicator.value === 3) {
                     color = '#89bd76'
@@ -215,7 +212,6 @@ export class Overview extends Component {
                     color = '#e1504d'
                   } else if (indicator.value === 0) {
                     color = 'grey'
-                    disBool = true
                   }
                   currentDraft.priorities.forEach(prior => {
                     if (prior.indicator === indicator.key) displayType = 'block'

@@ -1,70 +1,72 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
-import { updateDraft } from '../../redux/actions'
-import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import { withTranslation } from 'react-i18next'
+import { updateDraft } from '../../redux/actions'
 import TitleBar from '../../components/TitleBar'
 import Select from '../../components/Select'
 import DatePicker from '../../components/DatePicker'
 class GenderAndBirthrates extends Component {
-  updateDraftGender = (field, event, index) => {
+  updateDraft = (memberIndex, value, property) => {
     const { currentDraft } = this.props
-    let currList = currentDraft.familyData.familyMembersList
-    currList[index].gender = event.target.value
+
+    // update only the family member that is edited
     this.props.updateDraft({
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
-        familyMembersList: currList
+        familyMembersList: currentDraft.familyData.familyMembersList.map(
+          (item, index) => {
+            if (memberIndex === index) {
+              return {
+                ...item,
+                [property]: value
+              }
+            } else {
+              return item
+            }
+          }
+        )
       }
     })
   }
-  updateDraftBirthDate = (field, event, index) => {
-    const { currentDraft } = this.props
-    let currList = currentDraft.familyData.familyMembersList
-    currList[index].birthDate = event.target.value
-    this.props.updateDraft({
-      ...currentDraft,
-      familyData: {
-        ...currentDraft.familyData,
-        familyMembersList: currList
-      }
-    })
-  }
+
   handleContinue = () => {
     this.props.history.push('/lifemap/location')
   }
 
   render() {
-    const { classes, t, currentDraft, currentSurvey } = this.props
+    const { t, currentDraft, currentSurvey } = this.props
     const { surveyConfig } = currentSurvey
+    const membersList = currentDraft.familyData.familyMembersList.slice(0)
+
     return (
       <div>
         <TitleBar title={t('views.gendersBirthDates')} />
 
-        {currentDraft.familyData.familyMembersList.map((e, index) => {
-          if (!e.firstParticipant) {
-            return (
-              <div>
-                <div> {e.firstName}</div>
-                <Select
-                  label={t('views.family.selectGender')}
-                  value={e.gender}
-                  onChange={e => this.updateDraftGender('gender', e, index)}
-                  options={surveyConfig.gender}
-                />
-                <DatePicker
-                  label={t('views.family.dateOfBirth')}
-                  onChange={e =>
-                    this.updateDraftBirthDate('birthDate', e, index)
-                  }
-                  value={e.birthDate}
-                />
-              </div>
-            )
-          }
-        })}
+        {membersList.slice(1).map((item, index) => (
+          <div key={index}>
+            <Typography variant="h4">{item.firstName}</Typography>
+            <Select
+              label={t('views.family.selectGender')}
+              value={item.gender}
+              field={index + 1}
+              onChange={(index, value) =>
+                this.updateDraft(index, value, 'gender')
+              }
+              options={surveyConfig.gender}
+            />
+            <DatePicker
+              label={t('views.family.dateOfBirth')}
+              field={index + 1}
+              onChange={(index, value) =>
+                this.updateDraft(index, value, 'birthDate')
+              }
+              value={item.birthDate}
+            />
+          </div>
+        ))}
         <Button
           color="primary"
           onClick={this.handleContinue}
@@ -78,29 +80,13 @@ class GenderAndBirthrates extends Component {
   }
 }
 
-const styles = {
-  primaryParticipan: {
-    marginTop: 40,
-    marginBottom: 60
-  },
-  container: {
-    marginTop: 10,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-}
-
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
 })
 
 const mapDispatchToProps = { updateDraft }
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(GenderAndBirthrates))
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(GenderAndBirthrates))
