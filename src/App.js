@@ -1,105 +1,54 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline' // provides css reset
+import { PersistGate } from 'redux-persist/integration/react'
+import Header from './Header'
+import SurveysComponent from './screens/Surveys'
+import Lifemap from './screens/Lifemap'
+import store, { persistor } from './redux'
+import defaultTheme from './theme'
 
-import { logout, login } from "./redux/actions";
-import i18n from "./i18n";
-import Surveys from "./containers/Surveys";
-import Lifemap from "./containers/Lifemap";
-
-import Nav from "./components/Nav";
-import Dots from "./components/Dots";
-
-function getParams(location) {
-  const searchParams = new URLSearchParams(location.search);
-  let env = document.referrer.split(".")[0].split("//")[1] || "testing";
-  console.log(env);
-  switch (env) {
-    case "testing":
-      env = "test";
-      break;
-    case "demo":
-      env = "demo";
-      break;
-    case "platform":
-      env = "prod";
-      break;
-    default:
-  }
-  return {
-    sid: searchParams.get("sid") || "",
-    username: searchParams.get("username") || "",
-    env: env
-  };
-}
-
-/**
- * This is the Entry Pyont
- * @param {object} state - redux state that contains user information
- */
 class App extends Component {
-  constructor(props) {
-    super(props);
-    let url = new URL(window.location);
-    this.state = {
-      urlParams: getParams(window.location)
-    };
-
-    if (this.state.urlParams.sid !== "") {
-      this.props.setLogin(this.state.urlParams.sid, this.state.urlParams.env);
-    }
-
-    if (url.searchParams.get("lang")) {
-      let lang = url.searchParams.get("lang");
-      i18n.changeLanguage(lang);
-    }
-  }
   render() {
-    const {
-      state: {
-        user: { token }
-      }
-    } = this.props;
-    if (token) {
-      return (
-        <Router>
-          <div>
-            <Dots />
-            <div>
-              <Nav />
-            </div>
-            <div className="main-card card">
-              <Switch>
-                <Route exact path="/surveys" component={Surveys} />
-                <Route path="/lifemap" component={Lifemap} />
-              </Switch>
-            </div>
-          </div>
-        </Router>
-      );
-    } else {
-      return (
-        <div>
-          <Dots />
-        </div>
-      );
-    }
+    const { classes } = this.props
+
+    return (
+      <MuiThemeProvider theme={defaultTheme}>
+        <React.Fragment>
+          <CssBaseline />
+          <Provider store={store}>
+            <PersistGate persistor={persistor}>
+              <Router>
+                <div>
+                  <Header />
+                  <div className={classes.appContainer}>
+                    <Switch>
+                      <Route path="/surveys" component={SurveysComponent} />
+                      <Route path="/lifemap" component={Lifemap} />
+                    </Switch>
+                  </div>
+                </div>
+              </Router>
+            </PersistGate>
+          </Provider>
+        </React.Fragment>
+      </MuiThemeProvider>
+    )
   }
 }
 
-const mapStateToProps = state => ({
-  state: state
-});
-const mapDispatchToProps = dispatch => ({
-  logout: () => {
-    dispatch(logout());
-  },
-  setLogin: (token, env) => {
-    dispatch(login(token, env));
+const styles = {
+  appContainer: {
+    marginTop: 70,
+    width: 720,
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'center'
   }
-});
+}
 
-export default (App = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App));
+export default withStyles(styles)(App)

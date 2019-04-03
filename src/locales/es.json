@@ -13,7 +13,17 @@
     "close": "Guardar & cerrar",
     "yes": "Sí",
     "no": "No",
-    "resumeDraft": "Continuar borrador"
+    "delete": "Eliminar",
+    "warning": "Cuidado",
+    "cancel": "Cancelar",
+    "drafts": "Borradores",
+    "resumeDraft": "Continuar borrador",
+    "lifeMaps": "Mapas de Vida",
+    "familyInfo": "Información de la familia",
+    "family": "Familia",
+    "cachedData": "Datos almacenados",
+    "chooseView": "Elegir vista",
+    "create": "Crear"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -39,6 +49,8 @@
     "december": "Diciembre"
   },
   "views": {
+    "synced": "Sincronización",
+    "families": "Familias",
     "dashboard": "Tablero",
     "createLifemap": "Crear un Mapa de Vida",
     "latestDrafts": "Últimas instantáneas",
@@ -50,8 +62,7 @@
     "yourLifeMap": "Tu Mapa de Vida",
     "primaryParticipant": "Participante de la familia",
     "familyMembers": "Miembros de la familia",
-    "gender": "Género",
-    "birthDates": "Fechas de nacimiento",
+    "gendersBirthDates": "Géneros & fechas de nacimiento",
     "skippedIndicators": "Preguntas omitidas",
     "readCarefully": "Favor lea atentamente antes de crear el Mapa de Vida",
     "family": {
@@ -68,9 +79,12 @@
       "documentType": "Tipo de documento",
       "countryOfBirth": "País de nacimiento",
       "selectMonth": "Seleccione mes",
-      "selectValidDate": "Favor ingrese una fecha válida. Por ejemplo, 03 de mayo de 1977.",
+      "selectValidDate": "Favor ingrese una fecha válida",
       "name": "Nombre",
       "peopleLivingInThisHousehold": "Número de personas viviendo en esta casa. ",
+      "household": "familia",
+      "onlyPerson": "1 - Soy la única persona",
+      "preferNotToSay": "Prefiero no responder",
       "familyMember": "Miembro de la familia",
       "participant": "Participante",
       "gender": "Género",
@@ -85,7 +99,16 @@
       "checkLocationServicesTurnedOn": "¡Comprueba que los servicios de localización están activados en la configuración de tu dispositivo!",
       "giveDetailInTheFormBelow": "¡Alternativamente, dé tantos detalles como pueda con respecto a la ubicación en el siguiente formulario!",
       "searchByStreetOrPostalCode": "Búsqueda por calle o código postal",
-      "gettingYourLocation": "Obteniendo tu ubicación..."
+      "gettingYourLocation": "Obteniendo tu ubicación...",
+      "mapUnavailavleOffline": "Desafortunadamente, no podemos cargar el mapa porque estás sin conexión.",
+      "weHaveLocation": "Sin embargo, pudimos obtener la ubicación de su dispositivo.",
+      "neitherMapNorLocation": "Desafortunadamente, no podemos cargar el mapa ni obtener la ubicación de su dispositivo.",
+      "describeLocation": "¿Podría describir su ubicación de la forma más precisa posible a continuación?",
+      "error": "Error: No se puede visualizar el perfil de familia",
+      "details": "Detalles",
+      "lifemap": "Mapa de vida",
+      "lifeMapCreatedOn": "Borrador del Mapa de Vida creado",
+      "created": "Creado"
     },
     "lifemap": {
       "thisLifeMapHas": "Este Mapa de Vida tiene %n preguntas. ¡Tardará aproximadamente 35 minutos en completarse!",
@@ -106,7 +129,13 @@
       "youHaveCompletedTheLifemap": "Has completado tu Mapa de Vida",
       "youNeedToAddPriotity": "Necesitas agregar una prioridad",
       "youNeedToAddPriorities": "Necesitas agregar %n prioridades",
-      "beforeTheLifeMapIsCompleted": "Antes de que se complete el Mapa de Vida...."
+      "beforeTheLifeMapIsCompleted": "Antes de que se complete el Mapa de Vida....",
+      "green": "Verde",
+      "yellow": "Amarillo",
+      "red": "Rojo",
+      "priorities": "Prioridades",
+      "achievements": "Logros",
+      "toComplete": "Antes de que se complete el Mapa de Vida...."
     },
     "modals": {
       "lifeMapWillNotBeSaved": "Si no ingresa todos los detalles en esta página, ¡el Mapa de Vida no se guardará!",
@@ -121,7 +150,20 @@
       "thisDataWillBeLost": "Estos datos se perderán",
       "weWillMissYou": "Te extrañaremos",
       "comeBackSoon": "¡Vuelve pronto!",
+      "looseYourData": "Perderás datos sin sincronizar.",
+      "cannotUndo": "Esto no se puede deshacer.",
       "areYouSureYouWantToLogOut": "¿Estás seguro de que quieres cerrar sesión?"
+    },
+    "sync": {
+      "upToDate": "¡Estás al día!",
+      "lastSync": "Última sincronización: ",
+      "syncStatus": "Sincronización",
+      "offline": "Sin conexión",
+      "updatesPending": "%n actualizaciones pendientes",
+      "updatePending": "1 actualización pendiente",
+      "inProgress": "Sincronización en marcha",
+      "of": "de",
+      "updates": "actualizaciones"
     }
   }
 }
