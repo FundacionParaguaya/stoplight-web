@@ -46,7 +46,7 @@ export class Location extends Component {
           }
         })
       })
-      .catch(error => console.error('Error', error))
+      .catch(error => {})
   }
 
   updateDraft = (field, value) => {
@@ -81,7 +81,7 @@ export class Location extends Component {
   }
 
   componentDidMount = async () => {
-    const { currentDraft, currentSurvey } = this.props
+    const { currentDraft } = this.props
     // get user location happens here
 
     if (!currentDraft.familyData.latitude) {
@@ -95,8 +95,7 @@ export class Location extends Component {
           familyData: {
             ...currentDraft.familyData,
             latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            country: currentSurvey.surveyConfig.surveyLocation.country
+            longitude: position.coords.longitude
           }
         })
       })
@@ -198,7 +197,7 @@ export class Location extends Component {
           <Select
             required
             label={t('views.family.selectACountry')}
-            value={familyData.country}
+            value={familyData.country || ''}
             field="country"
             onChange={this.updateDraft}
             country

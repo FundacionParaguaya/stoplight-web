@@ -91,7 +91,12 @@ export class PrimaryParticipant extends Component {
         i <= value - 1;
         i++
       ) {
-        names2.push({ firstName: '', gender: '', birthDate: '' })
+        names2.push({
+          firstName: '',
+          gender: '',
+          birthDate: '',
+          firstParticipant: false
+        })
       }
       this.props.updateDraft({
         ...currentDraft,
