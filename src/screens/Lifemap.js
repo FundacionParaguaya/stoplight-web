@@ -8,9 +8,12 @@ import BeginStoplight from './lifemap/BeginStoplight'
 import StoplightQuestions from './lifemap/StoplightQuestions'
 import OverviewScreen from './lifemap/Overview'
 import FinalScreen from './lifemap/Final'
-import FamilyMembers from './lifemap/FamilyMembers'
+import FamilyMembersScreen from './lifemap/FamilyMembers'
 import GenderAndBirthrates from './lifemap/GenderAndBirthrates'
-import SkippedQuestions from './lifemap/SkippedQuestions'
+import SkippedQuestionsScreen from './lifemap/SkippedQuestions'
+import Priority from './lifemap/Priority'
+import Achievement from './lifemap/Achievement'
+
 class Lifemap extends Component {
   render() {
     return (
@@ -30,7 +33,7 @@ class Lifemap extends Component {
         />
         <Route
           path={`${this.props.match.path}/family-members`}
-          component={FamilyMembers}
+          component={FamilyMembersScreen}
         />
 
         <Route
@@ -51,11 +54,19 @@ class Lifemap extends Component {
         />
         <Route
           path={`${this.props.match.path}/skipped-questions`}
-          component={SkippedQuestions}
+          component={SkippedQuestionsScreen}
         />
         <Route
           path={`${this.props.match.path}/overview`}
           component={OverviewScreen}
+        />
+        <Route
+          path={`${this.props.match.path}/achievement/:indicator`}
+          component={Achievement}
+        />
+        <Route
+          path={`${this.props.match.path}/priority/:indicator`}
+          component={Priority}
         />
         <Route
           path={`${this.props.match.path}/final`}

@@ -9,7 +9,7 @@ import SkippedImg from '../../assets/skipped.png'
 import Typography from '@material-ui/core/Typography'
 export class SkippedQuestions extends Component {
   goToQuestion = e => {
-    const { currentDraft, currentSurvey } = this.props
+    const { currentSurvey } = this.props
     currentSurvey.surveyStoplightQuestions.forEach((ele, index) => {
       if (e.key === ele.codeName) {
         this.props.history.push({
@@ -22,10 +22,8 @@ export class SkippedQuestions extends Component {
   render() {
     const { t, classes, currentDraft, currentSurvey } = this.props
     let groupedAnswers
-    let finalQuestion
     let userAnswers = []
     if (currentSurvey) {
-      finalQuestion = currentSurvey.surveyStoplightQuestions.length - 1
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
           if (e.codeName === ele.key && ele.value === 0) {
