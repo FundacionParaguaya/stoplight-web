@@ -11,24 +11,26 @@ export class Surveys extends Component {
   state = { surveys: [], loading: true }
 
   setupUser(token) {
-    this.props.updateUser({
+    const user = {
       username: 'cannot get user name at this stage',
       token,
       env:
         document.referrer.split('.').length > 1
           ? document.referrer.split('.')[0].split('//')[1]
           : 'testing'
-    })
+    }
+    this.props.updateUser(user)
+    this.getSurveys(user)
   }
 
-  getSurveys() {
-    getSurveys(this.props.user)
+  getSurveys(user) {
+    getSurveys(user || this.props.user)
       .then(response => {
         this.setState({
           surveys: response.data.data.surveysByUser
         })
       })
-      .catch(error => {})
+      .catch(error => console.log(error))
       .finally(() =>
         this.setState({
           loading: false
@@ -80,26 +82,16 @@ export class Surveys extends Component {
     this.props.updateDraft(null)
     this.props.updateSurvey(null)
 
-    let token = null
-
     // check for user token from the location params,
     // else check if there is one in the store
     if (this.props.location.search.match(/sid=(.*)&/)) {
-      token = this.props.location.search.match(/sid=(.*)&/)[1]
-    } else if (this.props.user.token) {
-      token = this.props.user.token
-    }
-
-    this.setupUser(token)
-
-    if (this.props.user) {
-      this.getSurveys()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    // when user is setup in store, get the surveys
-    if (!prevProps.user && this.props.user) {
+      const token = this.props.location.search.match(/sid=(.*)&/)[1]
+      if (this.props.user && token !== this.props.user.token) {
+        this.setupUser(token)
+      } else {
+        this.getSurveys()
+      }
+    } else {
       this.getSurveys()
     }
   }
