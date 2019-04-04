@@ -24,14 +24,20 @@ export class Surveys extends Component {
   }
 
   getSurveys(user) {
-    console.log(this.props.user)
     getSurveys(user || this.props.user)
       .then(response => {
         this.setState({
           surveys: response.data.data.surveysByUser
         })
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        if (error.response.status == 401) {
+          window.location.replace(
+            `https://${this.props.user.env}.povertystoplight.org/login.html`
+          )
+        }
+      })
+
       .finally(() =>
         this.setState({
           loading: false
