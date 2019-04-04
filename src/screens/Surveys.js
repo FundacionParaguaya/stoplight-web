@@ -24,6 +24,7 @@ export class Surveys extends Component {
   }
 
   getSurveys(user) {
+    console.log(this.props.user)
     getSurveys(user || this.props.user)
       .then(response => {
         this.setState({
