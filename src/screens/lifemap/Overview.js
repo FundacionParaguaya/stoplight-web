@@ -196,6 +196,29 @@ export class Overview extends Component {
         ) : null}
 
         <TitleBar title={t('views.yourLifeMap')} />
+        <div className={classes.ballsContainer}>
+          {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
+            let color
+
+            if (indicator.value === 3) {
+              color = '#89bd76'
+            } else if (indicator.value === 2) {
+              color = '#f0cb17'
+            } else if (indicator.value === 1) {
+              color = '#e1504d'
+            } else if (indicator.value === 0) {
+              color = 'grey'
+            }
+
+            return (
+              <div
+                key={indicator.key}
+                style={{ backgroundColor: color }}
+                className={classes.roundBall}
+              />
+            )
+          })}
+        </div>
         <div>
           {Object.keys(groupedAnswers).map(elem => {
             return (
@@ -268,6 +291,17 @@ export class Overview extends Component {
   }
 }
 const styles = {
+  ballsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '20px'
+  },
+  roundBall: {
+    display: 'block',
+    width: 25,
+    height: 25,
+    borderRadius: '50%'
+  },
   roundBoxSmall: {
     width: 15,
     height: 15,
