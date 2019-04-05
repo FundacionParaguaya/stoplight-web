@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions'
 import { getSurveys } from '../api'
-
+import i18n from '../i18n'
 export class Surveys extends Component {
   state = { surveys: [], loading: true }
 
@@ -92,6 +92,13 @@ export class Surveys extends Component {
     // check for user token from the location params,
     // else check if there is one in the store
     if (this.props.location.search.match(/sid=(.*)&/)) {
+      //remove .replace later when the &lang=en} is changed to &lang=en
+      let lng = this.props.location.search
+        .match(/&lang=(.*)/)[1]
+        .replace(/}/, '')
+
+      localStorage.setItem('language', lng)
+      i18n.changeLanguage(lng)
       const token = this.props.location.search.match(/sid=(.*)&/)[1]
       if (this.props.user && token !== this.props.user.token) {
         this.setupUser(token)
