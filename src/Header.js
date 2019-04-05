@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { withStyles, withTheme } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import logo from './assets/icon_stoplight.png'
@@ -22,9 +22,9 @@ class Header extends Component {
     langaugeMenuMain: 'en'
   }
   componentDidMount() {
-    if (localStorage.getItem('language') == 'en') {
+    if (localStorage.getItem('language') === 'en') {
       this.setState({ langaugeMenuMain: 'en' })
-    } else if (localStorage.getItem('language') == 'es') {
+    } else if (localStorage.getItem('language') === 'es') {
       this.setState({ langaugeMenuMain: 'es' })
     }
   }
@@ -41,7 +41,7 @@ class Header extends Component {
   }
   render() {
     const { classes, user, t } = this.props
-    console.log(this.props)
+
     return (
       <AppBar className={classes.header} position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
@@ -86,7 +86,7 @@ class Header extends Component {
             aria-haspopup="true"
             onClick={this.handleToggle}
           >
-            {this.state.langaugeMenuMain == 'en' ? 'English' : 'Español'}
+            {this.state.langaugeMenuMain === 'en' ? 'English' : 'Español'}
 
             <i className="material-icons">arrow_drop_down</i>
           </Button>

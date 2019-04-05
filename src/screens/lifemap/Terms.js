@@ -29,6 +29,7 @@ export class Terms extends Component {
   }
   render() {
     const { classes, t } = this.props
+
     return (
       <div>
         {this.props.location.pathname === '/lifemap/terms' ? (
@@ -43,7 +44,12 @@ export class Terms extends Component {
         </div>
         <hr className={classes.hoziontalLine} />
 
-        <p className={classes.termsDescription}>{this.state.text}</p>
+        <div
+          className={classes.termsDescription}
+          dangerouslySetInnerHTML={{
+            __html: this.state.text.replace(/(?:\\n)/g, '<br />')
+          }}
+        />
 
         <div className={classes.buttonContainerTerms}>
           <Button
