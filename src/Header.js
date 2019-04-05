@@ -22,10 +22,13 @@ class Header extends Component {
     langaugeMenuMain: 'en'
   }
   componentDidMount() {
-    if (localStorage.getItem('language') === 'en') {
-      this.setState({ langaugeMenuMain: 'en' })
-    } else if (localStorage.getItem('language') === 'es') {
-      this.setState({ langaugeMenuMain: 'es' })
+    let lng = localStorage.getItem('language')
+    this.setState({ langaugeMenuMain: lng })
+  }
+  componentDidUpdate() {
+    let lng = localStorage.getItem('language')
+    if (this.state.langaugeMenuMain !== lng) {
+      this.setState({ langaugeMenuMain: lng })
     }
   }
   handleToggle = () => {
@@ -78,6 +81,7 @@ class Header extends Component {
             <Typography className={classes.menuLinkText}>Map</Typography>
           </a>
           <Button
+            className={classes.translationBox}
             style={{ color: 'white' }}
             buttonRef={node => {
               this.anchorEl = node
@@ -127,6 +131,9 @@ class Header extends Component {
 }
 
 const styles = {
+  translationBox: {
+    marginLeft: 'auto'
+  },
   header: {
     boxShadow: 'none'
   },
