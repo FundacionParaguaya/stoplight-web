@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions'
 import { getSurveys } from '../api'
 import i18n from '../i18n'
+import { withTranslation } from 'react-i18next'
 export class Surveys extends Component {
   state = { surveys: [], loading: true }
 
@@ -111,11 +112,11 @@ export class Surveys extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, t } = this.props
 
     return (
       <React.Fragment>
-        <h1>Surveys</h1>
+        <h1>{t('views.createLifemap')}</h1>
         <div className={classes.list}>
           {this.state.loading && (
             <div className={classes.spinnerWrapper}>
@@ -162,6 +163,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(Surveys)
+    )(withTranslation()(Surveys))
   )
 )

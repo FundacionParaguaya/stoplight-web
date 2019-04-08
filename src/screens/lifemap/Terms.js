@@ -47,7 +47,8 @@ export class Terms extends Component {
         <div
           className={classes.termsDescription}
           dangerouslySetInnerHTML={{
-            __html: this.state.text.replace(/(?:\\n)/g, '<br />')
+            __html:
+              this.state.text && this.state.text.replace(/(?:\\n)/g, '<br />')
           }}
         />
 
