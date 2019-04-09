@@ -62,7 +62,36 @@ export class Surveys extends Component {
       // if there is object for n screen create one
       if (!questionsPerScreen[totalScreens - 1]) {
         questionsPerScreen[totalScreens - 1] = {
-          forFamilyMember: [],
+          forFamilyMember: [
+            // DO NOT COMMIT!!!
+            {
+              questionText: 'What is your highest educational level?',
+              answerType: 'number',
+              dimension: 'Education',
+              codeName: 3,
+              required: true,
+              forFamilyMember: true
+            },
+            {
+              questionText:
+                'What is the property title situation of your household?',
+              answerType: 'select',
+              dimension: 'Education',
+              required: false,
+              codeName: 2,
+              forFamilyMember: false,
+              options: [
+                { value: 'OWNER', text: 'Owner' },
+                {
+                  value: 'COUNCIL-HOUSING-ASSOCIATION',
+                  text: 'Council/Housing Association'
+                },
+                { value: 'PRIVATE-RENTAL', text: 'Private rental' },
+                { value: 'LIVING-WITH-PARENTS', text: 'Living with Parents' },
+                { value: 'PREFER-NOT-TO-SAY', text: 'Prefer not to say' }
+              ]
+            }
+          ],
           forFamily: []
         }
       }
