@@ -82,6 +82,15 @@ class Header extends Component {
           >
             <Typography className={classes.menuLinkText}>Map</Typography>
           </a>
+
+          <Button
+            className={classes.faqHeader}
+            onClick={() =>
+              window.location.replace('https://intercom.help/poverty-stoplight')
+            }
+          >
+            FAQ
+          </Button>
           <Button
             className={classes.translationBox}
             style={{ color: 'white' }}
@@ -102,6 +111,7 @@ class Header extends Component {
 
             <i className="material-icons">arrow_drop_down</i>
           </Button>
+
           <Popper
             open={this.state.open}
             anchorEl={this.anchorEl}
@@ -149,15 +159,20 @@ class Header extends Component {
 }
 
 const styles = {
+  faqHeader: {
+    color: 'white',
+    marginLeft: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    cursor: 'pointer'
+  },
   imgLogo: {
     width: '20px',
     height: '15px',
     objectFit: 'cover',
     marginRight: '10px'
   },
-  translationBox: {
-    marginLeft: 'auto'
-  },
+
   header: {
     boxShadow: 'none'
   },
