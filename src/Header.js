@@ -16,6 +16,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
 import { withTranslation } from 'react-i18next'
 import i18n from './i18n'
+import englishLogo from './assets/english.png'
+import paragLogo from './assets/paraguay.png'
 class Header extends Component {
   state = {
     open: false,
@@ -90,6 +92,12 @@ class Header extends Component {
             aria-haspopup="true"
             onClick={this.handleToggle}
           >
+            {this.state.langaugeMenuMain === 'en' ? (
+              <img className={classes.imgLogo} src={englishLogo} alt="eng" />
+            ) : (
+              <img className={classes.imgLogo} src={paragLogo} alt="eng" />
+            )}
+
             {this.state.langaugeMenuMain === 'en' ? 'English' : 'Español'}
 
             <i className="material-icons">arrow_drop_down</i>
@@ -113,9 +121,19 @@ class Header extends Component {
                   <ClickAwayListener onClickAway={this.handleCloseAway}>
                     <MenuList>
                       <MenuItem onClick={() => this.handleClose('en')}>
+                        <img
+                          className={classes.imgLogo}
+                          src={englishLogo}
+                          alt="eng"
+                        />
                         English
                       </MenuItem>
                       <MenuItem onClick={() => this.handleClose('es')}>
+                        <img
+                          className={classes.imgLogo}
+                          src={paragLogo}
+                          alt="eng"
+                        />
                         Español
                       </MenuItem>
                     </MenuList>
@@ -131,6 +149,12 @@ class Header extends Component {
 }
 
 const styles = {
+  imgLogo: {
+    width: '20px',
+    height: '15px',
+    objectFit: 'cover',
+    marginRight: '10px'
+  },
   translationBox: {
     marginLeft: 'auto'
   },
