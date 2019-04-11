@@ -12,24 +12,44 @@ export const theme = {
     },
     error: {
       main: '#e1504d'
+    },
+    text: {
+      primary: '#1c212f',
+    },
+    background: {
+      paper: '#f3f4f6',
+      default: '#fff'
     }
   },
   typography: {
+    fontSize: 18,
+    fontFamily: 'Roboto',
     useNextVariants: true,
-    fontFamily: [
-      'Poppins',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-  }
+    caption: {
+      fontSize: 18,
+      color: '#fff'
+    },
+    h4: {
+      fontFamily: 'Poppins',
+      color: '#626262',
+      fontWeight: 600,
+      fontSize: 30,
+      letterSpacing: 0.33,
+      lineHeight: '46px'
+    },
+    h5: {
+      fontFamily: 'Poppins',
+      color: '#626262',
+      fontWeight: 600,
+      fontSize: 22,
+      letterSpacing: 0.24,
+      lineHeight: '33px'
+    }
+  },
+  shape: {
+    padding: 30
+  },
+  spacing: [0,2,4,8]
 }
 
 export default createMuiTheme(theme)
