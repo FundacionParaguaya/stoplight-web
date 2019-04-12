@@ -22,7 +22,7 @@ class App extends Component {
             <PersistGate persistor={persistor}>
               <Router>
                 <div>
-                  {/* <Header /> */}
+                  <Header />
                   <div className={classes.appContainer}>
                     <Switch>
                       <Route path="/surveys" component={SurveysComponent} />
