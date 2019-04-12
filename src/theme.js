@@ -47,9 +47,8 @@ export const theme = {
     }
   },
   shape: {
-    padding: 30
-  },
-  spacing: [0,2,4,8]
+    padding: 40
+  }
 }
 
 export default createMuiTheme(theme)
