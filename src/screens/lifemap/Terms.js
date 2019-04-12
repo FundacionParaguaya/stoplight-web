@@ -54,21 +54,12 @@ export class Terms extends Component {
         <p className={classes.termsDescription}>{this.state.text}</p>
 
         <div className={classes.buttonContainerTerms}>
-          <Button
-            variant="contained"
-            className={classes.buttonTermsDisagree}
-            onClick={this.handleDisagree}
-          >
-            {t('general.disagree')}
-          </Button>
-          <Button
-            className={classes.buttonTermsAgree}
-            variant="contained"
-            color="primary"
-            onClick={this.handleContinue}
-          >
+          <SecondaryButton onClick={this.handleDisagree}>
+            {t('general.disagree')} 
+          </SecondaryButton>
+          <PrimaryButton onClick={this.handleContinue}>
             {t('general.agree')}
-          </Button>
+          </PrimaryButton>
         </div>
       </div>
     )
