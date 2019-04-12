@@ -41,7 +41,7 @@ class App extends Component {
 
 const styles = {
   appContainer: {
-    // marginTop: 60,
+    marginTop: 60,
     width: 1024,
     margin: 'auto',
     display: 'flex',
