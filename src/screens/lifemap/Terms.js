@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import Checkbox from '../../assets/Checkbox.png'
 import { withTranslation } from 'react-i18next'
-import { Typography } from '@material-ui/core'
+import { Typography, Button } from '@material-ui/core'
 import { theme } from '../../theme'
 import NavIcons from '../../components/NavIcons'
-import { SecondaryButton, PrimaryButton } from '../../components/Buttons'
 
 export class Terms extends Component {
   state = {
@@ -53,12 +52,12 @@ export class Terms extends Component {
         </div>
 
         <div className={classes.buttonContainerTerms}>
-          <SecondaryButton onClick={this.handleDisagree}>
+          <Button onClick={this.handleDisagree}>
             {t('general.disagree')} 
-          </SecondaryButton>
-          <PrimaryButton onClick={this.handleContinue}>
+          </Button>
+          <Button onClick={this.handleContinue}>
             {t('general.agree')}
-          </PrimaryButton>
+          </Button>
         </div>
       </div>
     )
