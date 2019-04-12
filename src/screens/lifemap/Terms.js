@@ -49,9 +49,6 @@ export class Terms extends Component {
           <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
           <div className={classes.lowerTitle}>{this.state.title}</div>
         </div>
-        <hr className={classes.hoziontalLine} />
-
-        <p className={classes.termsDescription}>{this.state.text}</p>
 
         <div className={classes.buttonContainerTerms}>
           <SecondaryButton onClick={this.handleDisagree}>
