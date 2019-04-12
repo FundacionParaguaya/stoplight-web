@@ -52,10 +52,10 @@ export class Terms extends Component {
         </div>
 
         <div className={classes.buttonContainerTerms}>
-          <Button onClick={this.handleDisagree}>
+          <Button variant="text" onClick={this.handleDisagree}>
             {t('general.disagree')} 
           </Button>
-          <Button onClick={this.handleContinue}>
+          <Button variant="contained" onClick={this.handleContinue}>
             {t('general.agree')}
           </Button>
         </div>
