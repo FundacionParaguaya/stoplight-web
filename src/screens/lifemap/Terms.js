@@ -45,9 +45,9 @@ export class Terms extends Component {
           </div>
         )}
 
-        <div className={classes.CheckboxImgAndTitleContainer}>
-          <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
-          <div className={classes.lowerTitle}>{this.state.title}</div>
+        <div className={classes.contentContainer}>
+          <Typography variant="h5">{this.state.title}</Typography>
+          <Typography color="textPrimary">{this.state.text.replace(/(\r\n|\n|\r)/gm,'asgsd')}</Typography>
         </div>
 
         <div className={classes.buttonContainerTerms}>
