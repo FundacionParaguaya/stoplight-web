@@ -48,7 +48,48 @@ export const theme = {
   },
   shape: {
     padding: 40
-  }
+  },
+  shadows: ['none'],
+  overrides: {
+    MuiButton: {
+      text: {
+        '&:hover': {
+          backgroundColor: 'transparent',
+          textDecoration: 'underline'
+        },
+        textTransform: 'capitalize',
+        fontSize: 16,
+        fontFamily: 'Poppins',
+        borderRadius: 3,
+        border: 0,
+        color: '#309E43',
+        height: 38,
+        width: 280,
+        padding: '0 30px',
+        textDecoration: 'underline'
+      },
+      contained: {
+        '&:hover': {
+          backgroundColor: '#309E43',
+        },
+        textTransform: 'capitalize',
+        fontSize: 16,
+        fontFamily: 'Poppins',
+        backgroundColor: '#309E43',
+        borderRadius: 3,
+        border: 0,
+        color: '#fff',
+        height: 38,
+        width: 280,
+        padding: '0 30px',
+      }
+    },
+  },
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
+  },
 }
 
 export default createMuiTheme(theme)
