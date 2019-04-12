@@ -91,7 +91,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 25,
-    marginBottom: 25
+    marginBottom: 50
   },
   lowerTitle: {
     fontSize: 28,
@@ -103,7 +103,7 @@ const styles = {
     alignItems: 'flex-start',
     flexDirection: 'column',
     padding: theme.shape.padding,
-    maxWidth: 600
+    maxWidth: 650
   },
   termsCheckboxImage: {
     margin: 'auto',
