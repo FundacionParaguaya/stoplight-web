@@ -49,7 +49,7 @@ export const theme = {
   shape: {
     padding: 40
   },
-  shadows: ['none'],
+  shadows: Array(25).fill('none'),
   overrides: {
     MuiButton: {
       text: {
