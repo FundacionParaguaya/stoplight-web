@@ -42,7 +42,7 @@ class App extends Component {
 const styles = {
   appContainer: {
     marginTop: 60,
-    width: 720,
+    width: 960,
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',
