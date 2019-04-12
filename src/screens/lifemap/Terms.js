@@ -32,9 +32,17 @@ export class Terms extends Component {
     return (
       <div>
         {this.props.location.pathname === '/lifemap/terms' ? (
-          <TitleBar title={t('views.termsConditions')} />
+          <div className={classes.titleContainer}>
+            <NavIcons />
+            <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
+            <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
+          </div>
         ) : (
-          <TitleBar title={t('views.privacyPolicy')} />
+          <div className={classes.titleContainer}>
+            <NavIcons />
+            <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
+            <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
+          </div>
         )}
 
         <div className={classes.CheckboxImgAndTitleContainer}>
