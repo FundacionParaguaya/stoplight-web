@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import Checkbox from '../../assets/Checkbox.png'
 import { withTranslation } from 'react-i18next'
-import TitleBar from '../../components/TitleBar'
+import { Typography } from '@material-ui/core'
+import { theme } from '../../theme'
+import NavIcons from '../../components/NavIcons'
+import { SecondaryButton, PrimaryButton } from '../../components/Buttons'
 
 export class Terms extends Component {
   state = {
@@ -63,9 +65,24 @@ export class Terms extends Component {
   }
 }
 const styles = {
+  titleContainer: {
+    height: 220,
+    backgroundColor: theme.palette.background.paper,
+    paddingLeft: theme.shape.padding,
+    position: 'relative',
+    display: 'flex',
+    overflow: 'hidden'
+  },
+  title: {
+    position: 'relative',
+    top: '55%',
+  },
   buttonTermsDisagree: {
-    width: 260,
-    margin: '0 10px'
+    '&:hover': {
+      backgroundColor: 'transparent'
+    },  
+    textTransform: 'capitalize',
+    textDecoration: 'underline'
   },
   buttonTermsAgree: {
     width: 260,
@@ -77,26 +94,23 @@ const styles = {
     marginTop: 25,
     marginBottom: 25
   },
-  termsDescription: {
-    marginTop: 15,
-    whiteSpace: 'pre-line'
-  },
-  hoziontalLine: {
-    border: 0,
-    borderTop: '1px solid rgba(0, 0, 0, 0.1)'
-  },
   lowerTitle: {
     fontSize: 28,
     textAlign: 'center',
     marginBottom: 15
   },
-  CheckboxImgAndTitleContainer: {
+  contentContainer: {
     display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column'
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    padding: theme.shape.padding,
+    maxWidth: 600
   },
   termsCheckboxImage: {
-    margin: 'auto'
+    margin: 'auto',
+    position: 'relative',
+    bottom: -30,
+    width: 230
   },
   list: {
     display: 'flex',
@@ -104,6 +118,10 @@ const styles = {
   },
   button: {
     marginBottom: 20
+  },
+  divider1: {
+    width: '100%',
+    height: 20
   }
 }
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
