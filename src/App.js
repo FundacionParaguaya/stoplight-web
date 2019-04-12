@@ -22,7 +22,7 @@ class App extends Component {
             <PersistGate persistor={persistor}>
               <Router>
                 <div>
-                  <Header />
+                  {/* <Header /> */}
                   <div className={classes.appContainer}>
                     <Switch>
                       <Route path="/surveys" component={SurveysComponent} />
@@ -41,8 +41,8 @@ class App extends Component {
 
 const styles = {
   appContainer: {
-    marginTop: 60,
-    width: 960,
+    // marginTop: 60,
+    width: 1024,
     margin: 'auto',
     display: 'flex',
     flexDirection: 'column',

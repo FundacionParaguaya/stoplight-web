@@ -103,7 +103,7 @@ const styles = {
     alignItems: 'flex-start',
     flexDirection: 'column',
     padding: theme.shape.padding,
-    maxWidth: 650
+    maxWidth: 660
   },
   termsCheckboxImage: {
     margin: 'auto',
