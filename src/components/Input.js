@@ -47,6 +47,7 @@ class Input extends Component {
         onChange={this.validate}
         error={error}
         fullWidth
+        variant="filled"
         helperText={error && this.state.errorMessage}
         type={this.props.months ? 'number' : 'string'}
         inputProps={this.props.months ? { min: '1' } : {}}
