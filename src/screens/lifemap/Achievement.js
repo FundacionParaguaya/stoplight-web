@@ -70,6 +70,7 @@ class Priority extends Component {
         <Typography variant="h3" gutterBottom>
           {question.questionText}
         </Typography>
+        <h3>{t('views.lifemap.achievements')}</h3>
         <Form onSubmit={this.savePriority} submitLabel={t('general.save')}>
           <Input
             required
