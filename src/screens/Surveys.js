@@ -6,29 +6,39 @@ import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions'
 import { getSurveys } from '../api'
-
+import i18n from '../i18n'
+import { withTranslation } from 'react-i18next'
 export class Surveys extends Component {
   state = { surveys: [], loading: true }
 
   setupUser(token) {
-    this.props.updateUser({
+    const user = {
       username: 'cannot get user name at this stage',
       token,
       env:
         document.referrer.split('.').length > 1
           ? document.referrer.split('.')[0].split('//')[1]
           : 'testing'
-    })
+    }
+    this.props.updateUser(user)
+    this.getSurveys(user)
   }
 
-  getSurveys() {
-    getSurveys(this.props.user)
+  getSurveys(user) {
+    getSurveys(user || this.props.user)
       .then(response => {
         this.setState({
           surveys: response.data.data.surveysByUser
         })
       })
-      .catch(error => {})
+      .catch(error => {
+        if (error.response.status === 401) {
+          window.location.replace(
+            `https://${this.props.user.env}.povertystoplight.org/login.html`
+          )
+        }
+      })
+
       .finally(() =>
         this.setState({
           loading: false
@@ -52,7 +62,36 @@ export class Surveys extends Component {
       // if there is object for n screen create one
       if (!questionsPerScreen[totalScreens - 1]) {
         questionsPerScreen[totalScreens - 1] = {
-          forFamilyMember: [],
+          forFamilyMember: [
+            // DO NOT COMMIT!!!
+            // {
+            //   questionText: 'What is your highest educational level?',
+            //   answerType: 'number',
+            //   dimension: 'Education',
+            //   codeName: 3,
+            //   required: true,
+            //   forFamilyMember: true
+            // },
+            // {
+            //   questionText:
+            //     'What is the property title situation of your household?',
+            //   answerType: 'select',
+            //   dimension: 'Education',
+            //   required: false,
+            //   codeName: 2,
+            //   forFamilyMember: false,
+            //   options: [
+            //     { value: 'OWNER', text: 'Owner' },
+            //     {
+            //       value: 'COUNCIL-HOUSING-ASSOCIATION',
+            //       text: 'Council/Housing Association'
+            //     },
+            //     { value: 'PRIVATE-RENTAL', text: 'Private rental' },
+            //     { value: 'LIVING-WITH-PARENTS', text: 'Living with Parents' },
+            //     { value: 'PREFER-NOT-TO-SAY', text: 'Prefer not to say' }
+            //   ]
+            // }
+          ],
           forFamily: []
         }
       }
@@ -80,36 +119,33 @@ export class Surveys extends Component {
     this.props.updateDraft(null)
     this.props.updateSurvey(null)
 
-    let token = null
-
     // check for user token from the location params,
     // else check if there is one in the store
     if (this.props.location.search.match(/sid=(.*)&/)) {
-      token = this.props.location.search.match(/sid=(.*)&/)[1]
-    } else if (this.props.user.token) {
-      token = this.props.user.token
-    }
+      //remove .replace later when the &lang=en} is changed to &lang=en
+      let lng = this.props.location.search
+        .match(/&lang=(.*)/)[1]
+        .replace(/}/, '')
 
-    this.setupUser(token)
-
-    if (this.props.user) {
-      this.getSurveys()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    // when user is setup in store, get the surveys
-    if (!prevProps.user && this.props.user) {
+      localStorage.setItem('language', lng)
+      i18n.changeLanguage(lng)
+      const token = this.props.location.search.match(/sid=(.*)&/)[1]
+      if (this.props.user && token !== this.props.user.token) {
+        this.setupUser(token)
+      } else {
+        this.getSurveys()
+      }
+    } else {
       this.getSurveys()
     }
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, t } = this.props
 
     return (
       <React.Fragment>
-        <h1>Surveys</h1>
+        <h1>{t('views.createLifemap')}</h1>
         <div className={classes.list}>
           {this.state.loading && (
             <div className={classes.spinnerWrapper}>
@@ -156,6 +192,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(Surveys)
+    )(withTranslation()(Surveys))
   )
 )

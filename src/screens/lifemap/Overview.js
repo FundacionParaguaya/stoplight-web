@@ -5,11 +5,8 @@ import TitleBar from '../../components/TitleBar'
 import { withStyles } from '@material-ui/core/styles'
 import { withTranslation } from 'react-i18next'
 import { updateDraft } from '../../redux/actions'
-import Input from '../../components/Input'
 export class Overview extends Component {
   state = {
-    prioritiesModal: false,
-    achievementsModal: false,
     modalTitle: '',
     howManyMonthsWillItTakeText: '',
     whyDontYouHaveItText: '',
@@ -17,7 +14,38 @@ export class Overview extends Component {
     whatDidItTake: '',
     howDidYouGetIt: '',
     questionKey: '',
-    questionValue: ''
+    questionValue: '',
+    showPrioritiesNote: false
+  }
+  finishSurvey = () => {
+    let { minimumPriorities } = this.props.currentSurvey
+    //  this.props.currentDraft.indicatorSurveyDataList.forEach(e=>{
+    //    if(e.value ==1 ||e.value ==2){}
+    //  })
+    if (minimumPriorities === 0) {
+      this.props.history.push('/lifemap/final')
+    } else {
+      if (minimumPriorities - this.props.currentDraft.priorities.length !== 0) {
+        this.setState({ showPrioritiesNote: true })
+      } else {
+        this.props.history.push('/lifemap/final')
+      }
+      let priorDiff = 0
+      this.props.currentDraft.indicatorSurveyDataList.forEach(ele => {
+        if (ele.value === 2 || ele.value === 1) {
+          priorDiff += 1
+        }
+      })
+      if (
+        minimumPriorities -
+          minimumPriorities +
+          priorDiff -
+          this.props.currentDraft.priorities.length ===
+        0
+      ) {
+        this.props.history.push('/lifemap/final')
+      }
+    }
   }
   updateAnswer = e => {
     e.preventDefault()
@@ -87,8 +115,6 @@ export class Overview extends Component {
       }
     }
     this.setState({
-      prioritiesModal: false,
-      achievementsModal: false,
       modalTitle: '',
       howManyMonthsWillItTakeText: '',
       whyDontYouHaveItText: '',
@@ -102,14 +128,12 @@ export class Overview extends Component {
   showModal = (key, value, title) => {
     if (value === 1 || value === 2) {
       this.setState({
-        prioritiesModal: true,
         modalTitle: title,
         questionKey: key,
         questionValue: 1
       })
     } else if (value === 3) {
       this.setState({
-        achievementsModal: true,
         modalTitle: title,
         questionKey: key,
         questionValue: 3
@@ -118,9 +142,17 @@ export class Overview extends Component {
   }
   render() {
     const { t, classes, currentDraft, currentSurvey } = this.props
+    let priorDiff = 0
     let groupedAnswers
     let userAnswers = []
+    let differentCalcPriorities = false
+
     if (currentSurvey) {
+      currentDraft.indicatorSurveyDataList.forEach(ele => {
+        if (ele.value === 2 || ele.value === 1) {
+          priorDiff += 1
+        }
+      })
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
           if (e.codeName === ele.key) {
@@ -133,7 +165,11 @@ export class Overview extends Component {
           }
         })
       })
-
+      if (priorDiff < this.props.currentSurvey.minimumPriorities) {
+        differentCalcPriorities = true
+      }
+      console.log(differentCalcPriorities)
+      console.log(priorDiff)
       groupedAnswers = userAnswers.reduce(function(r, a) {
         r[a.dimension] = r[a.dimension] || []
         r[a.dimension].push(a)
@@ -143,59 +179,30 @@ export class Overview extends Component {
 
     return (
       <div>
-        {this.state.achievementsModal ? (
-          <form
-            onSubmit={this.updateAnswer}
-            className={classes.modalPopupContainer}
-          >
-            <div className={classes.modalAnswersDetailsContainer}>
-              <h1 className={classes.containerTitle}>
-                {this.state.modalTitle}
-              </h1>
-              <Input
-                label={t('views.lifemap.whyDontYouHaveIt')}
-                value={this.state.whatDidItTake}
-                onChange={e => this.setState({ whatDidItTake: e.target.value })}
-              />
-              <Input
-                required
-                label={t('views.lifemap.whatWillYouDoToGetIt')}
-                value={this.state.howDidYouGetIt}
-                onChange={e =>
-                  this.setState({ howDidYouGetIt: e.target.value })
-                }
-              />
-
-              <div className={classes.buttonsContainer}>
-                <Button
-                  size="large"
-                  className={classes.modalButtonAnswersBack}
-                  onClick={() =>
-                    this.setState({
-                      achievementsModal: false,
-                      modalTitle: '',
-                      whatDidItTake: '',
-                      howDidYouGetIt: ''
-                    })
-                  }
-                >
-                  Go Back
-                </Button>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  className={classes.modalButtonAnswersSave}
-                  type="submit"
-                >
-                  {t('general.save')}
-                </Button>
-              </div>
-            </div>
-          </form>
-        ) : null}
-
         <TitleBar title={t('views.yourLifeMap')} />
+        <div className={classes.ballsContainer}>
+          {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
+            let color
+
+            if (indicator.value === 3) {
+              color = '#89bd76'
+            } else if (indicator.value === 2) {
+              color = '#f0cb17'
+            } else if (indicator.value === 1) {
+              color = '#e1504d'
+            } else if (indicator.value === 0) {
+              color = 'grey'
+            }
+
+            return (
+              <div
+                key={indicator.key}
+                style={{ backgroundColor: color }}
+                className={classes.roundBall}
+              />
+            )
+          })}
+        </div>
         <div>
           {Object.keys(groupedAnswers).map(elem => {
             return (
@@ -207,7 +214,7 @@ export class Overview extends Component {
                   if (indicator.value === 3) {
                     color = '#89bd76'
                   } else if (indicator.value === 2) {
-                    color = '#f0cb17'
+                    color = '#F0CB17'
                   } else if (indicator.value === 1) {
                     color = '#e1504d'
                   } else if (indicator.value === 0) {
@@ -254,11 +261,49 @@ export class Overview extends Component {
             )
           })}
         </div>
+        {this.state.showPrioritiesNote ? (
+          <div className={classes.modalPopupContainer}>
+            <div className={classes.createPrioritiesContainer}>
+              <h2>{t('views.lifemap.toComplete')}</h2>
+              <p className={classes.paragraphPriorities}>
+                {t('general.create')}
+                <span className={classes.prioritiesCurrentCount}>
+                  {differentCalcPriorities ? (
+                    <span>
+                      {this.props.currentSurvey.minimumPriorities -
+                        this.props.currentSurvey.minimumPriorities +
+                        priorDiff -
+                        this.props.currentDraft.priorities.length}
+                    </span>
+                  ) : (
+                    <span>
+                      {this.props.currentSurvey.minimumPriorities -
+                        this.props.currentDraft.priorities.length}
+                    </span>
+                  )}
+                </span>
+                <span className={classes.lowercaseParagraph}>
+                  {t('views.lifemap.priorities')}
+                </span>
+              </p>
+              <Button
+                style={{ marginTop: 35, marginBottom: 35 }}
+                variant="contained"
+                fullWidth
+                onClick={() => this.setState({ showPrioritiesNote: false })}
+                color="primary"
+              >
+                {t('general.gotIt')}
+              </Button>
+            </div>
+          </div>
+        ) : null}
+
         <Button
           style={{ marginTop: 35, marginBottom: 35 }}
           variant="contained"
           fullWidth
-          onClick={() => this.props.history.push('/lifemap/final')}
+          onClick={this.finishSurvey}
           color="primary"
         >
           {t('general.continue')}
@@ -268,6 +313,39 @@ export class Overview extends Component {
   }
 }
 const styles = {
+  lowercaseParagraph: {
+    textTransform: 'lowercase'
+  },
+  paragraphPriorities: {
+    fontSize: 20
+  },
+  prioritiesCurrentCount: {
+    margin: '0 4px 0 3px'
+  },
+  createPrioritiesContainer: {
+    zIndex: 11,
+    width: 650,
+    height: 500,
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    alignItems: 'center',
+    left: 0,
+    right: 0,
+    top: '150px',
+    margin: 'auto'
+  },
+  ballsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '20px'
+  },
+  roundBall: {
+    display: 'block',
+    width: 25,
+    height: 25,
+    borderRadius: '50%'
+  },
   roundBoxSmall: {
     width: 15,
     height: 15,

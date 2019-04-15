@@ -54,7 +54,6 @@ class SelectInput extends Component {
 
   render() {
     const { error } = this.props
-
     return (
       <FormControl
         className={this.props.classes.container}
