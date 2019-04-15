@@ -12,7 +12,15 @@ const countryList = countries(require('localized-countries/data/en')).array()
 
 class SelectInput extends Component {
   state = {
-    errorMessage: null
+    errorMessage: null,
+    value: null
+  }
+
+  handleOnChange = event => {
+    this.setState({
+      value: event.target.value
+    })
+    this.validate(event)
   }
 
   validate = event => {
@@ -57,9 +65,10 @@ class SelectInput extends Component {
           this.props.required ? ' *' : ''
         }`}</InputLabel>
         <Select
+          className={this.state.value || this.props.value ? `${this.props.classes.input} ${this.props.classes.inputFilled}` : `${this.props.classes.input}`}
           value={this.props.value || ''}
           fullWidth
-          onChange={this.validate}
+          onChange={this.handleOnChange}
           inputProps={{
             name: this.props.label
           }}
@@ -86,6 +95,11 @@ const styles = {
   container: {
     marginTop: 10,
     marginBottom: 10
+  },
+  inputFilled: {
+    '& $div': {
+      backgroundColor: '#fff!important'
+    }
   }
 }
 
