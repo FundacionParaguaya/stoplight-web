@@ -49,14 +49,12 @@ export class Terms extends Component {
 
         <div className={classes.contentContainer}>
           <Typography variant="h5">{this.state.title}</Typography>
-          <Typography color="textPrimary">
-            {this.state.text
-              .split(/(?:\\n)/g)
-              .map((p, key) => 
-                (<p key={key}>{p}</p>)
-              )
-            }
-          </Typography>
+          {this.state.text
+            .split(/(?:\\n)/g)
+            .map((i, key) =>
+              (<Typography color="textPrimary" key={key}>{i}<br /></Typography>)
+            )
+          }
         </div>
 
         <div className={classes.buttonContainerTerms}>
