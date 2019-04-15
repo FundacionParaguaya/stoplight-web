@@ -8,6 +8,8 @@ import Form from '../../components/Form'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
 import DatePicker from '../../components/DatePicker'
+import familyFaceLarge from '../../assets/family_face_large.png'
+import { withStyles } from '@material-ui/core'
 
 export class PrimaryParticipant extends Component {
   state = {
@@ -181,6 +183,7 @@ export class PrimaryParticipant extends Component {
   render() {
     const { t, currentSurvey } = this.props
     const { surveyConfig } = currentSurvey
+    const { classes } = this.props
 
     const participant = this.props.currentDraft
       ? this.props.currentDraft.familyData.familyMembersList[0]
@@ -189,6 +192,9 @@ export class PrimaryParticipant extends Component {
     return (
       <div>
         <TitleBar title={t('views.primaryParticipant')} />
+        <div className={classes.formIcon}>
+          <img src={familyFaceLarge} alt="Family Face Large" />
+        </div>
         <Form
           onSubmit={this.handleContinue}
           submitLabel={t('general.continue')}
@@ -278,6 +284,14 @@ export class PrimaryParticipant extends Component {
   }
 }
 
+const styles = {
+  formIcon: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '25px 0 0 0',
+  },
+}
+
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
@@ -285,7 +299,7 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 
 const mapDispatchToProps = { updateDraft }
 
-export default connect(
+export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation()(PrimaryParticipant))
+)(withTranslation()(PrimaryParticipant)))
