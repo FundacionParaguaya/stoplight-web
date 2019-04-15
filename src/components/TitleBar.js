@@ -2,18 +2,15 @@ import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { Typography } from '@material-ui/core'
+import { theme } from '../theme'
+import NavIcons from './NavIcons'
 function TopTitleContainer(props) {
   const { classes } = props
   return (
     <div className={classes.titleAndIconContainerPolicy}>
-      <i
-        onClick={props.uniqueBack || props.history.goBack}
-        style={{ cursor: 'pointer', fontSize: 32 }}
-        className="material-icons"
-      >
-        arrow_back
-      </i>
-      <h2 className={classes.titleMainAll}>{props.title}</h2>
+      <NavIcons />
+      <Typography variant="h4">{props.title}</Typography>
     </div>
   )
 }
@@ -21,10 +18,14 @@ const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
 
 const styles = {
   titleAndIconContainerPolicy: {
-    backgroundColor: '#faefe1',
+    backgroundColor: theme.palette.background.default,
+    height: 220,
+    position: 'relative',
     display: 'flex',
     padding: '10px 40px 10px 10px',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottom: '1px solid #DCDEE3'
   },
   titleMainAll: {
     margin: 'auto'
