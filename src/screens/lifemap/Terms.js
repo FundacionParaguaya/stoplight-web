@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import Checkbox from '../../assets/Checkbox.png'
+import checkboxWithDots from '../../assets/checkbox_with_dots.png'
 import { withTranslation } from 'react-i18next'
 import { Typography, Button } from '@material-ui/core'
 import { theme } from '../../theme'
@@ -37,13 +37,13 @@ export class Terms extends Component {
           <div className={classes.titleContainer}>
             <NavIcons />
             <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
-            <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
+            <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
           </div>
         ) : (
             <div className={classes.titleContainer}>
               <NavIcons />
               <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
-              <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
+              <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
             </div>
           )}
 
@@ -115,7 +115,7 @@ const styles = {
     margin: 'auto',
     position: 'relative',
     bottom: -30,
-    width: 230
+    width: 370
   },
   list: {
     display: 'flex',
