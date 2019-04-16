@@ -91,12 +91,13 @@ const styles = {
     borderBottom: '1px solid #DCDEE3;'
   },
   titleMainAll: {
-    margin: 'auto'
+    margin: 'auto',
+    zIndex: 1
   },
   barDotsImage: {
     position: 'absolute',
     left: '50%',
-    transform: 'translateX(-50%)'
+    transform: 'translateX(-50%)',
   }
 }
 export default withRouter(
