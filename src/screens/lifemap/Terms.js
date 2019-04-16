@@ -6,6 +6,7 @@ import { withTranslation } from 'react-i18next'
 import { Typography, Button } from '@material-ui/core'
 import { theme } from '../../theme'
 import NavIcons from '../../components/NavIcons'
+import Container from '../../components/Container'
 
 export class Terms extends Component {
   state = {
@@ -36,8 +37,10 @@ export class Terms extends Component {
         {this.props.location.pathname === '/lifemap/terms' ? (
           <div className={classes.titleContainer}>
             <NavIcons />
-            <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
-            <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+            <Container style={{position: 'relative'}}>
+              <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
+              <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+            </Container>
           </div>
         ) : (
             <div className={classes.titleContainer}>
@@ -47,15 +50,18 @@ export class Terms extends Component {
             </div>
           )}
 
-        <div className={classes.contentContainer}>
-          <Typography variant="h5">{this.state.title}</Typography>
-          {this.state.text
-            .split(/(?:\\n)/g)
-            .map((i, key) =>
-              (<Typography color="textPrimary" key={key}>{i}<br /></Typography>)
-            )
-          }
-        </div>
+        <Container>
+          <div className={classes.contentContainer}>
+            <Typography variant="h5">{this.state.title}</Typography>
+            <br />
+            {this.state.text
+              .split(/(?:\\n)/g)
+              .map((i, key) =>
+                (<Typography color="textPrimary" key={key}>{i}<br /></Typography>)
+              )
+            }
+          </div>
+        </Container>
 
         <div className={classes.buttonContainerTerms}>
           <Button variant="text" onClick={this.handleDisagree}>
@@ -73,7 +79,6 @@ const styles = {
   titleContainer: {
     height: 220,
     backgroundColor: theme.palette.background.paper,
-    paddingLeft: theme.shape.padding,
     position: 'relative',
     display: 'flex',
     overflow: 'hidden'
@@ -96,8 +101,6 @@ const styles = {
   buttonContainerTerms: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: 25,
-    marginBottom: 50
   },
   lowerTitle: {
     fontSize: 28,
@@ -108,21 +111,19 @@ const styles = {
     display: 'flex',
     alignItems: 'flex-start',
     flexDirection: 'column',
-    padding: theme.shape.padding,
+    paddingTop: theme.shape.padding,
     maxWidth: 660
   },
   termsCheckboxImage: {
     margin: 'auto',
-    position: 'relative',
+    position: 'absolute',
+    right: 0,
     bottom: -30,
     width: 370
   },
   list: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  button: {
-    marginBottom: 20
   },
   divider1: {
     width: '100%',
