@@ -37,7 +37,7 @@ export class Terms extends Component {
         {this.props.location.pathname === '/lifemap/terms' ? (
           <div className={classes.titleContainer}>
             <NavIcons />
-            <Container style={{position: 'relative'}}>
+            <Container style={{ position: 'relative' }}>
               <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
               <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
             </Container>
@@ -45,10 +45,12 @@ export class Terms extends Component {
         ) : (
             <div className={classes.titleContainer}>
               <NavIcons />
-              <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
-              <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+              <Container style={{ position: 'relative' }}>
+                <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
+                <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+              </Container>
             </div>
-          )}
+  )}
 
         <Container>
           <div className={classes.contentContainer}>
