@@ -6,6 +6,8 @@ import { withTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { theme } from '../theme'
+import NavIcons from './NavIcons'
+
 class TopTitleContainer extends Component {
   state = {
     showLeaveModal: false
@@ -44,21 +46,8 @@ class TopTitleContainer extends Component {
           </div>
         ) : (
           <div className={classes.titleAndIconContainerPolicy}>
-            <i
-              onClick={this.props.uniqueBack || this.props.history.goBack}
-              style={{ cursor: 'pointer', fontSize: 37 }}
-              className="material-icons"
-            >
-              arrow_back
-            </i>
-            <h2 className={classes.titleMainAll}>{this.props.title}</h2>
-            <i
-              onClick={() => this.setState({ showLeaveModal: true })}
-              className="material-icons"
-              style={{ cursor: 'pointer', fontSize: 37 }}
-            >
-              close
-            </i>
+            <NavIcons />
+            <Typography variant="h4" className={classes.titleMainAll}>{this.props.title}</Typography>
           </div>
         )}
       </React.Fragment>
@@ -96,7 +85,8 @@ const styles = {
     display: 'flex',
     padding: '10px 10px 10px 10px',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottom: '1px solid #DCDEE3;'
   },
   titleMainAll: {
     margin: 'auto'
