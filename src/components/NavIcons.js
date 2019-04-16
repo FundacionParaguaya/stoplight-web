@@ -5,18 +5,21 @@ import { theme } from '../theme'
 
 function NavIcons(props) {
   const { classes } = props
-  const onClick = props.uniqueBack || props.history.goBack
-  const className = `material-icons ${classes.icon}`
-  const attr = { onClick, className}
-  const icons = ['arrow_back', 'close']
 
   return (
     <div className={classes.container}>
-      {icons.map((icon) => (
-        <i key={icon} {...attr} >
-          {icon}
-        </i>
-      ))}
+      <i
+        onClick={props.uniqueBack || props.history.goBack}
+        className={`material-icons ${classes.icon}`}
+      >
+        arrow_back
+            </i>
+      <h2 className={classes.titleMainAll}>{props.title}</h2>
+      <i
+        className={`material-icons ${classes.icon}`}
+      >
+        close
+            </i>
     </div>
   )
 }
