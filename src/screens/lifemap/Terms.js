@@ -96,8 +96,6 @@ const styles = {
   buttonContainerTerms: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: 25,
-    marginBottom: 50
   },
   lowerTitle: {
     fontSize: 28,
