@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { theme } from '../theme'
 import NavIcons from './NavIcons'
+import barDots from '../assets/bar_dots.png'
 
 class TopTitleContainer extends Component {
   state = {
@@ -46,6 +47,7 @@ class TopTitleContainer extends Component {
           </div>
         ) : (
           <div className={classes.titleAndIconContainerPolicy}>
+            <img className={classes.barDotsImage} src={barDots} alt="Bar Dots" />
             <NavIcons />
             <Typography variant="h4" className={classes.titleMainAll}>{this.props.title}</Typography>
           </div>
@@ -90,6 +92,11 @@ const styles = {
   },
   titleMainAll: {
     margin: 'auto'
+  },
+  barDotsImage: {
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)'
   }
 }
 export default withRouter(
