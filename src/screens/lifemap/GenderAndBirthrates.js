@@ -47,7 +47,12 @@ class GenderAndBirthrates extends Component {
 
         {membersList.slice(1).map((item, index) => (
           <div key={index}>
-            <Typography variant="h4">{item.firstName}</Typography>
+            <Typography
+              style={{ marginTop: '20px', marginBottom: '-10px' }}
+              variant="h5"
+            >
+              {item.firstName}
+            </Typography>
             <Select
               label={t('views.family.selectGender')}
               value={item.gender}

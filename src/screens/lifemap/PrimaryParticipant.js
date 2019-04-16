@@ -95,7 +95,8 @@ export class PrimaryParticipant extends Component {
           firstName: '',
           gender: '',
           birthDate: '',
-          firstParticipant: false
+          firstParticipant: false,
+          socioEconomicAnswers: []
         })
       }
       this.props.updateDraft({

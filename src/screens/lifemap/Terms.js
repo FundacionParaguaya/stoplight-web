@@ -30,6 +30,7 @@ export class Terms extends Component {
   }
   render() {
     const { classes, t } = this.props
+
     return (
       <div>
         {this.props.location.pathname === '/lifemap/terms' ? (
@@ -50,6 +51,15 @@ export class Terms extends Component {
           <Typography variant="h5">{this.state.title}</Typography>
           <Typography color="textPrimary">{this.state.text.replace(/(\r\n|\n|\r)/gm,'asgsd')}</Typography>
         </div>
+        <hr className={classes.hoziontalLine} />
+
+        <div
+          className={classes.termsDescription}
+          dangerouslySetInnerHTML={{
+            __html:
+              this.state.text && this.state.text.replace(/(?:\\n)/g, '<br />')
+          }}
+        />
 
         <div className={classes.buttonContainerTerms}>
           <Button variant="text" onClick={this.handleDisagree}>
