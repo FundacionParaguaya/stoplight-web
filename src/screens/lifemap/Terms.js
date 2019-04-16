@@ -40,30 +40,26 @@ export class Terms extends Component {
             <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
           </div>
         ) : (
-          <div className={classes.titleContainer}>
-            <NavIcons />
-            <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
-            <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
-          </div>
-        )}
+            <div className={classes.titleContainer}>
+              <NavIcons />
+              <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
+              <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
+            </div>
+          )}
 
         <div className={classes.contentContainer}>
           <Typography variant="h5">{this.state.title}</Typography>
-          <Typography color="textPrimary">{this.state.text.replace(/(\r\n|\n|\r)/gm,'asgsd')}</Typography>
+          {this.state.text
+            .split(/(?:\\n)/g)
+            .map((i, key) =>
+              (<Typography color="textPrimary" key={key}>{i}<br /></Typography>)
+            )
+          }
         </div>
-        <hr className={classes.hoziontalLine} />
-
-        <div
-          className={classes.termsDescription}
-          dangerouslySetInnerHTML={{
-            __html:
-              this.state.text && this.state.text.replace(/(?:\\n)/g, '<br />')
-          }}
-        />
 
         <div className={classes.buttonContainerTerms}>
           <Button variant="text" onClick={this.handleDisagree}>
-            {t('general.disagree')} 
+            {t('general.disagree')}
           </Button>
           <Button variant="contained" onClick={this.handleContinue}>
             {t('general.agree')}
@@ -89,7 +85,7 @@ const styles = {
   buttonTermsDisagree: {
     '&:hover': {
       backgroundColor: 'transparent'
-    },  
+    },
     textTransform: 'capitalize',
     textDecoration: 'underline'
   },
