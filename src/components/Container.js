@@ -13,7 +13,7 @@ function Container(props) {
 
 const styles = {
   container: {
-    width: '1024px',
+    width: '60%',
     marginLeft : 'auto',
     marginRight: 'auto'
   },
