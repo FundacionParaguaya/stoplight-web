@@ -7,6 +7,7 @@ import { Typography, Button } from '@material-ui/core'
 import { theme } from '../../theme'
 import NavIcons from '../../components/NavIcons'
 import Container from '../../components/Container'
+import Spacer from '../../components/Spacer'
 
 export class Terms extends Component {
   state = {
@@ -65,14 +66,14 @@ export class Terms extends Component {
           </div>
         </Container>
 
-        <div className={classes.buttonContainerTerms}>
+        <Spacer>
           <Button variant="text" onClick={this.handleDisagree}>
             {t('general.disagree')}
           </Button>
           <Button variant="contained" onClick={this.handleContinue}>
             {t('general.agree')}
           </Button>
-        </div>
+        </Spacer>
       </div>
     )
   }
