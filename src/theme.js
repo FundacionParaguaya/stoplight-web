@@ -47,7 +47,8 @@ export const theme = {
     }
   },
   shape: {
-    padding: 40
+    padding: 40,
+    margin: 30
   },
   shadows: Array(25).fill('none'),
   overrides: {
