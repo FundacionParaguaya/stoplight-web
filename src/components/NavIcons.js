@@ -35,11 +35,12 @@ class NavIcons extends Component {
             close
             </i>
         </div>
-        <LeaveModal 
-          subtitleModalText={t('views.modals.yourLifemapIsNotComplete')}
+        <LeaveModal
+          title="Warning!" 
+          subtitle={t('views.modals.yourLifemapIsNotComplete')}
           cancelButtonText={t('general.no')}
           continueButtonText={t('general.yes')}
-          handleClose={this.handleClose}
+          onClose={this.handleClose}
           open={this.state.showLeaveModal}
           leaveAction={this.leaveSurvey}
         />

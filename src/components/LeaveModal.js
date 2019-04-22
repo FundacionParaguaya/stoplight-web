@@ -12,15 +12,15 @@ const LeaveModal = (props) => {
   return (
     <Modal
       open={props.open}
-      onClose={props.handleClose}
+      onClose={props.onClose}
     >
       <div className={classes.leaveModal}>
         <img src={redExclamation} alt="Red Exclamation" />
         <Typography variant="h5" color="error">
-          Warning!
+          {props.title}
         </Typography>
         <Typography className={classes.leaveModalSubtitle} variant="subtitle1">
-          {props.subtitleModalText}
+          {props.subtitle}
         </Typography>
         <div className={classes.buttonContainer}>
           <Button
@@ -34,7 +34,7 @@ const LeaveModal = (props) => {
           <Button
             className={classes.button}
             variant="outlined"
-            onClick={props.handleClose}
+            onClick={props.onClose}
           >
             {props.cancelButtonText || DEFAULT_CANCEL_TEXT}
           </Button>
