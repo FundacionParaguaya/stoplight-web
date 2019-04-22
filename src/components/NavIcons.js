@@ -107,6 +107,7 @@ class NavIcons extends Component {
           deleteButtonText={t('general.yes')}
           handleClose={this.handleClose}
           open={this.state.showLeaveModal}
+          leaveAction={this.leaveSurvey}
         />
       </React.Fragment>
     )
