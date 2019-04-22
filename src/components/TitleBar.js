@@ -5,6 +5,9 @@ import { withRouter } from 'react-router-dom'
 import { withTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import NavIcons from './NavIcons'
+import barDots from '../assets/bar_dots.png'
+
 class TopTitleContainer extends Component {
   state = {
     showLeaveModal: false
@@ -54,7 +57,7 @@ class TopTitleContainer extends Component {
 }
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
 
-const styles = {
+const styles = theme => ({
   button: {
     margin: '0 30px',
     width: '100px'
@@ -77,16 +80,25 @@ const styles = {
     alignItems: 'center'
   },
   titleAndIconContainerPolicy: {
-    backgroundColor: '#faefe1',
+    backgroundColor: theme.palette.background.default,
+    height: 220,
+    position: 'relative',
     display: 'flex',
     padding: '10px 10px 10px 10px',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottom: '1px solid #DCDEE3;'
   },
   titleMainAll: {
-    margin: 'auto'
+    margin: 'auto',
+    zIndex: 1
+  },
+  barDotsImage: {
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
   }
-}
+})
 export default withRouter(
   withStyles(styles)(
     connect(mapStateToProps)(withTranslation()(TopTitleContainer))
