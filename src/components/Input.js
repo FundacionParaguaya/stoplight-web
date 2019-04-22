@@ -5,7 +5,15 @@ import { withTranslation } from 'react-i18next'
 
 class Input extends Component {
   state = {
-    errorMessage: null
+    errorMessage: null,
+    value: null
+  }
+
+  handleOnChange = event => {
+    this.setState({
+      value: event.target.value
+    })
+    this.validate(event)
   }
 
   validate = event => {
@@ -41,12 +49,13 @@ class Input extends Component {
 
     return (
       <TextField
-        className={this.props.classes.input}
+        className={this.state.value || this.props.value ? `${this.props.classes.input} ${this.props.classes.inputFilled}` : `${this.props.classes.input}`}
         label={`${this.props.label}${this.props.required ? ' *' : ''}`}
         value={this.props.value || ''}
-        onChange={this.validate}
+        onChange={this.handleOnChange}
         error={error}
         fullWidth
+        variant="filled"
         helperText={error && this.state.errorMessage}
         type={this.props.months ? 'number' : 'string'}
         inputProps={this.props.months ? { min: '1' } : {}}
@@ -58,7 +67,12 @@ class Input extends Component {
 const styles = {
   input: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
+  },
+  inputFilled: {
+    '& $div': {
+      backgroundColor: '#fff!important'
+    }
   }
 }
 
