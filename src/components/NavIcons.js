@@ -59,7 +59,7 @@ class NavIcons extends Component {
                 onClick={this.leaveSurvey}
               >
                 {t('general.yes')}
-              </Button>{' '}
+              </Button>
             </div>
           </div>
         </Modal>
