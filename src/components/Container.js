@@ -1,5 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
+import clsx from 'clsx'
 
 function Container(props) {
   const { classes, children } = props
