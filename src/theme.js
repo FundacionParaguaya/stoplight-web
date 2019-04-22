@@ -8,7 +8,7 @@ export const theme = {
       dark: '#50aa47'
     },
     secondary: {
-      main: '#f0cb17'
+      main: '#e1504d'
     },
     error: {
       main: '#e1504d'
@@ -28,6 +28,14 @@ export const theme = {
     body2: {
       fontSize: 18,
     },
+    subtitle1: {
+      fontSize: 16,
+      fontFamily: 'Poppins',
+      letterSpacing: 0.2,
+      color: '#6A6A6A',
+      lineHeight: '20px',
+      fontWeight: 500
+    },
     h4: {
       fontFamily: 'Poppins',
       color: '#626262',
@@ -46,8 +54,7 @@ export const theme = {
     }
   },
   shape: {
-    padding: 40,
-    margin: 30
+    padding: 40
   },
   shadows: Array(25).fill('none'),
   overrides: {
@@ -79,9 +86,6 @@ export const theme = {
       }
     },
     MuiFormLabel: {
-      // shrink: {
-      //   transform: 'translate(12px, 10px) scale(1)!important'
-      // },
       root: {
         zIndex: 999,
       }
@@ -145,6 +149,22 @@ export const theme = {
         height: 38,
         width: 280,
         padding: '0 30px',
+      },
+      outlined: {
+        fontSize: 16,
+        fontFamily: 'Poppins',
+        fontWeight: 600,
+        letterSpacing: 0.25,
+        textTransform: 'capitalize',
+        width: 107,
+        border: '1.5px solid rgba(0, 0, 0, 0.23)',
+        color: 'rgba(0, 0, 0, 0.23)'
+      },
+      outlinedSecondary: {
+        border: '1.5px solid #e1504d',
+        '&:hover': {
+          border: '1.5px solid #e1504d',
+        }
       }
     }
   },
