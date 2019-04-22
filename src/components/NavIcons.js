@@ -5,9 +5,30 @@ import { theme } from '../theme'
 import { withTranslation } from 'react-i18next'
 import redExclamation from '../assets/red_exclamation.png'
 
-class NavIcons extends Component {
-  state = {
-    showLeaveModal: false
+const modalStyles = theme => ({
+  leaveModal: {
+      width: 370,
+      height: 330,
+      backgroundColor: theme.palette.background.default,
+      outline: 'none',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      flexDirection: 'column',
+      padding: '25px 40px',
+  },
+  buttonContainer: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  leaveModalSubtitle: {
+    textAlign: 'center'
   }
   leaveSurvey = () => {
     this.props.history.push('/surveys')
