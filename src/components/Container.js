@@ -20,6 +20,12 @@ const styles = {
   },
   fluid: {
     width: '100%'
+  },
+  strech: {
+    width: '30%'
+  },
+  flex: {
+    display: 'flex'
   }
 }
 
