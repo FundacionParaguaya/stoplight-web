@@ -43,21 +43,9 @@ class TopTitleContainer extends Component {
           </div>
         ) : (
           <div className={classes.titleAndIconContainerPolicy}>
-            <i
-              onClick={this.props.uniqueBack || this.props.history.goBack}
-              style={{ cursor: 'pointer', fontSize: 37 }}
-              className="material-icons"
-            >
-              arrow_back
-            </i>
-            <h2 className={classes.titleMainAll}>{this.props.title}</h2>
-            <i
-              onClick={() => this.setState({ showLeaveModal: true })}
-              className="material-icons"
-              style={{ cursor: 'pointer', fontSize: 37 }}
-            >
-              close
-            </i>
+            <img className={classes.barDotsImage} src={barDots} alt="Bar Dots" />
+            <NavIcons />
+            <Typography variant="h4" className={classes.titleMainAll}>{this.props.title}</Typography>
           </div>
         )}
       </React.Fragment>
