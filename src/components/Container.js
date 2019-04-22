@@ -3,7 +3,15 @@ import { withStyles } from '@material-ui/core'
 import clsx from 'clsx'
 
 function Container(props) {
-  const { classes, children } = props
+  const { classes, children, fluid, strech, flex, ...other } = props
+  const className = clsx(
+    classes.root,
+    {
+      [classes.fluid]: fluid,
+      [classes.strech]: strech,
+      [classes.flex]: flex
+    }
+  )
 
   return (
     <div style={props.style} className={classes.container}>
