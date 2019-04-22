@@ -21,6 +21,37 @@ function NavIcons(props) {
         close
             </i>
     </div>
+        <Modal
+          open={this.state.showLeaveModal}
+          onClose={() => this.setState({ showLeaveModal: false })}
+        >
+          <div className={classes.leaveModal}>
+            <img src={redExclamation} alt="Red Exclamation" />
+            <Typography variant="h5" color="error">
+              Warning!
+            </Typography>
+            <Typography className={classes.leaveModalSubtitle} variant="subtitle1">
+              {t('views.modals.yourLifemapIsNotComplete')}
+            </Typography>
+            <div className={classes.buttonContainer}>
+              <Button
+                className={classes.button}
+                variant="outlined"
+                onClick={() => this.setState({ showLeaveModal: false })}
+              >
+                {t('general.no')}
+              </Button>
+              <Button
+                className={classes.button}
+                variant="outlined"
+                onClick={this.leaveSurvey}
+              >
+                {t('general.yes')}
+              </Button>{' '}
+            </div>
+          </div>
+        </Modal>
+      </React.Fragment>
   )
 }
 
