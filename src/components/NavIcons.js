@@ -92,7 +92,31 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  leaveModal: {
+    width: 370,
+    height: 330,
+    backgroundColor: theme.palette.background.default,
+    outline: 'none',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    padding: '25px 40px',
+  },
+  buttonContainer: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  leaveModalSubtitle: {
+    textAlign: 'center'
   }
 }
 
-export default withRouter(withStyles(styles)(NavIcons))
+export default withRouter(withStyles(styles)(withTranslation()(NavIcons)))
