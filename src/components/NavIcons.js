@@ -38,57 +38,39 @@ const LeaveModal = withRouter(withStyles(modalStyles)((props) => {
   const leaveSurvey = () => {
     props.history.push('/surveys')
   }
-  render() {
-    const { classes, t } = this.props
-
-    return (
-      <React.Fragment>
-        <div className={classes.container}>
-          <i
-            onClick={this.props.uniqueBack || this.props.history.goBack}
-            className={`material-icons ${classes.icon}`}
+  
+  return (
+    <Modal
+      open={props.open}
+      onClose={props.handleClose}
+    >
+      <div className={classes.leaveModal}>
+        <img src={redExclamation} alt="Red Exclamation" />
+        <Typography variant="h5" color="error">
+          Warning!
+        </Typography>
+        <Typography className={classes.leaveModalSubtitle} variant="subtitle1">
+          {props.subtitleModalText}
+        </Typography>
+        <div className={classes.buttonContainer}>
+          <Button
+            className={classes.button}
+            variant="outlined"
+            color="secondary"
+            onClick={leaveSurvey}
           >
-            arrow_back
-            </i>
-          <h2 className={classes.titleMainAll}>{this.props.title}</h2>
-          <i
-            className={`material-icons ${classes.icon}`}
-            onClick={() => this.setState({ showLeaveModal: true })}
+            {props.deleteButtonText}
+          </Button>
+          <Button
+            className={classes.button}
+            variant="outlined"
+            onClick={props.handleClose}
           >
-            close
-            </i>
+            {props.cancelButtonText}
+          </Button>
         </div>
-        <Modal
-          open={this.state.showLeaveModal}
-          onClose={() => this.setState({ showLeaveModal: false })}
-        >
-          <div className={classes.leaveModal}>
-            <img src={redExclamation} alt="Red Exclamation" />
-            <Typography variant="h5" color="error">
-              Warning!
-            </Typography>
-            <Typography className={classes.leaveModalSubtitle} variant="subtitle1">
-              {t('views.modals.yourLifemapIsNotComplete')}
-            </Typography>
-            <div className={classes.buttonContainer}>
-              <Button
-                className={classes.button}
-                variant="outlined"
-                onClick={() => this.setState({ showLeaveModal: false })}
-              >
-                {t('general.no')}
-              </Button>
-              <Button
-                className={classes.button}
-                variant="outlined"
-                color="secondary"
-                onClick={this.leaveSurvey}
-              >
-                {t('general.yes')}
-              </Button>
-            </div>
-          </div>
-        </Modal>
+      </div>
+    </Modal>
       </React.Fragment>
     )
   }
