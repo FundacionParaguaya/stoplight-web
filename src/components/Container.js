@@ -14,14 +14,14 @@ function Container(props) {
   )
 
   return (
-    <div style={props.style} className={classes.container}>
+    <div className={className} {...other}>
       {children}
     </div>
   )
 }
 
 const styles = {
-  container: {
+  root: {
     width: '60%',
     marginLeft : 'auto',
     marginRight: 'auto'
