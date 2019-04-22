@@ -104,7 +104,7 @@ class NavIcons extends Component {
         <LeaveModal 
           subtitleModalText={t('views.modals.yourLifemapIsNotComplete')}
           cancelButtonText={t('general.no')}
-          deleteButtonText={t('general.yes')}
+          continueButtonText={t('general.yes')}
           handleClose={this.handleClose}
           open={this.state.showLeaveModal}
           leaveAction={this.leaveSurvey}
