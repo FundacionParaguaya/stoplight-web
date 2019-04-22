@@ -33,8 +33,19 @@ const styles = {
   },
   icon: {
     '&:hover': {
-      cursor: 'pointer'
-    }
+      cursor: 'pointer',
+      backgroundColor: theme.palette.primary.main,
+      color: '#fff',
+      borderRadius: '50%',
+      boxSizing: 'border-box',
+    },
+    borderRadius: '50%',
+    color: theme.palette.primary.main,
+    width: 50,
+    height: 50,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 }
 
