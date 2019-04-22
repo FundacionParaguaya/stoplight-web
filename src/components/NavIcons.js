@@ -1,7 +1,9 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core'
+import React, { Component } from 'react'
+import { withStyles, Modal, Typography, Button } from '@material-ui/core'
 import { withRouter } from 'react-router-dom'
 import { theme } from '../theme'
+import { withTranslation } from 'react-i18next'
+import redExclamation from '../assets/red_exclamation.png'
 
 class NavIcons extends Component {
   state = {
@@ -13,21 +15,23 @@ class NavIcons extends Component {
   render() {
     const { classes, t } = this.props
 
-  return (
-    <div className={classes.container}>
-      <i
-        onClick={props.uniqueBack || props.history.goBack}
-        className={`material-icons ${classes.icon}`}
-      >
-        arrow_back
+    return (
+      <React.Fragment>
+        <div className={classes.container}>
+          <i
+            onClick={this.props.uniqueBack || this.props.history.goBack}
+            className={`material-icons ${classes.icon}`}
+          >
+            arrow_back
             </i>
-      <h2 className={classes.titleMainAll}>{props.title}</h2>
-      <i
-        className={`material-icons ${classes.icon}`}
-      >
-        close
+          <h2 className={classes.titleMainAll}>{this.props.title}</h2>
+          <i
+            className={`material-icons ${classes.icon}`}
+            onClick={() => this.setState({ showLeaveModal: true })}
+          >
+            close
             </i>
-    </div>
+        </div>
         <Modal
           open={this.state.showLeaveModal}
           onClose={() => this.setState({ showLeaveModal: false })}
@@ -59,7 +63,8 @@ class NavIcons extends Component {
           </div>
         </Modal>
       </React.Fragment>
-  )
+    )
+  }
 }
 
 const styles = {
