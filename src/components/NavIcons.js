@@ -71,6 +71,43 @@ const LeaveModal = withRouter(withStyles(modalStyles)((props) => {
         </div>
       </div>
     </Modal>
+  )
+}))
+
+class NavIcons extends Component {
+  state = {
+    showLeaveModal: false
+  }
+  handleClose = () => {
+    this.setState({ showLeaveModal: false })
+  }
+  render() {
+    const { classes, t } = this.props
+
+    return (
+      <React.Fragment>
+        <div className={classes.container}>
+          <i
+            onClick={this.props.uniqueBack || this.props.history.goBack}
+            className={`material-icons ${classes.icon}`}
+          >
+            arrow_back
+            </i>
+          <h2 className={classes.titleMainAll}>{this.props.title}</h2>
+          <i
+            className={`material-icons ${classes.icon}`}
+            onClick={() => this.setState({ showLeaveModal: true })}
+          >
+            close
+            </i>
+        </div>
+        <LeaveModal 
+          subtitleModalText={t('views.modals.yourLifemapIsNotComplete')}
+          cancelButtonText={t('general.no')}
+          deleteButtonText={t('general.yes')}
+          handleClose={this.handleClose}
+          open={this.state.showLeaveModal}
+        />
       </React.Fragment>
     )
   }
