@@ -30,8 +30,13 @@ const modalStyles = theme => ({
   leaveModalSubtitle: {
     textAlign: 'center'
   }
-  leaveSurvey = () => {
-    this.props.history.push('/surveys')
+})
+
+const LeaveModal = withRouter(withStyles(modalStyles)((props) => {
+  const { classes } = props
+
+  const leaveSurvey = () => {
+    props.history.push('/surveys')
   }
   render() {
     const { classes, t } = this.props
