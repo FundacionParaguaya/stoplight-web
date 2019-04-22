@@ -55,6 +55,7 @@ class NavIcons extends Component {
               <Button
                 className={classes.button}
                 variant="outlined"
+                color="secondary"
                 onClick={this.leaveSurvey}
               >
                 {t('general.yes')}
