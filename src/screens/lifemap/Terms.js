@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
-import Checkbox from '../../assets/Checkbox.png'
+import checkboxWithDots from '../../assets/checkbox_with_dots.png'
 import { withTranslation } from 'react-i18next'
-import TitleBar from '../../components/TitleBar'
+import { Typography, Button } from '@material-ui/core'
+import { theme } from '../../theme'
+import NavIcons from '../../components/NavIcons'
+import Container from '../../components/Container'
+import BottomSpacer from '../../components/BottomSpacer'
 
 export class Terms extends Component {
   state = {
@@ -33,50 +36,66 @@ export class Terms extends Component {
     return (
       <div>
         {this.props.location.pathname === '/lifemap/terms' ? (
-          <TitleBar title={t('views.termsConditions')} />
+          <div className={classes.titleContainer}>
+            <NavIcons />
+            <Container style={{ position: 'relative' }}>
+              <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
+              <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+            </Container>
+          </div>
         ) : (
-          <TitleBar title={t('views.privacyPolicy')} />
-        )}
+            <div className={classes.titleContainer}>
+              <NavIcons />
+              <Container style={{ position: 'relative' }}>
+                <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
+                <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+              </Container>
+            </div>
+          )}
 
-        <div className={classes.CheckboxImgAndTitleContainer}>
-          <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
-          <div className={classes.lowerTitle}>{this.state.title}</div>
-        </div>
-        <hr className={classes.hoziontalLine} />
-
-        <div
-          className={classes.termsDescription}
-          dangerouslySetInnerHTML={{
-            __html:
-              this.state.text && this.state.text.replace(/(?:\\n)/g, '<br />')
-          }}
-        />
-
+        <Container>
+          <div className={classes.contentContainer}>
+            <Typography variant="h5">{this.state.title}</Typography>
+            <br />
+            {this.state.text
+              .split(/(?:\\n)/g)
+              .map((i, key) =>
+                (<Typography color="textPrimary" key={key}>{i}<br /></Typography>)
+              )
+            }
+          </div>
+        </Container>
         <div className={classes.buttonContainerTerms}>
-          <Button
-            variant="contained"
-            className={classes.buttonTermsDisagree}
-            onClick={this.handleDisagree}
-          >
+          <Button variant="text" onClick={this.handleDisagree}>
             {t('general.disagree')}
           </Button>
-          <Button
-            className={classes.buttonTermsAgree}
-            variant="contained"
-            color="primary"
-            onClick={this.handleContinue}
-          >
+          <Button variant="contained" onClick={this.handleContinue}>
             {t('general.agree')}
           </Button>
         </div>
+        <BottomSpacer />
       </div>
     )
   }
 }
 const styles = {
+  titleContainer: {
+    height: 220,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    display: 'flex',
+    overflow: 'hidden'
+  },
+  title: {
+    position: 'relative',
+    top: '55%',
+  },
   buttonTermsDisagree: {
-    width: 260,
-    margin: '0 10px'
+    '&:hover': {
+      backgroundColor: 'transparent'
+    },
+    textTransform: 'capitalize',
+    textDecoration: 'underline'
   },
   buttonTermsAgree: {
     width: 260,
@@ -85,36 +104,33 @@ const styles = {
   buttonContainerTerms: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: 25,
-    marginBottom: 25
-  },
-  termsDescription: {
-    marginTop: 15,
-    whiteSpace: 'pre-line'
-  },
-  hoziontalLine: {
-    border: 0,
-    borderTop: '1px solid rgba(0, 0, 0, 0.1)'
   },
   lowerTitle: {
     fontSize: 28,
     textAlign: 'center',
     marginBottom: 15
   },
-  CheckboxImgAndTitleContainer: {
+  contentContainer: {
     display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column'
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    paddingTop: theme.shape.padding,
+    maxWidth: 660
   },
   termsCheckboxImage: {
-    margin: 'auto'
+    margin: 'auto',
+    position: 'absolute',
+    right: 0,
+    bottom: -30,
+    width: 370
   },
   list: {
     display: 'flex',
     flexDirection: 'column'
   },
-  button: {
-    marginBottom: 20
+  divider1: {
+    width: '100%',
+    height: 20
   }
 }
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
