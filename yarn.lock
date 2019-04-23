@@ -8996,6 +8996,11 @@ react-event-listener@^0.6.2:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-geocode@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-geocode/-/react-geocode-0.1.2.tgz#9e7c8114fbd66550d32a417cf95d36fa4f1cd45f"
+  integrity sha512-XEJkEPmwufeGykul/eqJyA1WduXa3IGxJam5BA0jzYfs/KMjCrtQjJl1FcH9Cybn05oQnRVUsRW8OGwEmTER5g==
+
 react-gmaps@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/react-gmaps/-/react-gmaps-1.9.0.tgz#e4911fa7dadd1de7555e7a7b7291e2975a7f2b8e"
