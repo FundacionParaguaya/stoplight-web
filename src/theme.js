@@ -70,6 +70,11 @@ export const theme = {
         borderRadius: '8px 8px 0 0!important'
       }
     },
+    MuiFormHelperText: {
+      root: {
+        fontSize: 16
+      }
+    },
     MuiInputBase: {
       input: {
         fontSize: '16px',
