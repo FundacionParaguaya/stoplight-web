@@ -35,9 +35,6 @@ const styles = {
   },
   slim: {
     width: '30%'
-  },
-  flex: {
-    display: 'flex'
   }
 }
 
