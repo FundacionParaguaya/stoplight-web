@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import { withTranslation } from 'react-i18next';
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -85,14 +92,6 @@ export class Location extends Component {
     });
   };
 
-  // onMapCenterChanged = () => {
-  //   this.setState({
-  //     lat: this.map.center.lat(),
-  //     lng: this.map.center.lng(),
-  //     moved: true
-  //   });
-  // };
-
   onMapCreated = map => {
     this.map = map;
   };
@@ -144,73 +143,86 @@ export class Location extends Component {
               getSuggestionItemProps,
               loading
             }) => (
-              <div className={classes.inputContainer}>
-                <div className={classes.iconContainerLocation}>
-                  <i
-                    style={{ fontSize: 30, paddingLeft: '14px' }}
-                    className="material-icons"
-                  >
-                    search
-                  </i>
-                  <input
-                    {...getInputProps({
-                      placeholder: 'Search Places ...'
-                    })}
-                    margin="normal"
-                    className={classes.inputLocation}
-                  />
-                </div>
-                <div>
-                  {loading && <div>Loading...</div>}
-                  <div className={classes.locationSuggestionsContainer}>
-                    {suggestions.map(suggestion => {
-                      // inline style for demonstration purpose
-                      const style = suggestion.active
-                        ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                        : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                      return (
-                        <div
-                          className={classes.locationSuggestion}
-                          {...getSuggestionItemProps(suggestion, {
-                            style
-                          })}
-                        >
-                          <span className={classes.spanLocation}>
-                            {suggestion.description}
-                          </span>
-                        </div>
-                      );
-                    })}
+              <div className={classes.mapContainer}>
+                <Gmaps
+                  height="560px"
+                  lat={this.state.lat}
+                  lng={this.state.lng}
+                  zoom={12}
+                  loadingMessage="Please wait while the map is loading."
+                  params={params}
+                  scrollwheel={false}
+                  onMapCreated={this.onMapCreated}
+                  disableDefaultUI
+                  zoomControl
+                >
+                  <div className={classes.markerContainer}>
+                    <img
+                      src={MarkerIcon}
+                      className={classes.markerIcon}
+                      alt=""
+                    />
                   </div>
-                </div>
+                  <div className={classes.myLocationContainer}>
+                    <img
+                      src={LocationIcon}
+                      className={classes.myLocationIcon}
+                      alt=""
+                    />
+                  </div>
+                  <div className={classes.inputContainer}>
+                    <Paper className={classes.root} elevation={1}>
+                      <IconButton
+                        disabled
+                        className={classes.iconButton}
+                        aria-label="Search"
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                      <InputBase
+                        className={classes.input}
+                        {...getInputProps({
+                          placeholder: 'Search by street or postal code'
+                        })}
+                      />
+                    </Paper>
+                    <div style={{ width: '100%', backgroundColor: 'white' }}>
+                      {loading && (
+                        <List>
+                          <ListItem>
+                            <ListItemText
+                              primary="Loading..."
+                              primaryTypographyProps={{
+                                style: { fontSize: '14px' }
+                              }}
+                            />
+                          </ListItem>
+                        </List>
+                      )}
+                      {!loading && suggestions && suggestions.length > 0 && (
+                        <List>
+                          {suggestions.map(suggestion => {
+                            return (
+                              <ListItem key={suggestion.description}>
+                                <div {...getSuggestionItemProps(suggestion)}>
+                                  <ListItemText
+                                    primary={suggestion.description}
+                                    primaryTypographyProps={{
+                                      style: { fontSize: '14px' }
+                                    }}
+                                  />
+                                </div>
+                              </ListItem>
+                            );
+                          })}
+                        </List>
+                      )}
+                    </div>
+                  </div>
+                </Gmaps>
               </div>
             )}
           </PlacesAutocomplete>
-          <div className={classes.mapContainer}>
-            <Gmaps
-              height="560px"
-              lat={this.state.lat}
-              lng={this.state.lng}
-              zoom={12}
-              loadingMessage="Please wait while the map is loading."
-              params={params}
-              scrollwheel={false}
-              onMapCreated={this.onMapCreated}
-              disableDefaultUI
-              zoomControl
-            >
-              <div className={classes.markerContainer}>
-                <img src={MarkerIcon} className={classes.markerIcon} alt="" />
-              </div>
-              <div className={classes.myLocationContainer}>
-                <img
-                  src={LocationIcon}
-                  className={classes.myLocationIcon}
-                  alt=""
-                />
-              </div>
-            </Gmaps>
-          </div>
 
           {/* Map End */}
 
@@ -250,42 +262,19 @@ export class Location extends Component {
 const ZOOMING_CONTROLS_Y = 95;
 const ZOOMING_CONTROLS_X = 55;
 const styles = theme => ({
-  locationSuggestion: {
-    height: 40,
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-    borderLeft: '1px solid rgba(0, 0, 0, 0.1)',
-    borderRight: '1px solid rgba(0, 0, 0, 0.1)'
-  },
-  inputLocation: {
-    height: 51,
-    width: 660,
-    outline: 'none',
-    border: 'none',
-    fontSize: 18,
-    paddingLeft: 10
-  },
-  iconContainerLocation: {
-    display: 'flex',
-    alignItems: 'center'
-  },
   inputContainer: {
     position: 'absolute',
-    top: '130px',
-    left: '50%',
-    transform: 'translate(-50%, -0%)',
-    zIndex: 1,
-    backgroundColor: 'white'
+    top: theme.spacing.unit * 2,
+    left: theme.spacing.unit * 2,
+    width: '60%',
+    zIndex: 1
   },
   mapContainer: {
     margin: '0px auto 35px auto'
   },
   markerContainer: {
     position: 'absolute',
-    zIndex: 10000000,
+    zIndex: 1,
     left: '50%',
     top: '50%'
   },
@@ -303,7 +292,7 @@ const styles = theme => ({
   },
   myLocationContainer: {
     position: 'absolute',
-    zIndex: 10000000,
+    zIndex: 1,
     bottom: ZOOMING_CONTROLS_Y + theme.spacing.unit * 2 + 50,
     right: ZOOMING_CONTROLS_X
   },
@@ -316,6 +305,24 @@ const styles = theme => ({
     WebkitUserDrag: 'none',
     WebkitUserSelect: 'none',
     MsUserSelect: 'none'
+  },
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+    fontSize: '14px'
+  },
+  iconButton: {
+    padding: 10
+  },
+  suggestionsPaper: {
+    padding: '2px 4px',
+    backgroundColor: 'white'
   }
 });
 
