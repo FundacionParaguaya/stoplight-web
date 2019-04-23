@@ -9,6 +9,7 @@ import { updateDraft } from '../../redux/actions'
 import TitleBar from '../../components/TitleBar'
 import ContainerSmall from '../../components/ContainerSmall'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import iconProprity from '../../assets/iconPriority.png'
 class Priority extends Component {
   priority = this.props.currentDraft.priorities.find(
     item => item.indicator === this.props.match.params.indicator
@@ -152,14 +153,13 @@ class Priority extends Component {
                     </div>
 
                     <div className={classes.pinAndPriority}>
-                      <i
-                        style={{ fontSize: '50px', color: '#77ABE9' }}
-                        class="material-icons"
-                      >
-                        assignment_returned
-                      </i>
+                      <img
+                        style={{ height: 55 }}
+                        src={iconProprity}
+                        alt="icon"
+                      />
                       <span style={{ fontSize: '30px' }}>
-                        {t('views.lifemap.priorities')}
+                        {t('views.lifemap.makeThisAPriority')}
                       </span>
                     </div>
                     <ContainerSmall>
