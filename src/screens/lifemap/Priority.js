@@ -252,15 +252,15 @@ const styles = {
   paragraphContainer: {
     margin: '0px',
     paddingTop: '48px',
-    paddingLeft: '40px',
-    paddingRight: '30px',
     display: 'flex',
     alignItems: 'center',
     width: '100%'
   },
   paragraphTypography: {
     fontSize: 16,
-    zIndex: 1
+    zIndex: 1,
+    paddingLeft: '40px',
+    paddingRight: '30px'
   },
   imgAndDescriptionContainer: {
     position: 'relative',
