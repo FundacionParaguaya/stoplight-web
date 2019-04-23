@@ -16,9 +16,7 @@ import PlacesAutocomplete, {
 import { Gmaps } from 'react-gmaps';
 import Geocode from 'react-geocode';
 import { updateDraft } from '../../redux/actions';
-import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
-import Select from '../../components/Select';
 import Form from '../../components/Form';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
@@ -84,7 +82,7 @@ export class Location extends Component {
     if (results && results.length > 0) {
       const r = results.find(result => result.types.includes('country'));
       if (r) {
-        country = r.formatted_address;
+        country = r.address_components[0].short_name;
       }
     }
     return country;
@@ -120,25 +118,34 @@ export class Location extends Component {
     this.map = map;
   };
 
+  locateMe = () => {
+    const { currentDraft } = this.props;
+    navigator.geolocation.getCurrentPosition(position => {
+      this.setState({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      });
+      this.props.updateDraft({
+        ...currentDraft,
+        familyData: {
+          ...currentDraft.familyData,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }
+      });
+      Location.getCountryFromLatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      ).then(c => this.updateDraft('country', c));
+    });
+  };
+
   componentDidMount = async () => {
     const { currentDraft } = this.props;
     // get user location happens here
 
     if (!currentDraft.familyData.latitude) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        });
-        this.props.updateDraft({
-          ...currentDraft,
-          familyData: {
-            ...currentDraft.familyData,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        });
-      });
+      this.locateMe();
     } else {
       this.setState({
         lat: currentDraft.familyData.latitude,
@@ -149,7 +156,6 @@ export class Location extends Component {
 
   render() {
     const { t, classes } = this.props;
-    const { familyData } = this.props.currentDraft;
 
     return (
       <div>
@@ -188,7 +194,10 @@ export class Location extends Component {
                       alt=""
                     />
                   </div>
-                  <div className={classes.myLocationContainer}>
+                  <div
+                    className={classes.myLocationContainer}
+                    onClick={this.locateMe}
+                  >
                     <img
                       src={LocationIcon}
                       className={classes.myLocationIcon}
@@ -254,29 +263,7 @@ export class Location extends Component {
           <Form
             onSubmit={this.handleContinue}
             submitLabel={t('general.continue')}
-          >
-            <Select
-              required
-              label={t('views.family.selectACountry')}
-              value={familyData.country || ''}
-              field="country"
-              onChange={this.updateDraft}
-              country
-            />
-            <Input
-              label={t('views.family.postcode')}
-              value={familyData.postCode}
-              field="postCode"
-              onChange={this.updateDraft}
-            />
-
-            <Input
-              label={t('views.family.streetOrHouseDescription')}
-              value={familyData.streetOrHouseDescription}
-              field="streetOrHouseDescription"
-              onChange={this.updateDraft}
-            />
-          </Form>
+          />
         </Container>
         <BottomSpacer />
       </div>
