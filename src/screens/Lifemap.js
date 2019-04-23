@@ -9,7 +9,6 @@ import StoplightQuestions from './lifemap/StoplightQuestions'
 import OverviewScreen from './lifemap/Overview'
 import FinalScreen from './lifemap/Final'
 import FamilyMembersScreen from './lifemap/FamilyMembers'
-import GenderAndBirthrates from './lifemap/GenderAndBirthrates'
 import SkippedQuestionsScreen from './lifemap/SkippedQuestions'
 import Priority from './lifemap/Priority'
 import Achievement from './lifemap/Achievement'
@@ -26,10 +25,6 @@ class Lifemap extends Component {
         <Route
           path={`${this.props.match.path}/primary-participant`}
           component={PrimaryParticipantScreen}
-        />
-        <Route
-          path={`${this.props.match.path}/gender-and-birthrates`}
-          component={GenderAndBirthrates}
         />
         <Route
           path={`${this.props.match.path}/family-members`}

@@ -13,6 +13,7 @@ class Input extends Component {
     this.setState({
       value: event.target.value
     })
+
     this.validate(event)
   }
 
@@ -23,6 +24,7 @@ class Input extends Component {
 
     // if it's from onChange update value
     if (event) {
+      console.log(this.props)
       this.props.onChange(this.props.field, value)
     }
 
@@ -49,7 +51,11 @@ class Input extends Component {
 
     return (
       <TextField
-        className={this.state.value || this.props.value ? `${this.props.classes.input} ${this.props.classes.inputFilled}` : `${this.props.classes.input}`}
+        className={
+          this.state.value || this.props.value
+            ? `${this.props.classes.input} ${this.props.classes.inputFilled}`
+            : `${this.props.classes.input}`
+        }
         label={`${this.props.label}${this.props.required ? ' *' : ''}`}
         value={this.props.value || ''}
         onChange={this.handleOnChange}
@@ -67,7 +73,7 @@ class Input extends Component {
 const styles = {
   input: {
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 10
   },
   inputFilled: {
     '& $div': {
