@@ -1,5 +1,5 @@
 // This file provides the color and typography styles used troughout the App
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles';
 
 export const theme = {
   palette: {
@@ -14,7 +14,7 @@ export const theme = {
       main: '#e1504d'
     },
     text: {
-      primary: '#1c212f',
+      primary: '#1c212f'
     },
     background: {
       paper: '#f3f4f6',
@@ -26,7 +26,7 @@ export const theme = {
     fontFamily: 'Roboto',
     useNextVariants: true,
     body2: {
-      fontSize: 18,
+      fontSize: 18
     },
     h4: {
       fontFamily: 'Poppins',
@@ -58,24 +58,27 @@ export const theme = {
           boxShadow: '0'
         },
         '&$focused': {
-          'backgroundColor': '#fff'
+          backgroundColor: '#fff'
         },
         backgroundColor: '#f3f4f6',
-        borderRadius: '8px 8px 0 0!important',
-      },
+        borderRadius: '8px 8px 0 0!important'
+      }
     },
     MuiInputBase: {
       input: {
         fontSize: '16px',
         padding: '35px 12px 10px!important',
         '&$focused': {
-          'backgroundColor': '#fff!important'
-        },
+          backgroundColor: '#fff!important'
+        }
       },
       root: {
         '&$focused': {
-          'backgroundColor': '#fff!important'
-        },
+          backgroundColor: '#fff!important'
+        }
+      },
+      multiline: {
+        padding: '0px 0px 1px !important'
       }
     },
     MuiFormLabel: {
@@ -83,7 +86,7 @@ export const theme = {
       //   transform: 'translate(12px, 10px) scale(1)!important'
       // },
       root: {
-        zIndex: 999,
+        zIndex: 999
       }
     },
     MuiInputLabel: {
@@ -133,7 +136,7 @@ export const theme = {
       },
       contained: {
         '&:hover': {
-          backgroundColor: '#309E43',
+          backgroundColor: '#309E43'
         },
         textTransform: 'capitalize',
         fontSize: 16,
@@ -144,15 +147,15 @@ export const theme = {
         color: '#fff',
         height: 38,
         width: 280,
-        padding: '0 30px',
+        padding: '0 30px'
       }
     }
   },
   props: {
     MuiButtonBase: {
-      disableRipple: true,
-    },
-  },
-}
+      disableRipple: true
+    }
+  }
+};
 
-export default createMuiTheme(theme)
+export default createMuiTheme(theme);
