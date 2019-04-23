@@ -128,7 +128,6 @@ class Achievements extends Component {
                           style={{
                             color: 'white',
                             backgroundColor: color,
-
                             fontSize: 39,
                             height: 80,
                             width: 80,
@@ -197,9 +196,9 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: '50%',
+    top: '53%',
     left: '50%',
-    transform: 'translate(-50%,-50%)',
+    transform: 'translate(-50%,50%)',
     zIndex: 1
   },
   pinAndPriority: {
@@ -214,7 +213,7 @@ const styles = {
   },
   paragraphContainer: {
     margin: '0px',
-    padding: '48px 20px',
+    padding: '48px 45px',
     display: 'flex',
     alignItems: 'center',
     width: '307px'
