@@ -88,7 +88,7 @@ class Priority extends Component {
     );
     const { url, description, value: stoplightColorValue } = stoplightColor;
     if (stoplightColorValue === 3) {
-      color = '#89bd76';
+      color = '#50aa47';
     } else if (stoplightColorValue === 2) {
       color = '#f0cb17';
       textColor = 'black';
@@ -108,12 +108,14 @@ class Priority extends Component {
               <React.Fragment>
                 {this.state.imageStatus === 'loading' && (
                   <div className={classes.loadingContainer}>
-                    <CircularProgress />
-                    <img
-                      onLoad={this.handleImageLoaded}
-                      style={{ display: 'none' }}
-                      src={url}
-                    />
+                    <div className={classes.loadingIndicatorCenter}>
+                      <CircularProgress />
+                      <img
+                        onLoad={this.handleImageLoaded}
+                        style={{ display: 'none' }}
+                        src={url}
+                      />
+                    </div>
                   </div>
                 )}
                 {this.state.imageStatus !== 'loading' && (
@@ -213,6 +215,11 @@ const mapDispatchToProps = { updateDraft };
 const styles = {
   imageContainer: { display: 'flex', position: 'inherit', width: '100%' },
   loadingContainer: { position: 'absolute', top: '50%', left: '50%' },
+  loadingIndicatorCenter: {
+    left: -20,
+    bottom: -20,
+    position: 'absolute'
+  },
   editContainer: {
     position: 'absolute',
     top: '20px',
@@ -245,7 +252,7 @@ const styles = {
   paragraphContainer: {
     margin: '0px',
     paddingTop: '48px',
-    paddingLeft: '30px',
+    paddingLeft: '40px',
     paddingRight: '30px',
     display: 'flex',
     alignItems: 'center',
