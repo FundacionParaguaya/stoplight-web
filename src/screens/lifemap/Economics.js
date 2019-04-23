@@ -6,7 +6,7 @@ import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
-// import Select from '@material-ui/core/Select'
+import Container from '../../components/Container';
 import Form from '../../components/Form';
 
 export class Economics extends Component {
@@ -144,80 +144,99 @@ export class Economics extends Component {
     return (
       <div>
         <TitleBar title={topic} />
-        <Form
-          onSubmit={this.handleContinue}
-          submitLabel={t('general.continue')}
-        >
-          <React.Fragment>
-            {/* List of questions for current topic */}
+        <Container variant="slim">
+          <Form
+            onSubmit={this.handleContinue}
+            submitLabel={t('general.continue')}
+          >
+            <React.Fragment>
+              {/* List of questions for current topic */}
 
-            {questions &&
-              questions.forFamily.map(question => {
-                let selectValue;
-                currentDraft.economicSurveyDataList.forEach(e => {
-                  if (e.key === question.codeName) {
-                    selectValue = e.value;
+              {questions &&
+                questions.forFamily.map(question => {
+                  let selectValue;
+                  currentDraft.economicSurveyDataList.forEach(e => {
+                    if (e.key === question.codeName) {
+                      selectValue = e.value;
+                    }
+                  });
+                  if (question.answerType === 'select') {
+                    return (
+                      <Select
+                        key={question.codeName}
+                        label={question.questionText}
+                        value={selectValue}
+                        options={question.options}
+                        field={question.codeName}
+                        onChange={this.updateDraft}
+                      />
+                    );
                   }
-                });
-                if (question.answerType === 'select') {
                   return (
-                    <Select
+                    <Input
                       key={question.codeName}
+                      required={question.required}
                       label={question.questionText}
                       value={selectValue}
-                      options={question.options}
                       field={question.codeName}
                       onChange={this.updateDraft}
                     />
                   );
-                }
-                return (
-                  <Input
-                    key={question.codeName}
-                    required={question.required}
-                    label={question.questionText}
-                    value={selectValue}
-                    field={question.codeName}
-                    onChange={this.updateDraft}
-                  />
-                );
-              })}
+                })}
 
-            {questions &&
-            this.props.match.params.page === '0' &&
-            questions.forFamilyMember.length ? (
-              <React.Fragment>
-                {currentDraft.familyData.familyMembersList.map(
-                  (familyMember, index) => {
-                    // console.log(familyMember, index)
-                    if (!familyMember.firstParticipant) {
-                      return (
-                        <React.Fragment key={familyMember.firstName}>
-                          <div className={classes.familyMemberNameLarge}>
-                            {familyMember.firstName}
-                          </div>
+              {questions &&
+              this.props.match.params.page === '0' &&
+              questions.forFamilyMember.length ? (
+                <React.Fragment>
+                  {currentDraft.familyData.familyMembersList.map(
+                    (familyMember, index) => {
+                      // console.log(familyMember, index)
+                      if (!familyMember.firstParticipant) {
+                        return (
+                          <React.Fragment key={familyMember.firstName}>
+                            <div className={classes.familyMemberNameLarge}>
+                              {familyMember.firstName}
+                            </div>
 
-                          <React.Fragment>
-                            {' '}
-                            {questions &&
-                              questions.forFamilyMember.map(question => {
-                                let selectValue;
+                            <React.Fragment>
+                              {' '}
+                              {questions &&
+                                questions.forFamilyMember.map(question => {
+                                  let selectValue;
 
-                                currentDraft.familyData.familyMembersList[
-                                  index
-                                ].socioEconomicAnswers.forEach(ele => {
-                                  if (ele.key === question.codeName) {
-                                    selectValue = ele.value;
+                                  currentDraft.familyData.familyMembersList[
+                                    index
+                                  ].socioEconomicAnswers.forEach(ele => {
+                                    if (ele.key === question.codeName) {
+                                      selectValue = ele.value;
+                                    }
+                                  });
+
+                                  if (question.answerType === 'select') {
+                                    return (
+                                      <Select
+                                        key={question.codeName}
+                                        label={question.questionText}
+                                        value={selectValue}
+                                        options={question.options}
+                                        field={question.codeName}
+                                        onChange={(event, child) =>
+                                          this.updateFamilyMember(
+                                            event,
+                                            child,
+                                            question,
+                                            familyMember.firstName
+                                          )
+                                        }
+                                      />
+                                    );
                                   }
-                                });
-
-                                if (question.answerType === 'select') {
                                   return (
-                                    <Select
+                                    <Input
                                       key={question.codeName}
+                                      required={question.required}
                                       label={question.questionText}
                                       value={selectValue}
-                                      options={question.options}
                                       field={question.codeName}
                                       onChange={(event, child) =>
                                         this.updateFamilyMember(
@@ -229,35 +248,18 @@ export class Economics extends Component {
                                       }
                                     />
                                   );
-                                }
-                                return (
-                                  <Input
-                                    key={question.codeName}
-                                    required={question.required}
-                                    label={question.questionText}
-                                    value={selectValue}
-                                    field={question.codeName}
-                                    onChange={(event, child) =>
-                                      this.updateFamilyMember(
-                                        event,
-                                        child,
-                                        question,
-                                        familyMember.firstName
-                                      )
-                                    }
-                                  />
-                                );
-                              })}
+                                })}
+                            </React.Fragment>
                           </React.Fragment>
-                        </React.Fragment>
-                      );
+                        );
+                      }
                     }
-                  }
-                )}
-              </React.Fragment>
-            ) : null}
-          </React.Fragment>
-        </Form>
+                  )}
+                </React.Fragment>
+              ) : null}
+            </React.Fragment>
+          </Form>
+        </Container>
       </div>
     );
   }
