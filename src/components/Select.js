@@ -56,6 +56,7 @@ class SelectInput extends Component {
           this.props.required ? ' *' : ''
         }`}</InputLabel>
         <Select
+          disabled={this.props.disabled}
           value={this.props.value || ''}
           fullWidth
           onChange={this.validate}

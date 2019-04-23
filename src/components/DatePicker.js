@@ -55,6 +55,7 @@ class DatePicker extends Component {
     return (
       <div className={classes.container}>
         <TextField
+          disabled={this.props.disabled}
           label={`${this.props.label}${this.props.required ? ' *' : ''}`}
           type="date"
           onChange={this.validate}

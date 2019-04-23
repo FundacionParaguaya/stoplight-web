@@ -39,30 +39,43 @@ export class Terms extends Component {
           <div className={classes.titleContainer}>
             <NavIcons />
             <Container style={{ position: 'relative' }}>
-              <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
-              <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+              <Typography className={classes.title} variant="h4">
+                {t('views.termsConditions')}
+              </Typography>
+              <img
+                src={checkboxWithDots}
+                className={classes.termsCheckboxImage}
+                alt=""
+              />
             </Container>
           </div>
         ) : (
-            <div className={classes.titleContainer}>
-              <NavIcons />
-              <Container style={{ position: 'relative' }}>
-                <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
-                <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
-              </Container>
-            </div>
-          )}
+          <div className={classes.titleContainer}>
+            <NavIcons />
+            <Container style={{ position: 'relative' }}>
+              <Typography className={classes.title} variant="h4">
+                {t('views.privacyPolicy')}
+              </Typography>
+              <img
+                src={checkboxWithDots}
+                className={classes.termsCheckboxImage}
+                alt=""
+              />
+            </Container>
+          </div>
+        )}
 
         <Container>
           <div className={classes.contentContainer}>
             <Typography variant="h5">{this.state.title}</Typography>
             <br />
-            {this.state.text
-              .split(/(?:\\n)/g)
-              .map((i, key) =>
-                (<Typography color="textPrimary" key={key}>{i}<br /></Typography>)
-              )
-            }
+            {this.state.text &&
+              this.state.text.split(/(?:\\n)/g).map((i, key) => (
+                <Typography color="textPrimary" key={key}>
+                  {i}
+                  <br />
+                </Typography>
+              ))}
           </div>
         </Container>
         <div className={classes.buttonContainerTerms}>
@@ -88,7 +101,7 @@ const styles = {
   },
   title: {
     position: 'relative',
-    top: '55%',
+    top: '55%'
   },
   buttonTermsDisagree: {
     '&:hover': {
@@ -103,7 +116,7 @@ const styles = {
   },
   buttonContainerTerms: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   lowerTitle: {
     fontSize: 28,

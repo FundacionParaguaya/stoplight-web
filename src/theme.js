@@ -22,12 +22,11 @@ export const theme = {
     }
   },
   typography: {
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: 'Roboto',
     useNextVariants: true,
-    caption: {
+    body2: {
       fontSize: 18,
-      color: '#fff'
     },
     h4: {
       fontFamily: 'Poppins',
@@ -52,6 +51,69 @@ export const theme = {
   },
   shadows: Array(25).fill('none'),
   overrides: {
+    MuiFilledInput: {
+      root: {
+        '&:hover': {
+          backgroundColor: '#f3f4f6',
+          boxShadow: '0'
+        },
+        '&$focused': {
+          'backgroundColor': '#fff'
+        },
+        backgroundColor: '#f3f4f6',
+        borderRadius: '8px 8px 0 0!important',
+      },
+    },
+    MuiInputBase: {
+      input: {
+        fontSize: '16px',
+        padding: '35px 12px 10px!important',
+        '&$focused': {
+          'backgroundColor': '#fff!important'
+        },
+      },
+      root: {
+        '&$focused': {
+          'backgroundColor': '#fff!important'
+        },
+      }
+    },
+    MuiFormLabel: {
+      // shrink: {
+      //   transform: 'translate(12px, 10px) scale(1)!important'
+      // },
+      root: {
+        zIndex: 999,
+      }
+    },
+    MuiInputLabel: {
+      shrink: {
+        transform: 'translate(12px, 10px) scale(1)!important'
+      },
+      filled: {
+        transform: 'translate(12px, 25px) scale(1)'
+      },
+      formControl: {
+        transform: 'translate(12px, 25px) scale(1)'
+      }
+    },
+    MuiInput: {
+      formControl: {
+        marginTop: '0!important'
+      }
+    },
+    MuiSelect: {
+      select: {
+        backgroundColor: '#f3f4f6',
+        borderRadius: '8px 8px 0 0',
+        paddingLeft: 12,
+        paddingRight: 12,
+        '&:focus': {
+          background: '#fff!important'
+        },
+        borderBottom: '1px solid rgba(0,0,0,0.42)'
+      }
+    },
     MuiButton: {
       text: {
         '&:hover': {
@@ -84,7 +146,7 @@ export const theme = {
         width: 280,
         padding: '0 30px',
       }
-    },
+    }
   },
   props: {
     MuiButtonBase: {
