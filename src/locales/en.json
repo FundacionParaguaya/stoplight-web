@@ -122,6 +122,7 @@
       "whyDontYouHaveIt": "Why don't you have it?",
       "whatWillYouDoToGetIt": "What will you do to get it?",
       "howManyMonthsWillItTake": "How many months will it take?",
+      "markAchievement": "Mark achievement!",
       "achievement": "Achievement",
       "howDidYouGetIt": "How did you get it?",
       "whatDidItTakeToAchieveThis": "What did it take to achieve this?",
@@ -133,6 +134,7 @@
       "green": "Green",
       "yellow": "Yellow",
       "red": "Red",
+      "makeThisAPriority": "Make this a priority!",
       "priorities": "Priorities",
       "achievements": "Achievements",
       "toComplete": "To complete the lifemap..."

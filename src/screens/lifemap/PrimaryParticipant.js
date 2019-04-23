@@ -190,6 +190,7 @@ export class PrimaryParticipant extends Component {
     return (
       <div>
         <TitleBar title={t('views.primaryParticipant')} />
+
         <Form
           onSubmit={this.handleContinue}
           submitLabel={t('general.continue')}
