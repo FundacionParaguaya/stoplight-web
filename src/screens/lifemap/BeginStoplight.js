@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import { withTranslation } from 'react-i18next'
-import TitleBar from '../../components/TitleBar'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
+import TitleBar from '../../components/TitleBar';
 
-import lifemap_begin_image from '../../assets/lifemap_begin_image.png'
+import lifemap_begin_image from '../../assets/lifemap_begin_image.png';
 export class Begin extends Component {
   render() {
-    const { classes, t, currentSurvey } = this.props
-    let questions = currentSurvey.surveyStoplightQuestions.length
+    const { classes, t, currentSurvey } = this.props;
+    let questions = currentSurvey.surveyStoplightQuestions.length;
     return (
       <div>
         <TitleBar title={t('views.yourLifeMap')} />
@@ -33,11 +33,11 @@ export class Begin extends Component {
           {t('general.continue')}
         </Button>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 
 const styles = {
   BeginStopLightContainer: {
@@ -49,8 +49,15 @@ const styles = {
     width: 460,
     margin: '40px auto 0 auto',
     textAlign: 'center'
+  },
+  beginStopLightImage: {
+    marginTop: 40,
+    marginBottom: 80,
+    position: 'relative',
+    left: -10
   }
-}
+};
+
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Begin))
-)
+);
