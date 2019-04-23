@@ -104,22 +104,23 @@ class Priority extends Component {
         />
         <React.Fragment>
           <div className={classes.imgAndDescriptionContainer}>
-            {this.state.imageStatus === 'loading' ? (
+            <div className={classes.imageContainer}>
               <React.Fragment>
-                <div>
-                  {' '}
-                  <CircularProgress />
-                </div>
-                <img
-                  onLoad={this.handleImageLoaded}
-                  className={classes.imgClass}
-                  src={url}
-                  alt="surveyImg"
-                />
+                {this.state.imageStatus === 'loading' && (
+                  <div className={classes.loadingContainer}>
+                    <CircularProgress />
+                    <img
+                      onLoad={this.handleImageLoaded}
+                      style={{ display: 'none' }}
+                      src={url}
+                    />
+                  </div>
+                )}
+                {this.state.imageStatus !== 'loading' && (
+                  <img className={classes.imgClass} src={url} alt="surveyImg" />
+                )}
               </React.Fragment>
-            ) : (
-              <img className={classes.imgClass} src={url} alt="surveyImg" />
-            )}
+            </div>
             <div className={classes.answeredQuestion}>
               <i
                 style={{
@@ -210,6 +211,8 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 });
 const mapDispatchToProps = { updateDraft };
 const styles = {
+  imageContainer: { display: 'flex', position: 'inherit', width: '100%' },
+  loadingContainer: { position: 'absolute', top: '50%', left: '50%' },
   editContainer: {
     position: 'absolute',
     top: '20px',
@@ -237,16 +240,16 @@ const styles = {
     alignItems: 'center'
   },
   imgClass: {
-    width: '307px'
+    width: '100%'
   },
   paragraphContainer: {
     margin: '0px',
     paddingTop: '48px',
-    paddingLeft: '20px',
-    paddingRight: '20px',
+    paddingLeft: '30px',
+    paddingRight: '30px',
     display: 'flex',
     alignItems: 'center',
-    width: '307px'
+    width: '100%'
   },
   paragraphTypography: {
     fontSize: 16,

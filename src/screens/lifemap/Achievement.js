@@ -1,19 +1,20 @@
-import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
-import Form from '../../components/Form'
-import Input from '../../components/Input'
-import { updateDraft } from '../../redux/actions'
-import TitleBar from '../../components/TitleBar'
-import ContainerSmall from '../../components/ContainerSmall'
-import { withStyles } from '@material-ui/core/styles'
-import iconAch from '../../assets/imgAch.png'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Form from '../../components/Form';
+import Input from '../../components/Input';
+import { updateDraft } from '../../redux/actions';
+import TitleBar from '../../components/TitleBar';
+import ContainerSmall from '../../components/ContainerSmall';
+import iconAch from '../../assets/imgAch.png';
+
 class Achievements extends Component {
   achievement = this.props.currentDraft.achievements.find(
     item => item.indicator === this.props.match.params.indicator
-  )
+  );
 
   state = {
     imageStatus: 'loading',
@@ -22,33 +23,35 @@ class Achievements extends Component {
     ),
     roadmap: (this.achievement && this.achievement.roadmap) || '',
     action: (this.achievement && this.achievement.action) || ''
-  }
+  };
 
   updateAnswer = (field, value) => {
     this.setState({
       [field]: field === 'estimatedDate' ? parseInt(value, 10) : value
-    })
-  }
+    });
+  };
+
   handleImageLoaded = () => {
-    this.setState({ imageStatus: 'loaded' })
-  }
+    this.setState({ imageStatus: 'loaded' });
+  };
+
   savePriority = () => {
-    const { currentDraft } = this.props
-    const { question, roadmap, action } = this.state
+    const { currentDraft } = this.props;
+    const { question, roadmap, action } = this.state;
 
     const achievement = {
       roadmap,
       action,
       indicator: question.codeName
-    }
+    };
 
     const item = currentDraft.achievements.filter(
       item => item.indicator === question.codeName
-    )[0]
+    )[0];
 
     // If item exists update it
     if (item) {
-      const index = currentDraft.achievements.indexOf(item)
+      const index = currentDraft.achievements.indexOf(item);
       this.props.updateDraft({
         ...currentDraft,
         achievements: [
@@ -56,21 +59,21 @@ class Achievements extends Component {
           achievement,
           ...currentDraft.achievements.slice(index + 1)
         ]
-      })
+      });
     } else {
       // If item does not exist create it
       this.props.updateDraft({
         ...currentDraft,
         achievements: [...currentDraft.achievements, achievement]
-      })
+      });
     }
 
-    this.props.history.goBack()
-  }
+    this.props.history.goBack();
+  };
 
   render() {
-    const { t, currentDraft, classes } = this.props
-    const { question } = this.state
+    const { t, currentDraft, classes } = this.props;
+    const { question } = this.state;
 
     return (
       <div>
@@ -81,25 +84,25 @@ class Achievements extends Component {
 
         {question !== null
           ? currentDraft.indicatorSurveyDataList.map(ele => {
-              let url
-              let color
-              let description
-              let textColor = 'white'
+              let url;
+              let color;
+              let description;
+              let textColor = 'white';
               if (question.codeName === ele.key) {
                 question.stoplightColors.forEach(elem => {
                   if (elem.value === ele.value) {
-                    url = elem.url
-                    description = elem.description
+                    url = elem.url;
+                    description = elem.description;
                     if (elem.value === 3) {
-                      color = '#89bd76'
+                      color = '#89bd76';
                     } else if (elem.value === 2) {
-                      color = '#f0cb17'
-                      textColor = 'black'
+                      color = '#f0cb17';
+                      textColor = 'black';
                     } else if (elem.value === 1) {
-                      color = '#e1504d'
+                      color = '#e1504d';
                     }
                   }
-                })
+                });
                 return (
                   <React.Fragment>
                     <div className={classes.imgAndDescriptionContainer}>
@@ -177,20 +180,20 @@ class Achievements extends Component {
                       </Form>
                     </ContainerSmall>
                   </React.Fragment>
-                )
+                );
               }
             })
           : null}
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
-const mapDispatchToProps = { updateDraft }
+});
+const mapDispatchToProps = { updateDraft };
 const styles = {
   answeredQuestion: {
     justifyContent: 'center',
@@ -225,10 +228,10 @@ const styles = {
     margin: 'auto',
     marginTop: '30px'
   }
-}
+};
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(Achievements))
-)
+);
