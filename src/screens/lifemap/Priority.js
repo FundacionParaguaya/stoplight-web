@@ -186,12 +186,14 @@ class Priority extends Component {
                 value={this.state.reason}
                 field="reason"
                 onChange={this.updateAnswer}
+                multiline
               />
               <Input
                 label={t('views.lifemap.whatWillYouDoToGetIt')}
                 value={this.state.action}
                 field="action"
                 onChange={this.updateAnswer}
+                multiline
               />
             </Form>
           </Container>
