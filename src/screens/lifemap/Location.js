@@ -159,7 +159,7 @@ export class Location extends Component {
 
     return (
       <div>
-        <TitleBar title={t('views.location')} />
+        <TitleBar title={t('views.location.title')} />
         <Container>
           {/* Map */}
           <PlacesAutocomplete
@@ -175,11 +175,11 @@ export class Location extends Component {
             }) => (
               <div className={classes.mapContainer}>
                 <Gmaps
-                  height="560px"
+                  height="65vh"
                   lat={this.state.lat}
                   lng={this.state.lng}
                   zoom={12}
-                  loadingMessage="Please wait while the map is loading."
+                  loadingMessage={t('views.location.mapLoading')}
                   params={params}
                   scrollwheel={false}
                   onMapCreated={this.onMapCreated}
@@ -219,18 +219,18 @@ export class Location extends Component {
                           input: classes.inputBase
                         }}
                         {...getInputProps({
-                          placeholder: 'Search by street or postal code'
+                          placeholder: t('views.location.searchBoxPlaceholder')
                         })}
                       />
                     </Paper>
-                    <div style={{ width: '100%', backgroundColor: 'white' }}>
+                    <div className={classes.suggestionsContainer}>
                       {loading && (
                         <List>
                           <ListItem>
                             <ListItemText
-                              primary="Loading..."
+                              primary={t('views.location.loadingOptionsLabel')}
                               primaryTypographyProps={{
-                                style: { fontSize: '14px' }
+                                className: classes.suggestionsTypography
                               }}
                             />
                           </ListItem>
@@ -245,7 +245,7 @@ export class Location extends Component {
                                   <ListItemText
                                     primary={suggestion.description}
                                     primaryTypographyProps={{
-                                      style: { fontSize: '14px' }
+                                      className: classes.suggestionsTypography
                                     }}
                                   />
                                 </div>
@@ -277,6 +277,8 @@ export class Location extends Component {
 const ZOOMING_CONTROLS_Y = 95;
 const ZOOMING_CONTROLS_X = 55;
 const styles = theme => ({
+  suggestionsContainer: { width: '100%', backgroundColor: 'white' },
+  suggestionsTypography: { fontSize: 14 },
   inputContainer: {
     position: 'absolute',
     top: theme.spacing.unit * 2,

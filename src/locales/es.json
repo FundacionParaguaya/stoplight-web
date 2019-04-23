@@ -57,7 +57,12 @@
     "noDrafts": "No hay borradores para mostrar",
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
-    "location": "Ubicación",
+    "location": {
+      "title": "Ubicación",
+      "mapLoading": "Por favor, espera mientras el mapa se carga.",
+      "searchBoxPlaceholder": "Busque por nombre de calle o código postal",
+      "loadingOptionsLabel": "Cargando..."
+    },
     "socioEconomic": "Socioeconómica",
     "yourLifeMap": "Tu Mapa de Vida",
     "primaryParticipant": "Participante de la familia",
