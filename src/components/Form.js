@@ -47,7 +47,7 @@ class Form extends Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <div class={classes.formContainer}>
         {children}
         <div className={classes.buttonContainerForm}>
           <Button color="primary" variant="contained" onClick={this.submit}>
@@ -61,6 +61,9 @@ class Form extends Component {
 }
 
 const styles = {
+  formContainer: {
+    marginTop: 40
+  },
   input: {
     marginTop: 10,
     marginBottom: 10
