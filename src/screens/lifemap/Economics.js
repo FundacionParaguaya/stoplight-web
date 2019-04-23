@@ -195,7 +195,24 @@ export class Economics extends Component {
                         return (
                           <React.Fragment key={familyMember.firstName}>
                             <div className={classes.familyMemberNameLarge}>
-                              {familyMember.firstName}
+                              <Typography
+                                style={{
+                                  marginTop: '20px',
+                                  marginBottom: '16px'
+                                }}
+                                variant="h6"
+                              >
+                                <span className={classes.familyMemberTitle}>
+                                  <i
+                                    className={`material-icons ${
+                                      classes.familyMemberIcon
+                                    }`}
+                                  >
+                                    face
+                                  </i>
+                                  {familyMember.firstName}
+                                </span>
+                              </Typography>
                             </div>
 
                             <React.Fragment>
