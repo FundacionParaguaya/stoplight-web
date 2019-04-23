@@ -160,7 +160,7 @@ export class Location extends Component {
     return (
       <div>
         <TitleBar title={t('views.location.title')} />
-        <Container>
+        <Container variant="stretch">
           {/* Map */}
           <PlacesAutocomplete
             value={this.state.address}
