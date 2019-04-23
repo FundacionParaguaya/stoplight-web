@@ -293,6 +293,15 @@ const styles = {
     marginTop: '15px',
     marginBottom: '-10px',
     fontSize: '23px'
+  },
+  familyMemberTitle: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  familyMemberIcon: {
+    marginRight: 7,
+    fontSize: 35,
+    color: '#909090'
   }
 };
 export default withStyles(styles)(
