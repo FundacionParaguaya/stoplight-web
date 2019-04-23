@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
+import { Typography } from '@material-ui/core';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Input from '../../components/Input';
@@ -38,7 +39,9 @@ export class Economics extends Component {
 
     this.setState({
       questions,
-      topic: questions.forFamily[0].topic
+      topic: questions.forFamily.length
+        ? questions.forFamily[0].topic
+        : questions.forFamilyMember[0].topic
     });
   }
 
@@ -185,7 +188,7 @@ export class Economics extends Component {
                 })}
 
               {questions &&
-              this.props.match.params.page === '0' &&
+              this.props.match.params.page === '1' &&
               questions.forFamilyMember.length ? (
                 <React.Fragment>
                   {currentDraft.familyData.familyMembersList.map(
