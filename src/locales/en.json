@@ -57,7 +57,12 @@
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
-    "location": "Location",
+    "location": {
+      "title": "Location",
+      "mapLoading": "Please wait while the map is loading.",
+      "searchBoxPlaceholder": "Search by street or postal code",
+      "loadingOptionsLabel": "Loading..."
+    },
     "socioEconomic": "Socio Economic",
     "yourLifeMap": "Your life map",
     "primaryParticipant": "Primary participant",
