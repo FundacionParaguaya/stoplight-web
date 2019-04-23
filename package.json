@@ -9,6 +9,7 @@
     "i18next": "^15.0.8",
     "localized-countries": "^1.0.2",
     "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-gmaps": "^1.9.0",
