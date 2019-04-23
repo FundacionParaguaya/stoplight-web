@@ -8,6 +8,7 @@ import { updateDraft } from '../../redux/actions'
 import TitleBar from '../../components/TitleBar'
 import ContainerSmall from '../../components/ContainerSmall'
 import { withStyles } from '@material-ui/core/styles'
+import iconAch from '../../assets/imgAch.png'
 import CircularProgress from '@material-ui/core/CircularProgress'
 class Achievements extends Component {
   achievement = this.props.currentDraft.achievements.find(
@@ -151,14 +152,9 @@ class Achievements extends Component {
                     </div>
 
                     <div className={classes.pinAndPriority}>
-                      <i
-                        style={{ fontSize: '50px', color: '#77ABE9' }}
-                        class="material-icons"
-                      >
-                        star
-                      </i>
+                      <img style={{ height: 55 }} src={iconAch} alt="icon" />
                       <span style={{ fontSize: '30px' }}>
-                        {t('views.lifemap.achievements')}
+                        {t('views.lifemap.markAchievement')}
                       </span>
                     </div>
                     <ContainerSmall>
