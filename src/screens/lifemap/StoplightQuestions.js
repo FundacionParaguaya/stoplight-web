@@ -8,8 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { withTranslation } from 'react-i18next'
 export class StoplightQuestions extends Component {
   state = {
-    counter: 0,
-    imageStatus: null,
+    imageStatus: 'loading',
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
     ]
@@ -215,33 +214,33 @@ export class StoplightQuestions extends Component {
                             />
                           )}
 
-                          <div
-                            className={classes.answeredQuestion}
-                            style={{ display: displayTick }}
-                          >
-                            <i
-                              style={{
-                                color: 'white',
-                                backgroundColor: color,
-                                paddingTop: '3px',
-                                fontSize: 39,
-                                height: 70,
-                                width: 70,
-                                margin: 'auto',
-                                display: 'flex',
-                                borderRadius: '50%',
-                                justifyContent: 'center',
-                                alignItems: 'flex-start'
-                              }}
-                              className="material-icons"
-                            >
-                              done
-                            </i>
-                          </div>
                           <p
                             style={{ backgroundColor: color, color: textColor }}
                             className={classes.questionDescription}
                           >
+                            <div
+                              className={classes.answeredQuestion}
+                              style={{ display: displayTick }}
+                            >
+                              <i
+                                style={{
+                                  color: 'white',
+                                  backgroundColor: color,
+                                  paddingTop: '3px',
+                                  fontSize: 39,
+                                  height: 70,
+                                  width: 70,
+                                  margin: 'auto',
+                                  display: 'flex',
+                                  borderRadius: '50%',
+                                  justifyContent: 'center',
+                                  alignItems: 'flex-start'
+                                }}
+                                className="material-icons"
+                              >
+                                done
+                              </i>
+                            </div>
                             {e.description}
                           </p>
                         </div>
@@ -342,10 +341,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: '206px',
+    top: '-36px',
     left: '50%',
     transform: 'translate(-50%,0)',
-    zIndex: 1
+    zIndex: -1
   },
   mainQuestionsAndBottomContainer: {
     margin: 'auto',
@@ -381,7 +380,8 @@ const styles = {
     height: 240
   },
   questionDescription: {
-    zIndex: 2,
+    position: 'relative',
+    zIndex: 22,
     margin: 0,
     textAlign: 'center',
     color: 'white',
@@ -389,7 +389,6 @@ const styles = {
     padding: '20px 20px'
   },
   questionContainer: {
-    position: 'relative',
     margin: '0 10px 0 10px',
     cursor: 'pointer',
     width: 260,
