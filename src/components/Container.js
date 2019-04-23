@@ -30,6 +30,9 @@ const styles = {
     width: '100%'
   },
   strech: {
+    width: '75%'
+  },
+  slim: {
     width: '30%'
   },
   flex: {
