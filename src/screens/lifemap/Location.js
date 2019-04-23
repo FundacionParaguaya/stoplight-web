@@ -14,6 +14,7 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete';
 import { Gmaps } from 'react-gmaps';
+import Geocode from 'react-geocode';
 import { updateDraft } from '../../redux/actions';
 import Input from '../../components/Input';
 import TitleBar from '../../components/TitleBar';
@@ -25,6 +26,7 @@ import LocationIcon from '../../assets/location.png';
 import MarkerIcon from '../../assets/marker.png';
 
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' };
+Geocode.setApiKey(params.key);
 
 export class Location extends Component {
   state = {
@@ -57,6 +59,9 @@ export class Location extends Component {
             longitude: latLng.lng
           }
         });
+        Location.getCountryFromLatLng(latLng.lat, latLng.lng).then(c =>
+          this.updateDraft('country', c)
+        );
       })
       .catch(() => {});
   };
@@ -73,12 +78,26 @@ export class Location extends Component {
     });
   };
 
-  onDragEnd = e => {
+  static getCountryFromLatLng = async (lat, lng) => {
+    const { results } = await Geocode.fromLatLng(lat, lng);
+    let country = null;
+    if (results && results.length > 0) {
+      const r = results.find(result => result.types.includes('country'));
+      if (r) {
+        country = r.formatted_address;
+      }
+    }
+    return country;
+  };
+
+  onDragMapEnded = () => {
     const { currentDraft } = this.props;
+    const lat = this.map.center.lat();
+    const lng = this.map.center.lng();
     // Update the state
     this.setState({
-      lat: e.latLng.lat(),
-      lng: e.latLng.lng(),
+      lat,
+      lng,
       moved: true
     });
 
@@ -90,6 +109,11 @@ export class Location extends Component {
         longitude: this.state.lng
       }
     });
+
+    // Using geoloc to find country
+    Location.getCountryFromLatLng(lat, lng).then(c =>
+      this.updateDraft('country', c)
+    );
   };
 
   onMapCreated = map => {
@@ -153,6 +177,7 @@ export class Location extends Component {
                   params={params}
                   scrollwheel={false}
                   onMapCreated={this.onMapCreated}
+                  onDragEnd={this.onDragMapEnded}
                   disableDefaultUI
                   zoomControl
                 >
