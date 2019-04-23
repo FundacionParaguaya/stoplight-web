@@ -90,9 +90,6 @@ export const theme = {
       }
     },
     MuiFormLabel: {
-      // shrink: {
-      //   transform: 'translate(12px, 10px) scale(1)!important'
-      // },
       root: {
         zIndex: 999
       }
