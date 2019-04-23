@@ -214,7 +214,10 @@ export class Location extends Component {
                         <SearchIcon />
                       </IconButton>
                       <InputBase
-                        className={classes.input}
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputBase
+                        }}
                         {...getInputProps({
                           placeholder: 'Search by street or postal code'
                         })}
@@ -324,10 +327,13 @@ const styles = theme => ({
     alignItems: 'center',
     backgroundColor: 'white'
   },
-  input: {
+  inputRoot: {
     marginLeft: 8,
     flex: 1,
     fontSize: '14px'
+  },
+  inputBase: {
+    padding: '1px !important'
   },
   iconButton: {
     padding: 10
