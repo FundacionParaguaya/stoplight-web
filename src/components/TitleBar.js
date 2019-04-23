@@ -46,9 +46,30 @@ class TopTitleContainer extends Component {
           </div>
         ) : (
           <div className={classes.titleAndIconContainerPolicy}>
-            <img className={classes.barDotsImage} src={barDots} alt="Bar Dots" />
+            <img
+              className={classes.barDotsImage}
+              src={barDots}
+              alt="Bar Dots"
+            />
             <NavIcons />
-            <Typography variant="h4" className={classes.titleMainAll}>{this.props.title}</Typography>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography variant="h4" className={classes.titleMainAll}>
+                {this.props.title}
+              </Typography>
+              {this.props.extraTitleText ? (
+                <Typography variant="h5" className={classes.titleMainAll}>
+                  {this.props.extraTitleText}
+                </Typography>
+              ) : null}
+            </div>
           </div>
         )}
       </React.Fragment>
@@ -96,7 +117,7 @@ const styles = theme => ({
   barDotsImage: {
     position: 'absolute',
     left: '50%',
-    transform: 'translateX(-50%)',
+    transform: 'translateX(-50%)'
   }
 })
 export default withRouter(
