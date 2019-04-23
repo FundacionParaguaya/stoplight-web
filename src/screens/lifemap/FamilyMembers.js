@@ -6,8 +6,12 @@ import TitleBar from '../../components/TitleBar'
 import Form from '../../components/Form'
 import Input from '../../components/Input'
 import TextField from '@material-ui/core/TextField'
+import ContainerSmall from '../../components/ContainerSmall'
+import Select from '../../components/Select'
+import Typography from '@material-ui/core/Typography'
+import DatePicker from '../../components/DatePicker'
 export class FamilyMembers extends Component {
-  updateDraft = (memberIndex, firstName) => {
+  updateDraft = (memberIndex, value, property) => {
     const { currentDraft } = this.props
 
     // update only the family member that is edited
@@ -17,10 +21,10 @@ export class FamilyMembers extends Component {
         ...currentDraft.familyData,
         familyMembersList: currentDraft.familyData.familyMembersList.map(
           (item, index) => {
-            if (memberIndex === index) {
+            if (memberIndex - 1 === index) {
               return {
                 ...item,
-                firstName
+                [property]: value
               }
             } else {
               return item
@@ -30,45 +34,132 @@ export class FamilyMembers extends Component {
       }
     })
   }
+
   handleContinue = () => {
-    this.props.history.push('/lifemap/gender-and-birthrates')
+    this.props.history.push('/lifemap/location')
   }
 
   render() {
-    const { t, currentDraft } = this.props
-    const { familyMembersList } = currentDraft.familyData
-
+    const { t, currentDraft, currentSurvey } = this.props
     const membersList = currentDraft.familyData.familyMembersList.slice(0)
-
+    const { surveyConfig } = currentSurvey
     return (
       <div>
         <TitleBar title={t('views.familyMembers')} />
-        <TextField
-          disabled
-          label={`${t('views.family.familyMember')} 1 - ${t(
-            'views.family.participant'
-          )}`}
-          value={`${familyMembersList[0].firstName} ${
-            familyMembersList[0].lastName
-          }`}
-          margin="dense"
-          fullWidth
-        />
-        <Form
-          onSubmit={this.handleContinue}
-          submitLabel={t('general.continue')}
-        >
-          {membersList.slice(1).map((item, index) => (
-            <Input
-              required
-              key={index}
-              field={index + 1}
-              label={`${t('views.family.familyMember')} ${index + 2}`}
-              value={item.firstName}
-              onChange={this.updateDraft}
-            />
-          ))}
-        </Form>
+        <ContainerSmall>
+          <Form
+            onSubmit={this.handleContinue}
+            submitLabel={t('general.continue')}
+          >
+            {membersList.map((item, index) => {
+              if (index === 0) {
+                return (
+                  <div key={index}>
+                    <Typography
+                      style={{ marginTop: '20px', marginBottom: '16px' }}
+                      variant="h6"
+                    >
+                      <span
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <i
+                          class="material-icons"
+                          style={{ marginRight: 7, fontSize: 35 }}
+                        >
+                          face
+                        </i>
+                        {t('views.family.familyMember')} {index + 1} -{' '}
+                        {t('views.primaryParticipant')}
+                      </span>
+                    </Typography>
+                    <TextField
+                      disabled
+                      field={index + 1}
+                      label={`${t('views.family.firstName')}`}
+                      value={item.firstName}
+                      margin="dense"
+                      fullWidth
+                    />
+
+                    <Select
+                      disabled
+                      label={t('views.family.selectGender')}
+                      value={item.gender}
+                      field={index + 1}
+                      onChange={(index, value) =>
+                        this.updateDraft(index, value, 'gender')
+                      }
+                      options={surveyConfig.gender}
+                    />
+                    <DatePicker
+                      disabled
+                      label={t('views.family.dateOfBirth')}
+                      field={index + 1}
+                      onChange={(index, value) =>
+                        this.updateDraft(index, value, 'birthDate')
+                      }
+                      value={item.birthDate}
+                    />
+                  </div>
+                )
+              } else {
+                return (
+                  <div key={index}>
+                    <Typography
+                      style={{ marginTop: '20px', marginBottom: '16px' }}
+                      variant="h6"
+                    >
+                      <span
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <i
+                          class="material-icons"
+                          style={{ marginRight: 7, fontSize: 35 }}
+                        >
+                          face
+                        </i>
+                        {t('views.family.familyMember')} {index + 1}
+                      </span>
+                    </Typography>
+                    <Input
+                      required
+                      field={index + 1}
+                      label={`${t('views.family.firstName')}`}
+                      value={item.firstName}
+                      onChange={(index, value) =>
+                        this.updateDraft(index, value, 'firstName')
+                      }
+                    />
+
+                    <Select
+                      label={t('views.family.selectGender')}
+                      value={item.gender}
+                      field={index + 1}
+                      onChange={(index, value) =>
+                        this.updateDraft(index, value, 'gender')
+                      }
+                      options={surveyConfig.gender}
+                    />
+                    <DatePicker
+                      label={t('views.family.dateOfBirth')}
+                      field={index + 1}
+                      onChange={(index, value) =>
+                        this.updateDraft(index, value, 'birthDate')
+                      }
+                      value={item.birthDate}
+                    />
+                  </div>
+                )
+              }
+            })}
+          </Form>
+        </ContainerSmall>
       </div>
     )
   }
