@@ -1,19 +1,22 @@
-import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
-import Form from '../../components/Form'
-import Input from '../../components/Input'
-import { updateDraft } from '../../redux/actions'
-import TitleBar from '../../components/TitleBar'
-import ContainerSmall from '../../components/ContainerSmall'
-import { withStyles } from '@material-ui/core/styles'
-import iconAch from '../../assets/imgAch.png'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import EditIcon from '@material-ui/icons/Edit';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Form from '../../components/Form';
+import Input from '../../components/Input';
+import { updateDraft } from '../../redux/actions';
+import TitleBar from '../../components/TitleBar';
+import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
+import iconAch from '../../assets/imgAch.png';
+
 class Achievements extends Component {
   achievement = this.props.currentDraft.achievements.find(
     item => item.indicator === this.props.match.params.indicator
-  )
+  );
 
   state = {
     imageStatus: 'loading',
@@ -22,33 +25,35 @@ class Achievements extends Component {
     ),
     roadmap: (this.achievement && this.achievement.roadmap) || '',
     action: (this.achievement && this.achievement.action) || ''
-  }
+  };
+
+  handleImageLoaded = () => {
+    this.setState({ imageStatus: 'loaded' });
+  };
 
   updateAnswer = (field, value) => {
     this.setState({
-      [field]: field === 'estimatedDate' ? parseInt(value, 10) : value
-    })
-  }
-  handleImageLoaded = () => {
-    this.setState({ imageStatus: 'loaded' })
-  }
-  savePriority = () => {
-    const { currentDraft } = this.props
-    const { question, roadmap, action } = this.state
+      [field]: value
+    });
+  };
+
+  saveAchievement = () => {
+    const { currentDraft } = this.props;
+    const { question, roadmap, action } = this.state;
 
     const achievement = {
       roadmap,
       action,
       indicator: question.codeName
-    }
+    };
 
     const item = currentDraft.achievements.filter(
-      item => item.indicator === question.codeName
-    )[0]
+      i => i.indicator === question.codeName
+    )[0];
 
     // If item exists update it
     if (item) {
-      const index = currentDraft.achievements.indexOf(item)
+      const index = currentDraft.achievements.indexOf(item);
       this.props.updateDraft({
         ...currentDraft,
         achievements: [
@@ -56,21 +61,37 @@ class Achievements extends Component {
           achievement,
           ...currentDraft.achievements.slice(index + 1)
         ]
-      })
+      });
     } else {
       // If item does not exist create it
       this.props.updateDraft({
         ...currentDraft,
         achievements: [...currentDraft.achievements, achievement]
-      })
+      });
     }
-
-    this.props.history.goBack()
-  }
+    this.props.history.goBack();
+  };
 
   render() {
-    const { t, currentDraft, classes } = this.props
-    const { question } = this.state
+    const { t, currentDraft, classes } = this.props;
+    const { question } = this.state;
+    let color;
+    let textColor = 'white';
+    const stoplightAnswer = currentDraft.indicatorSurveyDataList.find(
+      answers => answers.key === question.codeName
+    );
+    const stoplightColor = question.stoplightColors.find(
+      e => e.value === stoplightAnswer.value
+    );
+    const { url, description, value: stoplightColorValue } = stoplightColor;
+    if (stoplightColorValue === 3) {
+      color = '#50aa47';
+    } else if (stoplightColorValue === 2) {
+      color = '#f0cb17';
+      textColor = 'black';
+    } else if (stoplightColorValue === 1) {
+      color = '#e1504d';
+    }
 
     return (
       <div>
@@ -78,157 +99,171 @@ class Achievements extends Component {
           title={question && question.dimension}
           extraTitleText={question && question.questionText}
         />
-
-        {question !== null
-          ? currentDraft.indicatorSurveyDataList.map(ele => {
-              let url
-              let color
-              let description
-              let textColor = 'white'
-              if (question.codeName === ele.key) {
-                question.stoplightColors.forEach(elem => {
-                  if (elem.value === ele.value) {
-                    url = elem.url
-                    description = elem.description
-                    if (elem.value === 3) {
-                      color = '#89bd76'
-                    } else if (elem.value === 2) {
-                      color = '#f0cb17'
-                      textColor = 'black'
-                    } else if (elem.value === 1) {
-                      color = '#e1504d'
-                    }
-                  }
-                })
-                return (
-                  <React.Fragment>
-                    <div className={classes.imgAndDescriptionContainer}>
-                      {this.state.imageStatus === 'loading' ? (
-                        <React.Fragment>
-                          <div>
-                            {' '}
-                            <CircularProgress />
-                          </div>
-                          <img
-                            onLoad={this.handleImageLoaded}
-                            className={classes.imgClass}
-                            src={url}
-                            alt="surveyImg"
-                          />
-                        </React.Fragment>
-                      ) : (
-                        <img
-                          className={classes.imgClass}
-                          src={url}
-                          alt="surveyImg"
-                        />
-                      )}
-                      <div className={classes.answeredQuestion}>
-                        <i
-                          style={{
-                            color: 'white',
-                            backgroundColor: color,
-                            fontSize: 39,
-                            height: 80,
-                            width: 80,
-                            margin: 'auto',
-                            display: 'flex',
-                            borderRadius: '50%',
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                          }}
-                          className="material-icons"
-                        >
-                          done
-                        </i>
-                      </div>
-                      <p
-                        className={classes.paragraphContainer}
-                        style={{ backgroundColor: color, color: textColor }}
-                      >
-                        {description}
-                      </p>
+        <React.Fragment>
+          <div className={classes.imgAndDescriptionContainer}>
+            <div className={classes.imageContainer}>
+              <React.Fragment>
+                {this.state.imageStatus === 'loading' && (
+                  <div className={classes.loadingContainer}>
+                    <div className={classes.loadingIndicatorCenter}>
+                      <CircularProgress />
+                      <img
+                        onLoad={this.handleImageLoaded}
+                        style={{ display: 'none' }}
+                        src={url}
+                      />
                     </div>
+                  </div>
+                )}
+                {this.state.imageStatus !== 'loading' && (
+                  <img className={classes.imgClass} src={url} alt="surveyImg" />
+                )}
+              </React.Fragment>
+            </div>
+            <div className={classes.answeredQuestion}>
+              <i
+                style={{
+                  color: 'white',
+                  backgroundColor: color,
+                  fontSize: 39,
+                  height: 80,
+                  width: 80,
+                  margin: 'auto',
+                  display: 'flex',
+                  borderRadius: '50%',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+                className="material-icons"
+              >
+                done
+              </i>
+            </div>
+            <div
+              className={classes.paragraphContainer}
+              style={{ backgroundColor: color }}
+            >
+              <div className={classes.editContainer}>
+                <EditIcon className={classes.editIcon} />
+              </div>
+              <Typography
+                variant="body2"
+                align="center"
+                paragraph
+                className={classes.paragraphTypography}
+                style={{ color: textColor }}
+              >
+                {description}
+              </Typography>
+            </div>
+          </div>
 
-                    <div className={classes.pinAndPriority}>
-                      <img style={{ height: 55 }} src={iconAch} alt="icon" />
-                      <span style={{ fontSize: '30px' }}>
-                        {t('views.lifemap.markAchievement')}
-                      </span>
-                    </div>
-                    <ContainerSmall>
-                      <Form
-                        onSubmit={this.savePriority}
-                        submitLabel={t('general.save')}
-                      >
-                        <Input
-                          required
-                          label={t('views.lifemap.howDidYouGetIt')}
-                          value={this.state.action}
-                          field="action"
-                          onChange={this.updateAnswer}
-                        />
-                        <Input
-                          label={t('views.lifemap.whatDidItTakeToAchieveThis')}
-                          value={this.state.roadmap}
-                          field="roadmap"
-                          onChange={this.updateAnswer}
-                        />
-                      </Form>
-                    </ContainerSmall>
-                  </React.Fragment>
-                )
-              }
-            })
-          : null}
+          <div className={classes.pinAndPriority}>
+            <img style={{ height: 55 }} src={iconAch} alt="icon" />
+            <Typography
+              variant="h5"
+              align="center"
+              style={{ marginTop: '10px' }}
+            >
+              {t('views.lifemap.markAchievement')}
+            </Typography>
+          </div>
+          <Container variant="slim">
+            <Form
+              onSubmit={this.saveAchievement}
+              submitLabel={t('general.save')}
+            >
+              <Input
+                required
+                label={t('views.lifemap.howDidYouGetIt')}
+                value={this.state.action}
+                field="action"
+                onChange={this.updateAnswer}
+                multiline
+              />
+              <Input
+                label={t('views.lifemap.whatDidItTakeToAchieveThis')}
+                value={this.state.roadmap}
+                field="roadmap"
+                onChange={this.updateAnswer}
+                multiline
+              />
+            </Form>
+          </Container>
+          <BottomSpacer />
+        </React.Fragment>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
-const mapDispatchToProps = { updateDraft }
+});
+const mapDispatchToProps = { updateDraft };
 const styles = {
+  imageContainer: { display: 'flex', position: 'inherit', width: '100%' },
+  loadingContainer: { position: 'absolute', top: '50%', left: '50%' },
+  loadingIndicatorCenter: {
+    left: -20,
+    bottom: -20,
+    position: 'absolute'
+  },
+  editContainer: {
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
+    display: 'none' // TODO Hidding edit button, feature not implemented yet
+  },
+  editIcon: {
+    fontSize: 24,
+    color: 'white'
+  },
   answeredQuestion: {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: '53%',
+    top: '50%',
     left: '50%',
-    transform: 'translate(-50%,50%)',
+    transform: 'translate(-50%,-50%)',
     zIndex: 1
   },
   pinAndPriority: {
-    marginTop: '20px',
+    marginTop: '40px',
     marginBottom: '20px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
   imgClass: {
-    width: '307px'
+    width: '100%'
   },
   paragraphContainer: {
     margin: '0px',
-    padding: '48px 45px',
+    paddingTop: '48px',
+    paddingLeft: '40px',
+    paddingRight: '30px',
     display: 'flex',
     alignItems: 'center',
-    width: '307px'
+    width: '100%'
+  },
+  paragraphTypography: {
+    fontSize: 16,
+    zIndex: 1
   },
   imgAndDescriptionContainer: {
+    position: 'relative',
     height: '307px',
     display: 'flex',
     width: '614px',
     margin: 'auto',
     marginTop: '30px'
   }
-}
+};
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(Achievements))
-)
+);
