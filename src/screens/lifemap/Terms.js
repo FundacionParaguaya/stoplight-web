@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import checkboxWithDots from '../../assets/checkbox_with_dots.png';
 import { withTranslation } from 'react-i18next';
 import { Typography, Button } from '@material-ui/core';
+import checkboxWithDots from '../../assets/checkbox_with_dots.png';
 import { theme } from '../../theme';
 import NavIcons from '../../components/NavIcons';
 import Container from '../../components/Container';
