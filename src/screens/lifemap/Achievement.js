@@ -106,7 +106,16 @@ class Achievements extends Component {
                 {this.state.imageStatus === 'loading' && (
                   <div className={classes.loadingContainer}>
                     <div className={classes.loadingIndicatorCenter}>
-                      <CircularProgress />
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                      >
+                        {' '}
+                        <CircularProgress />
+                      </div>
                       <img
                         onLoad={this.handleImageLoaded}
                         style={{ display: 'none' }}
