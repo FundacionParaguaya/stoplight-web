@@ -22,9 +22,19 @@ function Container(props) {
   );
 
   return (
-    <div className={className} {...other}>
-      {children}
-    </div>
+    <Grid container justify="center">
+      <Grid
+        item
+        xs={Number(xs)}
+        md={Number(md)}
+        lg={Number(lg)}
+        sm={Number(sm)}
+        {...other}
+        className={classNameProp}
+      >
+        {children}
+      </Grid>
+    </Grid>
   );
 }
 
