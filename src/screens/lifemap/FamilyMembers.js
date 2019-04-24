@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { updateDraft } from '../../redux/actions'
-import { withTranslation } from 'react-i18next'
-import TitleBar from '../../components/TitleBar'
-import Form from '../../components/Form'
-import Input from '../../components/Input'
-import TextField from '@material-ui/core/TextField'
-import ContainerSmall from '../../components/ContainerSmall'
-import Select from '../../components/Select'
-import Typography from '@material-ui/core/Typography'
-import DatePicker from '../../components/DatePicker'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateDraft } from '../../redux/actions';
+import { withTranslation } from 'react-i18next';
+import TitleBar from '../../components/TitleBar';
+import Form from '../../components/Form';
+import Input from '../../components/Input';
+import TextField from '@material-ui/core/TextField';
+import ContainerSmall from '../../components/ContainerSmall';
+import Select from '../../components/Select';
+import Typography from '@material-ui/core/Typography';
+import DatePicker from '../../components/DatePicker';
 export class FamilyMembers extends Component {
   updateDraft = (memberIndex, value, property) => {
-    const { currentDraft } = this.props
+    const { currentDraft } = this.props;
 
     // update only the family member that is edited
     this.props.updateDraft({
@@ -25,24 +25,24 @@ export class FamilyMembers extends Component {
               return {
                 ...item,
                 [property]: value
-              }
+              };
             } else {
-              return item
+              return item;
             }
           }
         )
       }
-    })
-  }
+    });
+  };
 
   handleContinue = () => {
-    this.props.history.push('/lifemap/location')
-  }
+    this.props.history.push('/lifemap/location');
+  };
 
   render() {
-    const { t, currentDraft, currentSurvey } = this.props
-    const membersList = currentDraft.familyData.familyMembersList.slice(0)
-    const { surveyConfig } = currentSurvey
+    const { t, currentDraft, currentSurvey } = this.props;
+    const membersList = currentDraft.familyData.familyMembersList.slice(0);
+    const { surveyConfig } = currentSurvey;
     return (
       <div>
         <TitleBar title={t('views.familyMembers')} />
@@ -104,7 +104,7 @@ export class FamilyMembers extends Component {
                       value={item.birthDate}
                     />
                   </div>
-                )
+                );
               } else {
                 return (
                   <div key={index}>
@@ -155,24 +155,24 @@ export class FamilyMembers extends Component {
                       value={item.birthDate}
                     />
                   </div>
-                )
+                );
               }
             })}
           </Form>
         </ContainerSmall>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
+});
 
-const mapDispatchToProps = { updateDraft }
+const mapDispatchToProps = { updateDraft };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation()(FamilyMembers))
+)(withTranslation()(FamilyMembers));

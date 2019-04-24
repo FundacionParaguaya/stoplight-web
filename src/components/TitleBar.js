@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { withTranslation } from 'react-i18next'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import NavIcons from './NavIcons'
-import barDots from '../assets/bar_dots.png'
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import NavIcons from './NavIcons';
+import barDots from '../assets/bar_dots.png';
 
 class TopTitleContainer extends Component {
   state = {
     showLeaveModal: false
-  }
+  };
   leaveSurvey = () => {
-    this.props.history.push('/surveys')
-  }
+    this.props.history.push('/surveys');
+  };
   render() {
-    const { classes, t } = this.props
+    const { classes, t } = this.props;
 
     return (
       <React.Fragment>
@@ -73,10 +73,10 @@ class TopTitleContainer extends Component {
           </div>
         )}
       </React.Fragment>
-    )
+    );
   }
 }
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 
 const styles = theme => ({
   button: {
@@ -119,9 +119,9 @@ const styles = theme => ({
     left: '50%',
     transform: 'translateX(-50%)'
   }
-})
+});
 export default withRouter(
   withStyles(styles)(
     connect(mapStateToProps)(withTranslation()(TopTitleContainer))
   )
-)
+);
