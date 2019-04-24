@@ -47,7 +47,7 @@ class Form extends Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.formContainer}>
+      <div class={classes.formContainer}>
         {children}
         <div className={classes.buttonContainerForm}>
           <Button color="primary" variant="contained" onClick={this.submit}>
