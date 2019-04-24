@@ -20,6 +20,7 @@ export class Terms extends Component {
         ? this.props.currentSurvey.termsConditions.text
         : this.props.currentSurvey.privacyPolicy.text
   };
+
   handleContinue = () => {
     this.props.history.push(
       this.props.location.pathname === '/lifemap/terms'
@@ -27,9 +28,11 @@ export class Terms extends Component {
         : '/lifemap/primary-participant'
     );
   };
+
   handleDisagree = () => {
     this.props.history.push('/');
   };
+
   render() {
     const { classes, t } = this.props;
 
