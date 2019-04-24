@@ -1,18 +1,19 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline' // provides css reset
-import { PersistGate } from 'redux-persist/integration/react'
-import Header from './Header'
-import SurveysComponent from './screens/Surveys'
-import Lifemap from './screens/Lifemap'
-import store, { persistor } from './redux'
-import defaultTheme from './theme'
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
+import { PersistGate } from 'redux-persist/integration/react';
+import Header from './Header';
+import Footer from './Footer';
+import SurveysComponent from './screens/Surveys';
+import Lifemap from './screens/Lifemap';
+import store, { persistor } from './redux';
+import defaultTheme from './theme';
 
 class App extends Component {
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
 
     return (
       <MuiThemeProvider theme={defaultTheme}>
@@ -29,13 +30,14 @@ class App extends Component {
                       <Route path="/lifemap" component={Lifemap} />
                     </Switch>
                   </div>
+                  <Footer />
                 </div>
               </Router>
             </PersistGate>
           </Provider>
         </React.Fragment>
       </MuiThemeProvider>
-    )
+    );
   }
 }
 
@@ -43,8 +45,8 @@ const styles = {
   appContainer: {
     marginTop: 60,
     width: '100%',
-    margin: 'auto',
+    margin: 'auto'
   }
-}
+};
 
-export default withStyles(styles)(App)
+export default withStyles(styles)(App);

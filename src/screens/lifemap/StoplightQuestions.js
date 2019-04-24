@@ -1,33 +1,36 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { updateDraft } from '../../redux/actions'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import TitleBar from '../../components/TitleBar'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { withTranslation } from 'react-i18next'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateDraft } from '../../redux/actions';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import TitleBar from '../../components/TitleBar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withTranslation } from 'react-i18next';
 export class StoplightQuestions extends Component {
   state = {
     imageStatus: 'loading',
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
     ]
-  }
+  };
+
   handleContinue = () => {
-    const currentQuestionPage = this.props.match.params.page
-    const { currentDraft } = this.props
-    let goToSkipped = false
+    const currentQuestionPage = this.props.match.params.page;
+    const { currentDraft } = this.props;
+    let goToSkipped = false;
     currentDraft.indicatorSurveyDataList.forEach(ele => {
       if (ele.value === 0) {
-        goToSkipped = true
+        goToSkipped = true;
       }
-    })
+    });
     if (this.props.location.state) {
-      if (this.props.location.state.skippedReturn) {
+      if (this.props.location.state.overviewReturn) {
+        this.props.history.push('/lifemap/overview');
+      } else if (this.props.location.state.skippedReturn) {
         if (goToSkipped) {
-          this.props.history.push('/lifemap/skipped-questions')
+          this.props.history.push('/lifemap/skipped-questions');
         } else {
-          this.props.history.push('/lifemap/overview')
+          this.props.history.push('/lifemap/overview');
         }
       }
     } else {
@@ -37,35 +40,35 @@ export class StoplightQuestions extends Component {
       ) {
         this.props.history.push(
           `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
-        )
+        );
       } else if (goToSkipped) {
-        this.props.history.push('/lifemap/skipped-questions')
+        this.props.history.push('/lifemap/skipped-questions');
       } else if (!goToSkipped) {
-        this.props.history.push('/lifemap/overview')
+        this.props.history.push('/lifemap/overview');
       }
     }
-  }
+  };
 
   skipQuestion = () => {
-    let { codeName } = this.state.question
-    const { currentDraft } = this.props
-    let dataList = this.props.currentDraft.indicatorSurveyDataList
-    let update = false
+    let { codeName } = this.state.question;
+    const { currentDraft } = this.props;
+    let dataList = this.props.currentDraft.indicatorSurveyDataList;
+    let update = false;
     //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST AND UPDATE my dataList
     dataList.forEach(e => {
       if (e.key === codeName) {
-        update = true
-        e.value = 0
+        update = true;
+        e.value = 0;
       }
-    })
+    });
     ///////////if the question is in the data list then update the question
     if (update) {
-      let indicatorSurveyDataList = dataList
+      let indicatorSurveyDataList = dataList;
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList
-      })
-      this.handleContinue()
+      });
+      this.handleContinue();
     } else {
       //////////// add the question to the data list if it doesnt exist
       this.props.updateDraft({
@@ -77,30 +80,30 @@ export class StoplightQuestions extends Component {
             value: 0
           }
         ]
-      })
-      this.handleContinue()
+      });
+      this.handleContinue();
     }
-  }
+  };
   submitQuestion(value) {
-    let { codeName } = this.state.question
-    const { currentDraft } = this.props
-    let dataList = this.props.currentDraft.indicatorSurveyDataList
-    let update = false
+    let { codeName } = this.state.question;
+    const { currentDraft } = this.props;
+    let dataList = this.props.currentDraft.indicatorSurveyDataList;
+    let update = false;
     //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
     dataList.forEach(e => {
       if (e.key === codeName) {
-        update = true
-        e.value = value
+        update = true;
+        e.value = value;
       }
-    })
+    });
     ///////////if the question is in the data list then update the question
     if (update) {
-      let indicatorSurveyDataList = dataList
+      let indicatorSurveyDataList = dataList;
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList
-      })
-      this.handleContinue()
+      });
+      this.handleContinue();
     } else {
       //////////// add the question to the data list if it doesnt exist
       this.props.updateDraft({
@@ -112,8 +115,8 @@ export class StoplightQuestions extends Component {
             value: value
           }
         ]
-      })
-      this.handleContinue()
+      });
+      this.handleContinue();
     }
   }
 
@@ -123,32 +126,32 @@ export class StoplightQuestions extends Component {
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
       ]
-    })
+    });
   }
   handleImageLoaded = () => {
-    this.setState({ imageStatus: 'loaded' })
-  }
+    this.setState({ imageStatus: 'loaded' });
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
-      this.setCurrentScreen()
+      this.setCurrentScreen();
     }
   }
 
   render() {
-    const { question } = this.state
-    const { classes, t, currentDraft } = this.props
-    let answered = false
-    let answeredValue = null
-    let sortedQuestions
+    const { question } = this.state;
+    const { classes, t, currentDraft } = this.props;
+    let answered = false;
+    let answeredValue = null;
+    let sortedQuestions;
     if (question) {
-      sortedQuestions = question.stoplightColors
+      sortedQuestions = question.stoplightColors;
       let compare = (a, b) => {
-        if (a.value < b.value) return 1
-        if (a.value > b.value) return -1
-        return 0
-      }
-      sortedQuestions.sort(compare)
+        if (a.value < b.value) return 1;
+        if (a.value > b.value) return -1;
+        return 0;
+      };
+      sortedQuestions.sort(compare);
     }
     return (
       <div>
@@ -162,8 +165,8 @@ export class StoplightQuestions extends Component {
             {question !== null
               ? currentDraft.indicatorSurveyDataList.forEach(ele => {
                   if (question.codeName === ele.key) {
-                    answered = true
-                    answeredValue = ele.value
+                    answered = true;
+                    answeredValue = ele.value;
                   }
                 })
               : null}
@@ -171,19 +174,19 @@ export class StoplightQuestions extends Component {
               <React.Fragment>
                 {question !== null
                   ? sortedQuestions.map(e => {
-                      let color
-                      let displayTick = 'none'
-                      let textColor = 'white'
+                      let color;
+                      let displayTick = 'none';
+                      let textColor = 'white';
                       if (e.value === 3) {
-                        color = '#89bd76'
+                        color = '#89bd76';
                       } else if (e.value === 2) {
-                        color = '#f0cb17'
-                        textColor = 'black'
+                        color = '#f0cb17';
+                        textColor = 'black';
                       } else if (e.value === 1) {
-                        color = '#e1504d'
+                        color = '#e1504d';
                       }
                       if (e.value === answeredValue) {
-                        displayTick = 'flex'
+                        displayTick = 'flex';
                       }
 
                       return (
@@ -244,7 +247,7 @@ export class StoplightQuestions extends Component {
                             {e.description}
                           </p>
                         </div>
-                      )
+                      );
                     })
                   : null}
               </React.Fragment>
@@ -253,15 +256,15 @@ export class StoplightQuestions extends Component {
                 {' '}
                 {question !== null
                   ? sortedQuestions.map(e => {
-                      let color
-                      let textColor = 'white'
+                      let color;
+                      let textColor = 'white';
                       if (e.value === 3) {
-                        color = '#89bd76'
+                        color = '#89bd76';
                       } else if (e.value === 2) {
-                        color = '#f0cb17'
-                        textColor = 'black'
+                        color = '#f0cb17';
+                        textColor = 'black';
                       } else if (e.value === 1) {
-                        color = '#e1504d'
+                        color = '#e1504d';
                       }
 
                       return (
@@ -306,7 +309,7 @@ export class StoplightQuestions extends Component {
                             {e.description}
                           </p>
                         </div>
-                      )
+                      );
                     })
                   : null}
               </React.Fragment>
@@ -332,7 +335,7 @@ export class StoplightQuestions extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -403,18 +406,18 @@ const styles = {
     justifyContent: 'center',
     marginBottom: 20
   }
-}
+};
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
+});
 
-const mapDispatchToProps = { updateDraft }
+const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(StoplightQuestions))
-)
+);
