@@ -12,9 +12,11 @@ class TopTitleContainer extends Component {
   state = {
     showLeaveModal: false
   };
+
   leaveSurvey = () => {
     this.props.history.push('/surveys');
   };
+
   render() {
     const { classes, t } = this.props;
 
