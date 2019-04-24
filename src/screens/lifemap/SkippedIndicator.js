@@ -12,8 +12,8 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 
 const goToQuestion = (surveyStoplightQuestions, question, history) => {
-  surveyStoplightQuestions.forEach((ele, index) => {
-    if (question.codeName === ele.codeName) {
+  surveyStoplightQuestions.forEach((surveyQuestion, index) => {
+    if (question.codeName === surveyQuestion.codeName) {
       history.push({
         pathname: `/lifemap/stoplight/${index}`,
         state: { overviewReturn: true }
