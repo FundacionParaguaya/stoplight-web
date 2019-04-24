@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
-import checkboxWithDots from '../../assets/checkbox_with_dots.png'
-import { withTranslation } from 'react-i18next'
-import { Typography, Button } from '@material-ui/core'
-import { theme } from '../../theme'
-import NavIcons from '../../components/NavIcons'
-import Container from '../../components/Container'
-import BottomSpacer from '../../components/BottomSpacer'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import checkboxWithDots from '../../assets/checkbox_with_dots.png';
+import { withTranslation } from 'react-i18next';
+import { Typography, Button } from '@material-ui/core';
+import { theme } from '../../theme';
+import NavIcons from '../../components/NavIcons';
+import Container from '../../components/Container';
+import BottomSpacer from '../../components/BottomSpacer';
 
 export class Terms extends Component {
   state = {
@@ -19,19 +19,19 @@ export class Terms extends Component {
       this.props.location.pathname === '/lifemap/terms'
         ? this.props.currentSurvey.termsConditions.text
         : this.props.currentSurvey.privacyPolicy.text
-  }
+  };
   handleContinue = () => {
     this.props.history.push(
       this.props.location.pathname === '/lifemap/terms'
         ? '/lifemap/privacy'
         : '/lifemap/primary-participant'
-    )
-  }
+    );
+  };
   handleDisagree = () => {
-    this.props.history.push('/')
-  }
+    this.props.history.push('/');
+  };
   render() {
-    const { classes, t } = this.props
+    const { classes, t } = this.props;
 
     return (
       <div>
@@ -88,7 +88,7 @@ export class Terms extends Component {
         </div>
         <BottomSpacer />
       </div>
-    )
+    );
   }
 }
 const styles = {
@@ -145,8 +145,8 @@ const styles = {
     width: '100%',
     height: 20
   }
-}
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+};
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Terms))
-)
+);
