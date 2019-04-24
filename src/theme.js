@@ -14,7 +14,8 @@ export const theme = {
       main: '#e1504d'
     },
     text: {
-      primary: '#1c212f'
+      primary: '#1c212f',
+      secondary: '#909090'
     },
     background: {
       paper: '#f3f4f6',
