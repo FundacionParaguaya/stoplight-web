@@ -104,16 +104,18 @@ export class SkippedQuestions extends Component {
   }
 }
 
-const styles = {
+const styles = theme => ({
   skippedQuestionsImg: {
-    marginTop: 20,
-    marginBottom: 30
+    width: 350,
+    marginTop: 40,
+    marginBottom: 30,
+    alignSelf: 'center'
   },
   container: {
     marginTop: 10,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center'
   },
   titleAndIconContainerPolicy: {
@@ -127,19 +129,24 @@ const styles = {
   },
   overviewAnswers: {
     cursor: 'pointer',
-    width: '100%'
-  },
-  buttonInsideContainer: {
+    width: '100%',
+    paddingTop: 35,
+    paddingBottom: 35,
+    borderBottom: `1px solid ${theme.palette.text.secondary}`,
     display: 'flex',
-    alignItems: 'center',
-    marginRight: 'auto'
+    justifyContent: 'space-between'
   },
-  SkippedQuestionsContainer: {
+  buttonContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start'
+    justifyContent: 'center',
+    margin: theme.shape.marginButton
+  },
+  icon: {
+    fontSize: 24,
+    color: theme.palette.text.secondary,
+    marginRight: 35
   }
-};
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
