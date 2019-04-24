@@ -5,7 +5,8 @@ export const theme = {
   palette: {
     primary: {
       main: '#309E43',
-      dark: '#50aa47'
+      dark: '#50aa47',
+      contrastText: '#fff'
     },
     secondary: {
       main: '#e1504d'
@@ -15,7 +16,10 @@ export const theme = {
     },
     text: {
       primary: '#1c212f',
-      secondary: '#909090'
+      secondary: '#fff'
+    },
+    grey: {
+      main: '#909090'
     },
     background: {
       paper: '#f3f4f6',
