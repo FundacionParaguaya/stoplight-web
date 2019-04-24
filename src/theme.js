@@ -89,11 +89,6 @@ export const theme = {
         }
       }
     },
-    MuiFormLabel: {
-      root: {
-        zIndex: 999
-      }
-    },
     MuiInputLabel: {
       shrink: {
         transform: 'translate(12px, 10px) scale(1)!important'
@@ -112,14 +107,9 @@ export const theme = {
     },
     MuiSelect: {
       select: {
-        backgroundColor: '#f3f4f6',
-        borderRadius: '8px 8px 0 0',
-        paddingLeft: 12,
-        paddingRight: 12,
         '&:focus': {
           background: '#fff!important'
-        },
-        borderBottom: '1px solid rgba(0,0,0,0.42)'
+        }
       }
     },
     MuiButton: {
