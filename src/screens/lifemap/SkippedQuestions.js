@@ -8,6 +8,7 @@ import TitleBar from '../../components/TitleBar';
 import skippedQuestions from '../../assets/skipped_questions.png';
 import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
+import FooterPopup from '../../components/FooterPopup';
 
 export class SkippedQuestions extends Component {
   goToQuestion = e => {
@@ -94,6 +95,7 @@ export class SkippedQuestions extends Component {
             </Button>
           </div>
         </Container>
+        <FooterPopup title={t('views.lifemap.youSkipped')} />
       </div>
     );
   }
@@ -127,7 +129,7 @@ const styles = theme => ({
     width: '100%',
     paddingTop: 35,
     paddingBottom: 35,
-    borderBottom: `1px solid ${theme.palette.text.secondary}`,
+    borderBottom: `1px solid ${theme.palette.grey.main}`,
     display: 'flex',
     justifyContent: 'space-between'
   },
@@ -138,7 +140,7 @@ const styles = theme => ({
   },
   icon: {
     fontSize: 24,
-    color: theme.palette.text.secondary,
+    color: theme.palette.grey.main,
     marginRight: 35
   }
 });
