@@ -1,28 +1,30 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { updateDraft } from '../../redux/actions'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import TitleBar from '../../components/TitleBar'
-import { withTranslation } from 'react-i18next'
-import SkippedImg from '../../assets/skipped.png'
-import Typography from '@material-ui/core/Typography'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
+import TitleBar from '../../components/TitleBar';
+import SkippedImg from '../../assets/skipped.png';
+import { updateDraft } from '../../redux/actions';
+
 export class SkippedQuestions extends Component {
   goToQuestion = e => {
-    const { currentSurvey } = this.props
+    const { currentSurvey } = this.props;
     currentSurvey.surveyStoplightQuestions.forEach((ele, index) => {
       if (e.key === ele.codeName) {
         this.props.history.push({
           pathname: `/lifemap/stoplight/${index}`,
           state: { skippedReturn: true }
-        })
+        });
       }
-    })
-  }
+    });
+  };
+
   render() {
-    const { t, classes, currentDraft, currentSurvey } = this.props
-    let groupedAnswers
-    let userAnswers = []
+    const { t, classes, currentDraft, currentSurvey } = this.props;
+    let groupedAnswers;
+    const userAnswers = [];
     if (currentSurvey) {
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
@@ -32,21 +34,23 @@ export class SkippedQuestions extends Component {
               questionText: e.questionText,
               dimension: e.dimension,
               key: ele.key
-            })
+            });
           }
-        })
-      })
+        });
+      });
 
+      // eslint-disable-next-line func-names
       groupedAnswers = userAnswers.reduce(function(r, a) {
-        r[a.dimension] = r[a.dimension] || []
-        r[a.dimension].push(a)
-        return r
-      }, {})
+        // eslint-disable-next-line no-param-reassign
+        r[a.dimension] = r[a.dimension] || [];
+        r[a.dimension].push(a);
+        return r;
+      }, {});
     }
     return (
       <div>
         <TitleBar
-          //do not delete uniqueBack for now, we are probably going to use that in the future
+          // do not delete uniqueBack for now, we are probably going to use that in the future
           //   uniqueBack={() =>
           //     this.props.history.push(`/lifemap/stoplight/${finalQuestion}`)
           //   }
@@ -72,7 +76,7 @@ export class SkippedQuestions extends Component {
               {groupedAnswers[elem].map(e => {
                 return (
                   <Button
-                    onClick={ele => this.goToQuestion(e)}
+                    onClick={() => this.goToQuestion(e)}
                     key={e.key}
                     className={classes.overviewAnswers}
                   >
@@ -80,10 +84,10 @@ export class SkippedQuestions extends Component {
                       <p>{e.questionText}</p>
                     </div>
                   </Button>
-                )
+                );
               })}
             </div>
-          )
+          );
         })}
 
         <Button
@@ -96,7 +100,7 @@ export class SkippedQuestions extends Component {
           {t('general.continue')}
         </Button>
       </div>
-    )
+    );
   }
 }
 
@@ -135,18 +139,18 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'flex-start'
   }
-}
+};
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
+});
 
-const mapDispatchToProps = { updateDraft }
+const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(SkippedQuestions))
-)
+);
