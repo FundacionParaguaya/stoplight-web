@@ -69,6 +69,10 @@
     "familyMembers": "Miembros de la familia",
     "gendersBirthDates": "Géneros & fechas de nacimiento",
     "skippedIndicators": "Preguntas omitidas",
+    "skippedIndicator": {
+      "subtitle": "Has omitido este indicador",
+      "buttonLabel": "Responder ahora!"
+    },
     "readCarefully": "Favor lea atentamente antes de crear el Mapa de Vida",
     "family": {
       "firstName": "Nombre",

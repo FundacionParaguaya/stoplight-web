@@ -69,6 +69,10 @@
     "familyMembers": "Family members",
     "gendersBirthDates": "Genders & Birth dates",
     "skippedIndicators": "Skipped questions",
+    "skippedIndicator": {
+      "subtitle": "You skipped this indicator",
+      "buttonLabel": "Answer it now!"
+    },
     "readCarefully": "Please read carefully before creating the Life Map",
     "family": {
       "firstName": "First name",
