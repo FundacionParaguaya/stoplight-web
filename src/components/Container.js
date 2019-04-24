@@ -3,13 +3,23 @@ import { withStyles } from '@material-ui/core';
 import clsx from 'clsx';
 
 function Container(props) {
-  const { classes, children, variant, ...other } = props;
+  const {
+    classes,
+    children,
+    variant,
+    className: classNameProp,
+    ...other
+  } = props;
 
-  const className = clsx(classes.root, {
-    [classes.fluid]: variant === 'fluid',
-    [classes.stretch]: variant === 'stretch',
-    [classes.slim]: variant === 'slim'
-  });
+  const className = clsx(
+    classes.root,
+    {
+      [classes.fluid]: variant === 'fluid',
+      [classes.stretch]: variant === 'stretch',
+      [classes.slim]: variant === 'slim'
+    },
+    classNameProp
+  );
 
   return (
     <div className={className} {...other}>
