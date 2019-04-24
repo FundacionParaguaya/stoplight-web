@@ -30,7 +30,10 @@ const SkippedIndicator = props => {
   const { t, classes } = props;
   return (
     <div>
-      <TitleBar title={question.dimension} />
+      <TitleBar
+        title={question.dimension}
+        extraTitleText={question.questionText}
+      />
       <Container>
         <div className={classes.container}>
           <Typography variant="h5" gutterBottom>
