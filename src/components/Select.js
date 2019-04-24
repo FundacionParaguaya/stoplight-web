@@ -7,6 +7,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import countries from 'localized-countries';
+import { FilledInput } from '@material-ui/core';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -60,6 +61,7 @@ class SelectInput extends Component {
         className={this.props.classes.container}
         fullWidth
         error={error}
+        variant="filled"
       >
         <InputLabel>{`${this.props.label}${
           this.props.required ? ' *' : ''
@@ -76,6 +78,7 @@ class SelectInput extends Component {
           inputProps={{
             name: this.props.label
           }}
+          input={<FilledInput />}
         >
           {this.props.country
             ? countryList.map(country => (
@@ -102,7 +105,8 @@ const styles = {
   },
   inputFilled: {
     '& $div': {
-      backgroundColor: '#fff!important'
+      backgroundColor: '#fff',
+      borderBottom: '.5px solid #909090'
     }
   }
 };
