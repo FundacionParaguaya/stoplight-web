@@ -1,22 +1,25 @@
-import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core'
-import { withRouter } from 'react-router-dom'
-import { theme } from '../theme'
-import { withTranslation } from 'react-i18next'
-import LeaveModal from '../components/LeaveModal'
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
+import { theme } from '../theme';
+import LeaveModal from './LeaveModal';
 
 class NavIcons extends Component {
   state = {
     showLeaveModal: false
-  }
+  };
+
   handleClose = () => {
-    this.setState({ showLeaveModal: false })
-  }
+    this.setState({ showLeaveModal: false });
+  };
+
   leaveSurvey = () => {
-    this.props.history.push('/surveys')
-  }
+    this.props.history.push('/surveys');
+  };
+
   render() {
-    const { classes, t } = this.props
+    const { classes, t } = this.props;
 
     return (
       <React.Fragment>
@@ -26,17 +29,17 @@ class NavIcons extends Component {
             className={`material-icons ${classes.icon}`}
           >
             arrow_back
-            </i>
+          </i>
           <h2 className={classes.titleMainAll}>{this.props.title}</h2>
           <i
             className={`material-icons ${classes.icon}`}
             onClick={() => this.setState({ showLeaveModal: true })}
           >
             close
-            </i>
+          </i>
         </div>
         <LeaveModal
-          title="Warning!" 
+          title="Warning!"
           subtitle={t('views.modals.yourLifemapIsNotComplete')}
           cancelButtonText={t('general.no')}
           continueButtonText={t('general.yes')}
@@ -45,7 +48,7 @@ class NavIcons extends Component {
           leaveAction={this.leaveSurvey}
         />
       </React.Fragment>
-    )
+    );
   }
 }
 
@@ -65,7 +68,7 @@ const styles = {
       backgroundColor: theme.palette.primary.main,
       color: '#fff',
       borderRadius: '50%',
-      boxSizing: 'border-box',
+      boxSizing: 'border-box'
     },
     borderRadius: '50%',
     color: theme.palette.primary.main,
@@ -75,6 +78,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center'
   }
-}
+};
 
-export default withRouter(withStyles(styles)(withTranslation()(NavIcons)))
+export default withRouter(withStyles(styles)(withTranslation()(NavIcons)));
