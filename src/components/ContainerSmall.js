@@ -1,14 +1,14 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core'
+import React from 'react';
+import { withStyles } from '@material-ui/core';
 
 function ContainerSmall(props) {
-  const { classes, children } = props
+  const { classes, children } = props;
 
   return (
     <div style={props.style} className={classes.ContainerSmall}>
       {children}
     </div>
-  )
+  );
 }
 
 const styles = {
@@ -20,6 +20,6 @@ const styles = {
   fluid: {
     width: '100%'
   }
-}
+};
 
-export default withStyles(styles)(ContainerSmall)
+export default withStyles(styles)(ContainerSmall);
