@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import TitleBar from '../../components/TitleBar';
-import SkippedImg from '../../assets/skipped.png';
+import skippedQuestions from '../../assets/skipped_questions.png';
 import { updateDraft } from '../../redux/actions';
 
 export class SkippedQuestions extends Component {
@@ -65,7 +65,7 @@ export class SkippedQuestions extends Component {
           </Typography>
           <img
             className={classes.skippedQuestionsImg}
-            src={SkippedImg}
+            src={skippedQuestions}
             alt=""
           />
         </div>
