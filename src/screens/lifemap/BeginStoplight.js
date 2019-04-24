@@ -7,6 +7,7 @@ import { Typography } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import beginLifemap from '../../assets/begin_lifemap.png';
 import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
 
 export class Begin extends Component {
   render() {
@@ -15,7 +16,10 @@ export class Begin extends Component {
     return (
       <div>
         <TitleBar title={t('views.yourLifeMap')} />
-        <div className={classes.BeginStopLightContainer}>
+        <Container
+          variant="stretch"
+          className={classes.BeginStopLightContainer}
+        >
           <Typography variant="h5" className={classes.StopLightTitleContainer}>
             {t('views.lifemap.thisLifeMapHas').replace('%n', questions)}
           </Typography>
@@ -33,7 +37,7 @@ export class Begin extends Component {
             {t('general.continue')}
           </Button>
           <BottomSpacer />
-        </div>
+        </Container>
       </div>
     );
   }
@@ -48,7 +52,7 @@ const styles = {
     alignItems: 'center'
   },
   StopLightTitleContainer: {
-    width: 347,
+    width: '50%',
     margin: '50px auto 0 auto',
     textAlign: 'center'
   },
