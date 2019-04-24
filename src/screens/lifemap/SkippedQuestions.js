@@ -95,7 +95,10 @@ export class SkippedQuestions extends Component {
             </Button>
           </div>
         </Container>
-        <FooterPopup title={t('views.lifemap.youSkipped')} />
+        <FooterPopup
+          title={t('views.lifemap.youSkipped')}
+          description={t('views.lifemap.whyNotTryAgain')}
+        />
       </div>
     );
   }
