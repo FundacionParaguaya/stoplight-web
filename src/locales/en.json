@@ -57,13 +57,22 @@
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
-    "location": "Location",
+    "location": {
+      "title": "Location",
+      "mapLoading": "Please wait while the map is loading.",
+      "searchBoxPlaceholder": "Search by street or postal code",
+      "loadingOptionsLabel": "Loading..."
+    },
     "socioEconomic": "Socio Economic",
     "yourLifeMap": "Your life map",
     "primaryParticipant": "Primary participant",
     "familyMembers": "Family members",
     "gendersBirthDates": "Genders & Birth dates",
     "skippedIndicators": "Skipped questions",
+    "skippedIndicator": {
+      "subtitle": "You skipped this indicator",
+      "buttonLabel": "Answer it now!"
+    },
     "readCarefully": "Please read carefully before creating the Life Map",
     "family": {
       "firstName": "First name",
@@ -122,6 +131,7 @@
       "whyDontYouHaveIt": "Why don't you have it?",
       "whatWillYouDoToGetIt": "What will you do to get it?",
       "howManyMonthsWillItTake": "How many months will it take?",
+      "markAchievement": "Mark achievement!",
       "achievement": "Achievement",
       "howDidYouGetIt": "How did you get it?",
       "whatDidItTakeToAchieveThis": "What did it take to achieve this?",
@@ -133,6 +143,7 @@
       "green": "Green",
       "yellow": "Yellow",
       "red": "Red",
+      "makeThisAPriority": "Make this a priority!",
       "priorities": "Priorities",
       "achievements": "Achievements",
       "toComplete": "To complete the lifemap..."

@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
-import uuid from 'uuid/v1'
-import { updateDraft } from '../../redux/actions'
-import TitleBar from '../../components/TitleBar'
-import Form from '../../components/Form'
-import Input from '../../components/Input'
-import Select from '../../components/Select'
-import DatePicker from '../../components/DatePicker'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
+import uuid from 'uuid/v1';
+import { updateDraft } from '../../redux/actions';
+import TitleBar from '../../components/TitleBar';
+import Form from '../../components/Form';
+import Input from '../../components/Input';
+import Select from '../../components/Select';
+import DatePicker from '../../components/DatePicker';
 
 export class PrimaryParticipant extends Component {
   state = {
     householdSizeArray: []
-  }
+  };
 
   createNewDraft() {
-    const { currentSurvey } = this.props
+    const { currentSurvey } = this.props;
 
     // create draft skeleton
     this.props.updateDraft({
@@ -35,21 +35,21 @@ export class PrimaryParticipant extends Component {
           }
         ]
       }
-    })
+    });
   }
 
   handleContinue = () => {
-    const { currentDraft } = this.props
+    const { currentDraft } = this.props;
 
     if (currentDraft.familyData.countFamilyMembers === 1) {
-      this.props.history.push('/lifemap/location')
+      this.props.history.push('/lifemap/location');
     } else {
-      this.props.history.push('/lifemap/family-members')
+      this.props.history.push('/lifemap/family-members');
     }
-  }
+  };
 
   updateDraft = (field, value) => {
-    const { currentDraft } = this.props
+    const { currentDraft } = this.props;
 
     // update only the first item of familyMembersList
     //  which is the primary participant
@@ -67,15 +67,15 @@ export class PrimaryParticipant extends Component {
           ...currentDraft.familyData.familyMembersList.slice(1)
         ]
       }
-    })
-  }
+    });
+  };
 
   updateFamilyMembersCount = async (field, value) => {
-    const { currentDraft } = this.props
+    const { currentDraft } = this.props;
 
     if (value === 1) {
-      let name = currentDraft.familyData.familyMembersList
-      name.splice(1)
+      let name = currentDraft.familyData.familyMembersList;
+      name.splice(1);
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -83,9 +83,9 @@ export class PrimaryParticipant extends Component {
           ...{ countFamilyMembers: value },
           familyMembersList: name
         }
-      })
+      });
     } else if (currentDraft.familyData.familyMembersList.length < value) {
-      let names2 = currentDraft.familyData.familyMembersList
+      let names2 = currentDraft.familyData.familyMembersList;
       for (
         let i = currentDraft.familyData.familyMembersList.length;
         i <= value - 1;
@@ -97,7 +97,7 @@ export class PrimaryParticipant extends Component {
           birthDate: '',
           firstParticipant: false,
           socioEconomicAnswers: []
-        })
+        });
       }
       this.props.updateDraft({
         ...currentDraft,
@@ -106,11 +106,11 @@ export class PrimaryParticipant extends Component {
           ...{ countFamilyMembers: value },
           familyMembersList: names2
         }
-      })
+      });
     } else if (currentDraft.familyData.familyMembersList.length > value) {
-      let names3 = currentDraft.familyData.familyMembersList
-      let deleteFrom = currentDraft.familyData.familyMembersList.length - value
-      names3.splice(-deleteFrom, deleteFrom)
+      let names3 = currentDraft.familyData.familyMembersList;
+      let deleteFrom = currentDraft.familyData.familyMembersList.length - value;
+      names3.splice(-deleteFrom, deleteFrom);
 
       this.props.updateDraft({
         ...currentDraft,
@@ -119,13 +119,13 @@ export class PrimaryParticipant extends Component {
           ...{ countFamilyMembers: value },
           familyMembersList: names3
         }
-      })
+      });
     }
-  }
+  };
 
   setHouseholdSizeArray() {
-    const { t } = this.props
-    const householdSizeArray = []
+    const { t } = this.props;
+    const householdSizeArray = [];
 
     for (var i = 1; i <= 26; i++) {
       householdSizeArray.push({
@@ -136,25 +136,25 @@ export class PrimaryParticipant extends Component {
             : i === 26
             ? t('views.family.preferNotToSay')
             : `${i}`
-      })
+      });
     }
 
     this.setState({
       householdSizeArray
-    })
+    });
   }
 
   componentDidMount = async () => {
     // if there is no current draft in the store create a new one
 
     if (!this.props.currentDraft) {
-      await this.createNewDraft()
+      await this.createNewDraft();
     }
     if (this.props.currentDraft) {
       if (
         !this.props.currentDraft.familyData.familyMembersList[0].birthCountry
       ) {
-        const { currentDraft } = this.props
+        const { currentDraft } = this.props;
         // update only the first item of familyMembersList
         //  which is the primary participant
         this.props.updateDraft({
@@ -173,23 +173,24 @@ export class PrimaryParticipant extends Component {
               ...currentDraft.familyData.familyMembersList.slice(1)
             ]
           }
-        })
+        });
       }
     }
-    this.setHouseholdSizeArray()
-  }
+    this.setHouseholdSizeArray();
+  };
 
   render() {
-    const { t, currentSurvey } = this.props
-    const { surveyConfig } = currentSurvey
+    const { t, currentSurvey } = this.props;
+    const { surveyConfig } = currentSurvey;
 
     const participant = this.props.currentDraft
       ? this.props.currentDraft.familyData.familyMembersList[0]
-      : {}
+      : {};
 
     return (
       <div>
         <TitleBar title={t('views.primaryParticipant')} />
+
         <Form
           onSubmit={this.handleContinue}
           submitLabel={t('general.continue')}
@@ -275,18 +276,18 @@ export class PrimaryParticipant extends Component {
           />
         </Form>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
+});
 
-const mapDispatchToProps = { updateDraft }
+const mapDispatchToProps = { updateDraft };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation()(PrimaryParticipant))
+)(withTranslation()(PrimaryParticipant));

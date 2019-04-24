@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { withTranslation } from 'react-i18next'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import NavIcons from './NavIcons'
-import barDots from '../assets/bar_dots.png'
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import NavIcons from './NavIcons';
+import barDots from '../assets/bar_dots.png';
 
 class TopTitleContainer extends Component {
   state = {
     showLeaveModal: false
-  }
+  };
   leaveSurvey = () => {
-    this.props.history.push('/surveys')
-  }
+    this.props.history.push('/surveys');
+  };
   render() {
-    const { classes, t } = this.props
+    const { classes, t } = this.props;
 
     return (
       <React.Fragment>
@@ -46,16 +46,37 @@ class TopTitleContainer extends Component {
           </div>
         ) : (
           <div className={classes.titleAndIconContainerPolicy}>
-            <img className={classes.barDotsImage} src={barDots} alt="Bar Dots" />
+            <img
+              className={classes.barDotsImage}
+              src={barDots}
+              alt="Bar Dots"
+            />
             <NavIcons />
-            <Typography variant="h4" className={classes.titleMainAll}>{this.props.title}</Typography>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <Typography variant="h4" className={classes.titleMainAll}>
+                {this.props.title}
+              </Typography>
+              {this.props.extraTitleText ? (
+                <Typography variant="h5" className={classes.titleMainAll}>
+                  {this.props.extraTitleText}
+                </Typography>
+              ) : null}
+            </div>
           </div>
         )}
       </React.Fragment>
-    )
+    );
   }
 }
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 
 const styles = theme => ({
   button: {
@@ -96,11 +117,11 @@ const styles = theme => ({
   barDotsImage: {
     position: 'absolute',
     left: '50%',
-    transform: 'translateX(-50%)',
+    transform: 'translateX(-50%)'
   }
-})
+});
 export default withRouter(
   withStyles(styles)(
     connect(mapStateToProps)(withTranslation()(TopTitleContainer))
   )
-)
+);

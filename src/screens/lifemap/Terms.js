@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
-import checkboxWithDots from '../../assets/checkbox_with_dots.png'
-import { withTranslation } from 'react-i18next'
-import { Typography, Button } from '@material-ui/core'
-import { theme } from '../../theme'
-import NavIcons from '../../components/NavIcons'
-import Container from '../../components/Container'
-import BottomSpacer from '../../components/BottomSpacer'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import checkboxWithDots from '../../assets/checkbox_with_dots.png';
+import { withTranslation } from 'react-i18next';
+import { Typography, Button } from '@material-ui/core';
+import { theme } from '../../theme';
+import NavIcons from '../../components/NavIcons';
+import Container from '../../components/Container';
+import BottomSpacer from '../../components/BottomSpacer';
 
 export class Terms extends Component {
   state = {
@@ -19,19 +19,19 @@ export class Terms extends Component {
       this.props.location.pathname === '/lifemap/terms'
         ? this.props.currentSurvey.termsConditions.text
         : this.props.currentSurvey.privacyPolicy.text
-  }
+  };
   handleContinue = () => {
     this.props.history.push(
       this.props.location.pathname === '/lifemap/terms'
         ? '/lifemap/privacy'
         : '/lifemap/primary-participant'
-    )
-  }
+    );
+  };
   handleDisagree = () => {
-    this.props.history.push('/')
-  }
+    this.props.history.push('/');
+  };
   render() {
-    const { classes, t } = this.props
+    const { classes, t } = this.props;
 
     return (
       <div>
@@ -39,30 +39,43 @@ export class Terms extends Component {
           <div className={classes.titleContainer}>
             <NavIcons />
             <Container style={{ position: 'relative' }}>
-              <Typography className={classes.title} variant="h4">{t('views.termsConditions')}</Typography>
-              <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
+              <Typography className={classes.title} variant="h4">
+                {t('views.termsConditions')}
+              </Typography>
+              <img
+                src={checkboxWithDots}
+                className={classes.termsCheckboxImage}
+                alt=""
+              />
             </Container>
           </div>
         ) : (
-            <div className={classes.titleContainer}>
-              <NavIcons />
-              <Container style={{ position: 'relative' }}>
-                <Typography className={classes.title} variant="h4">{t('views.privacyPolicy')}</Typography>
-                <img src={checkboxWithDots} className={classes.termsCheckboxImage} alt="" />
-              </Container>
-            </div>
-          )}
+          <div className={classes.titleContainer}>
+            <NavIcons />
+            <Container style={{ position: 'relative' }}>
+              <Typography className={classes.title} variant="h4">
+                {t('views.privacyPolicy')}
+              </Typography>
+              <img
+                src={checkboxWithDots}
+                className={classes.termsCheckboxImage}
+                alt=""
+              />
+            </Container>
+          </div>
+        )}
 
         <Container>
           <div className={classes.contentContainer}>
             <Typography variant="h5">{this.state.title}</Typography>
             <br />
-            {this.state.text
-              .split(/(?:\\n)/g)
-              .map((i, key) =>
-                (<Typography color="textPrimary" key={key}>{i}<br /></Typography>)
-              )
-            }
+            {this.state.text &&
+              this.state.text.split(/(?:\\n)/g).map((i, key) => (
+                <Typography color="textPrimary" key={key}>
+                  {i}
+                  <br />
+                </Typography>
+              ))}
           </div>
         </Container>
         <div className={classes.buttonContainerTerms}>
@@ -75,7 +88,7 @@ export class Terms extends Component {
         </div>
         <BottomSpacer />
       </div>
-    )
+    );
   }
 }
 const styles = {
@@ -88,7 +101,7 @@ const styles = {
   },
   title: {
     position: 'relative',
-    top: '55%',
+    top: '55%'
   },
   buttonTermsDisagree: {
     '&:hover': {
@@ -103,7 +116,7 @@ const styles = {
   },
   buttonContainerTerms: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   lowerTitle: {
     fontSize: 28,
@@ -132,8 +145,8 @@ const styles = {
     width: '100%',
     height: 20
   }
-}
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+};
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Terms))
-)
+);
