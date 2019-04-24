@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import TitleBar from '../../components/TitleBar';
 import skippedQuestions from '../../assets/skipped_questions.png';
 import { updateDraft } from '../../redux/actions';
+import Container from '../../components/Container';
 
 export class SkippedQuestions extends Component {
   goToQuestion = e => {
@@ -56,49 +57,43 @@ export class SkippedQuestions extends Component {
           //   }
           title={t('views.skippedIndicators')}
         />
-        <div className={classes.container}>
-          <Typography variant="h4" gutterBottom>
-            {t('views.lifemap.youSkipped')}
-          </Typography>
-          <Typography variant="h5" gutterBottom>
-            {t('views.lifemap.whyNotTryAgain')}
-          </Typography>
+        <Container variant="slim" className={classes.container}>
           <img
             className={classes.skippedQuestionsImg}
             src={skippedQuestions}
             alt=""
           />
-        </div>
-        {Object.keys(groupedAnswers).map(elem => {
-          return (
-            <div className={classes.SkippedQuestionsContainer} key={elem}>
-              {/* <h1>{elem}</h1> */}
-              {groupedAnswers[elem].map(e => {
-                return (
-                  <Button
-                    onClick={() => this.goToQuestion(e)}
-                    key={e.key}
-                    className={classes.overviewAnswers}
-                  >
-                    <div className={classes.buttonInsideContainer}>
-                      <p>{e.questionText}</p>
+          {Object.keys(groupedAnswers).map(elem => {
+            return (
+              <div className={classes.SkippedQuestionsContainer} key={elem}>
+                {/* <h1>{elem}</h1> */}
+                {groupedAnswers[elem].map(e => {
+                  return (
+                    <div
+                      onClick={() => this.goToQuestion(e)}
+                      key={e.key}
+                      className={classes.overviewAnswers}
+                    >
+                      <Typography>{e.questionText}</Typography>
+                      <i className={`material-icons ${classes.icon}`}>
+                        keyboard_arrow_right
+                      </i>
                     </div>
-                  </Button>
-                );
-              })}
-            </div>
-          );
-        })}
-
-        <Button
-          style={{ marginTop: 35, marginBottom: 35 }}
-          variant="contained"
-          fullWidth
-          onClick={() => this.props.history.push('/lifemap/overview')}
-          color="primary"
-        >
-          {t('general.continue')}
-        </Button>
+                  );
+                })}
+              </div>
+            );
+          })}
+          <div className={classes.buttonContainer}>
+            <Button
+              variant="contained"
+              onClick={() => this.props.history.push('/lifemap/overview')}
+              color="primary"
+            >
+              {t('general.continue')}
+            </Button>
+          </div>
+        </Container>
       </div>
     );
   }
