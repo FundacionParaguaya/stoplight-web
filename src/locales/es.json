@@ -57,13 +57,22 @@
     "noDrafts": "No hay borradores para mostrar",
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
-    "location": "Ubicación",
+    "location": {
+      "title": "Ubicación",
+      "mapLoading": "Por favor, espera mientras el mapa se carga.",
+      "searchBoxPlaceholder": "Busque por nombre de calle o código postal",
+      "loadingOptionsLabel": "Cargando..."
+    },
     "socioEconomic": "Socioeconómica",
     "yourLifeMap": "Tu Mapa de Vida",
     "primaryParticipant": "Participante de la familia",
     "familyMembers": "Miembros de la familia",
     "gendersBirthDates": "Géneros & fechas de nacimiento",
     "skippedIndicators": "Preguntas omitidas",
+    "skippedIndicator": {
+      "subtitle": "Has omitido este indicador",
+      "buttonLabel": "Responder ahora!"
+    },
     "readCarefully": "Favor lea atentamente antes de crear el Mapa de Vida",
     "family": {
       "firstName": "Nombre",
@@ -117,6 +126,8 @@
       "youSkipped": "Has omitido estos indicadores",
       "whyNotTryAgain": "¿Por qué no intentar de nuevo responder a estas preguntas?",
       "allIndicators": "Todos los indicadores",
+      "makeThisAPriority": "Make this a priority!",
+      "markAchievement": "Mark achievement!",
       "priority": "Prioridad",
       "writeYourAnswerHere": "Escribe tu respuesta aquí....",
       "whyDontYouHaveIt": "¿Por qué no lo tienes?",

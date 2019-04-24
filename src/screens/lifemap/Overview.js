@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
-import TitleBar from '../../components/TitleBar'
-import { withStyles } from '@material-ui/core/styles'
-import { withTranslation } from 'react-i18next'
-import { updateDraft } from '../../redux/actions'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import TitleBar from '../../components/TitleBar';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
+import { updateDraft } from '../../redux/actions';
 export class Overview extends Component {
   state = {
     modalTitle: '',
@@ -16,26 +16,27 @@ export class Overview extends Component {
     questionKey: '',
     questionValue: '',
     showPrioritiesNote: false
-  }
+  };
+
   finishSurvey = () => {
-    let { minimumPriorities } = this.props.currentSurvey
+    let { minimumPriorities } = this.props.currentSurvey;
     //  this.props.currentDraft.indicatorSurveyDataList.forEach(e=>{
     //    if(e.value ==1 ||e.value ==2){}
     //  })
     if (minimumPriorities === 0) {
-      this.props.history.push('/lifemap/final')
+      this.props.history.push('/lifemap/final');
     } else {
       if (minimumPriorities - this.props.currentDraft.priorities.length !== 0) {
-        this.setState({ showPrioritiesNote: true })
+        this.setState({ showPrioritiesNote: true });
       } else {
-        this.props.history.push('/lifemap/final')
+        this.props.history.push('/lifemap/final');
       }
-      let priorDiff = 0
+      let priorDiff = 0;
       this.props.currentDraft.indicatorSurveyDataList.forEach(ele => {
         if (ele.value === 2 || ele.value === 1) {
-          priorDiff += 1
+          priorDiff += 1;
         }
-      })
+      });
       if (
         minimumPriorities -
           minimumPriorities +
@@ -43,30 +44,31 @@ export class Overview extends Component {
           this.props.currentDraft.priorities.length ===
         0
       ) {
-        this.props.history.push('/lifemap/final')
+        this.props.history.push('/lifemap/final');
       }
     }
-  }
+  };
+
   updateAnswer = e => {
-    e.preventDefault()
-    const { currentDraft } = this.props
+    e.preventDefault();
+    const { currentDraft } = this.props;
     if (this.state.questionValue === 3) {
-      let achievementsNew = currentDraft.achievements
-      let update = false
+      let achievementsNew = currentDraft.achievements;
+      let update = false;
       //////////////// check if the question is already in the achievements list and update it
       achievementsNew.forEach(e => {
         if (e.indicator === this.state.questionKey) {
-          update = true
-          e.action = this.state.whatDidItTake
-          e.roadmap = this.state.howDidYouGetIt
+          update = true;
+          e.action = this.state.whatDidItTake;
+          e.roadmap = this.state.howDidYouGetIt;
         }
-      })
+      });
       if (update) {
-        let achievements = achievementsNew
+        let achievements = achievementsNew;
         this.props.updateDraft({
           ...currentDraft,
           achievements
-        })
+        });
       } else {
         //////////// add the question to the achievements list if it doesnt exist
         this.props.updateDraft({
@@ -79,25 +81,25 @@ export class Overview extends Component {
               indicator: this.state.questionKey
             }
           ]
-        })
+        });
       }
     } else {
-      let prioritiesNew = currentDraft.priorities
-      let update = false
+      let prioritiesNew = currentDraft.priorities;
+      let update = false;
       //////////////// check if the question is already in the priorities list and update it
       prioritiesNew.forEach(e => {
         if (e.indicator === this.state.questionKey) {
-          update = true
-          e.action = this.state.whatDidItTake
-          e.roadmap = this.state.howDidYouGetIt
+          update = true;
+          e.action = this.state.whatDidItTake;
+          e.roadmap = this.state.howDidYouGetIt;
         }
-      })
+      });
       if (update) {
-        let priorities = prioritiesNew
+        let priorities = prioritiesNew;
         this.props.updateDraft({
           ...currentDraft,
           priorities
-        })
+        });
       } else {
         //////////// add the question to the priorities list if it doesnt exist
         this.props.updateDraft({
@@ -111,7 +113,7 @@ export class Overview extends Component {
               indicator: this.state.questionKey
             }
           ]
-        })
+        });
       }
     }
     this.setState({
@@ -123,36 +125,46 @@ export class Overview extends Component {
       howDidYouGetIt: '',
       questionKey: '',
       questionValue: ''
-    })
-  }
+    });
+  };
+
   showModal = (key, value, title) => {
     if (value === 1 || value === 2) {
       this.setState({
         modalTitle: title,
         questionKey: key,
         questionValue: 1
-      })
+      });
     } else if (value === 3) {
       this.setState({
         modalTitle: title,
         questionKey: key,
         questionValue: 3
-      })
+      });
     }
-  }
+  };
+
+  static getForwardURLForIndicator = indicator => {
+    let forward = 'skipped-indicator';
+    if (indicator.value) {
+      forward = indicator.value === 3 ? 'achievement' : 'priority';
+    }
+    return `${forward}/${indicator.key}`;
+  };
+
   render() {
-    const { t, classes, currentDraft, currentSurvey } = this.props
-    let priorDiff = 0
-    let groupedAnswers
-    let userAnswers = []
-    let differentCalcPriorities = false
+    const { t, classes, currentDraft, currentSurvey } = this.props;
+    let priorDiff = 0;
+    let groupedAnswers;
+    let userAnswers = [];
+    let differentCalcPriorities = false;
 
     if (currentSurvey) {
       currentDraft.indicatorSurveyDataList.forEach(ele => {
         if (ele.value === 2 || ele.value === 1) {
-          priorDiff += 1
+          priorDiff += 1;
         }
-      })
+      });
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
           if (e.codeName === ele.key) {
@@ -161,20 +173,20 @@ export class Overview extends Component {
               questionText: e.questionText,
               dimension: e.dimension,
               key: ele.key
-            })
+            });
           }
-        })
-      })
+        });
+      });
       if (priorDiff < this.props.currentSurvey.minimumPriorities) {
-        differentCalcPriorities = true
+        differentCalcPriorities = true;
       }
-      console.log(differentCalcPriorities)
-      console.log(priorDiff)
+      console.log(differentCalcPriorities);
+      console.log(priorDiff);
       groupedAnswers = userAnswers.reduce(function(r, a) {
-        r[a.dimension] = r[a.dimension] || []
-        r[a.dimension].push(a)
-        return r
-      }, {})
+        r[a.dimension] = r[a.dimension] || [];
+        r[a.dimension].push(a);
+        return r;
+      }, {});
     }
 
     return (
@@ -182,16 +194,16 @@ export class Overview extends Component {
         <TitleBar title={t('views.yourLifeMap')} />
         <div className={classes.ballsContainer}>
           {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
-            let color
+            let color;
 
             if (indicator.value === 3) {
-              color = '#89bd76'
+              color = '#89bd76';
             } else if (indicator.value === 2) {
-              color = '#f0cb17'
+              color = '#f0cb17';
             } else if (indicator.value === 1) {
-              color = '#e1504d'
+              color = '#e1504d';
             } else if (indicator.value === 0) {
-              color = 'grey'
+              color = 'grey';
             }
 
             return (
@@ -200,7 +212,7 @@ export class Overview extends Component {
                 style={{ backgroundColor: color }}
                 className={classes.roundBall}
               />
-            )
+            );
           })}
         </div>
         <div>
@@ -209,33 +221,31 @@ export class Overview extends Component {
               <div key={elem}>
                 <h1>{elem}</h1>
                 {groupedAnswers[elem].map(indicator => {
-                  let color
-                  let displayType = 'none'
+                  let color;
+                  let displayType = 'none';
                   if (indicator.value === 3) {
-                    color = '#89bd76'
+                    color = '#89bd76';
                   } else if (indicator.value === 2) {
-                    color = '#F0CB17'
+                    color = '#F0CB17';
                   } else if (indicator.value === 1) {
-                    color = '#e1504d'
+                    color = '#e1504d';
                   } else if (indicator.value === 0) {
-                    color = 'grey'
+                    color = 'grey';
                   }
                   currentDraft.priorities.forEach(prior => {
-                    if (prior.indicator === indicator.key) displayType = 'block'
-                  })
+                    if (prior.indicator === indicator.key)
+                      displayType = 'block';
+                  });
                   currentDraft.achievements.forEach(achieve => {
                     if (achieve.indicator === indicator.key)
-                      displayType = 'block'
-                  })
+                      displayType = 'block';
+                  });
 
                   return (
                     <Button
-                      disabled={!indicator.value}
                       onClick={() =>
                         this.props.history.push(
-                          `${
-                            indicator.value === 3 ? 'achievement' : 'priority'
-                          }/${indicator.key}`
+                          Overview.getForwardURLForIndicator(indicator)
                         )
                       }
                       key={indicator.key}
@@ -255,10 +265,10 @@ export class Overview extends Component {
                         <p>{indicator.questionText}</p>
                       </div>
                     </Button>
-                  )
+                  );
                 })}
               </div>
-            )
+            );
           })}
         </div>
         {this.state.showPrioritiesNote ? (
@@ -309,7 +319,7 @@ export class Overview extends Component {
           {t('general.continue')}
         </Button>
       </div>
-    )
+    );
   }
 }
 const styles = {
@@ -400,17 +410,17 @@ const styles = {
     borderRadius: '50%',
     marginRight: '10px'
   }
-}
+};
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
-const mapDispatchToProps = { updateDraft }
+});
+const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(Overview))
-)
+);
