@@ -56,7 +56,7 @@ const styles = {
   container: {
     width: '100%',
     padding: 25,
-    position: 'absolute',
+    position: 'relative',
     top: 0,
     left: 0,
     display: 'flex',
