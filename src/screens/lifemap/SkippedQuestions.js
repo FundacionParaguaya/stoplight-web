@@ -11,6 +11,16 @@ import Container from '../../components/Container';
 import FooterPopup from '../../components/FooterPopup';
 
 export class SkippedQuestions extends Component {
+  state = {
+    showFooterPopup: true
+  };
+
+  handleButtonClick = () => {
+    this.setState({
+      showFooterPopup: false
+    });
+  };
+
   goToQuestion = e => {
     const { currentSurvey } = this.props;
     currentSurvey.surveyStoplightQuestions.forEach((ele, index) => {
@@ -86,18 +96,22 @@ export class SkippedQuestions extends Component {
             );
           })}
           <div className={classes.buttonContainer}>
-            <Button
-              variant="contained"
-              onClick={() => this.props.history.push('/lifemap/overview')}
-              color="primary"
-            >
-              {t('general.continue')}
-            </Button>
+            {!this.state.showFooterPopup && (
+              <Button
+                variant="contained"
+                onClick={() => this.props.history.push('/lifemap/overview')}
+                color="primary"
+              >
+                {t('general.continue')}
+              </Button>
+            )}
           </div>
         </Container>
         <FooterPopup
           title={t('views.lifemap.youSkipped')}
           description={t('views.lifemap.whyNotTryAgain')}
+          isOpen={this.state.showFooterPopup}
+          handleButtonClick={this.handleButtonClick}
         />
       </div>
     );
