@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles, Typography, Button } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Container from './Container';
 
 const DEFAULT_BUTTON_TEXT = 'Got it!';
@@ -34,6 +35,13 @@ function FooterPopup(props) {
     </React.Fragment>
   );
 }
+
+FooterPopup.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  buttonText: PropTypes.string,
+  handleButtonClick: PropTypes.func.isRequired
+};
 
 const styles = theme => ({
   container: {
