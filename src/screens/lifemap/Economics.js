@@ -50,7 +50,7 @@ export class Economics extends Component {
     const FamilyMembersDataList = this.props.currentDraft.familyData
       .familyMembersList;
     let update = false;
-    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
+    // CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
     FamilyMembersDataList.forEach(e => {
       if (e.firstName === familyName) {
         // eslint-disable-next-line no-shadow
@@ -81,7 +81,7 @@ export class Economics extends Component {
           });
         }
       });
-      // ////////// add the question to the data list if it doesnt exist
+      // add the question to the data list if it doesnt exist
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
