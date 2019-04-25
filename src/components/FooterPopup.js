@@ -8,22 +8,30 @@ function FooterPopup(props) {
   const { classes } = props;
 
   return (
-    <div className={classes.container}>
-      <Container className={classes.innerContainer}>
-        <div>
-          <Typography variant="h6" color="textSecondary">
-            {props.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {props.description}
-          </Typography>
+    <React.Fragment>
+      {props.isOpen && (
+        <div className={classes.container}>
+          <Container className={classes.innerContainer}>
+            <div>
+              <Typography variant="h6" color="textSecondary">
+                {props.title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {props.description}
+              </Typography>
+            </div>
+            <Button
+              variant="contained"
+              onClick={props.handleButtonClick}
+              className={classes.button}
+            >
+              <i className={`material-icons ${classes.icon}`}>check</i>
+              {props.buttonText || DEFAULT_BUTTON_TEXT}
+            </Button>
+          </Container>
         </div>
-        <Button variant="contained" className={classes.button}>
-          <i className={`material-icons ${classes.icon}`}>check</i>
-          {props.buttonText || DEFAULT_BUTTON_TEXT}
-        </Button>
-      </Container>
-    </div>
+      )}
+    </React.Fragment>
   );
 }
 
