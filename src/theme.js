@@ -5,8 +5,7 @@ export const theme = {
   palette: {
     primary: {
       main: '#309E43',
-      dark: '#50aa47',
-      contrastText: '#fff'
+      dark: '#50aa47'
     },
     secondary: {
       main: '#e1504d'
@@ -101,13 +100,16 @@ export const theme = {
     },
     MuiInputLabel: {
       shrink: {
-        transform: 'translate(12px, 10px) scale(1)!important'
+        transform: 'translate(12px, 10px) scale(1)!important',
+        color: '#6A6A6A'
       },
       filled: {
-        transform: 'translate(12px, 25px) scale(1)'
+        transform: 'translate(12px, 25px) scale(1)',
+        color: '#6A6A6A'
       },
       formControl: {
-        transform: 'translate(12px, 25px) scale(1)'
+        transform: 'translate(12px, 25px) scale(1)',
+        color: '#6A6A6A'
       }
     },
     MuiInput: {
