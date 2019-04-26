@@ -1,6 +1,13 @@
 // This file provides the color and typography styles used troughout the App
 import { createMuiTheme } from '@material-ui/core/styles';
 
+export const COLORS = {
+  RED: '#e1504d',
+  YELLOW: '#f0cb17',
+  GREEN: '#50aa47',
+  LIGHT_GREY: '#E6E4E2'
+};
+
 export const theme = {
   palette: {
     primary: {

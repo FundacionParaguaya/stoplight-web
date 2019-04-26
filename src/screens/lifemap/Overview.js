@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import TitleBar from '../../components/TitleBar';
 import { withStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
+import TitleBar from '../../components/TitleBar';
+import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
+import SummaryDonut from '../../components/summary/SummaryDonut';
 import { updateDraft } from '../../redux/actions';
+
 export class Overview extends Component {
   state = {
     modalTitle: '',
@@ -15,11 +20,24 @@ export class Overview extends Component {
     howDidYouGetIt: '',
     questionKey: '',
     questionValue: '',
-    showPrioritiesNote: false
+    showPrioritiesNote: false,
+    questionsCount: this.props.currentSurvey.surveyStoplightQuestions.length,
+    greenIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 3
+    ).length,
+    yellowIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 2
+    ).length,
+    redIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 1
+    ).length,
+    skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => !indicator.value
+    ).length
   };
 
   finishSurvey = () => {
-    let { minimumPriorities } = this.props.currentSurvey;
+    const { minimumPriorities } = this.props.currentSurvey;
     //  this.props.currentDraft.indicatorSurveyDataList.forEach(e=>{
     //    if(e.value ==1 ||e.value ==2){}
     //  })
@@ -49,101 +67,6 @@ export class Overview extends Component {
     }
   };
 
-  updateAnswer = e => {
-    e.preventDefault();
-    const { currentDraft } = this.props;
-    if (this.state.questionValue === 3) {
-      let achievementsNew = currentDraft.achievements;
-      let update = false;
-      //////////////// check if the question is already in the achievements list and update it
-      achievementsNew.forEach(e => {
-        if (e.indicator === this.state.questionKey) {
-          update = true;
-          e.action = this.state.whatDidItTake;
-          e.roadmap = this.state.howDidYouGetIt;
-        }
-      });
-      if (update) {
-        let achievements = achievementsNew;
-        this.props.updateDraft({
-          ...currentDraft,
-          achievements
-        });
-      } else {
-        //////////// add the question to the achievements list if it doesnt exist
-        this.props.updateDraft({
-          ...currentDraft,
-          achievements: [
-            ...currentDraft.achievements,
-            {
-              action: this.state.whatDidItTake,
-              roadmap: this.state.howDidYouGetIt,
-              indicator: this.state.questionKey
-            }
-          ]
-        });
-      }
-    } else {
-      let prioritiesNew = currentDraft.priorities;
-      let update = false;
-      //////////////// check if the question is already in the priorities list and update it
-      prioritiesNew.forEach(e => {
-        if (e.indicator === this.state.questionKey) {
-          update = true;
-          e.action = this.state.whatDidItTake;
-          e.roadmap = this.state.howDidYouGetIt;
-        }
-      });
-      if (update) {
-        let priorities = prioritiesNew;
-        this.props.updateDraft({
-          ...currentDraft,
-          priorities
-        });
-      } else {
-        //////////// add the question to the priorities list if it doesnt exist
-        this.props.updateDraft({
-          ...currentDraft,
-          priorities: [
-            ...currentDraft.priorities,
-            {
-              reason: this.state.whyDontYouHaveItText,
-              action: this.state.whatWillYouDoToGetItText,
-              estimatedDate: this.state.howManyMonthsWillItTakeText,
-              indicator: this.state.questionKey
-            }
-          ]
-        });
-      }
-    }
-    this.setState({
-      modalTitle: '',
-      howManyMonthsWillItTakeText: '',
-      whyDontYouHaveItText: '',
-      whatWillYouDoToGetItText: '',
-      whatDidItTake: '',
-      howDidYouGetIt: '',
-      questionKey: '',
-      questionValue: ''
-    });
-  };
-
-  showModal = (key, value, title) => {
-    if (value === 1 || value === 2) {
-      this.setState({
-        modalTitle: title,
-        questionKey: key,
-        questionValue: 1
-      });
-    } else if (value === 3) {
-      this.setState({
-        modalTitle: title,
-        questionKey: key,
-        questionValue: 3
-      });
-    }
-  };
-
   static getForwardURLForIndicator = indicator => {
     let forward = 'skipped-indicator';
     if (indicator.value) {
@@ -156,7 +79,7 @@ export class Overview extends Component {
     const { t, classes, currentDraft, currentSurvey } = this.props;
     let priorDiff = 0;
     let groupedAnswers;
-    let userAnswers = [];
+    const userAnswers = [];
     let differentCalcPriorities = false;
 
     if (currentSurvey) {
@@ -182,7 +105,7 @@ export class Overview extends Component {
       }
       console.log(differentCalcPriorities);
       console.log(priorDiff);
-      groupedAnswers = userAnswers.reduce(function(r, a) {
+      groupedAnswers = userAnswers.reduce((r, a) => {
         r[a.dimension] = r[a.dimension] || [];
         r[a.dimension].push(a);
         return r;
@@ -192,6 +115,14 @@ export class Overview extends Component {
     return (
       <div>
         <TitleBar title={t('views.yourLifeMap')} />
+        <Container variant="stretch">
+          <SummaryDonut
+            greenIndicatorCount={this.state.greenIndicatorCount}
+            yellowIndicatorCount={this.state.yellowIndicatorCount}
+            redIndicatorCount={this.state.redIndicatorCount}
+            skippedIndicatorCount={this.state.skippedIndicatorCount}
+          />
+        </Container>
         <div className={classes.ballsContainer}>
           {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
             let color;
