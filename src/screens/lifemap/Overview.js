@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import TitleBar from '../../components/TitleBar';
 import { withStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
+import TitleBar from '../../components/TitleBar';
+import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
+import SummaryDonut from '../../components/summary/SummaryDonut';
+import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
+import IndicatorBall from '../../components/summary/IndicatorBall';
 import { updateDraft } from '../../redux/actions';
+
 export class Overview extends Component {
   state = {
     modalTitle: '',
@@ -15,11 +22,24 @@ export class Overview extends Component {
     howDidYouGetIt: '',
     questionKey: '',
     questionValue: '',
-    showPrioritiesNote: false
+    showPrioritiesNote: false,
+    questionsCount: this.props.currentSurvey.surveyStoplightQuestions.length,
+    greenIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 3
+    ).length,
+    yellowIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 2
+    ).length,
+    redIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 1
+    ).length,
+    skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => !indicator.value
+    ).length
   };
 
   finishSurvey = () => {
-    let { minimumPriorities } = this.props.currentSurvey;
+    const { minimumPriorities } = this.props.currentSurvey;
     //  this.props.currentDraft.indicatorSurveyDataList.forEach(e=>{
     //    if(e.value ==1 ||e.value ==2){}
     //  })
@@ -49,101 +69,6 @@ export class Overview extends Component {
     }
   };
 
-  updateAnswer = e => {
-    e.preventDefault();
-    const { currentDraft } = this.props;
-    if (this.state.questionValue === 3) {
-      let achievementsNew = currentDraft.achievements;
-      let update = false;
-      //////////////// check if the question is already in the achievements list and update it
-      achievementsNew.forEach(e => {
-        if (e.indicator === this.state.questionKey) {
-          update = true;
-          e.action = this.state.whatDidItTake;
-          e.roadmap = this.state.howDidYouGetIt;
-        }
-      });
-      if (update) {
-        let achievements = achievementsNew;
-        this.props.updateDraft({
-          ...currentDraft,
-          achievements
-        });
-      } else {
-        //////////// add the question to the achievements list if it doesnt exist
-        this.props.updateDraft({
-          ...currentDraft,
-          achievements: [
-            ...currentDraft.achievements,
-            {
-              action: this.state.whatDidItTake,
-              roadmap: this.state.howDidYouGetIt,
-              indicator: this.state.questionKey
-            }
-          ]
-        });
-      }
-    } else {
-      let prioritiesNew = currentDraft.priorities;
-      let update = false;
-      //////////////// check if the question is already in the priorities list and update it
-      prioritiesNew.forEach(e => {
-        if (e.indicator === this.state.questionKey) {
-          update = true;
-          e.action = this.state.whatDidItTake;
-          e.roadmap = this.state.howDidYouGetIt;
-        }
-      });
-      if (update) {
-        let priorities = prioritiesNew;
-        this.props.updateDraft({
-          ...currentDraft,
-          priorities
-        });
-      } else {
-        //////////// add the question to the priorities list if it doesnt exist
-        this.props.updateDraft({
-          ...currentDraft,
-          priorities: [
-            ...currentDraft.priorities,
-            {
-              reason: this.state.whyDontYouHaveItText,
-              action: this.state.whatWillYouDoToGetItText,
-              estimatedDate: this.state.howManyMonthsWillItTakeText,
-              indicator: this.state.questionKey
-            }
-          ]
-        });
-      }
-    }
-    this.setState({
-      modalTitle: '',
-      howManyMonthsWillItTakeText: '',
-      whyDontYouHaveItText: '',
-      whatWillYouDoToGetItText: '',
-      whatDidItTake: '',
-      howDidYouGetIt: '',
-      questionKey: '',
-      questionValue: ''
-    });
-  };
-
-  showModal = (key, value, title) => {
-    if (value === 1 || value === 2) {
-      this.setState({
-        modalTitle: title,
-        questionKey: key,
-        questionValue: 1
-      });
-    } else if (value === 3) {
-      this.setState({
-        modalTitle: title,
-        questionKey: key,
-        questionValue: 3
-      });
-    }
-  };
-
   static getForwardURLForIndicator = indicator => {
     let forward = 'skipped-indicator';
     if (indicator.value) {
@@ -152,11 +77,25 @@ export class Overview extends Component {
     return `${forward}/${indicator.key}`;
   };
 
+  static indicatorColorByAnswer = indicator => {
+    let color;
+    if (indicator.value === 3) {
+      color = 'green';
+    } else if (indicator.value === 2) {
+      color = 'yellow';
+    } else if (indicator.value === 1) {
+      color = 'red';
+    } else if (indicator.value === 0) {
+      color = 'skipped';
+    }
+    return color;
+  };
+
   render() {
     const { t, classes, currentDraft, currentSurvey } = this.props;
     let priorDiff = 0;
     let groupedAnswers;
-    let userAnswers = [];
+    const userAnswers = [];
     let differentCalcPriorities = false;
 
     if (currentSurvey) {
@@ -180,9 +119,7 @@ export class Overview extends Component {
       if (priorDiff < this.props.currentSurvey.minimumPriorities) {
         differentCalcPriorities = true;
       }
-      console.log(differentCalcPriorities);
-      console.log(priorDiff);
-      groupedAnswers = userAnswers.reduce(function(r, a) {
+      groupedAnswers = userAnswers.reduce((r, a) => {
         r[a.dimension] = r[a.dimension] || [];
         r[a.dimension].push(a);
         return r;
@@ -192,34 +129,48 @@ export class Overview extends Component {
     return (
       <div>
         <TitleBar title={t('views.yourLifeMap')} />
-        <div className={classes.ballsContainer}>
-          {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
-            let color;
-
-            if (indicator.value === 3) {
-              color = '#89bd76';
-            } else if (indicator.value === 2) {
-              color = '#f0cb17';
-            } else if (indicator.value === 1) {
-              color = '#e1504d';
-            } else if (indicator.value === 0) {
-              color = 'grey';
-            }
-
-            return (
-              <div
-                key={indicator.key}
-                style={{ backgroundColor: color }}
-                className={classes.roundBall}
-              />
-            );
-          })}
-        </div>
-        <div>
-          {Object.keys(groupedAnswers).map(elem => {
-            return (
+        <Container variant="stretch">
+          <SummaryDonut
+            greenIndicatorCount={this.state.greenIndicatorCount}
+            yellowIndicatorCount={this.state.yellowIndicatorCount}
+            redIndicatorCount={this.state.redIndicatorCount}
+            skippedIndicatorCount={this.state.skippedIndicatorCount}
+          />
+          <div className={classes.summaryIndicatorsBallsContainer}>
+            {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
+              const color = Overview.indicatorColorByAnswer(indicator);
+              return (
+                <div
+                  key={indicator.key}
+                  className={classes.summaryIndicatorContainer}
+                >
+                  <IndicatorBall
+                    color={color}
+                    variant="small"
+                    animated={false}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <div>
+            {Object.keys(groupedAnswers).map(elem => (
               <div key={elem}>
-                <h1>{elem}</h1>
+                <div className={classes.dimensionHeader}>
+                  <Typography
+                    className={classes.dimensionTitle}
+                    variant="subtitle1"
+                  >
+                    {elem}
+                  </Typography>
+                  <SummaryStackedBar
+                    greenIndicatorCount={this.state.greenIndicatorCount}
+                    yellowIndicatorCount={this.state.yellowIndicatorCount}
+                    redIndicatorCount={this.state.redIndicatorCount}
+                    skippedIndicatorCount={this.state.skippedIndicatorCount}
+                  />
+                  <div className={classes.dimensionUnderline} />
+                </div>
                 {groupedAnswers[elem].map(indicator => {
                   let color;
                   let displayType = 'none';
@@ -262,15 +213,18 @@ export class Overview extends Component {
                           />
                         </div>
 
-                        <p>{indicator.questionText}</p>
+                        <Typography variant="subtitle1">
+                          {indicator.questionText}
+                        </Typography>
                       </div>
                     </Button>
                   );
                 })}
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+          <BottomSpacer />
+        </Container>
         {this.state.showPrioritiesNote ? (
           <div className={classes.modalPopupContainer}>
             <div className={classes.createPrioritiesContainer}>
@@ -322,7 +276,7 @@ export class Overview extends Component {
     );
   }
 }
-const styles = {
+const styles = theme => ({
   lowercaseParagraph: {
     textTransform: 'lowercase'
   },
@@ -345,16 +299,27 @@ const styles = {
     top: '150px',
     margin: 'auto'
   },
-  ballsContainer: {
+  summaryIndicatorsBallsContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: '20px'
+    margin: theme.spacing.unit * 2
   },
-  roundBall: {
-    display: 'block',
-    width: 25,
-    height: 25,
-    borderRadius: '50%'
+  summaryIndicatorContainer: {
+    margin: 4
+  },
+  dimensionHeader: {
+    margin: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 4
+  },
+  dimensionTitle: {
+    marginBottom: theme.spacing.unit
+  },
+  dimensionUnderline: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    width: '100%',
+    height: '1px',
+    backgroundColor: '#DCDEE3'
   },
   roundBoxSmall: {
     width: 15,
@@ -410,7 +375,7 @@ const styles = {
     borderRadius: '50%',
     marginRight: '10px'
   }
-};
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,

@@ -175,6 +175,12 @@
       "inProgress": "Sincronización en marcha",
       "of": "de",
       "updates": "actualizaciones"
+    },
+    "overview": {
+      "red": "Rojo",
+      "yellow": "Amarillo",
+      "green": "Verde",
+      "skipped": "Preguntas omitidas"
     }
   }
 }

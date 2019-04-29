@@ -175,6 +175,12 @@
       "inProgress": "Sync in progress",
       "of": "of",
       "updates": "updates"
+    },
+    "overview": {
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped questions"
     }
   }
 }
