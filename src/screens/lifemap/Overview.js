@@ -287,9 +287,18 @@ export class Overview extends Component {
               </div>
             ))}
           </div>
+          <div className={classes.finishSurveyButtonContainer}>
+            <Button
+              variant="contained"
+              onClick={this.finishSurvey}
+              color="primary"
+            >
+              {t('general.continue')}
+            </Button>
+          </div>
           <BottomSpacer />
         </Container>
-        {this.state.showPrioritiesNote ? (
+        {this.state.showPrioritiesNote && (
           <div className={classes.modalPopupContainer}>
             <div className={classes.createPrioritiesContainer}>
               <h2>{t('views.lifemap.toComplete')}</h2>
@@ -325,17 +334,7 @@ export class Overview extends Component {
               </Button>
             </div>
           </div>
-        ) : null}
-
-        <Button
-          style={{ marginTop: 35, marginBottom: 35 }}
-          variant="contained"
-          fullWidth
-          onClick={this.finishSurvey}
-          color="primary"
-        >
-          {t('general.continue')}
-        </Button>
+        )}
       </div>
     );
   }
@@ -371,28 +370,6 @@ const styles = theme => ({
   summaryIndicatorContainer: {
     margin: 4
   },
-  buttonsContainer: {
-    marginTop: 20,
-    display: 'flex'
-  },
-  modalButtonAnswersBack: {
-    marginRight: 20
-  },
-  containerTitle: {
-    zIndex: 12
-  },
-  modalAnswersDetailsContainer: {
-    zIndex: 11,
-    width: 650,
-    height: 500,
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: '120px',
-    margin: 'auto'
-  },
   modalPopupContainer: {
     position: 'fixed',
     width: '100vw',
@@ -403,6 +380,11 @@ const styles = theme => ({
     height: '100vh',
     backgroundColor: 'white',
     zIndex: 1
+  },
+  finishSurveyButtonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 4
   }
 });
 
