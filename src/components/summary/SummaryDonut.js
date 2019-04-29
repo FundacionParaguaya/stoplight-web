@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
 import { PieChart, Pie, Cell } from 'recharts';
 import { Typography } from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
@@ -53,7 +54,8 @@ const SummaryDonut = props => {
     greenIndicatorCount,
     yellowIndicatorCount,
     redIndicatorCount,
-    skippedIndicatorCount
+    skippedIndicatorCount,
+    t
   } = props;
   const data = [
     { name: 'red', value: redIndicatorCount },
@@ -83,22 +85,22 @@ const SummaryDonut = props => {
       </div>
       <div className={classes.summaryCountingSectionContainer}>
         <SummaryCountingSection
-          label="Green"
+          label={t('views.overview.green')}
           count={greenIndicatorCount}
           color="green"
         />
         <SummaryCountingSection
-          label="Yellow"
+          label={t('views.overview.yellow')}
           count={yellowIndicatorCount}
           color="yellow"
         />
         <SummaryCountingSection
-          label="Red"
+          label={t('views.overview.red')}
           count={redIndicatorCount}
           color="red"
         />
         <SummaryCountingSection
-          label="Skipped questions"
+          label={t('views.overview.skipped')}
           count={skippedIndicatorCount}
           color="skipped"
         />
@@ -136,4 +138,4 @@ SummaryDonut.defaultProps = {
   animated: true
 };
 
-export default withStyles(styles)(SummaryDonut);
+export default withStyles(styles)(withTranslation()(SummaryDonut));
