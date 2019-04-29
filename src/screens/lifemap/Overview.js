@@ -8,6 +8,8 @@ import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import SummaryDonut from '../../components/summary/SummaryDonut';
+import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
+import IndicatorBall from '../../components/summary/IndicatorBall';
 import { updateDraft } from '../../redux/actions';
 
 export class Overview extends Component {
@@ -75,6 +77,20 @@ export class Overview extends Component {
     return `${forward}/${indicator.key}`;
   };
 
+  static indicatorColorByAnswer = indicator => {
+    let color;
+    if (indicator.value === 3) {
+      color = 'green';
+    } else if (indicator.value === 2) {
+      color = 'yellow';
+    } else if (indicator.value === 1) {
+      color = 'red';
+    } else if (indicator.value === 0) {
+      color = 'skipped';
+    }
+    return color;
+  };
+
   render() {
     const { t, classes, currentDraft, currentSurvey } = this.props;
     let priorDiff = 0;
@@ -103,8 +119,6 @@ export class Overview extends Component {
       if (priorDiff < this.props.currentSurvey.minimumPriorities) {
         differentCalcPriorities = true;
       }
-      console.log(differentCalcPriorities);
-      console.log(priorDiff);
       groupedAnswers = userAnswers.reduce((r, a) => {
         r[a.dimension] = r[a.dimension] || [];
         r[a.dimension].push(a);
@@ -122,35 +136,41 @@ export class Overview extends Component {
             redIndicatorCount={this.state.redIndicatorCount}
             skippedIndicatorCount={this.state.skippedIndicatorCount}
           />
-        </Container>
-        <div className={classes.ballsContainer}>
-          {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
-            let color;
-
-            if (indicator.value === 3) {
-              color = '#89bd76';
-            } else if (indicator.value === 2) {
-              color = '#f0cb17';
-            } else if (indicator.value === 1) {
-              color = '#e1504d';
-            } else if (indicator.value === 0) {
-              color = 'grey';
-            }
-
-            return (
-              <div
-                key={indicator.key}
-                style={{ backgroundColor: color }}
-                className={classes.roundBall}
-              />
-            );
-          })}
-        </div>
-        <div>
-          {Object.keys(groupedAnswers).map(elem => {
-            return (
+          <div className={classes.summaryIndicatorsBallsContainer}>
+            {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
+              const color = Overview.indicatorColorByAnswer(indicator);
+              return (
+                <div
+                  key={indicator.key}
+                  className={classes.summaryIndicatorContainer}
+                >
+                  <IndicatorBall
+                    color={color}
+                    variant="small"
+                    animated={false}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <div>
+            {Object.keys(groupedAnswers).map(elem => (
               <div key={elem}>
-                <h1>{elem}</h1>
+                <div className={classes.dimensionHeader}>
+                  <Typography
+                    className={classes.dimensionTitle}
+                    variant="subtitle1"
+                  >
+                    {elem}
+                  </Typography>
+                  <SummaryStackedBar
+                    greenIndicatorCount={this.state.greenIndicatorCount}
+                    yellowIndicatorCount={this.state.yellowIndicatorCount}
+                    redIndicatorCount={this.state.redIndicatorCount}
+                    skippedIndicatorCount={this.state.skippedIndicatorCount}
+                  />
+                  <div className={classes.dimensionUnderline} />
+                </div>
                 {groupedAnswers[elem].map(indicator => {
                   let color;
                   let displayType = 'none';
@@ -193,15 +213,18 @@ export class Overview extends Component {
                           />
                         </div>
 
-                        <p>{indicator.questionText}</p>
+                        <Typography variant="subtitle1">
+                          {indicator.questionText}
+                        </Typography>
                       </div>
                     </Button>
                   );
                 })}
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+          <BottomSpacer />
+        </Container>
         {this.state.showPrioritiesNote ? (
           <div className={classes.modalPopupContainer}>
             <div className={classes.createPrioritiesContainer}>
@@ -253,7 +276,7 @@ export class Overview extends Component {
     );
   }
 }
-const styles = {
+const styles = theme => ({
   lowercaseParagraph: {
     textTransform: 'lowercase'
   },
@@ -276,16 +299,27 @@ const styles = {
     top: '150px',
     margin: 'auto'
   },
-  ballsContainer: {
+  summaryIndicatorsBallsContainer: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: '20px'
+    margin: theme.spacing.unit * 2
   },
-  roundBall: {
-    display: 'block',
-    width: 25,
-    height: 25,
-    borderRadius: '50%'
+  summaryIndicatorContainer: {
+    margin: 4
+  },
+  dimensionHeader: {
+    margin: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 4
+  },
+  dimensionTitle: {
+    marginBottom: theme.spacing.unit
+  },
+  dimensionUnderline: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    width: '100%',
+    height: '1px',
+    backgroundColor: '#DCDEE3'
   },
   roundBoxSmall: {
     width: 15,
@@ -341,7 +375,7 @@ const styles = {
     borderRadius: '50%',
     marginRight: '10px'
   }
-};
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
