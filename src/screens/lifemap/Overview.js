@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
@@ -11,6 +12,131 @@ import SummaryDonut from '../../components/summary/SummaryDonut';
 import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
 import IndicatorBall from '../../components/summary/IndicatorBall';
 import { updateDraft } from '../../redux/actions';
+
+const getForwardURLForIndicator = indicator => {
+  let forward = 'skipped-indicator';
+  if (indicator.value) {
+    forward = indicator.value === 3 ? 'achievement' : 'priority';
+  }
+  return `${forward}/${indicator.key}`;
+};
+
+const indicatorColorByAnswer = indicator => {
+  let color;
+  if (indicator.value === 3) {
+    color = 'green';
+  } else if (indicator.value === 2) {
+    color = 'yellow';
+  } else if (indicator.value === 1) {
+    color = 'red';
+  } else if (indicator.value === 0) {
+    color = 'skipped';
+  }
+  return color;
+};
+
+let DimensionHeader = ({
+  classes,
+  dimension,
+  greenIndicatorCount,
+  yellowIndicatorCount,
+  redIndicatorCount,
+  skippedIndicatorCount
+}) => (
+  <div className={classes.dimensionHeader}>
+    <Typography className={classes.dimensionTitle} variant="subtitle1">
+      {dimension}
+    </Typography>
+    <SummaryStackedBar
+      greenIndicatorCount={greenIndicatorCount}
+      yellowIndicatorCount={yellowIndicatorCount}
+      redIndicatorCount={redIndicatorCount}
+      skippedIndicatorCount={skippedIndicatorCount}
+    />
+    <div className={classes.dimensionUnderline} />
+  </div>
+);
+const dimensionHeaderStyles = theme => ({
+  dimensionHeader: {
+    margin: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 4
+  },
+  dimensionTitle: {
+    marginBottom: theme.spacing.unit
+  },
+  dimensionUnderline: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    width: '100%',
+    height: '1px',
+    backgroundColor: '#DCDEE3'
+  }
+});
+DimensionHeader = withStyles(dimensionHeaderStyles)(DimensionHeader);
+
+let DimensionQuestions = ({
+  classes,
+  questions,
+  priorities,
+  achievements,
+  history
+}) => (
+  <Grid container spacing={16}>
+    {questions.map(indicator => {
+      let displayType = 'none';
+      priorities.forEach(prior => {
+        if (prior.indicator === indicator.key) displayType = 'block';
+      });
+      achievements.forEach(achieve => {
+        if (achieve.indicator === indicator.key) displayType = 'block';
+      });
+
+      return (
+        <Grid
+          item
+          xs={3}
+          key={indicator.key}
+          onClick={() => history.push(getForwardURLForIndicator(indicator))}
+          className={classes.gridItemStyle}
+        >
+          <div className={classes.indicatorBallContainer}>
+            <IndicatorBall
+              color={indicatorColorByAnswer(indicator)}
+              animated={false}
+              priority={priorities.find(
+                prior => prior.indicator === indicator.key
+              )}
+              achievement={achievements.find(
+                prior => prior.indicator === indicator.key
+              )}
+            />
+          </div>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            className={classes.typographyStyle}
+          >
+            {indicator.questionText}
+          </Typography>
+        </Grid>
+      );
+    })}
+  </Grid>
+);
+
+const dimensionQuestionsStyles = theme => ({
+  gridItemStyle: { cursor: 'pointer' },
+  indicatorBallContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  typographyStyle: {
+    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 4
+  }
+});
+DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
 
 export class Overview extends Component {
   state = {
@@ -40,9 +166,6 @@ export class Overview extends Component {
 
   finishSurvey = () => {
     const { minimumPriorities } = this.props.currentSurvey;
-    //  this.props.currentDraft.indicatorSurveyDataList.forEach(e=>{
-    //    if(e.value ==1 ||e.value ==2){}
-    //  })
     if (minimumPriorities === 0) {
       this.props.history.push('/lifemap/final');
     } else {
@@ -67,28 +190,6 @@ export class Overview extends Component {
         this.props.history.push('/lifemap/final');
       }
     }
-  };
-
-  static getForwardURLForIndicator = indicator => {
-    let forward = 'skipped-indicator';
-    if (indicator.value) {
-      forward = indicator.value === 3 ? 'achievement' : 'priority';
-    }
-    return `${forward}/${indicator.key}`;
-  };
-
-  static indicatorColorByAnswer = indicator => {
-    let color;
-    if (indicator.value === 3) {
-      color = 'green';
-    } else if (indicator.value === 2) {
-      color = 'yellow';
-    } else if (indicator.value === 1) {
-      color = 'red';
-    } else if (indicator.value === 0) {
-      color = 'skipped';
-    }
-    return color;
   };
 
   render() {
@@ -138,7 +239,7 @@ export class Overview extends Component {
           />
           <div className={classes.summaryIndicatorsBallsContainer}>
             {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
-              const color = Overview.indicatorColorByAnswer(indicator);
+              const color = indicatorColorByAnswer(indicator);
               return (
                 <div
                   key={indicator.key}
@@ -148,6 +249,12 @@ export class Overview extends Component {
                     color={color}
                     variant="small"
                     animated={false}
+                    priority={this.props.currentDraft.priorities.find(
+                      prior => prior.indicator === indicator.key
+                    )}
+                    achievement={this.props.currentDraft.achievements.find(
+                      prior => prior.indicator === indicator.key
+                    )}
                   />
                 </div>
               );
@@ -156,70 +263,19 @@ export class Overview extends Component {
           <div>
             {Object.keys(groupedAnswers).map(elem => (
               <div key={elem}>
-                <div className={classes.dimensionHeader}>
-                  <Typography
-                    className={classes.dimensionTitle}
-                    variant="subtitle1"
-                  >
-                    {elem}
-                  </Typography>
-                  <SummaryStackedBar
-                    greenIndicatorCount={this.state.greenIndicatorCount}
-                    yellowIndicatorCount={this.state.yellowIndicatorCount}
-                    redIndicatorCount={this.state.redIndicatorCount}
-                    skippedIndicatorCount={this.state.skippedIndicatorCount}
-                  />
-                  <div className={classes.dimensionUnderline} />
-                </div>
-                {groupedAnswers[elem].map(indicator => {
-                  let color;
-                  let displayType = 'none';
-                  if (indicator.value === 3) {
-                    color = '#89bd76';
-                  } else if (indicator.value === 2) {
-                    color = '#F0CB17';
-                  } else if (indicator.value === 1) {
-                    color = '#e1504d';
-                  } else if (indicator.value === 0) {
-                    color = 'grey';
-                  }
-                  currentDraft.priorities.forEach(prior => {
-                    if (prior.indicator === indicator.key)
-                      displayType = 'block';
-                  });
-                  currentDraft.achievements.forEach(achieve => {
-                    if (achieve.indicator === indicator.key)
-                      displayType = 'block';
-                  });
-
-                  return (
-                    <Button
-                      onClick={() =>
-                        this.props.history.push(
-                          Overview.getForwardURLForIndicator(indicator)
-                        )
-                      }
-                      key={indicator.key}
-                      className={classes.overviewAnswers}
-                    >
-                      <div className={classes.buttonInsideContainer}>
-                        <div
-                          style={{ backgroundColor: color }}
-                          className={classes.roundBox}
-                        >
-                          <div
-                            style={{ display: displayType }}
-                            className={classes.roundBoxSmall}
-                          />
-                        </div>
-
-                        <Typography variant="subtitle1">
-                          {indicator.questionText}
-                        </Typography>
-                      </div>
-                    </Button>
-                  );
-                })}
+                <DimensionHeader
+                  dimension={elem}
+                  greenIndicatorCount={this.state.greenIndicatorCount}
+                  yellowIndicatorCount={this.state.yellowIndicatorCount}
+                  redIndicatorCount={this.state.redIndicatorCount}
+                  skippedIndicatorCount={this.state.skippedIndicatorCount}
+                />
+                <DimensionQuestions
+                  questions={groupedAnswers[elem]}
+                  priorities={currentDraft.priorities}
+                  achievements={currentDraft.achievements}
+                  history={this.props.history}
+                />
               </div>
             ))}
           </div>
@@ -307,26 +363,6 @@ const styles = theme => ({
   summaryIndicatorContainer: {
     margin: 4
   },
-  dimensionHeader: {
-    margin: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 4
-  },
-  dimensionTitle: {
-    marginBottom: theme.spacing.unit
-  },
-  dimensionUnderline: {
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
-    width: '100%',
-    height: '1px',
-    backgroundColor: '#DCDEE3'
-  },
-  roundBoxSmall: {
-    width: 15,
-    height: 15,
-    borderRadius: '50%',
-    backgroundColor: '#856DFF'
-  },
   buttonsContainer: {
     marginTop: 20,
     display: 'flex'
@@ -359,21 +395,6 @@ const styles = theme => ({
     height: '100vh',
     backgroundColor: 'white',
     zIndex: 1
-  },
-  buttonInsideContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: 'auto'
-  },
-  overviewAnswers: {
-    cursor: 'pointer',
-    width: '100%'
-  },
-  roundBox: {
-    width: 30,
-    height: 30,
-    borderRadius: '50%',
-    marginRight: '10px'
   }
 });
 
