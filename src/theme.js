@@ -21,7 +21,11 @@ export const theme = {
       main: '#e1504d'
     },
     text: {
-      primary: '#1c212f'
+      primary: '#1c212f',
+      secondary: '#fff'
+    },
+    grey: {
+      main: '#909090'
     },
     background: {
       paper: '#f3f4f6',
@@ -61,7 +65,8 @@ export const theme = {
     }
   },
   shape: {
-    padding: 40
+    padding: 40,
+    marginButton: '40px 0 50px 0'
   },
   shadows: Array(25).fill('none'),
   overrides: {
@@ -102,13 +107,16 @@ export const theme = {
     },
     MuiInputLabel: {
       shrink: {
-        transform: 'translate(12px, 10px) scale(1)!important'
+        transform: 'translate(12px, 10px) scale(1)!important',
+        color: '#6A6A6A'
       },
       filled: {
-        transform: 'translate(12px, 25px) scale(1)'
+        transform: 'translate(12px, 25px) scale(1)',
+        color: '#6A6A6A'
       },
       formControl: {
-        transform: 'translate(12px, 25px) scale(1)'
+        transform: 'translate(12px, 25px) scale(1)',
+        color: '#6A6A6A'
       }
     },
     MuiInput: {
