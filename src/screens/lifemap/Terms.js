@@ -1,13 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import checkboxWithDots from '../../assets/checkbox_with_dots.png';
 import { withTranslation } from 'react-i18next';
 import { Typography, Button } from '@material-ui/core';
+import checkboxWithDots from '../../assets/checkbox_with_dots.png';
 import { theme } from '../../theme';
 import NavIcons from '../../components/NavIcons';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
+
+const titleStyles = {
+  title: {
+    position: 'relative',
+    top: '55%'
+  },
+  termsCheckboxImage: {
+    margin: 'auto',
+    position: 'absolute',
+    right: 0,
+    bottom: -30,
+    width: 370
+  },
+  container: {
+    position: 'absolute',
+    top: 0,
+    height: '100%',
+    left: '50%',
+    transform: 'translateX(-50%)'
+  }
+};
+
+const TitleContainer = withStyles(titleStyles)(props => {
+  const { classes } = props;
+
+  return (
+    <Container className={classes.container}>
+      <Typography className={classes.title} variant="h4">
+        {props.title}
+      </Typography>
+      <img
+        src={checkboxWithDots}
+        className={classes.termsCheckboxImage}
+        alt=""
+      />
+    </Container>
+  );
+});
 
 export class Terms extends Component {
   state = {
@@ -20,6 +58,7 @@ export class Terms extends Component {
         ? this.props.currentSurvey.termsConditions.text
         : this.props.currentSurvey.privacyPolicy.text
   };
+
   handleContinue = () => {
     this.props.history.push(
       this.props.location.pathname === '/lifemap/terms'
@@ -27,9 +66,11 @@ export class Terms extends Component {
         : '/lifemap/primary-participant'
     );
   };
+
   handleDisagree = () => {
     this.props.history.push('/');
   };
+
   render() {
     const { classes, t } = this.props;
 
@@ -38,30 +79,12 @@ export class Terms extends Component {
         {this.props.location.pathname === '/lifemap/terms' ? (
           <div className={classes.titleContainer}>
             <NavIcons />
-            <Container style={{ position: 'relative' }}>
-              <Typography className={classes.title} variant="h4">
-                {t('views.termsConditions')}
-              </Typography>
-              <img
-                src={checkboxWithDots}
-                className={classes.termsCheckboxImage}
-                alt=""
-              />
-            </Container>
+            <TitleContainer title={t('views.termsConditions')} />
           </div>
         ) : (
           <div className={classes.titleContainer}>
             <NavIcons />
-            <Container style={{ position: 'relative' }}>
-              <Typography className={classes.title} variant="h4">
-                {t('views.privacyPolicy')}
-              </Typography>
-              <img
-                src={checkboxWithDots}
-                className={classes.termsCheckboxImage}
-                alt=""
-              />
-            </Container>
+            <TitleContainer title={t('views.privacyPolicy')} />
           </div>
         )}
 
@@ -99,10 +122,6 @@ const styles = {
     display: 'flex',
     overflow: 'hidden'
   },
-  title: {
-    position: 'relative',
-    top: '55%'
-  },
   buttonTermsDisagree: {
     '&:hover': {
       backgroundColor: 'transparent'
@@ -130,13 +149,6 @@ const styles = {
     paddingTop: theme.shape.padding,
     maxWidth: 660
   },
-  termsCheckboxImage: {
-    margin: 'auto',
-    position: 'absolute',
-    right: 0,
-    bottom: -30,
-    width: 370
-  },
   list: {
     display: 'flex',
     flexDirection: 'column'
@@ -146,6 +158,7 @@ const styles = {
     height: 20
   }
 };
+
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Terms))

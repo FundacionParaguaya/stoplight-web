@@ -6,15 +6,19 @@ import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import NavIcons from './NavIcons';
-import barDots from '../assets/bar_dots.png';
+import leftBarDots from '../assets/left_bar_dots.png';
+import rightBarDots from '../assets/right_bar_dots.png';
+import Container from './Container';
 
 class TopTitleContainer extends Component {
   state = {
     showLeaveModal: false
   };
+
   leaveSurvey = () => {
     this.props.history.push('/surveys');
   };
+
   render() {
     const { classes, t } = this.props;
 
@@ -45,32 +49,34 @@ class TopTitleContainer extends Component {
             </div>
           </div>
         ) : (
-          <div className={classes.titleAndIconContainerPolicy}>
-            <img
-              className={classes.barDotsImage}
-              src={barDots}
-              alt="Bar Dots"
-            />
+          <Container
+            variant="fluid"
+            className={classes.titleAndIconContainerPolicy}
+          >
             <NavIcons />
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <Typography variant="h4" className={classes.titleMainAll}>
-                {this.props.title}
-              </Typography>
-              {this.props.extraTitleText ? (
-                <Typography variant="h5" className={classes.titleMainAll}>
-                  {this.props.extraTitleText}
+            <Container className={classes.innerContainer}>
+              <img
+                className={classes.barDots}
+                src={leftBarDots}
+                alt="Bar Dots"
+              />
+              <div className={classes.textContainer}>
+                <Typography variant="h4" className={classes.titleMainAll}>
+                  {this.props.title}
                 </Typography>
-              ) : null}
-            </div>
-          </div>
+                {this.props.extraTitleText ? (
+                  <Typography variant="h5" className={classes.titleMainAll}>
+                    {this.props.extraTitleText}
+                  </Typography>
+                ) : null}
+              </div>
+              <img
+                className={classes.barDots}
+                src={rightBarDots}
+                alt="Bar Dots"
+              />
+            </Container>
+          </Container>
         )}
       </React.Fragment>
     );
@@ -102,22 +108,30 @@ const styles = theme => ({
   },
   titleAndIconContainerPolicy: {
     backgroundColor: theme.palette.background.default,
-    height: 220,
-    position: 'relative',
+    height: 200,
+    borderBottom: '1px solid #DCDEE3;',
+    position: 'relative'
+  },
+  innerContainer: {
     display: 'flex',
-    padding: '10px 10px 10px 10px',
+    position: 'absolute',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottom: '1px solid #DCDEE3;'
+    height: '100%',
+    left: '50%',
+    top: 0,
+    transform: 'translateX(-50%)'
   },
   titleMainAll: {
     margin: 'auto',
     zIndex: 1
   },
-  barDotsImage: {
-    position: 'absolute',
-    left: '50%',
-    transform: 'translateX(-50%)'
+  barDots: {
+    height: '70%'
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
 export default withRouter(
