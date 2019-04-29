@@ -265,10 +265,18 @@ export class Overview extends Component {
               <div key={elem}>
                 <DimensionHeader
                   dimension={elem}
-                  greenIndicatorCount={this.state.greenIndicatorCount}
-                  yellowIndicatorCount={this.state.yellowIndicatorCount}
-                  redIndicatorCount={this.state.redIndicatorCount}
-                  skippedIndicatorCount={this.state.skippedIndicatorCount}
+                  greenIndicatorCount={
+                    groupedAnswers[elem].filter(a => a.value === 3).length
+                  }
+                  yellowIndicatorCount={
+                    groupedAnswers[elem].filter(a => a.value === 2).length
+                  }
+                  redIndicatorCount={
+                    groupedAnswers[elem].filter(a => a.value === 1).length
+                  }
+                  skippedIndicatorCount={
+                    groupedAnswers[elem].filter(a => !a.value).length
+                  }
                 />
                 <DimensionQuestions
                   questions={groupedAnswers[elem]}
