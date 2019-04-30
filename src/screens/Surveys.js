@@ -148,59 +148,71 @@ export class Surveys extends Component {
     const { classes, t } = this.props;
     return (
       <div className={classes.mainSurveyContainerBoss}>
-        <div className={classes.surveyTopTitle}>
-          <Typography variant="h4">Choose a life map</Typography>
-          <Typography variant="h7">
-            <span style={{ color: '#626262', fontSize: 20 }}>
-              Surveys > Choose a life map
-            </span>
-          </Typography>
-          <div className={classes.ball1} />
-          <div className={classes.ball2} />
-          <div className={classes.ball3} />
-          <div className={classes.ball4} />
-          <div className={classes.ball5} />
-          <div className={classes.ball6} />
-          <img className={classes.imageLifemap} src={chooseLifemapImage} />
-        </div>
-        <div className={classes.list}>
-          {this.state.loading && (
-            <div className={classes.spinnerWrapper}>
-              <CircularProgress size={50} thickness={2} />
+        <Container>
+          <div className={classes.titleContainer}>
+            <div className={classes.surveyTopTitle}>
+              <Typography variant="h4">Choose a life map</Typography>
+              <Typography variant="h7">
+                <span style={{ color: '#626262', fontSize: 20 }}>
+                  Surveys > Choose a life map
+                </span>
+              </Typography>
+              <div className={classes.ball1} />
+              <div className={classes.ball2} />
+              <div className={classes.ball3} />
+              <div className={classes.ball4} />
+              <div className={classes.ball5} />
+              <div className={classes.ball6} />
+              <img className={classes.imageLifemap} src={chooseLifemapImage} />
             </div>
-          )}
-          <span className={classes.listSurveys}>
-            {this.state.surveys.map(survey => {
-              return (
-                <div key={survey.id} className={classes.mainSurveyContainer}>
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    className={classes.surveyTitle}
-                    onClick={() => this.handleClickOnSurvey(survey)}
-                  >
-                    {survey.title}
-                  </Typography>
-                  <Typography className={classes.paragraphSurvey} variant="h7">
-                    Short description that can go over two lines...
-                  </Typography>
+            <img
+              src={chooseLifeMap}
+              alt="Choose Life Map"
+              className={classes.chooseLifeMapImage}
+            />
+          </div>
+          <div className={classes.listContainer}>
+            {this.state.loading && (
+              <div className={classes.spinnerWrapper}>
+                <CircularProgress size={50} thickness={2} />
+              </div>
+            )}
+            <span className={classes.listSurveys}>
+              {this.state.surveys.map(survey => {
+                return (
+                  <div key={survey.id} className={classes.mainSurveyContainer}>
+                    <Typography
+                      variant="h6"
+                      align="center"
+                      className={classes.surveyTitle}
+                      onClick={() => this.handleClickOnSurvey(survey)}
+                    >
+                      {survey.title}
+                    </Typography>
+                    <Typography
+                      className={classes.paragraphSurvey}
+                      variant="h7"
+                    >
+                      Short description that can go over two lines...
+                    </Typography>
 
-                  <Typography className={classes.contains} variant="h7">
-                    Contains:
-                    <span style={{ color: '#1C212F' }}>
-                      {survey.surveyStoplightQuestions.length} indicators
-                    </span>
-                  </Typography>
+                    <Typography className={classes.contains} variant="h7">
+                      Contains:
+                      <span style={{ color: '#1C212F' }}>
+                        {survey.surveyStoplightQuestions.length} indicators
+                      </span>
+                    </Typography>
 
-                  <Typography className={classes.createdOn} variant="h7">
-                    Created on:{' '}
-                    <span style={{ color: '#1C212F' }}>14 april , 2019</span>
-                  </Typography>
-                </div>
-              );
-            })}
-          </span>
-        </div>
+                    <Typography className={classes.createdOn} variant="h7">
+                      Created on:{' '}
+                      <span style={{ color: '#1C212F' }}>14 april , 2019</span>
+                    </Typography>
+                  </div>
+                );
+              })}
+            </span>
+          </div>
+        </Container>
       </div>
     );
   }
