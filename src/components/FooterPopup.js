@@ -13,7 +13,7 @@ function FooterPopup(props) {
       {props.isOpen && (
         <div className={classes.container}>
           <Container className={classes.innerContainer}>
-            <div>
+            <div className={classes.textContainer}>
               <Typography variant="h6" color="textSecondary">
                 {props.title}
               </Typography>
@@ -60,11 +60,12 @@ const styles = theme => ({
 
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
-      textAlign: 'center',
-
-      '& $div': {
-        marginBottom: 15
-      }
+      textAlign: 'center'
+    }
+  },
+  textContainer: {
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 15
     }
   },
   button: {
