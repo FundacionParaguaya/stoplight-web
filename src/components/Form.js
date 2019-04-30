@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import BottomSpacer from './BottomSpacer';
 
 class Form extends Component {
   state = {
@@ -54,7 +53,6 @@ class Form extends Component {
             {this.props.submitLabel}
           </Button>
         </div>
-        <BottomSpacer />
       </div>
     );
   }
