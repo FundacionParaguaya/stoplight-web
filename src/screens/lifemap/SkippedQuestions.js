@@ -51,8 +51,7 @@ export class SkippedQuestions extends Component {
         });
       });
 
-      // eslint-disable-next-line func-names
-      groupedAnswers = userAnswers.reduce(function(r, a) {
+      groupedAnswers = userAnswers.reduce((r, a) => {
         // eslint-disable-next-line no-param-reassign
         r[a.dimension] = r[a.dimension] || [];
         r[a.dimension].push(a);
