@@ -11,6 +11,7 @@ import Container from '../../components/Container';
 import SummaryDonut from '../../components/summary/SummaryDonut';
 import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
 import IndicatorBall from '../../components/summary/IndicatorBall';
+import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';
 
 const getForwardURLForIndicator = indicator => {
@@ -82,45 +83,36 @@ let DimensionQuestions = ({
   history
 }) => (
   <Grid container spacing={16}>
-    {questions.map(indicator => {
-      let displayType = 'none';
-      priorities.forEach(prior => {
-        if (prior.indicator === indicator.key) displayType = 'block';
-      });
-      achievements.forEach(achieve => {
-        if (achieve.indicator === indicator.key) displayType = 'block';
-      });
-
-      return (
-        <Grid
-          item
-          xs={3}
-          key={indicator.key}
-          onClick={() => history.push(getForwardURLForIndicator(indicator))}
-          className={classes.gridItemStyle}
+    {questions.map(indicator => (
+      <Grid
+        item
+        xs={4}
+        md={3}
+        key={indicator.key}
+        onClick={() => history.push(getForwardURLForIndicator(indicator))}
+        className={classes.gridItemStyle}
+      >
+        <div className={classes.indicatorBallContainer}>
+          <IndicatorBall
+            color={indicatorColorByAnswer(indicator)}
+            animated={false}
+            priority={priorities.find(
+              prior => prior.indicator === indicator.key
+            )}
+            achievement={achievements.find(
+              prior => prior.indicator === indicator.key
+            )}
+          />
+        </div>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          className={classes.typographyStyle}
         >
-          <div className={classes.indicatorBallContainer}>
-            <IndicatorBall
-              color={indicatorColorByAnswer(indicator)}
-              animated={false}
-              priority={priorities.find(
-                prior => prior.indicator === indicator.key
-              )}
-              achievement={achievements.find(
-                prior => prior.indicator === indicator.key
-              )}
-            />
-          </div>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            className={classes.typographyStyle}
-          >
-            {indicator.questionText}
-          </Typography>
-        </Grid>
-      );
-    })}
+          {indicator.questionText}
+        </Typography>
+      </Grid>
+    ))}
   </Grid>
 );
 
@@ -140,6 +132,10 @@ DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
 
 export class Overview extends Component {
   state = {
+    showFooterPopup:
+      this.props.currentSurvey.minimumPriorities > 0 &&
+      this.props.currentSurvey.minimumPriorities >
+        this.props.currentDraft.priorities.length,
     modalTitle: '',
     howManyMonthsWillItTakeText: '',
     whyDontYouHaveItText: '',
@@ -162,6 +158,12 @@ export class Overview extends Component {
     skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
       indicator => !indicator.value
     ).length
+  };
+
+  handleFooterButtonClick = () => {
+    this.setState({
+      showFooterPopup: false
+    });
   };
 
   finishSurvey = () => {
@@ -190,6 +192,48 @@ export class Overview extends Component {
         this.props.history.push('/lifemap/final');
       }
     }
+  };
+
+  getFooterTitle = () => {
+    const { minimumPriorities } = this.props.currentSurvey;
+    const { t } = this.props;
+    const prioritiesCount = this.props.currentDraft.priorities
+      ? this.props.currentDraft.priorities.length
+      : 0;
+    let title;
+    if (prioritiesCount === 0) {
+      title = t('views.overview.allPrioritiesRemainingTitle');
+    } else if (minimumPriorities - prioritiesCount > 1) {
+      title = `${minimumPriorities - prioritiesCount} ${t(
+        'views.overview.somePrioritiesRemainingTitle'
+      )}`;
+    } else {
+      title = t('views.overview.onePriorityRemainingTitle');
+    }
+    return title;
+  };
+
+  getFooterDescription = () => {
+    const { minimumPriorities } = this.props.currentSurvey;
+    const { t } = this.props;
+    const prioritiesCount = this.props.currentDraft.priorities
+      ? this.props.currentDraft.priorities.length
+      : 0;
+    let description;
+    if (prioritiesCount === 0) {
+      description = `${t(
+        'views.overview.allPrioritiesRemainingDescription'
+      )} ${minimumPriorities} ${
+        minimumPriorities === 1
+          ? t('views.overview.priority')
+          : t('views.overview.priorities')
+      }`;
+    } else if (minimumPriorities - prioritiesCount > 1) {
+      description = t('views.overview.somePrioritiesRemainingDescription');
+    } else {
+      description = t('views.overview.onePriorityRemainingDescription');
+    }
+    return description;
   };
 
   render() {
@@ -287,15 +331,17 @@ export class Overview extends Component {
               </div>
             ))}
           </div>
-          <div className={classes.finishSurveyButtonContainer}>
-            <Button
-              variant="contained"
-              onClick={this.finishSurvey}
-              color="primary"
-            >
-              {t('general.continue')}
-            </Button>
-          </div>
+          {!this.state.showFooterPopup && (
+            <div className={classes.finishSurveyButtonContainer}>
+              <Button
+                variant="contained"
+                onClick={this.finishSurvey}
+                color="primary"
+              >
+                {t('general.continue')}
+              </Button>
+            </div>
+          )}
           <BottomSpacer />
         </Container>
         {this.state.showPrioritiesNote && (
@@ -335,6 +381,13 @@ export class Overview extends Component {
             </div>
           </div>
         )}
+        <FooterPopup
+          title={this.getFooterTitle()}
+          description={this.getFooterDescription()}
+          isOpen={this.state.showFooterPopup}
+          handleButtonClick={this.handleFooterButtonClick}
+          buttonText={t('views.overview.priorityFooterButton')}
+        />
       </div>
     );
   }

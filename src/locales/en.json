@@ -180,7 +180,16 @@
       "red": "Red",
       "yellow": "Yellow",
       "green": "Green",
-      "skipped": "Skipped questions"
+      "skipped": "Skipped questions",
+      "priorityFooterButton": "Got it!",
+      "allPrioritiesRemainingTitle": "Before the map is completed...",
+      "allPrioritiesRemainingDescription": "You need to make",
+      "priorities": "priorities",
+      "priority": "priority",
+      "somePrioritiesRemainingTitle": "priorities left to create!",
+      "somePrioritiesRemainingDescription": "Nearly there...",
+      "onePriorityRemainingTitle": "1 priority left to create!",
+      "onePriorityRemainingDescription": "Nearly there..."
     }
   }
 }
