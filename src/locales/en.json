@@ -189,7 +189,16 @@
       "somePrioritiesRemainingTitle": "priorities left to create!",
       "somePrioritiesRemainingDescription": "Nearly there...",
       "onePriorityRemainingTitle": "1 priority left to create!",
-      "onePriorityRemainingDescription": "Nearly there..."
+      "onePriorityRemainingDescription": "Nearly there...",
+      "noPriorityRemainingTitle": "Great! You created all the required priorities",
+      "noPriorityRemainingDescription": "You can make as many more as you want."
+    },
+    "final": {
+      "title": "Thank you!",
+      "lifemapCompleted": "Your Life Map is completed!",
+      "print": "Print",
+      "email": "Email",
+      "download": "Download"
     }
   }
 }

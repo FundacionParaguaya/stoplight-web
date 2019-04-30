@@ -10,6 +10,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import SummaryDonut from '../../components/summary/SummaryDonut';
 import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
+import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import IndicatorBall from '../../components/summary/IndicatorBall';
 import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';
@@ -132,10 +133,7 @@ DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
 
 export class Overview extends Component {
   state = {
-    showFooterPopup:
-      this.props.currentSurvey.minimumPriorities > 0 &&
-      this.props.currentSurvey.minimumPriorities >
-        this.props.currentDraft.priorities.length,
+    showFooterPopup: this.props.currentSurvey.minimumPriorities > 0,
     modalTitle: '',
     howManyMonthsWillItTakeText: '',
     whyDontYouHaveItText: '',
@@ -171,7 +169,7 @@ export class Overview extends Component {
     if (minimumPriorities === 0) {
       this.props.history.push('/lifemap/final');
     } else {
-      if (minimumPriorities - this.props.currentDraft.priorities.length !== 0) {
+      if (minimumPriorities - this.props.currentDraft.priorities.length > 0) {
         this.setState({ showPrioritiesNote: true });
       } else {
         this.props.history.push('/lifemap/final');
@@ -207,8 +205,10 @@ export class Overview extends Component {
       title = `${minimumPriorities - prioritiesCount} ${t(
         'views.overview.somePrioritiesRemainingTitle'
       )}`;
-    } else {
+    } else if (minimumPriorities - prioritiesCount === 1) {
       title = t('views.overview.onePriorityRemainingTitle');
+    } else {
+      title = t('views.overview.noPriorityRemainingTitle');
     }
     return title;
   };
@@ -230,8 +230,10 @@ export class Overview extends Component {
       }`;
     } else if (minimumPriorities - prioritiesCount > 1) {
       description = t('views.overview.somePrioritiesRemainingDescription');
-    } else {
+    } else if (minimumPriorities - prioritiesCount === 1) {
       description = t('views.overview.onePriorityRemainingDescription');
+    } else {
+      description = t('views.overview.noPriorityRemainingDescription');
     }
     return description;
   };
@@ -281,29 +283,7 @@ export class Overview extends Component {
             redIndicatorCount={this.state.redIndicatorCount}
             skippedIndicatorCount={this.state.skippedIndicatorCount}
           />
-          <div className={classes.summaryIndicatorsBallsContainer}>
-            {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
-              const color = indicatorColorByAnswer(indicator);
-              return (
-                <div
-                  key={indicator.key}
-                  className={classes.summaryIndicatorContainer}
-                >
-                  <IndicatorBall
-                    color={color}
-                    variant="small"
-                    animated={false}
-                    priority={this.props.currentDraft.priorities.find(
-                      prior => prior.indicator === indicator.key
-                    )}
-                    achievement={this.props.currentDraft.achievements.find(
-                      prior => prior.indicator === indicator.key
-                    )}
-                  />
-                </div>
-              );
-            })}
-          </div>
+          <AllSurveyIndicators />
           <div>
             {Object.keys(groupedAnswers).map(elem => (
               <div key={elem}>
@@ -414,14 +394,6 @@ const styles = theme => ({
     right: 0,
     top: '150px',
     margin: 'auto'
-  },
-  summaryIndicatorsBallsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    margin: theme.spacing.unit * 2
-  },
-  summaryIndicatorContainer: {
-    margin: 4
   },
   modalPopupContainer: {
     position: 'fixed',

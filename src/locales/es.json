@@ -181,15 +181,24 @@
       "yellow": "Amarillo",
       "green": "Verde",
       "skipped": "Preguntas omitidas",
-      "priorityFooterButton": "Entendido!",
+      "priorityFooterButton": "¡Entendido!",
       "allPrioritiesRemainingTitle": "Antes de completar el mapa...",
       "allPrioritiesRemainingDescription": "Debes hacer",
       "priorities": "prioridades",
       "priority": "prioridad",
       "somePrioritiesRemainingTitle": "prioridades restantes por crear!",
       "somePrioritiesRemainingDescription": "Ya casi...",
-      "onePriorityRemainingTitle": "1 prioridad restante por crear!",
-      "onePriorityRemainingDescription": "Ya casi..."
+      "onePriorityRemainingTitle": "¡1 prioridad restante por crear!",
+      "onePriorityRemainingDescription": "Ya casi...",
+      "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
+      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras."
+    },
+    "final": {
+      "title": "¡Gracias!",
+      "lifemapCompleted": "¡Tu mapa de vida está completo!",
+      "print": "Imprimir",
+      "email": "Email",
+      "download": "Descargar"
     }
   }
 }
