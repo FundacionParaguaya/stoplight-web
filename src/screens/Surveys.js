@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
+import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { relative } from 'path';
-import chooseLifemapImage from '../assets/choose_lifemap_image.png';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys } from '../api';
 import i18n from '../i18n';
+import Container from '../components/Container';
+import chooseLifeMap from '../assets/choose_life_map.png';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -51,15 +51,15 @@ export class Surveys extends Component {
   }
 
   getEconomicScreens(survey) {
-    let currentDimension = '';
+    this.currentDimension = '';
     const questionsPerScreen = [];
     let totalScreens = 0;
 
     // go trough all questions and separate them by screen
     survey.surveyEconomicQuestions.forEach(question => {
       // if the dimention of the questions change, change the page
-      if (question.topic !== currentDimension) {
-        currentDimension = question.topic;
+      if (question.topic !== this.currentDimension) {
+        this.currentDimension = question.topic;
         totalScreens += 1;
       }
 
@@ -145,195 +145,130 @@ export class Surveys extends Component {
   }
 
   render() {
-    const { classes, t } = this.props;
+    const { classes } = this.props;
+
     return (
       <div className={classes.mainSurveyContainerBoss}>
-        <div className={classes.surveyTopTitle}>
-          <Typography variant="h4">Choose a life map</Typography>
-          <Typography variant="h7">
-            <span style={{ color: '#626262', fontSize: 20 }}>
-              Surveys > Choose a life map
-            </span>
-          </Typography>
-          <div className={classes.ball1} />
-          <div className={classes.ball2} />
-          <div className={classes.ball3} />
-          <div className={classes.ball4} />
-          <div className={classes.ball5} />
-          <div className={classes.ball6} />
-          <img className={classes.imageLifemap} src={chooseLifemapImage} />
-        </div>
-        <div className={classes.list}>
-          {this.state.loading && (
-            <div className={classes.spinnerWrapper}>
-              <CircularProgress size={50} thickness={2} />
+        <Container>
+          <div className={classes.titleContainer}>
+            <div className={classes.surveyTopTitle}>
+              <Typography variant="h4">Choose a life map</Typography>
+              <Typography variant="subtitle1" className={classes.subtitle}>
+                Surveys > Choose a Life Map
+              </Typography>
             </div>
-          )}
-          <span className={classes.listSurveys}>
-            {this.state.surveys.map(survey => {
-              return (
-                <div key={survey.id} className={classes.mainSurveyContainer}>
-                  <Typography
-                    variant="h6"
-                    align="center"
-                    className={classes.surveyTitle}
-                    onClick={() => this.handleClickOnSurvey(survey)}
-                  >
-                    {survey.title}
-                  </Typography>
-                  <Typography className={classes.paragraphSurvey} variant="h7">
-                    Short description that can go over two lines...
-                  </Typography>
+            <img
+              src={chooseLifeMap}
+              alt="Choose Life Map"
+              className={classes.chooseLifeMapImage}
+            />
+          </div>
+          <div className={classes.listContainer}>
+            {this.state.loading && (
+              <div className={classes.spinnerWrapper}>
+                <CircularProgress size={50} thickness={2} />
+              </div>
+            )}
+            <Grid container spacing={16}>
+              {this.state.surveys.map(survey => {
+                return (
+                  <Grid item key={survey.id} xs={12} sm={12} md={4}>
+                    <div className={classes.mainSurveyContainer}>
+                      <Typography
+                        className={classes.surveyTitle}
+                        onClick={() => this.handleClickOnSurvey(survey)}
+                      >
+                        {survey.title}
+                      </Typography>
+                      <Typography className={classes.paragraphSurvey}>
+                        Short description that can go over two lines...
+                      </Typography>
 
-                  <Typography className={classes.contains} variant="h7">
-                    Contains:
-                    <span style={{ color: '#1C212F' }}>
-                      {survey.surveyStoplightQuestions.length} indicators
-                    </span>
-                  </Typography>
+                      <Typography className={classes.contains}>
+                        Contains:{' '}
+                        <span style={{ color: '#1C212F' }}>
+                          {survey.surveyStoplightQuestions.length} indicators
+                        </span>
+                      </Typography>
 
-                  <Typography className={classes.createdOn} variant="h7">
-                    Created on:{' '}
-                    <span style={{ color: '#1C212F' }}>14 april , 2019</span>
-                  </Typography>
-                </div>
-              );
-            })}
-          </span>
-        </div>
+                      <Typography className={classes.createdOn}>
+                        Created on:{' '}
+                        <span style={{ color: '#1C212F' }}>
+                          14 april , 2019
+                        </span>
+                      </Typography>
+                    </div>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </div>
+        </Container>
       </div>
     );
   }
 }
 
 const styles = {
-  ball1: {
-    position: 'absolute',
-    borderRadius: '50%',
-    backgroundColor: '#50AA47',
-    height: 58,
-    width: 58,
-    zIndex: 1,
-    top: 150,
-    right: 340
+  subtitle: {
+    fontWeight: 400
   },
-  ball2: {
+  chooseLifeMapImage: {
+    display: 'block',
+    height: 240,
+    right: 30,
     position: 'absolute',
-    borderRadius: '50%',
-    backgroundColor: '#E1504D',
-    height: 30,
-    width: 30,
-    zIndex: 2,
-    top: 120,
-    right: 280
+    top: 20
   },
-  ball3: {
-    position: 'absolute',
-    backgroundColor: '#F0CB17',
-    borderRadius: '50%',
-    height: 40,
-    width: 40,
-    zIndex: 1,
-    top: -10,
-    right: 280
-  },
-  ball4: {
-    position: 'absolute',
-    borderRadius: '50%',
-    backgroundColor: '#50AA47',
-    height: 20,
-    width: 20,
-    zIndex: 2,
-    top: 58,
-    right: 70
-  },
-  ball5: {
-    position: 'absolute',
-    backgroundColor: '#F0CB17',
-    borderRadius: '50%',
-    height: 64,
-    width: 64,
-    zIndex: 1,
-    top: 98,
-    right: 0
-  },
-  ball6: {
-    position: 'absolute',
-    backgroundColor: '#E1504D',
-    borderRadius: '50%',
-    height: 12,
-    width: 12,
-    zIndex: 1,
-    top: 18,
-    right: 10
-  },
-  imageLifemap: {
-    position: 'absolute',
-    right: 70,
-    height: 230,
-    width: 230,
-    zIndex: 1,
-    top: -13
+  titleContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    position: 'relative'
   },
   surveyTopTitle: {
-    position: 'relative',
-    maxWidth: 1300,
-    margin: '0 40px',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: '170px'
-  },
-  contains: {
-    color: '#626262',
-    marginBottom: 5
-  },
-  createdOn: {
-    color: '#626262',
-    marginBottom: 5
+    height: 220
   },
   mainSurveyContainerBoss: {
-    minHeight: '86vh',
-    backgroundColor: '#F3F4F6'
-  },
-  paragraphSurvey: {
-    color: '#626262',
-    marginTop: 10,
-    marginBottom: 10
+    backgroundColor: '#F3F4F6',
+    minHeight: 'calc(95vh - 60px)'
   },
   surveyTitle: {
     cursor: 'pointer',
-    color: '#309E43',
-    marginRight: 'auto'
+    color: '#309E43!important',
+    marginRight: 'auto',
+    fontSize: '18px!important',
+    marginBottom: '12px!important'
   },
   mainSurveyContainer: {
-    zIndex: 2,
-    padding: '19px 14px',
     backgroundColor: '#fff',
-    margin: '10px 10px',
-    width: 306,
-    height: 167,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-start'
+    padding: 17,
+    height: '100%',
+
+    '& $p': {
+      fontSize: '14px',
+      color: '#6A6A6A',
+      marginBottom: 7
+    },
+    '& $p:last-child': {
+      marginBottom: 0
+    }
   },
   spinnerWrapper: {
     display: 'flex',
-    justifyContent: 'center'
-  },
-  listSurveys: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    maxWidth: 1000,
-    justifyContent: 'center'
-  },
-  list: {
-    display: 'flex',
-    margin: 'auto',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: 500,
+    alignItems: 'center'
   },
   button: {
     marginBottom: 20
+  },
+  listContainer: {
+    position: 'relative'
   }
 };
 

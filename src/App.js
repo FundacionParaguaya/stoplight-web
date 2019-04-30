@@ -45,7 +45,9 @@ const styles = {
   appContainer: {
     marginTop: 60,
     width: '100%',
-    margin: 'auto'
+    margin: 'auto',
+    display: 'inline-block',
+    minHeight: 'calc(95vh - 60px)'
   }
 };
 

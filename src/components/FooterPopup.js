@@ -13,7 +13,7 @@ function FooterPopup(props) {
       {props.isOpen && (
         <div className={classes.container}>
           <Container className={classes.innerContainer}>
-            <div>
+            <div className={classes.textContainer}>
               <Typography variant="h6" color="textSecondary">
                 {props.title}
               </Typography>
@@ -46,7 +46,7 @@ FooterPopup.propTypes = {
 const styles = theme => ({
   container: {
     width: '100%',
-    height: 100,
+    minHeight: 100,
     backgroundColor: theme.palette.primary.main,
     position: 'fixed',
     bottom: 0,
@@ -56,7 +56,17 @@ const styles = theme => ({
   innerContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      textAlign: 'center'
+    }
+  },
+  textContainer: {
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 15
+    }
   },
   button: {
     borderRadius: 0,
