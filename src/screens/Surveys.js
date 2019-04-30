@@ -233,7 +233,8 @@ const styles = theme => ({
     zIndex: 1
   },
   mainSurveyContainerBoss: {
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    minHeight: `calc(100vh - ${theme.shape.header} - ${theme.shape.footer})`
   },
   surveyTitle: {
     cursor: 'pointer',
