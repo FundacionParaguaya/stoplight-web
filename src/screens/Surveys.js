@@ -229,7 +229,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 220
+    height: 220,
+    zIndex: 1
   },
   mainSurveyContainerBoss: {
     backgroundColor: '#F3F4F6',
