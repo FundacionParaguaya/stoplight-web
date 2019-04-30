@@ -188,7 +188,6 @@ class Priority extends Component {
               submitLabel={t('general.save')}
             >
               <Input
-                required
                 months
                 label={t('views.lifemap.howManyMonthsWillItTake')}
                 value={this.state.estimatedDate}

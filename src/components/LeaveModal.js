@@ -1,19 +1,16 @@
-import React from 'react'
-import { withStyles, Modal, Typography, Button } from '@material-ui/core'
-import { withRouter } from 'react-router-dom'
-import redExclamation from '../assets/red_exclamation.png'
+import React from 'react';
+import { withStyles, Modal, Typography, Button } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
+import redExclamation from '../assets/red_exclamation.png';
 
-const DEFAULT_CANCEL_TEXT = 'Cancel'
-const DEFAULT_CONTINUE_TEXT = 'Continue'
+const DEFAULT_CANCEL_TEXT = 'Cancel';
+const DEFAULT_CONTINUE_TEXT = 'Continue';
 
-const LeaveModal = (props) => {
-  const { classes } = props
-  
+const LeaveModal = props => {
+  const { classes } = props;
+
   return (
-    <Modal
-      open={props.open}
-      onClose={props.onClose}
-    >
+    <Modal open={props.open} onClose={props.onClose}>
       <div className={classes.leaveModal}>
         <img src={redExclamation} alt="Red Exclamation" />
         <Typography variant="h5" color="error">
@@ -41,24 +38,24 @@ const LeaveModal = (props) => {
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};
 
 const styles = theme => ({
   leaveModal: {
-      width: 370,
-      height: 330,
-      backgroundColor: theme.palette.background.default,
-      outline: 'none',
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-around',
-      flexDirection: 'column',
-      padding: '25px 40px',
+    width: 370,
+    height: 330,
+    backgroundColor: theme.palette.background.default,
+    outline: 'none',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    padding: '25px 40px'
   },
   buttonContainer: {
     width: '100%',
@@ -69,6 +66,6 @@ const styles = theme => ({
   leaveModalSubtitle: {
     textAlign: 'center'
   }
-})
+});
 
-export default withRouter(withStyles(styles)(LeaveModal))
+export default withRouter(withStyles(styles)(LeaveModal));
