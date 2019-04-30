@@ -10,6 +10,7 @@ import SurveysComponent from './screens/Surveys';
 import Lifemap from './screens/Lifemap';
 import store, { persistor } from './redux';
 import defaultTheme from './theme';
+import Authenticator from './Authenticator';
 
 class App extends Component {
   render() {
@@ -22,7 +23,7 @@ class App extends Component {
           <Provider store={store}>
             <PersistGate persistor={persistor}>
               <Router>
-                <div>
+                <Authenticator>
                   <Header />
                   <div className={classes.appContainer}>
                     <Switch>
@@ -31,7 +32,7 @@ class App extends Component {
                     </Switch>
                   </div>
                   <Footer />
-                </div>
+                </Authenticator>
               </Router>
             </PersistGate>
           </Provider>
