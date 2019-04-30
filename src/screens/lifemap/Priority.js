@@ -12,6 +12,7 @@ import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import iconProprity from '../../assets/iconPriority.png';
+import { COLORS } from '../../theme';
 
 class Priority extends Component {
   priority = this.props.currentDraft.priorities.find(
@@ -88,12 +89,12 @@ class Priority extends Component {
     );
     const { url, description, value: stoplightColorValue } = stoplightColor;
     if (stoplightColorValue === 3) {
-      color = '#50aa47';
+      color = COLORS.GREEN;
     } else if (stoplightColorValue === 2) {
-      color = '#f0cb17';
+      color = COLORS.YELLOW;
       textColor = 'black';
     } else if (stoplightColorValue === 1) {
-      color = '#e1504d';
+      color = COLORS.RED;
     }
 
     return (
@@ -193,6 +194,7 @@ class Priority extends Component {
                 value={this.state.estimatedDate}
                 field="estimatedDate"
                 onChange={this.updateAnswer}
+                required
               />
               <Input
                 label={t('views.lifemap.whyDontYouHaveIt')}

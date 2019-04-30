@@ -12,6 +12,7 @@ import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import iconAch from '../../assets/imgAch.png';
+import { COLORS } from '../../theme';
 
 class Achievements extends Component {
   achievement = this.props.currentDraft.achievements.find(
@@ -85,12 +86,12 @@ class Achievements extends Component {
     );
     const { url, description, value: stoplightColorValue } = stoplightColor;
     if (stoplightColorValue === 3) {
-      color = '#50aa47';
+      color = COLORS.GREEN;
     } else if (stoplightColorValue === 2) {
-      color = '#f0cb17';
+      color = COLORS.YELLOW;
       textColor = 'black';
     } else if (stoplightColorValue === 1) {
-      color = '#e1504d';
+      color = COLORS.RED;
     }
 
     return (

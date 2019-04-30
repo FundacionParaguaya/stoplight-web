@@ -48,6 +48,16 @@ class Input extends Component {
     this.validate();
   }
 
+  componentDidUpdate(prevProps) {
+    // Added this because required message was not being re-localized after language change
+    const { t, setError, required } = this.props;
+    if (t !== prevProps.t && setError && required) {
+      this.setState({
+        errorMessage: t('validation.fieldIsRequired')
+      });
+    }
+  }
+
   render() {
     const { error } = this.props;
 
