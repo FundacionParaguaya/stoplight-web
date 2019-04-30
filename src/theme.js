@@ -15,14 +15,13 @@ export const theme = {
     },
     text: {
       primary: '#1c212f',
-      secondary: '#909090'
-    },
-    background: {
-      paper: '#f3f4f6',
       secondary: '#fff'
     },
     grey: {
       main: '#909090'
+    },
+    background: {
+      paper: '#f3f4f6'
     }
   },
   typography: {
