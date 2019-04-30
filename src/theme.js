@@ -28,6 +28,7 @@ export const theme = {
       main: '#909090'
     },
     background: {
+      default: '#fff',
       paper: '#f3f4f6'
     }
   },
