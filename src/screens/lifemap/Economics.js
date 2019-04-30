@@ -9,6 +9,7 @@ import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Container from '../../components/Container';
 import Form from '../../components/Form';
+import BottomSpacer from '../../components/BottomSpacer';
 
 export class Economics extends Component {
   state = {
@@ -191,72 +192,54 @@ export class Economics extends Component {
               this.props.match.params.page === '1' &&
               questions.forFamilyMember.length ? (
                 <React.Fragment>
-                  {currentDraft.familyData.familyMembersList.map(
-                    (familyMember, index) => {
+                  {currentDraft.familyData.familyMembersList
+                    .filter(familyMember => !familyMember.firstParticipant)
+                    .map((familyMember, index) => {
                       // console.log(familyMember, index)
-                      if (!familyMember.firstParticipant) {
-                        return (
-                          <React.Fragment key={familyMember.firstName}>
-                            <div className={classes.familyMemberNameLarge}>
-                              <Typography
-                                style={{
-                                  marginTop: '20px',
-                                  marginBottom: '16px'
-                                }}
-                                variant="h6"
-                              >
-                                <span className={classes.familyMemberTitle}>
-                                  <i
-                                    className={`material-icons ${
-                                      classes.familyMemberIcon
-                                    }`}
-                                  >
-                                    face
-                                  </i>
-                                  {familyMember.firstName}
-                                </span>
-                              </Typography>
-                            </div>
+                      return (
+                        <React.Fragment key={familyMember.firstName}>
+                          <div className={classes.familyMemberNameLarge}>
+                            <Typography
+                              style={{
+                                marginTop: '20px',
+                                marginBottom: '16px'
+                              }}
+                              variant="h6"
+                            >
+                              <span className={classes.familyMemberTitle}>
+                                <i
+                                  className={`material-icons ${
+                                    classes.familyMemberIcon
+                                  }`}
+                                >
+                                  face
+                                </i>
+                                {familyMember.firstName}
+                              </span>
+                            </Typography>
+                          </div>
 
-                            <React.Fragment>
-                              {' '}
-                              {questions &&
-                                questions.forFamilyMember.map(question => {
-                                  let selectValue;
+                          <React.Fragment>
+                            {' '}
+                            {questions &&
+                              questions.forFamilyMember.map(question => {
+                                let selectValue;
 
-                                  currentDraft.familyData.familyMembersList[
-                                    index
-                                  ].socioEconomicAnswers.forEach(ele => {
-                                    if (ele.key === question.codeName) {
-                                      selectValue = ele.value;
-                                    }
-                                  });
-
-                                  if (question.answerType === 'select') {
-                                    return (
-                                      <Select
-                                        key={question.codeName}
-                                        label={question.questionText}
-                                        value={selectValue}
-                                        options={question.options}
-                                        field={question.codeName}
-                                        onChange={(event, child) =>
-                                          this.updateFamilyMember(
-                                            event,
-                                            child,
-                                            question,
-                                            familyMember.firstName
-                                          )
-                                        }
-                                      />
-                                    );
+                                currentDraft.familyData.familyMembersList[
+                                  index
+                                ].socioEconomicAnswers.forEach(ele => {
+                                  if (ele.key === question.codeName) {
+                                    selectValue = ele.value;
                                   }
+                                });
+
+                                if (question.answerType === 'select') {
                                   return (
-                                    <Input
+                                    <Select
                                       key={question.codeName}
-                                      required={question.required}
                                       label={question.questionText}
                                       value={selectValue}
+                                      options={question.options}
                                       field={question.codeName}
                                       onChange={(event, child) =>
                                         this.updateFamilyMember(
@@ -268,18 +251,35 @@ export class Economics extends Component {
                                       }
                                     />
                                   );
-                                })}
-                            </React.Fragment>
+                                }
+                                return (
+                                  <Input
+                                    key={question.codeName}
+                                    required={question.required}
+                                    label={question.questionText}
+                                    value={selectValue}
+                                    field={question.codeName}
+                                    onChange={(event, child) =>
+                                      this.updateFamilyMember(
+                                        event,
+                                        child,
+                                        question,
+                                        familyMember.firstName
+                                      )
+                                    }
+                                  />
+                                );
+                              })}
                           </React.Fragment>
-                        );
-                      }
-                    }
-                  )}
+                        </React.Fragment>
+                      );
+                    })}
                 </React.Fragment>
               ) : null}
             </React.Fragment>
           </Form>
         </Container>
+        <BottomSpacer />
       </div>
     );
   }
