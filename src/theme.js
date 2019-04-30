@@ -70,7 +70,9 @@ export const theme = {
   },
   shape: {
     padding: 40,
-    marginButton: '40px 0 50px 0'
+    marginButton: '40px 0 50px 0',
+    header: '60px',
+    footer: '40px'
   },
   shadows: Array(25).fill('none'),
   overrides: {
