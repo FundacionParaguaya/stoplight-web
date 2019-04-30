@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateDraft } from '../../redux/actions';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
+import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 // import Select from '@material-ui/core/Select'
 import Form from '../../components/Form';
+
 export class Economics extends Component {
   state = {
     questions: null,
     topic: ''
   };
+
   handleContinue = () => {
     // validation happens here
 
@@ -44,12 +46,13 @@ export class Economics extends Component {
 
   updateFamilyMember = (codeName, value, question, familyName) => {
     const { currentDraft } = this.props;
-    let FamilyMembersDataList = this.props.currentDraft.familyData
+    const FamilyMembersDataList = this.props.currentDraft.familyData
       .familyMembersList;
     let update = false;
-    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
+    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
     FamilyMembersDataList.forEach(e => {
       if (e.firstName === familyName) {
+        // eslint-disable-next-line no-shadow
         e.socioEconomicAnswers.forEach(e => {
           if (e.key === question.codeName) {
             update = true;
@@ -59,7 +62,7 @@ export class Economics extends Component {
       }
     });
     if (update) {
-      let familyMembersList = FamilyMembersDataList;
+      const familyMembersList = FamilyMembersDataList;
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -68,16 +71,16 @@ export class Economics extends Component {
         }
       });
     } else {
-      let familyMembersList = FamilyMembersDataList;
+      const familyMembersList = FamilyMembersDataList;
       FamilyMembersDataList.forEach(e => {
         if (e.firstName === familyName) {
           e.socioEconomicAnswers.push({
             key: question.codeName,
-            value: value
+            value
           });
         }
       });
-      //////////// add the question to the data list if it doesnt exist
+      // ////////// add the question to the data list if it doesnt exist
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -87,15 +90,16 @@ export class Economics extends Component {
       });
     }
   };
-  setFamilyMemberName = e => {
-    console.log(e);
-  };
+
+  // setFamilyMemberName = e => {
+  //   console.log(e);
+  // };
 
   updateDraft = (codeName, value) => {
     const { currentDraft } = this.props;
-    let dataList = this.props.currentDraft.economicSurveyDataList;
+    const dataList = this.props.currentDraft.economicSurveyDataList;
     let update = false;
-    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
+    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
     dataList.forEach(e => {
       if (e.key === codeName) {
         update = true;
@@ -103,32 +107,33 @@ export class Economics extends Component {
       }
     });
 
-    ///////////if the question is in the data list then update the question
+    // /////////if the question is in the data list then update the question
     if (update) {
-      let economicSurveyDataList = dataList;
+      const economicSurveyDataList = dataList;
       this.props.updateDraft({
         ...currentDraft,
         economicSurveyDataList
       });
     } else {
-      //////////// add the question to the data list if it doesnt exist
+      // ////////// add the question to the data list if it doesnt exist
       this.props.updateDraft({
         ...currentDraft,
         economicSurveyDataList: [
           ...currentDraft.economicSurveyDataList,
           {
             key: codeName,
-            value: value
+            value
           }
         ]
       });
     }
   };
+
   componentDidMount() {
     this.setCurrentScreen();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
       this.setCurrentScreen();
     }
@@ -166,92 +171,89 @@ export class Economics extends Component {
                       onChange={this.updateDraft}
                     />
                   );
-                } else {
-                  return (
-                    <Input
-                      key={question.codeName}
-                      required={question.required}
-                      label={question.questionText}
-                      value={selectValue}
-                      field={question.codeName}
-                      onChange={this.updateDraft}
-                    />
-                  );
                 }
+                return (
+                  <Input
+                    key={question.codeName}
+                    required={question.required}
+                    label={question.questionText}
+                    value={selectValue}
+                    field={question.codeName}
+                    onChange={this.updateDraft}
+                  />
+                );
               })}
 
             {questions &&
             this.props.match.params.page === '0' &&
             questions.forFamilyMember.length ? (
               <React.Fragment>
-                {currentDraft.familyData.familyMembersList.map(
-                  (familyMember, index) => {
+                {currentDraft.familyData.familyMembersList
+                  .filter(elem => !elem.firstParticipant)
+                  .map((familyMember, index) => {
                     // console.log(familyMember, index)
-                    if (!familyMember.firstParticipant) {
-                      return (
-                        <React.Fragment key={familyMember.firstName}>
-                          <div className={classes.familyMemberNameLarge}>
-                            {familyMember.firstName}
-                          </div>
 
-                          <React.Fragment>
-                            {' '}
-                            {questions &&
-                              questions.forFamilyMember.map(question => {
-                                let selectValue;
+                    return (
+                      <React.Fragment key={familyMember.firstName}>
+                        <div className={classes.familyMemberNameLarge}>
+                          {familyMember.firstName}
+                        </div>
 
-                                currentDraft.familyData.familyMembersList[
-                                  index
-                                ].socioEconomicAnswers.forEach(ele => {
-                                  if (ele.key === question.codeName) {
-                                    selectValue = ele.value;
-                                  }
-                                });
+                        <React.Fragment>
+                          {' '}
+                          {questions &&
+                            questions.forFamilyMember.map(question => {
+                              let selectValue;
 
-                                if (question.answerType === 'select') {
-                                  return (
-                                    <Select
-                                      key={question.codeName}
-                                      label={question.questionText}
-                                      value={selectValue}
-                                      options={question.options}
-                                      field={question.codeName}
-                                      onChange={(event, child) =>
-                                        this.updateFamilyMember(
-                                          event,
-                                          child,
-                                          question,
-                                          familyMember.firstName
-                                        )
-                                      }
-                                    />
-                                  );
-                                } else {
-                                  return (
-                                    <Input
-                                      key={question.codeName}
-                                      required={question.required}
-                                      label={question.questionText}
-                                      value={selectValue}
-                                      field={question.codeName}
-                                      onChange={(event, child) =>
-                                        this.updateFamilyMember(
-                                          event,
-                                          child,
-                                          question,
-                                          familyMember.firstName
-                                        )
-                                      }
-                                    />
-                                  );
+                              currentDraft.familyData.familyMembersList[
+                                index
+                              ].socioEconomicAnswers.forEach(ele => {
+                                if (ele.key === question.codeName) {
+                                  selectValue = ele.value;
                                 }
-                              })}
-                          </React.Fragment>
+                              });
+
+                              if (question.answerType === 'select') {
+                                return (
+                                  <Select
+                                    key={question.codeName}
+                                    label={question.questionText}
+                                    value={selectValue}
+                                    options={question.options}
+                                    field={question.codeName}
+                                    onChange={(event, child) =>
+                                      this.updateFamilyMember(
+                                        event,
+                                        child,
+                                        question,
+                                        familyMember.firstName
+                                      )
+                                    }
+                                  />
+                                );
+                              }
+                              return (
+                                <Input
+                                  key={question.codeName}
+                                  required={question.required}
+                                  label={question.questionText}
+                                  value={selectValue}
+                                  field={question.codeName}
+                                  onChange={(event, child) =>
+                                    this.updateFamilyMember(
+                                      event,
+                                      child,
+                                      question,
+                                      familyMember.firstName
+                                    )
+                                  }
+                                />
+                              );
+                            })}
                         </React.Fragment>
-                      );
-                    }
-                  }
-                )}
+                      </React.Fragment>
+                    );
+                  })}
               </React.Fragment>
             ) : null}
           </React.Fragment>
