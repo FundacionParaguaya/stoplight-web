@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
-import { theme } from '../theme';
 import { withTranslation } from 'react-i18next';
-import LeaveModal from '../components/LeaveModal';
+import { theme } from '../theme';
+import LeaveModal from './LeaveModal';
 
 class NavIcons extends Component {
   state = {
     showLeaveModal: false
   };
+
   handleClose = () => {
     this.setState({ showLeaveModal: false });
   };
+
   leaveSurvey = () => {
     this.props.history.push('/surveys');
   };
+
   render() {
     const { classes, t } = this.props;
 
