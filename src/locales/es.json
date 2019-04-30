@@ -180,7 +180,16 @@
       "red": "Rojo",
       "yellow": "Amarillo",
       "green": "Verde",
-      "skipped": "Preguntas omitidas"
+      "skipped": "Preguntas omitidas",
+      "priorityFooterButton": "Entendido!",
+      "allPrioritiesRemainingTitle": "Antes de completar el mapa...",
+      "allPrioritiesRemainingDescription": "Debes hacer",
+      "priorities": "prioridades",
+      "priority": "prioridad",
+      "somePrioritiesRemainingTitle": "prioridades restantes por crear!",
+      "somePrioritiesRemainingDescription": "Ya casi...",
+      "onePriorityRemainingTitle": "1 prioridad restante por crear!",
+      "onePriorityRemainingDescription": "Ya casi..."
     }
   }
 }
