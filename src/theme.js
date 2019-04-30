@@ -19,7 +19,10 @@ export const theme = {
     },
     background: {
       paper: '#f3f4f6',
-      default: '#fff'
+      secondary: '#fff'
+    },
+    grey: {
+      main: '#909090'
     }
   },
   typography: {
