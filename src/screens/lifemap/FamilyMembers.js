@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateDraft } from '../../redux/actions';
 import { withTranslation } from 'react-i18next';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core';
+import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Form from '../../components/Form';
 import Input from '../../components/Input';
@@ -165,6 +169,21 @@ export class FamilyMembers extends Component {
   }
 }
 
+const styles = theme => ({
+  title: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  icon: {
+    marginRight: 10,
+    fontSize: 30,
+    color: theme.palette.grey.main
+  },
+  familyMemberForm: {
+    marginTop: 40
+  }
+});
+
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
@@ -172,7 +191,9 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 
 const mapDispatchToProps = { updateDraft };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withTranslation()(FamilyMembers));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withTranslation()(FamilyMembers))
+);
