@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
+import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { relative } from 'path';
-import chooseLifemapImage from '../assets/choose_lifemap_image.png';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys } from '../api';
 import i18n from '../i18n';
+import Container from '../components/Container';
+import chooseLifeMap from '../assets/choose_life_map.png';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -51,15 +51,15 @@ export class Surveys extends Component {
   }
 
   getEconomicScreens(survey) {
-    let currentDimension = '';
+    this.currentDimension = '';
     const questionsPerScreen = [];
     let totalScreens = 0;
 
     // go trough all questions and separate them by screen
     survey.surveyEconomicQuestions.forEach(question => {
       // if the dimention of the questions change, change the page
-      if (question.topic !== currentDimension) {
-        currentDimension = question.topic;
+      if (question.topic !== this.currentDimension) {
+        this.currentDimension = question.topic;
         totalScreens += 1;
       }
 
@@ -145,25 +145,17 @@ export class Surveys extends Component {
   }
 
   render() {
-    const { classes, t } = this.props;
+    const { classes } = this.props;
+
     return (
       <div className={classes.mainSurveyContainerBoss}>
         <Container>
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
               <Typography variant="h4">Choose a life map</Typography>
-              <Typography variant="h7">
-                <span style={{ color: '#626262', fontSize: 20 }}>
-                  Surveys > Choose a life map
-                </span>
+              <Typography variant="subtitle1" className={classes.subtitle}>
+                Surveys > Choose a Life Map
               </Typography>
-              <div className={classes.ball1} />
-              <div className={classes.ball2} />
-              <div className={classes.ball3} />
-              <div className={classes.ball4} />
-              <div className={classes.ball5} />
-              <div className={classes.ball6} />
-              <img className={classes.imageLifemap} src={chooseLifemapImage} />
             </div>
             <img
               src={chooseLifeMap}
@@ -177,40 +169,39 @@ export class Surveys extends Component {
                 <CircularProgress size={50} thickness={2} />
               </div>
             )}
-            <span className={classes.listSurveys}>
+            <Grid container spacing={16}>
               {this.state.surveys.map(survey => {
                 return (
-                  <div key={survey.id} className={classes.mainSurveyContainer}>
-                    <Typography
-                      variant="h6"
-                      align="center"
-                      className={classes.surveyTitle}
-                      onClick={() => this.handleClickOnSurvey(survey)}
-                    >
-                      {survey.title}
-                    </Typography>
-                    <Typography
-                      className={classes.paragraphSurvey}
-                      variant="h7"
-                    >
-                      Short description that can go over two lines...
-                    </Typography>
+                  <Grid item key={survey.id} xs={12} sm={12} md={4}>
+                    <div className={classes.mainSurveyContainer}>
+                      <Typography
+                        className={classes.surveyTitle}
+                        onClick={() => this.handleClickOnSurvey(survey)}
+                      >
+                        {survey.title}
+                      </Typography>
+                      <Typography className={classes.paragraphSurvey}>
+                        Short description that can go over two lines...
+                      </Typography>
 
-                    <Typography className={classes.contains} variant="h7">
-                      Contains:
-                      <span style={{ color: '#1C212F' }}>
-                        {survey.surveyStoplightQuestions.length} indicators
-                      </span>
-                    </Typography>
+                      <Typography className={classes.contains}>
+                        Contains:{' '}
+                        <span style={{ color: '#1C212F' }}>
+                          {survey.surveyStoplightQuestions.length} indicators
+                        </span>
+                      </Typography>
 
-                    <Typography className={classes.createdOn} variant="h7">
-                      Created on:{' '}
-                      <span style={{ color: '#1C212F' }}>14 april , 2019</span>
-                    </Typography>
-                  </div>
+                      <Typography className={classes.createdOn}>
+                        Created on:{' '}
+                        <span style={{ color: '#1C212F' }}>
+                          14 april , 2019
+                        </span>
+                      </Typography>
+                    </div>
+                  </Grid>
                 );
               })}
-            </span>
+            </Grid>
           </div>
         </Container>
       </div>
