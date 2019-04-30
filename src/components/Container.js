@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Grid } from '@material-ui/core';
 import clsx from 'clsx';
 
 function Container(props) {
@@ -11,20 +11,43 @@ function Container(props) {
     ...other
   } = props;
 
-  const className = clsx(
-    classes.root,
-    {
-      [classes.fluid]: variant === 'fluid',
-      [classes.stretch]: variant === 'stretch',
-      [classes.slim]: variant === 'slim'
-    },
-    classNameProp
-  );
+  const xs = clsx({
+    12: variant === 'fluid',
+    11: variant === 'slim' || variant === 'stretch' || variant === undefined
+  });
+
+  const sm = clsx({
+    12: variant === 'fluid',
+    7: variant === 'slim',
+    11: variant === 'stretch' || variant === undefined
+  });
+
+  const md = clsx({
+    5: variant === 'slim',
+    9: variant === 'stretch',
+    7: variant === undefined
+  });
+
+  const lg = clsx({
+    4: variant === 'slim',
+    9: variant === 'stretch',
+    7: variant === undefined
+  });
 
   return (
-    <div className={className} {...other}>
-      {children}
-    </div>
+    <Grid container justify="center">
+      <Grid
+        item
+        xs={Number(xs)}
+        md={Number(md)}
+        lg={Number(lg)}
+        sm={Number(sm)}
+        {...other}
+        className={classNameProp}
+      >
+        {children}
+      </Grid>
+    </Grid>
   );
 }
 

@@ -7,12 +7,21 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import countries from 'localized-countries';
+import { FilledInput } from '@material-ui/core';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
 class SelectInput extends Component {
   state = {
-    errorMessage: null
+    errorMessage: null,
+    value: null
+  };
+
+  handleOnChange = event => {
+    this.setState({
+      value: event.target.value
+    });
+    this.validate(event);
   };
 
   validate = event => {
@@ -40,6 +49,7 @@ class SelectInput extends Component {
       }
     }
   };
+
   componentDidMount() {
     this.validate();
   }
@@ -51,20 +61,26 @@ class SelectInput extends Component {
         className={this.props.classes.container}
         fullWidth
         error={error}
+        variant="filled"
       >
         <InputLabel>{`${this.props.label}${
           this.props.required ? ' *' : ''
         }`}</InputLabel>
         <Select
-          disabled={this.props.disabled}
+          className={
+            this.state.value || this.props.value
+              ? `${this.props.classes.input} ${this.props.classes.inputFilled}`
+              : `${this.props.classes.input}`
+          }
           value={this.props.value || ''}
           fullWidth
-          onChange={this.validate}
+          onChange={this.handleOnChange}
           inputProps={{
             name: this.props.label
           }}
+          input={<FilledInput />}
         >
-          {!!this.props.country
+          {this.props.country
             ? countryList.map(country => (
                 <MenuItem key={country.code} value={country.code}>
                   {country.label}
@@ -86,6 +102,12 @@ const styles = {
   container: {
     marginTop: 10,
     marginBottom: 10
+  },
+  inputFilled: {
+    '& $div': {
+      backgroundColor: '#fff',
+      borderBottom: '.5px solid #909090'
+    }
   }
 };
 

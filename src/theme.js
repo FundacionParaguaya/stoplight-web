@@ -28,8 +28,7 @@ export const theme = {
       main: '#909090'
     },
     background: {
-      paper: '#f3f4f6',
-      default: '#fff'
+      paper: '#f3f4f6'
     }
   },
   typography: {
@@ -62,6 +61,11 @@ export const theme = {
       fontSize: 22,
       letterSpacing: 0.24,
       lineHeight: '33px'
+    },
+    h6: {
+      fontSize: 16,
+      fontFamily: 'Poppins',
+      fontWeight: 400
     }
   },
   shape: {
@@ -83,6 +87,11 @@ export const theme = {
         borderRadius: '8px 8px 0 0!important'
       }
     },
+    MuiFormHelperText: {
+      root: {
+        fontSize: 16
+      }
+    },
     MuiInputBase: {
       input: {
         fontSize: '16px',
@@ -98,11 +107,6 @@ export const theme = {
       },
       multiline: {
         padding: '0px 0px 1px !important'
-      }
-    },
-    MuiFormLabel: {
-      root: {
-        zIndex: 999
       }
     },
     MuiInputLabel: {
@@ -126,14 +130,9 @@ export const theme = {
     },
     MuiSelect: {
       select: {
-        backgroundColor: '#f3f4f6',
-        borderRadius: '8px 8px 0 0',
-        paddingLeft: 12,
-        paddingRight: 12,
         '&:focus': {
           background: '#fff!important'
-        },
-        borderBottom: '1px solid rgba(0,0,0,0.42)'
+        }
       }
     },
     MuiButton: {
