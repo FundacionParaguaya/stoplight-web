@@ -209,7 +209,7 @@ export class Surveys extends Component {
   }
 }
 
-const styles = {
+const styles = theme => ({
   subtitle: {
     fontWeight: 400
   },
@@ -233,8 +233,7 @@ const styles = {
     zIndex: 1
   },
   mainSurveyContainerBoss: {
-    backgroundColor: '#F3F4F6',
-    minHeight: 'calc(95vh - 60px)'
+    backgroundColor: theme.palette.background.paper
   },
   surveyTitle: {
     cursor: 'pointer',
@@ -271,7 +270,7 @@ const styles = {
   listContainer: {
     position: 'relative'
   }
-};
+});
 
 const mapStateToProps = ({ user }) => ({ user });
 
