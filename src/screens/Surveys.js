@@ -219,133 +219,65 @@ export class Surveys extends Component {
 }
 
 const styles = {
-  ball1: {
-    position: 'absolute',
-    borderRadius: '50%',
-    backgroundColor: '#50AA47',
-    height: 58,
-    width: 58,
-    zIndex: 1,
-    top: 150,
-    right: 340
+  subtitle: {
+    fontWeight: 400
   },
-  ball2: {
+  chooseLifeMapImage: {
+    display: 'block',
+    height: 240,
+    right: 30,
     position: 'absolute',
-    borderRadius: '50%',
-    backgroundColor: '#E1504D',
-    height: 30,
-    width: 30,
-    zIndex: 2,
-    top: 120,
-    right: 280
+    top: 20
   },
-  ball3: {
-    position: 'absolute',
-    backgroundColor: '#F0CB17',
-    borderRadius: '50%',
-    height: 40,
-    width: 40,
-    zIndex: 1,
-    top: -10,
-    right: 280
-  },
-  ball4: {
-    position: 'absolute',
-    borderRadius: '50%',
-    backgroundColor: '#50AA47',
-    height: 20,
-    width: 20,
-    zIndex: 2,
-    top: 58,
-    right: 70
-  },
-  ball5: {
-    position: 'absolute',
-    backgroundColor: '#F0CB17',
-    borderRadius: '50%',
-    height: 64,
-    width: 64,
-    zIndex: 1,
-    top: 98,
-    right: 0
-  },
-  ball6: {
-    position: 'absolute',
-    backgroundColor: '#E1504D',
-    borderRadius: '50%',
-    height: 12,
-    width: 12,
-    zIndex: 1,
-    top: 18,
-    right: 10
-  },
-  imageLifemap: {
-    position: 'absolute',
-    right: 70,
-    height: 230,
-    width: 230,
-    zIndex: 1,
-    top: -13
+  titleContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    position: 'relative'
   },
   surveyTopTitle: {
-    position: 'relative',
-    maxWidth: 1300,
-    margin: '0 40px',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: '170px'
-  },
-  contains: {
-    color: '#626262',
-    marginBottom: 5
-  },
-  createdOn: {
-    color: '#626262',
-    marginBottom: 5
+    height: 220
   },
   mainSurveyContainerBoss: {
-    minHeight: '86vh',
-    backgroundColor: '#F3F4F6'
-  },
-  paragraphSurvey: {
-    color: '#626262',
-    marginTop: 10,
-    marginBottom: 10
+    backgroundColor: '#F3F4F6',
+    minHeight: 'calc(95vh - 60px)'
   },
   surveyTitle: {
     cursor: 'pointer',
-    color: '#309E43',
-    marginRight: 'auto'
+    color: '#309E43!important',
+    marginRight: 'auto',
+    fontSize: '18px!important',
+    marginBottom: '12px!important'
   },
   mainSurveyContainer: {
-    zIndex: 2,
-    padding: '19px 14px',
     backgroundColor: '#fff',
-    margin: '10px 10px',
-    width: 306,
-    height: 167,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-start'
+    padding: 17,
+    height: '100%',
+
+    '& $p': {
+      fontSize: '14px',
+      color: '#6A6A6A',
+      marginBottom: 7
+    },
+    '& $p:last-child': {
+      marginBottom: 0
+    }
   },
   spinnerWrapper: {
     display: 'flex',
-    justifyContent: 'center'
-  },
-  listSurveys: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    maxWidth: 1000,
-    justifyContent: 'center'
-  },
-  list: {
-    display: 'flex',
-    margin: 'auto',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: 500,
+    alignItems: 'center'
   },
   button: {
     marginBottom: 20
+  },
+  listContainer: {
+    position: 'relative'
   }
 };
 
