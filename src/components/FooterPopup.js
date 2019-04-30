@@ -56,7 +56,16 @@ const styles = theme => ({
   innerContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      textAlign: 'center',
+
+      '& $div': {
+        marginBottom: 15
+      }
+    }
   },
   button: {
     borderRadius: 0,
