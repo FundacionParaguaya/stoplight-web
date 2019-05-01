@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import { withStyles } from '@material-ui/core/styles';
 import uuid from 'uuid/v1';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
@@ -8,6 +9,9 @@ import Form from '../../components/Form';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import DatePicker from '../../components/DatePicker';
+import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
+import familyFaceIcon from '../../assets/family_face_large.png';
 
 export class PrimaryParticipant extends Component {
   state = {
@@ -21,7 +25,7 @@ export class PrimaryParticipant extends Component {
     this.props.updateDraft({
       draftId: uuid(), // generate unique id based on timestamp
       surveyId: currentSurvey.id,
-      surveyVersionId: currentSurvey['surveyVersionId'],
+      surveyVersionId: currentSurvey.surveyVersionId,
       created: Date.now(),
       economicSurveyDataList: [],
       indicatorSurveyDataList: [],
@@ -74,7 +78,7 @@ export class PrimaryParticipant extends Component {
     const { currentDraft } = this.props;
 
     if (value === 1) {
-      let name = currentDraft.familyData.familyMembersList;
+      const name = currentDraft.familyData.familyMembersList;
       name.splice(1);
       this.props.updateDraft({
         ...currentDraft,
@@ -85,7 +89,7 @@ export class PrimaryParticipant extends Component {
         }
       });
     } else if (currentDraft.familyData.familyMembersList.length < value) {
-      let names2 = currentDraft.familyData.familyMembersList;
+      const names2 = currentDraft.familyData.familyMembersList;
       for (
         let i = currentDraft.familyData.familyMembersList.length;
         i <= value - 1;
@@ -108,8 +112,9 @@ export class PrimaryParticipant extends Component {
         }
       });
     } else if (currentDraft.familyData.familyMembersList.length > value) {
-      let names3 = currentDraft.familyData.familyMembersList;
-      let deleteFrom = currentDraft.familyData.familyMembersList.length - value;
+      const names3 = currentDraft.familyData.familyMembersList;
+      const deleteFrom =
+        currentDraft.familyData.familyMembersList.length - value;
       names3.splice(-deleteFrom, deleteFrom);
 
       this.props.updateDraft({
@@ -127,7 +132,7 @@ export class PrimaryParticipant extends Component {
     const { t } = this.props;
     const householdSizeArray = [];
 
-    for (var i = 1; i <= 26; i++) {
+    for (let i = 1; i <= 26; i++) {
       householdSizeArray.push({
         value: i === 26 ? -1 : i,
         text:
@@ -180,7 +185,7 @@ export class PrimaryParticipant extends Component {
   };
 
   render() {
-    const { t, currentSurvey } = this.props;
+    const { t, currentSurvey, classes } = this.props;
     const { surveyConfig } = currentSurvey;
 
     const participant = this.props.currentDraft
@@ -190,95 +195,108 @@ export class PrimaryParticipant extends Component {
     return (
       <div>
         <TitleBar title={t('views.primaryParticipant')} />
-
-        <Form
-          onSubmit={this.handleContinue}
-          submitLabel={t('general.continue')}
-        >
-          <Input
-            required
-            label={t('views.family.firstName')}
-            value={participant.firstName}
-            field="firstName"
-            onChange={this.updateDraft}
-          />
-          <Input
-            required
-            label={t('views.family.lastName')}
-            value={participant.lastName}
-            field="lastName"
-            onChange={this.updateDraft}
-          />
-          <Select
-            required
-            label={t('views.family.selectGender')}
-            value={participant.gender}
-            field="gender"
-            onChange={this.updateDraft}
-            options={surveyConfig.gender}
-          />
-          <DatePicker
-            required
-            label={t('views.family.dateOfBirth')}
-            field="birthDate"
-            onChange={this.updateDraft}
-            value={participant.birthDate}
-          />
-          <Select
-            required
-            label={t('views.family.documentType')}
-            value={participant.documentType}
-            field="documentType"
-            onChange={this.updateDraft}
-            options={surveyConfig.documentType}
-          />
-          <Input
-            required
-            label={t('views.family.documentNumber')}
-            value={participant.documentNumber}
-            field="documentNumber"
-            onChange={this.updateDraft}
-          />
-          <Select
-            required
-            label={t('views.family.countryOfBirth')}
-            value={
-              participant.birthCountry ||
-              currentSurvey.surveyConfig.surveyLocation.country
-            }
-            field="birthCountry"
-            onChange={this.updateDraft}
-            country
-          />
-          <Select
-            required
-            label={t('views.family.peopleLivingInThisHousehold')}
-            value={
-              this.props.currentDraft
-                ? this.props.currentDraft.familyData.countFamilyMembers
-                : null
-            }
-            field="countFamilyMembers"
-            onChange={this.updateFamilyMembersCount}
-            options={this.state.householdSizeArray}
-          />
-          <Input
-            label={t('views.family.email')}
-            value={participant.email}
-            field="email"
-            onChange={this.updateDraft}
-          />
-          <Input
-            label={t('views.family.phone')}
-            value={participant.phone}
-            field="phone"
-            onChange={this.updateDraft}
-          />
-        </Form>
+        <div className={classes.topImageContainer}>
+          <img height={60} width={60} src={familyFaceIcon} />
+        </div>
+        <Container variant="slim">
+          <Form
+            onSubmit={this.handleContinue}
+            submitLabel={t('general.continue')}
+          >
+            <Input
+              required
+              label={t('views.family.firstName')}
+              value={participant.firstName}
+              field="firstName"
+              onChange={this.updateDraft}
+            />
+            <Input
+              required
+              label={t('views.family.lastName')}
+              value={participant.lastName}
+              field="lastName"
+              onChange={this.updateDraft}
+            />
+            <Select
+              required
+              label={t('views.family.selectGender')}
+              value={participant.gender}
+              field="gender"
+              onChange={this.updateDraft}
+              options={surveyConfig.gender}
+            />
+            <DatePicker
+              required
+              label={t('views.family.dateOfBirth')}
+              field="birthDate"
+              onChange={this.updateDraft}
+              value={participant.birthDate}
+            />
+            <Select
+              required
+              label={t('views.family.documentType')}
+              value={participant.documentType}
+              field="documentType"
+              onChange={this.updateDraft}
+              options={surveyConfig.documentType}
+            />
+            <Input
+              required
+              label={t('views.family.documentNumber')}
+              value={participant.documentNumber}
+              field="documentNumber"
+              onChange={this.updateDraft}
+            />
+            <Select
+              required
+              label={t('views.family.countryOfBirth')}
+              value={
+                participant.birthCountry ||
+                currentSurvey.surveyConfig.surveyLocation.country
+              }
+              field="birthCountry"
+              onChange={this.updateDraft}
+              country
+            />
+            <Select
+              required
+              label={t('views.family.peopleLivingInThisHousehold')}
+              value={
+                this.props.currentDraft
+                  ? this.props.currentDraft.familyData.countFamilyMembers
+                  : null
+              }
+              field="countFamilyMembers"
+              onChange={this.updateFamilyMembersCount}
+              options={this.state.householdSizeArray}
+            />
+            <Input
+              label={t('views.family.email')}
+              value={participant.email}
+              field="email"
+              onChange={this.updateDraft}
+            />
+            <Input
+              label={t('views.family.phone')}
+              value={participant.phone}
+              field="phone"
+              onChange={this.updateDraft}
+            />
+          </Form>
+          <BottomSpacer />
+        </Container>
       </div>
     );
   }
 }
+
+const styles = theme => ({
+  topImageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 6
+  }
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
@@ -290,4 +308,4 @@ const mapDispatchToProps = { updateDraft };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation()(PrimaryParticipant));
+)(withTranslation()(withStyles(styles)(PrimaryParticipant)));
