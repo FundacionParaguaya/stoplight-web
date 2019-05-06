@@ -167,7 +167,6 @@ export const theme = {
         border: 0,
         color: '#fff',
         height: 38,
-        width: 280,
         padding: '0 30px'
       },
       outlined: {
