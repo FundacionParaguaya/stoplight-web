@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateDraft } from '../../redux/actions';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import TitleBar from '../../components/TitleBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
+import TitleBar from '../../components/TitleBar';
+import { updateDraft } from '../../redux/actions';
+
 export class StoplightQuestions extends Component {
   state = {
     imageStatus: 'loading',
@@ -33,44 +34,42 @@ export class StoplightQuestions extends Component {
           this.props.history.push('/lifemap/overview');
         }
       }
-    } else {
-      if (
-        currentQuestionPage <
-        this.props.currentSurvey.surveyStoplightQuestions.length - 1
-      ) {
-        this.props.history.push(
-          `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
-        );
-      } else if (goToSkipped) {
-        this.props.history.push('/lifemap/skipped-questions');
-      } else if (!goToSkipped) {
-        this.props.history.push('/lifemap/overview');
-      }
+    } else if (
+      currentQuestionPage <
+      this.props.currentSurvey.surveyStoplightQuestions.length - 1
+    ) {
+      this.props.history.push(
+        `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
+      );
+    } else if (goToSkipped) {
+      this.props.history.push('/lifemap/skipped-questions');
+    } else if (!goToSkipped) {
+      this.props.history.push('/lifemap/overview');
     }
   };
 
   skipQuestion = () => {
-    let { codeName } = this.state.question;
+    const { codeName } = this.state.question;
     const { currentDraft } = this.props;
-    let dataList = this.props.currentDraft.indicatorSurveyDataList;
+    const dataList = this.props.currentDraft.indicatorSurveyDataList;
     let update = false;
-    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST AND UPDATE my dataList
+    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST AND UPDATE my dataList
     dataList.forEach(e => {
       if (e.key === codeName) {
         update = true;
         e.value = 0;
       }
     });
-    ///////////if the question is in the data list then update the question
+    // /////////if the question is in the data list then update the question
     if (update) {
-      let indicatorSurveyDataList = dataList;
+      const indicatorSurveyDataList = dataList;
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList
       });
       this.handleContinue();
     } else {
-      //////////// add the question to the data list if it doesnt exist
+      // ////////// add the question to the data list if it doesnt exist
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList: [
@@ -84,35 +83,36 @@ export class StoplightQuestions extends Component {
       this.handleContinue();
     }
   };
+
   submitQuestion(value) {
-    let { codeName } = this.state.question;
+    const { codeName } = this.state.question;
     const { currentDraft } = this.props;
-    let dataList = this.props.currentDraft.indicatorSurveyDataList;
+    const dataList = this.props.currentDraft.indicatorSurveyDataList;
     let update = false;
-    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
+    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
     dataList.forEach(e => {
       if (e.key === codeName) {
         update = true;
         e.value = value;
       }
     });
-    ///////////if the question is in the data list then update the question
+    // /////////if the question is in the data list then update the question
     if (update) {
-      let indicatorSurveyDataList = dataList;
+      const indicatorSurveyDataList = dataList;
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList
       });
       this.handleContinue();
     } else {
-      //////////// add the question to the data list if it doesnt exist
+      // ////////// add the question to the data list if it doesnt exist
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList: [
           ...currentDraft.indicatorSurveyDataList,
           {
             key: codeName,
-            value: value
+            value
           }
         ]
       });
@@ -128,11 +128,12 @@ export class StoplightQuestions extends Component {
       ]
     });
   }
+
   handleImageLoaded = () => {
     this.setState({ imageStatus: 'loaded' });
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
       this.setCurrentScreen();
     }
@@ -146,7 +147,7 @@ export class StoplightQuestions extends Component {
     let sortedQuestions;
     if (question) {
       sortedQuestions = question.stoplightColors;
-      let compare = (a, b) => {
+      const compare = (a, b) => {
         if (a.value < b.value) return 1;
         if (a.value > b.value) return -1;
         return 0;
