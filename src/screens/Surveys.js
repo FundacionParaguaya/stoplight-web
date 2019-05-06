@@ -11,6 +11,8 @@ import { getSurveys } from '../api';
 import i18n from '../i18n';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
+import Header from '../Header';
+import Footer from '../Footer';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -148,63 +150,67 @@ export class Surveys extends Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.mainSurveyContainerBoss}>
-        <Container>
-          <div className={classes.titleContainer}>
-            <div className={classes.surveyTopTitle}>
-              <Typography variant="h4">Choose a life map</Typography>
-              <Typography variant="subtitle1" className={classes.subtitle}>
-                Surveys > Choose a Life Map
-              </Typography>
-            </div>
-            <img
-              src={chooseLifeMap}
-              alt="Choose Life Map"
-              className={classes.chooseLifeMapImage}
-            />
-          </div>
-          <div className={classes.listContainer}>
-            {this.state.loading && (
-              <div className={classes.spinnerWrapper}>
-                <CircularProgress size={50} thickness={2} />
+      <>
+        <Header />
+        <div className={classes.mainSurveyContainerBoss}>
+          <Container>
+            <div className={classes.titleContainer}>
+              <div className={classes.surveyTopTitle}>
+                <Typography variant="h4">Choose a life map</Typography>
+                <Typography variant="subtitle1" className={classes.subtitle}>
+                  Surveys > Choose a Life Map
+                </Typography>
               </div>
-            )}
-            <Grid container spacing={16}>
-              {this.state.surveys.map(survey => {
-                return (
-                  <Grid item key={survey.id} xs={12} sm={12} md={4}>
-                    <div className={classes.mainSurveyContainer}>
-                      <Typography
-                        className={classes.surveyTitle}
-                        onClick={() => this.handleClickOnSurvey(survey)}
-                      >
-                        {survey.title}
-                      </Typography>
-                      <Typography className={classes.paragraphSurvey}>
-                        Short description that can go over two lines...
-                      </Typography>
+              <img
+                src={chooseLifeMap}
+                alt="Choose Life Map"
+                className={classes.chooseLifeMapImage}
+              />
+            </div>
+            <div className={classes.listContainer}>
+              {this.state.loading && (
+                <div className={classes.spinnerWrapper}>
+                  <CircularProgress size={50} thickness={2} />
+                </div>
+              )}
+              <Grid container spacing={16}>
+                {this.state.surveys.map(survey => {
+                  return (
+                    <Grid item key={survey.id} xs={12} sm={12} md={4}>
+                      <div className={classes.mainSurveyContainer}>
+                        <Typography
+                          className={classes.surveyTitle}
+                          onClick={() => this.handleClickOnSurvey(survey)}
+                        >
+                          {survey.title}
+                        </Typography>
+                        <Typography className={classes.paragraphSurvey}>
+                          Short description that can go over two lines...
+                        </Typography>
 
-                      <Typography className={classes.contains}>
-                        Contains:{' '}
-                        <span style={{ color: '#1C212F' }}>
-                          {survey.surveyStoplightQuestions.length} indicators
-                        </span>
-                      </Typography>
+                        <Typography className={classes.contains}>
+                          Contains:{' '}
+                          <span style={{ color: '#1C212F' }}>
+                            {survey.surveyStoplightQuestions.length} indicators
+                          </span>
+                        </Typography>
 
-                      <Typography className={classes.createdOn}>
-                        Created on:{' '}
-                        <span style={{ color: '#1C212F' }}>
-                          14 april , 2019
-                        </span>
-                      </Typography>
-                    </div>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </div>
-        </Container>
-      </div>
+                        <Typography className={classes.createdOn}>
+                          Created on:{' '}
+                          <span style={{ color: '#1C212F' }}>
+                            14 april , 2019
+                          </span>
+                        </Typography>
+                      </div>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </div>
+          </Container>
+        </div>
+        <Footer />
+      </>
     );
   }
 }
@@ -233,6 +239,7 @@ const styles = theme => ({
     zIndex: 1
   },
   mainSurveyContainerBoss: {
+    marginTop: `${theme.shape.header}`,
     backgroundColor: theme.palette.background.paper,
     minHeight: `calc(100vh - ${theme.shape.header} - ${theme.shape.footer})`
   },
@@ -241,13 +248,14 @@ const styles = theme => ({
     color: '#309E43!important',
     marginRight: 'auto',
     fontSize: '18px!important',
-    marginBottom: '12px!important'
+    marginBottom: '15px!important'
   },
   mainSurveyContainer: {
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
     padding: 17,
+    paddingRight: 65,
     height: '100%',
 
     '& $p': {
