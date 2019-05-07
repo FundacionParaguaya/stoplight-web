@@ -127,7 +127,6 @@ export class PrimaryParticipant extends Component {
   };
 
   updateFamilyMembersCount = async (field, value) => {
-    console.log(`Updating with value ${value}`);
     const { currentDraft } = this.props;
 
     if (value === 1) {
@@ -546,7 +545,6 @@ export class PrimaryParticipant extends Component {
                     type="submit"
                     color="primary"
                     variant="contained"
-                    onClick={this.submit}
                     disabled={isSubmitting}
                     onClick={() => {
                       validateForm().then(validationErrors => {
