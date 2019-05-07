@@ -2,16 +2,40 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { DatePicker } from 'material-ui-pickers';
+import { Formik, Form } from 'formik';
 import uuid from 'uuid/v1';
+import * as Yup from 'yup';
+import * as moment from 'moment';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-import Form from '../../components/Form';
-import Input from '../../components/Input';
+import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 import Select from '../../components/Select';
-import DatePicker from '../../components/DatePicker';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import familyFaceIcon from '../../assets/family_face_large.png';
+
+const fieldIsRequired = 'validation.fieldIsRequired';
+const validEmailAddress = 'validation.validEmailAddress';
+const schemaWithDateTransform = Yup.date()
+  .typeError(fieldIsRequired)
+  .transform((_value, originalValue) => {
+    return originalValue ? moment.unix(originalValue).toDate() : new Date('');
+  })
+  .required(fieldIsRequired);
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().required(fieldIsRequired),
+  lastName: Yup.string().required(fieldIsRequired),
+  gender: Yup.string().required(fieldIsRequired),
+  birthDate: schemaWithDateTransform,
+  documentType: Yup.string().required(fieldIsRequired),
+  documentNumber: Yup.string().required(fieldIsRequired),
+  birthCountry: Yup.string().required(fieldIsRequired),
+  countFamilyMembers: Yup.string().required(fieldIsRequired),
+  email: Yup.string().email(validEmailAddress)
+});
 
 export class PrimaryParticipant extends Component {
   state = {
@@ -130,20 +154,22 @@ export class PrimaryParticipant extends Component {
 
   setHouseholdSizeArray() {
     const { t } = this.props;
+    const MAX_HOUSEHOLD_SIZE = 26;
     const householdSizeArray = [];
 
-    for (let i = 1; i <= 26; i++) {
-      householdSizeArray.push({
-        value: i === 26 ? -1 : i,
-        text:
-          i === 1
-            ? t('views.family.onlyPerson')
-            : i === 26
-            ? t('views.family.preferNotToSay')
-            : `${i}`
+    Array(MAX_HOUSEHOLD_SIZE)
+      .fill('')
+      .forEach((_val, index) => {
+        const i = index + 1;
+        const value = i === MAX_HOUSEHOLD_SIZE ? -1 : i;
+        let text = `${i}`;
+        if (i === 1) {
+          text = t('views.family.onlyPerson');
+        } else if (i === MAX_HOUSEHOLD_SIZE) {
+          text = t('views.family.preferNotToSay');
+        }
+        householdSizeArray.push({ value, text });
       });
-    }
-
     this.setState({
       householdSizeArray
     });
@@ -185,12 +211,24 @@ export class PrimaryParticipant extends Component {
   };
 
   render() {
-    const { t, currentSurvey, classes } = this.props;
+    const { t, currentSurvey, classes, currentDraft } = this.props;
     const { surveyConfig } = currentSurvey;
 
-    const participant = this.props.currentDraft
-      ? this.props.currentDraft.familyData.familyMembersList[0]
+    const participant = currentDraft
+      ? currentDraft.familyData.familyMembersList[0]
       : {};
+    const defaultEditingObject = {
+      firstName: '',
+      lastName: '',
+      gender: '',
+      birthDate: '',
+      documentType: '',
+      documentNumber: '',
+      birthCountry: '',
+      countFamilyMembers: '',
+      email: '',
+      phone: ''
+    };
 
     return (
       <div>
@@ -199,90 +237,232 @@ export class PrimaryParticipant extends Component {
           <img height={60} width={60} src={familyFaceIcon} />
         </div>
         <Container variant="slim">
-          <Form
-            onSubmit={this.handleContinue}
-            submitLabel={t('general.continue')}
+          <Formik
+            enableReinitialize
+            initialValues={{ ...defaultEditingObject, ...participant }}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting }) => {
+              this.props.updateDraft({
+                ...currentDraft,
+                familyData: {
+                  ...currentDraft.familyData,
+                  familyMembersList: [
+                    {
+                      ...values
+                    },
+                    ...currentDraft.familyData.familyMembersList.slice(1)
+                  ]
+                }
+              });
+              this.handleContinue();
+              setSubmitting(false);
+            }}
           >
-            <Input
-              required
-              label={t('views.family.firstName')}
-              value={participant.firstName}
-              field="firstName"
-              onChange={this.updateDraft}
-            />
-            <Input
-              required
-              label={t('views.family.lastName')}
-              value={participant.lastName}
-              field="lastName"
-              onChange={this.updateDraft}
-            />
-            <Select
-              required
-              label={t('views.family.selectGender')}
-              value={participant.gender}
-              field="gender"
-              onChange={this.updateDraft}
-              options={surveyConfig.gender}
-            />
-            <DatePicker
-              required
-              label={t('views.family.dateOfBirth')}
-              field="birthDate"
-              onChange={this.updateDraft}
-              value={participant.birthDate}
-            />
-            <Select
-              required
-              label={t('views.family.documentType')}
-              value={participant.documentType}
-              field="documentType"
-              onChange={this.updateDraft}
-              options={surveyConfig.documentType}
-            />
-            <Input
-              required
-              label={t('views.family.documentNumber')}
-              value={participant.documentNumber}
-              field="documentNumber"
-              onChange={this.updateDraft}
-            />
-            <Select
-              required
-              label={t('views.family.countryOfBirth')}
-              value={
-                participant.birthCountry ||
-                currentSurvey.surveyConfig.surveyLocation.country
-              }
-              field="birthCountry"
-              onChange={this.updateDraft}
-              country
-            />
-            <Select
-              required
-              label={t('views.family.peopleLivingInThisHousehold')}
-              value={
-                this.props.currentDraft
-                  ? this.props.currentDraft.familyData.countFamilyMembers
-                  : null
-              }
-              field="countFamilyMembers"
-              onChange={this.updateFamilyMembersCount}
-              options={this.state.householdSizeArray}
-            />
-            <Input
-              label={t('views.family.email')}
-              value={participant.email}
-              field="email"
-              onChange={this.updateDraft}
-            />
-            <Input
-              label={t('views.family.phone')}
-              value={participant.phone}
-              field="phone"
-              onChange={this.updateDraft}
-            />
-          </Form>
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+              setFieldValue,
+              setFieldTouched
+            }) => (
+              <Form noValidate>
+                <TextField
+                  className={
+                    values.firstName
+                      ? `${this.props.classes.input} ${
+                          this.props.classes.inputFilled
+                        }`
+                      : `${this.props.classes.input}`
+                  }
+                  variant="filled"
+                  label={t('views.family.firstName')}
+                  name="firstName"
+                  value={values.firstName || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={pathHasError('firstName', touched, errors)}
+                  helperText={getErrorLabelForPath(
+                    'firstName',
+                    touched,
+                    errors,
+                    t
+                  )}
+                  fullWidth
+                  required
+                />
+                <TextField
+                  className={
+                    values.lastName
+                      ? `${this.props.classes.input} ${
+                          this.props.classes.inputFilled
+                        }`
+                      : `${this.props.classes.input}`
+                  }
+                  variant="filled"
+                  label={t('views.family.lastName')}
+                  name="lastName"
+                  value={values.lastName || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={pathHasError('lastName', touched, errors)}
+                  helperText={getErrorLabelForPath(
+                    'lastName',
+                    touched,
+                    errors,
+                    t
+                  )}
+                  fullWidth
+                  required
+                />
+                <Select
+                  required
+                  label={t('views.family.selectGender')}
+                  value={values.gender || ''}
+                  name="gender"
+                  onChange={this.updateDraft}
+                  options={surveyConfig.gender}
+                />
+                <DatePicker
+                  format="MM/DD/YYYY"
+                  label={t('views.family.dateOfBirth')}
+                  name="birthDate"
+                  value={
+                    values.birthDate ? moment.unix(values.birthDate) : null
+                  }
+                  onChange={e => setFieldValue('birthDate', e.unix())}
+                  onClose={() => setFieldTouched('birthDate')}
+                  error={pathHasError('birthDate', touched, errors)}
+                  helperText={getErrorLabelForPath(
+                    'birthDate',
+                    touched,
+                    errors,
+                    t
+                  )}
+                  TextFieldComponent={textFieldProps => (
+                    <TextField
+                      className={
+                        values.birthDate
+                          ? `${this.props.classes.input} ${
+                              this.props.classes.inputFilled
+                            }`
+                          : `${this.props.classes.input}`
+                      }
+                      variant="filled"
+                      {...textFieldProps}
+                    />
+                  )}
+                  fullWidth
+                  required
+                  disableFuture
+                />
+                <Select
+                  required
+                  label={t('views.family.documentType')}
+                  value={values.documentType || ''}
+                  field="documentType"
+                  onChange={this.updateDraft}
+                  options={surveyConfig.documentType}
+                />
+                <TextField
+                  className={
+                    values.documentNumber
+                      ? `${this.props.classes.input} ${
+                          this.props.classes.inputFilled
+                        }`
+                      : `${this.props.classes.input}`
+                  }
+                  variant="filled"
+                  label={t('views.family.documentNumber')}
+                  value={values.documentNumber || ''}
+                  name="documentNumber"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={pathHasError('documentNumber', touched, errors)}
+                  helperText={getErrorLabelForPath(
+                    'documentNumber',
+                    touched,
+                    errors,
+                    t
+                  )}
+                  fullWidth
+                  required
+                />
+                <Select
+                  required
+                  label={t('views.family.countryOfBirth')}
+                  value={
+                    values.birthCountry ||
+                    currentSurvey.surveyConfig.surveyLocation.country
+                  }
+                  field="birthCountry"
+                  onChange={this.updateDraft}
+                  country
+                />
+                <Select
+                  required
+                  label={t('views.family.peopleLivingInThisHousehold')}
+                  value={
+                    // currentDraft
+                    //   ? currentDraft.familyData.countFamilyMembers
+                    //   : null
+                    values.countFamilyMembers
+                  }
+                  field="countFamilyMembers"
+                  onChange={this.updateFamilyMembersCount}
+                  options={this.state.householdSizeArray}
+                />
+                <TextField
+                  className={
+                    values.email
+                      ? `${this.props.classes.input} ${
+                          this.props.classes.inputFilled
+                        }`
+                      : `${this.props.classes.input}`
+                  }
+                  variant="filled"
+                  label={t('views.family.email')}
+                  value={values.email || ''}
+                  name="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={pathHasError('email', touched, errors)}
+                  helperText={getErrorLabelForPath('email', touched, errors, t)}
+                  fullWidth
+                />
+                <TextField
+                  className={
+                    values.phone
+                      ? `${this.props.classes.input} ${
+                          this.props.classes.inputFilled
+                        }`
+                      : `${this.props.classes.input}`
+                  }
+                  variant="filled"
+                  label={t('views.family.phone')}
+                  value={values.phone || ''}
+                  name="phone"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  fullWidth
+                />
+
+                <div className={classes.buttonContainerForm}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    onClick={this.submit}
+                    disabled={isSubmitting}
+                  >
+                    {t('general.continue')}
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
           <BottomSpacer />
         </Container>
       </div>
@@ -294,7 +474,22 @@ const styles = theme => ({
   topImageContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 6
+    marginTop: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 2
+  },
+  buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40
+  },
+  input: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  inputFilled: {
+    '& $div': {
+      backgroundColor: '#fff!important'
+    }
   }
 });
 

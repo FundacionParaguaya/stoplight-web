@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
 import { PersistGate } from 'redux-persist/integration/react';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import MomentUtils from '@date-io/moment';
 import Header from './Header';
 import Footer from './Footer';
 import SurveysComponent from './screens/Surveys';
@@ -22,18 +24,20 @@ class App extends Component {
           <CssBaseline />
           <Provider store={store}>
             <PersistGate persistor={persistor}>
-              <Router>
-                <Authenticator>
-                  <Header />
-                  <div className={classes.appContainer}>
-                    <Switch>
-                      <Route path="/surveys" component={SurveysComponent} />
-                      <Route path="/lifemap" component={Lifemap} />
-                    </Switch>
-                  </div>
-                  <Footer />
-                </Authenticator>
-              </Router>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <Router>
+                  <Authenticator>
+                    <Header />
+                    <div className={classes.appContainer}>
+                      <Switch>
+                        <Route path="/surveys" component={SurveysComponent} />
+                        <Route path="/lifemap" component={Lifemap} />
+                      </Switch>
+                    </div>
+                    <Footer />
+                  </Authenticator>
+                </Router>
+              </MuiPickersUtilsProvider>
             </PersistGate>
           </Provider>
         </React.Fragment>
