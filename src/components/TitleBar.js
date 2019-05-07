@@ -141,7 +141,9 @@ const styles = theme => ({
     textAlign: 'center',
     fontWeight: 400,
     textTransform: 'uppercase',
-    color: 'rgba(0,0,0,0.5)'
+    color: 'rgba(0,0,0,0.5)',
+    marginBottom: 10,
+    lineHeight: '25px'
   }
 });
 export default withRouter(
