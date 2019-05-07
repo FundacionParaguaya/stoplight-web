@@ -350,16 +350,17 @@ export class StoplightQuestions extends Component {
             )}
           </div>
           <div className={classes.bottomContainer}>
-            <i
+            {/* "i" icon temporarily hidden since we still don't have all the content for the surveys */}
+            {/* <i
               style={{ color: 'green', cursor: 'pointer' }}
               className="material-icons"
             >
               info
-            </i>
+            </i> */}
             {question && !question.required ? (
-              <span style={{ width: 220 }}>
+              <span>
                 <Button
-                  style={{ textDecoration: 'none' }}
+                  style={{ textDecoration: 'none', padding: 0 }}
                   onClick={this.skipQuestion}
                 >
                   {t('views.lifemap.skipThisQuestion')}
@@ -384,7 +385,7 @@ const styles = {
   bottomContainer: {
     width: '100%',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-end'
   },
   skipButton: {
     cursor: 'pointer'
