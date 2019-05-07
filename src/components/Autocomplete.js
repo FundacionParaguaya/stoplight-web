@@ -105,7 +105,7 @@ function inputComponent({ inputRef, ...props }) {
 const Control = props => (
   <TextField
     className={
-      props.hasValue
+      props.hasValue && !!props.getValue()[0].value
         ? `${props.selectProps.classes.controlInput} ${
             props.selectProps.classes.controlInputFilled
           }`
