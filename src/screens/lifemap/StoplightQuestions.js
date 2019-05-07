@@ -113,7 +113,6 @@ let QuestionsWrapper = ({
                     </div>
                     <img
                       onLoad={handleImageLoaded}
-                      // className={classes.questionImage}
                       src={e.url}
                       alt="surveyImg"
                     />
@@ -131,7 +130,7 @@ let QuestionsWrapper = ({
                   style={{ backgroundColor: color }}
                   className={classes.questionDescription}
                 >
-                  {answeredValue && (
+                  {answeredValue !== 0 && (
                     <div
                       className={classes.answeredQuestion}
                       style={{ display: displayTick }}
