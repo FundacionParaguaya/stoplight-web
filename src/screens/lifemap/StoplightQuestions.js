@@ -4,9 +4,169 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
+import { Typography, Grid } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import { updateDraft } from '../../redux/actions';
+import Container from '../../components/Container';
 
+const questionsWrapperStyles = {
+  questionContainer: {
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  questionImage: {
+    objectFit: 'cover',
+    height: 240,
+    width: '100%',
+    display: 'block'
+  },
+  answeredQuestion: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: '-36px',
+    left: '50%',
+    transform: 'translate(-50%,0)',
+    zIndex: -1
+  },
+  questionDescription: {
+    position: 'relative',
+    zIndex: 22,
+    margin: 0,
+    textAlign: 'center',
+    color: 'white',
+    padding: '20px 20px',
+    height: '100%'
+  },
+  loadingContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 340
+  },
+  innerContainer: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  }
+};
+
+let QuestionsWrapper = ({
+  question,
+  answeredValue,
+  classes,
+  submitQuestion,
+  handleImageLoaded,
+  imageStatus
+}) => {
+  let sortedQuestions;
+
+  if (question) {
+    sortedQuestions = question.stoplightColors;
+    const compare = (a, b) => {
+      if (a.value < b.value) return 1;
+      if (a.value > b.value) return -1;
+      return 0;
+    };
+    sortedQuestions.sort(compare);
+  }
+
+  return (
+    <Grid container spacing={16}>
+      {question &&
+        sortedQuestions.map(e => {
+          let color;
+          let displayTick = 'none';
+          let textColor = 'white';
+          if (e.value === 3) {
+            color = '#89bd76';
+          } else if (e.value === 2) {
+            color = '#f0cb17';
+            textColor = 'black';
+          } else if (e.value === 1) {
+            color = '#e1504d';
+          }
+          if (e.value === answeredValue) {
+            displayTick = 'flex';
+          }
+
+          return (
+            <Grid
+              item
+              key={e.value}
+              onClick={() => submitQuestion(e.value)}
+              className={classes.questionContainer}
+              md={4}
+            >
+              <div
+                style={{ borderTop: `5px solid ${color}`, borderRadius: 2 }}
+                className={classes.innerContainer}
+              >
+                {imageStatus === 'loading' ? (
+                  <React.Fragment>
+                    <div class={classes.loadingContainer}>
+                      {' '}
+                      <CircularProgress />
+                    </div>
+                    <img
+                      onLoad={handleImageLoaded}
+                      // className={classes.questionImage}
+                      src={e.url}
+                      alt="surveyImg"
+                    />
+                  </React.Fragment>
+                ) : (
+                  <img
+                    onLoad={handleImageLoaded}
+                    className={classes.questionImage}
+                    src={e.url}
+                    alt="surveyImg"
+                  />
+                )}
+
+                <div
+                  style={{ backgroundColor: color }}
+                  className={classes.questionDescription}
+                >
+                  {answeredValue && (
+                    <div
+                      className={classes.answeredQuestion}
+                      style={{ display: displayTick }}
+                    >
+                      <i
+                        style={{
+                          color: 'white',
+                          backgroundColor: color,
+                          paddingTop: '3px',
+                          fontSize: 39,
+                          height: 70,
+                          width: 70,
+                          margin: 'auto',
+                          display: 'flex',
+                          borderRadius: '50%',
+                          justifyContent: 'center',
+                          alignItems: 'flex-start'
+                        }}
+                        className="material-icons"
+                      >
+                        done
+                      </i>
+                    </div>
+                  )}
+                  <Typography style={{ color: textColor }}>
+                    {e.description}
+                  </Typography>
+                </div>
+              </div>
+            </Grid>
+          );
+        })}
+    </Grid>
+  );
+};
+
+QuestionsWrapper = withStyles(questionsWrapperStyles)(QuestionsWrapper);
 export class StoplightQuestions extends Component {
   state = {
     imageStatus: 'loading',
@@ -161,7 +321,7 @@ export class StoplightQuestions extends Component {
           extraTitleText={question && question.questionText}
         />
 
-        <div className={classes.mainQuestionsAndBottomContainer}>
+        <Container className={classes.mainQuestionsAndBottomContainer}>
           <div className={classes.mainQuestionsContainer}>
             {question !== null
               ? currentDraft.indicatorSurveyDataList.forEach(ele => {
@@ -172,148 +332,20 @@ export class StoplightQuestions extends Component {
                 })
               : null}
             {answered ? (
-              <React.Fragment>
-                {question !== null
-                  ? sortedQuestions.map(e => {
-                      let color;
-                      let displayTick = 'none';
-                      let textColor = 'white';
-                      if (e.value === 3) {
-                        color = '#89bd76';
-                      } else if (e.value === 2) {
-                        color = '#f0cb17';
-                        textColor = 'black';
-                      } else if (e.value === 1) {
-                        color = '#e1504d';
-                      }
-                      if (e.value === answeredValue) {
-                        displayTick = 'flex';
-                      }
-
-                      return (
-                        <div
-                          key={e.value}
-                          onClick={() => this.submitQuestion(e.value)}
-                          className={classes.questionContainer}
-                        >
-                          {this.state.imageStatus === 'loading' ? (
-                            <React.Fragment>
-                              <div>
-                                {' '}
-                                <CircularProgress />
-                              </div>
-                              <img
-                                onLoad={this.handleImageLoaded}
-                                className={classes.questionImage}
-                                src={e.url}
-                                alt="surveyImg"
-                              />
-                            </React.Fragment>
-                          ) : (
-                            <img
-                              onLoad={this.handleImageLoaded}
-                              className={classes.questionImage}
-                              src={e.url}
-                              alt="surveyImg"
-                            />
-                          )}
-
-                          <p
-                            style={{ backgroundColor: color, color: textColor }}
-                            className={classes.questionDescription}
-                          >
-                            <div
-                              className={classes.answeredQuestion}
-                              style={{ display: displayTick }}
-                            >
-                              <i
-                                style={{
-                                  color: 'white',
-                                  backgroundColor: color,
-                                  paddingTop: '3px',
-                                  fontSize: 39,
-                                  height: 70,
-                                  width: 70,
-                                  margin: 'auto',
-                                  display: 'flex',
-                                  borderRadius: '50%',
-                                  justifyContent: 'center',
-                                  alignItems: 'flex-start'
-                                }}
-                                className="material-icons"
-                              >
-                                done
-                              </i>
-                            </div>
-                            {e.description}
-                          </p>
-                        </div>
-                      );
-                    })
-                  : null}
-              </React.Fragment>
+              <QuestionsWrapper
+                question={question}
+                answeredValue={answeredValue}
+                submitQuestion={e => this.submitQuestion(e)}
+                handleImageLoaded={this.handleImageLoaded}
+                imageStatus={this.state.imageStatus}
+              />
             ) : (
-              <React.Fragment>
-                {' '}
-                {question !== null
-                  ? sortedQuestions.map(e => {
-                      let color;
-                      let textColor = 'white';
-                      if (e.value === 3) {
-                        color = '#89bd76';
-                      } else if (e.value === 2) {
-                        color = '#f0cb17';
-                        textColor = 'black';
-                      } else if (e.value === 1) {
-                        color = '#e1504d';
-                      }
-
-                      return (
-                        <div
-                          key={e.value}
-                          onClick={() => this.submitQuestion(e.value)}
-                          className={classes.questionContainer}
-                        >
-                          {this.state.imageStatus === 'loading' ? (
-                            <React.Fragment>
-                              <div
-                                style={{
-                                  fontSize: '40px',
-                                  marginTop: '50px',
-                                  display: 'flex',
-                                  justifyContent: 'center',
-                                  alignItems: 'center'
-                                }}
-                              >
-                                <CircularProgress />
-                                <img
-                                  onLoad={this.handleImageLoaded}
-                                  className={classes.questionImage}
-                                  src={e.url}
-                                  alt="surveyImg"
-                                />
-                              </div>
-                            </React.Fragment>
-                          ) : (
-                            <img
-                              onLoad={this.handleImageLoaded}
-                              className={classes.questionImage}
-                              src={e.url}
-                              alt="surveyImg"
-                            />
-                          )}
-
-                          <p
-                            style={{ backgroundColor: color, color: textColor }}
-                            className={classes.questionDescription}
-                          >
-                            {e.description}
-                          </p>
-                        </div>
-                      );
-                    })
-                  : null}
-              </React.Fragment>
+              <QuestionsWrapper
+                question={question}
+                submitQuestion={e => this.submitQuestion(e)}
+                handleImageLoaded={this.handleImageLoaded}
+                imageStatus={this.state.imageStatus}
+              />
             )}
           </div>
           <div className={classes.bottomContainer}>
@@ -334,32 +366,21 @@ export class StoplightQuestions extends Component {
               </span>
             ) : null}
           </div>
-        </div>
+        </Container>
       </div>
     );
   }
 }
 
 const styles = {
-  answeredQuestion: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    top: '-36px',
-    left: '50%',
-    transform: 'translate(-50%,0)',
-    zIndex: -1
-  },
   mainQuestionsAndBottomContainer: {
     margin: 'auto',
-    width: '840px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
   bottomContainer: {
-    padding: '0 10px 0 10px',
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between'
@@ -378,27 +399,6 @@ const styles = {
     color: 'grey',
     margin: 0,
     marginTop: 10
-  },
-  questionImage: {
-    objectFit: 'cover',
-    height: 240
-  },
-  questionDescription: {
-    position: 'relative',
-    zIndex: 22,
-    margin: 0,
-    textAlign: 'center',
-    color: 'white',
-    height: '100%',
-    padding: '20px 20px'
-  },
-  questionContainer: {
-    margin: '0 10px 0 10px',
-    cursor: 'pointer',
-    width: 260,
-    display: 'flex',
-    flexDirection: 'column',
-    borderRadius: '20px'
   },
   mainQuestionsContainer: {
     margin: 'auto',
