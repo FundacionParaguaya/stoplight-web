@@ -246,7 +246,6 @@ export class PrimaryParticipant extends Component {
             initialValues={{ ...defaultEditingObject, ...participant }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              console.log(values);
               this.props.updateDraft({
                 ...currentDraft,
                 familyData: {
@@ -544,9 +543,9 @@ export class PrimaryParticipant extends Component {
                     onClick={this.submit}
                     disabled={isSubmitting}
                     onClick={() => {
-                      validateForm().then(errors => {
-                        if (Object.keys(errors).length > 0) {
-                          console.log(errors);
+                      validateForm().then(validationErrors => {
+                        if (Object.keys(validationErrors).length > 0) {
+                          console.log(validationErrors);
                           // TODO show something, there are some validation errors
                         }
                       });

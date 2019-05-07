@@ -64,9 +64,9 @@ const styles = theme => ({
     marginBottom: 10
   },
   controlInputFilled: {
-    // '& $div': {
-    //   backgroundColor: '#fff!important'
-    // }
+    '& $div': {
+      backgroundColor: '#fff!important'
+    }
   },
   itemSelected: {
     fontWeight: 500,
@@ -109,7 +109,7 @@ const Control = props => (
         ? `${props.selectProps.classes.controlInput} ${
             props.selectProps.classes.controlInputFilled
           }`
-        : `${props.selectProps.classes.cotrolInput}`
+        : `${props.selectProps.classes.controlInput}`
     }
     variant="filled"
     fullWidth
