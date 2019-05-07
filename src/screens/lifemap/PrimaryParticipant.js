@@ -9,14 +9,16 @@ import { Formik, Form } from 'formik';
 import uuid from 'uuid/v1';
 import * as Yup from 'yup';
 import * as moment from 'moment';
+import countries from 'localized-countries';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
-import Select from '../../components/Select';
 import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import familyFaceIcon from '../../assets/family_face_large.png';
+
+const countryList = countries(require('localized-countries/data/en')).array();
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const validEmailAddress = 'validation.validEmailAddress';
@@ -39,9 +41,34 @@ const validationSchema = Yup.object().shape({
 });
 
 export class PrimaryParticipant extends Component {
-  state = {
-    householdSizeArray: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props)
+    };
+  }
+
+  static constructHouseholdArray(props) {
+    const { t } = props;
+    const MAX_HOUSEHOLD_SIZE = 26;
+    const householdSizeArray = [];
+
+    Array(MAX_HOUSEHOLD_SIZE)
+      .fill('')
+      .forEach((_val, index) => {
+        const i = index + 1;
+        const value = i === MAX_HOUSEHOLD_SIZE ? -1 : i;
+        let text = `${i}`;
+        if (i === 1) {
+          text = t('views.family.onlyPerson');
+        } else if (i === MAX_HOUSEHOLD_SIZE) {
+          text = t('views.family.preferNotToSay');
+        }
+        householdSizeArray.push({ value, text });
+      });
+
+    return householdSizeArray;
+  }
 
   createNewDraft() {
     const { currentSurvey } = this.props;
@@ -153,29 +180,6 @@ export class PrimaryParticipant extends Component {
     }
   };
 
-  setHouseholdSizeArray() {
-    const { t } = this.props;
-    const MAX_HOUSEHOLD_SIZE = 26;
-    const householdSizeArray = [];
-
-    Array(MAX_HOUSEHOLD_SIZE)
-      .fill('')
-      .forEach((_val, index) => {
-        const i = index + 1;
-        const value = i === MAX_HOUSEHOLD_SIZE ? -1 : i;
-        let text = `${i}`;
-        if (i === 1) {
-          text = t('views.family.onlyPerson');
-        } else if (i === MAX_HOUSEHOLD_SIZE) {
-          text = t('views.family.preferNotToSay');
-        }
-        householdSizeArray.push({ value, text });
-      });
-    this.setState({
-      householdSizeArray
-    });
-  }
-
   componentDidMount = async () => {
     // if there is no current draft in the store create a new one
 
@@ -208,7 +212,6 @@ export class PrimaryParticipant extends Component {
         });
       }
     }
-    this.setHouseholdSizeArray();
   };
 
   render() {
@@ -243,6 +246,7 @@ export class PrimaryParticipant extends Component {
             initialValues={{ ...defaultEditingObject, ...participant }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
               this.props.updateDraft({
                 ...currentDraft,
                 familyData: {
@@ -381,13 +385,35 @@ export class PrimaryParticipant extends Component {
                   required
                   disableFuture
                 />
-                <Select
-                  required
-                  label={t('views.family.documentType')}
-                  value={values.documentType || ''}
-                  field="documentType"
-                  onChange={this.updateDraft}
-                  options={surveyConfig.documentType}
+                <Autocomplete
+                  name="documentType"
+                  value={{
+                    value: values.documentType,
+                    label: values.documentType
+                      ? surveyConfig.documentType.find(
+                          e => e.value === values.documentType
+                        ).text
+                      : ''
+                  }}
+                  options={surveyConfig.documentType.map(e => ({
+                    value: e.value,
+                    label: e.text
+                  }))}
+                  onChange={value => {
+                    setFieldValue('documentType', value ? value.value : '');
+                  }}
+                  onBlur={() => setFieldTouched('documentType')}
+                  textFieldProps={{
+                    label: t('views.family.documentType'),
+                    required: true,
+                    error: pathHasError('documentType', touched, errors),
+                    helperText: getErrorLabelForPath(
+                      'documentType',
+                      touched,
+                      errors,
+                      t
+                    )
+                  }}
                 />
                 <TextField
                   className={
@@ -413,29 +439,67 @@ export class PrimaryParticipant extends Component {
                   fullWidth
                   required
                 />
-                <Select
-                  required
-                  label={t('views.family.countryOfBirth')}
-                  value={
-                    values.birthCountry ||
-                    currentSurvey.surveyConfig.surveyLocation.country
-                  }
-                  field="birthCountry"
-                  onChange={this.updateDraft}
-                  country
+                <Autocomplete
+                  name="birthCountry"
+                  value={{
+                    value: values.birthCountry,
+                    label: values.birthCountry
+                      ? countryList.find(e => e.code === values.birthCountry)
+                          .label
+                      : ''
+                  }}
+                  options={countryList.map(e => ({
+                    value: e.code,
+                    label: e.label
+                  }))}
+                  onChange={value => {
+                    setFieldValue('birthCountry', value ? value.value : '');
+                  }}
+                  onBlur={() => setFieldTouched('birthCountry')}
+                  textFieldProps={{
+                    label: t('views.family.countryOfBirth'),
+                    required: true,
+                    error: pathHasError('birthCountry', touched, errors),
+                    helperText: getErrorLabelForPath(
+                      'birthCountry',
+                      touched,
+                      errors,
+                      t
+                    )
+                  }}
                 />
-                <Select
-                  required
-                  label={t('views.family.peopleLivingInThisHousehold')}
-                  value={
-                    // currentDraft
-                    //   ? currentDraft.familyData.countFamilyMembers
-                    //   : null
-                    values.countFamilyMembers
-                  }
-                  field="countFamilyMembers"
-                  onChange={this.updateFamilyMembersCount}
-                  options={this.state.householdSizeArray}
+                <Autocomplete
+                  name="countFamilyMembers"
+                  value={{
+                    value: values.countFamilyMembers,
+                    label: values.countFamilyMembers
+                      ? this.state.householdSizeArray.find(
+                          e => e.value === values.countFamilyMembers
+                        ).text
+                      : ''
+                  }}
+                  options={this.state.householdSizeArray.map(e => ({
+                    value: e.value,
+                    label: e.text
+                  }))}
+                  onChange={value => {
+                    setFieldValue(
+                      'countFamilyMembers',
+                      value ? value.value : ''
+                    );
+                  }}
+                  onBlur={() => setFieldTouched('countFamilyMembers')}
+                  textFieldProps={{
+                    label: t('views.family.peopleLivingInThisHousehold'),
+                    required: true,
+                    error: pathHasError('countFamilyMembers', touched, errors),
+                    helperText: getErrorLabelForPath(
+                      'countFamilyMembers',
+                      touched,
+                      errors,
+                      t
+                    )
+                  }}
                 />
                 <TextField
                   className={
@@ -479,10 +543,10 @@ export class PrimaryParticipant extends Component {
                     variant="contained"
                     onClick={this.submit}
                     disabled={isSubmitting}
-                    onClick={event => {
-                      event.preventDefault();
-                      validateForm().then(e => {
-                        if (Object.keys(e).length > 0) {
+                    onClick={() => {
+                      validateForm().then(errors => {
+                        if (Object.keys(errors).length > 0) {
+                          console.log(errors);
                           // TODO show something, there are some validation errors
                         }
                       });
