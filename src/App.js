@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
 import { PersistGate } from 'redux-persist/integration/react';
-import Header from './Header';
-import Footer from './Footer';
 import SurveysComponent from './screens/Surveys';
 import Lifemap from './screens/Lifemap';
 import store, { persistor } from './redux';
@@ -45,14 +43,12 @@ class App extends Component {
   }
 }
 
-const styles = {
+const styles = theme => ({
   appContainer: {
-    marginTop: 60,
     width: '100%',
     margin: 'auto',
-    display: 'inline-block',
-    minHeight: 'calc(95vh - 60px)'
+    marginTop: theme.shape.header
   }
-};
+});
 
 export default withStyles(styles)(App);

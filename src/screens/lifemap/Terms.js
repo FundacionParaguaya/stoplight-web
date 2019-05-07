@@ -119,7 +119,6 @@ const styles = {
     height: 220,
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
-    display: 'flex',
     overflow: 'hidden'
   },
   buttonTermsDisagree: {

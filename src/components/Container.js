@@ -25,13 +25,15 @@ function Container(props) {
   const md = clsx({
     5: variant === 'slim',
     9: variant === 'stretch',
-    7: variant === undefined
+    7: variant === undefined,
+    12: variant === 'fluid'
   });
 
   const lg = clsx({
     4: variant === 'slim',
     9: variant === 'stretch',
-    7: variant === undefined
+    7: variant === undefined,
+    12: variant === 'fluid'
   });
 
   return (
@@ -43,7 +45,7 @@ function Container(props) {
         lg={Number(lg)}
         sm={Number(sm)}
         {...other}
-        className={classNameProp}
+        className={`${classNameProp} ${classes.child}`}
       >
         {children}
       </Grid>
@@ -65,6 +67,9 @@ const styles = {
   },
   slim: {
     width: '30%'
+  },
+  child: {
+    width: '100%'
   }
 };
 

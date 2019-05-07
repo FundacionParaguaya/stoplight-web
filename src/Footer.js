@@ -17,7 +17,7 @@ function Footer(props) {
 const styles = {
   footer: {
     width: '100%',
-    height: '5vh',
+    height: '40px',
     backgroundColor: '#fff',
     borderTop: '1px solid #DCDEE3',
     display: 'flex',

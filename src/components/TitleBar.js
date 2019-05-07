@@ -61,14 +61,17 @@ class TopTitleContainer extends Component {
                 alt="Bar Dots"
               />
               <div className={classes.textContainer}>
+                {this.props.extraTitleText && (
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.extraTitleText}
+                  >
+                    {this.props.extraTitleText}
+                  </Typography>
+                )}
                 <Typography variant="h4" className={classes.titleMainAll}>
                   {this.props.title}
                 </Typography>
-                {this.props.extraTitleText ? (
-                  <Typography variant="h5" className={classes.titleMainAll}>
-                    {this.props.extraTitleText}
-                  </Typography>
-                ) : null}
               </div>
               <img
                 className={classes.barDots}
@@ -124,7 +127,8 @@ const styles = theme => ({
   },
   titleMainAll: {
     margin: 'auto',
-    zIndex: 1
+    zIndex: 1,
+    textAlign: 'center'
   },
   barDots: {
     height: '70%'
@@ -132,6 +136,14 @@ const styles = theme => ({
   textContainer: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  extraTitleText: {
+    textAlign: 'center',
+    fontWeight: 400,
+    textTransform: 'uppercase',
+    color: 'rgba(0,0,0,0.5)',
+    marginBottom: 10,
+    lineHeight: '25px'
   }
 });
 export default withRouter(
