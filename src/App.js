@@ -19,16 +19,20 @@ class App extends Component {
           <CssBaseline />
           <Provider store={store}>
             <PersistGate persistor={persistor}>
-              <Router>
-                <div>
-                  <div className={classes.appContainer}>
-                    <Switch>
-                      <Route path="/surveys" component={SurveysComponent} />
-                      <Route path="/lifemap" component={Lifemap} />
-                    </Switch>
-                  </div>
-                </div>
-              </Router>
+              <DatePickedProvider>
+                <Router>
+                  <Authenticator>
+                    <Header />
+                    <div className={classes.appContainer}>
+                      <Switch>
+                        <Route path="/surveys" component={SurveysComponent} />
+                        <Route path="/lifemap" component={Lifemap} />
+                      </Switch>
+                    </div>
+                    <Footer />
+                  </Authenticator>
+                </Router>
+              </DatePickedProvider>
             </PersistGate>
           </Provider>
         </React.Fragment>
