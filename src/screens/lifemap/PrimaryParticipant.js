@@ -13,6 +13,7 @@ import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 import Select from '../../components/Select';
+import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import familyFaceIcon from '../../assets/family_face_large.png';
@@ -266,7 +267,8 @@ export class PrimaryParticipant extends Component {
               handleBlur,
               isSubmitting,
               setFieldValue,
-              setFieldTouched
+              setFieldTouched,
+              validateForm
             }) => (
               <Form noValidate>
                 <TextField
@@ -317,13 +319,34 @@ export class PrimaryParticipant extends Component {
                   fullWidth
                   required
                 />
-                <Select
-                  required
-                  label={t('views.family.selectGender')}
-                  value={values.gender || ''}
+                <Autocomplete
                   name="gender"
-                  onChange={this.updateDraft}
-                  options={surveyConfig.gender}
+                  value={{
+                    value: values.gender,
+                    label: values.gender
+                      ? surveyConfig.gender.find(e => e.value === values.gender)
+                          .text
+                      : ''
+                  }}
+                  options={surveyConfig.gender.map(e => ({
+                    value: e.value,
+                    label: e.text
+                  }))}
+                  onChange={value => {
+                    setFieldValue('gender', value ? value.value : '');
+                  }}
+                  onBlur={() => setFieldTouched('gender')}
+                  textFieldProps={{
+                    label: t('views.family.selectGender'),
+                    required: true,
+                    error: pathHasError('gender', touched, errors),
+                    helperText: getErrorLabelForPath(
+                      'gender',
+                      touched,
+                      errors,
+                      t
+                    )
+                  }}
                 />
                 <DatePicker
                   format="MM/DD/YYYY"
@@ -456,6 +479,14 @@ export class PrimaryParticipant extends Component {
                     variant="contained"
                     onClick={this.submit}
                     disabled={isSubmitting}
+                    onClick={event => {
+                      event.preventDefault();
+                      validateForm().then(e => {
+                        if (Object.keys(e).length > 0) {
+                          // TODO show something, there are some validation errors
+                        }
+                      });
+                    }}
                   >
                     {t('general.continue')}
                   </Button>
