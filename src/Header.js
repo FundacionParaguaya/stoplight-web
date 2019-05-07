@@ -94,7 +94,6 @@ class Header extends Component {
           </a>
           <div className={classes.extraButtons}>
             <Button
-              className={classes.translationBox}
               style={{ color: 'white' }}
               buttonRef={node => {
                 this.anchorEl = node;
@@ -107,18 +106,11 @@ class Header extends Component {
                 {this.state.langaugeMenuMain === 'en' ? 'ENG' : 'ESP'}
               </Typography>
             </Button>
-            <a
-              className={classes.faqHeader}
-              onClick={() =>
-                window.location.replace(
-                  'https://intercom.help/poverty-stoplight'
-                )
-              }
-            >
+            <span className={classes.username}>
               <Typography variant="subtitle1" className={classes.menuLinkText}>
-                FAQ
+                {this.props.user.username}
               </Typography>
-            </a>
+            </span>
           </div>
 
           <Popper
@@ -205,12 +197,13 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  faqHeader: {
+  username: {
     height: '100%',
     display: 'flex',
     alignItems: 'center',
     borderLeft: `1px solid ${theme.palette.background.paper}`,
-    padding: '0 27px'
+    padding: '0 27px',
+    cursor: 'pointer'
   },
   surveyLink: {
     borderBottom: `4px solid ${theme.palette.primary.main}`
