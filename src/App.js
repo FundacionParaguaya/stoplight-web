@@ -41,12 +41,11 @@ class App extends Component {
   }
 }
 
-const styles = theme => ({
+const styles = {
   appContainer: {
     width: '100%',
-    margin: 'auto',
-    marginTop: theme.shape.header
+    margin: 'auto'
   }
-});
+};
 
 export default withStyles(styles)(App);

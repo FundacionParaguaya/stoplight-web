@@ -107,7 +107,7 @@ let QuestionsWrapper = ({
               >
                 {imageStatus === 'loading' ? (
                   <React.Fragment>
-                    <div class={classes.loadingContainer}>
+                    <div className={classes.loadingContainer}>
                       {' '}
                       <CircularProgress />
                     </div>
@@ -115,6 +115,7 @@ let QuestionsWrapper = ({
                       onLoad={handleImageLoaded}
                       src={e.url}
                       alt="surveyImg"
+                      style={{ display: 'none', height: 0 }}
                     />
                   </React.Fragment>
                 ) : (
