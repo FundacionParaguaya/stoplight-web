@@ -1,51 +1,58 @@
-import React, { Component } from 'react'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
-import logo from './assets/icon_stoplight.png'
-import { theme } from './theme'
-import Button from '@material-ui/core/Button'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Grow from '@material-ui/core/Grow'
-import Paper from '@material-ui/core/Paper'
-import Popper from '@material-ui/core/Popper'
-import MenuItem from '@material-ui/core/MenuItem'
-import MenuList from '@material-ui/core/MenuList'
-import { withTranslation } from 'react-i18next'
-import i18n from './i18n'
-import englishLogo from './assets/english.png'
-import paragLogo from './assets/paraguay.png'
+import React, { Component } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { withTranslation } from 'react-i18next';
+import logo from './assets/icon_stoplight.png';
+import { theme } from './theme';
+import i18n from './i18n';
+import englishLogo from './assets/english.png';
+import paragLogo from './assets/paraguay.png';
+
 class Header extends Component {
   state = {
     open: false,
     langaugeMenuMain: 'en'
-  }
+  };
+
   componentDidMount() {
-    let lng = localStorage.getItem('language')
-    this.setState({ langaugeMenuMain: lng })
+    const lng = localStorage.getItem('language');
+    this.setState({ langaugeMenuMain: lng });
   }
+
   componentDidUpdate() {
-    let lng = localStorage.getItem('language')
+    const lng = localStorage.getItem('language');
     if (this.state.langaugeMenuMain !== lng) {
-      this.setState({ langaugeMenuMain: lng })
+      this.setState({ langaugeMenuMain: lng });
     }
   }
+
   handleToggle = () => {
-    this.setState(state => ({ open: !state.open }))
-  }
+    this.setState(state => ({ open: !state.open }));
+  };
+
   handleCloseAway = () => {
-    this.setState({ open: false })
-  }
+    this.setState({ open: false });
+  };
+
   handleClose = event => {
-    localStorage.setItem('language', event)
-    i18n.changeLanguage(event)
-    this.setState({ open: false, langaugeMenuMain: event })
-  }
+    localStorage.setItem('language', event);
+    i18n.changeLanguage(event);
+    this.setState({ open: false, langaugeMenuMain: event });
+  };
+
   render() {
-    const { classes, user, t } = this.props
+    const { classes, user, t } = this.props;
 
     return (
       <AppBar className={classes.header} position="fixed">
@@ -95,7 +102,7 @@ class Header extends Component {
             className={classes.translationBox}
             style={{ color: 'white' }}
             buttonRef={node => {
-              this.anchorEl = node
+              this.anchorEl = node;
             }}
             aria-owns={this.state.open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
@@ -154,7 +161,7 @@ class Header extends Component {
           </Popper>
         </Toolbar>
       </AppBar>
-    )
+    );
   }
 }
 
@@ -195,13 +202,13 @@ const styles = {
     textDecoration: 'none',
     borderRight: `1px solid ${theme.palette.primary.dark}`
   }
-}
+};
 
-const mapStateToProps = ({ user }) => ({ user })
+const mapStateToProps = ({ user }) => ({ user });
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     {}
   )(withTranslation()(Header))
-)
+);
