@@ -115,6 +115,7 @@ let QuestionsWrapper = ({
                       onLoad={handleImageLoaded}
                       src={e.url}
                       alt="surveyImg"
+                      style={{ display: 'none', height: 0 }}
                     />
                   </React.Fragment>
                 ) : (
