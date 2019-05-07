@@ -127,6 +127,7 @@ export class PrimaryParticipant extends Component {
   };
 
   updateFamilyMembersCount = async (field, value) => {
+    console.log(`Updating with value ${value}`);
     const { currentDraft } = this.props;
 
     if (value === 1) {
@@ -486,7 +487,12 @@ export class PrimaryParticipant extends Component {
                       'countFamilyMembers',
                       value ? value.value : ''
                     );
+                    this.updateFamilyMembersCount(
+                      null,
+                      value ? value.value : 1
+                    );
                   }}
+                  isClearable={false}
                   onBlur={() => setFieldTouched('countFamilyMembers')}
                   textFieldProps={{
                     label: t('views.family.peopleLivingInThisHousehold'),

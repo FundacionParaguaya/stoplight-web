@@ -247,7 +247,6 @@ class IntegrationReactSelect extends React.Component {
             components={components}
             value={value}
             onChange={onChange}
-            isClearable
             placeholder=""
             {...remaining}
           />
@@ -260,7 +259,6 @@ class IntegrationReactSelect extends React.Component {
             components={components}
             value={value}
             onChange={onChange}
-            isClearable
             isSearchable={true}
             {...remaining}
           />
@@ -275,6 +273,10 @@ IntegrationReactSelect.propTypes = {
   theme: PropTypes.object.isRequired,
   value: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
+};
+
+IntegrationReactSelect.defaultProps = {
+  isClearable: true
 };
 
 export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);
