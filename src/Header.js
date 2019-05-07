@@ -130,8 +130,11 @@ class Header extends Component {
               >
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleCloseAway}>
-                    <MenuList>
-                      <MenuItem onClick={() => this.handleClose('en')}>
+                    <MenuList className={classes.menuList}>
+                      <MenuItem
+                        onClick={() => this.handleClose('en')}
+                        className={classes.menuItem}
+                      >
                         <img
                           className={classes.imgLogo}
                           src={englishLogo}
@@ -139,7 +142,10 @@ class Header extends Component {
                         />
                         English
                       </MenuItem>
-                      <MenuItem onClick={() => this.handleClose('es')}>
+                      <MenuItem
+                        className={classes.menuItem}
+                        onClick={() => this.handleClose('es')}
+                      >
                         <img
                           className={classes.imgLogo}
                           src={paragLogo}
@@ -207,6 +213,15 @@ const styles = theme => ({
   },
   surveyLink: {
     borderBottom: `4px solid ${theme.palette.primary.main}`
+  },
+  menuList: {
+    backgroundColor: '#fff',
+    border: `1px solid ${theme.palette.background.paper}`
+  },
+  menuItem: {
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper
+    }
   }
 });
 
