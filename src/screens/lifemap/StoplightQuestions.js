@@ -107,7 +107,7 @@ let QuestionsWrapper = ({
               >
                 {imageStatus === 'loading' ? (
                   <React.Fragment>
-                    <div class={classes.loadingContainer}>
+                    <div className={classes.loadingContainer}>
                       {' '}
                       <CircularProgress />
                     </div>
