@@ -14,7 +14,8 @@ const questionsWrapperStyles = {
   questionContainer: {
     cursor: 'pointer',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginTop: 20
   },
   questionImage: {
     objectFit: 'cover',
