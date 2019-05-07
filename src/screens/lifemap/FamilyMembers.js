@@ -16,6 +16,7 @@ import TitleBar from '../../components/TitleBar';
 import Autocomplete from '../../components/Autocomplete';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
+import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const schemaWithDateTransform = Yup.date()
@@ -62,7 +63,14 @@ export class FamilyMembers extends Component {
   };
 
   render() {
-    const { classes, t, currentDraft, currentSurvey } = this.props;
+    const {
+      classes,
+      t,
+      currentDraft,
+      currentSurvey,
+      i18n: { language }
+    } = this.props;
+    const dateFormat = getDateFormatByLocale(language);
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
     return (
@@ -184,7 +192,7 @@ export class FamilyMembers extends Component {
                               }}
                             />
                             <DatePicker
-                              format="MM/DD/YYYY"
+                              format={dateFormat}
                               label={t('views.family.dateOfBirth')}
                               name={`members[${index}].birthDate`}
                               value={
