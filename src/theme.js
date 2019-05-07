@@ -148,7 +148,7 @@ export const theme = {
         border: 0,
         color: '#309E43',
         height: 38,
-        width: 280,
+        // width: 280,
         padding: '0 30px',
         textDecoration: 'underline'
       },
