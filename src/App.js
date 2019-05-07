@@ -22,7 +22,6 @@ class App extends Component {
               <DatePickedProvider>
                 <Router>
                   <Authenticator>
-                    <Header />
                     <div className={classes.appContainer}>
                       <Switch>
                         <Route path="/surveys" component={SurveysComponent} />
