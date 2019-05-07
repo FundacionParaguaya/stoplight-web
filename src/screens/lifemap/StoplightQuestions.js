@@ -8,6 +8,7 @@ import { Typography, Grid } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
+import { COLORS } from '../../theme';
 
 const questionsWrapperStyles = {
   questionContainer: {
@@ -80,12 +81,12 @@ let QuestionsWrapper = ({
           let displayTick = 'none';
           let textColor = 'white';
           if (e.value === 3) {
-            color = '#89bd76';
+            color = COLORS.GREEN;
           } else if (e.value === 2) {
-            color = '#f0cb17';
+            color = COLORS.YELLOW;
             textColor = 'black';
           } else if (e.value === 1) {
-            color = '#e1504d';
+            color = COLORS.RED;
           }
           if (e.value === answeredValue) {
             displayTick = 'flex';
