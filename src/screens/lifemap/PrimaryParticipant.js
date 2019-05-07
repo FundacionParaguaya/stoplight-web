@@ -17,6 +17,7 @@ import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import familyFaceIcon from '../../assets/family_face_large.png';
+import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -215,8 +216,15 @@ export class PrimaryParticipant extends Component {
   };
 
   render() {
-    const { t, currentSurvey, classes, currentDraft } = this.props;
+    const {
+      t,
+      currentSurvey,
+      classes,
+      currentDraft,
+      i18n: { language }
+    } = this.props;
     const { surveyConfig } = currentSurvey;
+    const dateFormat = getDateFormatByLocale(language);
 
     const participant = currentDraft
       ? currentDraft.familyData.familyMembersList[0]
@@ -352,7 +360,7 @@ export class PrimaryParticipant extends Component {
                   }}
                 />
                 <DatePicker
-                  format="MM/DD/YYYY"
+                  format={dateFormat}
                   label={t('views.family.dateOfBirth')}
                   name="birthDate"
                   value={
