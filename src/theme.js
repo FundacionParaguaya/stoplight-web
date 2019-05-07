@@ -28,6 +28,7 @@ export const theme = {
       main: '#909090'
     },
     background: {
+      default: '#fff',
       paper: '#f3f4f6'
     }
   },
@@ -70,7 +71,9 @@ export const theme = {
   },
   shape: {
     padding: 40,
-    marginButton: '40px 0 50px 0'
+    marginButton: '40px 0 50px 0',
+    header: '60px',
+    footer: '40px'
   },
   shadows: Array(25).fill('none'),
   overrides: {
@@ -164,7 +167,6 @@ export const theme = {
         border: 0,
         color: '#fff',
         height: 38,
-        width: 280,
         padding: '0 30px'
       },
       outlined: {

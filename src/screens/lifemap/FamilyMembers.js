@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateDraft } from '../../redux/actions';
 import { withTranslation } from 'react-i18next';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core';
+import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Form from '../../components/Form';
 import Input from '../../components/Input';
-import TextField from '@material-ui/core/TextField';
-import ContainerSmall from '../../components/ContainerSmall';
+import Container from '../../components/Container';
 import Select from '../../components/Select';
-import Typography from '@material-ui/core/Typography';
+import BottomSpacer from '../../components/BottomSpacer';
 import DatePicker from '../../components/DatePicker';
+
 export class FamilyMembers extends Component {
   updateDraft = (memberIndex, value, property) => {
     const { currentDraft } = this.props;
@@ -26,9 +29,8 @@ export class FamilyMembers extends Component {
                 ...item,
                 [property]: value
               };
-            } else {
-              return item;
             }
+            return item;
           }
         )
       }
@@ -40,13 +42,13 @@ export class FamilyMembers extends Component {
   };
 
   render() {
-    const { t, currentDraft, currentSurvey } = this.props;
+    const { classes, t, currentDraft, currentSurvey } = this.props;
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
     return (
       <div>
         <TitleBar title={t('views.familyMembers')} />
-        <ContainerSmall>
+        <Container variant="slim">
           <Form
             onSubmit={this.handleContinue}
             submitLabel={t('general.continue')}
@@ -55,25 +57,10 @@ export class FamilyMembers extends Component {
               if (index === 0) {
                 return (
                   <div key={index}>
-                    <Typography
-                      style={{ marginTop: '20px', marginBottom: '16px' }}
-                      variant="h6"
-                    >
-                      <span
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <i
-                          class="material-icons"
-                          style={{ marginRight: 7, fontSize: 35 }}
-                        >
-                          face
-                        </i>
-                        {t('views.family.familyMember')} {index + 1} -{' '}
-                        {t('views.primaryParticipant')}
-                      </span>
+                    <Typography variant="h6" className={classes.title}>
+                      <i className={`material-icons ${classes.icon}`}>face</i>
+                      {t('views.family.familyMember')} {index + 1} -{' '}
+                      {t('views.primaryParticipant')}
                     </Typography>
                     <TextField
                       disabled
@@ -89,8 +76,8 @@ export class FamilyMembers extends Component {
                       label={t('views.family.selectGender')}
                       value={item.gender}
                       field={index + 1}
-                      onChange={(index, value) =>
-                        this.updateDraft(index, value, 'gender')
+                      onChange={(i, value) =>
+                        this.updateDraft(i, value, 'gender')
                       }
                       options={surveyConfig.gender}
                     />
@@ -98,72 +85,72 @@ export class FamilyMembers extends Component {
                       disabled
                       label={t('views.family.dateOfBirth')}
                       field={index + 1}
-                      onChange={(index, value) =>
-                        this.updateDraft(index, value, 'birthDate')
-                      }
-                      value={item.birthDate}
-                    />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={index}>
-                    <Typography
-                      style={{ marginTop: '20px', marginBottom: '16px' }}
-                      variant="h6"
-                    >
-                      <span
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <i
-                          class="material-icons"
-                          style={{ marginRight: 7, fontSize: 35 }}
-                        >
-                          face
-                        </i>
-                        {t('views.family.familyMember')} {index + 1}
-                      </span>
-                    </Typography>
-                    <Input
-                      required
-                      field={index + 1}
-                      label={`${t('views.family.firstName')}`}
-                      value={item.firstName}
-                      onChange={(index, value) =>
-                        this.updateDraft(index, value, 'firstName')
-                      }
-                    />
-
-                    <Select
-                      label={t('views.family.selectGender')}
-                      value={item.gender}
-                      field={index + 1}
-                      onChange={(index, value) =>
-                        this.updateDraft(index, value, 'gender')
-                      }
-                      options={surveyConfig.gender}
-                    />
-                    <DatePicker
-                      label={t('views.family.dateOfBirth')}
-                      field={index + 1}
-                      onChange={(index, value) =>
-                        this.updateDraft(index, value, 'birthDate')
+                      onChange={(j, value) =>
+                        this.updateDraft(j, value, 'birthDate')
                       }
                       value={item.birthDate}
                     />
                   </div>
                 );
               }
+              return (
+                <div key={index} className={classes.familyMemberForm}>
+                  <Typography variant="h6" className={classes.title}>
+                    <i className={`material-icons ${classes.icon}`}>face</i>
+                    {t('views.family.familyMember')} {index + 1}
+                  </Typography>
+                  <Input
+                    required
+                    field={index + 1}
+                    label={`${t('views.family.firstName')}`}
+                    value={item.firstName}
+                    onChange={(k, value) =>
+                      this.updateDraft(k, value, 'firstName')
+                    }
+                  />
+
+                  <Select
+                    label={t('views.family.selectGender')}
+                    value={item.gender}
+                    field={index + 1}
+                    onChange={(l, value) =>
+                      this.updateDraft(l, value, 'gender')
+                    }
+                    options={surveyConfig.gender}
+                  />
+                  <DatePicker
+                    label={t('views.family.dateOfBirth')}
+                    field={index + 1}
+                    onChange={(m, value) =>
+                      this.updateDraft(m, value, 'birthDate')
+                    }
+                    value={item.birthDate}
+                  />
+                </div>
+              );
             })}
           </Form>
-        </ContainerSmall>
+        </Container>
+        <BottomSpacer />
       </div>
     );
   }
 }
+
+const styles = theme => ({
+  title: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  icon: {
+    marginRight: 10,
+    fontSize: 30,
+    color: theme.palette.grey.main
+  },
+  familyMemberForm: {
+    marginTop: 40
+  }
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
@@ -172,7 +159,9 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 
 const mapDispatchToProps = { updateDraft };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withTranslation()(FamilyMembers));
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withTranslation()(FamilyMembers))
+);
