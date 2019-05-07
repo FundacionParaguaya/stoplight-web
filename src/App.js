@@ -22,6 +22,7 @@ class App extends Component {
               <DatePickedProvider>
                 <Router>
                   <Authenticator>
+                    <Header />
                     <div className={classes.appContainer}>
                       <Switch>
                         <Route path="/surveys" component={SurveysComponent} />
@@ -40,11 +41,12 @@ class App extends Component {
   }
 }
 
-const styles = {
+const styles = theme => ({
   appContainer: {
     width: '100%',
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: theme.shape.header
   }
-};
+});
 
 export default withStyles(styles)(App);
