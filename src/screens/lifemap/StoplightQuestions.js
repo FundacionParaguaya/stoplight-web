@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -74,6 +74,7 @@ let QuestionsWrapper = ({
   handleImageLoaded,
   imageStatus
 }) => {
+  const [showIcon, setShowIcon] = useState(0);
   let sortedQuestions;
 
   if (question) {
@@ -88,7 +89,6 @@ let QuestionsWrapper = ({
       {question &&
         sortedQuestions.map(e => {
           let color;
-          let displayTick = 'none';
           let textColor = 'white';
           if (e.value === 3) {
             color = COLORS.GREEN;
@@ -98,9 +98,6 @@ let QuestionsWrapper = ({
           } else if (e.value === 1) {
             color = COLORS.RED;
           }
-          if (e.value === answeredValue) {
-            displayTick = 'flex';
-          }
 
           return (
             <Grid
@@ -109,6 +106,8 @@ let QuestionsWrapper = ({
               onClick={() => submitQuestion(e.value)}
               className={classes.questionContainer}
               md={4}
+              onMouseEnter={() => setShowIcon(e.value)}
+              onMouseLeave={() => setShowIcon(0)}
             >
               <div
                 style={{ borderTop: `5px solid ${color}`, borderRadius: 2 }}
@@ -140,11 +139,8 @@ let QuestionsWrapper = ({
                   style={{ backgroundColor: color }}
                   className={classes.questionDescription}
                 >
-                  {answeredValue !== 0 && (
-                    <div
-                      className={classes.answeredQuestion}
-                      style={{ display: displayTick }}
-                    >
+                  {(answeredValue === e.value || showIcon === e.value) && (
+                    <div className={classes.answeredQuestion}>
                       <i
                         style={{ backgroundColor: color }}
                         className={`material-icons ${classes.answeredIcon}`}
