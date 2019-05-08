@@ -210,42 +210,6 @@ export class StoplightQuestions extends Component {
     }
   };
 
-  skipQuestion = () => {
-    const { codeName } = this.state.question;
-    const { currentDraft } = this.props;
-    const dataList = this.props.currentDraft.indicatorSurveyDataList;
-    let update = false;
-    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST AND UPDATE my dataList
-    dataList.forEach(e => {
-      if (e.key === codeName) {
-        update = true;
-        e.value = 0;
-      }
-    });
-    // /////////if the question is in the data list then update the question
-    if (update) {
-      const indicatorSurveyDataList = dataList;
-      this.props.updateDraft({
-        ...currentDraft,
-        indicatorSurveyDataList
-      });
-      this.handleContinue();
-    } else {
-      // ////////// add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        indicatorSurveyDataList: [
-          ...currentDraft.indicatorSurveyDataList,
-          {
-            key: codeName,
-            value: 0
-          }
-        ]
-      });
-      this.handleContinue();
-    }
-  };
-
   submitQuestion(value) {
     const { codeName } = this.state.question;
     const { currentDraft } = this.props;
