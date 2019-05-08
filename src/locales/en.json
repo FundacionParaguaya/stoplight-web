@@ -23,7 +23,8 @@
     "familyInfo": "family info",
     "cachedData": "cached data",
     "chooseView": "Choose view",
-    "create": "Create"
+    "create": "Create",
+    "saveError": "Error while trying to save your lifemap"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -32,7 +33,8 @@
     "lessThan50Characters": "Value must be less than 50 characters",
     "alphabeticCharacters": "Please enter alphabetic characters",
     "validPhoneNumber": "Please enter a valid phone number",
-    "validNumber": "Please enter a valid number"
+    "validNumber": "Please enter a valid number",
+    "formWithErrors": "The form contains invalid entries"
   },
   "months": {
     "january": "January",

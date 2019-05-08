@@ -17,6 +17,7 @@ import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
+import LeaveModal from '../../components/LeaveModal';
 import familyFaceIcon from '../../assets/family_face_large.png';
 import { getDateFormatByLocale } from '../../utils/date-utils';
 
@@ -46,9 +47,14 @@ export class PrimaryParticipant extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props)
+      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props),
+      openModal: false
     };
   }
+
+  toggleModal = () => {
+    this.setState(prevState => ({ openModal: !prevState.openModal }));
+  };
 
   static constructHouseholdArray(props) {
     const { t } = props;
@@ -278,6 +284,15 @@ export class PrimaryParticipant extends Component {
 
     return (
       <div>
+        <LeaveModal
+          title="Warning!"
+          subtitle={t('validation.formWithErrors')}
+          continueButtonText={t('general.gotIt')}
+          singleAction
+          onClose={this.toggleModal}
+          open={this.state.openModal}
+          leaveAction={this.toggleModal}
+        />
         <TitleBar title={t('views.primaryParticipant')} />
         <div className={classes.topImageContainer}>
           <img height={60} width={60} src={familyFaceIcon} />
@@ -612,8 +627,7 @@ export class PrimaryParticipant extends Component {
                       onClick={() => {
                         validateForm().then(validationErrors => {
                           if (Object.keys(validationErrors).length > 0) {
-                            console.log(validationErrors);
-                            // TODO show something, there are some validation errors
+                            this.toggleModal();
                           }
                         });
                       }}
