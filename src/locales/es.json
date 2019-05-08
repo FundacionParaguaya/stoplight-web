@@ -150,6 +150,10 @@
       "achievements": "Logros",
       "toComplete": "Antes de que se complete el Mapa de Vida...."
     },
+    "priority": {
+      "month": "mes",
+      "months": "meses"
+    },
     "modals": {
       "lifeMapWillNotBeSaved": "Si no ingresa todos los detalles en esta página, ¡el Mapa de Vida no se guardará!",
       "weCannotContinueToCreateTheLifeMap": "Si no estás de acuerdo, ¡no podremos seguir creando el mapa de vida!",
