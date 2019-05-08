@@ -13,6 +13,7 @@ import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import Header from '../Header';
 import Footer from '../Footer';
+import BottomSpacer from '../components/BottomSpacer';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -208,6 +209,7 @@ export class Surveys extends Component {
               </Grid>
             </div>
           </Container>
+          <BottomSpacer />
         </div>
         <Footer />
       </>
