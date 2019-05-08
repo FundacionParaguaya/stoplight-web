@@ -12,6 +12,7 @@ import SummaryDonut from '../../components/summary/SummaryDonut';
 import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import IndicatorBall from '../../components/summary/IndicatorBall';
+import IndicatorsFilter from '../../components/summary/IndicatorsFilter';
 import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';
 
@@ -284,6 +285,12 @@ export class Overview extends Component {
             skippedIndicatorCount={this.state.skippedIndicatorCount}
           />
           <AllSurveyIndicators />
+          <IndicatorsFilter
+            greenIndicatorCount={this.state.greenIndicatorCount}
+            yellowIndicatorCount={this.state.yellowIndicatorCount}
+            redIndicatorCount={this.state.redIndicatorCount}
+            skippedIndicatorCount={this.state.skippedIndicatorCount}
+          />
           <div>
             {Object.keys(groupedAnswers).map(elem => (
               <div key={elem}>
