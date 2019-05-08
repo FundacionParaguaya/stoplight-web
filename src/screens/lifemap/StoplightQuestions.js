@@ -66,12 +66,9 @@ let QuestionsWrapper = ({
 
   if (question) {
     sortedQuestions = question.stoplightColors;
-    const compare = (a, b) => {
-      if (a.value < b.value) return 1;
-      if (a.value > b.value) return -1;
-      return 0;
-    };
-    sortedQuestions.sort(compare);
+    sortedQuestions.sort((a, b) => {
+      return b.value - a.value;
+    });
   }
 
   return (
