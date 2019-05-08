@@ -28,13 +28,15 @@ const LeaveModal = props => {
           >
             {props.continueButtonText || DEFAULT_CONTINUE_TEXT}
           </Button>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            onClick={props.onClose}
-          >
-            {props.cancelButtonText || DEFAULT_CANCEL_TEXT}
-          </Button>
+          {!props.singleAction && (
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={props.onClose}
+            >
+              {props.cancelButtonText || DEFAULT_CANCEL_TEXT}
+            </Button>
+          )}
         </div>
       </div>
     </Modal>
