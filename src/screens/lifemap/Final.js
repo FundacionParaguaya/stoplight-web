@@ -100,6 +100,17 @@ export class Final extends Component {
           <div className={classes.gridContainer}>
             <Grid container spacing={16}>
               <Grid item xs={4}>
+                {/* <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  disabled={this.state.loading}
+                >
+                  <MailIcon className={classes.leftIcon} />
+                  {t('views.final.email')}
+                </Button> */}
+              </Grid>
+              <Grid item xs={4}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -111,18 +122,7 @@ export class Final extends Component {
                 </Button>
               </Grid>
               <Grid item xs={4}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={this.state.loading}
-                >
-                  <MailIcon className={classes.leftIcon} />
-                  {t('views.final.email')}
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
+                {/* <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
@@ -130,7 +130,7 @@ export class Final extends Component {
                 >
                   <DownloadIcon className={classes.leftIcon} />
                   {t('views.final.download')}
-                </Button>
+                </Button> */}
               </Grid>
               <Grid item xs={4} />
               <Grid item xs={4}>
