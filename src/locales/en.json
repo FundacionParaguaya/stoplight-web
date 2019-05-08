@@ -150,6 +150,10 @@
       "achievements": "Achievements",
       "toComplete": "To complete the lifemap..."
     },
+    "priority": {
+      "month": "month",
+      "months": "months"
+    },
     "modals": {
       "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",
       "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the life map!",
