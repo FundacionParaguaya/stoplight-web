@@ -238,6 +238,7 @@ class Priority extends Component {
                         : ''
                     }}
                     options={this.state.monthsOptions}
+                    isClearable={false}
                     onChange={value => {
                       setFieldValue('estimatedDate', value ? value.value : '');
                     }}
