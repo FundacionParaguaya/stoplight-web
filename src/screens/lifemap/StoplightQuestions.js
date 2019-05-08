@@ -326,7 +326,7 @@ export class StoplightQuestions extends Component {
               <span>
                 <Button
                   style={{ textDecoration: 'none', padding: 0 }}
-                  onClick={this.skipQuestion}
+                  onClick={() => this.submitQuestion(0)}
                 >
                   {t('views.lifemap.skipThisQuestion')}
                 </Button>
