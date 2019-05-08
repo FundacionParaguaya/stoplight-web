@@ -199,6 +199,13 @@
       "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
       "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras."
     },
+    "indicatorsFilter": {
+      "red": "Rojo",
+      "yellow": "Amarillo",
+      "green": "Verde",
+      "skipped": "Omitidas",
+      "allIndicators": "Todos los indicadores"
+    },
     "final": {
       "title": "¡Gracias!",
       "lifemapCompleted": "¡Tu mapa de vida está completo!",
