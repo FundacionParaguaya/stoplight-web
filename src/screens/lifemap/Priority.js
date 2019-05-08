@@ -350,14 +350,17 @@ const styles = {
     alignItems: 'center'
   },
   imgClass: {
-    width: '100%'
+    width: '100%',
+    height: '307px',
+    minHeight: '100%',
+    objectFit: 'cover'
   },
   paragraphContainer: {
     margin: '0px',
-    paddingTop: '48px',
     display: 'flex',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    minHeight: '307px'
   },
   paragraphTypography: {
     fontSize: 16,
@@ -367,7 +370,6 @@ const styles = {
   },
   imgAndDescriptionContainer: {
     position: 'relative',
-    height: '307px',
     display: 'flex',
     width: '614px',
     margin: 'auto',
