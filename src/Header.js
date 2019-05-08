@@ -94,7 +94,6 @@ class Header extends Component {
           </a>
           <div className={classes.extraButtons}>
             <Button
-              className={classes.translationBox}
               style={{ color: 'white' }}
               buttonRef={node => {
                 this.anchorEl = node;
@@ -107,18 +106,11 @@ class Header extends Component {
                 {this.state.langaugeMenuMain === 'en' ? 'ENG' : 'ESP'}
               </Typography>
             </Button>
-            <a
-              className={classes.faqHeader}
-              onClick={() =>
-                window.location.replace(
-                  'https://intercom.help/poverty-stoplight'
-                )
-              }
-            >
+            <span className={classes.username}>
               <Typography variant="subtitle1" className={classes.menuLinkText}>
-                FAQ
+                {this.props.user.username}
               </Typography>
-            </a>
+            </span>
           </div>
 
           <Popper
@@ -138,8 +130,11 @@ class Header extends Component {
               >
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleCloseAway}>
-                    <MenuList>
-                      <MenuItem onClick={() => this.handleClose('en')}>
+                    <MenuList className={classes.menuList}>
+                      <MenuItem
+                        onClick={() => this.handleClose('en')}
+                        className={classes.menuItem}
+                      >
                         <img
                           className={classes.imgLogo}
                           src={englishLogo}
@@ -147,7 +142,10 @@ class Header extends Component {
                         />
                         English
                       </MenuItem>
-                      <MenuItem onClick={() => this.handleClose('es')}>
+                      <MenuItem
+                        className={classes.menuItem}
+                        onClick={() => this.handleClose('es')}
+                      >
                         <img
                           className={classes.imgLogo}
                           src={paragLogo}
@@ -205,15 +203,25 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  faqHeader: {
+  username: {
     height: '100%',
     display: 'flex',
     alignItems: 'center',
     borderLeft: `1px solid ${theme.palette.background.paper}`,
-    padding: '0 27px'
+    padding: '0 27px',
+    cursor: 'pointer'
   },
   surveyLink: {
     borderBottom: `4px solid ${theme.palette.primary.main}`
+  },
+  menuList: {
+    backgroundColor: '#fff',
+    border: `1px solid ${theme.palette.background.paper}`
+  },
+  menuItem: {
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper
+    }
   }
 });
 
