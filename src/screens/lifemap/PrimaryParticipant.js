@@ -9,6 +9,7 @@ import { Formik, Form } from 'formik';
 import uuid from 'uuid/v1';
 import * as Yup from 'yup';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 import countries from 'localized-countries';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
@@ -215,6 +216,27 @@ export class PrimaryParticipant extends Component {
     }
   };
 
+  updateDraftWithCurrentValues = values => {
+    const { currentDraft } = this.props;
+    // The family members count does not belong in the primary participant
+    // object. We just put it there for convenience in the editing object.
+    // It is removed before storing the primary participant into the draft
+    const primaryParticipant = { ...values };
+    delete primaryParticipant.countFamilyMembers;
+    this.props.updateDraft({
+      ...currentDraft,
+      familyData: {
+        ...currentDraft.familyData,
+        familyMembersList: [
+          {
+            ...primaryParticipant
+          },
+          ...currentDraft.familyData.familyMembersList.slice(1)
+        ]
+      }
+    });
+  };
+
   render() {
     const {
       t,
@@ -224,6 +246,10 @@ export class PrimaryParticipant extends Component {
       i18n: { language }
     } = this.props;
     const { surveyConfig } = currentSurvey;
+    // We need the current draft to be created before processing
+    if (!this.props.currentDraft) {
+      return <TitleBar title={t('views.primaryParticipant')} />;
+    }
     const dateFormat = getDateFormatByLocale(language);
 
     const participant = currentDraft
@@ -236,10 +262,18 @@ export class PrimaryParticipant extends Component {
       birthDate: '',
       documentType: '',
       documentNumber: '',
-      birthCountry: '',
-      countFamilyMembers: '',
+      birthCountry: _.get(
+        currentSurvey,
+        'surveyConfig.surveyLocation.country',
+        ''
+      ),
+      countFamilyMembers: _.get(
+        currentDraft,
+        'familyData.countFamilyMembers',
+        ''
+      ),
       email: '',
-      phone: ''
+      phoneNumber: ''
     };
 
     return (
@@ -250,22 +284,13 @@ export class PrimaryParticipant extends Component {
         </div>
         <Container variant="slim">
           <Formik
-            enableReinitialize
-            initialValues={{ ...defaultEditingObject, ...participant }}
+            initialValues={{
+              ...defaultEditingObject,
+              ...participant
+            }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              this.props.updateDraft({
-                ...currentDraft,
-                familyData: {
-                  ...currentDraft.familyData,
-                  familyMembersList: [
-                    {
-                      ...values
-                    },
-                    ...currentDraft.familyData.familyMembersList.slice(1)
-                  ]
-                }
-              });
+              this.updateDraftWithCurrentValues(values);
               this.handleContinue();
               setSubmitting(false);
             }}
@@ -275,299 +300,330 @@ export class PrimaryParticipant extends Component {
               errors,
               touched,
               handleChange,
-              handleBlur,
+              handleBlur: formikHandleBlur,
               isSubmitting,
               setFieldValue,
               setFieldTouched,
               validateForm
-            }) => (
-              <Form noValidate>
-                <TextField
-                  className={
-                    values.firstName
-                      ? `${this.props.classes.input} ${
-                          this.props.classes.inputFilled
-                        }`
-                      : `${this.props.classes.input}`
-                  }
-                  variant="filled"
-                  label={t('views.family.firstName')}
-                  name="firstName"
-                  value={values.firstName || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={pathHasError('firstName', touched, errors)}
-                  helperText={getErrorLabelForPath(
-                    'firstName',
-                    touched,
-                    errors,
-                    t
-                  )}
-                  fullWidth
-                  required
-                />
-                <TextField
-                  className={
-                    values.lastName
-                      ? `${this.props.classes.input} ${
-                          this.props.classes.inputFilled
-                        }`
-                      : `${this.props.classes.input}`
-                  }
-                  variant="filled"
-                  label={t('views.family.lastName')}
-                  name="lastName"
-                  value={values.lastName || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={pathHasError('lastName', touched, errors)}
-                  helperText={getErrorLabelForPath(
-                    'lastName',
-                    touched,
-                    errors,
-                    t
-                  )}
-                  fullWidth
-                  required
-                />
-                <Autocomplete
-                  name="gender"
-                  value={{
-                    value: values.gender,
-                    label: values.gender
-                      ? surveyConfig.gender.find(e => e.value === values.gender)
-                          .text
-                      : ''
-                  }}
-                  options={surveyConfig.gender.map(e => ({
-                    value: e.value,
-                    label: e.text
-                  }))}
-                  onChange={value => {
-                    setFieldValue('gender', value ? value.value : '');
-                  }}
-                  onBlur={() => setFieldTouched('gender')}
-                  textFieldProps={{
-                    label: t('views.family.selectGender'),
-                    required: true,
-                    error: pathHasError('gender', touched, errors),
-                    helperText: getErrorLabelForPath(
-                      'gender',
+            }) => {
+              const handleBlur = e => {
+                formikHandleBlur(e);
+                this.updateDraftWithCurrentValues(values);
+              };
+              return (
+                <Form noValidate>
+                  <TextField
+                    className={
+                      values.firstName
+                        ? `${this.props.classes.input} ${
+                            this.props.classes.inputFilled
+                          }`
+                        : `${this.props.classes.input}`
+                    }
+                    variant="filled"
+                    label={t('views.family.firstName')}
+                    name="firstName"
+                    value={values.firstName || ''}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={pathHasError('firstName', touched, errors)}
+                    helperText={getErrorLabelForPath(
+                      'firstName',
                       touched,
                       errors,
                       t
-                    )
-                  }}
-                />
-                <DatePicker
-                  format={dateFormat}
-                  label={t('views.family.dateOfBirth')}
-                  name="birthDate"
-                  value={
-                    values.birthDate ? moment.unix(values.birthDate) : null
-                  }
-                  onChange={e => setFieldValue('birthDate', e.unix())}
-                  onClose={() => setFieldTouched('birthDate')}
-                  error={pathHasError('birthDate', touched, errors)}
-                  helperText={getErrorLabelForPath(
-                    'birthDate',
-                    touched,
-                    errors,
-                    t
-                  )}
-                  TextFieldComponent={textFieldProps => (
-                    <TextField
-                      className={
-                        values.birthDate
-                          ? `${this.props.classes.input} ${
-                              this.props.classes.inputFilled
-                            }`
-                          : `${this.props.classes.input}`
-                      }
-                      variant="filled"
-                      {...textFieldProps}
-                    />
-                  )}
-                  fullWidth
-                  required
-                  disableFuture
-                />
-                <Autocomplete
-                  name="documentType"
-                  value={{
-                    value: values.documentType,
-                    label: values.documentType
-                      ? surveyConfig.documentType.find(
-                          e => e.value === values.documentType
-                        ).text
-                      : ''
-                  }}
-                  options={surveyConfig.documentType.map(e => ({
-                    value: e.value,
-                    label: e.text
-                  }))}
-                  onChange={value => {
-                    setFieldValue('documentType', value ? value.value : '');
-                  }}
-                  onBlur={() => setFieldTouched('documentType')}
-                  textFieldProps={{
-                    label: t('views.family.documentType'),
-                    required: true,
-                    error: pathHasError('documentType', touched, errors),
-                    helperText: getErrorLabelForPath(
-                      'documentType',
+                    )}
+                    fullWidth
+                    required
+                  />
+                  <TextField
+                    className={
+                      values.lastName
+                        ? `${this.props.classes.input} ${
+                            this.props.classes.inputFilled
+                          }`
+                        : `${this.props.classes.input}`
+                    }
+                    variant="filled"
+                    label={t('views.family.lastName')}
+                    name="lastName"
+                    value={values.lastName || ''}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={pathHasError('lastName', touched, errors)}
+                    helperText={getErrorLabelForPath(
+                      'lastName',
                       touched,
                       errors,
                       t
-                    )
-                  }}
-                />
-                <TextField
-                  className={
-                    values.documentNumber
-                      ? `${this.props.classes.input} ${
-                          this.props.classes.inputFilled
-                        }`
-                      : `${this.props.classes.input}`
-                  }
-                  variant="filled"
-                  label={t('views.family.documentNumber')}
-                  value={values.documentNumber || ''}
-                  name="documentNumber"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={pathHasError('documentNumber', touched, errors)}
-                  helperText={getErrorLabelForPath(
-                    'documentNumber',
-                    touched,
-                    errors,
-                    t
-                  )}
-                  fullWidth
-                  required
-                />
-                <Autocomplete
-                  name="birthCountry"
-                  value={{
-                    value: values.birthCountry,
-                    label: values.birthCountry
-                      ? countryList.find(e => e.code === values.birthCountry)
-                          .label
-                      : ''
-                  }}
-                  options={countryList.map(e => ({
-                    value: e.code,
-                    label: e.label
-                  }))}
-                  onChange={value => {
-                    setFieldValue('birthCountry', value ? value.value : '');
-                  }}
-                  onBlur={() => setFieldTouched('birthCountry')}
-                  textFieldProps={{
-                    label: t('views.family.countryOfBirth'),
-                    required: true,
-                    error: pathHasError('birthCountry', touched, errors),
-                    helperText: getErrorLabelForPath(
-                      'birthCountry',
-                      touched,
-                      errors,
-                      t
-                    )
-                  }}
-                />
-                <Autocomplete
-                  name="countFamilyMembers"
-                  value={{
-                    value: values.countFamilyMembers,
-                    label: values.countFamilyMembers
-                      ? this.state.householdSizeArray.find(
-                          e => e.value === values.countFamilyMembers
-                        ).text
-                      : ''
-                  }}
-                  options={this.state.householdSizeArray.map(e => ({
-                    value: e.value,
-                    label: e.text
-                  }))}
-                  onChange={value => {
-                    setFieldValue(
-                      'countFamilyMembers',
-                      value ? value.value : ''
-                    );
-                    this.updateFamilyMembersCount(
-                      null,
-                      value ? value.value : 1
-                    );
-                  }}
-                  isClearable={false}
-                  onBlur={() => setFieldTouched('countFamilyMembers')}
-                  textFieldProps={{
-                    label: t('views.family.peopleLivingInThisHousehold'),
-                    required: true,
-                    error: pathHasError('countFamilyMembers', touched, errors),
-                    helperText: getErrorLabelForPath(
-                      'countFamilyMembers',
-                      touched,
-                      errors,
-                      t
-                    )
-                  }}
-                />
-                <TextField
-                  className={
-                    values.email
-                      ? `${this.props.classes.input} ${
-                          this.props.classes.inputFilled
-                        }`
-                      : `${this.props.classes.input}`
-                  }
-                  variant="filled"
-                  label={t('views.family.email')}
-                  value={values.email || ''}
-                  name="email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={pathHasError('email', touched, errors)}
-                  helperText={getErrorLabelForPath('email', touched, errors, t)}
-                  fullWidth
-                />
-                <TextField
-                  className={
-                    values.phone
-                      ? `${this.props.classes.input} ${
-                          this.props.classes.inputFilled
-                        }`
-                      : `${this.props.classes.input}`
-                  }
-                  variant="filled"
-                  label={t('views.family.phone')}
-                  value={values.phone || ''}
-                  name="phone"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  fullWidth
-                />
-
-                <div className={classes.buttonContainerForm}>
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                    disabled={isSubmitting}
-                    onClick={() => {
-                      validateForm().then(validationErrors => {
-                        if (Object.keys(validationErrors).length > 0) {
-                          console.log(validationErrors);
-                          // TODO show something, there are some validation errors
-                        }
+                    )}
+                    fullWidth
+                    required
+                  />
+                  <Autocomplete
+                    name="gender"
+                    value={{
+                      value: values.gender,
+                      label: values.gender
+                        ? surveyConfig.gender.find(
+                            e => e.value === values.gender
+                          ).text
+                        : ''
+                    }}
+                    options={surveyConfig.gender.map(e => ({
+                      value: e.value,
+                      label: e.text
+                    }))}
+                    onChange={value => {
+                      setFieldValue('gender', value ? value.value : '');
+                    }}
+                    onBlur={() => {
+                      setFieldTouched('gender');
+                      this.updateDraftWithCurrentValues(values);
+                    }}
+                    textFieldProps={{
+                      label: t('views.family.selectGender'),
+                      required: true,
+                      error: pathHasError('gender', touched, errors),
+                      helperText: getErrorLabelForPath(
+                        'gender',
+                        touched,
+                        errors,
+                        t
+                      )
+                    }}
+                  />
+                  <DatePicker
+                    format={dateFormat}
+                    label={t('views.family.dateOfBirth')}
+                    name="birthDate"
+                    value={
+                      values.birthDate ? moment.unix(values.birthDate) : null
+                    }
+                    onChange={e => {
+                      setFieldValue('birthDate', e.unix());
+                      this.updateDraftWithCurrentValues({
+                        ...values,
+                        birthDate: e.unix()
                       });
                     }}
-                  >
-                    {t('general.continue')}
-                  </Button>
-                </div>
-              </Form>
-            )}
+                    onClose={() => setFieldTouched('birthDate')}
+                    error={pathHasError('birthDate', touched, errors)}
+                    helperText={getErrorLabelForPath(
+                      'birthDate',
+                      touched,
+                      errors,
+                      t
+                    )}
+                    TextFieldComponent={textFieldProps => (
+                      <TextField
+                        className={
+                          values.birthDate
+                            ? `${this.props.classes.input} ${
+                                this.props.classes.inputFilled
+                              }`
+                            : `${this.props.classes.input}`
+                        }
+                        variant="filled"
+                        {...textFieldProps}
+                      />
+                    )}
+                    fullWidth
+                    required
+                    disableFuture
+                  />
+                  <Autocomplete
+                    name="documentType"
+                    value={{
+                      value: values.documentType,
+                      label: values.documentType
+                        ? surveyConfig.documentType.find(
+                            e => e.value === values.documentType
+                          ).text
+                        : ''
+                    }}
+                    options={surveyConfig.documentType.map(e => ({
+                      value: e.value,
+                      label: e.text
+                    }))}
+                    onChange={value => {
+                      setFieldValue('documentType', value ? value.value : '');
+                    }}
+                    onBlur={() => {
+                      setFieldTouched('documentType');
+                      this.updateDraftWithCurrentValues(values);
+                    }}
+                    textFieldProps={{
+                      label: t('views.family.documentType'),
+                      required: true,
+                      error: pathHasError('documentType', touched, errors),
+                      helperText: getErrorLabelForPath(
+                        'documentType',
+                        touched,
+                        errors,
+                        t
+                      )
+                    }}
+                  />
+                  <TextField
+                    className={
+                      values.documentNumber
+                        ? `${this.props.classes.input} ${
+                            this.props.classes.inputFilled
+                          }`
+                        : `${this.props.classes.input}`
+                    }
+                    variant="filled"
+                    label={t('views.family.documentNumber')}
+                    value={values.documentNumber || ''}
+                    name="documentNumber"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={pathHasError('documentNumber', touched, errors)}
+                    helperText={getErrorLabelForPath(
+                      'documentNumber',
+                      touched,
+                      errors,
+                      t
+                    )}
+                    fullWidth
+                    required
+                  />
+                  <Autocomplete
+                    name="birthCountry"
+                    value={{
+                      value: values.birthCountry,
+                      label: values.birthCountry
+                        ? countryList.find(e => e.code === values.birthCountry)
+                            .label
+                        : ''
+                    }}
+                    options={countryList.map(e => ({
+                      value: e.code,
+                      label: e.label
+                    }))}
+                    onChange={value => {
+                      setFieldValue('birthCountry', value ? value.value : '');
+                    }}
+                    onBlur={() => {
+                      setFieldTouched('birthCountry');
+                      this.updateDraftWithCurrentValues(values);
+                    }}
+                    textFieldProps={{
+                      label: t('views.family.countryOfBirth'),
+                      required: true,
+                      error: pathHasError('birthCountry', touched, errors),
+                      helperText: getErrorLabelForPath(
+                        'birthCountry',
+                        touched,
+                        errors,
+                        t
+                      )
+                    }}
+                  />
+                  <Autocomplete
+                    name="countFamilyMembers"
+                    value={{
+                      value: values.countFamilyMembers,
+                      label: values.countFamilyMembers
+                        ? this.state.householdSizeArray.find(
+                            e => e.value === values.countFamilyMembers
+                          ).text
+                        : ''
+                    }}
+                    options={this.state.householdSizeArray.map(e => ({
+                      value: e.value,
+                      label: e.text
+                    }))}
+                    onChange={value => {
+                      setFieldValue(
+                        'countFamilyMembers',
+                        value ? value.value : ''
+                      );
+                      this.updateFamilyMembersCount(
+                        null,
+                        value ? value.value : 1
+                      );
+                    }}
+                    isClearable={false}
+                    onBlur={() => setFieldTouched('countFamilyMembers')}
+                    textFieldProps={{
+                      label: t('views.family.peopleLivingInThisHousehold'),
+                      required: true,
+                      error: pathHasError(
+                        'countFamilyMembers',
+                        touched,
+                        errors
+                      ),
+                      helperText: getErrorLabelForPath(
+                        'countFamilyMembers',
+                        touched,
+                        errors,
+                        t
+                      )
+                    }}
+                  />
+                  <TextField
+                    className={
+                      values.email
+                        ? `${this.props.classes.input} ${
+                            this.props.classes.inputFilled
+                          }`
+                        : `${this.props.classes.input}`
+                    }
+                    variant="filled"
+                    label={t('views.family.email')}
+                    value={values.email || ''}
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={pathHasError('email', touched, errors)}
+                    helperText={getErrorLabelForPath(
+                      'email',
+                      touched,
+                      errors,
+                      t
+                    )}
+                    fullWidth
+                  />
+                  <TextField
+                    className={
+                      values.phoneNumber
+                        ? `${this.props.classes.input} ${
+                            this.props.classes.inputFilled
+                          }`
+                        : `${this.props.classes.input}`
+                    }
+                    variant="filled"
+                    label={t('views.family.phone')}
+                    value={values.phoneNumber || ''}
+                    name="phoneNumber"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    fullWidth
+                  />
+
+                  <div className={classes.buttonContainerForm}>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                      disabled={isSubmitting}
+                      onClick={() => {
+                        validateForm().then(validationErrors => {
+                          if (Object.keys(validationErrors).length > 0) {
+                            console.log(validationErrors);
+                            // TODO show something, there are some validation errors
+                          }
+                        });
+                      }}
+                    >
+                      {t('general.continue')}
+                    </Button>
+                  </div>
+                </Form>
+              );
+            }}
           </Formik>
           <BottomSpacer />
         </Container>
