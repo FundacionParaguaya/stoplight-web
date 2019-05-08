@@ -13,13 +13,23 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import { COLORS } from '../../theme';
 
+export const FILTERED_BY_OPTIONS = {
+  GREEN: 3,
+  YELLOW: 2,
+  RED: 1,
+  SKIPPED: 0,
+  ALL: 'ALL'
+};
+
 const IndicatorsFilter = ({
   classes,
   t,
   greenIndicatorCount,
   yellowIndicatorCount,
   redIndicatorCount,
-  skippedIndicatorCount
+  skippedIndicatorCount,
+  filterValue,
+  onFilterChanged
 }) => {
   const [open, setOpen] = useState(false);
   const anchorEl = useRef(null);
@@ -32,8 +42,17 @@ const IndicatorsFilter = ({
         aria-haspopup="true"
         onClick={() => setOpen(true)}
       >
-        <Typography variant="subtitle1">
-          {t('views.indicatorsFilter.allIndicators')}
+        <Typography variant="subtitle1" className={classes.buttonText}>
+          {filterValue === FILTERED_BY_OPTIONS.ALL &&
+            t('views.indicatorsFilter.allIndicators')}
+          {filterValue === FILTERED_BY_OPTIONS.GREEN &&
+            t('views.indicatorsFilter.green')}
+          {filterValue === FILTERED_BY_OPTIONS.YELLOW &&
+            t('views.indicatorsFilter.yellow')}
+          {filterValue === FILTERED_BY_OPTIONS.RED &&
+            t('views.indicatorsFilter.red')}
+          {filterValue === FILTERED_BY_OPTIONS.SKIPPED &&
+            t('views.indicatorsFilter.skipped')}
         </Typography>
         <ArrowDropDownIcon className={classes.buttonIcon} />
       </Button>
@@ -60,58 +79,115 @@ const IndicatorsFilter = ({
             >
               <ClickAwayListener onClickAway={() => setOpen(false)}>
                 <MenuList>
-                  <MenuItem onClick={() => setOpen(false)}>
-                    <ListItemIcon className={classes.icon}>
-                      <div
-                        className={classes.indicatorBall}
-                        style={{ backgroundColor: COLORS.GREEN }}
-                      />
-                    </ListItemIcon>
-                    <Typography variant="subtitle1">
-                      {`${t(
-                        'views.indicatorsFilter.green'
-                      )} (${greenIndicatorCount})`}
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={() => setOpen(false)}>
-                    <ListItemIcon className={classes.icon}>
-                      <div
-                        className={classes.indicatorBall}
-                        style={{ backgroundColor: COLORS.YELLOW }}
-                      />
-                    </ListItemIcon>
-                    <Typography variant="subtitle1">
-                      {`${t(
-                        'views.indicatorsFilter.yellow'
-                      )} (${yellowIndicatorCount})`}
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={() => setOpen(false)}>
-                    <ListItemIcon className={classes.icon}>
-                      <div
-                        className={classes.indicatorBall}
-                        style={{ backgroundColor: COLORS.RED }}
-                      />
-                    </ListItemIcon>
-                    <Typography variant="subtitle1">
-                      {`${t(
-                        'views.indicatorsFilter.red'
-                      )} (${redIndicatorCount})`}
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem onClick={() => setOpen(false)}>
-                    <ListItemIcon className={classes.icon}>
-                      <div
-                        className={classes.indicatorBall}
-                        style={{ backgroundColor: COLORS.LIGHT_GREY }}
-                      />
-                    </ListItemIcon>
-                    <Typography variant="subtitle1">
-                      {`${t(
-                        'views.indicatorsFilter.skipped'
-                      )} (${skippedIndicatorCount})`}
-                    </Typography>
-                  </MenuItem>
+                  {filterValue !== FILTERED_BY_OPTIONS.ALL && (
+                    <MenuItem
+                      onClick={() => {
+                        setOpen(false);
+                        onFilterChanged(FILTERED_BY_OPTIONS.ALL);
+                      }}
+                    >
+                      <ListItemIcon className={classes.icon}>
+                        <div
+                          className={classes.indicatorBall}
+                          style={{
+                            background: `conic-gradient(${COLORS.GREEN} 25%, ${
+                              COLORS.YELLOW
+                            } 0 50%, ${COLORS.RED} 0 75%, ${
+                              COLORS.LIGHT_GREY
+                            } 0)`
+                          }}
+                        />
+                      </ListItemIcon>
+                      <Typography variant="subtitle1">
+                        {`${t(
+                          'views.indicatorsFilter.allIndicators'
+                        )} (${greenIndicatorCount +
+                          yellowIndicatorCount +
+                          redIndicatorCount +
+                          skippedIndicatorCount})`}
+                      </Typography>
+                    </MenuItem>
+                  )}
+                  {filterValue !== FILTERED_BY_OPTIONS.GREEN && (
+                    <MenuItem
+                      onClick={() => {
+                        setOpen(false);
+                        onFilterChanged(FILTERED_BY_OPTIONS.GREEN);
+                      }}
+                    >
+                      <ListItemIcon className={classes.icon}>
+                        <div
+                          className={classes.indicatorBall}
+                          style={{ backgroundColor: COLORS.GREEN }}
+                        />
+                      </ListItemIcon>
+                      <Typography variant="subtitle1">
+                        {`${t(
+                          'views.indicatorsFilter.green'
+                        )} (${greenIndicatorCount})`}
+                      </Typography>
+                    </MenuItem>
+                  )}
+                  {filterValue !== FILTERED_BY_OPTIONS.YELLOW && (
+                    <MenuItem
+                      onClick={() => {
+                        setOpen(false);
+                        onFilterChanged(FILTERED_BY_OPTIONS.YELLOW);
+                      }}
+                    >
+                      <ListItemIcon className={classes.icon}>
+                        <div
+                          className={classes.indicatorBall}
+                          style={{ backgroundColor: COLORS.YELLOW }}
+                        />
+                      </ListItemIcon>
+                      <Typography variant="subtitle1">
+                        {`${t(
+                          'views.indicatorsFilter.yellow'
+                        )} (${yellowIndicatorCount})`}
+                      </Typography>
+                    </MenuItem>
+                  )}
+                  {filterValue !== FILTERED_BY_OPTIONS.RED && (
+                    <MenuItem
+                      onClick={() => {
+                        setOpen(false);
+                        onFilterChanged(FILTERED_BY_OPTIONS.RED);
+                      }}
+                    >
+                      <ListItemIcon className={classes.icon}>
+                        <div
+                          className={classes.indicatorBall}
+                          style={{ backgroundColor: COLORS.RED }}
+                        />
+                      </ListItemIcon>
+                      <Typography variant="subtitle1">
+                        {`${t(
+                          'views.indicatorsFilter.red'
+                        )} (${redIndicatorCount})`}
+                      </Typography>
+                    </MenuItem>
+                  )}
+                  {filterValue !== FILTERED_BY_OPTIONS.SKIPPED && (
+                    <MenuItem
+                      onClick={() => {
+                        setOpen(false);
+                        onFilterChanged(FILTERED_BY_OPTIONS.SKIPPED);
+                      }}
+                    >
+                      <ListItemIcon className={classes.icon}>
+                        <div
+                          className={classes.indicatorBall}
+                          style={{ backgroundColor: COLORS.LIGHT_GREY }}
+                        />
+                      </ListItemIcon>
+                      <Typography variant="subtitle1">
+                        {`${t(
+                          'views.indicatorsFilter.skipped'
+                        )} (${skippedIndicatorCount})`}
+                      </Typography>
+                    </MenuItem>
+                  )}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -144,7 +220,8 @@ const styles = theme => ({
     fontFamily: 'Roboto',
     fontSize: 16,
     fontWeight: 500,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    width: 300
   },
   paper: {
     border: '0.1px solid #DCDEE3',
@@ -160,7 +237,10 @@ const styles = theme => ({
     height: 17
   },
   buttonIcon: {
-    marginLeft: theme.spacing.unit * 2
+    marginLeft: 'auto'
+  },
+  buttonText: {
+    marginLeft: 'auto'
   }
 });
 

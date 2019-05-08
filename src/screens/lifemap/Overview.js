@@ -12,7 +12,9 @@ import SummaryDonut from '../../components/summary/SummaryDonut';
 import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import IndicatorBall from '../../components/summary/IndicatorBall';
-import IndicatorsFilter from '../../components/summary/IndicatorsFilter';
+import IndicatorsFilter, {
+  FILTERED_BY_OPTIONS
+} from '../../components/summary/IndicatorsFilter';
 import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';
 
@@ -156,7 +158,12 @@ export class Overview extends Component {
     ).length,
     skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
       indicator => !indicator.value
-    ).length
+    ).length,
+    indicatorFilterValue: FILTERED_BY_OPTIONS.ALL
+  };
+
+  handleFilterChange = filter => {
+    this.setState({ indicatorFilterValue: filter });
   };
 
   handleFooterButtonClick = () => {
@@ -290,6 +297,8 @@ export class Overview extends Component {
             yellowIndicatorCount={this.state.yellowIndicatorCount}
             redIndicatorCount={this.state.redIndicatorCount}
             skippedIndicatorCount={this.state.skippedIndicatorCount}
+            filterValue={this.state.indicatorFilterValue}
+            onFilterChanged={this.handleFilterChange}
           />
           <div>
             {Object.keys(groupedAnswers).map(elem => (
@@ -310,7 +319,15 @@ export class Overview extends Component {
                   }
                 />
                 <DimensionQuestions
-                  questions={groupedAnswers[elem]}
+                  questions={groupedAnswers[elem].filter(ind => {
+                    if (
+                      this.state.indicatorFilterValue ===
+                      FILTERED_BY_OPTIONS.ALL
+                    ) {
+                      return true;
+                    }
+                    return ind.value === this.state.indicatorFilterValue;
+                  })}
                   priorities={currentDraft.priorities}
                   achievements={currentDraft.achievements}
                   history={this.props.history}
