@@ -321,7 +321,7 @@ export class StoplightQuestions extends Component {
             >
               info
             </i> */}
-            {question && !question.required ? (
+            {question && !question.required && (
               <span>
                 <Button
                   style={{ textDecoration: 'none', padding: 0 }}
@@ -330,7 +330,7 @@ export class StoplightQuestions extends Component {
                   {t('views.lifemap.skipThisQuestion')}
                 </Button>
               </span>
-            ) : null}
+            )}
           </div>
         </Container>
       </div>
