@@ -16,6 +16,7 @@ import TitleBar from '../../components/TitleBar';
 import Autocomplete from '../../components/Autocomplete';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
+import LeaveModal from '../../components/LeaveModal';
 import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
@@ -35,6 +36,14 @@ const validationSchema = Yup.object().shape({
 });
 
 export class FamilyMembers extends Component {
+  state = {
+    openModal: false
+  };
+
+  toggleModal = () => {
+    this.setState(prevState => ({ openModal: !prevState.openModal }));
+  };
+
   updateDraft = (memberIndex, value, property) => {
     const { currentDraft } = this.props;
 
@@ -75,6 +84,15 @@ export class FamilyMembers extends Component {
     const { surveyConfig } = currentSurvey;
     return (
       <div>
+        <LeaveModal
+          title="Warning!"
+          subtitle={t('validation.formWithErrors')}
+          continueButtonText={t('general.gotIt')}
+          singleAction
+          onClose={this.toggleModal}
+          open={this.state.openModal}
+          leaveAction={this.toggleModal}
+        />
         <TitleBar title={t('views.familyMembers')} />
         <Container variant="slim">
           <Formik
@@ -251,8 +269,7 @@ export class FamilyMembers extends Component {
                     onClick={() => {
                       validateForm().then(validationErrors => {
                         if (Object.keys(validationErrors).length > 0) {
-                          console.log(validationErrors);
-                          // TODO show something, there are some validation errors
+                          this.toggleModal();
                         }
                       });
                     }}
