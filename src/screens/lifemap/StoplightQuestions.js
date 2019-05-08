@@ -51,6 +51,18 @@ const questionsWrapperStyles = {
     height: '100%',
     display: 'flex',
     flexDirection: 'column'
+  },
+  answeredIcon: {
+    color: 'white',
+    paddingTop: '3px',
+    fontSize: 39,
+    height: 70,
+    width: 70,
+    margin: 'auto',
+    display: 'flex',
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'flex-start'
   }
 };
 
@@ -134,20 +146,8 @@ let QuestionsWrapper = ({
                       style={{ display: displayTick }}
                     >
                       <i
-                        style={{
-                          color: 'white',
-                          backgroundColor: color,
-                          paddingTop: '3px',
-                          fontSize: 39,
-                          height: 70,
-                          width: 70,
-                          margin: 'auto',
-                          display: 'flex',
-                          borderRadius: '50%',
-                          justifyContent: 'center',
-                          alignItems: 'flex-start'
-                        }}
-                        className="material-icons"
+                        style={{ backgroundColor: color }}
+                        className={`material-icons ${classes.answeredIcon}`}
                       >
                         done
                       </i>
