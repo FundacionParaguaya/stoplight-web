@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -51,6 +51,18 @@ const questionsWrapperStyles = {
     height: '100%',
     display: 'flex',
     flexDirection: 'column'
+  },
+  answeredIcon: {
+    color: 'white',
+    paddingTop: '3px',
+    fontSize: 39,
+    height: 70,
+    width: 70,
+    margin: 'auto',
+    display: 'flex',
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'flex-start'
   }
 };
 
@@ -62,16 +74,14 @@ let QuestionsWrapper = ({
   handleImageLoaded,
   imageStatus
 }) => {
+  const [showIcon, setShowIcon] = useState(0);
   let sortedQuestions;
 
   if (question) {
     sortedQuestions = question.stoplightColors;
-    const compare = (a, b) => {
-      if (a.value < b.value) return 1;
-      if (a.value > b.value) return -1;
-      return 0;
-    };
-    sortedQuestions.sort(compare);
+    sortedQuestions.sort((a, b) => {
+      return b.value - a.value;
+    });
   }
 
   return (
@@ -79,7 +89,6 @@ let QuestionsWrapper = ({
       {question &&
         sortedQuestions.map(e => {
           let color;
-          let displayTick = 'none';
           let textColor = 'white';
           if (e.value === 3) {
             color = COLORS.GREEN;
@@ -89,9 +98,6 @@ let QuestionsWrapper = ({
           } else if (e.value === 1) {
             color = COLORS.RED;
           }
-          if (e.value === answeredValue) {
-            displayTick = 'flex';
-          }
 
           return (
             <Grid
@@ -100,6 +106,8 @@ let QuestionsWrapper = ({
               onClick={() => submitQuestion(e.value)}
               className={classes.questionContainer}
               md={4}
+              onMouseEnter={() => setShowIcon(e.value)}
+              onMouseLeave={() => setShowIcon(0)}
             >
               <div
                 style={{ borderTop: `5px solid ${color}`, borderRadius: 2 }}
@@ -131,26 +139,11 @@ let QuestionsWrapper = ({
                   style={{ backgroundColor: color }}
                   className={classes.questionDescription}
                 >
-                  {answeredValue !== 0 && (
-                    <div
-                      className={classes.answeredQuestion}
-                      style={{ display: displayTick }}
-                    >
+                  {(answeredValue === e.value || showIcon === e.value) && (
+                    <div className={classes.answeredQuestion}>
                       <i
-                        style={{
-                          color: 'white',
-                          backgroundColor: color,
-                          paddingTop: '3px',
-                          fontSize: 39,
-                          height: 70,
-                          width: 70,
-                          margin: 'auto',
-                          display: 'flex',
-                          borderRadius: '50%',
-                          justifyContent: 'center',
-                          alignItems: 'flex-start'
-                        }}
-                        className="material-icons"
+                        style={{ backgroundColor: color }}
+                        className={`material-icons ${classes.answeredIcon}`}
                       >
                         done
                       </i>
@@ -207,42 +200,6 @@ export class StoplightQuestions extends Component {
       this.props.history.push('/lifemap/skipped-questions');
     } else if (!goToSkipped) {
       this.props.history.push('/lifemap/overview');
-    }
-  };
-
-  skipQuestion = () => {
-    const { codeName } = this.state.question;
-    const { currentDraft } = this.props;
-    const dataList = this.props.currentDraft.indicatorSurveyDataList;
-    let update = false;
-    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST AND UPDATE my dataList
-    dataList.forEach(e => {
-      if (e.key === codeName) {
-        update = true;
-        e.value = 0;
-      }
-    });
-    // /////////if the question is in the data list then update the question
-    if (update) {
-      const indicatorSurveyDataList = dataList;
-      this.props.updateDraft({
-        ...currentDraft,
-        indicatorSurveyDataList
-      });
-      this.handleContinue();
-    } else {
-      // ////////// add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        indicatorSurveyDataList: [
-          ...currentDraft.indicatorSurveyDataList,
-          {
-            key: codeName,
-            value: 0
-          }
-        ]
-      });
-      this.handleContinue();
     }
   };
 
@@ -325,14 +282,13 @@ export class StoplightQuestions extends Component {
 
         <Container className={classes.mainQuestionsAndBottomContainer}>
           <div className={classes.mainQuestionsContainer}>
-            {question !== null
-              ? currentDraft.indicatorSurveyDataList.forEach(ele => {
-                  if (question.codeName === ele.key) {
-                    answered = true;
-                    answeredValue = ele.value;
-                  }
-                })
-              : null}
+            {question !== null &&
+              currentDraft.indicatorSurveyDataList.forEach(ele => {
+                if (question.codeName === ele.key) {
+                  answered = true;
+                  answeredValue = ele.value;
+                }
+              })}
             {answered ? (
               <QuestionsWrapper
                 question={question}
@@ -358,16 +314,16 @@ export class StoplightQuestions extends Component {
             >
               info
             </i> */}
-            {question && !question.required ? (
+            {question && !question.required && (
               <span>
                 <Button
                   style={{ textDecoration: 'none', padding: 0 }}
-                  onClick={this.skipQuestion}
+                  onClick={() => this.submitQuestion(0)}
                 >
                   {t('views.lifemap.skipThisQuestion')}
                 </Button>
               </span>
-            ) : null}
+            )}
           </div>
         </Container>
       </div>
