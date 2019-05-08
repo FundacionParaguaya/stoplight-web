@@ -259,8 +259,8 @@ const styles = {
   paragraphTypography: {
     fontSize: 16,
     zIndex: 1,
-    paddingLeft: '40px',
-    paddingRight: '30px'
+    padding: '30px 30px 30px 40px',
+    marginBottom: 0
   },
   imgAndDescriptionContainer: {
     position: 'relative',
