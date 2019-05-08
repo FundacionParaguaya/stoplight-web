@@ -23,7 +23,8 @@
     "family": "Familia",
     "cachedData": "Datos almacenados",
     "chooseView": "Elegir vista",
-    "create": "Crear"
+    "create": "Crear",
+    "saveError": "Error al guardar tu Mapa de vida"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -32,7 +33,8 @@
     "lessThan50Characters": "El valor debe ser menos de 50 caracteres.",
     "alphabeticCharacters": "Favor ingrese los caracteres alfabéticos",
     "validPhoneNumber": "Favor ingrese un número de teléfono válido",
-    "validNumber": "Favor ingrese un número válido"
+    "validNumber": "Favor ingrese un número válido",
+    "formWithErrors": "El formulario contiene datos inválidos"
   },
   "months": {
     "january": "Enero",

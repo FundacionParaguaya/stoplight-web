@@ -11,6 +11,7 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import SummaryDonut from '../../components/summary/SummaryDonut';
+import LeaveModal from '../../components/LeaveModal';
 import { submitDraft } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
@@ -31,7 +32,12 @@ export class Final extends Component {
     ).length,
     skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
       indicator => !indicator.value
-    ).length
+    ).length,
+    openModal: false
+  };
+
+  toggleModal = () => {
+    this.setState(prevState => ({ openModal: !prevState.openModal }));
   };
 
   handleSubmit = () => {
@@ -43,17 +49,19 @@ export class Final extends Component {
     submitDraft(this.props.user, this.props.currentDraft)
       .then(response => {
         if (response.status === 200) {
-          this.props.history.push(
-            `/surveys?sid=${this.props.user.token}&lang=en`
-          );
+          this.redirectToSurveys();
         }
       })
-      .catch(error =>
+      .catch(() => {
         this.setState({
-          error: error.message,
           loading: false
-        })
-      );
+        });
+        this.toggleModal();
+      });
+  };
+
+  redirectToSurveys = () => {
+    this.props.history.push(`/surveys?sid=${this.props.user.token}`);
   };
 
   render() {
@@ -62,6 +70,15 @@ export class Final extends Component {
 
     return (
       <div>
+        <LeaveModal
+          title="Warning!"
+          subtitle={t('general.saveError')}
+          continueButtonText={t('general.gotIt')}
+          singleAction
+          onClose={() => {}}
+          open={this.state.openModal}
+          leaveAction={this.redirectToSurveys}
+        />
         <TitleBar title={t('views.final.title')} />
         <Container variant="stretch">
           <Typography variant="h5" className={classes.subtitle}>
