@@ -5,14 +5,24 @@ import { withStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Form from '../../components/Form';
-import Input from '../../components/Input';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
+import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
+import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 import iconProprity from '../../assets/iconPriority.png';
 import { COLORS } from '../../theme';
+
+const fieldIsRequired = 'validation.fieldIsRequired';
+
+const validationSchema = Yup.object().shape({
+  estimatedDate: Yup.string().required(fieldIsRequired)
+});
 
 class Priority extends Component {
   priority = this.props.currentDraft.priorities.find(
@@ -24,24 +34,35 @@ class Priority extends Component {
     question: this.props.currentSurvey.surveyStoplightQuestions.find(
       indicator => indicator.codeName === this.props.match.params.indicator
     ),
-    reason: (this.priority && this.priority.reason) || '',
-    action: (this.priority && this.priority.action) || '',
-    estimatedDate: (this.priority && this.priority.estimatedDate) || 1
+    monthsOptions: Priority.constructEstimatedMonthsOptions(this.props.t)
   };
+
+  static constructEstimatedMonthsOptions(t) {
+    const MAX_MONTHS = 24;
+    const monthsArray = [];
+
+    Array(MAX_MONTHS)
+      .fill('')
+      .forEach((_val, index) => {
+        const i = index + 1;
+        let label = `${i} ${t('views.priority.months')}`;
+        if (i === 1) {
+          label = `${i} ${t('views.priority.month')}`;
+        }
+        monthsArray.push({ value: i, label });
+      });
+
+    return monthsArray;
+  }
 
   handleImageLoaded = () => {
     this.setState({ imageStatus: 'loaded' });
   };
 
-  updateAnswer = (field, value) => {
-    this.setState({
-      [field]: field === 'estimatedDate' ? parseInt(value, 10) : value
-    });
-  };
-
-  savePriority = () => {
+  savePriority = values => {
     const { currentDraft } = this.props;
-    const { question, reason, action, estimatedDate } = this.state;
+    const { question } = this.state;
+    const { reason, action, estimatedDate } = values;
 
     const priority = {
       reason,
@@ -117,7 +138,6 @@ class Priority extends Component {
                           alignItems: 'center'
                         }}
                       >
-                        {' '}
                         <CircularProgress />
                       </div>
 
@@ -183,34 +203,105 @@ class Priority extends Component {
             </Typography>
           </div>
           <Container variant="slim">
-            <Form
-              key={question.codeName}
-              onSubmit={this.savePriority}
-              submitLabel={t('general.save')}
+            <Formik
+              initialValues={{
+                reason: (this.priority && this.priority.reason) || '',
+                action: (this.priority && this.priority.action) || '',
+                estimatedDate:
+                  (this.priority && this.priority.estimatedDate) || ''
+              }}
+              validationSchema={validationSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                this.savePriority(values);
+                setSubmitting(false);
+              }}
             >
-              <Input
-                months
-                label={t('views.lifemap.howManyMonthsWillItTake')}
-                value={this.state.estimatedDate}
-                field="estimatedDate"
-                onChange={this.updateAnswer}
-                required
-              />
-              <Input
-                label={t('views.lifemap.whyDontYouHaveIt')}
-                value={this.state.reason}
-                field="reason"
-                onChange={this.updateAnswer}
-                multiline
-              />
-              <Input
-                label={t('views.lifemap.whatWillYouDoToGetIt')}
-                value={this.state.action}
-                field="action"
-                onChange={this.updateAnswer}
-                multiline
-              />
-            </Form>
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                isSubmitting,
+                setFieldValue,
+                setFieldTouched
+              }) => (
+                <Form noValidate>
+                  <Autocomplete
+                    name="estimatedDate"
+                    value={{
+                      value: values.estimatedDate,
+                      label: values.estimatedDate
+                        ? this.state.monthsOptions.find(
+                            e => e.value === values.estimatedDate
+                          ).label
+                        : ''
+                    }}
+                    options={this.state.monthsOptions}
+                    isClearable={false}
+                    onChange={value => {
+                      setFieldValue('estimatedDate', value ? value.value : '');
+                    }}
+                    onBlur={() => setFieldTouched('estimatedDate')}
+                    textFieldProps={{
+                      label: t('views.lifemap.howManyMonthsWillItTake'),
+                      required: true,
+                      error: pathHasError('estimatedDate', touched, errors),
+                      helperText: getErrorLabelForPath(
+                        'estimatedDate',
+                        touched,
+                        errors,
+                        t
+                      )
+                    }}
+                  />
+                  <TextField
+                    className={
+                      values.reason
+                        ? `${this.props.classes.input} ${
+                            this.props.classes.inputFilled
+                          }`
+                        : `${this.props.classes.input}`
+                    }
+                    variant="filled"
+                    label={t('views.lifemap.whyDontYouHaveIt')}
+                    value={values.reason}
+                    name="reason"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    fullWidth
+                    multiline
+                  />
+                  <TextField
+                    className={
+                      values.action
+                        ? `${this.props.classes.input} ${
+                            this.props.classes.inputFilled
+                          }`
+                        : `${this.props.classes.input}`
+                    }
+                    variant="filled"
+                    label={t('views.lifemap.whatWillYouDoToGetIt')}
+                    value={values.action}
+                    name="action"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    fullWidth
+                    multiline
+                  />
+                  <div className={classes.buttonContainerForm}>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                      disabled={isSubmitting}
+                    >
+                      {t('general.save')}
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </Container>
           <BottomSpacer />
         </React.Fragment>
@@ -281,6 +372,20 @@ const styles = {
     width: '614px',
     margin: 'auto',
     marginTop: '30px'
+  },
+  buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40
+  },
+  input: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  inputFilled: {
+    '& $div': {
+      backgroundColor: '#fff!important'
+    }
   }
 };
 export default withStyles(styles)(
