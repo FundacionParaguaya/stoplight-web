@@ -289,14 +289,13 @@ export class StoplightQuestions extends Component {
 
         <Container className={classes.mainQuestionsAndBottomContainer}>
           <div className={classes.mainQuestionsContainer}>
-            {question !== null
-              ? currentDraft.indicatorSurveyDataList.forEach(ele => {
-                  if (question.codeName === ele.key) {
-                    answered = true;
-                    answeredValue = ele.value;
-                  }
-                })
-              : null}
+            {question !== null &&
+              currentDraft.indicatorSurveyDataList.forEach(ele => {
+                if (question.codeName === ele.key) {
+                  answered = true;
+                  answeredValue = ele.value;
+                }
+              })}
             {answered ? (
               <QuestionsWrapper
                 question={question}
