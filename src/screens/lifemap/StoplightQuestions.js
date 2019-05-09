@@ -38,7 +38,7 @@ const questionsWrapperStyles = {
     margin: 0,
     textAlign: 'center',
     color: 'white',
-    padding: '20px 20px',
+    padding: '30px 20px',
     height: '100%'
   },
   loadingContainer: {
