@@ -50,6 +50,14 @@ const familyMemberTitleStyles = {
 FamilyMemberTitle = withStyles(familyMemberTitleStyles)(FamilyMemberTitle);
 
 const fieldIsRequired = 'validation.fieldIsRequired';
+// const fieldIsNumber = 'validation.validNumber';
+const buildValidationForField = question => {
+  let validation = Yup.string();
+  if (question.required) {
+    validation = validation.required(fieldIsRequired);
+  }
+  return validation;
+};
 /**
  * Builds the validation schema that will be used by Formik
  * @param {*} questions The list of economic questions for the current screen
@@ -60,11 +68,7 @@ const buildValidationSchemaForQuestions = (questions, currentDraft) => {
   const familyQuestions = (questions && questions.forFamily) || [];
 
   familyQuestions.forEach(question => {
-    if (question.required) {
-      forFamilySchema[question.codeName] = Yup.string().required(
-        fieldIsRequired
-      );
-    }
+    forFamilySchema[question.codeName] = buildValidationForField(question);
   });
 
   const forFamilyMemberSchema = {};
@@ -76,9 +80,7 @@ const buildValidationSchemaForQuestions = (questions, currentDraft) => {
   );
   const memberScheme = {};
   familyMemberQuestions.forEach(question => {
-    if (question.required) {
-      memberScheme[question.codeName] = Yup.string().required(fieldIsRequired);
-    }
+    memberScheme[question.codeName] = buildValidationForField(question);
   });
   familyMembersList.forEach((_member, index) => {
     forFamilyMemberSchema[index] = Yup.object().shape({
@@ -132,6 +134,72 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
     forFamily: forFamilyInitial,
     forFamilyMember: forFamilyMemberInitial
   };
+};
+
+const evaluateCondition = (condition, targetQuestion) => {
+  const CONDITION_TYPES = {
+    EQUALS: 'equals',
+    LESS_THAN: 'less_than',
+    GREATER_THAN: 'greater_than',
+    LESS_THAN_EQ: 'less_than_eq',
+    GREATER_THAN_EQ: 'greater_than_eq',
+    BETWEEN: 'between'
+  };
+  if (!targetQuestion) {
+    return false;
+  }
+
+  if (condition.operator === CONDITION_TYPES.EQUALS) {
+    return targetQuestion.value === condition.value;
+  }
+  if (condition.operator === CONDITION_TYPES.LESS_THAN) {
+    return targetQuestion.value < condition.value;
+  }
+  if (condition.operator === CONDITION_TYPES.GREATER_THAN) {
+    return targetQuestion.value > condition.value;
+  }
+  if (condition.operator === CONDITION_TYPES.LESS_THAN_EQ) {
+    return targetQuestion.value <= condition.value;
+  }
+  if (condition.operator === CONDITION_TYPES.GREATER_THAN_EQ) {
+    return targetQuestion.value >= condition.value;
+  }
+  return false;
+};
+
+const conditionMet = (condition, currentDraft, memberIndex) => {
+  const CONDITION_TYPES = {
+    SOCIOECONOMIC: 'socioEconomic',
+    FAMILY: 'family'
+  };
+  const socioEconomicAnswers = currentDraft.economicSurveyDataList || [];
+  let targetQuestion = null;
+  if (condition.type === CONDITION_TYPES.SOCIOECONOMIC) {
+    // In this case target should be located in the socioeconomic answers
+    targetQuestion = socioEconomicAnswers.find(
+      element => element.key === condition.codeName
+    );
+  } else if (condition.type === CONDITION_TYPES.FAMILY) {
+    // TODO look for target among family members
+  }
+  return evaluateCondition(condition, targetQuestion);
+};
+
+/**
+ * Decides whether a question should be shown to the user or not
+ * @param {*} question the question we want to know if can be shown
+ * @param {*} currentDraft the draft from redux state
+ */
+const shouldShowQuestion = (question, currentDraft, memberIndex) => {
+  let shouldShow = true;
+  if (question.conditions && question.conditions.length > 0) {
+    question.conditions.forEach(condition => {
+      if (!conditionMet(condition, currentDraft, memberIndex)) {
+        shouldShow = false;
+      }
+    });
+  }
+  return shouldShow;
 };
 
 export class Economics extends Component {
@@ -306,6 +374,9 @@ export class Economics extends Component {
                       questions.forFamily &&
                       questions.forFamily.length > 0 &&
                       questions.forFamily.map(question => {
+                        if (!shouldShowQuestion(question, currentDraft)) {
+                          return <React.Fragment key={question.codeName} />;
+                        }
                         if (question.answerType === 'select') {
                           return (
                             <Autocomplete
@@ -369,6 +440,11 @@ export class Economics extends Component {
                                 : `${this.props.classes.input}`
                             }
                             key={question.codeName}
+                            type={
+                              question.answerType === 'string'
+                                ? 'text'
+                                : question.answerType
+                            }
                             variant="filled"
                             label={question.questionText}
                             value={values.forFamily[question.codeName] || ''}
@@ -413,6 +489,19 @@ export class Economics extends Component {
                                   />
                                   <React.Fragment>
                                     {questions.forFamilyMember.map(question => {
+                                      if (
+                                        !shouldShowQuestion(
+                                          question,
+                                          currentDraft,
+                                          index
+                                        )
+                                      ) {
+                                        return (
+                                          <React.Fragment
+                                            key={question.codeName}
+                                          />
+                                        );
+                                      }
                                       if (question.answerType === 'select') {
                                         return (
                                           <Autocomplete
@@ -498,6 +587,11 @@ export class Economics extends Component {
                                               : `${this.props.classes.input}`
                                           }
                                           key={question.codeName}
+                                          type={
+                                            question.answerType === 'string'
+                                              ? 'text'
+                                              : question.answerType
+                                          }
                                           variant="filled"
                                           label={question.questionText}
                                           value={
