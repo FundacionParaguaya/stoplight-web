@@ -94,6 +94,7 @@
       "name": "Name",
       "peopleLivingInThisHousehold": "Number of people living in this household",
       "household": "household",
+      "households": "households",
       "onlyPerson": "1 - I am the only person",
       "preferNotToSay": "I prefer not to answer",
       "familyMember": "Family member",
