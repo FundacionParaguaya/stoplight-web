@@ -52,7 +52,12 @@ const familyMemberTitleStyles = {
 FamilyMemberTitle = withStyles(familyMemberTitleStyles)(FamilyMemberTitle);
 
 const fieldIsRequired = 'validation.fieldIsRequired';
-const buildValidationSchemaForQuestions = questions => {
+/**
+ * Builds the validation schema that will be used by Formik
+ * @param {*} questions The list of economic questions for the current screen
+ * @param {*} currentDraft the current draft from redux state
+ */
+const buildValidationSchemaForQuestions = (questions, currentDraft) => {
   const forFamilySchema = {};
   const familyQuestions = (questions && questions.forFamily) || [];
 
@@ -65,6 +70,23 @@ const buildValidationSchemaForQuestions = questions => {
   });
 
   const forFamilyMemberSchema = {};
+  const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
+  const familyMembersList = _.get(
+    currentDraft,
+    'familyData.familyMembersList',
+    []
+  );
+  const memberScheme = {};
+  familyMemberQuestions.forEach(question => {
+    if (question.required) {
+      memberScheme[question.codeName] = Yup.string().required(fieldIsRequired);
+    }
+  });
+  familyMembersList.forEach((_member, index) => {
+    forFamilyMemberSchema[index] = Yup.object().shape({
+      ...memberScheme
+    });
+  });
   const validationSchema = Yup.object().shape({
     forFamily: Yup.object().shape(forFamilySchema),
     forFamilyMember: Yup.object().shape(forFamilyMemberSchema)
@@ -72,6 +94,11 @@ const buildValidationSchemaForQuestions = questions => {
   return validationSchema;
 };
 
+/**
+ * Based on the current draft, builds the initial values of the economics section
+ * @param {*} questions The list of economic questions for the current screen
+ * @param {*} currentDraft the current draft from redux state
+ */
 const buildInitialValuesForForm = (questions, currentDraft) => {
   const forFamilyInitial = {};
   const familyQuestions = (questions && questions.forFamily) || [];
@@ -87,6 +114,21 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
 
   const forFamilyMemberInitial = {};
   const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
+  const familyMembersList = _.get(
+    currentDraft,
+    'familyData.familyMembersList',
+    []
+  );
+  familyMembersList.forEach((familyMember, index) => {
+    const memberInitial = {};
+    const socioEconomicAnswers = familyMember.socioEconomicAnswers || [];
+    familyMemberQuestions.forEach(question => {
+      memberInitial[question.codeName] =
+        (socioEconomicAnswers.find(e => e.key === question.codeName) || {})
+          .value || '';
+    });
+    forFamilyMemberInitial[index] = memberInitial;
+  });
 
   return {
     forFamily: forFamilyInitial,
@@ -210,7 +252,10 @@ export class Economics extends Component {
       topic: questions.forFamily.length
         ? questions.forFamily[0].topic
         : questions.forFamilyMember[0].topic,
-      validationSpec: buildValidationSchemaForQuestions(questions),
+      validationSpec: buildValidationSchemaForQuestions(
+        questions,
+        this.props.currentDraft
+      ),
       initialValues: buildInitialValuesForForm(
         questions,
         this.props.currentDraft
@@ -341,15 +386,26 @@ export class Economics extends Component {
                             label={question.questionText}
                             value={values.forFamily[question.codeName] || ''}
                             name={`forFamily.[${question.codeName}]`}
-                            onChange={handleChange}
-                            onBlur={e => {
-                              handleBlur(e);
+                            onChange={e => {
+                              handleChange(e);
                               this.updateDraft(
                                 question.codeName,
-                                values.forFamily[question.codeName]
+                                e.target.value
                               );
                             }}
+                            onBlur={handleBlur}
                             required={question.required}
+                            error={pathHasError(
+                              `forFamily.[${question.codeName}]`,
+                              touched,
+                              errors
+                            )}
+                            helperText={getErrorLabelForPath(
+                              `forFamily.[${question.codeName}]`,
+                              touched,
+                              errors,
+                              t
+                            )}
                             fullWidth
                           />
                         );
@@ -361,64 +417,138 @@ export class Economics extends Component {
                         <React.Fragment>
                           {currentDraft.familyData.familyMembersList.map(
                             (familyMember, index) => {
-                              if (familyMember.firstParticipant) {
-                                return (
-                                  <React.Fragment
-                                    key={familyMember.firstName}
-                                  />
-                                );
-                              }
                               return (
                                 <React.Fragment key={familyMember.firstName}>
                                   <FamilyMemberTitle
-                                    name={familyMember.firstName}
+                                    name={`${
+                                      familyMember.firstName
+                                    } ${familyMember.lastName || ''}`}
                                   />
                                   <React.Fragment>
                                     {questions.forFamilyMember.map(question => {
-                                      let selectValue;
-
-                                      currentDraft.familyData.familyMembersList[
-                                        index
-                                      ].socioEconomicAnswers.forEach(ele => {
-                                        if (ele.key === question.codeName) {
-                                          selectValue = ele.value;
-                                        }
-                                      });
-
                                       if (question.answerType === 'select') {
                                         return (
-                                          <Select
+                                          <Autocomplete
                                             key={question.codeName}
-                                            label={question.questionText}
-                                            value={selectValue}
-                                            options={question.options}
-                                            field={question.codeName}
-                                            onChange={(event, child) =>
+                                            name={`forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`}
+                                            value={{
+                                              value:
+                                                values.forFamilyMember[index][
+                                                  question.codeName
+                                                ],
+                                              label: values.forFamilyMember[
+                                                index
+                                              ][question.codeName]
+                                                ? question.options.find(
+                                                    e =>
+                                                      e.value ===
+                                                      values.forFamilyMember[
+                                                        index
+                                                      ][question.codeName]
+                                                  ).text
+                                                : ''
+                                            }}
+                                            options={question.options.map(
+                                              val => ({
+                                                value: val.value,
+                                                label: val.text
+                                              })
+                                            )}
+                                            isClearable={!question.required}
+                                            onChange={value => {
+                                              setFieldValue(
+                                                `forFamilyMember.[${index}].[${
+                                                  question.codeName
+                                                }]`,
+                                                value ? value.value : ''
+                                              );
                                               this.updateFamilyMember(
-                                                event,
-                                                child,
+                                                question.codeName,
+                                                value ? value.value : '',
                                                 question,
                                                 familyMember.firstName
+                                              );
+                                            }}
+                                            onBlur={() =>
+                                              setFieldTouched(
+                                                `forFamilyMember.[${index}].[${
+                                                  question.codeName
+                                                }]`
                                               )
                                             }
+                                            textFieldProps={{
+                                              label: question.questionText,
+                                              required: question.required,
+                                              error: pathHasError(
+                                                `forFamilyMember.[${index}].[${
+                                                  question.codeName
+                                                }]`,
+                                                touched,
+                                                errors
+                                              ),
+                                              helperText: getErrorLabelForPath(
+                                                `forFamilyMember.[${index}].[${
+                                                  question.codeName
+                                                }]`,
+                                                touched,
+                                                errors,
+                                                t
+                                              )
+                                            }}
                                           />
                                         );
                                       }
                                       return (
-                                        <Input
+                                        <TextField
+                                          className={
+                                            values.forFamilyMember[index][
+                                              question.codeName
+                                            ]
+                                              ? `${this.props.classes.input} ${
+                                                  this.props.classes.inputFilled
+                                                }`
+                                              : `${this.props.classes.input}`
+                                          }
                                           key={question.codeName}
-                                          required={question.required}
+                                          variant="filled"
                                           label={question.questionText}
-                                          value={selectValue}
-                                          field={question.codeName}
-                                          onChange={(event, child) =>
+                                          value={
+                                            values.forFamilyMember[index][
+                                              question.codeName
+                                            ] || ''
+                                          }
+                                          name={`forFamilyMember.[${index}].[${
+                                            question.codeName
+                                          }]`}
+                                          onChange={e => {
+                                            handleChange(e);
                                             this.updateFamilyMember(
-                                              event,
-                                              child,
+                                              question.codeName,
+                                              e.target.value,
                                               question,
                                               familyMember.firstName
-                                            )
-                                          }
+                                            );
+                                          }}
+                                          onBlur={handleBlur}
+                                          required={question.required}
+                                          error={pathHasError(
+                                            `forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`,
+                                            touched,
+                                            errors
+                                          )}
+                                          helperText={getErrorLabelForPath(
+                                            `forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`,
+                                            touched,
+                                            errors,
+                                            t
+                                          )}
+                                          fullWidth
                                         />
                                       );
                                     })}
