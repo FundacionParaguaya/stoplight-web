@@ -11,8 +11,6 @@ import * as Yup from 'yup';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Autocomplete from '../../components/Autocomplete';
-import Input from '../../components/Input';
-import Select from '../../components/Select';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
@@ -162,25 +160,19 @@ export class Economics extends Component {
     }
   };
 
-  updateFamilyMember = (codeName, value, question, familyName) => {
+  updateFamilyMember = (value, question, index) => {
     const { currentDraft } = this.props;
-    const FamilyMembersDataList = this.props.currentDraft.familyData
-      .familyMembersList;
+    const { familyMembersList } = this.props.currentDraft.familyData;
     let update = false;
     // CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
-    FamilyMembersDataList.forEach(e => {
-      if (e.firstName === familyName) {
-        // eslint-disable-next-line no-shadow
-        e.socioEconomicAnswers.forEach(e => {
-          if (e.key === question.codeName) {
-            update = true;
-            e.value = value;
-          }
-        });
+    const familyMember = familyMembersList[index];
+    familyMember.socioEconomicAnswers.forEach(e => {
+      if (e.key === question.codeName) {
+        update = true;
+        e.value = value;
       }
     });
     if (update) {
-      const familyMembersList = FamilyMembersDataList;
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -189,14 +181,9 @@ export class Economics extends Component {
         }
       });
     } else {
-      const familyMembersList = FamilyMembersDataList;
-      FamilyMembersDataList.forEach(e => {
-        if (e.firstName === familyName) {
-          e.socioEconomicAnswers.push({
-            key: question.codeName,
-            value
-          });
-        }
+      familyMember.socioEconomicAnswers.push({
+        key: question.codeName,
+        value
       });
       // add the question to the data list if it doesnt exist
       this.props.updateDraft({
@@ -465,10 +452,9 @@ export class Economics extends Component {
                                                 value ? value.value : ''
                                               );
                                               this.updateFamilyMember(
-                                                question.codeName,
                                                 value ? value.value : '',
                                                 question,
-                                                familyMember.firstName
+                                                index
                                               );
                                             }}
                                             onBlur={() =>
@@ -525,10 +511,9 @@ export class Economics extends Component {
                                           onChange={e => {
                                             handleChange(e);
                                             this.updateFamilyMember(
-                                              question.codeName,
                                               e.target.value,
                                               question,
-                                              familyMember.firstName
+                                              index
                                             );
                                           }}
                                           onBlur={handleBlur}
