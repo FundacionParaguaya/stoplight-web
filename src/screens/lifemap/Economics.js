@@ -6,6 +6,7 @@ import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { updateDraft } from '../../redux/actions';
@@ -153,15 +154,27 @@ const evaluateCondition = (condition, targetQuestion) => {
     return targetQuestion.value === condition.value;
   }
   if (condition.operator === CONDITION_TYPES.LESS_THAN) {
+    if (moment.isMoment(targetQuestion.value)) {
+      return moment().diff(targetQuestion.value, 'years') < condition.value;
+    }
     return targetQuestion.value < condition.value;
   }
   if (condition.operator === CONDITION_TYPES.GREATER_THAN) {
+    if (moment.isMoment(targetQuestion.value)) {
+      return moment().diff(targetQuestion.value, 'years') > condition.value;
+    }
     return targetQuestion.value > condition.value;
   }
   if (condition.operator === CONDITION_TYPES.LESS_THAN_EQ) {
+    if (moment.isMoment(targetQuestion.value)) {
+      return moment().diff(targetQuestion.value, 'years') <= condition.value;
+    }
     return targetQuestion.value <= condition.value;
   }
   if (condition.operator === CONDITION_TYPES.GREATER_THAN_EQ) {
+    if (moment.isMoment(targetQuestion.value)) {
+      return moment().diff(targetQuestion.value, 'years') >= condition.value;
+    }
     return targetQuestion.value >= condition.value;
   }
   return false;
@@ -173,6 +186,7 @@ const conditionMet = (condition, currentDraft, memberIndex) => {
     FAMILY: 'family'
   };
   const socioEconomicAnswers = currentDraft.economicSurveyDataList || [];
+  const { familyMembersList } = currentDraft.familyData;
   let targetQuestion = null;
   if (condition.type === CONDITION_TYPES.SOCIOECONOMIC) {
     // In this case target should be located in the socioeconomic answers
@@ -180,7 +194,13 @@ const conditionMet = (condition, currentDraft, memberIndex) => {
       element => element.key === condition.codeName
     );
   } else if (condition.type === CONDITION_TYPES.FAMILY) {
-    // TODO look for target among family members
+    const familyMember = familyMembersList[memberIndex];
+    // TODO HARDCODED FOR IRRADIA. WE NEED A BETTER WAY TO SPECIFY THAT THE CONDITION
+    // HAS BEEN MADE ON A DATE
+    const value = familyMember[condition.codeName]
+      ? moment.unix(familyMember[condition.codeName])
+      : null;
+    targetQuestion = { value };
   }
   return evaluateCondition(condition, targetQuestion);
 };
@@ -212,8 +232,6 @@ export class Economics extends Component {
   };
 
   handleContinue = () => {
-    // validation happens here
-
     const currentEconomicsPage = this.props.match.params.page;
 
     if (
