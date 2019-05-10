@@ -159,9 +159,6 @@ export class Surveys extends Component {
             <div className={classes.titleContainer}>
               <div className={classes.surveyTopTitle}>
                 <Typography variant="h4">Choose a life map</Typography>
-                <Typography variant="subtitle1" className={classes.subtitle}>
-                  Surveys > Choose a Life Map
-                </Typography>
               </div>
               <img
                 src={chooseLifeMap}
