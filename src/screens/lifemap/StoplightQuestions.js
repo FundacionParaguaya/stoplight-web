@@ -171,7 +171,7 @@ let QuestionsWrapper = ({
 QuestionsWrapper = withStyles(questionsWrapperStyles)(QuestionsWrapper);
 export class StoplightQuestions extends Component {
   state = {
-    imageStatus: 'loading',
+    imageStatus: null,
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
     ]
