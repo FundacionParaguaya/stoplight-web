@@ -423,6 +423,8 @@ export class PrimaryParticipant extends Component {
                       });
                     }}
                     onClose={() => setFieldTouched('birthDate')}
+                    okLabel={t('general.ok')}
+                    cancelLabel={t('general.cancel')}
                     error={pathHasError('birthDate', touched, errors)}
                     helperText={getErrorLabelForPath(
                       'birthDate',
