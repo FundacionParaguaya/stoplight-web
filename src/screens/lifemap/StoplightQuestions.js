@@ -19,7 +19,7 @@ const questionsWrapperStyles = {
   },
   questionImage: {
     objectFit: 'cover',
-    height: 240,
+    height: '100%',
     width: '100%',
     display: 'block'
   },
