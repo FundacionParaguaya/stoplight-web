@@ -253,6 +253,7 @@ export class FamilyMembers extends Component {
                               )}
                               fullWidth
                               disableFuture
+                              minDate={moment('1910-01-01')}
                             />
                           </div>
                         );
