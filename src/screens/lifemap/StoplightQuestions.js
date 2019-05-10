@@ -117,7 +117,7 @@ let QuestionsWrapper = ({
                 className={classes.innerContainer}
               >
                 <React.Fragment>
-                  {imageStatus === 'loading' && (
+                  {imageStatus < sortedQuestions.length && (
                     <div className={classes.imageContainer}>
                       <div className={classes.loadingContainer}>
                         {' '}
@@ -131,7 +131,7 @@ let QuestionsWrapper = ({
                       />
                     </div>
                   )}
-                  {imageStatus !== 'loading' && (
+                  {imageStatus === sortedQuestions.length && (
                     <div className={classes.imageContainer}>
                       <img
                         className={classes.questionImage}
