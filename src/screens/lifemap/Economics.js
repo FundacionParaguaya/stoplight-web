@@ -59,83 +59,6 @@ const buildValidationForField = question => {
   }
   return validation;
 };
-/**
- * Builds the validation schema that will be used by Formik
- * @param {*} questions The list of economic questions for the current screen
- * @param {*} currentDraft the current draft from redux state
- */
-const buildValidationSchemaForQuestions = (questions, currentDraft) => {
-  const forFamilySchema = {};
-  const familyQuestions = (questions && questions.forFamily) || [];
-
-  familyQuestions.forEach(question => {
-    forFamilySchema[question.codeName] = buildValidationForField(question);
-  });
-
-  const forFamilyMemberSchema = {};
-  const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
-  const familyMembersList = _.get(
-    currentDraft,
-    'familyData.familyMembersList',
-    []
-  );
-  const memberScheme = {};
-  familyMemberQuestions.forEach(question => {
-    memberScheme[question.codeName] = buildValidationForField(question);
-  });
-  familyMembersList.forEach((_member, index) => {
-    forFamilyMemberSchema[index] = Yup.object().shape({
-      ...memberScheme
-    });
-  });
-  const validationSchema = Yup.object().shape({
-    forFamily: Yup.object().shape(forFamilySchema),
-    forFamilyMember: Yup.object().shape(forFamilyMemberSchema)
-  });
-  return validationSchema;
-};
-
-/**
- * Based on the current draft, builds the initial values of the economics section
- * @param {*} questions The list of economic questions for the current screen
- * @param {*} currentDraft the current draft from redux state
- */
-const buildInitialValuesForForm = (questions, currentDraft) => {
-  const forFamilyInitial = {};
-  const familyQuestions = (questions && questions.forFamily) || [];
-
-  familyQuestions.forEach(question => {
-    forFamilyInitial[question.codeName] =
-      (
-        currentDraft.economicSurveyDataList.find(
-          e => e.key === question.codeName
-        ) || {}
-      ).value || '';
-  });
-
-  const forFamilyMemberInitial = {};
-  const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
-  const familyMembersList = _.get(
-    currentDraft,
-    'familyData.familyMembersList',
-    []
-  );
-  familyMembersList.forEach((familyMember, index) => {
-    const memberInitial = {};
-    const socioEconomicAnswers = familyMember.socioEconomicAnswers || [];
-    familyMemberQuestions.forEach(question => {
-      memberInitial[question.codeName] =
-        (socioEconomicAnswers.find(e => e.key === question.codeName) || {})
-          .value || '';
-    });
-    forFamilyMemberInitial[index] = memberInitial;
-  });
-
-  return {
-    forFamily: forFamilyInitial,
-    forFamilyMember: forFamilyMemberInitial
-  };
-};
 
 const evaluateCondition = (condition, targetQuestion) => {
   const CONDITION_TYPES = {
@@ -197,8 +120,13 @@ const conditionMet = (condition, currentDraft, memberIndex) => {
     const familyMember = familyMembersList[memberIndex];
     // TODO HARDCODED FOR IRRADIA. WE NEED A BETTER WAY TO SPECIFY THAT THE CONDITION
     // HAS BEEN MADE ON A DATE
-    const value = familyMember[condition.codeName]
-      ? moment.unix(familyMember[condition.codeName])
+    // const value = familyMember[condition.codeName]
+    //   ? moment.unix(familyMember[condition.codeName])
+    //   : null;
+    // TODO hardcoded for Irradia, the survey has an error with the field.
+    // The lines above should be used once data is fixed for that survey
+    const value = familyMember['birthDate']
+      ? moment.unix(familyMember['birthDate'])
       : null;
     targetQuestion = { value };
   }
@@ -222,6 +150,99 @@ const shouldShowQuestion = (question, currentDraft, memberIndex) => {
   return shouldShow;
 };
 
+const familyMemberWillHaveQuestions = (
+  questions,
+  currentDraft,
+  memberIndex
+) => {
+  return questions.forFamilyMember.reduce(
+    (acc, current) =>
+      acc && shouldShowQuestion(current, currentDraft, memberIndex),
+    true
+  );
+};
+
+/**
+ * Builds the validation schema that will be used by Formik
+ * @param {*} questions The list of economic questions for the current screen
+ * @param {*} currentDraft the current draft from redux state
+ */
+const buildValidationSchemaForQuestions = (questions, currentDraft) => {
+  const forFamilySchema = {};
+  const familyQuestions = (questions && questions.forFamily) || [];
+
+  familyQuestions.forEach(question => {
+    forFamilySchema[question.codeName] = buildValidationForField(question);
+  });
+
+  const forFamilyMemberSchema = {};
+  const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
+  const familyMembersList = _.get(
+    currentDraft,
+    'familyData.familyMembersList',
+    []
+  );
+
+  familyMembersList.forEach((_member, index) => {
+    const memberScheme = {};
+    familyMemberQuestions.forEach(question => {
+      if (shouldShowQuestion(question, currentDraft, index)) {
+        memberScheme[question.codeName] = buildValidationForField(question);
+      }
+    });
+    forFamilyMemberSchema[index] = Yup.object().shape({
+      ...memberScheme
+    });
+  });
+  const validationSchema = Yup.object().shape({
+    forFamily: Yup.object().shape(forFamilySchema),
+    forFamilyMember: Yup.object().shape(forFamilyMemberSchema)
+  });
+  return validationSchema;
+};
+
+/**
+ * Based on the current draft, builds the initial values of the economics section
+ * @param {*} questions The list of economic questions for the current screen
+ * @param {*} currentDraft the current draft from redux state
+ */
+const buildInitialValuesForForm = (questions, currentDraft) => {
+  const forFamilyInitial = {};
+  const familyQuestions = (questions && questions.forFamily) || [];
+
+  familyQuestions.forEach(question => {
+    forFamilyInitial[question.codeName] =
+      (
+        currentDraft.economicSurveyDataList.find(
+          e => e.key === question.codeName
+        ) || {}
+      ).value || '';
+  });
+
+  const forFamilyMemberInitial = {};
+  const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
+  const familyMembersList = _.get(
+    currentDraft,
+    'familyData.familyMembersList',
+    []
+  );
+  familyMembersList.forEach((familyMember, index) => {
+    const memberInitial = {};
+    const socioEconomicAnswers = familyMember.socioEconomicAnswers || [];
+    familyMemberQuestions.forEach(question => {
+      memberInitial[question.codeName] =
+        (socioEconomicAnswers.find(e => e.key === question.codeName) || {})
+          .value || '';
+    });
+    forFamilyMemberInitial[index] = memberInitial;
+  });
+
+  return {
+    forFamily: forFamilyInitial,
+    forFamilyMember: forFamilyMemberInitial
+  };
+};
+
 export class Economics extends Component {
   state = {
     questions: null,
@@ -231,16 +252,24 @@ export class Economics extends Component {
     validationSpec: {}
   };
 
-  handleContinue = () => {
+  handleContinue = shouldReplace => {
     const currentEconomicsPage = this.props.match.params.page;
 
     if (
       currentEconomicsPage <
       this.props.currentSurvey.economicScreens.questionsPerScreen.length - 1
     ) {
-      this.props.history.push(
-        `/lifemap/economics/${parseInt(currentEconomicsPage, 10) + 1}`
-      );
+      if (shouldReplace) {
+        this.props.history.replace(
+          `/lifemap/economics/${parseInt(currentEconomicsPage, 10) + 1}`
+        );
+      } else {
+        this.props.history.push(
+          `/lifemap/economics/${parseInt(currentEconomicsPage, 10) + 1}`
+        );
+      }
+    } else if (shouldReplace) {
+      this.props.history.replace('/lifemap/begin-stoplight');
     } else {
       this.props.history.push('/lifemap/begin-stoplight');
     }
@@ -319,7 +348,29 @@ export class Economics extends Component {
   setCurrentScreen() {
     const questions = this.props.currentSurvey.economicScreens
       .questionsPerScreen[this.props.match.params.page];
-
+    // If we only have family members questions, we have to validate
+    // if we'll show at least one question for at least one of the
+    // members. Otherwise, we should just go to the next page
+    if (
+      !(questions.forFamily && questions.forFamily.length > 0) &&
+      questions.forFamilyMember &&
+      questions.forFamilyMember.length > 0
+    ) {
+      const { familyMembersList } = this.props.currentDraft.familyData;
+      let atLeastOneMemberHasQuestions = false;
+      familyMembersList.forEach((_member, index) => {
+        atLeastOneMemberHasQuestions =
+          atLeastOneMemberHasQuestions ||
+          familyMemberWillHaveQuestions(
+            questions,
+            this.props.currentDraft,
+            index
+          );
+      });
+      if (!atLeastOneMemberHasQuestions) {
+        this.handleContinue(true);
+      }
+    }
     this.setState({
       questions,
       topic: questions.forFamily.length
@@ -498,6 +549,18 @@ export class Economics extends Component {
                         <React.Fragment>
                           {currentDraft.familyData.familyMembersList.map(
                             (familyMember, index) => {
+                              const willShowQuestions = familyMemberWillHaveQuestions(
+                                questions,
+                                currentDraft,
+                                index
+                              );
+                              if (!willShowQuestions) {
+                                return (
+                                  <React.Fragment
+                                    key={familyMember.firstName}
+                                  />
+                                );
+                              }
                               return (
                                 <React.Fragment key={familyMember.firstName}>
                                   <FamilyMemberTitle
