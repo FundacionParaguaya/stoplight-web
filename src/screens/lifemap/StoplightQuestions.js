@@ -38,14 +38,14 @@ const questionsWrapperStyles = {
     margin: 0,
     textAlign: 'center',
     color: 'white',
-    padding: '20px 20px',
+    padding: '30px 20px',
     height: '100%'
   },
   loadingContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 340
+    height: '100%'
   },
   innerContainer: {
     height: '100%',
@@ -63,6 +63,9 @@ const questionsWrapperStyles = {
     borderRadius: '50%',
     justifyContent: 'center',
     alignItems: 'flex-start'
+  },
+  imageContainer: {
+    height: 240
   }
 };
 
@@ -113,27 +116,31 @@ let QuestionsWrapper = ({
                 style={{ borderTop: `5px solid ${color}`, borderRadius: 2 }}
                 className={classes.innerContainer}
               >
-                {imageStatus === 'loading' ? (
-                  <React.Fragment>
-                    <div className={classes.loadingContainer}>
-                      {' '}
-                      <CircularProgress />
+                <React.Fragment>
+                  {imageStatus === 'loading' && (
+                    <div className={classes.imageContainer}>
+                      <div className={classes.loadingContainer}>
+                        {' '}
+                        <CircularProgress />
+                      </div>
+                      <img
+                        onLoad={handleImageLoaded}
+                        src={e.url}
+                        alt="surveyImg"
+                        style={{ display: 'none', height: 0 }}
+                      />
                     </div>
-                    <img
-                      onLoad={handleImageLoaded}
-                      src={e.url}
-                      alt="surveyImg"
-                      style={{ display: 'none', height: 0 }}
-                    />
-                  </React.Fragment>
-                ) : (
-                  <img
-                    onLoad={handleImageLoaded}
-                    className={classes.questionImage}
-                    src={e.url}
-                    alt="surveyImg"
-                  />
-                )}
+                  )}
+                  {imageStatus !== 'loading' && (
+                    <div className={classes.imageContainer}>
+                      <img
+                        className={classes.questionImage}
+                        src={e.url}
+                        alt="surveyImg"
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
 
                 <div
                   style={{ backgroundColor: color }}

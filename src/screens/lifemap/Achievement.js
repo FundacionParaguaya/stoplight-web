@@ -247,28 +247,44 @@ const styles = {
     alignItems: 'center'
   },
   imgClass: {
-    width: '100%'
+    width: '100%',
+    height: '307px',
+    minHeight: '100%',
+    objectFit: 'cover'
   },
   paragraphContainer: {
     margin: '0px',
-    paddingTop: '48px',
     display: 'flex',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    minHeight: '307px'
   },
   paragraphTypography: {
     fontSize: 16,
     zIndex: 1,
-    paddingLeft: '40px',
-    paddingRight: '30px'
+    padding: '30px 30px 30px 40px',
+    marginBottom: 0
   },
   imgAndDescriptionContainer: {
     position: 'relative',
-    height: '307px',
     display: 'flex',
     width: '614px',
     margin: 'auto',
     marginTop: '30px'
+  },
+  buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40
+  },
+  input: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  inputFilled: {
+    '& $div': {
+      backgroundColor: '#fff!important'
+    }
   }
 };
 export default withStyles(styles)(
