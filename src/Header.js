@@ -81,7 +81,7 @@ class Header extends Component {
             className={classes.menuLink}
           >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
-              {t('views.family.household')}
+              {t('views.family.households')}
             </Typography>
           </a>
           <a
