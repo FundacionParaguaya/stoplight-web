@@ -446,6 +446,7 @@ export class PrimaryParticipant extends Component {
                     fullWidth
                     required
                     disableFuture
+                    minDate={moment('1910-01-01')}
                   />
                   <Autocomplete
                     name="documentType"
