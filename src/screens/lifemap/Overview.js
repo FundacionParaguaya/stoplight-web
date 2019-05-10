@@ -136,7 +136,7 @@ DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
 
 export class Overview extends Component {
   state = {
-    showFooterPopup: this.props.currentSurvey.minimumPriorities > 0,
+    showFooterPopup: true,
     modalTitle: '',
     howManyMonthsWillItTakeText: '',
     whyDontYouHaveItText: '',
@@ -201,13 +201,15 @@ export class Overview extends Component {
   };
 
   getFooterTitle = () => {
-    const { minimumPriorities } = this.props.currentSurvey;
+    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
     const { t } = this.props;
     const prioritiesCount = this.props.currentDraft.priorities
       ? this.props.currentDraft.priorities.length
       : 0;
     let title;
-    if (prioritiesCount === 0) {
+    if (minimumPriorities === 0) {
+      title = t('views.overview.noPriorityRemainingTitle');
+    } else if (prioritiesCount === 0) {
       title = t('views.overview.allPrioritiesRemainingTitle');
     } else if (minimumPriorities - prioritiesCount > 1) {
       title = `${minimumPriorities - prioritiesCount} ${t(
@@ -222,13 +224,15 @@ export class Overview extends Component {
   };
 
   getFooterDescription = () => {
-    const { minimumPriorities } = this.props.currentSurvey;
+    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
     const { t } = this.props;
     const prioritiesCount = this.props.currentDraft.priorities
       ? this.props.currentDraft.priorities.length
       : 0;
     let description;
-    if (prioritiesCount === 0) {
+    if (minimumPriorities === 0) {
+      description = t('views.overview.noPriorityRemainingDescription');
+    } else if (prioritiesCount === 0) {
       description = `${t(
         'views.overview.allPrioritiesRemainingDescription'
       )} ${minimumPriorities} ${
