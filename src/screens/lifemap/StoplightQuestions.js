@@ -19,7 +19,7 @@ const questionsWrapperStyles = {
   },
   questionImage: {
     objectFit: 'cover',
-    height: 240,
+    height: '100%',
     width: '100%',
     display: 'block'
   },
@@ -117,7 +117,7 @@ let QuestionsWrapper = ({
                 className={classes.innerContainer}
               >
                 <React.Fragment>
-                  {imageStatus === 'loading' && (
+                  {imageStatus < sortedQuestions.length && (
                     <div className={classes.imageContainer}>
                       <div className={classes.loadingContainer}>
                         {' '}
@@ -131,7 +131,7 @@ let QuestionsWrapper = ({
                       />
                     </div>
                   )}
-                  {imageStatus !== 'loading' && (
+                  {imageStatus === sortedQuestions.length && (
                     <div className={classes.imageContainer}>
                       <img
                         className={classes.questionImage}
@@ -171,7 +171,7 @@ let QuestionsWrapper = ({
 QuestionsWrapper = withStyles(questionsWrapperStyles)(QuestionsWrapper);
 export class StoplightQuestions extends Component {
   state = {
-    imageStatus: 'loading',
+    imageStatus: null,
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
     ]
@@ -248,7 +248,7 @@ export class StoplightQuestions extends Component {
 
   setCurrentScreen() {
     this.setState({
-      imageStatus: 'loading',
+      imageStatus: 0,
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
       ]
@@ -256,7 +256,9 @@ export class StoplightQuestions extends Component {
   }
 
   handleImageLoaded = () => {
-    this.setState({ imageStatus: 'loaded' });
+    this.setState(prevState => ({
+      imageStatus: prevState.imageStatus + 1
+    }));
   };
 
   componentDidUpdate(prevProps) {
