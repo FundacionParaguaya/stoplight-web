@@ -256,7 +256,9 @@ export class StoplightQuestions extends Component {
   }
 
   handleImageLoaded = () => {
-    this.setState({ imageStatus: 'loaded' });
+    this.setState(prevState => ({
+      imageStatus: prevState.imageStatus + 1
+    }));
   };
 
   componentDidUpdate(prevProps) {
