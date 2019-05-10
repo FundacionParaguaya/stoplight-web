@@ -248,7 +248,7 @@ export class StoplightQuestions extends Component {
 
   setCurrentScreen() {
     this.setState({
-      imageStatus: 'loading',
+      imageStatus: 0,
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
       ]
