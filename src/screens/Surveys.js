@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys } from '../api';
 import i18n from '../i18n';
@@ -196,7 +197,7 @@ export class Surveys extends Component {
                         <Typography className={classes.createdOn}>
                           Created on:{' '}
                           <span style={{ color: '#1C212F' }}>
-                            14 april , 2019
+                            {moment(survey.createdAt).format('MMM DD, YYYY')}
                           </span>
                         </Typography>
                       </div>
