@@ -33,6 +33,11 @@ const IndicatorsFilter = ({
 }) => {
   const [open, setOpen] = useState(false);
   const anchorEl = useRef(null);
+  const allIndicatorsCount =
+    greenIndicatorCount +
+    yellowIndicatorCount +
+    redIndicatorCount +
+    skippedIndicatorCount;
   return (
     <div className={classes.mainContainer}>
       <Button
@@ -44,15 +49,17 @@ const IndicatorsFilter = ({
       >
         <Typography variant="subtitle1" className={classes.buttonText}>
           {filterValue === FILTERED_BY_OPTIONS.ALL &&
-            t('views.indicatorsFilter.allIndicators')}
+            `${t(
+              'views.indicatorsFilter.allIndicators'
+            )}  (${allIndicatorsCount})`}
           {filterValue === FILTERED_BY_OPTIONS.GREEN &&
-            t('views.indicatorsFilter.green')}
+            `${t('views.indicatorsFilter.green')} (${greenIndicatorCount})`}
           {filterValue === FILTERED_BY_OPTIONS.YELLOW &&
-            t('views.indicatorsFilter.yellow')}
+            `${t('views.indicatorsFilter.yellow')} (${yellowIndicatorCount})`}
           {filterValue === FILTERED_BY_OPTIONS.RED &&
-            t('views.indicatorsFilter.red')}
+            `${t('views.indicatorsFilter.red')} (${redIndicatorCount})`}
           {filterValue === FILTERED_BY_OPTIONS.SKIPPED &&
-            t('views.indicatorsFilter.skipped')}
+            `${t('views.indicatorsFilter.skipped')} (${skippedIndicatorCount})`}
         </Typography>
         <ArrowDropDownIcon className={classes.buttonIcon} />
       </Button>
@@ -101,10 +108,7 @@ const IndicatorsFilter = ({
                       <Typography variant="subtitle1">
                         {`${t(
                           'views.indicatorsFilter.allIndicators'
-                        )} (${greenIndicatorCount +
-                          yellowIndicatorCount +
-                          redIndicatorCount +
-                          skippedIndicatorCount})`}
+                        )} (${allIndicatorsCount})`}
                       </Typography>
                     </MenuItem>
                   )}
@@ -221,7 +225,10 @@ const styles = theme => ({
     fontSize: 16,
     fontWeight: 500,
     textDecoration: 'none',
-    width: 300
+    width: 300,
+    paddingLeft: 15,
+    paddingRight: 15,
+    textTransform: 'initial'
   },
   paper: {
     border: '0.1px solid #DCDEE3',
