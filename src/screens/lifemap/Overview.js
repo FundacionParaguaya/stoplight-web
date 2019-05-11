@@ -252,7 +252,8 @@ export class Overview extends Component {
       classes,
       currentDraft,
       currentSurvey,
-      forceHideStickyFooter
+      forceHideStickyFooter,
+      containerRef
     } = this.props;
     let groupedAnswers;
     const userAnswers = [];
@@ -294,7 +295,7 @@ export class Overview extends Component {
           leaveAction={this.toggleModal}
         />
         <TitleBar title={t('views.yourLifeMap')} />
-        <Container variant="stretch">
+        <Container variant="stretch" ref={containerRef}>
           <SummaryDonut
             greenIndicatorCount={this.state.greenIndicatorCount}
             yellowIndicatorCount={this.state.yellowIndicatorCount}

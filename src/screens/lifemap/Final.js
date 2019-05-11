@@ -79,8 +79,11 @@ export class Final extends Component {
       <div>
         <div className={classes.overviewContainer}>
           {/* Really hacky, but its the easiest way to allow printing Overview from this page */}
-          <div ref={this.printRef}>
-            <OverviewScreen forceHideStickyFooter />
+          <div>
+            <OverviewScreen
+              forceHideStickyFooter
+              containerRef={this.printRef}
+            />
           </div>
         </div>
         <LeaveModal
