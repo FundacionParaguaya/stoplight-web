@@ -60,6 +60,9 @@
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
+    "survey": {
+      "chooseSurvey": "Choose a survey"
+    },
     "location": {
       "title": "Location",
       "mapLoading": "Please wait while the map is loading.",

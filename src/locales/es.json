@@ -60,6 +60,9 @@
     "noDrafts": "No hay borradores para mostrar",
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
+    "survey": {
+      "chooseSurvey": "Elige una encuesta"
+    },
     "location": {
       "title": "Ubicación",
       "mapLoading": "Por favor, espera mientras el mapa se carga.",
