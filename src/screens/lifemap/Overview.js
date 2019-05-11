@@ -138,15 +138,6 @@ DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
 export class Overview extends Component {
   state = {
     showFooterPopup: true,
-    modalTitle: '',
-    howManyMonthsWillItTakeText: '',
-    whyDontYouHaveItText: '',
-    whatWillYouDoToGetItText: '',
-    whatDidItTake: '',
-    howDidYouGetIt: '',
-    questionKey: '',
-    questionValue: '',
-    questionsCount: this.props.currentSurvey.surveyStoplightQuestions.length,
     greenIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
       indicator => indicator.value === 3
     ).length,
@@ -263,17 +254,10 @@ export class Overview extends Component {
       currentSurvey,
       forceHideStickyFooter
     } = this.props;
-    let priorDiff = 0;
     let groupedAnswers;
     const userAnswers = [];
-    let differentCalcPriorities = false;
 
     if (currentSurvey) {
-      currentDraft.indicatorSurveyDataList.forEach(ele => {
-        if (ele.value === 2 || ele.value === 1) {
-          priorDiff += 1;
-        }
-      });
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
           if (e.codeName === ele.key) {
@@ -286,10 +270,8 @@ export class Overview extends Component {
           }
         });
       });
-      if (priorDiff < this.props.currentSurvey.minimumPriorities) {
-        differentCalcPriorities = true;
-      }
       groupedAnswers = userAnswers.reduce((r, a) => {
+        // eslint-disable-next-line no-param-reassign
         r[a.dimension] = r[a.dimension] || [];
         r[a.dimension].push(a);
         return r;
