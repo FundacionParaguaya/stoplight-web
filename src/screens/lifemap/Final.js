@@ -17,6 +17,7 @@ import { submitDraft } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
+import OverviewScreen from './Overview';
 
 export class Final extends Component {
   state = {
@@ -75,7 +76,13 @@ export class Final extends Component {
     const { error } = this.state;
 
     return (
-      <div ref={this.printRef}>
+      <div>
+        <div className={classes.overviewContainer}>
+          {/* Really hacky, but its the easiest way to allow printing Overview from this page */}
+          <div ref={this.printRef}>
+            <OverviewScreen forceHideStickyFooter />
+          </div>
+        </div>
         <LeaveModal
           title="Warning!"
           subtitle={t('general.saveError')}
@@ -194,7 +201,8 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 4
-  }
+  },
+  overviewContainer: { height: 0, width: 0, overflow: 'auto' }
 });
 
 export default withStyles(styles)(
