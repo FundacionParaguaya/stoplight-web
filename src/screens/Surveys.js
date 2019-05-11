@@ -149,7 +149,7 @@ export class Surveys extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, t } = this.props;
 
     return (
       <>
@@ -158,7 +158,9 @@ export class Surveys extends Component {
           <Container>
             <div className={classes.titleContainer}>
               <div className={classes.surveyTopTitle}>
-                <Typography variant="h4">Choose a life map</Typography>
+                <Typography variant="h4">
+                  {t('views.survey.chooseSurvey')}
+                </Typography>
               </div>
               <img
                 src={chooseLifeMap}
