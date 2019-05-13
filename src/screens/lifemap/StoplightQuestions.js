@@ -66,6 +66,9 @@ const questionsWrapperStyles = {
   },
   imageContainer: {
     height: 240
+  },
+  circularProgress: {
+    color: 'white'
   }
 };
 
@@ -113,7 +116,11 @@ let QuestionsWrapper = ({
               onMouseLeave={() => setShowIcon(0)}
             >
               <div
-                style={{ borderTop: `5px solid ${color}`, borderRadius: 2 }}
+                style={{
+                  borderTop: `5px solid ${color}`,
+                  borderRadius: 2,
+                  backgroundColor: color
+                }}
                 className={classes.innerContainer}
               >
                 <React.Fragment>
@@ -121,7 +128,10 @@ let QuestionsWrapper = ({
                     <div className={classes.imageContainer}>
                       <div className={classes.loadingContainer}>
                         {' '}
-                        <CircularProgress />
+                        <CircularProgress
+                          color="inherit"
+                          className={classes.circularProgress}
+                        />
                       </div>
                       <img
                         onLoad={handleImageLoaded}
