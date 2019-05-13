@@ -61,7 +61,9 @@
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
     "survey": {
-      "chooseSurvey": "Elige una encuesta"
+      "chooseSurvey": "Elige una encuesta",
+      "contains": "Contiene",
+      "createdOn": "Creado el"
     },
     "location": {
       "title": "Ubicación",
