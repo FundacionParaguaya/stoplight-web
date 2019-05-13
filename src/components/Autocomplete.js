@@ -61,15 +61,7 @@ const styles = theme => ({
   },
   controlInput: {
     marginTop: 10,
-    marginBottom: 10,
-    '& $label': {
-      paddingRight: 100
-    }
-  },
-  controlInputFilled: {
-    '& $div': {
-      backgroundColor: '#fff!important'
-    }
+    marginBottom: 10
   },
   itemSelected: {
     fontWeight: 500,
@@ -107,13 +99,7 @@ function inputComponent({ inputRef, ...props }) {
 
 const Control = props => (
   <TextField
-    className={
-      props.hasValue && !!props.getValue()[0].value
-        ? `${props.selectProps.classes.controlInput} ${
-            props.selectProps.classes.controlInputFilled
-          }`
-        : `${props.selectProps.classes.controlInput}`
-    }
+    className={props.selectProps.classes.controlInput}
     variant="filled"
     fullWidth
     value={props.hasValue ? props.getValue()[0].label : ''}

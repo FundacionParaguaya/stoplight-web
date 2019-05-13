@@ -80,13 +80,17 @@ export const theme = {
     MuiFilledInput: {
       root: {
         '&:hover': {
-          backgroundColor: '#f3f4f6',
+          backgroundColor: '#fff',
           boxShadow: '0'
         },
         '&$focused': {
           backgroundColor: '#fff'
         },
-        backgroundColor: '#f3f4f6',
+        '& $input[value=""]': {
+          backgroundColor: '#f3f4f6',
+          borderRadius: '8px 8px 0 0!important'
+        },
+        backgroundColor: '#fff',
         borderRadius: '8px 8px 0 0!important'
       }
     },
@@ -98,7 +102,7 @@ export const theme = {
     MuiInputBase: {
       input: {
         fontSize: '16px',
-        padding: '35px 12px 10px!important',
+        padding: '40px 12px 10px!important',
         '&$focused': {
           backgroundColor: '#fff!important'
         }
@@ -114,7 +118,7 @@ export const theme = {
     },
     MuiInputLabel: {
       shrink: {
-        transform: 'translate(12px, -100%) scale(1)!important',
+        transform: 'translate(12px, -85%) scale(1)!important',
         color: '#6A6A6A'
       },
       filled: {
@@ -127,6 +131,10 @@ export const theme = {
         transform: 'translate(12px, 25px) scale(1)',
         color: '#6A6A6A',
         lineHeight: 1.2
+      },
+      error: {
+        top: '40%!important',
+        transform: 'translate(12px, -50%) scale(1)!important'
       }
     },
     MuiInput: {
