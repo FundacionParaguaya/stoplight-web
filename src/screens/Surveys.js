@@ -186,7 +186,8 @@ export class Surveys extends Component {
                           {survey.title}
                         </Typography>
                         <Typography className={classes.paragraphSurvey}>
-                          Short description that can go over two lines...
+                          {survey.description.slice(0, 58)}
+                          {survey.description.length > 58 && '...'}
                         </Typography>
 
                         <Typography className={classes.contains}>
