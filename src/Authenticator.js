@@ -56,9 +56,9 @@ const Authenticator = props => {
     location.search
   ]);
   // TODO delete the default testing environment, used only while
-  const env =
-    useMemo(() => queryString.parse(location.search).env, [location.search]) ||
-    'testing';
+  const env = useMemo(() => queryString.parse(location.search).env, [
+    location.search
+  ]);
 
   const { localStorageToken, localStorageEnviroment } = useMemo(() => {
     const { token, env: envFromStorage } = user || {};

@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys } from '../api';
-import i18n from '../i18n';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import Header from '../Header';
@@ -19,19 +18,6 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
-
-  setupUser(token) {
-    const user = {
-      username: 'cannot get user name at this stage',
-      token,
-      env:
-        document.referrer.split('.').length > 1
-          ? document.referrer.split('.')[0].split('//')[1]
-          : 'testing'
-    };
-    this.props.updateUser(user);
-    this.getSurveys(user);
-  }
 
   getSurveys(user) {
     getSurveys(user || this.props.user)
@@ -128,25 +114,7 @@ export class Surveys extends Component {
     this.props.updateDraft(null);
     this.props.updateSurvey(null);
 
-    // check for user token from the location params,
-    // else check if there is one in the store
-    if (this.props.location.search.match(/sid=(.*)&/)) {
-      // remove .replace later when the &lang=en} is changed to &lang=en
-      const lng = this.props.location.search
-        .match(/&lang=(.*)/)[1]
-        .replace(/}/, '');
-
-      localStorage.setItem('language', lng);
-      i18n.changeLanguage(lng);
-      const token = this.props.location.search.match(/sid=(.*)&/)[1];
-      if (this.props.user && token !== this.props.user.token) {
-        this.setupUser(token);
-      } else {
-        this.getSurveys();
-      }
-    } else {
-      this.getSurveys();
-    }
+    this.getSurveys();
   }
 
   render() {
