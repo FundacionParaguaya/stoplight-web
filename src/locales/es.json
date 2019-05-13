@@ -52,6 +52,11 @@
     "december": "Diciembre"
   },
   "views": {
+    "toolbar": {
+      "surveys": "Encuestas",
+      "households": "Familias",
+      "map": "Mapa"
+    },
     "synced": "Sincronización",
     "families": "Familias",
     "dashboard": "Tablero",
@@ -61,7 +66,9 @@
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
     "survey": {
-      "chooseSurvey": "Elige una encuesta"
+      "chooseSurvey": "Elige una encuesta",
+      "contains": "Contiene",
+      "createdOn": "Creado el"
     },
     "location": {
       "title": "Ubicación",

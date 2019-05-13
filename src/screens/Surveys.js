@@ -197,14 +197,16 @@ export class Surveys extends Component {
                         </Typography>
 
                         <Typography className={classes.contains}>
-                          Contains:{' '}
+                          {t('views.survey.contains')}
+                          {': '}
                           <span style={{ color: '#1C212F' }}>
                             {survey.surveyStoplightQuestions.length} indicators
                           </span>
                         </Typography>
 
                         <Typography className={classes.createdOn}>
-                          Created on:{' '}
+                          {t('views.survey.createdOn')}
+                          {': '}
                           <span
                             style={{
                               color: '#1C212F'
