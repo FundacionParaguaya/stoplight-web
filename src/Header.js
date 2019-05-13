@@ -1,116 +1,117 @@
-import React, { Component } from 'react'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
-import logo from './assets/icon_stoplight.png'
-import { theme } from './theme'
-import Button from '@material-ui/core/Button'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Grow from '@material-ui/core/Grow'
-import Paper from '@material-ui/core/Paper'
-import Popper from '@material-ui/core/Popper'
-import MenuItem from '@material-ui/core/MenuItem'
-import MenuList from '@material-ui/core/MenuList'
-import { withTranslation } from 'react-i18next'
-import i18n from './i18n'
-import englishLogo from './assets/english.png'
-import paragLogo from './assets/paraguay.png'
+import React, { Component } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { withTranslation } from 'react-i18next';
+import logo from './assets/header_logo.png';
+import i18n from './i18n';
+import englishLogo from './assets/english.png';
+import paragLogo from './assets/paraguay.png';
+
 class Header extends Component {
   state = {
     open: false,
     langaugeMenuMain: 'en'
-  }
+  };
+
   componentDidMount() {
-    let lng = localStorage.getItem('language')
-    this.setState({ langaugeMenuMain: lng })
+    const lng = localStorage.getItem('language');
+    this.setState({ langaugeMenuMain: lng });
   }
+
   componentDidUpdate() {
-    let lng = localStorage.getItem('language')
+    const lng = localStorage.getItem('language');
     if (this.state.langaugeMenuMain !== lng) {
-      this.setState({ langaugeMenuMain: lng })
+      this.setState({ langaugeMenuMain: lng });
     }
   }
+
   handleToggle = () => {
-    this.setState(state => ({ open: !state.open }))
-  }
+    this.setState(state => ({ open: !state.open }));
+  };
+
   handleCloseAway = () => {
-    this.setState({ open: false })
-  }
+    this.setState({ open: false });
+  };
+
   handleClose = event => {
-    localStorage.setItem('language', event)
-    i18n.changeLanguage(event)
-    this.setState({ open: false, langaugeMenuMain: event })
-  }
+    localStorage.setItem('language', event);
+    i18n.changeLanguage(event);
+    this.setState({ open: false, langaugeMenuMain: event });
+  };
+
   render() {
-    const { classes, user, t } = this.props
+    const { classes, user, t } = this.props;
 
     return (
-      <AppBar className={classes.header} position="fixed">
+      <AppBar className={classes.header} color="inherit" position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
           <a
             href={`https://${user.env}.povertystoplight.org`}
             className={classes.menuLink}
           >
             <img
-              style={{ marginTop: 1 }}
+              style={{ marginTop: 4 }}
               src={logo}
               alt="Stoplight Logo"
-              width={48}
-              height={48}
+              width={38}
+              height={38}
             />
           </a>
           <NavLink
             to={`/surveys?sid=${this.props.user.token}&lang=en`}
-            className={classes.menuLink}
+            className={`${classes.menuLink} ${classes.surveyLink}`}
           >
-            <Typography className={classes.menuLinkText}>Surveys</Typography>
+            <Typography variant="subtitle1" className={classes.menuLinkText}>
+              {t('views.toolbar.surveys')}
+            </Typography>
           </NavLink>
           <a
             href={`https://${user.env}.povertystoplight.org/#families`}
             className={classes.menuLink}
           >
-            <Typography className={classes.menuLinkText}>
-              {t('views.family.household')}
+            <Typography variant="subtitle1" className={classes.menuLinkText}>
+              {t('views.toolbar.households')}
             </Typography>
           </a>
           <a
             href={`https://${user.env}.povertystoplight.org/#map`}
             className={classes.menuLink}
           >
-            <Typography className={classes.menuLinkText}>Map</Typography>
+            <Typography variant="subtitle1" className={classes.menuLinkText}>
+              {t('views.toolbar.map')}
+            </Typography>
           </a>
-
-          <Button
-            className={classes.faqHeader}
-            onClick={() =>
-              window.location.replace('https://intercom.help/poverty-stoplight')
-            }
-          >
-            FAQ
-          </Button>
-          <Button
-            className={classes.translationBox}
-            style={{ color: 'white' }}
-            buttonRef={node => {
-              this.anchorEl = node
-            }}
-            aria-owns={this.state.open ? 'menu-list-grow' : undefined}
-            aria-haspopup="true"
-            onClick={this.handleToggle}
-          >
-            {this.state.langaugeMenuMain === 'en' ? (
-              <img className={classes.imgLogo} src={englishLogo} alt="eng" />
-            ) : (
-              <img className={classes.imgLogo} src={paragLogo} alt="eng" />
-            )}
-
-            {this.state.langaugeMenuMain === 'en' ? 'English' : 'Español'}
-
-            <i className="material-icons">arrow_drop_down</i>
-          </Button>
+          <div className={classes.extraButtons}>
+            <Button
+              style={{ color: 'white' }}
+              buttonRef={node => {
+                this.anchorEl = node;
+              }}
+              aria-owns={this.state.open ? 'menu-list-grow' : undefined}
+              aria-haspopup="true"
+              onClick={this.handleToggle}
+            >
+              <Typography variant="subtitle1" className={classes.menuLinkText}>
+                {this.state.langaugeMenuMain === 'en' ? 'ENG' : 'ESP'}
+              </Typography>
+            </Button>
+            <span className={classes.username}>
+              <Typography variant="subtitle1" className={classes.menuLinkText}>
+                {this.props.user.username}
+              </Typography>
+            </span>
+          </div>
 
           <Popper
             open={this.state.open}
@@ -129,8 +130,11 @@ class Header extends Component {
               >
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleCloseAway}>
-                    <MenuList>
-                      <MenuItem onClick={() => this.handleClose('en')}>
+                    <MenuList className={classes.menuList}>
+                      <MenuItem
+                        onClick={() => this.handleClose('en')}
+                        className={classes.menuItem}
+                      >
                         <img
                           className={classes.imgLogo}
                           src={englishLogo}
@@ -138,7 +142,10 @@ class Header extends Component {
                         />
                         English
                       </MenuItem>
-                      <MenuItem onClick={() => this.handleClose('es')}>
+                      <MenuItem
+                        className={classes.menuItem}
+                        onClick={() => this.handleClose('es')}
+                      >
                         <img
                           className={classes.imgLogo}
                           src={paragLogo}
@@ -154,17 +161,15 @@ class Header extends Component {
           </Popper>
         </Toolbar>
       </AppBar>
-    )
+    );
   }
 }
 
-const styles = {
-  faqHeader: {
-    color: 'white',
-    marginLeft: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    cursor: 'pointer'
+const styles = theme => ({
+  header: {
+    boxShadow: 'none',
+    backgroundColor: theme.palette.background.default,
+    display: 'flex'
   },
   imgLogo: {
     width: '20px',
@@ -172,36 +177,59 @@ const styles = {
     objectFit: 'cover',
     marginRight: '10px'
   },
-
-  header: {
-    boxShadow: 'none'
-  },
   toolbar: {
-    minHeight: 60,
+    minHeight: 70,
     padding: 0,
     alignItems: 'stretch'
   },
   menuLinkText: {
-    color: 'white',
-    fontWeight: 600,
-    fontSize: 13,
-    fontFamily: 'Roboto'
+    color: '#1C212F',
+    fontWeight: 400,
+    textTransform: 'capitalize',
+    position: 'relative',
+    top: 4
   },
   menuLink: {
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 14,
+    paddingRight: 14,
     textDecoration: 'none',
-    borderRight: `1px solid ${theme.palette.primary.dark}`
+    borderBottom: '4px solid transparent'
+  },
+  extraButtons: {
+    marginLeft: 'auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  username: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    borderLeft: `1px solid ${theme.palette.background.paper}`,
+    padding: '0 27px',
+    cursor: 'pointer'
+  },
+  surveyLink: {
+    borderBottom: `4px solid ${theme.palette.primary.main}`
+  },
+  menuList: {
+    backgroundColor: '#fff',
+    border: `1px solid ${theme.palette.background.paper}`
+  },
+  menuItem: {
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper
+    }
   }
-}
+});
 
-const mapStateToProps = ({ user }) => ({ user })
+const mapStateToProps = ({ user }) => ({ user });
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     {}
   )(withTranslation()(Header))
-)
+);

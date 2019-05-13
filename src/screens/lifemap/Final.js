@@ -1,92 +1,216 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import { withTranslation } from 'react-i18next'
-import { submitDraft } from '../../api'
-import TitleBar from '../../components/TitleBar'
-import finalImg from '../../assets/lifemap_complete_image.png'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
+import PrintIcon from '@material-ui/icons/Print';
+// import DownloadIcon from '@material-ui/icons/CloudDownload';
+// import MailIcon from '@material-ui/icons/Mail';
+import ReactToPrint from 'react-to-print';
+import Container from '../../components/Container';
+import SummaryDonut from '../../components/summary/SummaryDonut';
+import LeaveModal from '../../components/LeaveModal';
+import { submitDraft } from '../../api';
+import TitleBar from '../../components/TitleBar';
+import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
+import BottomSpacer from '../../components/BottomSpacer';
+import OverviewScreen from './Overview';
+
 export class Final extends Component {
   state = {
     loading: false,
-    error: false
+    error: false,
+    greenIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 3
+    ).length,
+    yellowIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 2
+    ).length,
+    redIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 1
+    ).length,
+    skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => !indicator.value
+    ).length,
+    openModal: false
+  };
+
+  constructor(props) {
+    super(props);
+    this.printRef = React.createRef();
   }
+
+  toggleModal = () => {
+    this.setState(prevState => ({ openModal: !prevState.openModal }));
+  };
+
   handleSubmit = () => {
     this.setState({
       loading: true
-    })
+    });
 
     // submit draft to server and wait for response
     submitDraft(this.props.user, this.props.currentDraft)
       .then(response => {
         if (response.status === 200) {
-          this.props.history.push(
-            `/surveys?sid=${this.props.user.token}&lang=en`
-          )
+          this.redirectToSurveys();
         }
       })
-      .catch(error =>
+      .catch(() => {
         this.setState({
-          error: error.message,
           loading: false
-        })
-      )
-  }
+        });
+        this.toggleModal();
+      });
+  };
+
+  redirectToSurveys = () => {
+    this.props.history.push(`/surveys?sid=${this.props.user.token}`);
+  };
+
   render() {
-    const { t, classes } = this.props
-    const { error } = this.state
+    const { t, classes } = this.props;
+    const { error } = this.state;
 
     return (
       <div>
-        <TitleBar title={t('views.yourLifeMap')} />
-        <div className={classes.container}>
-          <Typography variant="h2" gutterBottom>
-            {t('views.lifemap.great')}
-          </Typography>
-          <Typography variant="h4" gutterBottom>
-            {t('views.lifemap.youHaveCompletedTheLifemap')}
-          </Typography>
-          <img className={classes.finalImg} src={finalImg} alt="" />
-          {error && <Typography color="error">{error}</Typography>}
-          {this.state.loading ? (
-            <CircularProgress size={50} thickness={2} />
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={this.handleSubmit}
-            >
-              {t('general.close')}
-            </Button>
-          )}
+        <div className={classes.overviewContainer}>
+          {/* Really hacky, but its the easiest way to allow printing Overview from this page */}
+          <div>
+            <OverviewScreen
+              forceHideStickyFooter
+              containerRef={this.printRef}
+            />
+          </div>
         </div>
+        <LeaveModal
+          title="Warning!"
+          subtitle={t('general.saveError')}
+          continueButtonText={t('general.gotIt')}
+          singleAction
+          onClose={() => {}}
+          open={this.state.openModal}
+          leaveAction={this.redirectToSurveys}
+        />
+        <TitleBar title={t('views.final.title')} />
+        <Container variant="stretch">
+          <Typography variant="h5" className={classes.subtitle}>
+            {t('views.final.lifemapCompleted')}
+          </Typography>
+          <SummaryDonut
+            greenIndicatorCount={this.state.greenIndicatorCount}
+            yellowIndicatorCount={this.state.yellowIndicatorCount}
+            redIndicatorCount={this.state.redIndicatorCount}
+            skippedIndicatorCount={this.state.skippedIndicatorCount}
+          />
+          <AllSurveyIndicators />
+          {error && <Typography color="error">{error}</Typography>}
+          {this.state.loading && (
+            <div className={classes.loadingContainer}>
+              <CircularProgress size={50} thickness={2} />
+            </div>
+          )}
+          <div className={classes.gridContainer}>
+            <Grid container spacing={16}>
+              <Grid item xs={4}>
+                {/* <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  disabled={this.state.loading}
+                >
+                  <MailIcon className={classes.leftIcon} />
+                  {t('views.final.email')}
+                </Button> */}
+              </Grid>
+              <Grid item xs={4}>
+                <ReactToPrint
+                  trigger={() => (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                      disabled={this.state.loading}
+                    >
+                      <PrintIcon className={classes.leftIcon} />
+                      {t('views.final.print')}
+                    </Button>
+                  )}
+                  content={() => this.printRef.current}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                {/* <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  disabled={this.state.loading}
+                >
+                  <DownloadIcon className={classes.leftIcon} />
+                  {t('views.final.download')}
+                </Button> */}
+              </Grid>
+              <Grid item xs={4} />
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleSubmit}
+                  fullWidth
+                  className={classes.saveButtonStyle}
+                  disabled={this.state.loading}
+                >
+                  {t('general.close')}
+                </Button>
+              </Grid>
+              <Grid item xs={4} />
+            </Grid>
+          </div>
+          <BottomSpacer />
+        </Container>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user })
+const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user });
 
-const styles = {
-  finalImg: {
-    marginTop: 40,
-    marginBottom: 60
-  },
-  container: {
-    marginTop: 10,
+const styles = theme => ({
+  subtitle: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-}
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 6
+  },
+  saveButtonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 8
+  },
+  gridContainer: {
+    marginLeft: theme.spacing.unit * 4 - 8,
+    marginRight: theme.spacing.unit * 4 - 8,
+    marginTop: theme.spacing.unit * 4
+  },
+  saveButtonStyle: { marginTop: theme.spacing.unit * 6 },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+    fontSize: 20
+  },
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 4
+  },
+  overviewContainer: { height: 0, width: 0, overflow: 'auto' }
+});
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     {}
   )(withTranslation()(Final))
-)
+);

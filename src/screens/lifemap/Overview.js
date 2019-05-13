@@ -1,41 +1,189 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
-import TitleBar from '../../components/TitleBar'
-import { withStyles } from '@material-ui/core/styles'
-import { withTranslation } from 'react-i18next'
-import { updateDraft } from '../../redux/actions'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+import { withTranslation } from 'react-i18next';
+import TitleBar from '../../components/TitleBar';
+import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
+import SummaryDonut from '../../components/summary/SummaryDonut';
+import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
+import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
+import IndicatorBall from '../../components/summary/IndicatorBall';
+import IndicatorsFilter, {
+  FILTERED_BY_OPTIONS
+} from '../../components/summary/IndicatorsFilter';
+import LeaveModal from '../../components/LeaveModal';
+import FooterPopup from '../../components/FooterPopup';
+import { updateDraft } from '../../redux/actions';
+
+const getForwardURLForIndicator = indicator => {
+  let forward = 'skipped-indicator';
+  if (indicator.value) {
+    forward = indicator.value === 3 ? 'achievement' : 'priority';
+  }
+  return `${forward}/${indicator.key}`;
+};
+
+const indicatorColorByAnswer = indicator => {
+  let color;
+  if (indicator.value === 3) {
+    color = 'green';
+  } else if (indicator.value === 2) {
+    color = 'yellow';
+  } else if (indicator.value === 1) {
+    color = 'red';
+  } else if (indicator.value === 0) {
+    color = 'skipped';
+  }
+  return color;
+};
+
+let DimensionHeader = ({
+  classes,
+  dimension,
+  greenIndicatorCount,
+  yellowIndicatorCount,
+  redIndicatorCount,
+  skippedIndicatorCount
+}) => (
+  <div className={classes.dimensionHeader}>
+    <Typography className={classes.dimensionTitle} variant="subtitle1">
+      {dimension}
+    </Typography>
+    <SummaryStackedBar
+      greenIndicatorCount={greenIndicatorCount}
+      yellowIndicatorCount={yellowIndicatorCount}
+      redIndicatorCount={redIndicatorCount}
+      skippedIndicatorCount={skippedIndicatorCount}
+    />
+    <div className={classes.dimensionUnderline} />
+  </div>
+);
+const dimensionHeaderStyles = theme => ({
+  dimensionHeader: {
+    margin: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 4
+  },
+  dimensionTitle: {
+    marginBottom: theme.spacing.unit
+  },
+  dimensionUnderline: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    width: '100%',
+    height: '1px',
+    backgroundColor: '#DCDEE3'
+  }
+});
+DimensionHeader = withStyles(dimensionHeaderStyles)(DimensionHeader);
+
+let DimensionQuestions = ({
+  classes,
+  questions,
+  priorities,
+  achievements,
+  history
+}) => (
+  <Grid container spacing={16}>
+    {questions.map(indicator => (
+      <Grid
+        item
+        xs={4}
+        md={3}
+        key={indicator.key}
+        onClick={() => history.push(getForwardURLForIndicator(indicator))}
+        className={classes.gridItemStyle}
+      >
+        <div className={classes.indicatorBallContainer}>
+          <IndicatorBall
+            color={indicatorColorByAnswer(indicator)}
+            animated={false}
+            priority={priorities.find(
+              prior => prior.indicator === indicator.key
+            )}
+            achievement={achievements.find(
+              prior => prior.indicator === indicator.key
+            )}
+          />
+        </div>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          className={classes.typographyStyle}
+        >
+          {indicator.questionText}
+        </Typography>
+      </Grid>
+    ))}
+  </Grid>
+);
+
+const dimensionQuestionsStyles = theme => ({
+  gridItemStyle: { cursor: 'pointer' },
+  indicatorBallContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  typographyStyle: {
+    marginTop: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 4
+  }
+});
+DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
+
 export class Overview extends Component {
   state = {
-    modalTitle: '',
-    howManyMonthsWillItTakeText: '',
-    whyDontYouHaveItText: '',
-    whatWillYouDoToGetItText: '',
-    whatDidItTake: '',
-    howDidYouGetIt: '',
-    questionKey: '',
-    questionValue: '',
-    showPrioritiesNote: false
-  }
+    showFooterPopup: true,
+    greenIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 3
+    ).length,
+    yellowIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 2
+    ).length,
+    redIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => indicator.value === 1
+    ).length,
+    skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
+      indicator => !indicator.value
+    ).length,
+    indicatorFilterValue: FILTERED_BY_OPTIONS.ALL,
+    openModal: false
+  };
+
+  toggleModal = () => {
+    this.setState(prevState => ({ openModal: !prevState.openModal }));
+  };
+
+  handleFilterChange = filter => {
+    this.setState({ indicatorFilterValue: filter });
+  };
+
+  handleFooterButtonClick = () => {
+    this.setState({
+      showFooterPopup: false
+    });
+  };
+
   finishSurvey = () => {
-    let { minimumPriorities } = this.props.currentSurvey
-    //  this.props.currentDraft.indicatorSurveyDataList.forEach(e=>{
-    //    if(e.value ==1 ||e.value ==2){}
-    //  })
+    const { minimumPriorities } = this.props.currentSurvey;
     if (minimumPriorities === 0) {
-      this.props.history.push('/lifemap/final')
+      this.props.history.push('/lifemap/final');
     } else {
-      if (minimumPriorities - this.props.currentDraft.priorities.length !== 0) {
-        this.setState({ showPrioritiesNote: true })
+      if (minimumPriorities - this.props.currentDraft.priorities.length > 0) {
+        this.setState({ openModal: true });
       } else {
-        this.props.history.push('/lifemap/final')
+        this.props.history.push('/lifemap/final');
       }
-      let priorDiff = 0
+      let priorDiff = 0;
       this.props.currentDraft.indicatorSurveyDataList.forEach(ele => {
         if (ele.value === 2 || ele.value === 1) {
-          priorDiff += 1
+          priorDiff += 1;
         }
-      })
+      });
       if (
         minimumPriorities -
           minimumPriorities +
@@ -43,116 +191,74 @@ export class Overview extends Component {
           this.props.currentDraft.priorities.length ===
         0
       ) {
-        this.props.history.push('/lifemap/final')
+        this.props.history.push('/lifemap/final');
       }
     }
-  }
-  updateAnswer = e => {
-    e.preventDefault()
-    const { currentDraft } = this.props
-    if (this.state.questionValue === 3) {
-      let achievementsNew = currentDraft.achievements
-      let update = false
-      //////////////// check if the question is already in the achievements list and update it
-      achievementsNew.forEach(e => {
-        if (e.indicator === this.state.questionKey) {
-          update = true
-          e.action = this.state.whatDidItTake
-          e.roadmap = this.state.howDidYouGetIt
-        }
-      })
-      if (update) {
-        let achievements = achievementsNew
-        this.props.updateDraft({
-          ...currentDraft,
-          achievements
-        })
-      } else {
-        //////////// add the question to the achievements list if it doesnt exist
-        this.props.updateDraft({
-          ...currentDraft,
-          achievements: [
-            ...currentDraft.achievements,
-            {
-              action: this.state.whatDidItTake,
-              roadmap: this.state.howDidYouGetIt,
-              indicator: this.state.questionKey
-            }
-          ]
-        })
-      }
+  };
+
+  getFooterTitle = () => {
+    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
+    const { t } = this.props;
+    const prioritiesCount = this.props.currentDraft.priorities
+      ? this.props.currentDraft.priorities.length
+      : 0;
+    let title;
+    if (minimumPriorities === 0) {
+      title = t('views.overview.noPriorityRemainingTitle');
+    } else if (prioritiesCount === 0) {
+      title = t('views.overview.allPrioritiesRemainingTitle');
+    } else if (minimumPriorities - prioritiesCount > 1) {
+      title = `${minimumPriorities - prioritiesCount} ${t(
+        'views.overview.somePrioritiesRemainingTitle'
+      )}`;
+    } else if (minimumPriorities - prioritiesCount === 1) {
+      title = t('views.overview.onePriorityRemainingTitle');
     } else {
-      let prioritiesNew = currentDraft.priorities
-      let update = false
-      //////////////// check if the question is already in the priorities list and update it
-      prioritiesNew.forEach(e => {
-        if (e.indicator === this.state.questionKey) {
-          update = true
-          e.action = this.state.whatDidItTake
-          e.roadmap = this.state.howDidYouGetIt
-        }
-      })
-      if (update) {
-        let priorities = prioritiesNew
-        this.props.updateDraft({
-          ...currentDraft,
-          priorities
-        })
-      } else {
-        //////////// add the question to the priorities list if it doesnt exist
-        this.props.updateDraft({
-          ...currentDraft,
-          priorities: [
-            ...currentDraft.priorities,
-            {
-              reason: this.state.whyDontYouHaveItText,
-              action: this.state.whatWillYouDoToGetItText,
-              estimatedDate: this.state.howManyMonthsWillItTakeText,
-              indicator: this.state.questionKey
-            }
-          ]
-        })
-      }
+      title = t('views.overview.noPriorityRemainingTitle');
     }
-    this.setState({
-      modalTitle: '',
-      howManyMonthsWillItTakeText: '',
-      whyDontYouHaveItText: '',
-      whatWillYouDoToGetItText: '',
-      whatDidItTake: '',
-      howDidYouGetIt: '',
-      questionKey: '',
-      questionValue: ''
-    })
-  }
-  showModal = (key, value, title) => {
-    if (value === 1 || value === 2) {
-      this.setState({
-        modalTitle: title,
-        questionKey: key,
-        questionValue: 1
-      })
-    } else if (value === 3) {
-      this.setState({
-        modalTitle: title,
-        questionKey: key,
-        questionValue: 3
-      })
+    return title;
+  };
+
+  getFooterDescription = () => {
+    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
+    const { t } = this.props;
+    const prioritiesCount = this.props.currentDraft.priorities
+      ? this.props.currentDraft.priorities.length
+      : 0;
+    let description;
+    if (minimumPriorities === 0) {
+      description = t('views.overview.noPriorityRemainingDescription');
+    } else if (prioritiesCount === 0) {
+      description = `${t(
+        'views.overview.allPrioritiesRemainingDescription'
+      )} ${minimumPriorities} ${
+        minimumPriorities === 1
+          ? t('views.overview.priority')
+          : t('views.overview.priorities')
+      }`;
+    } else if (minimumPriorities - prioritiesCount > 1) {
+      description = t('views.overview.somePrioritiesRemainingDescription');
+    } else if (minimumPriorities - prioritiesCount === 1) {
+      description = t('views.overview.onePriorityRemainingDescription');
+    } else {
+      description = t('views.overview.noPriorityRemainingDescription');
     }
-  }
+    return description;
+  };
+
   render() {
-    const { t, classes, currentDraft, currentSurvey } = this.props
-    let priorDiff = 0
-    let groupedAnswers
-    let userAnswers = []
-    let differentCalcPriorities = false
+    const {
+      t,
+      classes,
+      currentDraft,
+      currentSurvey,
+      forceHideStickyFooter,
+      containerRef
+    } = this.props;
+    let groupedAnswers;
+    const userAnswers = [];
 
     if (currentSurvey) {
-      currentDraft.indicatorSurveyDataList.forEach(ele => {
-        if (ele.value === 2 || ele.value === 1) {
-          priorDiff += 1
-        }
-      })
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
           if (e.codeName === ele.key) {
@@ -161,256 +267,128 @@ export class Overview extends Component {
               questionText: e.questionText,
               dimension: e.dimension,
               key: ele.key
-            })
+            });
           }
-        })
-      })
-      if (priorDiff < this.props.currentSurvey.minimumPriorities) {
-        differentCalcPriorities = true
-      }
-      console.log(differentCalcPriorities)
-      console.log(priorDiff)
-      groupedAnswers = userAnswers.reduce(function(r, a) {
-        r[a.dimension] = r[a.dimension] || []
-        r[a.dimension].push(a)
-        return r
-      }, {})
+        });
+      });
+      groupedAnswers = userAnswers.reduce((r, a) => {
+        // eslint-disable-next-line no-param-reassign
+        r[a.dimension] = r[a.dimension] || [];
+        r[a.dimension].push(a);
+        return r;
+      }, {});
     }
 
     return (
       <div>
+        <LeaveModal
+          title={t('views.lifemap.toComplete')}
+          subtitle={`${t('general.create')} ${this.props.currentSurvey
+            .minimumPriorities -
+            (this.props.currentDraft.priorities || []).length} ${t(
+            'views.lifemap.priorities'
+          )}`}
+          continueButtonText={t('general.gotIt')}
+          singleAction
+          onClose={this.toggleModal}
+          open={this.state.openModal}
+          leaveAction={this.toggleModal}
+        />
         <TitleBar title={t('views.yourLifeMap')} />
-        <div className={classes.ballsContainer}>
-          {this.props.currentDraft.indicatorSurveyDataList.map(indicator => {
-            let color
-
-            if (indicator.value === 3) {
-              color = '#89bd76'
-            } else if (indicator.value === 2) {
-              color = '#f0cb17'
-            } else if (indicator.value === 1) {
-              color = '#e1504d'
-            } else if (indicator.value === 0) {
-              color = 'grey'
-            }
-
-            return (
-              <div
-                key={indicator.key}
-                style={{ backgroundColor: color }}
-                className={classes.roundBall}
-              />
-            )
-          })}
-        </div>
-        <div>
-          {Object.keys(groupedAnswers).map(elem => {
-            return (
+        <Container variant="stretch" ref={containerRef}>
+          <SummaryDonut
+            greenIndicatorCount={this.state.greenIndicatorCount}
+            yellowIndicatorCount={this.state.yellowIndicatorCount}
+            redIndicatorCount={this.state.redIndicatorCount}
+            skippedIndicatorCount={this.state.skippedIndicatorCount}
+          />
+          <AllSurveyIndicators />
+          <IndicatorsFilter
+            greenIndicatorCount={this.state.greenIndicatorCount}
+            yellowIndicatorCount={this.state.yellowIndicatorCount}
+            redIndicatorCount={this.state.redIndicatorCount}
+            skippedIndicatorCount={this.state.skippedIndicatorCount}
+            filterValue={this.state.indicatorFilterValue}
+            onFilterChanged={this.handleFilterChange}
+          />
+          <div>
+            {Object.keys(groupedAnswers).map(elem => (
               <div key={elem}>
-                <h1>{elem}</h1>
-                {groupedAnswers[elem].map(indicator => {
-                  let color
-                  let displayType = 'none'
-                  if (indicator.value === 3) {
-                    color = '#89bd76'
-                  } else if (indicator.value === 2) {
-                    color = '#F0CB17'
-                  } else if (indicator.value === 1) {
-                    color = '#e1504d'
-                  } else if (indicator.value === 0) {
-                    color = 'grey'
+                <DimensionHeader
+                  dimension={elem}
+                  greenIndicatorCount={
+                    groupedAnswers[elem].filter(a => a.value === 3).length
                   }
-                  currentDraft.priorities.forEach(prior => {
-                    if (prior.indicator === indicator.key) displayType = 'block'
-                  })
-                  currentDraft.achievements.forEach(achieve => {
-                    if (achieve.indicator === indicator.key)
-                      displayType = 'block'
-                  })
-
-                  return (
-                    <Button
-                      disabled={!indicator.value}
-                      onClick={() =>
-                        this.props.history.push(
-                          `${
-                            indicator.value === 3 ? 'achievement' : 'priority'
-                          }/${indicator.key}`
-                        )
-                      }
-                      key={indicator.key}
-                      className={classes.overviewAnswers}
-                    >
-                      <div className={classes.buttonInsideContainer}>
-                        <div
-                          style={{ backgroundColor: color }}
-                          className={classes.roundBox}
-                        >
-                          <div
-                            style={{ display: displayType }}
-                            className={classes.roundBoxSmall}
-                          />
-                        </div>
-
-                        <p>{indicator.questionText}</p>
-                      </div>
-                    </Button>
-                  )
-                })}
+                  yellowIndicatorCount={
+                    groupedAnswers[elem].filter(a => a.value === 2).length
+                  }
+                  redIndicatorCount={
+                    groupedAnswers[elem].filter(a => a.value === 1).length
+                  }
+                  skippedIndicatorCount={
+                    groupedAnswers[elem].filter(a => !a.value).length
+                  }
+                />
+                <DimensionQuestions
+                  questions={groupedAnswers[elem].filter(ind => {
+                    if (
+                      this.state.indicatorFilterValue ===
+                      FILTERED_BY_OPTIONS.ALL
+                    ) {
+                      return true;
+                    }
+                    return ind.value === this.state.indicatorFilterValue;
+                  })}
+                  priorities={currentDraft.priorities}
+                  achievements={currentDraft.achievements}
+                  history={this.props.history}
+                />
               </div>
-            )
-          })}
-        </div>
-        {this.state.showPrioritiesNote ? (
-          <div className={classes.modalPopupContainer}>
-            <div className={classes.createPrioritiesContainer}>
-              <h2>{t('views.lifemap.toComplete')}</h2>
-              <p className={classes.paragraphPriorities}>
-                {t('general.create')}
-                <span className={classes.prioritiesCurrentCount}>
-                  {differentCalcPriorities ? (
-                    <span>
-                      {this.props.currentSurvey.minimumPriorities -
-                        this.props.currentSurvey.minimumPriorities +
-                        priorDiff -
-                        this.props.currentDraft.priorities.length}
-                    </span>
-                  ) : (
-                    <span>
-                      {this.props.currentSurvey.minimumPriorities -
-                        this.props.currentDraft.priorities.length}
-                    </span>
-                  )}
-                </span>
-                <span className={classes.lowercaseParagraph}>
-                  {t('views.lifemap.priorities')}
-                </span>
-              </p>
+            ))}
+          </div>
+          {!this.state.showFooterPopup && (
+            <div className={classes.finishSurveyButtonContainer}>
               <Button
-                style={{ marginTop: 35, marginBottom: 35 }}
                 variant="contained"
-                fullWidth
-                onClick={() => this.setState({ showPrioritiesNote: false })}
+                onClick={this.finishSurvey}
                 color="primary"
               >
-                {t('general.gotIt')}
+                {t('general.continue')}
               </Button>
             </div>
-          </div>
-        ) : null}
-
-        <Button
-          style={{ marginTop: 35, marginBottom: 35 }}
-          variant="contained"
-          fullWidth
-          onClick={this.finishSurvey}
-          color="primary"
-        >
-          {t('general.continue')}
-        </Button>
+          )}
+          <BottomSpacer />
+        </Container>
+        {!forceHideStickyFooter && (
+          <FooterPopup
+            title={this.getFooterTitle()}
+            description={this.getFooterDescription()}
+            isOpen={this.state.showFooterPopup}
+            handleButtonClick={this.handleFooterButtonClick}
+            buttonText={t('views.overview.priorityFooterButton')}
+          />
+        )}
       </div>
-    )
+    );
   }
 }
-const styles = {
-  lowercaseParagraph: {
-    textTransform: 'lowercase'
-  },
-  paragraphPriorities: {
-    fontSize: 20
-  },
-  prioritiesCurrentCount: {
-    margin: '0 4px 0 3px'
-  },
-  createPrioritiesContainer: {
-    zIndex: 11,
-    width: 650,
-    height: 500,
+const styles = theme => ({
+  finishSurveyButtonContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    alignItems: 'center',
-    left: 0,
-    right: 0,
-    top: '150px',
-    margin: 'auto'
-  },
-  ballsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    margin: '20px'
-  },
-  roundBall: {
-    display: 'block',
-    width: 25,
-    height: 25,
-    borderRadius: '50%'
-  },
-  roundBoxSmall: {
-    width: 15,
-    height: 15,
-    borderRadius: '50%',
-    backgroundColor: '#856DFF'
-  },
-  buttonsContainer: {
-    marginTop: 20,
-    display: 'flex'
-  },
-  modalButtonAnswersBack: {
-    marginRight: 20
-  },
-  containerTitle: {
-    zIndex: 12
-  },
-  modalAnswersDetailsContainer: {
-    zIndex: 11,
-    width: 650,
-    height: 500,
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: '120px',
-    margin: 'auto'
-  },
-  modalPopupContainer: {
-    position: 'fixed',
-    width: '100vw',
-    top: '0px',
-    right: '0px',
-    bottom: '0px',
-    left: '0px',
-    height: '100vh',
-    backgroundColor: 'white',
-    zIndex: 1
-  },
-  buttonInsideContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: 'auto'
-  },
-  overviewAnswers: {
-    cursor: 'pointer',
-    width: '100%'
-  },
-  roundBox: {
-    width: 30,
-    height: 30,
-    borderRadius: '50%',
-    marginRight: '10px'
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 4
   }
-}
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
-const mapDispatchToProps = { updateDraft }
+});
+const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(Overview))
-)
+);

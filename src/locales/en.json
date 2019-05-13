@@ -16,6 +16,7 @@
     "delete": "Delete",
     "warning": "Warning",
     "cancel": "Cancel",
+    "ok": "OK",
     "drafts": "drafts",
     "resumeDraft": "Resume draft",
     "lifeMaps": "Life Maps",
@@ -23,7 +24,8 @@
     "familyInfo": "family info",
     "cachedData": "cached data",
     "chooseView": "Choose view",
-    "create": "Create"
+    "create": "Create",
+    "saveError": "Error while trying to save your lifemap"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -32,7 +34,8 @@
     "lessThan50Characters": "Value must be less than 50 characters",
     "alphabeticCharacters": "Please enter alphabetic characters",
     "validPhoneNumber": "Please enter a valid phone number",
-    "validNumber": "Please enter a valid number"
+    "validNumber": "Please enter a valid number",
+    "formWithErrors": "The form contains invalid entries"
   },
   "months": {
     "january": "January",
@@ -49,6 +52,11 @@
     "december": "December"
   },
   "views": {
+    "toolbar": {
+      "surveys": "Surveys",
+      "households": "Households",
+      "map": "Map"
+    },
     "synced": "Sync",
     "dashboard": "Dashboard",
     "families": "Families",
@@ -57,13 +65,27 @@
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
-    "location": "Location",
+    "survey": {
+      "chooseSurvey": "Choose a survey",
+      "contains": "Contains",
+      "createdOn": "Created on"
+    },
+    "location": {
+      "title": "Location",
+      "mapLoading": "Please wait while the map is loading.",
+      "searchBoxPlaceholder": "Search by street or postal code",
+      "loadingOptionsLabel": "Loading..."
+    },
     "socioEconomic": "Socio Economic",
     "yourLifeMap": "Your life map",
     "primaryParticipant": "Primary participant",
     "familyMembers": "Family members",
     "gendersBirthDates": "Genders & Birth dates",
     "skippedIndicators": "Skipped questions",
+    "skippedIndicator": {
+      "subtitle": "You skipped this indicator",
+      "buttonLabel": "Answer it now!"
+    },
     "readCarefully": "Please read carefully before creating the Life Map",
     "family": {
       "firstName": "First name",
@@ -108,7 +130,8 @@
       "details": "Details",
       "lifemap": "Life map",
       "lifeMapCreatedOn": "Life Map draft created on",
-      "created": "Created on"
+      "created": "Created on",
+      "formWithErrors": "Review %number form errors"
     },
     "lifemap": {
       "thisLifeMapHas": "This life map has %n questions. It will take approximately 35 minutes to complete!",
@@ -122,6 +145,7 @@
       "whyDontYouHaveIt": "Why don't you have it?",
       "whatWillYouDoToGetIt": "What will you do to get it?",
       "howManyMonthsWillItTake": "How many months will it take?",
+      "markAchievement": "Mark achievement!",
       "achievement": "Achievement",
       "howDidYouGetIt": "How did you get it?",
       "whatDidItTakeToAchieveThis": "What did it take to achieve this?",
@@ -133,9 +157,14 @@
       "green": "Green",
       "yellow": "Yellow",
       "red": "Red",
+      "makeThisAPriority": "Make this a priority!",
       "priorities": "Priorities",
       "achievements": "Achievements",
       "toComplete": "To complete the lifemap..."
+    },
+    "priority": {
+      "month": "month",
+      "months": "months"
     },
     "modals": {
       "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",
@@ -164,6 +193,37 @@
       "inProgress": "Sync in progress",
       "of": "of",
       "updates": "updates"
+    },
+    "overview": {
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped questions",
+      "priorityFooterButton": "Got it!",
+      "allPrioritiesRemainingTitle": "Before the map is completed...",
+      "allPrioritiesRemainingDescription": "You need to make",
+      "priorities": "priorities",
+      "priority": "priority",
+      "somePrioritiesRemainingTitle": "priorities left to create!",
+      "somePrioritiesRemainingDescription": "Nearly there...",
+      "onePriorityRemainingTitle": "1 priority left to create!",
+      "onePriorityRemainingDescription": "Nearly there...",
+      "noPriorityRemainingTitle": "Great! You created all the required priorities",
+      "noPriorityRemainingDescription": "You can make as many more as you want."
+    },
+    "indicatorsFilter": {
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped",
+      "allIndicators": "All indicators"
+    },
+    "final": {
+      "title": "Thank you!",
+      "lifemapCompleted": "Your Life Map is completed!",
+      "print": "Print",
+      "email": "Email",
+      "download": "Download"
     }
   }
 }
