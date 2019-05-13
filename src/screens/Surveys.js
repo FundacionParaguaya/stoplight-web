@@ -152,7 +152,8 @@ export class Surveys extends Component {
   render() {
     const {
       classes,
-      i18n: { language }
+      i18n: { language },
+      t
     } = this.props;
     const dateFormat = getDateFormatByLocale(language);
 
