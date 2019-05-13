@@ -392,6 +392,7 @@ export class PrimaryParticipant extends Component {
                     onChange={value => {
                       setFieldValue('gender', value ? value.value : '');
                     }}
+                    isClearable={false}
                     onBlur={() => {
                       setFieldTouched('gender');
                       this.updateDraftWithCurrentValues(values);
@@ -467,6 +468,7 @@ export class PrimaryParticipant extends Component {
                     onChange={value => {
                       setFieldValue('documentType', value ? value.value : '');
                     }}
+                    isClearable={false}
                     onBlur={() => {
                       setFieldTouched('documentType');
                       this.updateDraftWithCurrentValues(values);
@@ -523,6 +525,7 @@ export class PrimaryParticipant extends Component {
                     onChange={value => {
                       setFieldValue('birthCountry', value ? value.value : '');
                     }}
+                    isClearable={false}
                     onBlur={() => {
                       setFieldTouched('birthCountry');
                       this.updateDraftWithCurrentValues(values);
