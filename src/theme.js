@@ -124,7 +124,6 @@ export const theme = {
       formControl: {
         transform: 'translate(12px, 25px) scale(1)',
         color: '#6A6A6A',
-        paddingRight: 100,
         lineHeight: 1.2
       }
     },
