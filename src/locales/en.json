@@ -16,6 +16,7 @@
     "delete": "Delete",
     "warning": "Warning",
     "cancel": "Cancel",
+    "ok": "OK",
     "drafts": "drafts",
     "resumeDraft": "Resume draft",
     "lifeMaps": "Life Maps",
@@ -59,6 +60,9 @@
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
+    "survey": {
+      "chooseSurvey": "Choose a survey"
+    },
     "location": {
       "title": "Location",
       "mapLoading": "Please wait while the map is loading.",
@@ -94,6 +98,7 @@
       "name": "Name",
       "peopleLivingInThisHousehold": "Number of people living in this household",
       "household": "household",
+      "households": "households",
       "onlyPerson": "1 - I am the only person",
       "preferNotToSay": "I prefer not to answer",
       "familyMember": "Family member",

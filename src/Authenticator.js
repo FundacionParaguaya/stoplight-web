@@ -1,11 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { updateUser } from './redux/actions';
 import { checkSessionToken } from './api';
+
+const SURVEY_ROLE = 'SURVEY_USER';
 
 let LoadingAuth = ({ classes }) => (
   <div className={classes.container}>
@@ -95,13 +97,17 @@ const Authenticator = props => {
     // Verifying token before logging user in
     checkSessionToken(sessionId, environment)
       .then(response => {
-        updateUserActionDispatch({
-          username: response.data.username,
-          token: sessionId,
-          env: environment
-        });
-        setLoggedIn(true);
-        setAuthVerified(true);
+        if (response.data.role === SURVEY_ROLE) {
+          updateUserActionDispatch({
+            username: response.data.username,
+            token: sessionId,
+            env: environment
+          });
+          setLoggedIn(true);
+          setAuthVerified(true);
+        } else {
+          throw new Error('User does not have survey role');
+        }
       })
       .catch(() => {
         updateUserActionDispatch({
