@@ -8,6 +8,7 @@ import { Typography, Grid } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
+import BottomSpacer from '../../components/BottomSpacer';
 import { COLORS } from '../../theme';
 
 const questionsWrapperStyles = {
@@ -345,6 +346,7 @@ export class StoplightQuestions extends Component {
             )}
           </div>
         </Container>
+        <BottomSpacer />
       </div>
     );
   }
