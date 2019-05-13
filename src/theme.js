@@ -114,12 +114,14 @@ export const theme = {
     },
     MuiInputLabel: {
       shrink: {
-        transform: 'translate(12px, 10px) scale(1)!important',
+        transform: 'translate(12px, -100%) scale(1)!important',
         color: '#6A6A6A'
       },
       filled: {
-        transform: 'translate(12px, 25px) scale(1)',
-        color: '#6A6A6A'
+        top: '50%',
+        transform: 'translate(12px, -50%) scale(1)',
+        color: '#6A6A6A',
+        paddingRight: 24
       },
       formControl: {
         transform: 'translate(12px, 25px) scale(1)',
