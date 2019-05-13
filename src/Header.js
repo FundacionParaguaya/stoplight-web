@@ -57,7 +57,7 @@ class Header extends Component {
       <AppBar className={classes.header} color="inherit" position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
           <a
-            href={`https://${user.env}.povertystoplight.org`}
+            // href={`https://${user.env}.povertystoplight.org`}
             className={classes.menuLink}
             style={{ position: 'relative' }}
           >
@@ -235,7 +235,8 @@ const styles = theme => ({
     textTransform: 'uppercase',
     borderRadius: 2,
     fontFamily: 'Poppins',
-    padding: '1px 5px',
+    padding: '0px 5px',
+    paddingTop: 1,
     top: 8,
     right: 0
   }
