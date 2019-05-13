@@ -52,6 +52,11 @@
     "december": "Diciembre"
   },
   "views": {
+    "toolbar": {
+      "surveys": "Encuestas",
+      "households": "Familias",
+      "map": "Mapa"
+    },
     "synced": "Sincronización",
     "families": "Familias",
     "dashboard": "Tablero",
