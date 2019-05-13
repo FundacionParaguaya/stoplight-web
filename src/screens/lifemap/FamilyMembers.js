@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { withSnackbar } from 'notistack';
 import { DatePicker } from 'material-ui-pickers';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core';
@@ -16,7 +19,7 @@ import TitleBar from '../../components/TitleBar';
 import Autocomplete from '../../components/Autocomplete';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
-import LeaveModal from '../../components/LeaveModal';
+import { withScroller } from '../../components/Scroller';
 import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
@@ -36,14 +39,6 @@ const validationSchema = Yup.object().shape({
 });
 
 export class FamilyMembers extends Component {
-  state = {
-    openModal: false
-  };
-
-  toggleModal = () => {
-    this.setState(prevState => ({ openModal: !prevState.openModal }));
-  };
-
   updateDraft = (memberIndex, value, property) => {
     const { currentDraft } = this.props;
 
@@ -77,22 +72,16 @@ export class FamilyMembers extends Component {
       t,
       currentDraft,
       currentSurvey,
-      i18n: { language }
+      i18n: { language },
+      scrollToTop,
+      enqueueSnackbar,
+      closeSnackbar
     } = this.props;
     const dateFormat = getDateFormatByLocale(language);
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
     return (
       <div>
-        <LeaveModal
-          title="Warning!"
-          subtitle={t('validation.formWithErrors')}
-          continueButtonText={t('general.gotIt')}
-          singleAction
-          onClose={this.toggleModal}
-          open={this.state.openModal}
-          leaveAction={this.toggleModal}
-        />
         <TitleBar title={t('views.familyMembers')} />
         <Container variant="slim">
           <Formik
@@ -272,7 +261,29 @@ export class FamilyMembers extends Component {
                     onClick={() => {
                       validateForm().then(validationErrors => {
                         if (Object.keys(validationErrors).length > 0) {
-                          this.toggleModal();
+                          const errorsLength = Object.keys(
+                            validationErrors.members
+                          ).length;
+                          if (errorsLength > 0) {
+                            enqueueSnackbar(
+                              t('views.family.formWithErrors').replace(
+                                '%number',
+                                errorsLength
+                              ),
+                              {
+                                variant: 'error',
+                                action: key => (
+                                  <IconButton
+                                    key="dismiss"
+                                    onClick={() => closeSnackbar(key)}
+                                  >
+                                    <CloseIcon style={{ color: 'white' }} />
+                                  </IconButton>
+                                )
+                              }
+                            );
+                            scrollToTop();
+                          }
                         }
                       });
                     }}
@@ -330,5 +341,5 @@ export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withTranslation()(FamilyMembers))
+  )(withTranslation()(withScroller(withSnackbar(FamilyMembers))))
 );

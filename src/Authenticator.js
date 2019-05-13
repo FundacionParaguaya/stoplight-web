@@ -25,11 +25,7 @@ const loadingAuthStyles = {
 };
 LoadingAuth = withStyles(loadingAuthStyles)(LoadingAuth);
 
-let UserNotAllowed = ({ classes }) => (
-  <div>
-    <p>Auth Failed, you're not logged in</p>
-  </div>
-);
+let UserNotAllowed = ({ classes }) => <div />;
 
 const userNotAllowedStyles = {
   container: {

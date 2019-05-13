@@ -4,6 +4,9 @@ import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { withSnackbar } from 'notistack';
 import { DatePicker } from 'material-ui-pickers';
 import { Formik, Form } from 'formik';
 import uuid from 'uuid/v1';
@@ -17,7 +20,7 @@ import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
-import LeaveModal from '../../components/LeaveModal';
+import { withScroller } from '../../components/Scroller';
 import familyFaceIcon from '../../assets/family_face_large.png';
 import { getDateFormatByLocale } from '../../utils/date-utils';
 
@@ -47,14 +50,9 @@ export class PrimaryParticipant extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props),
-      openModal: false
+      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props)
     };
   }
-
-  toggleModal = () => {
-    this.setState(prevState => ({ openModal: !prevState.openModal }));
-  };
 
   static constructHouseholdArray(props) {
     const { t } = props;
@@ -249,7 +247,10 @@ export class PrimaryParticipant extends Component {
       currentSurvey,
       classes,
       currentDraft,
-      i18n: { language }
+      i18n: { language },
+      scrollToTop,
+      enqueueSnackbar,
+      closeSnackbar
     } = this.props;
     const { surveyConfig } = currentSurvey;
     // We need the current draft to be created before processing
@@ -284,15 +285,6 @@ export class PrimaryParticipant extends Component {
 
     return (
       <div>
-        <LeaveModal
-          title="Warning!"
-          subtitle={t('validation.formWithErrors')}
-          continueButtonText={t('general.gotIt')}
-          singleAction
-          onClose={this.toggleModal}
-          open={this.state.openModal}
-          leaveAction={this.toggleModal}
-        />
         <TitleBar title={t('views.primaryParticipant')} />
         <div className={classes.topImageContainer}>
           <img height={60} width={60} src={familyFaceIcon} />
@@ -632,8 +624,27 @@ export class PrimaryParticipant extends Component {
                       disabled={isSubmitting}
                       onClick={() => {
                         validateForm().then(validationErrors => {
-                          if (Object.keys(validationErrors).length > 0) {
-                            this.toggleModal();
+                          const errorsLength = Object.keys(validationErrors)
+                            .length;
+                          if (errorsLength > 0) {
+                            enqueueSnackbar(
+                              t('views.family.formWithErrors').replace(
+                                '%number',
+                                errorsLength
+                              ),
+                              {
+                                variant: 'error',
+                                action: key => (
+                                  <IconButton
+                                    key="dismiss"
+                                    onClick={() => closeSnackbar(key)}
+                                  >
+                                    <CloseIcon style={{ color: 'white' }} />
+                                  </IconButton>
+                                )
+                              }
+                            );
+                            scrollToTop();
                           }
                         });
                       }}
@@ -685,4 +696,8 @@ const mapDispatchToProps = { updateDraft };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation()(withStyles(styles)(PrimaryParticipant)));
+)(
+  withTranslation()(
+    withStyles(styles)(withScroller(withSnackbar(PrimaryParticipant)))
+  )
+);

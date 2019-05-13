@@ -131,7 +131,8 @@
       "details": "Detalles",
       "lifemap": "Mapa de vida",
       "lifeMapCreatedOn": "Borrador del Mapa de Vida creado",
-      "created": "Creado"
+      "created": "Creado",
+      "formWithErrors": "Revise %number errores en el formulario"
     },
     "lifemap": {
       "thisLifeMapHas": "Este Mapa de Vida tiene %n preguntas. ¡Tardará aproximadamente 35 minutos en completarse!",

@@ -5,6 +5,9 @@ import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Formik, Form } from 'formik';
@@ -14,6 +17,7 @@ import TitleBar from '../../components/TitleBar';
 import Autocomplete from '../../components/Autocomplete';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
+import { withScroller } from '../../components/Scroller';
 import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 
 let FamilyMemberTitle = ({ name, classes }) => (
@@ -407,7 +411,14 @@ export class Economics extends Component {
       initialValues,
       initialized
     } = this.state;
-    const { t, currentDraft, classes } = this.props;
+    const {
+      t,
+      currentDraft,
+      classes,
+      scrollToTop,
+      enqueueSnackbar,
+      closeSnackbar
+    } = this.props;
     if (!initialized) {
       return <TitleBar title={topic} />;
     }
@@ -433,7 +444,8 @@ export class Economics extends Component {
                 handleBlur,
                 isSubmitting,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
+                validateForm
               }) => (
                 <Form noValidate>
                   <React.Fragment>
@@ -725,6 +737,45 @@ export class Economics extends Component {
                         color="primary"
                         variant="contained"
                         disabled={isSubmitting}
+                        onClick={() => {
+                          validateForm().then(validationErrors => {
+                            const forFamilyErrors =
+                              validationErrors.forFamily || {};
+                            const forFamilyErrorsCount = Object.keys(
+                              forFamilyErrors
+                            ).length;
+
+                            const forFamilyMemberErrors =
+                              validationErrors.forFamilyMember || [];
+                            let forFamilyMemberErrorsCount = 0;
+                            forFamilyMemberErrors.forEach(fm => {
+                              forFamilyMemberErrorsCount += Object.keys(fm)
+                                .length;
+                            });
+                            const errorsLength =
+                              forFamilyErrorsCount + forFamilyMemberErrorsCount;
+                            if (errorsLength > 0) {
+                              enqueueSnackbar(
+                                t('views.family.formWithErrors').replace(
+                                  '%number',
+                                  errorsLength
+                                ),
+                                {
+                                  variant: 'error',
+                                  action: key => (
+                                    <IconButton
+                                      key="dismiss"
+                                      onClick={() => closeSnackbar(key)}
+                                    >
+                                      <CloseIcon style={{ color: 'white' }} />
+                                    </IconButton>
+                                  )
+                                }
+                              );
+                              scrollToTop();
+                            }
+                          });
+                        }}
                       >
                         {t('general.continue')}
                       </Button>
@@ -771,5 +822,5 @@ export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withTranslation()(Economics))
+  )(withTranslation()(withScroller(withSnackbar(Economics))))
 );
