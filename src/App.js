@@ -12,6 +12,7 @@ import Authenticator from './Authenticator';
 import DatePickedProvider from './components/DatePickerProvider';
 import Scroller, { ScrollerProvider } from './components/Scroller';
 import CustomSnackbarProvider from './components/SnackbarProvider';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
                   <CustomSnackbarProvider>
                     <ScrollerProvider>
                       <Scroller />
+                      <LanguageSwitcher />
                       <Authenticator>
                         <div className={classes.appContainer}>
                           <Switch>
