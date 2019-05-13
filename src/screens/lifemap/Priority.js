@@ -256,13 +256,7 @@ class Priority extends Component {
                     }}
                   />
                   <TextField
-                    className={
-                      values.reason
-                        ? `${this.props.classes.input} ${
-                            this.props.classes.inputFilled
-                          }`
-                        : `${this.props.classes.input}`
-                    }
+                    className={this.props.classes.input}
                     variant="filled"
                     label={t('views.lifemap.whyDontYouHaveIt')}
                     value={values.reason}
@@ -273,13 +267,7 @@ class Priority extends Component {
                     multiline
                   />
                   <TextField
-                    className={
-                      values.action
-                        ? `${this.props.classes.input} ${
-                            this.props.classes.inputFilled
-                          }`
-                        : `${this.props.classes.input}`
-                    }
+                    className={this.props.classes.input}
                     variant="filled"
                     label={t('views.lifemap.whatWillYouDoToGetIt')}
                     value={values.action}
