@@ -59,6 +59,7 @@ class Header extends Component {
           <a
             href={`https://${user.env}.povertystoplight.org`}
             className={classes.menuLink}
+            style={{ position: 'relative' }}
           >
             <img
               style={{ marginTop: 4 }}
@@ -67,6 +68,9 @@ class Header extends Component {
               width={38}
               height={38}
             />
+            <span className={classes.badge}>
+              <Typography variant="inherit">Beta</Typography>
+            </span>
           </a>
           <NavLink
             to={`/surveys?sid=${this.props.user.token}&lang=en`}
@@ -222,6 +226,18 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: theme.palette.background.paper
     }
+  },
+  badge: {
+    position: 'absolute',
+    color: '#fff',
+    backgroundColor: theme.palette.secondary.main,
+    fontSize: '10px!important',
+    textTransform: 'uppercase',
+    borderRadius: 2,
+    fontFamily: 'Poppins',
+    padding: '1px 5px',
+    top: 8,
+    right: 0
   }
 });
 
