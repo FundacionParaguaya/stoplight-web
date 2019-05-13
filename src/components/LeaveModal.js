@@ -13,7 +13,11 @@ const LeaveModal = props => {
     <Modal open={props.open} onClose={props.onClose}>
       <div className={classes.leaveModal}>
         <img src={redExclamation} alt="Red Exclamation" />
-        <Typography variant="h5" color="error">
+        <Typography
+          className={classes.leaveModalTitle}
+          variant="h5"
+          color="error"
+        >
           {props.title}
         </Typography>
         <Typography className={classes.leaveModalSubtitle} variant="subtitle1">
@@ -64,6 +68,9 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around'
+  },
+  leaveModalTitle: {
+    textAlign: 'center'
   },
   leaveModalSubtitle: {
     textAlign: 'center'
