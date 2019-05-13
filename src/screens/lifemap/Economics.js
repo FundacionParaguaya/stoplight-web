@@ -513,13 +513,7 @@ export class Economics extends Component {
                         }
                         return (
                           <TextField
-                            className={
-                              values.forFamily[question.codeName]
-                                ? `${this.props.classes.input} ${
-                                    this.props.classes.inputFilled
-                                  }`
-                                : `${this.props.classes.input}`
-                            }
+                            className={this.props.classes.input}
                             key={question.codeName}
                             type={
                               question.answerType === 'string'
@@ -670,15 +664,7 @@ export class Economics extends Component {
                                       }
                                       return (
                                         <TextField
-                                          className={
-                                            values.forFamilyMember[index][
-                                              question.codeName
-                                            ]
-                                              ? `${this.props.classes.input} ${
-                                                  this.props.classes.inputFilled
-                                                }`
-                                              : `${this.props.classes.input}`
-                                          }
+                                          className={this.props.classes.input}
                                           key={question.codeName}
                                           type={
                                             question.answerType === 'string'
