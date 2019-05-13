@@ -61,7 +61,9 @@
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
     "survey": {
-      "chooseSurvey": "Choose a survey"
+      "chooseSurvey": "Choose a survey",
+      "contains": "Contains",
+      "createdOn": "Created On"
     },
     "location": {
       "title": "Location",
