@@ -133,13 +133,7 @@ export class FamilyMembers extends Component {
                               {t('views.family.familyMember')} {index + 1}
                             </Typography>
                             <TextField
-                              className={
-                                _.get(values, `members.[${index}].firstName`)
-                                  ? `${this.props.classes.input} ${
-                                      this.props.classes.inputFilled
-                                    }`
-                                  : `${this.props.classes.input}`
-                              }
+                              className={this.props.classes.input}
                               variant="filled"
                               label={t('views.family.firstName')}
                               name={`members[${index}].firstName`}
@@ -231,13 +225,7 @@ export class FamilyMembers extends Component {
                               )}
                               TextFieldComponent={textFieldProps => (
                                 <TextField
-                                  className={
-                                    item.birthDate
-                                      ? `${this.props.classes.input} ${
-                                          this.props.classes.inputFilled
-                                        }`
-                                      : `${this.props.classes.input}`
-                                  }
+                                  className={this.props.classes.input}
                                   variant="filled"
                                   {...textFieldProps}
                                 />
