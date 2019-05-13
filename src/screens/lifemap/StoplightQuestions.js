@@ -1,214 +1,370 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { updateDraft } from '../../redux/actions'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import TitleBar from '../../components/TitleBar'
-import { withTranslation } from 'react-i18next'
+import React, { Component, useState } from 'react';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withTranslation } from 'react-i18next';
+import { Typography, Grid } from '@material-ui/core';
+import TitleBar from '../../components/TitleBar';
+import { updateDraft } from '../../redux/actions';
+import Container from '../../components/Container';
+import BottomSpacer from '../../components/BottomSpacer';
+import { COLORS } from '../../theme';
+
+const questionsWrapperStyles = {
+  questionContainer: {
+    cursor: 'pointer',
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 20
+  },
+  questionImage: {
+    objectFit: 'cover',
+    height: '100%',
+    width: '100%',
+    display: 'block'
+  },
+  answeredQuestion: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: '-36px',
+    left: '50%',
+    transform: 'translate(-50%,0)',
+    zIndex: -1
+  },
+  questionDescription: {
+    position: 'relative',
+    zIndex: 22,
+    margin: 0,
+    textAlign: 'center',
+    color: 'white',
+    padding: '30px 20px',
+    height: '100%'
+  },
+  loadingContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%'
+  },
+  innerContainer: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  answeredIcon: {
+    color: 'white',
+    paddingTop: '3px',
+    fontSize: 39,
+    height: 70,
+    width: 70,
+    margin: 'auto',
+    display: 'flex',
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  imageContainer: {
+    height: 240
+  },
+  circularProgress: {
+    color: 'white'
+  }
+};
+
+let QuestionsWrapper = ({
+  question,
+  answeredValue,
+  classes,
+  submitQuestion,
+  handleImageLoaded,
+  imageStatus
+}) => {
+  const [showIcon, setShowIcon] = useState(0);
+  let sortedQuestions;
+
+  if (question) {
+    sortedQuestions = question.stoplightColors;
+    sortedQuestions.sort((a, b) => {
+      return b.value - a.value;
+    });
+  }
+
+  return (
+    <Grid container spacing={16}>
+      {question &&
+        sortedQuestions.map(e => {
+          let color;
+          let textColor = 'white';
+          if (e.value === 3) {
+            color = COLORS.GREEN;
+          } else if (e.value === 2) {
+            color = COLORS.YELLOW;
+            textColor = 'black';
+          } else if (e.value === 1) {
+            color = COLORS.RED;
+          }
+
+          return (
+            <Grid
+              item
+              key={e.value}
+              onClick={() => submitQuestion(e.value)}
+              className={classes.questionContainer}
+              md={4}
+              onMouseEnter={() => setShowIcon(e.value)}
+              onMouseLeave={() => setShowIcon(0)}
+            >
+              <div
+                style={{
+                  borderTop: `5px solid ${color}`,
+                  borderRadius: 2,
+                  backgroundColor: color
+                }}
+                className={classes.innerContainer}
+              >
+                <React.Fragment>
+                  {imageStatus < sortedQuestions.length && (
+                    <div className={classes.imageContainer}>
+                      <div className={classes.loadingContainer}>
+                        {' '}
+                        <CircularProgress
+                          color="inherit"
+                          className={classes.circularProgress}
+                        />
+                      </div>
+                      <img
+                        onLoad={handleImageLoaded}
+                        src={e.url}
+                        alt="surveyImg"
+                        style={{ display: 'none', height: 0 }}
+                      />
+                    </div>
+                  )}
+                  {imageStatus === sortedQuestions.length && (
+                    <div className={classes.imageContainer}>
+                      <img
+                        className={classes.questionImage}
+                        src={e.url}
+                        alt="surveyImg"
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
+
+                <div
+                  style={{ backgroundColor: color }}
+                  className={classes.questionDescription}
+                >
+                  {(answeredValue === e.value || showIcon === e.value) && (
+                    <div className={classes.answeredQuestion}>
+                      <i
+                        style={{ backgroundColor: color }}
+                        className={`material-icons ${classes.answeredIcon}`}
+                      >
+                        done
+                      </i>
+                    </div>
+                  )}
+                  <Typography style={{ color: textColor }}>
+                    {e.description}
+                  </Typography>
+                </div>
+              </div>
+            </Grid>
+          );
+        })}
+    </Grid>
+  );
+};
+
+QuestionsWrapper = withStyles(questionsWrapperStyles)(QuestionsWrapper);
 export class StoplightQuestions extends Component {
   state = {
+    imageStatus: null,
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
     ]
-  }
+  };
+
   handleContinue = () => {
-    const currentQuestionPage = this.props.match.params.page
-    const { currentDraft } = this.props
-    let goToSkipped = false
+    const currentQuestionPage = this.props.match.params.page;
+    const { currentDraft } = this.props;
+    let goToSkipped = false;
     currentDraft.indicatorSurveyDataList.forEach(ele => {
       if (ele.value === 0) {
-        goToSkipped = true
+        goToSkipped = true;
       }
-    })
+    });
     if (this.props.location.state) {
-      if (this.props.location.state.skippedReturn) {
+      if (this.props.location.state.overviewReturn) {
+        this.props.history.push('/lifemap/overview');
+      } else if (this.props.location.state.skippedReturn) {
         if (goToSkipped) {
-          this.props.history.push('/lifemap/skipped-questions')
+          this.props.history.push('/lifemap/skipped-questions');
         } else {
-          this.props.history.push('/lifemap/overview')
+          this.props.history.push('/lifemap/overview');
         }
       }
-    } else {
-      if (
-        currentQuestionPage <
-        this.props.currentSurvey.surveyStoplightQuestions.length - 1
-      ) {
-        this.props.history.push(
-          `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
-        )
-      } else if (goToSkipped) {
-        this.props.history.push('/lifemap/skipped-questions')
-      } else if (!goToSkipped) {
-        this.props.history.push('/lifemap/overview')
-      }
+    } else if (
+      currentQuestionPage <
+      this.props.currentSurvey.surveyStoplightQuestions.length - 1
+    ) {
+      this.props.history.push(
+        `/lifemap/stoplight/${parseInt(currentQuestionPage, 10) + 1}`
+      );
+    } else if (goToSkipped) {
+      this.props.history.push('/lifemap/skipped-questions');
+    } else if (!goToSkipped) {
+      this.props.history.push('/lifemap/overview');
     }
-  }
+  };
 
-  skipQuestion = () => {
-    let { codeName } = this.state.question
-    const { currentDraft } = this.props
-    let dataList = this.props.currentDraft.indicatorSurveyDataList
-    let update = false
-    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST AND UPDATE my dataList
-    dataList.forEach(e => {
-      if (e.key === codeName) {
-        update = true
-        e.value = 0
-      }
-    })
-    ///////////if the question is in the data list then update the question
-    if (update) {
-      let indicatorSurveyDataList = dataList
-      this.props.updateDraft({
-        ...currentDraft,
-        indicatorSurveyDataList
-      })
-      this.handleContinue()
-    } else {
-      //////////// add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        indicatorSurveyDataList: [
-          ...currentDraft.indicatorSurveyDataList,
-          {
-            key: codeName,
-            value: 0
-          }
-        ]
-      })
-      this.handleContinue()
-    }
-  }
   submitQuestion(value) {
-    let { codeName } = this.state.question
-    const { currentDraft } = this.props
-    let dataList = this.props.currentDraft.indicatorSurveyDataList
-    let update = false
-    //////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
+    const { codeName } = this.state.question;
+    const { currentDraft } = this.props;
+    const dataList = this.props.currentDraft.indicatorSurveyDataList;
+    let update = false;
+    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
     dataList.forEach(e => {
       if (e.key === codeName) {
-        update = true
-        e.value = value
+        update = true;
+        e.value = value;
       }
-    })
-    ///////////if the question is in the data list then update the question
+    });
+    // /////////if the question is in the data list then update the question
     if (update) {
-      let indicatorSurveyDataList = dataList
+      const indicatorSurveyDataList = dataList;
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList
-      })
-      this.handleContinue()
+      });
+      this.handleContinue();
     } else {
-      //////////// add the question to the data list if it doesnt exist
+      // ////////// add the question to the data list if it doesnt exist
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList: [
           ...currentDraft.indicatorSurveyDataList,
           {
             key: codeName,
-            value: value
+            value
           }
         ]
-      })
-      this.handleContinue()
+      });
+      this.handleContinue();
     }
   }
 
   setCurrentScreen() {
     this.setState({
+      imageStatus: 0,
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
       ]
-    })
+    });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  handleImageLoaded = () => {
+    this.setState(prevState => ({
+      imageStatus: prevState.imageStatus + 1
+    }));
+  };
+
+  componentDidUpdate(prevProps) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
-      this.setCurrentScreen()
+      this.setCurrentScreen();
     }
   }
 
   render() {
-    const { question } = this.state
-    const { classes, t } = this.props
-
-    //do not delete this for now, we are probably going to use that in the future
-    // let prevQuestion
-    // if (currentDraft) {
-    //   prevQuestion = `stoplight/${this.props.match.params.page - 1}`
-    //   if (this.props.match.params.page == 0) {
-    //     prevQuestion = 'begin-stoplight'
-    //   }
-    // }
-    let sortedQuestions
+    const { question } = this.state;
+    const { classes, t, currentDraft } = this.props;
+    let answered = false;
+    let answeredValue = null;
+    let sortedQuestions;
     if (question) {
-      sortedQuestions = question.stoplightColors
-      let compare = (a, b) => {
-        if (a.value < b.value) return 1
-        if (a.value > b.value) return -1
-        return 0
-      }
-      sortedQuestions.sort(compare)
+      sortedQuestions = question.stoplightColors;
+      const compare = (a, b) => {
+        if (a.value < b.value) return 1;
+        if (a.value > b.value) return -1;
+        return 0;
+      };
+      sortedQuestions.sort(compare);
     }
     return (
       <div>
         <TitleBar
-          //do not delete uniqueBack for now, we are probably going to use that in the future
-          // uniqueBack={() => this.props.history.push(`/lifemap/${prevQuestion}`)}
-          title={t('views.yourLifeMap')}
+          title={question && question.questionText}
+          extraTitleText={question && question.dimension}
         />
-        <p className={classes.questionDimension}>
-          {question && question.dimension}
-        </p>
-        <h2 className={classes.questionTextTitle}>
-          {question && question.questionText}
-        </h2>
-        <div className={classes.mainQuestionsContainer}>
-          {question !== null
-            ? sortedQuestions.map(e => {
-                let color
-                if (e.value === 3) {
-                  color = '#89bd76'
-                } else if (e.value === 2) {
-                  color = '#f0cb17'
-                } else if (e.value === 1) {
-                  color = '#e1504d'
-                }
 
-                return (
-                  <div
-                    key={e.value}
-                    onClick={() => this.submitQuestion(e.value)}
-                    className={classes.questionContainer}
-                  >
-                    <img
-                      className={classes.questionImage}
-                      src={e.url}
-                      alt="surveyImg"
-                    />
-                    <p
-                      style={{ backgroundColor: color }}
-                      className={classes.questionDescription}
-                    >
-                      {e.description}
-                    </p>
-                  </div>
-                )
-              })
-            : null}
-        </div>
-        {question && !question.required ? (
-          <Button onClick={this.skipQuestion}>
-            {t('views.lifemap.skipThisQuestion')}
-          </Button>
-        ) : null}
+        <Container className={classes.mainQuestionsAndBottomContainer}>
+          <div className={classes.mainQuestionsContainer}>
+            {question !== null &&
+              currentDraft.indicatorSurveyDataList.forEach(ele => {
+                if (question.codeName === ele.key) {
+                  answered = true;
+                  answeredValue = ele.value;
+                }
+              })}
+            {answered ? (
+              <QuestionsWrapper
+                question={question}
+                answeredValue={answeredValue}
+                submitQuestion={e => this.submitQuestion(e)}
+                handleImageLoaded={this.handleImageLoaded}
+                imageStatus={this.state.imageStatus}
+              />
+            ) : (
+              <QuestionsWrapper
+                question={question}
+                submitQuestion={e => this.submitQuestion(e)}
+                handleImageLoaded={this.handleImageLoaded}
+                imageStatus={this.state.imageStatus}
+              />
+            )}
+          </div>
+          <div className={classes.bottomContainer}>
+            {/* "i" icon temporarily hidden since we still don't have all the content for the surveys */}
+            {/* <i
+              style={{ color: 'green', cursor: 'pointer' }}
+              className="material-icons"
+            >
+              info
+            </i> */}
+            {question && !question.required && (
+              <span>
+                <Button
+                  style={{ textDecoration: 'none', padding: 0 }}
+                  onClick={() => this.submitQuestion(0)}
+                >
+                  {t('views.lifemap.skipThisQuestion')}
+                </Button>
+              </span>
+            )}
+          </div>
+        </Container>
+        <BottomSpacer />
       </div>
-    )
+    );
   }
 }
 
 const styles = {
+  mainQuestionsAndBottomContainer: {
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  bottomContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
   skipButton: {
     cursor: 'pointer'
   },
@@ -224,41 +380,25 @@ const styles = {
     margin: 0,
     marginTop: 10
   },
-  questionImage: {
-    objectFit: 'cover',
-    height: 150
-  },
-  questionDescription: {
-    margin: 0,
-    textAlign: 'center',
-    color: 'white',
-    height: '100%',
-    padding: '20px 20px'
-  },
-  questionContainer: {
-    cursor: 'pointer',
-    width: 230,
-    display: 'flex',
-    flexDirection: 'column',
-    borderRadius: '20px'
-  },
   mainQuestionsContainer: {
+    margin: 'auto',
+    marginTop: 10,
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     marginBottom: 20
   }
-}
+};
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
-})
+});
 
-const mapDispatchToProps = { updateDraft }
+const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )(withTranslation()(StoplightQuestions))
-)
+);

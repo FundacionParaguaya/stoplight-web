@@ -1,43 +1,49 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import { withTranslation } from 'react-i18next'
-import TitleBar from '../../components/TitleBar'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
+import { Typography } from '@material-ui/core';
+import TitleBar from '../../components/TitleBar';
+import beginLifemap from '../../assets/begin_lifemap.png';
+import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
 
-import lifemap_begin_image from '../../assets/lifemap_begin_image.png'
 export class Begin extends Component {
   render() {
-    const { classes, t, currentSurvey } = this.props
-    let questions = currentSurvey.surveyStoplightQuestions.length
+    const { classes, t, currentSurvey } = this.props;
+    const questions = currentSurvey.surveyStoplightQuestions.length;
     return (
       <div>
         <TitleBar title={t('views.yourLifeMap')} />
-        <div className={classes.BeginStopLightContainer}>
-          <h2 className={classes.StopLightTitleContainer}>
+        <Container
+          variant="stretch"
+          className={classes.BeginStopLightContainer}
+        >
+          <Typography variant="h5" className={classes.StopLightTitleContainer}>
             {t('views.lifemap.thisLifeMapHas').replace('%n', questions)}
-          </h2>
+          </Typography>
           <img
-            style={{ margin: '70px 0 100px 0' }}
-            src={lifemap_begin_image}
+            className={classes.beginStopLightImage}
+            src={beginLifemap}
             alt=""
           />
-        </div>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => this.props.history.push('/lifemap/stoplight/0')}
-          style={{ color: 'white' }}
-        >
-          {t('general.continue')}
-        </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => this.props.history.push('/lifemap/stoplight/0')}
+            style={{ color: 'white' }}
+          >
+            {t('general.continue')}
+          </Button>
+          <BottomSpacer />
+        </Container>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 
 const styles = {
   BeginStopLightContainer: {
@@ -46,11 +52,18 @@ const styles = {
     alignItems: 'center'
   },
   StopLightTitleContainer: {
-    width: 460,
-    margin: '40px auto 0 auto',
+    width: '50%',
+    margin: '50px auto 0 auto',
     textAlign: 'center'
+  },
+  beginStopLightImage: {
+    marginTop: 40,
+    marginBottom: 80,
+    position: 'relative',
+    left: -10
   }
-}
+};
+
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Begin))
-)
+);

@@ -1,18 +1,22 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline' // provides css reset
-import { PersistGate } from 'redux-persist/integration/react'
-import Header from './Header'
-import SurveysComponent from './screens/Surveys'
-import Lifemap from './screens/Lifemap'
-import store, { persistor } from './redux'
-import defaultTheme from './theme'
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
+import { PersistGate } from 'redux-persist/integration/react';
+import SurveysComponent from './screens/Surveys';
+import Lifemap from './screens/Lifemap';
+import store, { persistor } from './redux';
+import defaultTheme from './theme';
+import Authenticator from './Authenticator';
+import DatePickedProvider from './components/DatePickerProvider';
+import Scroller, { ScrollerProvider } from './components/Scroller';
+import CustomSnackbarProvider from './components/SnackbarProvider';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 class App extends Component {
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
 
     return (
       <MuiThemeProvider theme={defaultTheme}>
@@ -20,35 +24,40 @@ class App extends Component {
           <CssBaseline />
           <Provider store={store}>
             <PersistGate persistor={persistor}>
-              <Router>
-                <div>
-                  <Header />
-                  <div className={classes.appContainer}>
-                    <Switch>
-                      <Route path="/surveys" component={SurveysComponent} />
-                      <Route path="/lifemap" component={Lifemap} />
-                    </Switch>
-                  </div>
-                </div>
-              </Router>
+              <DatePickedProvider>
+                <Router>
+                  <CustomSnackbarProvider>
+                    <ScrollerProvider>
+                      <Scroller />
+                      <LanguageSwitcher />
+                      <Authenticator>
+                        <div className={classes.appContainer}>
+                          <Switch>
+                            <Route
+                              path="/surveys"
+                              component={SurveysComponent}
+                            />
+                            <Route path="/lifemap" component={Lifemap} />
+                          </Switch>
+                        </div>
+                      </Authenticator>
+                    </ScrollerProvider>
+                  </CustomSnackbarProvider>
+                </Router>
+              </DatePickedProvider>
             </PersistGate>
           </Provider>
         </React.Fragment>
       </MuiThemeProvider>
-    )
+    );
   }
 }
 
 const styles = {
   appContainer: {
-    marginTop: 70,
-    width: 720,
-    margin: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'center'
+    width: '100%',
+    margin: 'auto'
   }
-}
+};
 
-export default withStyles(styles)(App)
+export default withStyles(styles)(App);

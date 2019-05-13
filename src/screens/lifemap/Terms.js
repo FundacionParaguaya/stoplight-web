@@ -1,10 +1,51 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import Checkbox from '../../assets/Checkbox.png'
-import { withTranslation } from 'react-i18next'
-import TitleBar from '../../components/TitleBar'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
+import { Typography, Button } from '@material-ui/core';
+import checkboxWithDots from '../../assets/checkbox_with_dots.png';
+import { theme } from '../../theme';
+import NavIcons from '../../components/NavIcons';
+import Container from '../../components/Container';
+import BottomSpacer from '../../components/BottomSpacer';
+
+const titleStyles = {
+  title: {
+    position: 'relative',
+    top: '55%'
+  },
+  termsCheckboxImage: {
+    margin: 'auto',
+    position: 'absolute',
+    right: 0,
+    bottom: -30,
+    width: 370
+  },
+  container: {
+    position: 'absolute',
+    top: 0,
+    height: '100%',
+    left: '50%',
+    transform: 'translateX(-50%)'
+  }
+};
+
+const TitleContainer = withStyles(titleStyles)(props => {
+  const { classes } = props;
+
+  return (
+    <Container className={classes.container}>
+      <Typography className={classes.title} variant="h4">
+        {props.title}
+      </Typography>
+      <img
+        src={checkboxWithDots}
+        className={classes.termsCheckboxImage}
+        alt=""
+      />
+    </Container>
+  );
+});
 
 export class Terms extends Component {
   state = {
@@ -16,67 +57,76 @@ export class Terms extends Component {
       this.props.location.pathname === '/lifemap/terms'
         ? this.props.currentSurvey.termsConditions.text
         : this.props.currentSurvey.privacyPolicy.text
-  }
+  };
+
   handleContinue = () => {
     this.props.history.push(
       this.props.location.pathname === '/lifemap/terms'
         ? '/lifemap/privacy'
         : '/lifemap/primary-participant'
-    )
-  }
+    );
+  };
+
   handleDisagree = () => {
-    this.props.history.push('/')
-  }
+    this.props.history.push('/');
+  };
+
   render() {
-    const { classes, t } = this.props
+    const { classes, t } = this.props;
 
     return (
       <div>
         {this.props.location.pathname === '/lifemap/terms' ? (
-          <TitleBar title={t('views.termsConditions')} />
+          <div className={classes.titleContainer}>
+            <NavIcons />
+            <TitleContainer title={t('views.termsConditions')} />
+          </div>
         ) : (
-          <TitleBar title={t('views.privacyPolicy')} />
+          <div className={classes.titleContainer}>
+            <NavIcons />
+            <TitleContainer title={t('views.privacyPolicy')} />
+          </div>
         )}
 
-        <div className={classes.CheckboxImgAndTitleContainer}>
-          <img src={Checkbox} className={classes.termsCheckboxImage} alt="" />
-          <div className={classes.lowerTitle}>{this.state.title}</div>
-        </div>
-        <hr className={classes.hoziontalLine} />
-
-        <div
-          className={classes.termsDescription}
-          dangerouslySetInnerHTML={{
-            __html:
-              this.state.text && this.state.text.replace(/(?:\\n)/g, '<br />')
-          }}
-        />
-
+        <Container>
+          <div className={classes.contentContainer}>
+            <Typography variant="h5">{this.state.title}</Typography>
+            <br />
+            {this.state.text &&
+              this.state.text.split(/(?:\\n)/g).map((i, key) => (
+                <Typography color="textPrimary" key={key}>
+                  {i}
+                  <br />
+                </Typography>
+              ))}
+          </div>
+        </Container>
         <div className={classes.buttonContainerTerms}>
-          <Button
-            variant="contained"
-            className={classes.buttonTermsDisagree}
-            onClick={this.handleDisagree}
-          >
+          <Button variant="text" onClick={this.handleDisagree}>
             {t('general.disagree')}
           </Button>
-          <Button
-            className={classes.buttonTermsAgree}
-            variant="contained"
-            color="primary"
-            onClick={this.handleContinue}
-          >
+          <Button variant="contained" onClick={this.handleContinue}>
             {t('general.agree')}
           </Button>
         </div>
+        <BottomSpacer />
       </div>
-    )
+    );
   }
 }
 const styles = {
+  titleContainer: {
+    height: 220,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'hidden'
+  },
   buttonTermsDisagree: {
-    width: 260,
-    margin: '0 10px'
+    '&:hover': {
+      backgroundColor: 'transparent'
+    },
+    textTransform: 'capitalize',
+    textDecoration: 'underline'
   },
   buttonTermsAgree: {
     width: 260,
@@ -84,40 +134,31 @@ const styles = {
   },
   buttonContainerTerms: {
     display: 'flex',
-    justifyContent: 'center',
-    marginTop: 25,
-    marginBottom: 25
-  },
-  termsDescription: {
-    marginTop: 15,
-    whiteSpace: 'pre-line'
-  },
-  hoziontalLine: {
-    border: 0,
-    borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+    justifyContent: 'center'
   },
   lowerTitle: {
     fontSize: 28,
     textAlign: 'center',
     marginBottom: 15
   },
-  CheckboxImgAndTitleContainer: {
+  contentContainer: {
     display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column'
-  },
-  termsCheckboxImage: {
-    margin: 'auto'
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    paddingTop: theme.shape.padding,
+    maxWidth: 660
   },
   list: {
     display: 'flex',
     flexDirection: 'column'
   },
-  button: {
-    marginBottom: 20
+  divider1: {
+    width: '100%',
+    height: 20
   }
-}
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+};
+
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Terms))
-)
+);

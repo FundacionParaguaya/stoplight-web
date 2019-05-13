@@ -1,19 +1,26 @@
-import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { withTranslation } from 'react-i18next'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import NavIcons from './NavIcons';
+import leftBarDots from '../assets/left_bar_dots.png';
+import rightBarDots from '../assets/right_bar_dots.png';
+import Container from './Container';
+
 class TopTitleContainer extends Component {
   state = {
     showLeaveModal: false
-  }
+  };
+
   leaveSurvey = () => {
-    this.props.history.push('/surveys')
-  }
+    this.props.history.push('/surveys');
+  };
+
   render() {
-    const { classes, t } = this.props
+    const { classes, t } = this.props;
 
     return (
       <React.Fragment>
@@ -42,31 +49,45 @@ class TopTitleContainer extends Component {
             </div>
           </div>
         ) : (
-          <div className={classes.titleAndIconContainerPolicy}>
-            <i
-              onClick={this.props.uniqueBack || this.props.history.goBack}
-              style={{ cursor: 'pointer', fontSize: 37 }}
-              className="material-icons"
-            >
-              arrow_back
-            </i>
-            <h2 className={classes.titleMainAll}>{this.props.title}</h2>
-            <i
-              onClick={() => this.setState({ showLeaveModal: true })}
-              className="material-icons"
-              style={{ cursor: 'pointer', fontSize: 37 }}
-            >
-              close
-            </i>
-          </div>
+          <Container
+            variant="fluid"
+            className={classes.titleAndIconContainerPolicy}
+          >
+            <NavIcons />
+            <Container className={classes.innerContainer}>
+              <img
+                className={classes.barDots}
+                src={leftBarDots}
+                alt="Bar Dots"
+              />
+              <div className={classes.textContainer}>
+                {this.props.extraTitleText && (
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.extraTitleText}
+                  >
+                    {this.props.extraTitleText}
+                  </Typography>
+                )}
+                <Typography variant="h4" className={classes.titleMainAll}>
+                  {this.props.title}
+                </Typography>
+              </div>
+              <img
+                className={classes.barDots}
+                src={rightBarDots}
+                alt="Bar Dots"
+              />
+            </Container>
+          </Container>
         )}
       </React.Fragment>
-    )
+    );
   }
 }
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey })
+const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 
-const styles = {
+const styles = theme => ({
   button: {
     margin: '0 30px',
     width: '100px'
@@ -89,18 +110,44 @@ const styles = {
     alignItems: 'center'
   },
   titleAndIconContainerPolicy: {
-    backgroundColor: '#faefe1',
+    backgroundColor: theme.palette.background.default,
+    height: 200,
+    borderBottom: '1px solid #DCDEE3;',
+    position: 'relative'
+  },
+  innerContainer: {
     display: 'flex',
-    padding: '10px 10px 10px 10px',
+    position: 'absolute',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '100%',
+    left: '50%',
+    top: 0,
+    transform: 'translateX(-50%)'
   },
   titleMainAll: {
-    margin: 'auto'
+    margin: 'auto',
+    zIndex: 1,
+    textAlign: 'center'
+  },
+  barDots: {
+    height: '70%'
+  },
+  textContainer: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  extraTitleText: {
+    textAlign: 'center',
+    fontWeight: 400,
+    textTransform: 'uppercase',
+    color: 'rgba(0,0,0,0.5)',
+    marginBottom: 10,
+    lineHeight: '25px'
   }
-}
+});
 export default withRouter(
   withStyles(styles)(
     connect(mapStateToProps)(withTranslation()(TopTitleContainer))
   )
-)
+);

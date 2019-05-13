@@ -16,6 +16,7 @@
     "delete": "Eliminar",
     "warning": "Cuidado",
     "cancel": "Cancelar",
+    "ok": "OK",
     "drafts": "Borradores",
     "resumeDraft": "Continuar borrador",
     "lifeMaps": "Mapas de Vida",
@@ -23,7 +24,8 @@
     "family": "Familia",
     "cachedData": "Datos almacenados",
     "chooseView": "Elegir vista",
-    "create": "Crear"
+    "create": "Crear",
+    "saveError": "Error al guardar tu Mapa de vida"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -32,7 +34,8 @@
     "lessThan50Characters": "El valor debe ser menos de 50 caracteres.",
     "alphabeticCharacters": "Favor ingrese los caracteres alfabéticos",
     "validPhoneNumber": "Favor ingrese un número de teléfono válido",
-    "validNumber": "Favor ingrese un número válido"
+    "validNumber": "Favor ingrese un número válido",
+    "formWithErrors": "El formulario contiene datos inválidos"
   },
   "months": {
     "january": "Enero",
@@ -49,6 +52,11 @@
     "december": "Diciembre"
   },
   "views": {
+    "toolbar": {
+      "surveys": "Encuestas",
+      "households": "Familias",
+      "map": "Mapa"
+    },
     "synced": "Sincronización",
     "families": "Familias",
     "dashboard": "Tablero",
@@ -57,13 +65,27 @@
     "noDrafts": "No hay borradores para mostrar",
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
-    "location": "Ubicación",
+    "survey": {
+      "chooseSurvey": "Elige una encuesta",
+      "contains": "Contiene",
+      "createdOn": "Creado el"
+    },
+    "location": {
+      "title": "Ubicación",
+      "mapLoading": "Por favor, espera mientras el mapa se carga.",
+      "searchBoxPlaceholder": "Busque por nombre de calle o código postal",
+      "loadingOptionsLabel": "Cargando..."
+    },
     "socioEconomic": "Socioeconómica",
     "yourLifeMap": "Tu Mapa de Vida",
     "primaryParticipant": "Participante de la familia",
     "familyMembers": "Miembros de la familia",
     "gendersBirthDates": "Géneros & fechas de nacimiento",
     "skippedIndicators": "Preguntas omitidas",
+    "skippedIndicator": {
+      "subtitle": "Has omitido este indicador",
+      "buttonLabel": "Responder ahora!"
+    },
     "readCarefully": "Favor lea atentamente antes de crear el Mapa de Vida",
     "family": {
       "firstName": "Nombre",
@@ -83,6 +105,7 @@
       "name": "Nombre",
       "peopleLivingInThisHousehold": "Número de personas viviendo en esta casa. ",
       "household": "familia",
+      "households": "familias",
       "onlyPerson": "1 - Soy la única persona",
       "preferNotToSay": "Prefiero no responder",
       "familyMember": "Miembro de la familia",
@@ -108,7 +131,8 @@
       "details": "Detalles",
       "lifemap": "Mapa de vida",
       "lifeMapCreatedOn": "Borrador del Mapa de Vida creado",
-      "created": "Creado"
+      "created": "Creado",
+      "formWithErrors": "Revise %number errores en el formulario"
     },
     "lifemap": {
       "thisLifeMapHas": "Este Mapa de Vida tiene %n preguntas. ¡Tardará aproximadamente 35 minutos en completarse!",
@@ -117,6 +141,8 @@
       "youSkipped": "Has omitido estos indicadores",
       "whyNotTryAgain": "¿Por qué no intentar de nuevo responder a estas preguntas?",
       "allIndicators": "Todos los indicadores",
+      "makeThisAPriority": "¡Haz de esto una prioridad!",
+      "markAchievement": "¡Marca un logro!",
       "priority": "Prioridad",
       "writeYourAnswerHere": "Escribe tu respuesta aquí....",
       "whyDontYouHaveIt": "¿Por qué no lo tienes?",
@@ -136,6 +162,10 @@
       "priorities": "Prioridades",
       "achievements": "Logros",
       "toComplete": "Antes de que se complete el Mapa de Vida...."
+    },
+    "priority": {
+      "month": "mes",
+      "months": "meses"
     },
     "modals": {
       "lifeMapWillNotBeSaved": "Si no ingresa todos los detalles en esta página, ¡el Mapa de Vida no se guardará!",
@@ -164,6 +194,37 @@
       "inProgress": "Sincronización en marcha",
       "of": "de",
       "updates": "actualizaciones"
+    },
+    "overview": {
+      "red": "Rojo",
+      "yellow": "Amarillo",
+      "green": "Verde",
+      "skipped": "Preguntas omitidas",
+      "priorityFooterButton": "¡Entendido!",
+      "allPrioritiesRemainingTitle": "Antes de completar el mapa...",
+      "allPrioritiesRemainingDescription": "Debes hacer",
+      "priorities": "prioridades",
+      "priority": "prioridad",
+      "somePrioritiesRemainingTitle": "prioridades restantes por crear!",
+      "somePrioritiesRemainingDescription": "Ya casi...",
+      "onePriorityRemainingTitle": "¡1 prioridad restante por crear!",
+      "onePriorityRemainingDescription": "Ya casi...",
+      "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
+      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras."
+    },
+    "indicatorsFilter": {
+      "red": "Rojo",
+      "yellow": "Amarillo",
+      "green": "Verde",
+      "skipped": "Omitidas",
+      "allIndicators": "Todos los indicadores"
+    },
+    "final": {
+      "title": "¡Gracias!",
+      "lifemapCompleted": "¡Tu mapa de vida está completo!",
+      "print": "Imprimir",
+      "email": "Email",
+      "download": "Descargar"
     }
   }
 }
