@@ -196,7 +196,12 @@ export class Surveys extends Component {
 
                         <Typography className={classes.createdOn}>
                           Created on:{' '}
-                          <span style={{ color: '#1C212F' }}>
+                          <span
+                            style={{
+                              color: '#1C212F',
+                              textTransform: 'capitalize'
+                            }}
+                          >
                             {moment(survey.createdAt).format('MMM DD, YYYY')}
                           </span>
                         </Typography>
