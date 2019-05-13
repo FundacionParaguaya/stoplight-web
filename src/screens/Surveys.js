@@ -15,6 +15,7 @@ import chooseLifeMap from '../assets/choose_life_map.png';
 import Header from '../Header';
 import Footer from '../Footer';
 import BottomSpacer from '../components/BottomSpacer';
+import { getDateFormatByLocale } from '../utils/date-utils';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -149,7 +150,12 @@ export class Surveys extends Component {
   }
 
   render() {
-    const { classes, t } = this.props;
+    const {
+      classes,
+      i18n: { language },
+      t
+    } = this.props;
+    const dateFormat = getDateFormatByLocale(language);
 
     return (
       <>
@@ -198,8 +204,12 @@ export class Surveys extends Component {
 
                         <Typography className={classes.createdOn}>
                           Created on:{' '}
-                          <span style={{ color: '#1C212F' }}>
-                            {moment(survey.createdAt).format('MMM DD, YYYY')}
+                          <span
+                            style={{
+                              color: '#1C212F'
+                            }}
+                          >
+                            {moment(survey.createdAt).format(dateFormat)}
                           </span>
                         </Typography>
                       </div>
