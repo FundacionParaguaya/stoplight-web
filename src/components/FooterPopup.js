@@ -14,7 +14,11 @@ function FooterPopup(props) {
         <div className={classes.container}>
           <Container className={classes.innerContainer}>
             <div className={classes.textContainer}>
-              <Typography variant="h6" color="textSecondary">
+              <Typography
+                className={classes.titleStyle}
+                variant="h6"
+                color="textSecondary"
+              >
                 {props.title}
               </Typography>
               <Typography variant="body2" color="textSecondary">
@@ -84,7 +88,8 @@ const styles = theme => ({
   icon: {
     fontSize: 20,
     marginRight: 7.5
-  }
+  },
+  titleStyle: { fontWeight: 600 }
 });
 
 export default withStyles(styles)(FooterPopup);

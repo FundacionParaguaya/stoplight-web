@@ -15,6 +15,7 @@ import IndicatorBall from '../../components/summary/IndicatorBall';
 import IndicatorsFilter, {
   FILTERED_BY_OPTIONS
 } from '../../components/summary/IndicatorsFilter';
+import LeaveModal from '../../components/LeaveModal';
 import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';
 
@@ -136,17 +137,7 @@ DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
 
 export class Overview extends Component {
   state = {
-    showFooterPopup: this.props.currentSurvey.minimumPriorities > 0,
-    modalTitle: '',
-    howManyMonthsWillItTakeText: '',
-    whyDontYouHaveItText: '',
-    whatWillYouDoToGetItText: '',
-    whatDidItTake: '',
-    howDidYouGetIt: '',
-    questionKey: '',
-    questionValue: '',
-    showPrioritiesNote: false,
-    questionsCount: this.props.currentSurvey.surveyStoplightQuestions.length,
+    showFooterPopup: true,
     greenIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
       indicator => indicator.value === 3
     ).length,
@@ -159,7 +150,12 @@ export class Overview extends Component {
     skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
       indicator => !indicator.value
     ).length,
-    indicatorFilterValue: FILTERED_BY_OPTIONS.ALL
+    indicatorFilterValue: FILTERED_BY_OPTIONS.ALL,
+    openModal: false
+  };
+
+  toggleModal = () => {
+    this.setState(prevState => ({ openModal: !prevState.openModal }));
   };
 
   handleFilterChange = filter => {
@@ -178,7 +174,7 @@ export class Overview extends Component {
       this.props.history.push('/lifemap/final');
     } else {
       if (minimumPriorities - this.props.currentDraft.priorities.length > 0) {
-        this.setState({ showPrioritiesNote: true });
+        this.setState({ openModal: true });
       } else {
         this.props.history.push('/lifemap/final');
       }
@@ -201,13 +197,15 @@ export class Overview extends Component {
   };
 
   getFooterTitle = () => {
-    const { minimumPriorities } = this.props.currentSurvey;
+    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
     const { t } = this.props;
     const prioritiesCount = this.props.currentDraft.priorities
       ? this.props.currentDraft.priorities.length
       : 0;
     let title;
-    if (prioritiesCount === 0) {
+    if (minimumPriorities === 0) {
+      title = t('views.overview.noPriorityRemainingTitle');
+    } else if (prioritiesCount === 0) {
       title = t('views.overview.allPrioritiesRemainingTitle');
     } else if (minimumPriorities - prioritiesCount > 1) {
       title = `${minimumPriorities - prioritiesCount} ${t(
@@ -222,13 +220,15 @@ export class Overview extends Component {
   };
 
   getFooterDescription = () => {
-    const { minimumPriorities } = this.props.currentSurvey;
+    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
     const { t } = this.props;
     const prioritiesCount = this.props.currentDraft.priorities
       ? this.props.currentDraft.priorities.length
       : 0;
     let description;
-    if (prioritiesCount === 0) {
+    if (minimumPriorities === 0) {
+      description = t('views.overview.noPriorityRemainingDescription');
+    } else if (prioritiesCount === 0) {
       description = `${t(
         'views.overview.allPrioritiesRemainingDescription'
       )} ${minimumPriorities} ${
@@ -247,18 +247,18 @@ export class Overview extends Component {
   };
 
   render() {
-    const { t, classes, currentDraft, currentSurvey } = this.props;
-    let priorDiff = 0;
+    const {
+      t,
+      classes,
+      currentDraft,
+      currentSurvey,
+      forceHideStickyFooter,
+      containerRef
+    } = this.props;
     let groupedAnswers;
     const userAnswers = [];
-    let differentCalcPriorities = false;
 
     if (currentSurvey) {
-      currentDraft.indicatorSurveyDataList.forEach(ele => {
-        if (ele.value === 2 || ele.value === 1) {
-          priorDiff += 1;
-        }
-      });
       currentSurvey.surveyStoplightQuestions.forEach(e => {
         currentDraft.indicatorSurveyDataList.forEach(ele => {
           if (e.codeName === ele.key) {
@@ -271,10 +271,8 @@ export class Overview extends Component {
           }
         });
       });
-      if (priorDiff < this.props.currentSurvey.minimumPriorities) {
-        differentCalcPriorities = true;
-      }
       groupedAnswers = userAnswers.reduce((r, a) => {
+        // eslint-disable-next-line no-param-reassign
         r[a.dimension] = r[a.dimension] || [];
         r[a.dimension].push(a);
         return r;
@@ -283,8 +281,21 @@ export class Overview extends Component {
 
     return (
       <div>
+        <LeaveModal
+          title={t('views.lifemap.toComplete')}
+          subtitle={`${t('general.create')} ${this.props.currentSurvey
+            .minimumPriorities -
+            (this.props.currentDraft.priorities || []).length} ${t(
+            'views.lifemap.priorities'
+          )}`}
+          continueButtonText={t('general.gotIt')}
+          singleAction
+          onClose={this.toggleModal}
+          open={this.state.openModal}
+          leaveAction={this.toggleModal}
+        />
         <TitleBar title={t('views.yourLifeMap')} />
-        <Container variant="stretch">
+        <Container variant="stretch" ref={containerRef}>
           <SummaryDonut
             greenIndicatorCount={this.state.greenIndicatorCount}
             yellowIndicatorCount={this.state.yellowIndicatorCount}
@@ -348,88 +359,20 @@ export class Overview extends Component {
           )}
           <BottomSpacer />
         </Container>
-        {this.state.showPrioritiesNote && (
-          <div className={classes.modalPopupContainer}>
-            <div className={classes.createPrioritiesContainer}>
-              <h2>{t('views.lifemap.toComplete')}</h2>
-              <p className={classes.paragraphPriorities}>
-                {t('general.create')}
-                <span className={classes.prioritiesCurrentCount}>
-                  {differentCalcPriorities ? (
-                    <span>
-                      {this.props.currentSurvey.minimumPriorities -
-                        this.props.currentSurvey.minimumPriorities +
-                        priorDiff -
-                        this.props.currentDraft.priorities.length}
-                    </span>
-                  ) : (
-                    <span>
-                      {this.props.currentSurvey.minimumPriorities -
-                        this.props.currentDraft.priorities.length}
-                    </span>
-                  )}
-                </span>
-                <span className={classes.lowercaseParagraph}>
-                  {t('views.lifemap.priorities')}
-                </span>
-              </p>
-              <Button
-                style={{ marginTop: 35, marginBottom: 35 }}
-                variant="contained"
-                fullWidth
-                onClick={() => this.setState({ showPrioritiesNote: false })}
-                color="primary"
-              >
-                {t('general.gotIt')}
-              </Button>
-            </div>
-          </div>
+        {!forceHideStickyFooter && (
+          <FooterPopup
+            title={this.getFooterTitle()}
+            description={this.getFooterDescription()}
+            isOpen={this.state.showFooterPopup}
+            handleButtonClick={this.handleFooterButtonClick}
+            buttonText={t('views.overview.priorityFooterButton')}
+          />
         )}
-        <FooterPopup
-          title={this.getFooterTitle()}
-          description={this.getFooterDescription()}
-          isOpen={this.state.showFooterPopup}
-          handleButtonClick={this.handleFooterButtonClick}
-          buttonText={t('views.overview.priorityFooterButton')}
-        />
       </div>
     );
   }
 }
 const styles = theme => ({
-  lowercaseParagraph: {
-    textTransform: 'lowercase'
-  },
-  paragraphPriorities: {
-    fontSize: 20
-  },
-  prioritiesCurrentCount: {
-    margin: '0 4px 0 3px'
-  },
-  createPrioritiesContainer: {
-    zIndex: 11,
-    width: 650,
-    height: 500,
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-    alignItems: 'center',
-    left: 0,
-    right: 0,
-    top: '150px',
-    margin: 'auto'
-  },
-  modalPopupContainer: {
-    position: 'fixed',
-    width: '100vw',
-    top: '0px',
-    right: '0px',
-    bottom: '0px',
-    left: '0px',
-    height: '100vh',
-    backgroundColor: 'white',
-    zIndex: 1
-  },
   finishSurveyButtonContainer: {
     display: 'flex',
     justifyContent: 'center',
