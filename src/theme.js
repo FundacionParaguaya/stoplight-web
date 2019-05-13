@@ -120,7 +120,8 @@ export const theme = {
       filled: {
         top: '50%',
         transform: 'translate(12px, -50%) scale(1)',
-        color: '#6A6A6A'
+        color: '#6A6A6A',
+        paddingRight: 24
       },
       formControl: {
         transform: 'translate(12px, 25px) scale(1)',
