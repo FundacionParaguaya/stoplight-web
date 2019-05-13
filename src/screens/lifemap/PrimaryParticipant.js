@@ -392,6 +392,7 @@ export class PrimaryParticipant extends Component {
                     onChange={value => {
                       setFieldValue('gender', value ? value.value : '');
                     }}
+                    isClearable={false}
                     onBlur={() => {
                       setFieldTouched('gender');
                       this.updateDraftWithCurrentValues(values);
@@ -423,6 +424,8 @@ export class PrimaryParticipant extends Component {
                       });
                     }}
                     onClose={() => setFieldTouched('birthDate')}
+                    okLabel={t('general.ok')}
+                    cancelLabel={t('general.cancel')}
                     error={pathHasError('birthDate', touched, errors)}
                     helperText={getErrorLabelForPath(
                       'birthDate',
@@ -446,6 +449,7 @@ export class PrimaryParticipant extends Component {
                     fullWidth
                     required
                     disableFuture
+                    minDate={moment('1910-01-01')}
                   />
                   <Autocomplete
                     name="documentType"
@@ -464,6 +468,7 @@ export class PrimaryParticipant extends Component {
                     onChange={value => {
                       setFieldValue('documentType', value ? value.value : '');
                     }}
+                    isClearable={false}
                     onBlur={() => {
                       setFieldTouched('documentType');
                       this.updateDraftWithCurrentValues(values);
@@ -520,6 +525,7 @@ export class PrimaryParticipant extends Component {
                     onChange={value => {
                       setFieldValue('birthCountry', value ? value.value : '');
                     }}
+                    isClearable={false}
                     onBlur={() => {
                       setFieldTouched('birthCountry');
                       this.updateDraftWithCurrentValues(values);

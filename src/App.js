@@ -1,10 +1,5 @@
-import React, { Component, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  withRouter
-} from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
@@ -15,12 +10,7 @@ import store, { persistor } from './redux';
 import defaultTheme from './theme';
 import Authenticator from './Authenticator';
 import DatePickedProvider from './components/DatePickerProvider';
-
-let Scroller = ({ location }) => {
-  useEffect(() => window.scrollTo(0, 0), [location]);
-  return <React.Fragment />;
-};
-Scroller = withRouter(Scroller);
+import Scroller from './components/Scroller';
 
 class App extends Component {
   render() {

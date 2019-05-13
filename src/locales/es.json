@@ -16,6 +16,7 @@
     "delete": "Eliminar",
     "warning": "Cuidado",
     "cancel": "Cancelar",
+    "ok": "OK",
     "drafts": "Borradores",
     "resumeDraft": "Continuar borrador",
     "lifeMaps": "Mapas de Vida",
@@ -59,6 +60,9 @@
     "noDrafts": "No hay borradores para mostrar",
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
+    "survey": {
+      "chooseSurvey": "Elige una encuesta"
+    },
     "location": {
       "title": "Ubicación",
       "mapLoading": "Por favor, espera mientras el mapa se carga.",
@@ -94,6 +98,7 @@
       "name": "Nombre",
       "peopleLivingInThisHousehold": "Número de personas viviendo en esta casa. ",
       "household": "familia",
+      "households": "familias",
       "onlyPerson": "1 - Soy la única persona",
       "preferNotToSay": "Prefiero no responder",
       "familyMember": "Miembro de la familia",

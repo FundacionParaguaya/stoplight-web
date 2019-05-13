@@ -227,6 +227,8 @@ export class FamilyMembers extends Component {
                               onClose={() =>
                                 setFieldTouched(`members[${index}].birthDate`)
                               }
+                              okLabel={t('general.ok')}
+                              cancelLabel={t('general.cancel')}
                               error={pathHasError(
                                 `members[${index}].birthDate`,
                                 touched,
@@ -253,6 +255,7 @@ export class FamilyMembers extends Component {
                               )}
                               fullWidth
                               disableFuture
+                              minDate={moment('1910-01-01')}
                             />
                           </div>
                         );

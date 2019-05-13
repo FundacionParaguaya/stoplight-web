@@ -7,8 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
-import DownloadIcon from '@material-ui/icons/CloudDownload';
-import MailIcon from '@material-ui/icons/Mail';
+// import DownloadIcon from '@material-ui/icons/CloudDownload';
+// import MailIcon from '@material-ui/icons/Mail';
+import ReactToPrint from 'react-to-print';
 import Container from '../../components/Container';
 import SummaryDonut from '../../components/summary/SummaryDonut';
 import LeaveModal from '../../components/LeaveModal';
@@ -16,6 +17,7 @@ import { submitDraft } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
+import OverviewScreen from './Overview';
 
 export class Final extends Component {
   state = {
@@ -35,6 +37,11 @@ export class Final extends Component {
     ).length,
     openModal: false
   };
+
+  constructor(props) {
+    super(props);
+    this.printRef = React.createRef();
+  }
 
   toggleModal = () => {
     this.setState(prevState => ({ openModal: !prevState.openModal }));
@@ -70,6 +77,15 @@ export class Final extends Component {
 
     return (
       <div>
+        <div className={classes.overviewContainer}>
+          {/* Really hacky, but its the easiest way to allow printing Overview from this page */}
+          <div>
+            <OverviewScreen
+              forceHideStickyFooter
+              containerRef={this.printRef}
+            />
+          </div>
+        </div>
         <LeaveModal
           title="Warning!"
           subtitle={t('general.saveError')}
@@ -100,18 +116,7 @@ export class Final extends Component {
           <div className={classes.gridContainer}>
             <Grid container spacing={16}>
               <Grid item xs={4}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={this.state.loading}
-                >
-                  <PrintIcon className={classes.leftIcon} />
-                  {t('views.final.print')}
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
+                {/* <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
@@ -119,10 +124,26 @@ export class Final extends Component {
                 >
                   <MailIcon className={classes.leftIcon} />
                   {t('views.final.email')}
-                </Button>
+                </Button> */}
               </Grid>
               <Grid item xs={4}>
-                <Button
+                <ReactToPrint
+                  trigger={() => (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                      disabled={this.state.loading}
+                    >
+                      <PrintIcon className={classes.leftIcon} />
+                      {t('views.final.print')}
+                    </Button>
+                  )}
+                  content={() => this.printRef.current}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                {/* <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
@@ -130,7 +151,7 @@ export class Final extends Component {
                 >
                   <DownloadIcon className={classes.leftIcon} />
                   {t('views.final.download')}
-                </Button>
+                </Button> */}
               </Grid>
               <Grid item xs={4} />
               <Grid item xs={4}>
@@ -183,7 +204,8 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 4
-  }
+  },
+  overviewContainer: { height: 0, width: 0, overflow: 'auto' }
 });
 
 export default withStyles(styles)(

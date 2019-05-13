@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys } from '../api';
 import i18n from '../i18n';
@@ -14,6 +15,7 @@ import chooseLifeMap from '../assets/choose_life_map.png';
 import Header from '../Header';
 import Footer from '../Footer';
 import BottomSpacer from '../components/BottomSpacer';
+import { getDateFormatByLocale } from '../utils/date-utils';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -148,7 +150,12 @@ export class Surveys extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      i18n: { language },
+      t
+    } = this.props;
+    const dateFormat = getDateFormatByLocale(language);
 
     return (
       <>
@@ -157,9 +164,8 @@ export class Surveys extends Component {
           <Container>
             <div className={classes.titleContainer}>
               <div className={classes.surveyTopTitle}>
-                <Typography variant="h4">Choose a life map</Typography>
-                <Typography variant="subtitle1" className={classes.subtitle}>
-                  Surveys > Choose a Life Map
+                <Typography variant="h4">
+                  {t('views.survey.chooseSurvey')}
                 </Typography>
               </div>
               <img
@@ -199,8 +205,12 @@ export class Surveys extends Component {
 
                         <Typography className={classes.createdOn}>
                           Created on:{' '}
-                          <span style={{ color: '#1C212F' }}>
-                            14 april , 2019
+                          <span
+                            style={{
+                              color: '#1C212F'
+                            }}
+                          >
+                            {moment(survey.createdAt).format(dateFormat)}
                           </span>
                         </Typography>
                       </div>
