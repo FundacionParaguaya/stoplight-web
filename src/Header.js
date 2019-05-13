@@ -73,7 +73,7 @@ class Header extends Component {
             className={`${classes.menuLink} ${classes.surveyLink}`}
           >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
-              Surveys
+              {t('views.toolbar.surveys')}
             </Typography>
           </NavLink>
           <a
@@ -81,7 +81,7 @@ class Header extends Component {
             className={classes.menuLink}
           >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
-              {t('views.family.households')}
+              {t('views.toolbar.households')}
             </Typography>
           </a>
           <a
@@ -89,7 +89,7 @@ class Header extends Component {
             className={classes.menuLink}
           >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
-              Map
+              {t('views.toolbar.map')}
             </Typography>
           </a>
           <div className={classes.extraButtons}>
