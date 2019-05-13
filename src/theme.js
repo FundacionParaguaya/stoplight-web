@@ -102,7 +102,7 @@ export const theme = {
     MuiInputBase: {
       input: {
         fontSize: '16px',
-        padding: '35px 12px 10px!important',
+        padding: '40px 12px 10px!important',
         '&$focused': {
           backgroundColor: '#fff!important'
         }
@@ -118,7 +118,7 @@ export const theme = {
     },
     MuiInputLabel: {
       shrink: {
-        transform: 'translate(12px, -100%) scale(1)!important',
+        transform: 'translate(12px, -85%) scale(1)!important',
         color: '#6A6A6A'
       },
       filled: {
@@ -133,7 +133,7 @@ export const theme = {
         lineHeight: 1.2
       },
       error: {
-        top: '35%!important',
+        top: '40%!important',
         transform: 'translate(12px, -50%) scale(1)!important'
       }
     },
