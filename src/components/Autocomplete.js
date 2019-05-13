@@ -61,7 +61,10 @@ const styles = theme => ({
   },
   controlInput: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    '& $label': {
+      paddingRight: 100
+    }
   },
   controlInputFilled: {
     '& $div': {
