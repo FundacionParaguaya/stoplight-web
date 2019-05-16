@@ -144,6 +144,7 @@ class Priority extends Component {
                         onLoad={this.handleImageLoaded}
                         style={{ display: 'none' }}
                         src={url}
+                        alt=""
                       />
                     </div>
                   </div>
