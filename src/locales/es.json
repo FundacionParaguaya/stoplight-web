@@ -224,7 +224,8 @@
       "lifemapCompleted": "¡Tu mapa de vida está completo!",
       "print": "Imprimir",
       "email": "Email",
-      "download": "Descargar"
+      "download": "Descargar",
+      "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente"
     }
   }
 }
