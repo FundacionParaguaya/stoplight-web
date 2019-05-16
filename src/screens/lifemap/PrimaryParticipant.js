@@ -338,6 +338,7 @@ export class PrimaryParticipant extends Component {
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
                     disableFuture
+                    required
                     minDate={moment('1910-01-01')}
                     onChange={e =>
                       this.syncDraft(e.unix(), 'birthDate', setFieldValue)
