@@ -223,7 +223,8 @@
       "lifemapCompleted": "Your Life Map is completed!",
       "print": "Print",
       "email": "Email",
-      "download": "Download"
+      "download": "Download",
+      "lifemapSaved": "Your life map has been successfully saved"
     }
   }
 }
