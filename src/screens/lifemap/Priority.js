@@ -5,16 +5,15 @@ import { withStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import InputWithFormik from '../../components/InputWithFormik';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
-import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 import iconProprity from '../../assets/iconPriority.png';
 import { COLORS } from '../../theme';
 
@@ -145,6 +144,7 @@ class Priority extends Component {
                         onLoad={this.handleImageLoaded}
                         style={{ display: 'none' }}
                         src={url}
+                        alt=""
                       />
                     </div>
                   </div>
@@ -216,66 +216,24 @@ class Priority extends Component {
                 setSubmitting(false);
               }}
             >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                isSubmitting,
-                setFieldValue,
-                setFieldTouched
-              }) => (
+              {({ isSubmitting }) => (
                 <Form noValidate>
-                  <Autocomplete
+                  <AutocompleteWithFormik
+                    label={t('views.lifemap.howManyMonthsWillItTake')}
                     name="estimatedDate"
-                    value={{
-                      value: values.estimatedDate,
-                      label: values.estimatedDate
-                        ? this.state.monthsOptions.find(
-                            e => e.value === values.estimatedDate
-                          ).label
-                        : ''
-                    }}
-                    options={this.state.monthsOptions}
+                    rawOptions={this.state.monthsOptions}
+                    labelKey="label"
+                    valueKey="value"
+                    required
                     isClearable={false}
-                    onChange={value => {
-                      setFieldValue('estimatedDate', value ? value.value : '');
-                    }}
-                    onBlur={() => setFieldTouched('estimatedDate')}
-                    textFieldProps={{
-                      label: t('views.lifemap.howManyMonthsWillItTake'),
-                      required: true,
-                      error: pathHasError('estimatedDate', touched, errors),
-                      helperText: getErrorLabelForPath(
-                        'estimatedDate',
-                        touched,
-                        errors,
-                        t
-                      )
-                    }}
                   />
-                  <TextField
-                    className={this.props.classes.input}
-                    variant="filled"
+                  <InputWithFormik
                     label={t('views.lifemap.whyDontYouHaveIt')}
-                    value={values.reason}
                     name="reason"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    fullWidth
-                    multiline
                   />
-                  <TextField
-                    className={this.props.classes.input}
-                    variant="filled"
+                  <InputWithFormik
                     label={t('views.lifemap.whatWillYouDoToGetIt')}
-                    value={values.action}
                     name="action"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    fullWidth
-                    multiline
                   />
                   <div className={classes.buttonContainerForm}>
                     <Button
@@ -367,15 +325,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
-  },
-  input: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  inputFilled: {
-    '& $div': {
-      backgroundColor: '#fff!important'
-    }
   }
 };
 export default withStyles(styles)(

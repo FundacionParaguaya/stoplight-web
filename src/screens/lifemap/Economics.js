@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
@@ -12,13 +11,13 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import InputWithFormik from '../../components/InputWithFormik';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-import Autocomplete from '../../components/Autocomplete';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
-import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
 
 let FamilyMemberTitle = ({ name, classes }) => (
   <div className={classes.familyMemberNameLarge}>
@@ -437,14 +436,9 @@ export class Economics extends Component {
               }}
             >
               {({
-                values,
-                errors,
-                touched,
                 handleChange,
-                handleBlur,
                 isSubmitting,
                 setFieldValue,
-                setFieldTouched,
                 validateForm
               }) => (
                 <Form noValidate>
@@ -460,23 +454,14 @@ export class Economics extends Component {
                         }
                         if (question.answerType === 'select') {
                           return (
-                            <Autocomplete
+                            <AutocompleteWithFormik
                               key={question.codeName}
+                              label={question.questionText}
                               name={`forFamily.[${question.codeName}]`}
-                              value={{
-                                value: values.forFamily[question.codeName],
-                                label: values.forFamily[question.codeName]
-                                  ? question.options.find(
-                                      e =>
-                                        e.value ===
-                                        values.forFamily[question.codeName]
-                                    ).text
-                                  : ''
-                              }}
-                              options={question.options.map(val => ({
-                                value: val.value,
-                                label: val.text
-                              }))}
+                              rawOptions={question.options}
+                              labelKey="text"
+                              valueKey="value"
+                              required={question.required}
                               isClearable={!question.required}
                               onChange={value => {
                                 setFieldValue(
@@ -488,42 +473,20 @@ export class Economics extends Component {
                                   value ? value.value : ''
                                 );
                               }}
-                              onBlur={() =>
-                                setFieldTouched(
-                                  `forFamily.[${question.codeName}]`
-                                )
-                              }
-                              textFieldProps={{
-                                label: question.questionText,
-                                required: question.required,
-                                error: pathHasError(
-                                  `forFamily.[${question.codeName}]`,
-                                  touched,
-                                  errors
-                                ),
-                                helperText: getErrorLabelForPath(
-                                  `forFamily.[${question.codeName}]`,
-                                  touched,
-                                  errors,
-                                  t
-                                )
-                              }}
                             />
                           );
                         }
                         return (
-                          <TextField
-                            className={this.props.classes.input}
+                          <InputWithFormik
                             key={question.codeName}
+                            label={question.questionText}
                             type={
                               question.answerType === 'string'
                                 ? 'text'
                                 : question.answerType
                             }
-                            variant="filled"
-                            label={question.questionText}
-                            value={values.forFamily[question.codeName] || ''}
                             name={`forFamily.[${question.codeName}]`}
+                            required={question.required}
                             onChange={e => {
                               handleChange(e);
                               this.updateDraft(
@@ -531,20 +494,6 @@ export class Economics extends Component {
                                 e.target.value
                               );
                             }}
-                            onBlur={handleBlur}
-                            required={question.required}
-                            error={pathHasError(
-                              `forFamily.[${question.codeName}]`,
-                              touched,
-                              errors
-                            )}
-                            helperText={getErrorLabelForPath(
-                              `forFamily.[${question.codeName}]`,
-                              touched,
-                              errors,
-                              t
-                            )}
-                            fullWidth
                           />
                         );
                       })}
@@ -591,34 +540,16 @@ export class Economics extends Component {
                                       }
                                       if (question.answerType === 'select') {
                                         return (
-                                          <Autocomplete
+                                          <AutocompleteWithFormik
                                             key={question.codeName}
+                                            label={question.questionText}
                                             name={`forFamilyMember.[${index}].[${
                                               question.codeName
                                             }]`}
-                                            value={{
-                                              value:
-                                                values.forFamilyMember[index][
-                                                  question.codeName
-                                                ],
-                                              label: values.forFamilyMember[
-                                                index
-                                              ][question.codeName]
-                                                ? question.options.find(
-                                                    e =>
-                                                      e.value ===
-                                                      values.forFamilyMember[
-                                                        index
-                                                      ][question.codeName]
-                                                  ).text
-                                                : ''
-                                            }}
-                                            options={question.options.map(
-                                              val => ({
-                                                value: val.value,
-                                                label: val.text
-                                              })
-                                            )}
+                                            rawOptions={question.options}
+                                            labelKey="text"
+                                            valueKey="value"
+                                            required={question.required}
                                             isClearable={!question.required}
                                             onChange={value => {
                                               setFieldValue(
@@ -633,54 +564,22 @@ export class Economics extends Component {
                                                 index
                                               );
                                             }}
-                                            onBlur={() =>
-                                              setFieldTouched(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`
-                                              )
-                                            }
-                                            textFieldProps={{
-                                              label: question.questionText,
-                                              required: question.required,
-                                              error: pathHasError(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`,
-                                                touched,
-                                                errors
-                                              ),
-                                              helperText: getErrorLabelForPath(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`,
-                                                touched,
-                                                errors,
-                                                t
-                                              )
-                                            }}
                                           />
                                         );
                                       }
                                       return (
-                                        <TextField
-                                          className={this.props.classes.input}
+                                        <InputWithFormik
                                           key={question.codeName}
+                                          label={question.questionText}
                                           type={
                                             question.answerType === 'string'
                                               ? 'text'
                                               : question.answerType
                                           }
-                                          variant="filled"
-                                          label={question.questionText}
-                                          value={
-                                            values.forFamilyMember[index][
-                                              question.codeName
-                                            ] || ''
-                                          }
                                           name={`forFamilyMember.[${index}].[${
                                             question.codeName
                                           }]`}
+                                          required={question.required}
                                           onChange={e => {
                                             handleChange(e);
                                             this.updateFamilyMember(
@@ -689,24 +588,6 @@ export class Economics extends Component {
                                               index
                                             );
                                           }}
-                                          onBlur={handleBlur}
-                                          required={question.required}
-                                          error={pathHasError(
-                                            `forFamilyMember.[${index}].[${
-                                              question.codeName
-                                            }]`,
-                                            touched,
-                                            errors
-                                          )}
-                                          helperText={getErrorLabelForPath(
-                                            `forFamilyMember.[${index}].[${
-                                              question.codeName
-                                            }]`,
-                                            touched,
-                                            errors,
-                                            t
-                                          )}
-                                          fullWidth
                                         />
                                       );
                                     })}
@@ -728,15 +609,16 @@ export class Economics extends Component {
                             const forFamilyErrors =
                               validationErrors.forFamily || {};
                             const forFamilyErrorsCount = Object.keys(
-                              forFamilyErrors
+                              forFamilyErrors || {}
                             ).length;
 
                             const forFamilyMemberErrors =
                               validationErrors.forFamilyMember || [];
                             let forFamilyMemberErrorsCount = 0;
                             forFamilyMemberErrors.forEach(fm => {
-                              forFamilyMemberErrorsCount += Object.keys(fm)
-                                .length;
+                              forFamilyMemberErrorsCount += Object.keys(
+                                fm || {}
+                              ).length;
                             });
                             const errorsLength =
                               forFamilyErrorsCount + forFamilyMemberErrorsCount;
@@ -792,15 +674,6 @@ const styles = theme => ({
   },
   mainContainer: {
     marginTop: theme.spacing.unit * 5
-  },
-  input: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  inputFilled: {
-    '& $div': {
-      backgroundColor: '#fff!important'
-    }
   }
 });
 
