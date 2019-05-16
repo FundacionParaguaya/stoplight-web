@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core';
 import { Formik, Form, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import * as moment from 'moment';
-import * as _ from 'lodash';
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import DatePickerWithFormik from '../../components/DatePickerWithFormik';

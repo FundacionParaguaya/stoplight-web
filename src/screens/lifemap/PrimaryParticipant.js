@@ -21,7 +21,6 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import { withScroller } from '../../components/Scroller';
 import familyFaceIcon from '../../assets/family_face_large.png';
-import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
