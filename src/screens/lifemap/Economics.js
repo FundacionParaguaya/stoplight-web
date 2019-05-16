@@ -728,15 +728,16 @@ export class Economics extends Component {
                             const forFamilyErrors =
                               validationErrors.forFamily || {};
                             const forFamilyErrorsCount = Object.keys(
-                              forFamilyErrors
+                              forFamilyErrors || {}
                             ).length;
 
                             const forFamilyMemberErrors =
                               validationErrors.forFamilyMember || [];
                             let forFamilyMemberErrorsCount = 0;
                             forFamilyMemberErrors.forEach(fm => {
-                              forFamilyMemberErrorsCount += Object.keys(fm)
-                                .length;
+                              forFamilyMemberErrorsCount += Object.keys(
+                                fm || {}
+                              ).length;
                             });
                             const errorsLength =
                               forFamilyErrorsCount + forFamilyMemberErrorsCount;
