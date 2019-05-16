@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
-import { DatePicker } from 'material-ui-pickers';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core';
 import { Formik, Form, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
+import InputWithFormik from '../../components/InputWithFormik';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
+import DatePickerWithFormik from '../../components/DatePickerWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-import Autocomplete from '../../components/Autocomplete';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
-import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const schemaWithDateTransform = Yup.date()
@@ -49,7 +47,7 @@ export class FamilyMembers extends Component {
         ...currentDraft.familyData,
         familyMembersList: currentDraft.familyData.familyMembersList.map(
           (item, index) => {
-            if (memberIndex - 1 === index) {
+            if (memberIndex === index) {
               return {
                 ...item,
                 [property]: value
@@ -66,18 +64,21 @@ export class FamilyMembers extends Component {
     this.props.history.push('/lifemap/location');
   };
 
+  syncDraft = (value, index, keyInDraft, keyInFormik, setFieldValue) => {
+    setFieldValue(keyInFormik, value);
+    this.updateDraft(index + 1, value, keyInDraft);
+  };
+
   render() {
     const {
       classes,
       t,
       currentDraft,
       currentSurvey,
-      i18n: { language },
       scrollToTop,
       enqueueSnackbar,
       closeSnackbar
     } = this.props;
-    const dateFormat = getDateFormatByLocale(language);
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
     return (
@@ -85,7 +86,6 @@ export class FamilyMembers extends Component {
         <TitleBar title={t('views.familyMembers')} />
         <Container variant="slim">
           <Formik
-            enableReinitialize
             initialValues={{
               members: membersList.filter(item => !item.firstParticipant)
             }}
@@ -107,17 +107,7 @@ export class FamilyMembers extends Component {
               setSubmitting(false);
             }}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              isSubmitting,
-              setFieldValue,
-              setFieldTouched,
-              validateForm
-            }) => (
+            {({ values, isSubmitting, setFieldValue, validateForm }) => (
               <Form noValidate>
                 <FieldArray
                   name="members"
@@ -132,107 +122,50 @@ export class FamilyMembers extends Component {
                               </i>
                               {t('views.family.familyMember')} {index + 1}
                             </Typography>
-                            <TextField
-                              className={this.props.classes.input}
-                              variant="filled"
+                            <InputWithFormik
                               label={t('views.family.firstName')}
                               name={`members[${index}].firstName`}
-                              value={item.firstName}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              error={pathHasError(
-                                `members[${index}].firstName`,
-                                touched,
-                                errors
-                              )}
-                              helperText={getErrorLabelForPath(
-                                `members[${index}].firstName`,
-                                touched,
-                                errors,
-                                t
-                              )}
-                              fullWidth
                               required
-                            />
-                            <Autocomplete
-                              name={`members[${index}].gender`}
-                              value={{
-                                value: item.gender,
-                                label: item.gender
-                                  ? surveyConfig.gender.find(
-                                      e => e.value === item.gender
-                                    ).text
-                                  : ''
-                              }}
-                              options={surveyConfig.gender.map(e => ({
-                                value: e.value,
-                                label: e.text
-                              }))}
-                              onChange={value => {
-                                setFieldValue(
-                                  `members[${index}].gender`,
-                                  value ? value.value : ''
-                                );
-                              }}
-                              onBlur={() =>
-                                setFieldTouched(`members[${index}].gender`)
-                              }
-                              textFieldProps={{
-                                label: t('views.family.selectGender'),
-                                error: pathHasError(
-                                  `members[${index}].gender`,
-                                  touched,
-                                  errors
-                                ),
-                                helperText: getErrorLabelForPath(
-                                  `members[${index}].gender`,
-                                  touched,
-                                  errors,
-                                  t
+                              onChange={e =>
+                                this.syncDraft(
+                                  e.target.value,
+                                  index,
+                                  'firstName',
+                                  `members[${index}].firstName`,
+                                  setFieldValue
                                 )
-                              }}
+                              }
                             />
-                            <DatePicker
-                              format={dateFormat}
+                            <AutocompleteWithFormik
+                              label={t('views.family.selectGender')}
+                              name={`members[${index}].gender`}
+                              rawOptions={surveyConfig.gender}
+                              labelKey="text"
+                              valueKey="value"
+                              onChange={e =>
+                                this.syncDraft(
+                                  e ? e.value : '',
+                                  index,
+                                  'gender',
+                                  `members[${index}].gender`,
+                                  setFieldValue
+                                )
+                              }
+                            />
+                            <DatePickerWithFormik
                               label={t('views.family.dateOfBirth')}
                               name={`members[${index}].birthDate`}
-                              value={
-                                item.birthDate
-                                  ? moment.unix(item.birthDate)
-                                  : null
-                              }
-                              onChange={e =>
-                                setFieldValue(
-                                  `members[${index}].birthDate`,
-                                  e.unix()
-                                )
-                              }
-                              onClose={() =>
-                                setFieldTouched(`members[${index}].birthDate`)
-                              }
-                              okLabel={t('general.ok')}
-                              cancelLabel={t('general.cancel')}
-                              error={pathHasError(
-                                `members[${index}].birthDate`,
-                                touched,
-                                errors
-                              )}
-                              helperText={getErrorLabelForPath(
-                                `members[${index}].birthDate`,
-                                touched,
-                                errors,
-                                t
-                              )}
-                              TextFieldComponent={textFieldProps => (
-                                <TextField
-                                  className={this.props.classes.input}
-                                  variant="filled"
-                                  {...textFieldProps}
-                                />
-                              )}
-                              fullWidth
                               disableFuture
                               minDate={moment('1910-01-01')}
+                              onChange={e =>
+                                this.syncDraft(
+                                  e.unix(),
+                                  index,
+                                  'birthDate',
+                                  `members[${index}].birthDate`,
+                                  setFieldValue
+                                )
+                              }
                             />
                           </div>
                         );
@@ -306,15 +239,6 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
-  },
-  input: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  inputFilled: {
-    '& $div': {
-      backgroundColor: '#fff!important'
-    }
   }
 });
 
