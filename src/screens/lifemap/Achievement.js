@@ -3,16 +3,24 @@ import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Form from '../../components/Form';
-import Input from '../../components/Input';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputWithFormik from '../../components/InputWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import iconAch from '../../assets/imgAch.png';
 import { COLORS } from '../../theme';
+
+const fieldIsRequired = 'validation.fieldIsRequired';
+
+const validationSchema = Yup.object().shape({
+  action: Yup.string().required(fieldIsRequired)
+});
 
 class Achievements extends Component {
   achievement = this.props.currentDraft.achievements.find(
@@ -23,24 +31,16 @@ class Achievements extends Component {
     imageStatus: 'loading',
     question: this.props.currentSurvey.surveyStoplightQuestions.find(
       indicator => indicator.codeName === this.props.match.params.indicator
-    ),
-    roadmap: (this.achievement && this.achievement.roadmap) || '',
-    action: (this.achievement && this.achievement.action) || ''
+    )
   };
 
   handleImageLoaded = () => {
     this.setState({ imageStatus: 'loaded' });
   };
 
-  updateAnswer = (field, value) => {
-    this.setState({
-      [field]: value
-    });
-  };
-
-  saveAchievement = () => {
+  saveAchievement = ({ roadmap, action }) => {
     const { currentDraft } = this.props;
-    const { question, roadmap, action } = this.state;
+    const { question } = this.state;
 
     const achievement = {
       roadmap,
@@ -179,26 +179,41 @@ class Achievements extends Component {
             </Typography>
           </div>
           <Container variant="slim">
-            <Form
-              onSubmit={this.saveAchievement}
-              submitLabel={t('general.save')}
+            <Formik
+              initialValues={{
+                action: (this.achievement && this.achievement.action) || '',
+                roadmap: (this.achievement && this.achievement.roadmap) || ''
+              }}
+              validationSchema={validationSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                this.saveAchievement(values);
+                setSubmitting(false);
+              }}
             >
-              <Input
-                required
-                label={t('views.lifemap.howDidYouGetIt')}
-                value={this.state.action}
-                field="action"
-                onChange={this.updateAnswer}
-                multiline
-              />
-              <Input
-                label={t('views.lifemap.whatDidItTakeToAchieveThis')}
-                value={this.state.roadmap}
-                field="roadmap"
-                onChange={this.updateAnswer}
-                multiline
-              />
-            </Form>
+              {({ isSubmitting }) => (
+                <Form noValidate>
+                  <InputWithFormik
+                    label={t('views.lifemap.howDidYouGetIt')}
+                    name="action"
+                    required
+                  />
+                  <InputWithFormik
+                    label={t('views.lifemap.whatDidItTakeToAchieveThis')}
+                    name="roadmap"
+                  />
+                  <div className={classes.buttonContainerForm}>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                      disabled={isSubmitting}
+                    >
+                      {t('general.save')}
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </Container>
           <BottomSpacer />
         </React.Fragment>
@@ -276,15 +291,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
-  },
-  input: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  inputFilled: {
-    '& $div': {
-      backgroundColor: '#fff!important'
-    }
   }
 };
 export default withStyles(styles)(
