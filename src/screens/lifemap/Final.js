@@ -35,7 +35,11 @@ export class Final extends Component {
     skippedIndicatorCount: this.props.currentDraft.indicatorSurveyDataList.filter(
       indicator => !indicator.value
     ).length,
-    openModal: false
+    openModal: false,
+    modalTitle: '',
+    modalSubtitle: '',
+    modalContinueButtonText: '',
+    modalLeaveAction: null
   };
 
   constructor(props) {
@@ -43,28 +47,50 @@ export class Final extends Component {
     this.printRef = React.createRef();
   }
 
-  toggleModal = () => {
-    this.setState(prevState => ({ openModal: !prevState.openModal }));
+  toggleModal = (
+    modalTitle,
+    modalSubtitle,
+    modalContinueButtonText,
+    modalLeaveAction
+  ) => {
+    this.setState(prevState => ({
+      openModal: !prevState.openModal,
+      modalTitle,
+      modalSubtitle,
+      modalContinueButtonText,
+      modalLeaveAction
+    }));
   };
 
   handleSubmit = () => {
     this.setState({
       loading: true
     });
+    const { t } = this.props;
 
     // submit draft to server and wait for response
     submitDraft(this.props.user, this.props.currentDraft)
-      .then(response => {
-        if (response.status === 200) {
-          this.redirectToSurveys();
-        }
+      .then(() => {
+        this.toggleModal(
+          t('general.thankYou'),
+          t('views.final.lifemapSaved'),
+          t('general.gotIt'),
+          this.redirectToSurveys
+        );
       })
       .catch(() => {
+        this.toggleModal(
+          t('general.warning'),
+          t('general.saveError'),
+          t('general.gotIt'),
+          () => this.toggleModal()
+        );
+      })
+      .finally(() =>
         this.setState({
           loading: false
-        });
-        this.toggleModal();
-      });
+        })
+      );
   };
 
   redirectToSurveys = () => {
@@ -87,13 +113,13 @@ export class Final extends Component {
           </div>
         </div>
         <LeaveModal
-          title="Warning!"
-          subtitle={t('general.saveError')}
-          continueButtonText={t('general.gotIt')}
+          title={this.state.modalTitle}
+          subtitle={this.state.modalSubtitle}
+          continueButtonText={this.state.modalContinueButtonText}
           singleAction
           onClose={() => {}}
           open={this.state.openModal}
-          leaveAction={this.redirectToSurveys}
+          leaveAction={this.state.modalLeaveAction || (() => {})}
         />
         <TitleBar title={t('views.final.title')} />
         <Container variant="stretch">
