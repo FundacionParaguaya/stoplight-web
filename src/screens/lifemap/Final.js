@@ -39,7 +39,8 @@ export class Final extends Component {
     modalTitle: '',
     modalSubtitle: '',
     modalContinueButtonText: '',
-    modalLeaveAction: null
+    modalLeaveAction: null,
+    modalVariant: ''
   };
 
   constructor(props) {
@@ -51,6 +52,7 @@ export class Final extends Component {
     modalTitle,
     modalSubtitle,
     modalContinueButtonText,
+    modalVariant,
     modalLeaveAction
   ) => {
     this.setState(prevState => ({
@@ -58,6 +60,7 @@ export class Final extends Component {
       modalTitle,
       modalSubtitle,
       modalContinueButtonText,
+      modalVariant,
       modalLeaveAction
     }));
   };
@@ -75,6 +78,7 @@ export class Final extends Component {
           t('general.thankYou'),
           t('views.final.lifemapSaved'),
           t('general.gotIt'),
+          'success',
           this.redirectToSurveys
         );
       })
@@ -83,6 +87,7 @@ export class Final extends Component {
           t('general.warning'),
           t('general.saveError'),
           t('general.gotIt'),
+          'warning',
           () => this.toggleModal()
         );
       })
@@ -120,6 +125,7 @@ export class Final extends Component {
           onClose={() => {}}
           open={this.state.openModal}
           leaveAction={this.state.modalLeaveAction || (() => {})}
+          variant={this.state.modalVariant}
         />
         <TitleBar title={t('views.final.title')} />
         <Container variant="stretch">
