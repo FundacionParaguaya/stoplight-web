@@ -2,27 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
-import { DatePicker } from 'material-ui-pickers';
 import { Formik, Form } from 'formik';
 import uuid from 'uuid/v1';
 import * as Yup from 'yup';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import countries from 'localized-countries';
+import InputWithFormik from '../../components/InputWithFormik';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
+import DatePickerWithFormik from '../../components/DatePickerWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
-import Autocomplete from '../../components/Autocomplete';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import { withScroller } from '../../components/Scroller';
 import familyFaceIcon from '../../assets/family_face_large.png';
-import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -241,13 +239,17 @@ export class PrimaryParticipant extends Component {
     });
   };
 
+  syncDraft = (value, key, setFieldValue) => {
+    setFieldValue(key, value);
+    this.updateDraft(key, value);
+  };
+
   render() {
     const {
       t,
       currentSurvey,
       classes,
       currentDraft,
-      i18n: { language },
       scrollToTop,
       enqueueSnackbar,
       closeSnackbar
@@ -257,7 +259,6 @@ export class PrimaryParticipant extends Component {
     if (!this.props.currentDraft) {
       return <TitleBar title={t('views.primaryParticipant')} />;
     }
-    const dateFormat = getDateFormatByLocale(language);
 
     const participant = currentDraft
       ? currentDraft.familyData.familyMembersList[0]
@@ -287,7 +288,7 @@ export class PrimaryParticipant extends Component {
       <div>
         <TitleBar title={t('views.primaryParticipant')} />
         <div className={classes.topImageContainer}>
-          <img height={60} width={60} src={familyFaceIcon} />
+          <img alt="" height={60} width={60} src={familyFaceIcon} />
         </div>
         <Container variant="slim">
           <Formik
@@ -302,320 +303,125 @@ export class PrimaryParticipant extends Component {
               setSubmitting(false);
             }}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur: formikHandleBlur,
-              isSubmitting,
-              setFieldValue,
-              setFieldTouched,
-              validateForm
-            }) => {
-              const handleBlur = e => {
-                formikHandleBlur(e);
-                this.updateDraftWithCurrentValues(values);
-              };
+            {({ isSubmitting, setFieldValue, validateForm }) => {
               return (
                 <Form noValidate>
-                  <TextField
-                    className={
-                      values.firstName
-                        ? `${this.props.classes.input} ${
-                            this.props.classes.inputFilled
-                          }`
-                        : `${this.props.classes.input}`
-                    }
-                    variant="filled"
+                  <InputWithFormik
                     label={t('views.family.firstName')}
                     name="firstName"
-                    value={values.firstName || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={pathHasError('firstName', touched, errors)}
-                    helperText={getErrorLabelForPath(
-                      'firstName',
-                      touched,
-                      errors,
-                      t
-                    )}
-                    fullWidth
                     required
-                  />
-                  <TextField
-                    className={
-                      values.lastName
-                        ? `${this.props.classes.input} ${
-                            this.props.classes.inputFilled
-                          }`
-                        : `${this.props.classes.input}`
+                    onChange={e =>
+                      this.syncDraft(e.target.value, `firstName`, setFieldValue)
                     }
-                    variant="filled"
+                  />
+                  <InputWithFormik
                     label={t('views.family.lastName')}
                     name="lastName"
-                    value={values.lastName || ''}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={pathHasError('lastName', touched, errors)}
-                    helperText={getErrorLabelForPath(
-                      'lastName',
-                      touched,
-                      errors,
-                      t
-                    )}
-                    fullWidth
                     required
+                    onChange={e =>
+                      this.syncDraft(e.target.value, `lastName`, setFieldValue)
+                    }
                   />
-                  <Autocomplete
+                  <AutocompleteWithFormik
+                    label={t('views.family.selectGender')}
                     name="gender"
-                    value={{
-                      value: values.gender,
-                      label: values.gender
-                        ? surveyConfig.gender.find(
-                            e => e.value === values.gender
-                          ).text
-                        : ''
-                    }}
-                    options={surveyConfig.gender.map(e => ({
-                      value: e.value,
-                      label: e.text
-                    }))}
-                    onChange={value => {
-                      setFieldValue('gender', value ? value.value : '');
-                    }}
+                    rawOptions={surveyConfig.gender}
+                    labelKey="text"
+                    valueKey="value"
+                    required
                     isClearable={false}
-                    onBlur={() => {
-                      setFieldTouched('gender');
-                      this.updateDraftWithCurrentValues(values);
-                    }}
-                    textFieldProps={{
-                      label: t('views.family.selectGender'),
-                      required: true,
-                      error: pathHasError('gender', touched, errors),
-                      helperText: getErrorLabelForPath(
-                        'gender',
-                        touched,
-                        errors,
-                        t
-                      )
-                    }}
+                    onChange={e =>
+                      this.syncDraft(e ? e.value : '', 'gender', setFieldValue)
+                    }
                   />
-                  <DatePicker
-                    format={dateFormat}
+                  <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
-                    value={
-                      values.birthDate ? moment.unix(values.birthDate) : null
-                    }
-                    onChange={e => {
-                      setFieldValue('birthDate', e.unix());
-                      this.updateDraftWithCurrentValues({
-                        ...values,
-                        birthDate: e.unix()
-                      });
-                    }}
-                    onClose={() => setFieldTouched('birthDate')}
-                    okLabel={t('general.ok')}
-                    cancelLabel={t('general.cancel')}
-                    error={pathHasError('birthDate', touched, errors)}
-                    helperText={getErrorLabelForPath(
-                      'birthDate',
-                      touched,
-                      errors,
-                      t
-                    )}
-                    TextFieldComponent={textFieldProps => (
-                      <TextField
-                        className={
-                          values.birthDate
-                            ? `${this.props.classes.input} ${
-                                this.props.classes.inputFilled
-                              }`
-                            : `${this.props.classes.input}`
-                        }
-                        variant="filled"
-                        {...textFieldProps}
-                      />
-                    )}
-                    fullWidth
-                    required
                     disableFuture
                     minDate={moment('1910-01-01')}
+                    onChange={e =>
+                      this.syncDraft(e.unix(), 'birthDate', setFieldValue)
+                    }
                   />
-                  <Autocomplete
+                  <AutocompleteWithFormik
+                    label={t('views.family.documentType')}
                     name="documentType"
-                    value={{
-                      value: values.documentType,
-                      label: values.documentType
-                        ? surveyConfig.documentType.find(
-                            e => e.value === values.documentType
-                          ).text
-                        : ''
-                    }}
-                    options={surveyConfig.documentType.map(e => ({
-                      value: e.value,
-                      label: e.text
-                    }))}
-                    onChange={value => {
-                      setFieldValue('documentType', value ? value.value : '');
-                    }}
-                    isClearable={false}
-                    onBlur={() => {
-                      setFieldTouched('documentType');
-                      this.updateDraftWithCurrentValues(values);
-                    }}
-                    textFieldProps={{
-                      label: t('views.family.documentType'),
-                      required: true,
-                      error: pathHasError('documentType', touched, errors),
-                      helperText: getErrorLabelForPath(
-                        'documentType',
-                        touched,
-                        errors,
-                        t
-                      )
-                    }}
-                  />
-                  <TextField
-                    className={
-                      values.documentNumber
-                        ? `${this.props.classes.input} ${
-                            this.props.classes.inputFilled
-                          }`
-                        : `${this.props.classes.input}`
-                    }
-                    variant="filled"
-                    label={t('views.family.documentNumber')}
-                    value={values.documentNumber || ''}
-                    name="documentNumber"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={pathHasError('documentNumber', touched, errors)}
-                    helperText={getErrorLabelForPath(
-                      'documentNumber',
-                      touched,
-                      errors,
-                      t
-                    )}
-                    fullWidth
+                    rawOptions={surveyConfig.documentType}
+                    labelKey="text"
+                    valueKey="value"
                     required
+                    isClearable={false}
+                    onChange={e =>
+                      this.syncDraft(
+                        e ? e.value : '',
+                        'documentType',
+                        setFieldValue
+                      )
+                    }
                   />
-                  <Autocomplete
+                  <InputWithFormik
+                    label={t('views.family.documentNumber')}
+                    name="documentNumber"
+                    required
+                    onChange={e =>
+                      this.syncDraft(
+                        e.target.value,
+                        'documentNumber',
+                        setFieldValue
+                      )
+                    }
+                  />
+                  <AutocompleteWithFormik
+                    label={t('views.family.countryOfBirth')}
                     name="birthCountry"
-                    value={{
-                      value: values.birthCountry,
-                      label: values.birthCountry
-                        ? countryList.find(e => e.code === values.birthCountry)
-                            .label
-                        : ''
-                    }}
-                    options={countryList.map(e => ({
-                      value: e.code,
-                      label: e.label
-                    }))}
-                    onChange={value => {
-                      setFieldValue('birthCountry', value ? value.value : '');
-                    }}
+                    rawOptions={countryList}
+                    labelKey="label"
+                    valueKey="code"
+                    required
                     isClearable={false}
-                    onBlur={() => {
-                      setFieldTouched('birthCountry');
-                      this.updateDraftWithCurrentValues(values);
-                    }}
-                    textFieldProps={{
-                      label: t('views.family.countryOfBirth'),
-                      required: true,
-                      error: pathHasError('birthCountry', touched, errors),
-                      helperText: getErrorLabelForPath(
+                    onChange={e =>
+                      this.syncDraft(
+                        e ? e.value : '',
                         'birthCountry',
-                        touched,
-                        errors,
-                        t
+                        setFieldValue
                       )
-                    }}
+                    }
                   />
-                  <Autocomplete
+                  <AutocompleteWithFormik
+                    label={t('views.family.peopleLivingInThisHousehold')}
                     name="countFamilyMembers"
-                    value={{
-                      value: values.countFamilyMembers,
-                      label: values.countFamilyMembers
-                        ? this.state.householdSizeArray.find(
-                            e => e.value === values.countFamilyMembers
-                          ).text
-                        : ''
-                    }}
-                    options={this.state.householdSizeArray.map(e => ({
-                      value: e.value,
-                      label: e.text
-                    }))}
-                    onChange={value => {
-                      setFieldValue(
-                        'countFamilyMembers',
-                        value ? value.value : ''
-                      );
-                      this.updateFamilyMembersCount(
-                        null,
-                        value ? value.value : 1
-                      );
-                    }}
+                    rawOptions={this.state.householdSizeArray}
+                    labelKey="text"
+                    valueKey="value"
+                    required
                     isClearable={false}
-                    onBlur={() => setFieldTouched('countFamilyMembers')}
-                    textFieldProps={{
-                      label: t('views.family.peopleLivingInThisHousehold'),
-                      required: true,
-                      error: pathHasError(
+                    onChange={e => {
+                      this.syncDraft(
+                        e ? e.value : '',
                         'countFamilyMembers',
-                        touched,
-                        errors
-                      ),
-                      helperText: getErrorLabelForPath(
-                        'countFamilyMembers',
-                        touched,
-                        errors,
-                        t
-                      )
+                        setFieldValue
+                      );
+                      this.updateFamilyMembersCount(null, e ? e.value : 1);
                     }}
                   />
-                  <TextField
-                    className={
-                      values.email
-                        ? `${this.props.classes.input} ${
-                            this.props.classes.inputFilled
-                          }`
-                        : `${this.props.classes.input}`
-                    }
-                    variant="filled"
+                  <InputWithFormik
                     label={t('views.family.email')}
-                    value={values.email || ''}
                     name="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={pathHasError('email', touched, errors)}
-                    helperText={getErrorLabelForPath(
-                      'email',
-                      touched,
-                      errors,
-                      t
-                    )}
-                    fullWidth
-                  />
-                  <TextField
-                    className={
-                      values.phoneNumber
-                        ? `${this.props.classes.input} ${
-                            this.props.classes.inputFilled
-                          }`
-                        : `${this.props.classes.input}`
+                    onChange={e =>
+                      this.syncDraft(e.target.value, 'email', setFieldValue)
                     }
-                    variant="filled"
-                    label={t('views.family.phone')}
-                    value={values.phoneNumber || ''}
-                    name="phoneNumber"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    fullWidth
                   />
-
+                  <InputWithFormik
+                    label={t('views.family.phone')}
+                    name="phoneNumber"
+                    onChange={e =>
+                      this.syncDraft(
+                        e.target.value,
+                        'phoneNumber',
+                        setFieldValue
+                      )
+                    }
+                  />
                   <div className={classes.buttonContainerForm}>
                     <Button
                       type="submit"
@@ -674,15 +480,6 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
-  },
-  input: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  inputFilled: {
-    '& $div': {
-      backgroundColor: '#fff!important'
-    }
   }
 });
 
