@@ -288,7 +288,7 @@ export class PrimaryParticipant extends Component {
       <div>
         <TitleBar title={t('views.primaryParticipant')} />
         <div className={classes.topImageContainer}>
-          <img height={60} width={60} src={familyFaceIcon} />
+          <img alt="" height={60} width={60} src={familyFaceIcon} />
         </div>
         <Container variant="slim">
           <Formik

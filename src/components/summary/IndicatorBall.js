@@ -21,6 +21,7 @@ let Accent = ({ classes, variant, achievement, priority }) => (
             border: '2px solid #FFFFFF',
             borderRadius: '50%'
           }}
+          alt=""
         />
       </div>
     )}
