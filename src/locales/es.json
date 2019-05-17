@@ -171,7 +171,7 @@
       "lifeMapWillNotBeSaved": "Si no ingresa todos los detalles en esta página, ¡el Mapa de Vida no se guardará!",
       "weCannotContinueToCreateTheLifeMap": "Si no estás de acuerdo, ¡no podremos seguir creando el mapa de vida!",
       "areYouSureYouWantToExit": "¿Estás seguro de que quieres salir?",
-      "yourLifemapIsNotComplete": "Tu Mapa de Vida no está completo. ¿Estás seguro de que quieres salir?",
+      "yourLifemapIsNotComplete": "¡Perderás todos tus datos! ¿Estás seguro de que quieres salir?",
       "thisWillBeSavedAsADraft": "Esto se guardará como un borrador."
     },
     "logout": {

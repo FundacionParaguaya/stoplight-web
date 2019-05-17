@@ -170,7 +170,7 @@
       "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",
       "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the life map!",
       "areYouSureYouWantToExit": "Are you sure you want to exit?",
-      "yourLifemapIsNotComplete": "Your life map is not complete. Are you sure you want to exit?",
+      "yourLifemapIsNotComplete": "You will lose all your data! Are you sure you want to exit?",
       "thisWillBeSavedAsADraft": "This will be saved as a draft."
     },
     "logout": {
