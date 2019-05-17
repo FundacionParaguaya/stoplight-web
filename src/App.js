@@ -10,7 +10,9 @@ import store, { persistor } from './redux';
 import defaultTheme from './theme';
 import Authenticator from './Authenticator';
 import DatePickedProvider from './components/DatePickerProvider';
-import Scroller from './components/Scroller';
+import Scroller, { ScrollerProvider } from './components/Scroller';
+import CustomSnackbarProvider from './components/SnackbarProvider';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 class App extends Component {
   render() {
@@ -24,15 +26,23 @@ class App extends Component {
             <PersistGate persistor={persistor}>
               <DatePickedProvider>
                 <Router>
-                  <Scroller />
-                  <Authenticator>
-                    <div className={classes.appContainer}>
-                      <Switch>
-                        <Route path="/surveys" component={SurveysComponent} />
-                        <Route path="/lifemap" component={Lifemap} />
-                      </Switch>
-                    </div>
-                  </Authenticator>
+                  <CustomSnackbarProvider>
+                    <ScrollerProvider>
+                      <Scroller />
+                      <LanguageSwitcher />
+                      <Authenticator>
+                        <div className={classes.appContainer}>
+                          <Switch>
+                            <Route
+                              path="/surveys"
+                              component={SurveysComponent}
+                            />
+                            <Route path="/lifemap" component={Lifemap} />
+                          </Switch>
+                        </div>
+                      </Authenticator>
+                    </ScrollerProvider>
+                  </CustomSnackbarProvider>
                 </Router>
               </DatePickedProvider>
             </PersistGate>
