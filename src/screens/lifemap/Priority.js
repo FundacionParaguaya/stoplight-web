@@ -126,7 +126,10 @@ class Priority extends Component {
         />
         <React.Fragment>
           <div className={classes.imgAndDescriptionContainer}>
-            <div className={classes.imageContainer}>
+            <div
+              className={classes.imageContainer}
+              style={{ backgroundColor: color }}
+            >
               <React.Fragment>
                 {this.state.imageStatus === 'loading' && (
                   <div className={classes.loadingContainer}>
@@ -138,7 +141,7 @@ class Priority extends Component {
                           alignItems: 'center'
                         }}
                       >
-                        <CircularProgress />
+                        <CircularProgress color="inherit" className={classes.circularProgress}/>
                       </div>
 
                       <img
@@ -157,18 +160,9 @@ class Priority extends Component {
             <div className={classes.answeredQuestion}>
               <i
                 style={{
-                  color: 'white',
-                  backgroundColor: color,
-                  fontSize: 39,
-                  height: 80,
-                  width: 80,
-                  margin: 'auto',
-                  display: 'flex',
-                  borderRadius: '50%',
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  backgroundColor: color
                 }}
-                className="material-icons"
+                className={`material-icons ${classes.icon}`}
               >
                 done
               </i>
@@ -318,6 +312,18 @@ const mapDispatchToProps = { updateDraft };
 const styles = {
   imageContainer: { display: 'flex', position: 'inherit', width: '100%' },
   loadingContainer: { position: 'absolute', top: '50%', left: '50%' },
+  circularProgress: { color: 'white' },
+  icon: {
+    color: 'white',
+    fontSize: 39,
+    height: 80,
+    width: 80,
+    margin: 'auto',
+    display: 'flex',
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   loadingIndicatorCenter: {
     left: -20,
     bottom: -20,
