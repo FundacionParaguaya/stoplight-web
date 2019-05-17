@@ -227,7 +227,8 @@
       "print": "Imprimir",
       "email": "Email",
       "download": "Descargar",
-      "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente"
+      "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
+      "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
     }
   }
 }

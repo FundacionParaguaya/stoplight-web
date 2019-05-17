@@ -226,7 +226,8 @@
       "print": "Print",
       "email": "Email",
       "download": "Download",
-      "lifemapSaved": "Your life map has been successfully saved"
+      "lifemapSaved": "Your life map has been successfully saved",
+      "clickSafe": "Now, just click save!"
     }
   }
 }
