@@ -60,7 +60,8 @@ const styles = {
     top: 0,
     left: 0,
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    zIndex: 1
   },
   icon: {
     '&:hover': {
