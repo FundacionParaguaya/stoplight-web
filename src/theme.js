@@ -128,6 +128,7 @@ export const theme = {
         paddingRight: 24
       },
       formControl: {
+        // top: '50%',
         transform: 'translate(12px, 25px) scale(1)',
         color: '#6A6A6A',
         lineHeight: 1.2
