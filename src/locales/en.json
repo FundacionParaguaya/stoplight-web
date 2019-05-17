@@ -209,7 +209,9 @@
       "onePriorityRemainingTitle": "1 priority left to create!",
       "onePriorityRemainingDescription": "Nearly there...",
       "noPriorityRemainingTitle": "Great! You created all the required priorities",
-      "noPriorityRemainingDescription": "You can make as many more as you want."
+      "noPriorityRemainingDescription": "You can make as many more as you want.",
+      "noPriorityRequiredTitle": "To complete the life map...",
+      "noPriorityRequiredDescription": "Create priorities!"
     },
     "indicatorsFilter": {
       "red": "Red",

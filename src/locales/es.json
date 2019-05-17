@@ -210,7 +210,9 @@
       "onePriorityRemainingTitle": "¡1 prioridad restante por crear!",
       "onePriorityRemainingDescription": "Ya casi...",
       "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
-      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras."
+      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras.",
+      "noPriorityRequiredTitle": "Para completar tu mapa de vida...",
+      "noPriorityRequiredDescription": "¡Crea prioridades!"
     },
     "indicatorsFilter": {
       "red": "Rojo",
