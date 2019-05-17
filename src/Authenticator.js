@@ -25,11 +25,7 @@ const loadingAuthStyles = {
 };
 LoadingAuth = withStyles(loadingAuthStyles)(LoadingAuth);
 
-let UserNotAllowed = ({ classes }) => (
-  <div>
-    <p>Auth Failed, you're not logged in</p>
-  </div>
-);
+let UserNotAllowed = ({ classes }) => <div />;
 
 const userNotAllowedStyles = {
   container: {
@@ -60,9 +56,9 @@ const Authenticator = props => {
     location.search
   ]);
   // TODO delete the default testing environment, used only while
-  const env =
-    useMemo(() => queryString.parse(location.search).env, [location.search]) ||
-    'testing';
+  const env = useMemo(() => queryString.parse(location.search).env, [
+    location.search
+  ]);
 
   const { localStorageToken, localStorageEnviroment } = useMemo(() => {
     const { token, env: envFromStorage } = user || {};

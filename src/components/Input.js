@@ -63,11 +63,7 @@ class Input extends Component {
 
     return (
       <TextField
-        className={
-          this.state.value || this.props.value
-            ? `${this.props.classes.input} ${this.props.classes.inputFilled}`
-            : `${this.props.classes.input}`
-        }
+        className={this.props.classes.input}
         label={`${this.props.label}${this.props.required ? ' *' : ''}`}
         value={this.props.value || ''}
         onChange={this.handleOnChange}
