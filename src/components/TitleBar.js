@@ -49,11 +49,8 @@ class TopTitleContainer extends Component {
             </div>
           </div>
         ) : (
-          <Container
-            variant="fluid"
-            className={classes.titleAndIconContainerPolicy}
-          >
-            <NavIcons />
+          <Container variant="fluid" className={classes.container}>
+            <NavIcons style={{ position: 'absolute' }} />
             <Container className={classes.innerContainer}>
               <img
                 className={classes.barDots}
@@ -109,21 +106,19 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  titleAndIconContainerPolicy: {
+  container: {
     backgroundColor: theme.palette.background.default,
-    height: 200,
+    height: 210,
     borderBottom: '1px solid #DCDEE3;',
-    position: 'relative'
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column'
   },
   innerContainer: {
     display: 'flex',
-    position: 'absolute',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '100%',
-    left: '50%',
-    top: 0,
-    transform: 'translateX(-50%)'
+    height: '100%'
   },
   titleMainAll: {
     margin: 'auto',
@@ -144,6 +139,9 @@ const styles = theme => ({
     color: 'rgba(0,0,0,0.5)',
     marginBottom: 10,
     lineHeight: '25px'
+  },
+  navIcons: {
+    position: 'absolute'
   }
 });
 export default withRouter(
