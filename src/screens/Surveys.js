@@ -15,6 +15,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import BottomSpacer from '../components/BottomSpacer';
 import { getDateFormatByLocale } from '../utils/date-utils';
+import { ProgressBarContext } from '../components/ProgressBar';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -113,7 +114,7 @@ export class Surveys extends Component {
     // clear current draft from store
     this.props.updateDraft(null);
     this.props.updateSurvey(null);
-
+    this.context.setRouteTree({});
     this.getSurveys();
   }
 
@@ -197,6 +198,8 @@ export class Surveys extends Component {
     );
   }
 }
+
+Surveys.contextType = ProgressBarContext;
 
 const styles = theme => ({
   subtitle: {
