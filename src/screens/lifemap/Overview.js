@@ -204,7 +204,7 @@ export class Overview extends Component {
       : 0;
     let title;
     if (minimumPriorities === 0) {
-      title = t('views.overview.noPriorityRemainingTitle');
+      title = t('views.overview.noPriorityRequiredTitle');
     } else if (prioritiesCount === 0) {
       title = t('views.overview.allPrioritiesRemainingTitle');
     } else if (minimumPriorities - prioritiesCount > 1) {
@@ -227,7 +227,7 @@ export class Overview extends Component {
       : 0;
     let description;
     if (minimumPriorities === 0) {
-      description = t('views.overview.noPriorityRemainingDescription');
+      description = t('views.overview.noPriorityRequiredDescription');
     } else if (prioritiesCount === 0) {
       description = `${t(
         'views.overview.allPrioritiesRemainingDescription'

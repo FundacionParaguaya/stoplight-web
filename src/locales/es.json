@@ -171,7 +171,7 @@
       "lifeMapWillNotBeSaved": "Si no ingresa todos los detalles en esta página, ¡el Mapa de Vida no se guardará!",
       "weCannotContinueToCreateTheLifeMap": "Si no estás de acuerdo, ¡no podremos seguir creando el mapa de vida!",
       "areYouSureYouWantToExit": "¿Estás seguro de que quieres salir?",
-      "yourLifemapIsNotComplete": "Tu Mapa de Vida no está completo. ¿Estás seguro de que quieres salir?",
+      "yourLifemapIsNotComplete": "¡Perderás todos tus datos! ¿Estás seguro de que quieres salir?",
       "thisWillBeSavedAsADraft": "Esto se guardará como un borrador."
     },
     "logout": {
@@ -210,7 +210,9 @@
       "onePriorityRemainingTitle": "¡1 prioridad restante por crear!",
       "onePriorityRemainingDescription": "Ya casi...",
       "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
-      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras."
+      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras.",
+      "noPriorityRequiredTitle": "Para completar tu mapa de vida...",
+      "noPriorityRequiredDescription": "¡Crea prioridades!"
     },
     "indicatorsFilter": {
       "red": "Rojo",
@@ -225,7 +227,8 @@
       "print": "Imprimir",
       "email": "Email",
       "download": "Descargar",
-      "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente"
+      "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
+      "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
     }
   }
 }

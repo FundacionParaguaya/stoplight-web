@@ -132,6 +132,9 @@ export class Final extends Component {
           <Typography variant="h5" className={classes.subtitle}>
             {t('views.final.lifemapCompleted')}
           </Typography>
+          <Typography variant="h5" className={classes.clickSafe}>
+            {t('views.final.clickSafe')}
+          </Typography>
           <SummaryDonut
             greenIndicatorCount={this.state.greenIndicatorCount}
             yellowIndicatorCount={this.state.yellowIndicatorCount}
@@ -215,6 +218,11 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: theme.spacing.unit * 6
+  },
+  clickSafe: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit
   },
   saveButtonContainer: {
     display: 'flex',
