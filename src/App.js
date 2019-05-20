@@ -13,6 +13,7 @@ import DatePickedProvider from './components/DatePickerProvider';
 import Scroller, { ScrollerProvider } from './components/Scroller';
 import CustomSnackbarProvider from './components/SnackbarProvider';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import { ProgressBarProvider } from './components/ProgressBar';
 
 class App extends Component {
   render() {
@@ -28,19 +29,21 @@ class App extends Component {
                 <Router>
                   <CustomSnackbarProvider>
                     <ScrollerProvider>
-                      <Scroller />
-                      <LanguageSwitcher />
-                      <Authenticator>
-                        <div className={classes.appContainer}>
-                          <Switch>
-                            <Route
-                              path="/surveys"
-                              component={SurveysComponent}
-                            />
-                            <Route path="/lifemap" component={Lifemap} />
-                          </Switch>
-                        </div>
-                      </Authenticator>
+                      <ProgressBarProvider>
+                        <Scroller />
+                        <LanguageSwitcher />
+                        <Authenticator>
+                          <div className={classes.appContainer}>
+                            <Switch>
+                              <Route
+                                path="/surveys"
+                                component={SurveysComponent}
+                              />
+                              <Route path="/lifemap" component={Lifemap} />
+                            </Switch>
+                          </div>
+                        </Authenticator>
+                      </ProgressBarProvider>
                     </ScrollerProvider>
                   </CustomSnackbarProvider>
                 </Router>
