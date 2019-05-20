@@ -9,6 +9,7 @@ import NavIcons from './NavIcons';
 import leftBarDots from '../assets/left_bar_dots.png';
 import rightBarDots from '../assets/right_bar_dots.png';
 import Container from './Container';
+import ProgressBar from './ProgressBar';
 
 class TopTitleContainer extends Component {
   state = {
@@ -76,6 +77,7 @@ class TopTitleContainer extends Component {
                 alt="Bar Dots"
               />
             </Container>
+            <ProgressBar />
           </Container>
         )}
       </React.Fragment>
