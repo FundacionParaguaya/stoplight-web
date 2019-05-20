@@ -19,11 +19,11 @@ class NavIcons extends Component {
   };
 
   render() {
-    const { classes, t } = this.props;
+    const { classes, t, style } = this.props;
 
     return (
       <React.Fragment>
-        <div className={classes.container} {...this.props}>
+        <div className={classes.container} style={style}>
           <i
             onClick={this.props.uniqueBack || this.props.history.goBack}
             className={`material-icons ${classes.icon}`}
