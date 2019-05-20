@@ -111,10 +111,12 @@ export class Surveys extends Component {
   };
 
   componentDidMount() {
-    // clear current draft from store
+    // Clear current routeTree from context
+    this.context.setRouteTree({});
+
+    // Clear current draft from store
     this.props.updateDraft(null);
     this.props.updateSurvey(null);
-    this.context.setRouteTree({});
     this.getSurveys();
   }
 
