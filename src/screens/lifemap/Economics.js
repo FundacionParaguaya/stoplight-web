@@ -132,6 +132,13 @@ const conditionMet = (condition, currentDraft, memberIndex) => {
       ? moment.unix(familyMember['birthDate'])
       : null;
     targetQuestion = { value };
+    // TODO DELETE THIS after reviewing the conditional logic
+    // In case the target question is null, we should return true.
+    // Eventually, the conditional object should include information about that
+    // and delete this hard-coding
+    if (!value) {
+      return true;
+    }
   }
   return evaluateCondition(condition, targetQuestion);
 };

@@ -170,7 +170,7 @@
       "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",
       "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the life map!",
       "areYouSureYouWantToExit": "Are you sure you want to exit?",
-      "yourLifemapIsNotComplete": "Your life map is not complete. Are you sure you want to exit?",
+      "yourLifemapIsNotComplete": "You will lose all your data! Are you sure you want to exit?",
       "thisWillBeSavedAsADraft": "This will be saved as a draft."
     },
     "logout": {
@@ -209,7 +209,9 @@
       "onePriorityRemainingTitle": "1 priority left to create!",
       "onePriorityRemainingDescription": "Nearly there...",
       "noPriorityRemainingTitle": "Great! You created all the required priorities",
-      "noPriorityRemainingDescription": "You can make as many more as you want."
+      "noPriorityRemainingDescription": "You can make as many more as you want.",
+      "noPriorityRequiredTitle": "To complete the life map...",
+      "noPriorityRequiredDescription": "Create priorities!"
     },
     "indicatorsFilter": {
       "red": "Red",
@@ -224,7 +226,8 @@
       "print": "Print",
       "email": "Email",
       "download": "Download",
-      "lifemapSaved": "Your life map has been successfully saved"
+      "lifemapSaved": "Your life map has been successfully saved",
+      "clickSafe": "Now, just click save!"
     }
   }
 }
