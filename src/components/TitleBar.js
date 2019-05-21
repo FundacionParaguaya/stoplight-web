@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 import NavIcons from './NavIcons';
 import leftBarDots from '../assets/left_bar_dots.png';
 import rightBarDots from '../assets/right_bar_dots.png';
@@ -77,13 +78,24 @@ class TopTitleContainer extends Component {
                 alt="Bar Dots"
               />
             </Container>
-            <ProgressBar />
+            {this.props.progressBar && <ProgressBar />}
           </Container>
         )}
       </React.Fragment>
     );
   }
 }
+
+TopTitleContainer.propTypes = {
+  title: PropTypes.string.isRequired,
+  extraTitleText: PropTypes.string,
+  progressBar: PropTypes.bool.isRequired
+};
+
+TopTitleContainer.defaultProps = {
+  progressBar: true
+};
+
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 
 const styles = theme => ({
