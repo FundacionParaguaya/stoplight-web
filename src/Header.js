@@ -56,7 +56,8 @@ class Header extends Component {
     return (
       <AppBar className={classes.header} color="inherit" position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
-          <a
+          <span
+            // If we need to reimplement href, change </span> to </a>
             // href={`https://${user.env}.povertystoplight.org`}
             className={classes.menuLink}
             style={{ position: 'relative' }}
@@ -71,7 +72,7 @@ class Header extends Component {
             <span className={classes.badge}>
               <Typography variant="inherit">Beta</Typography>
             </span>
-          </a>
+          </span>
           <NavLink
             to={`/surveys?sid=${this.props.user.token}&lang=en`}
             className={`${classes.menuLink} ${classes.surveyLink}`}
