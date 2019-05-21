@@ -124,7 +124,8 @@ const styles = {
   bar: {
     backgroundColor: COLORS.GREEN,
     height: '100%',
-    borderRadius: 10
+    borderRadius: 10,
+    transition: 'width 200ms ease'
   }
 };
 
