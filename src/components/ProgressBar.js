@@ -81,7 +81,6 @@ const ProgressBar = props => {
 
   const getProgress = (screens, currentScreen) => {
     // If screens is 100, currentScreen is X
-    console.log(routeTree, (currentScreen * 100) / Object.keys(screens).length);
     return (currentScreen * 100) / (Object.keys(screens).length - 1);
   };
 
