@@ -123,7 +123,10 @@ const styles = theme => ({
     height: '100%',
     left: '50%',
     top: 0,
-    transform: 'translateX(-50%)'
+    transform: 'translateX(-50%)',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center'
+    }
   },
   titleMainAll: {
     margin: 'auto',
@@ -131,7 +134,10 @@ const styles = theme => ({
     textAlign: 'center'
   },
   barDots: {
-    height: '70%'
+    height: '70%',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   textContainer: {
     display: 'flex',
