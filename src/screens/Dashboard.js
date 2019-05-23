@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -117,6 +118,7 @@ DimensionIndicator = withStyles(dimensionIndicatorStyle)(DimensionIndicator);
 
 const Dashboard = props => {
   const { t, classes } = props;
+  const [loading, setLoading] = useState(true);
   const [dimensionOpen, setDimensionOpen] = useState(null);
   const handleDimensionClick = useCallback(
     dimensionClicked =>
@@ -125,82 +127,106 @@ const Dashboard = props => {
       ),
     []
   );
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 3000);
+  }, []);
   return (
     <div>
-      <TitleBar title={t('views.yourLifeMap')} />
+      <TitleBar title="Dashboard" />
       <Container variant="stretch">
-        <List>
-          {Object.keys(fakeData).map(d => {
-            const dimension = fakeData[d];
-            return (
-              <React.Fragment key={d}>
-                <ListItem
-                  className={classes.row}
-                  classes={{ root: classes.listItem }}
-                  onClick={() => handleDimensionClick(d)}
-                >
-                  <div className={classes.mainItemContainer}>
-                    <DimensionTitle dimension={d} />
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress size={50} thickness={2} />
+          </div>
+        )}
+        {!loading && (
+          <List>
+            {Object.keys(fakeData).map(d => {
+              const dimension = fakeData[d];
+              return (
+                <React.Fragment key={d}>
+                  <ListItem
+                    className={classes.row}
+                    classes={{ root: classes.listItem }}
+                    onClick={() => handleDimensionClick(d)}
+                  >
+                    <div className={classes.mainItemContainer}>
+                      <DimensionTitle dimension={d} />
 
-                    <div className={classes.stackbarContainer}>
-                      <SummaryStackedBar
-                        greenIndicatorCount={dimension.green}
-                        yellowIndicatorCount={dimension.yellow}
-                        redIndicatorCount={dimension.red}
-                        skippedIndicatorCount={dimension.skipped}
-                        animationDuration={500}
-                      />
-                    </div>
+                      <div className={classes.stackbarContainer}>
+                        <SummaryStackedBar
+                          greenIndicatorCount={dimension.green}
+                          yellowIndicatorCount={dimension.yellow}
+                          redIndicatorCount={dimension.red}
+                          skippedIndicatorCount={dimension.skipped}
+                          animationDuration={500}
+                        />
+                      </div>
 
-                    <div className={classes.priorAndAchievem}>
-                      <div className={classes.innerPriorAndAchievem}>
-                        <img
-                          src={iconPriority}
-                          className={classes.icon}
-                          alt=""
-                        />
-                        <Typography variant="h5" className={classes.counting}>
-                          {Number.parseInt(dimension.priorities, 10)}
-                        </Typography>
-                      </div>
-                      <div className={classes.innerPriorAndAchievem}>
-                        <img
-                          src={iconAchievement}
-                          className={classes.icon}
-                          alt=""
-                        />
-                        <Typography variant="h5" className={classes.counting}>
-                          {Number.parseInt(dimension.achievements, 10)}
-                        </Typography>
-                      </div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'flex-end'
-                        }}
-                      >
-                        {dimensionOpen === d ? <ExpandLess /> : <ExpandMore />}
+                      <div className={classes.priorAndAchievem}>
+                        <div className={classes.innerPriorAndAchievem}>
+                          <img
+                            src={iconPriority}
+                            className={classes.icon}
+                            alt=""
+                          />
+                          <Typography variant="h5" className={classes.counting}>
+                            {Number.parseInt(dimension.priorities, 10)}
+                          </Typography>
+                        </div>
+                        <div className={classes.innerPriorAndAchievem}>
+                          <img
+                            src={iconAchievement}
+                            className={classes.icon}
+                            alt=""
+                          />
+                          <Typography variant="h5" className={classes.counting}>
+                            {Number.parseInt(dimension.achievements, 10)}
+                          </Typography>
+                        </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'flex-end'
+                          }}
+                        >
+                          {dimensionOpen === d ? (
+                            <ExpandLess />
+                          ) : (
+                            <ExpandMore />
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </ListItem>
-                <Collapse in={dimensionOpen === d} timeout="auto" unmountOnExit>
-                  <div className={classes.dimensionIndicatorContainer}>
-                    <DimensionIndicator dimension={dimension} />
-                  </div>
-                  <div className={classes.dimensionIndicatorUnderline} />
-                </Collapse>
-              </React.Fragment>
-            );
-          })}
-        </List>
+                  </ListItem>
+                  <Collapse
+                    in={dimensionOpen === d}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <div className={classes.dimensionIndicatorContainer}>
+                      <DimensionIndicator dimension={dimension} />
+                    </div>
+                    <div className={classes.dimensionIndicatorUnderline} />
+                  </Collapse>
+                </React.Fragment>
+              );
+            })}
+          </List>
+        )}
         <BottomSpacer />
       </Container>
     </div>
   );
 };
 const styles = theme => ({
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 4,
+    marginBottom: theme.spacing.unit * 4
+  },
   listItem: {
     paddingTop: 4,
     paddingBottom: 4
