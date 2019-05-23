@@ -136,6 +136,7 @@ const Dashboard = props => {
               <React.Fragment key={d}>
                 <ListItem
                   className={classes.row}
+                  classes={{ root: classes.listItem }}
                   onClick={() => handleDimensionClick(d)}
                 >
                   <div className={classes.mainItemContainer}>
@@ -200,6 +201,10 @@ const Dashboard = props => {
   );
 };
 const styles = theme => ({
+  listItem: {
+    paddingTop: 4,
+    paddingBottom: 4
+  },
   row: {
     '&:nth-of-type(odd)': {
       backgroundColor: '#f3f4f6'
