@@ -184,17 +184,11 @@ const Dashboard = props => {
                             {Number.parseInt(dimension.achievements, 10)}
                           </Typography>
                         </div>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'flex-end'
-                          }}
-                        >
+                        <div className={classes.expandContainer}>
                           {dimensionOpen === d ? (
-                            <ExpandLess />
+                            <ExpandLess className={classes.expandIcon} />
                           ) : (
-                            <ExpandMore />
+                            <ExpandMore className={classes.expandIcon} />
                           )}
                         </div>
                       </div>
@@ -270,6 +264,12 @@ const styles = theme => ({
     width: '100%',
     height: '1px',
     backgroundColor: '#f3f4f6'
+  },
+  expandIcon: { color: '#626262' },
+  expandContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   }
 });
 
