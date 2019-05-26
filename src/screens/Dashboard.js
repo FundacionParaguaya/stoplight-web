@@ -14,6 +14,33 @@ import Container from '../components/Container';
 import SummaryStackedBar from '../components/summary/SummaryStackedBar';
 import iconPriority from '../assets/icon_priority.png';
 import iconAchievement from '../assets/icon_achievement.png';
+import {
+  normalizeDimension,
+  NORMALIZED_DIMENSIONS
+} from '../utils/parametric_data';
+import dimensionEducationIcon from '../assets/dimension_education.png';
+import dimensionHealthIcon from '../assets/dimension_health.png';
+import dimensionHousingIcon from '../assets/dimension_housing.png';
+import dimensionIncomeIcon from '../assets/dimension_income.png';
+import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
+import dimensionOrganizationIcon from '../assets/dimension_organization.png';
+
+const getIconForDimension = dimension => {
+  switch (normalizeDimension(dimension)) {
+    case NORMALIZED_DIMENSIONS.EDUCATION:
+      return dimensionEducationIcon;
+    case NORMALIZED_DIMENSIONS.HEALTH:
+      return dimensionHealthIcon;
+    case NORMALIZED_DIMENSIONS.HOUSING:
+      return dimensionHousingIcon;
+    case NORMALIZED_DIMENSIONS.INCOME:
+      return dimensionIncomeIcon;
+    case NORMALIZED_DIMENSIONS.INTERIORITY:
+      return dimensionInteriorityIcon;
+    case NORMALIZED_DIMENSIONS.ORGANIZATION:
+      return dimensionOrganizationIcon;
+  }
+};
 
 const fakeData = {
   'Ingreso y Empleo': {
@@ -40,7 +67,7 @@ const fakeData = {
     priorities: 60,
     achievements: 100
   },
-  'Organizacion y participacion': {
+  'Organización y Participación': {
     green: 5,
     yellow: 23,
     red: 12,
@@ -55,8 +82,16 @@ Object.keys(fakeData).forEach(
 
 let DimensionTitle = ({ classes, dimension, excludeIcon }) => (
   <div className={classes.mainContainer}>
-    {excludeIcon && <div style={{ width: '20%' }} />}
-    {!excludeIcon && <div style={{ width: '20%' }} />}
+    {excludeIcon && <div className={classes.spacer} />}
+    {!excludeIcon && (
+      <div className={classes.iconContainer}>
+        <img
+          src={getIconForDimension(dimension)}
+          className={classes.icon}
+          alt=""
+        />
+      </div>
+    )}
     <Typography className={classes.title} variant="subtitle1">
       {dimension}
     </Typography>
@@ -68,12 +103,26 @@ DimensionTitle.defaultProps = {
 
 const dimensionTitleStyle = () => ({
   mainContainer: {
+    flexBasis: '25%',
     width: '25%',
     display: 'flex',
     alignItems: 'center'
   },
   title: {
-    fontSize: 12
+    fontSize: 12,
+    display: 'flex'
+  },
+  icon: {
+    width: '41px',
+    paddingRight: '16px'
+  },
+  iconContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  spacer: {
+    paddingRight: '41px'
   }
 });
 DimensionTitle = withStyles(dimensionTitleStyle)(DimensionTitle);
@@ -104,15 +153,16 @@ let DimensionIndicator = ({ classes, dimension }) => (
 
 const dimensionIndicatorStyle = theme => ({
   listItem: { paddingTop: 0, paddingBottom: 0 },
-  mainItemContainer: { display: 'flex', flex: '1' },
+  mainItemContainer: { display: 'flex', flexBasis: '100%', width: '100%' },
   stackbarContainer: {
     display: 'flex',
-    alignItems: 'center',
+    flexBasis: '60%',
     width: '60%',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3
+    alignItems: 'center',
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit * 3
   },
-  rightSpaceFiller: { width: '15%' }
+  rightSpaceFiller: { display: 'flex', flexBasis: '15%', width: '15%' }
 });
 DimensionIndicator = withStyles(dimensionIndicatorStyle)(DimensionIndicator);
 
@@ -230,20 +280,23 @@ const styles = theme => ({
       backgroundColor: '#f3f4f6'
     }
   },
-  mainItemContainer: { display: 'flex', flex: '1' },
+  mainItemContainer: { display: 'flex', flexBasis: '100%', width: '100%' },
   stackbarContainer: {
     display: 'flex',
     alignItems: 'center',
     width: '60%',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3
+    flexBasis: '60%',
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit * 3
   },
   priorAndAchievem: {
     width: '15%',
-    display: 'flex'
+    display: 'flex',
+    flexBasis: '15%'
   },
   innerPriorAndAchievem: {
     width: '40%',
+    flexBasis: '40%',
     display: 'flex',
     alignItems: 'center'
   },
@@ -253,8 +306,8 @@ const styles = theme => ({
   },
   counting: {
     fontSize: 12,
-    marginLeft: '2px',
-    marginRight: '4px'
+    paddingLeft: '2px',
+    paddingRight: '4px'
   },
   dimensionIndicatorContainer: {
     marginTop: theme.spacing.unit
