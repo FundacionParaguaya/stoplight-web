@@ -19,7 +19,7 @@ export const getSurveys = user =>
     },
     data: JSON.stringify({
       query:
-        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value} surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value}, conditions{codeName, type, value, operator} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
+        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value} gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value otherOption}, conditions{codeName, type, value, operator} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
     })
   });
 
