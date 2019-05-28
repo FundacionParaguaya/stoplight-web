@@ -87,6 +87,8 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
     // Eventually, the conditional object should include information about that
     // and delete this hard-coding
     if (!value) {
+      // Now we have a proper feature of showIfNoData. Keeping this
+      // hardcode just for backwards compatibility for IRRADIA.
       return true;
     }
   }
@@ -94,7 +96,10 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
   // Added support for showIfNoData. In the case this field is set to true in the
   // condition config and the target question does not have value, we show the question
   // without any further evaluation
-  if (condition.showIfNoData && (!targetQuestion || !targetQuestion.value)) {
+  if (
+    condition.showIfNoData &&
+    (!targetQuestion || (!targetQuestion.value && targetQuestion.value !== 0))
+  ) {
     return true;
   }
   // Adding support for several values spec. In case we find more than one value,
