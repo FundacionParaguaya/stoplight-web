@@ -140,7 +140,10 @@ const styles = theme => ({
     textAlign: 'center'
   },
   barDots: {
-    height: '70%'
+    height: '70%',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   textContainer: {
     display: 'flex',

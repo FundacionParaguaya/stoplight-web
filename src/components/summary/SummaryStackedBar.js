@@ -9,7 +9,8 @@ const SummaryStackedBar = props => {
     greenIndicatorCount,
     yellowIndicatorCount,
     redIndicatorCount,
-    skippedIndicatorCount
+    skippedIndicatorCount,
+    animationDuration
   } = props;
   const data = [
     {
@@ -33,6 +34,7 @@ const SummaryStackedBar = props => {
             left: 0,
             bottom: 0
           }}
+          className={classes.barChartStyle}
         >
           <XAxis
             hide
@@ -47,25 +49,25 @@ const SummaryStackedBar = props => {
           />
           <YAxis hide dataKey="name" type="category" />
           <Bar
-            animationDuration={0}
+            animationDuration={animationDuration}
             dataKey="green"
             stackId="a"
             fill={COLORS.GREEN}
           />
           <Bar
-            animationDuration={0}
+            animationDuration={animationDuration}
             dataKey="yellow"
             stackId="a"
             fill={COLORS.YELLOW}
           />
           <Bar
-            animationDuration={0}
+            animationDuration={animationDuration}
             dataKey="red"
             stackId="a"
             fill={COLORS.RED}
           />
           <Bar
-            animationDuration={0}
+            animationDuration={animationDuration}
             dataKey="skipped"
             stackId="a"
             fill={COLORS.LIGHT_GREY}
@@ -76,10 +78,15 @@ const SummaryStackedBar = props => {
   );
 };
 
+SummaryStackedBar.defaultProps = {
+  animationDuration: 0
+};
+
 const styles = () => ({
   mainContainer: {
     width: '100%'
-  }
+  },
+  barChartStyle: { fontSize: 0 }
 });
 
 export default withStyles(styles)(SummaryStackedBar);
