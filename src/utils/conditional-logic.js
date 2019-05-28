@@ -172,18 +172,18 @@ export const shouldCleanUp = (
   member,
   memberIndex
 ) => {
-  let currentValue;
+  let currentAnswer;
   if (conditionalQuestion.forFamilyMember) {
-    currentValue = _.get(member, 'socioEconomicAnswers', []).find(
+    currentAnswer = _.get(member, 'socioEconomicAnswers', []).find(
       ea => ea.key === conditionalQuestion.codeName
     );
   } else {
-    currentValue = _.get(currentDraft, 'economicSurveyDataList', []).find(
+    currentAnswer = _.get(currentDraft, 'economicSurveyDataList', []).find(
       ea => ea.key === conditionalQuestion.codeName
     );
   }
-  if (!currentValue || !currentValue.value) {
-    // There's nothing to cleanUp
+  if (!currentAnswer || !currentAnswer.value) {
+    // There's nothing to cleanUp, user has not answered the question yet
     console.log(
       `Nothing to cleanUp for conditionalQuestion ${
         conditionalQuestion.codeName
@@ -218,7 +218,7 @@ export const shouldCleanUp = (
       memberIndex
     );
     cleanUp = !availableOptions.find(
-      option => option.value === currentValue.value
+      option => option.value === currentAnswer.value
     );
   }
   console.log(
