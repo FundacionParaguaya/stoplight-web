@@ -87,6 +87,8 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
     // Eventually, the conditional object should include information about that
     // and delete this hard-coding
     if (!value) {
+      // Now we have a proper feature of showIfNoData. Keeping this
+      // hardcode just for backwards compatibility for IRRADIA.
       return true;
     }
   }
