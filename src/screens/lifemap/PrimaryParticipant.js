@@ -355,6 +355,21 @@ export class PrimaryParticipant extends Component {
                       this.syncDraft(e ? e.value : '', 'gender', setFieldValue)
                     }
                   />
+                  {this.getOtherOption(surveyConfig.gender) ===
+                    this.getFieldValue(currentDraft, 'gender') && (
+                    <InputWithFormik
+                      label={t('views.family.gender')}
+                      name="customGender"
+                      required
+                      onChange={e =>
+                        this.syncDraft(
+                          e.target.value,
+                          'customGender',
+                          setFieldValue
+                        )
+                      }
+                    />
+                  )}
                   <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
