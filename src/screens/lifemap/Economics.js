@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import InputWithFormik from '../../components/InputWithFormik';
@@ -18,6 +17,10 @@ import TitleBar from '../../components/TitleBar';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
+import {
+  shouldShowQuestion,
+  familyMemberWillHaveQuestions
+} from '../../utils/conditional-logic';
 
 let FamilyMemberTitle = ({ name, classes }) => (
   <div className={classes.familyMemberNameLarge}>
@@ -61,115 +64,6 @@ const buildValidationForField = question => {
     validation = validation.required(fieldIsRequired);
   }
   return validation;
-};
-
-const evaluateCondition = (condition, targetQuestion) => {
-  const CONDITION_TYPES = {
-    EQUALS: 'equals',
-    LESS_THAN: 'less_than',
-    GREATER_THAN: 'greater_than',
-    LESS_THAN_EQ: 'less_than_eq',
-    GREATER_THAN_EQ: 'greater_than_eq',
-    BETWEEN: 'between'
-  };
-  if (!targetQuestion) {
-    return false;
-  }
-
-  if (condition.operator === CONDITION_TYPES.EQUALS) {
-    return targetQuestion.value === condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.LESS_THAN) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') < condition.value;
-    }
-    return targetQuestion.value < condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.GREATER_THAN) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') > condition.value;
-    }
-    return targetQuestion.value > condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.LESS_THAN_EQ) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') <= condition.value;
-    }
-    return targetQuestion.value <= condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.GREATER_THAN_EQ) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') >= condition.value;
-    }
-    return targetQuestion.value >= condition.value;
-  }
-  return false;
-};
-
-const conditionMet = (condition, currentDraft, memberIndex) => {
-  const CONDITION_TYPES = {
-    SOCIOECONOMIC: 'socioEconomic',
-    FAMILY: 'family'
-  };
-  const socioEconomicAnswers = currentDraft.economicSurveyDataList || [];
-  const { familyMembersList } = currentDraft.familyData;
-  let targetQuestion = null;
-  if (condition.type === CONDITION_TYPES.SOCIOECONOMIC) {
-    // In this case target should be located in the socioeconomic answers
-    targetQuestion = socioEconomicAnswers.find(
-      element => element.key === condition.codeName
-    );
-  } else if (condition.type === CONDITION_TYPES.FAMILY) {
-    const familyMember = familyMembersList[memberIndex];
-    // TODO HARDCODED FOR IRRADIA. WE NEED A BETTER WAY TO SPECIFY THAT THE CONDITION
-    // HAS BEEN MADE ON A DATE
-    // const value = familyMember[condition.codeName]
-    //   ? moment.unix(familyMember[condition.codeName])
-    //   : null;
-    // TODO hardcoded for Irradia, the survey has an error with the field.
-    // The lines above should be used once data is fixed for that survey
-    const value = familyMember['birthDate']
-      ? moment.unix(familyMember['birthDate'])
-      : null;
-    targetQuestion = { value };
-    // TODO DELETE THIS after reviewing the conditional logic
-    // In case the target question is null, we should return true.
-    // Eventually, the conditional object should include information about that
-    // and delete this hard-coding
-    if (!value) {
-      return true;
-    }
-  }
-  return evaluateCondition(condition, targetQuestion);
-};
-
-/**
- * Decides whether a question should be shown to the user or not
- * @param {*} question the question we want to know if can be shown
- * @param {*} currentDraft the draft from redux state
- */
-const shouldShowQuestion = (question, currentDraft, memberIndex) => {
-  let shouldShow = true;
-  if (question.conditions && question.conditions.length > 0) {
-    question.conditions.forEach(condition => {
-      if (!conditionMet(condition, currentDraft, memberIndex)) {
-        shouldShow = false;
-      }
-    });
-  }
-  return shouldShow;
-};
-
-const familyMemberWillHaveQuestions = (
-  questions,
-  currentDraft,
-  memberIndex
-) => {
-  return questions.forFamilyMember.reduce(
-    (acc, current) =>
-      acc && shouldShowQuestion(current, currentDraft, memberIndex),
-    true
-  );
 };
 
 /**
@@ -465,7 +359,9 @@ export class Economics extends Component {
                               key={question.codeName}
                               label={question.questionText}
                               name={`forFamily.[${question.codeName}]`}
-                              rawOptions={question.options}
+                              rawOptions={question.options.filter(option =>
+                                shouldShowQuestion(option, currentDraft)
+                              )}
                               labelKey="text"
                               valueKey="value"
                               required={question.required}
@@ -553,7 +449,14 @@ export class Economics extends Component {
                                             name={`forFamilyMember.[${index}].[${
                                               question.codeName
                                             }]`}
-                                            rawOptions={question.options}
+                                            rawOptions={question.options.filter(
+                                              option =>
+                                                shouldShowQuestion(
+                                                  option,
+                                                  currentDraft,
+                                                  index
+                                                )
+                                            )}
                                             labelKey="text"
                                             valueKey="value"
                                             required={question.required}
