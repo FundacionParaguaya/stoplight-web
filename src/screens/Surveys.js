@@ -103,9 +103,34 @@ export class Surveys extends Component {
     };
   }
 
+  static getConditionalQuestions = survey => {
+    const surveyEconomicQuestions = survey.surveyEconomicQuestions || [];
+    const conditionalQuestions = [];
+    surveyEconomicQuestions.forEach(eq => {
+      if (eq.conditions && eq.conditions.length > 0) {
+        conditionalQuestions.push(eq);
+      } else {
+        // Checking conditional options only if needed
+        const options = eq.options || [];
+        for (const option of options) {
+          if (option.conditions && option.conditions.length > 0) {
+            conditionalQuestions.push(eq);
+            return;
+          }
+        }
+      }
+    });
+    return conditionalQuestions;
+  };
+
   handleClickOnSurvey = survey => {
     const economicScreens = this.getEconomicScreens(survey);
-    this.props.updateSurvey({ ...survey, economicScreens });
+    const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+    this.props.updateSurvey({
+      ...survey,
+      economicScreens,
+      conditionalQuestions
+    });
     this.props.history.push('/lifemap/terms');
   };
 

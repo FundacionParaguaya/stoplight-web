@@ -19,7 +19,8 @@ import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
 import {
   shouldShowQuestion,
-  familyMemberWillHaveQuestions
+  familyMemberWillHaveQuestions,
+  getConditionalOptions
 } from '../../utils/conditional-logic';
 
 let FamilyMemberTitle = ({ name, classes }) => (
@@ -215,40 +216,6 @@ export class Economics extends Component {
     }
   };
 
-  updateDraft = (codeName, value) => {
-    const { currentDraft } = this.props;
-    const dataList = this.props.currentDraft.economicSurveyDataList;
-    let update = false;
-    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
-    dataList.forEach(e => {
-      if (e.key === codeName) {
-        update = true;
-        e.value = value;
-      }
-    });
-
-    // /////////if the question is in the data list then update the question
-    if (update) {
-      const economicSurveyDataList = dataList;
-      this.props.updateDraft({
-        ...currentDraft,
-        economicSurveyDataList
-      });
-    } else {
-      // ////////// add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        economicSurveyDataList: [
-          ...currentDraft.economicSurveyDataList,
-          {
-            key: codeName,
-            value
-          }
-        ]
-      });
-    }
-  };
-
   setCurrentScreen() {
     const questions = this.props.currentSurvey.economicScreens
       .questionsPerScreen[this.props.match.params.page];
@@ -302,6 +269,158 @@ export class Economics extends Component {
       this.setCurrentScreen();
     }
   }
+
+  isQuestionInCurrentScreen = question => {
+    const {
+      questions: { forFamily = [], forFamilyMember = [] }
+    } = this.state;
+    let isPresent = false;
+    const lookIn = question.forFamilyMember ? forFamilyMember : forFamily;
+
+    for (const q of lookIn) {
+      if (q.codeName === question.codeName) {
+        isPresent = true;
+        break;
+      }
+    }
+    return isPresent;
+  };
+
+  shouldCleanUp = (conditionalQuestion, currentDraft, member, memberIndex) => {
+    let currentValue;
+    if (conditionalQuestion.forFamilyMember) {
+      currentValue = _.get(member, 'socioEconomicAnswers', []).find(
+        ea => ea.key === conditionalQuestion.codeName
+      );
+    } else {
+      currentValue = _.get(currentDraft, 'economicSurveyDataList', []).find(
+        ea => ea.key === conditionalQuestion.codeName
+      );
+    }
+    if (!currentValue || !currentValue.value) {
+      // There's nothing to cleanUp
+      console.log(
+        `Nothing to cleanUp for conditionalQuestion ${
+          conditionalQuestion.codeName
+        }`
+      );
+      return false;
+    }
+    let shouldCleanUp = false;
+    if (
+      conditionalQuestion.conditions &&
+      conditionalQuestion.conditions.length > 0
+    ) {
+      shouldCleanUp = !shouldShowQuestion(
+        conditionalQuestion,
+        currentDraft,
+        memberIndex
+      );
+    } else {
+      // Verifying if current value is not present among the filtered conditional
+      // options, in which case we'll need to cleanup
+      const availableOptions = getConditionalOptions(
+        conditionalQuestion,
+        currentDraft,
+        memberIndex
+      );
+      shouldCleanUp = !availableOptions.find(
+        option => option.value === currentValue.value
+      );
+    }
+    console.log(
+      `CleanUp needed for conditionalQuestion ${
+        conditionalQuestion.codeName
+      }: ${shouldCleanUp}`
+    );
+    return shouldCleanUp;
+  };
+
+  updateEconomicAnswerCascading = (question, value, setFieldValue) => {
+    console.log('UPDATING CASCADING');
+    const { currentSurvey, currentDraft } = this.props;
+    const { conditionalQuestions } = currentSurvey;
+    const {
+      economicSurveyDataList,
+      familyData: { familyMembersList }
+    } = currentDraft;
+
+    const updateEconomicAnswers = (economicAnswers = [], newAnswer) => {
+      const answerToUpdate = economicAnswers.find(a => a.key === newAnswer.key);
+      if (answerToUpdate) {
+        answerToUpdate.value = newAnswer.value;
+      } else {
+        economicAnswers.push(newAnswer);
+      }
+      return [...economicAnswers];
+    };
+
+    let updatedEconomicAnswers = updateEconomicAnswers(economicSurveyDataList, {
+      key: question.codeName,
+      value
+    });
+
+    const updatedFamilyMembers = [...familyMembersList];
+    conditionalQuestions.forEach(conditionalQuestion => {
+      if (conditionalQuestion.codeName === question.codeName) {
+        // Not necessary to evaluate conditionalQuestion if it's the question
+        // we're updating right now
+        return;
+      }
+      if (conditionalQuestion.forFamilyMember) {
+        // Checking if we have to cleanup familyMembers socioeconomic answers
+        familyMembersList.forEach((member, index) => {
+          if (
+            this.shouldCleanUp(
+              conditionalQuestion,
+              {
+                ...currentDraft,
+                economicSurveyDataList: updatedEconomicAnswers
+              },
+              member,
+              index
+            )
+          ) {
+            // Cleaning up socioeconomic answer for family member
+            updatedFamilyMembers[index].socioEconomicAnswers.find(
+              ea => ea.key === conditionalQuestion.codeName
+            ).value = '';
+            if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
+              setFieldValue(
+                `forFamilyMember.[${index}].[${conditionalQuestion.codeName}]`,
+                ''
+              );
+            }
+          }
+        });
+      } else if (
+        this.shouldCleanUp(conditionalQuestion, {
+          ...currentDraft,
+          economicSurveyDataList: updatedEconomicAnswers
+        })
+      ) {
+        // Cleanup value that won't be displayed
+        updatedEconomicAnswers = updateEconomicAnswers(updatedEconomicAnswers, {
+          key: conditionalQuestion.codeName,
+          value: ''
+        });
+        if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
+          setFieldValue(`forFamily.[${conditionalQuestion.codeName}]`, '');
+        }
+      }
+    });
+
+    // Updating formik value for the question that triggered everything
+    setFieldValue(`forFamily.[${question.codeName}]`, value);
+    this.props.updateDraft({
+      ...currentDraft,
+      economicSurveyDataList: updatedEconomicAnswers,
+      familyData: {
+        ...currentDraft.familyData,
+        familyMembersList: updatedFamilyMembers
+      }
+    });
+  };
 
   render() {
     const {
@@ -359,21 +478,19 @@ export class Economics extends Component {
                               key={question.codeName}
                               label={question.questionText}
                               name={`forFamily.[${question.codeName}]`}
-                              rawOptions={question.options.filter(option =>
-                                shouldShowQuestion(option, currentDraft)
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
                               )}
                               labelKey="text"
                               valueKey="value"
                               required={question.required}
                               isClearable={!question.required}
                               onChange={value => {
-                                setFieldValue(
-                                  `forFamily.[${question.codeName}]`,
-                                  value ? value.value : ''
-                                );
-                                this.updateDraft(
-                                  question.codeName,
-                                  value ? value.value : ''
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  value ? value.value : '',
+                                  setFieldValue
                                 );
                               }}
                             />
@@ -391,10 +508,10 @@ export class Economics extends Component {
                             name={`forFamily.[${question.codeName}]`}
                             required={question.required}
                             onChange={e => {
-                              handleChange(e);
-                              this.updateDraft(
-                                question.codeName,
-                                e.target.value
+                              this.updateEconomicAnswerCascading(
+                                question,
+                                _.get(e, 'target.value', ''),
+                                setFieldValue
                               );
                             }}
                           />
@@ -449,13 +566,10 @@ export class Economics extends Component {
                                             name={`forFamilyMember.[${index}].[${
                                               question.codeName
                                             }]`}
-                                            rawOptions={question.options.filter(
-                                              option =>
-                                                shouldShowQuestion(
-                                                  option,
-                                                  currentDraft,
-                                                  index
-                                                )
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
                                             )}
                                             labelKey="text"
                                             valueKey="value"
