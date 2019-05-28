@@ -239,6 +239,26 @@ export class PrimaryParticipant extends Component {
     });
   };
 
+  getFieldValue = (draft, field) => {
+    if (
+      !draft ||
+      !draft.familyData ||
+      !draft.familyData.familyMembersList[0][field]
+    ) {
+      return null;
+    }
+    return draft.familyData.familyMembersList[0][field];
+  };
+
+  getOtherOption = options => {
+    if (!options.some(e => e.otherOption)) {
+      return null;
+    }
+
+    // console.log(options.filter(e => e.otherOption)[0].value);
+    return options.filter(e => e.otherOption)[0].value;
+  };
+
   syncDraft = (value, key, setFieldValue) => {
     setFieldValue(key, value);
     this.updateDraft(key, value);
