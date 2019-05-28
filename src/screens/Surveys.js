@@ -135,10 +135,9 @@ export class Surveys extends Component {
   };
 
   componentDidMount() {
-    // clear current draft from store
+    // Clear current draft from store
     this.props.updateDraft(null);
     this.props.updateSurvey(null);
-
     this.getSurveys();
   }
 
