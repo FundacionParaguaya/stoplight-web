@@ -9,6 +9,7 @@ import * as moment from 'moment';
 export const evaluateCondition = (condition, targetQuestion) => {
   const CONDITION_TYPES = {
     EQUALS: 'equals',
+    NOT_EQUALS: 'not_equals',
     LESS_THAN: 'less_than',
     GREATER_THAN: 'greater_than',
     LESS_THAN_EQ: 'less_than_eq',
@@ -20,7 +21,16 @@ export const evaluateCondition = (condition, targetQuestion) => {
   }
 
   if (condition.operator === CONDITION_TYPES.EQUALS) {
+    if (moment.isMoment(targetQuestion.value)) {
+      return moment().diff(targetQuestion.value, 'years') === condition.value;
+    }
     return targetQuestion.value === condition.value;
+  }
+  if (condition.operator === CONDITION_TYPES.NOT_EQUALS) {
+    if (moment.isMoment(targetQuestion.value)) {
+      return moment().diff(targetQuestion.value, 'years') !== condition.value;
+    }
+    return targetQuestion.value !== condition.value;
   }
   if (condition.operator === CONDITION_TYPES.LESS_THAN) {
     if (moment.isMoment(targetQuestion.value)) {
@@ -78,19 +88,24 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
     //   : null;
     // TODO hardcoded for Irradia, the survey has an error with the field.
     // The lines above should be used once data is fixed for that survey
-    const value = familyMember['birthDate']
-      ? moment.unix(familyMember['birthDate'])
-      : null;
-    targetQuestion = { value };
-    // TODO DELETE THIS after reviewing the conditional logic
-    // In case the target question is null, we should return true.
-    // Eventually, the conditional object should include information about that
-    // and delete this hard-coding
-    if (!value) {
-      // Now we have a proper feature of showIfNoData. Keeping this
-      // hardcode just for backwards compatibility for IRRADIA.
-      return true;
+    let value;
+    if (condition.codeName.toLowerCase() === 'birthdate') {
+      value = familyMember['birthDate']
+        ? moment.unix(familyMember['birthDate'])
+        : null;
+      // TODO DELETE THIS after reviewing the conditional logic
+      // In case the target question is null, we should return true.
+      // Eventually, the conditional object should include information about that
+      // and delete this hard-coding
+      if (!value) {
+        // Now we have a proper feature of showIfNoData. Keeping this
+        // hardcode just for backwards compatibility for IRRADIA.
+        return true;
+      }
+    } else {
+      value = familyMember[condition.codeName];
     }
+    targetQuestion = { value };
   }
 
   // Added support for showIfNoData. In the case this field is set to true in the
