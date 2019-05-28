@@ -287,6 +287,7 @@ export class PrimaryParticipant extends Component {
       firstName: '',
       lastName: '',
       gender: '',
+      customGender: '',
       birthDate: '',
       documentType: '',
       documentNumber: '',
