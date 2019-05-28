@@ -97,7 +97,7 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
   if (condition.showIfNoData && (!targetQuestion || !targetQuestion.value)) {
     return true;
   }
-  // Addind support for several values spec. In case we find more than one value,
+  // Adding support for several values spec. In case we find more than one value,
   // the condition is considered to be met if the evaluation returns true for at least one
   // of the values received in the array
   if (_.isArray(condition.values) && condition.values.length > 0) {
@@ -146,3 +146,15 @@ export const familyMemberWillHaveQuestions = (
     false
   );
 };
+
+/**
+ * Filters the options that are going to be displayed for a question
+ * for the case when they're conditional
+ * @param {*} question the question that has the options to filter
+ * @param {*} currentDraft the draft from the redux store
+ * @param {*} index the index of the family member
+ */
+export const getConditionalOptions = (question, currentDraft, index) =>
+  question.options.filter(option =>
+    shouldShowQuestion(option, currentDraft, index)
+  );
