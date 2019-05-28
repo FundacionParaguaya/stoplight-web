@@ -36,6 +36,12 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required(fieldIsRequired),
   lastName: Yup.string().required(fieldIsRequired),
   gender: Yup.string().required(fieldIsRequired),
+  customGender: Yup.string().when('gender', {
+    // Hardcoded otherOption value
+    is: 'O',
+    then: Yup.string().required(fieldIsRequired),
+    otherwise: Yup.string()
+  }),
   birthDate: schemaWithDateTransform,
   documentType: Yup.string().required(fieldIsRequired),
   documentNumber: Yup.string().required(fieldIsRequired),
