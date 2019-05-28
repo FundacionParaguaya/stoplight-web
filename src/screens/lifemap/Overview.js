@@ -71,7 +71,7 @@ const dimensionHeaderStyles = theme => ({
     marginBottom: theme.spacing.unit
   },
   dimensionUnderline: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 3,
     width: '100%',
     height: '1px',
