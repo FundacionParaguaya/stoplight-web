@@ -20,7 +20,8 @@ import { withScroller } from '../../components/Scroller';
 import {
   shouldShowQuestion,
   familyMemberWillHaveQuestions,
-  getConditionalOptions
+  getConditionalOptions,
+  shouldCleanUp
 } from '../../utils/conditional-logic';
 
 let FamilyMemberTitle = ({ name, classes }) => (
@@ -286,56 +287,6 @@ export class Economics extends Component {
     return isPresent;
   };
 
-  shouldCleanUp = (conditionalQuestion, currentDraft, member, memberIndex) => {
-    let currentValue;
-    if (conditionalQuestion.forFamilyMember) {
-      currentValue = _.get(member, 'socioEconomicAnswers', []).find(
-        ea => ea.key === conditionalQuestion.codeName
-      );
-    } else {
-      currentValue = _.get(currentDraft, 'economicSurveyDataList', []).find(
-        ea => ea.key === conditionalQuestion.codeName
-      );
-    }
-    if (!currentValue || !currentValue.value) {
-      // There's nothing to cleanUp
-      console.log(
-        `Nothing to cleanUp for conditionalQuestion ${
-          conditionalQuestion.codeName
-        }`
-      );
-      return false;
-    }
-    let shouldCleanUp = false;
-    if (
-      conditionalQuestion.conditions &&
-      conditionalQuestion.conditions.length > 0
-    ) {
-      shouldCleanUp = !shouldShowQuestion(
-        conditionalQuestion,
-        currentDraft,
-        memberIndex
-      );
-    } else {
-      // Verifying if current value is not present among the filtered conditional
-      // options, in which case we'll need to cleanup
-      const availableOptions = getConditionalOptions(
-        conditionalQuestion,
-        currentDraft,
-        memberIndex
-      );
-      shouldCleanUp = !availableOptions.find(
-        option => option.value === currentValue.value
-      );
-    }
-    console.log(
-      `CleanUp needed for conditionalQuestion ${
-        conditionalQuestion.codeName
-      }: ${shouldCleanUp}`
-    );
-    return shouldCleanUp;
-  };
-
   updateEconomicAnswerCascading = (question, value, setFieldValue) => {
     console.log('UPDATING CASCADING');
     const { currentSurvey, currentDraft } = this.props;
@@ -371,7 +322,7 @@ export class Economics extends Component {
         // Checking if we have to cleanup familyMembers socioeconomic answers
         familyMembersList.forEach((member, index) => {
           if (
-            this.shouldCleanUp(
+            shouldCleanUp(
               conditionalQuestion,
               {
                 ...currentDraft,
@@ -394,7 +345,7 @@ export class Economics extends Component {
           }
         });
       } else if (
-        this.shouldCleanUp(conditionalQuestion, {
+        shouldCleanUp(conditionalQuestion, {
           ...currentDraft,
           economicSurveyDataList: updatedEconomicAnswers
         })

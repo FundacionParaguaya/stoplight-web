@@ -158,3 +158,73 @@ export const getConditionalOptions = (question, currentDraft, index) =>
   question.options.filter(option =>
     shouldShowQuestion(option, currentDraft, index)
   );
+
+/**
+ * Returns a boolean indicating if the value of the conditionalQuestion should be cleaned up.
+ * @param {*} conditionalQuestion the question whose answer we'll check if should be cleaned up
+ * @param {*} currentDraft the draft from the redux store
+ * @param {*} member
+ * @param {*} memberIndex
+ */
+export const shouldCleanUp = (
+  conditionalQuestion,
+  currentDraft,
+  member,
+  memberIndex
+) => {
+  let currentValue;
+  if (conditionalQuestion.forFamilyMember) {
+    currentValue = _.get(member, 'socioEconomicAnswers', []).find(
+      ea => ea.key === conditionalQuestion.codeName
+    );
+  } else {
+    currentValue = _.get(currentDraft, 'economicSurveyDataList', []).find(
+      ea => ea.key === conditionalQuestion.codeName
+    );
+  }
+  if (!currentValue || !currentValue.value) {
+    // There's nothing to cleanUp
+    console.log(
+      `Nothing to cleanUp for conditionalQuestion ${
+        conditionalQuestion.codeName
+      }`
+    );
+    return false;
+  }
+  let cleanUp = false;
+  if (
+    conditionalQuestion.conditions &&
+    conditionalQuestion.conditions.length > 0
+  ) {
+    cleanUp = !shouldShowQuestion(
+      conditionalQuestion,
+      currentDraft,
+      memberIndex
+    );
+  }
+  if (
+    !cleanUp &&
+    conditionalQuestion.options &&
+    conditionalQuestion.options.length > 0
+  ) {
+    // Putting this in an if block so we don't check cleaning up for unavailable selected option
+    // in the case it's already decided we have to clean
+
+    // Verifying if current value is not present among the filtered conditional
+    // options, in which case we'll need to cleanup
+    const availableOptions = getConditionalOptions(
+      conditionalQuestion,
+      currentDraft,
+      memberIndex
+    );
+    cleanUp = !availableOptions.find(
+      option => option.value === currentValue.value
+    );
+  }
+  console.log(
+    `CleanUp needed for conditionalQuestion ${
+      conditionalQuestion.codeName
+    }: ${cleanUp}`
+  );
+  return cleanUp;
+};
