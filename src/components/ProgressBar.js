@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -80,18 +80,16 @@ const ProgressBar = props => {
   const pathname = location.pathname.replace('/lifemap/', '');
 
   const getProgress = (screens, currentScreen) => {
+    if (Object.keys(screens).length === 0) {
+      return 0;
+    }
     // If screens is 100, currentScreen is X
     return (currentScreen * 100) / (Object.keys(screens).length - 1);
   };
 
-  useEffect(() => {
-    setRouteTree(prevState => {
-      if (Object.entries(prevState).length !== 0) {
-        return prevState;
-      }
-      return buildRouteTree(props.currentSurvey, routeTree);
-    });
-  }, []);
+  if (Object.entries(routeTree).length === 0) {
+    setRouteTree(prev => buildRouteTree(props.currentSurvey, prev));
+  }
 
   return (
     <div className={classes.container} style={style}>
