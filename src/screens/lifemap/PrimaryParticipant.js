@@ -358,7 +358,9 @@ export class PrimaryParticipant extends Component {
                   {this.getOtherOption(surveyConfig.gender) ===
                     this.getFieldValue(currentDraft, 'gender') && (
                     <InputWithFormik
-                      label={t('views.family.gender')}
+                      label={`${t('views.family.specify')} ${t(
+                        'views.family.gender'
+                      ).toLowerCase()}`}
                       name="customGender"
                       required
                       onChange={e =>
