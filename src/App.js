@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
 import { PersistGate } from 'redux-persist/integration/react';
 import SurveysComponent from './screens/Surveys';
 import Lifemap from './screens/Lifemap';
+import Dashboard from './screens/Dashboard';
 import store, { persistor } from './redux';
 import defaultTheme from './theme';
 import Authenticator from './Authenticator';
@@ -38,6 +39,7 @@ class App extends Component {
                               component={SurveysComponent}
                             />
                             <Route path="/lifemap" component={Lifemap} />
+                            <Route path="/dashboard" component={Dashboard} />
                           </Switch>
                         </div>
                       </Authenticator>
