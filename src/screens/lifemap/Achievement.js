@@ -99,6 +99,7 @@ class Achievements extends Component {
         <TitleBar
           title={question && question.dimension}
           extraTitleText={question && question.questionText}
+          progressBar={false}
         />
         <React.Fragment>
           <div className={classes.imgAndDescriptionContainer}>

@@ -18,6 +18,7 @@ import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import OverviewScreen from './Overview';
+import { ProgressBarContext } from '../../components/ProgressBar';
 
 export class Final extends Component {
   state = {
@@ -81,6 +82,8 @@ export class Final extends Component {
           'success',
           this.redirectToSurveys
         );
+        // Reset ProgressBar Context
+        this.context.setRouteTree = {};
       })
       .catch(() => {
         this.toggleModal(
@@ -210,6 +213,8 @@ export class Final extends Component {
     );
   }
 }
+
+Final.contextType = ProgressBarContext;
 
 const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user });
 
