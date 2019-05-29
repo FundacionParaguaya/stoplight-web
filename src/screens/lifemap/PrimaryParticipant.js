@@ -21,6 +21,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import { withScroller } from '../../components/Scroller';
 import familyFaceIcon from '../../assets/family_face_large.png';
+import { shouldCleanUp } from '../../utils/conditional-logic';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -140,25 +141,46 @@ export class PrimaryParticipant extends Component {
   };
 
   updateDraft = (field, value) => {
-    const { currentDraft } = this.props;
+    const { currentDraft, currentSurvey } = this.props;
+    const { conditionalQuestions = [] } = currentSurvey;
 
-    // update only the first item of familyMembersList
-    //  which is the primary participant
-    this.props.updateDraft({
+    const primaryParticipant = {
+      ...currentDraft.familyData.familyMembersList[0],
+      ...{
+        [field]: value
+      }
+    };
+
+    const newDraft = {
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
         familyMembersList: [
-          {
-            ...currentDraft.familyData.familyMembersList[0],
-            ...{
-              [field]: value
-            }
-          },
+          primaryParticipant,
           ...currentDraft.familyData.familyMembersList.slice(1)
         ]
       }
-    });
+    };
+
+    conditionalQuestions
+      .filter(question => question.forFamilyMember)
+      .forEach(question => {
+        // We may need to cleanup some conditionalQuestions
+        if (shouldCleanUp(question, newDraft, primaryParticipant, 0)) {
+          console.log(
+            `Cleaning up conditional question ${
+              question.codeName
+            } for Primary Participant`
+          );
+          const { socioEconomicAnswers = [] } = primaryParticipant;
+          socioEconomicAnswers.find(ea => ea.key === question.codeName).value =
+            '';
+        }
+      });
+
+    // update only the first item of familyMembersList
+    //  which is the primary participant
+    this.props.updateDraft(newDraft);
   };
 
   updateFamilyMembersCount = async (field, value) => {
