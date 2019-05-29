@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const getOtherOption = options => {
   if (!options.some(e => e.otherOption)) {
     return null;
@@ -15,7 +17,7 @@ const getFieldValue = (draft, field, index) => {
   ) {
     return null;
   }
-  console.log(draft.familyData.familyMembersList[innerIndex][field]);
+
   return draft.familyData.familyMembersList[innerIndex][field];
 };
 
@@ -25,6 +27,14 @@ const InputWithDep = ({ dep, fieldOptions, from, children, index }) => {
   const value = getFieldValue(from, dep, index);
 
   return children(otherOption, value);
+};
+
+InputWithDep.propTypes = {
+  dep: PropTypes.string.isRequired,
+  fieldOptions: PropTypes.object.isRequired,
+  from: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
+  index: PropTypes.number
 };
 
 export default InputWithDep;
