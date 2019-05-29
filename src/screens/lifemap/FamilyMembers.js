@@ -198,6 +198,30 @@ export class FamilyMembers extends Component {
                                 )
                               }
                             />
+                            {this.getOtherOption(surveyConfig.gender) &&
+                              this.getOtherOption(surveyConfig.gender) ===
+                                this.getFieldValue(
+                                  currentDraft,
+                                  'gender',
+                                  index
+                                ) && (
+                                <InputWithFormik
+                                  label={`${t('views.family.specify')} ${t(
+                                    'views.family.gender'
+                                  ).toLowerCase()}`}
+                                  name={`members[${index}].customGender`}
+                                  required
+                                  onChange={e =>
+                                    this.syncDraft(
+                                      e.target.value,
+                                      index,
+                                      'customGender',
+                                      `members[${index}].customGender`,
+                                      setFieldValue
+                                    )
+                                  }
+                                />
+                              )}
                             <DatePickerWithFormik
                               label={t('views.family.dateOfBirth')}
                               name={`members[${index}].birthDate`}
