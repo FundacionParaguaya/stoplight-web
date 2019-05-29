@@ -33,6 +33,7 @@ const SkippedIndicator = props => {
       <TitleBar
         title={question.dimension}
         extraTitleText={question.questionText}
+        progressBar={false}
       />
       <Container>
         <div className={classes.container}>

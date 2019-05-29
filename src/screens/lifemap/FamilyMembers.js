@@ -18,6 +18,7 @@ import TitleBar from '../../components/TitleBar';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
+import { shouldCleanUp } from '../../utils/conditional-logic';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const schemaWithDateTransform = Yup.date()
@@ -37,10 +38,10 @@ const validationSchema = Yup.object().shape({
 
 export class FamilyMembers extends Component {
   updateDraft = (memberIndex, value, property) => {
-    const { currentDraft } = this.props;
+    const { currentDraft, currentSurvey } = this.props;
+    const { conditionalQuestions = [] } = currentSurvey;
 
-    // update only the family member that is edited
-    this.props.updateDraft({
+    const newDraft = {
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
@@ -56,7 +57,35 @@ export class FamilyMembers extends Component {
           }
         )
       }
-    });
+    };
+
+    conditionalQuestions
+      .filter(question => question.forFamilyMember)
+      .forEach(question => {
+        // We may need to cleanup some conditionalQuestions
+        if (
+          shouldCleanUp(
+            question,
+            newDraft,
+            newDraft.familyData.familyMembersList[memberIndex],
+            memberIndex
+          )
+        ) {
+          console.log(
+            `Cleaning up conditional question ${
+              question.codeName
+            } for Member at index ${memberIndex}`
+          );
+          const {
+            socioEconomicAnswers = []
+          } = newDraft.familyData.familyMembersList[memberIndex];
+          socioEconomicAnswers.find(ea => ea.key === question.codeName).value =
+            '';
+        }
+      });
+
+    // update only the family member that is edited
+    this.props.updateDraft(newDraft);
   };
 
   handleContinue = () => {
