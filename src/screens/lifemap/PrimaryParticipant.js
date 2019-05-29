@@ -62,11 +62,13 @@ const buildValidationSchema = (surveyConfig, validationObject) => {
     .filter(e => e !== null);
 
   values.forEach(field => {
-    forPrimaryParticipant[`custom${_.capitalize(field.codeName)}`] = {
+    forPrimaryParticipant[
+      `custom${_.upperFirst(field.codeName)}`
+    ] = Yup.string().when(field.codeName, {
       is: field.value,
       then: Yup.string().required(fieldIsRequired),
       otherwise: Yup.string()
-    };
+    });
   });
 
   return Yup.object().shape(forPrimaryParticipant);
