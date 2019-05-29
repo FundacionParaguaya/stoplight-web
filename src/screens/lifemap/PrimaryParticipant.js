@@ -76,7 +76,8 @@ export class PrimaryParticipant extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props)
+      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props),
+      validationSpec: {}
     };
   }
 
@@ -244,6 +245,14 @@ export class PrimaryParticipant extends Component {
         });
       }
     }
+    if (this.props.currentSurvey) {
+      this.setState({
+        validationSpec: buildValidationSchema(
+          this.props.currentSurvey.surveyConfig,
+          staticFields
+        )
+      });
+    }
   };
 
   updateDraftWithCurrentValues = values => {
@@ -293,6 +302,7 @@ export class PrimaryParticipant extends Component {
   };
 
   render() {
+    const { validationSpec } = this.state;
     const {
       t,
       currentSurvey,
@@ -345,7 +355,7 @@ export class PrimaryParticipant extends Component {
               ...defaultEditingObject,
               ...participant
             }}
-            validationSchema={validationSchema}
+            validationSchema={validationSpec}
             onSubmit={(values, { setSubmitting }) => {
               this.updateDraftWithCurrentValues(values);
               this.handleContinue();
