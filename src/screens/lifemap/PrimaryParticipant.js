@@ -180,7 +180,7 @@ export class PrimaryParticipant extends Component {
       for (
         let i = currentDraft.familyData.familyMembersList.length;
         i <= value - 1;
-        i++
+        i += 1
       ) {
         names2.push({
           firstName: '',
@@ -294,7 +294,6 @@ export class PrimaryParticipant extends Component {
       return null;
     }
 
-    // console.log(options.filter(e => e.otherOption)[0].value);
     return options.filter(e => e.otherOption)[0].value;
   };
 
@@ -395,23 +394,24 @@ export class PrimaryParticipant extends Component {
                       this.syncDraft(e ? e.value : '', 'gender', setFieldValue)
                     }
                   />
-                  {this.getOtherOption(surveyConfig.gender) ===
-                    this.getFieldValue(currentDraft, 'gender') && (
-                    <InputWithFormik
-                      label={`${t('views.family.specify')} ${t(
-                        'views.family.gender'
-                      ).toLowerCase()}`}
-                      name="customGender"
-                      required
-                      onChange={e =>
-                        this.syncDraft(
-                          e.target.value,
-                          'customGender',
-                          setFieldValue
-                        )
-                      }
-                    />
-                  )}
+                  {this.getOtherOption(surveyConfig.gender) &&
+                    this.getOtherOption(surveyConfig.gender) ===
+                      this.getFieldValue(currentDraft, 'gender') && (
+                      <InputWithFormik
+                        label={`${t('views.family.specify')} ${t(
+                          'views.family.gender'
+                        ).toLowerCase()}`}
+                        name="customGender"
+                        required
+                        onChange={e =>
+                          this.syncDraft(
+                            e.target.value,
+                            'customGender',
+                            setFieldValue
+                          )
+                        }
+                      />
+                    )}
                   <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
@@ -438,6 +438,24 @@ export class PrimaryParticipant extends Component {
                       )
                     }
                   />
+                  {this.getOtherOption(surveyConfig.documentType) &&
+                    this.getOtherOption(surveyConfig.documentType) ===
+                      this.getFieldValue(currentDraft, 'documentType') && (
+                      <InputWithFormik
+                        label={`${t('views.family.specify')} ${t(
+                          'views.family.documentType'
+                        ).toLowerCase()}`}
+                        name="customDocumentType"
+                        required
+                        onChange={e =>
+                          this.syncDraft(
+                            e.target.value,
+                            'customDocumentType',
+                            setFieldValue
+                          )
+                        }
+                      />
+                    )}
                   <InputWithFormik
                     label={t('views.family.documentNumber')}
                     name="documentNumber"
