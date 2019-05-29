@@ -22,6 +22,7 @@ import Container from '../../components/Container';
 import { withScroller } from '../../components/Scroller';
 import familyFaceIcon from '../../assets/family_face_large.png';
 import { shouldCleanUp } from '../../utils/conditional-logic';
+import InputWithDep from '../../components/InputWithDep';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -417,24 +418,30 @@ export class PrimaryParticipant extends Component {
                       this.syncDraft(e ? e.value : '', 'gender', setFieldValue)
                     }
                   />
-                  {this.getOtherOption(surveyConfig.gender) &&
-                    this.getOtherOption(surveyConfig.gender) ===
-                      this.getFieldValue(currentDraft, 'gender') && (
-                      <InputWithFormik
-                        label={`${t('views.family.specify')} ${t(
-                          'views.family.gender'
-                        ).toLowerCase()}`}
-                        name="customGender"
-                        required
-                        onChange={e =>
-                          this.syncDraft(
-                            e.target.value,
-                            'customGender',
-                            setFieldValue
-                          )
-                        }
-                      />
-                    )}
+                  <InputWithDep
+                    dep="gender"
+                    from={currentDraft}
+                    fieldOptions={surveyConfig.gender}
+                  >
+                    {(otherOption, value) =>
+                      otherOption === value && (
+                        <InputWithFormik
+                          label={`${t('views.family.specify')} ${t(
+                            'views.family.gender'
+                          ).toLowerCase()}`}
+                          name="customGender"
+                          required
+                          onChange={e =>
+                            this.syncDraft(
+                              e.target.value,
+                              'customGender',
+                              setFieldValue
+                            )
+                          }
+                        />
+                      )
+                    }
+                  </InputWithDep>
                   <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
@@ -461,24 +468,30 @@ export class PrimaryParticipant extends Component {
                       )
                     }
                   />
-                  {this.getOtherOption(surveyConfig.documentType) &&
-                    this.getOtherOption(surveyConfig.documentType) ===
-                      this.getFieldValue(currentDraft, 'documentType') && (
-                      <InputWithFormik
-                        label={`${t('views.family.specify')} ${t(
-                          'views.family.documentType'
-                        ).toLowerCase()}`}
-                        name="customDocumentType"
-                        required
-                        onChange={e =>
-                          this.syncDraft(
-                            e.target.value,
-                            'customDocumentType',
-                            setFieldValue
-                          )
-                        }
-                      />
-                    )}
+                  <InputWithDep
+                    dep="documentType"
+                    from={currentDraft}
+                    fieldOptions={surveyConfig.documentType}
+                  >
+                    {(otherOption, value) =>
+                      otherOption === value && (
+                        <InputWithFormik
+                          label={`${t('views.family.specify')} ${t(
+                            'views.family.documentType'
+                          ).toLowerCase()}`}
+                          name="customDocumentType"
+                          required
+                          onChange={e =>
+                            this.syncDraft(
+                              e.target.value,
+                              'customDocumentType',
+                              setFieldValue
+                            )
+                          }
+                        />
+                      )
+                    }
+                  </InputWithDep>
                   <InputWithFormik
                     label={t('views.family.documentNumber')}
                     name="documentNumber"
