@@ -32,23 +32,45 @@ const schemaWithDateTransform = Yup.date()
     return originalValue ? moment.unix(originalValue).toDate() : new Date('');
   })
   .required(fieldIsRequired);
-const validationSchema = Yup.object().shape({
+const staticFields = {
   firstName: Yup.string().required(fieldIsRequired),
   lastName: Yup.string().required(fieldIsRequired),
   gender: Yup.string().required(fieldIsRequired),
-  customGender: Yup.string().when('gender', {
-    // Hardcoded otherOption value
-    is: 'O',
-    then: Yup.string().required(fieldIsRequired),
-    otherwise: Yup.string()
-  }),
   birthDate: schemaWithDateTransform,
   documentType: Yup.string().required(fieldIsRequired),
   documentNumber: Yup.string().required(fieldIsRequired),
   birthCountry: Yup.string().required(fieldIsRequired),
   countFamilyMembers: Yup.string().required(fieldIsRequired),
   email: Yup.string().email(validEmailAddress)
-});
+};
+
+const buildValidationSchema = (surveyConfig, validationObject) => {
+  const forPrimaryParticipant = { ...validationObject };
+
+  const keys = Object.keys(surveyConfig);
+  const values = Object.values(surveyConfig)
+    .map((field, index) => {
+      if (Array.isArray(field)) {
+        return {
+          codeName: keys[index],
+          ...field.filter(e => e.otherOption)[0]
+        };
+      }
+
+      return null;
+    })
+    .filter(e => e !== null);
+
+  values.forEach(field => {
+    forPrimaryParticipant[`custom${_.capitalize(field.codeName)}`] = {
+      is: field.value,
+      then: Yup.string().required(fieldIsRequired),
+      otherwise: Yup.string()
+    };
+  });
+
+  return Yup.object().shape(forPrimaryParticipant);
+};
 
 export class PrimaryParticipant extends Component {
   constructor(props) {
