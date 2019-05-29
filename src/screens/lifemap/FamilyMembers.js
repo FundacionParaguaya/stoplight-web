@@ -92,6 +92,24 @@ export class FamilyMembers extends Component {
     this.props.history.push('/lifemap/location');
   };
 
+  getFieldValue = (draft, field, index) => {
+    if (
+      !draft ||
+      !draft.familyData ||
+      !draft.familyData.familyMembersList[index + 1][field]
+    ) {
+      return null;
+    }
+    return draft.familyData.familyMembersList[index + 1][field];
+  };
+
+  getOtherOption = options => {
+    if (!options.some(e => e.otherOption)) {
+      return null;
+    }
+    return options.filter(e => e.otherOption)[0].value;
+  };
+
   syncDraft = (value, index, keyInDraft, keyInFormik, setFieldValue) => {
     setFieldValue(keyInFormik, value);
     this.updateDraft(index + 1, value, keyInDraft);
