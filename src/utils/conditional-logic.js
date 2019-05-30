@@ -348,3 +348,50 @@ export const getDraftWithUpdatedMember = (
     }
   };
 };
+
+/**
+ * Returns a new draft that has applied conditional logic cascaded to all
+ * questions with conditionals or with conditionals options
+ * @param {*} draft
+ * @param {*} conditionalQuestions
+ * @param {*} cleanupHook
+ */
+export const getDraftWithUpdatedQuestionsCascading = (
+  draft,
+  conditionalQuestions,
+  cleanupHook
+) => {
+  let currentDraft = { ...draft };
+  conditionalQuestions.forEach(conditionalQuestion => {
+    const cleanedAnswer = {
+      key: conditionalQuestion.codeName,
+      value: ''
+    };
+    if (conditionalQuestion.forFamilyMember) {
+      // Checking if we have to cleanup familyMembers socioeconomic answers
+      currentDraft.familyData.familyMembersList.forEach((member, index) => {
+        if (shouldCleanUp(conditionalQuestion, currentDraft, member, index)) {
+          // Cleaning up socioeconomic answer for family member
+          currentDraft = getDraftWithUpdatedFamilyEconomics(
+            currentDraft,
+            cleanedAnswer,
+            index
+          );
+          // If provided, calls the cleanupHook for the question that has been cleaned up
+          if (cleanupHook) {
+            cleanupHook(conditionalQuestion, index);
+          }
+        }
+      });
+    } else if (shouldCleanUp(conditionalQuestion, currentDraft)) {
+      // Cleaning up socioeconomic answer
+      currentDraft = getDraftWithUpdatedEconomic(currentDraft, cleanedAnswer);
+      // If provided, calls the cleanupHook for the question that has been cleaned up
+      if (cleanupHook) {
+        cleanupHook(conditionalQuestion);
+      }
+    }
+  });
+
+  return currentDraft;
+};
