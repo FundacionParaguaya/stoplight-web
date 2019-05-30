@@ -13,6 +13,7 @@ const VARIANTS = {
   SUCCESS: 'success'
 };
 
+// See and implementation example on NavIcons
 const LeaveModal = props => {
   const { classes, variant } = props;
 
