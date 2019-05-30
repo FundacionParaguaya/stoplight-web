@@ -1,6 +1,12 @@
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
+export const CONDITION_TYPES = {
+  SOCIOECONOMIC: 'socioEconomic',
+  FAMILY: 'family',
+  MEMBER_SOCIOEONOMIC: 'memberSocioEconomic'
+};
+
 /**
  *  Returns a boolean that is the result of evaluation the condition against the question
  * @param {*} condition the condition we have to verify
@@ -71,11 +77,6 @@ export const evaluateCondition = (condition, targetQuestion) => {
  * @param {*} memberIndex the index of the member inside the family data
  */
 export const conditionMet = (condition, currentDraft, memberIndex) => {
-  const CONDITION_TYPES = {
-    SOCIOECONOMIC: 'socioEconomic',
-    FAMILY: 'family',
-    MEMBER_SOCIOEONOMIC: 'memberSocioEconomic'
-  };
   const socioEconomicAnswers = currentDraft.economicSurveyDataList || [];
   const { familyMembersList } = currentDraft.familyData;
   let targetQuestion = null;
