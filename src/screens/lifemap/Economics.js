@@ -21,7 +21,9 @@ import {
   shouldShowQuestion,
   familyMemberWillHaveQuestions,
   getConditionalOptions,
-  shouldCleanUp
+  shouldCleanUp,
+  getDraftWithUpdatedEconomic,
+  getDraftWithUpdatedFamilyEconomics
 } from '../../utils/conditional-logic';
 
 let FamilyMemberTitle = ({ name, classes }) => (
@@ -287,55 +289,53 @@ export class Economics extends Component {
     return isPresent;
   };
 
-  updateEconomicAnswerCascading = (question, value, setFieldValue) => {
+  updateEconomicAnswerCascading = (
+    question,
+    value,
+    setFieldValue,
+    memberIndex
+  ) => {
     console.log('UPDATING CASCADING');
-    const { currentSurvey, currentDraft } = this.props;
+    const { currentSurvey, currentDraft: draftFromProps } = this.props;
     const { conditionalQuestions } = currentSurvey;
-    const {
-      economicSurveyDataList,
-      familyData: { familyMembersList }
-    } = currentDraft;
 
-    const updateEconomicAnswers = (economicAnswers = [], newAnswer) => {
-      const answerToUpdate = economicAnswers.find(a => a.key === newAnswer.key);
-      if (answerToUpdate) {
-        answerToUpdate.value = newAnswer.value;
-      } else {
-        economicAnswers.push(newAnswer);
-      }
-      return [...economicAnswers];
-    };
-
-    let updatedEconomicAnswers = updateEconomicAnswers(economicSurveyDataList, {
+    // We get a draft with updated answer
+    let currentDraft;
+    const newAnswer = {
       key: question.codeName,
       value
-    });
+    };
+    if (question.forFamilyMember) {
+      currentDraft = getDraftWithUpdatedFamilyEconomics(
+        draftFromProps,
+        newAnswer,
+        memberIndex
+      );
+    } else {
+      currentDraft = getDraftWithUpdatedEconomic(draftFromProps, newAnswer);
+    }
 
-    const updatedFamilyMembers = [...familyMembersList];
     conditionalQuestions.forEach(conditionalQuestion => {
       if (conditionalQuestion.codeName === question.codeName) {
         // Not necessary to evaluate conditionalQuestion if it's the question
         // we're updating right now
         return;
       }
+      const cleanedAnswer = {
+        key: conditionalQuestion.codeName,
+        value
+      };
       if (conditionalQuestion.forFamilyMember) {
         // Checking if we have to cleanup familyMembers socioeconomic answers
-        familyMembersList.forEach((member, index) => {
-          if (
-            shouldCleanUp(
-              conditionalQuestion,
-              {
-                ...currentDraft,
-                economicSurveyDataList: updatedEconomicAnswers
-              },
-              member,
-              index
-            )
-          ) {
+        currentDraft.familyData.familyMembersList.forEach((member, index) => {
+          if (shouldCleanUp(conditionalQuestion, currentDraft, member, index)) {
             // Cleaning up socioeconomic answer for family member
-            updatedFamilyMembers[index].socioEconomicAnswers.find(
-              ea => ea.key === conditionalQuestion.codeName
-            ).value = '';
+            currentDraft = getDraftWithUpdatedFamilyEconomics(
+              currentDraft,
+              cleanedAnswer,
+              index
+            );
+            // Cleanup value that won't be displayed
             if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
               setFieldValue(
                 `forFamilyMember.[${index}].[${conditionalQuestion.codeName}]`,
@@ -344,17 +344,9 @@ export class Economics extends Component {
             }
           }
         });
-      } else if (
-        shouldCleanUp(conditionalQuestion, {
-          ...currentDraft,
-          economicSurveyDataList: updatedEconomicAnswers
-        })
-      ) {
+      } else if (shouldCleanUp(conditionalQuestion, currentDraft)) {
         // Cleanup value that won't be displayed
-        updatedEconomicAnswers = updateEconomicAnswers(updatedEconomicAnswers, {
-          key: conditionalQuestion.codeName,
-          value: ''
-        });
+        currentDraft = getDraftWithUpdatedEconomic(currentDraft, cleanedAnswer);
         if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
           setFieldValue(`forFamily.[${conditionalQuestion.codeName}]`, '');
         }
@@ -362,15 +354,16 @@ export class Economics extends Component {
     });
 
     // Updating formik value for the question that triggered everything
-    setFieldValue(`forFamily.[${question.codeName}]`, value);
-    this.props.updateDraft({
-      ...currentDraft,
-      economicSurveyDataList: updatedEconomicAnswers,
-      familyData: {
-        ...currentDraft.familyData,
-        familyMembersList: updatedFamilyMembers
-      }
-    });
+    if (question.forFamilyMember) {
+      setFieldValue(
+        `forFamilyMember.[${memberIndex}].[${question.codeName}]`,
+        value
+      );
+    } else {
+      setFieldValue(`forFamily.[${question.codeName}]`, value);
+    }
+
+    this.props.updateDraft(currentDraft);
   };
 
   render() {
@@ -437,13 +430,13 @@ export class Economics extends Component {
                               valueKey="value"
                               required={question.required}
                               isClearable={!question.required}
-                              onChange={value => {
+                              onChange={value =>
                                 this.updateEconomicAnswerCascading(
                                   question,
                                   value ? value.value : '',
                                   setFieldValue
-                                );
-                              }}
+                                )
+                              }
                             />
                           );
                         }
@@ -458,13 +451,13 @@ export class Economics extends Component {
                             }
                             name={`forFamily.[${question.codeName}]`}
                             required={question.required}
-                            onChange={e => {
+                            onChange={e =>
                               this.updateEconomicAnswerCascading(
                                 question,
                                 _.get(e, 'target.value', ''),
                                 setFieldValue
-                              );
-                            }}
+                              )
+                            }
                           />
                         );
                       })}
@@ -526,19 +519,27 @@ export class Economics extends Component {
                                             valueKey="value"
                                             required={question.required}
                                             isClearable={!question.required}
-                                            onChange={value => {
-                                              setFieldValue(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`,
-                                                value ? value.value : ''
-                                              );
-                                              this.updateFamilyMember(
-                                                value ? value.value : '',
+                                            onChange={value =>
+                                              this.updateEconomicAnswerCascading(
                                                 question,
+                                                value ? value.value : '',
+                                                setFieldValue,
                                                 index
-                                              );
-                                            }}
+                                              )
+                                            }
+                                            // onChange={value => {
+                                            //   setFieldValue(
+                                            //     `forFamilyMember.[${index}].[${
+                                            //       question.codeName
+                                            //     }]`,
+                                            //     value ? value.value : ''
+                                            //   );
+                                            //   this.updateFamilyMember(
+                                            //     value ? value.value : '',
+                                            //     question,
+                                            //     index
+                                            //   );
+                                            // }}
                                           />
                                         );
                                       }
@@ -555,14 +556,22 @@ export class Economics extends Component {
                                             question.codeName
                                           }]`}
                                           required={question.required}
-                                          onChange={e => {
-                                            handleChange(e);
-                                            this.updateFamilyMember(
-                                              e.target.value,
+                                          // onChange={e => {
+                                          //   handleChange(e);
+                                          //   this.updateFamilyMember(
+                                          //     e.target.value,
+                                          //     question,
+                                          //     index
+                                          //   );
+                                          // }}
+                                          onChange={e =>
+                                            this.updateEconomicAnswerCascading(
                                               question,
+                                              _.get(e, 'target.value', ''),
+                                              setFieldValue,
                                               index
-                                            );
-                                          }}
+                                            )
+                                          }
                                         />
                                       );
                                     })}

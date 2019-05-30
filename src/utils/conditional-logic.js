@@ -7,7 +7,7 @@ import * as moment from 'moment';
  * @param {*} targetQuestion the question that holds the value we need to compare against
  */
 export const evaluateCondition = (condition, targetQuestion) => {
-  const CONDITION_TYPES = {
+  const OPERATORS = {
     EQUALS: 'equals',
     NOT_EQUALS: 'not_equals',
     LESS_THAN: 'less_than',
@@ -20,37 +20,37 @@ export const evaluateCondition = (condition, targetQuestion) => {
     return false;
   }
 
-  if (condition.operator === CONDITION_TYPES.EQUALS) {
+  if (condition.operator === OPERATORS.EQUALS) {
     if (moment.isMoment(targetQuestion.value)) {
       return moment().diff(targetQuestion.value, 'years') === condition.value;
     }
     return targetQuestion.value === condition.value;
   }
-  if (condition.operator === CONDITION_TYPES.NOT_EQUALS) {
+  if (condition.operator === OPERATORS.NOT_EQUALS) {
     if (moment.isMoment(targetQuestion.value)) {
       return moment().diff(targetQuestion.value, 'years') !== condition.value;
     }
     return targetQuestion.value !== condition.value;
   }
-  if (condition.operator === CONDITION_TYPES.LESS_THAN) {
+  if (condition.operator === OPERATORS.LESS_THAN) {
     if (moment.isMoment(targetQuestion.value)) {
       return moment().diff(targetQuestion.value, 'years') < condition.value;
     }
     return targetQuestion.value < condition.value;
   }
-  if (condition.operator === CONDITION_TYPES.GREATER_THAN) {
+  if (condition.operator === OPERATORS.GREATER_THAN) {
     if (moment.isMoment(targetQuestion.value)) {
       return moment().diff(targetQuestion.value, 'years') > condition.value;
     }
     return targetQuestion.value > condition.value;
   }
-  if (condition.operator === CONDITION_TYPES.LESS_THAN_EQ) {
+  if (condition.operator === OPERATORS.LESS_THAN_EQ) {
     if (moment.isMoment(targetQuestion.value)) {
       return moment().diff(targetQuestion.value, 'years') <= condition.value;
     }
     return targetQuestion.value <= condition.value;
   }
-  if (condition.operator === CONDITION_TYPES.GREATER_THAN_EQ) {
+  if (condition.operator === OPERATORS.GREATER_THAN_EQ) {
     if (moment.isMoment(targetQuestion.value)) {
       return moment().diff(targetQuestion.value, 'years') >= condition.value;
     }
@@ -69,17 +69,20 @@ export const evaluateCondition = (condition, targetQuestion) => {
 export const conditionMet = (condition, currentDraft, memberIndex) => {
   const CONDITION_TYPES = {
     SOCIOECONOMIC: 'socioEconomic',
-    FAMILY: 'family'
+    FAMILY: 'family',
+    MEMBER_SOCIOEONOMIC: 'memberSocioEconomic'
   };
   const socioEconomicAnswers = currentDraft.economicSurveyDataList || [];
   const { familyMembersList } = currentDraft.familyData;
   let targetQuestion = null;
-  if (condition.type === CONDITION_TYPES.SOCIOECONOMIC) {
+  // Adding this to support backwards compatibility
+  const scope = condition.scope || condition.type;
+  if (scope === CONDITION_TYPES.SOCIOECONOMIC) {
     // In this case target should be located in the socioeconomic answers
     targetQuestion = socioEconomicAnswers.find(
       element => element.key === condition.codeName
     );
-  } else if (condition.type === CONDITION_TYPES.FAMILY) {
+  } else if (scope === CONDITION_TYPES.FAMILY) {
     const familyMember = familyMembersList[memberIndex];
     // TODO HARDCODED FOR IRRADIA. WE NEED A BETTER WAY TO SPECIFY THAT THE CONDITION
     // HAS BEEN MADE ON A DATE
@@ -106,6 +109,13 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
       value = familyMember[condition.codeName];
     }
     targetQuestion = { value };
+  } else if (scope === CONDITION_TYPES.MEMBER_SOCIOEONOMIC) {
+    const {
+      socioEconomicAnswers: memberSocioEconomicAnswers = []
+    } = familyMembersList[memberIndex];
+    targetQuestion = memberSocioEconomicAnswers.find(
+      element => element.key === condition.codeName
+    );
   }
 
   // Added support for showIfNoData. In the case this field is set to true in the
@@ -247,4 +257,86 @@ export const shouldCleanUp = (
     }: ${cleanUp}`
   );
   return cleanUp;
+};
+
+/**
+ * Returns a new draft that contains an new/updated economic answer
+ * @param {*} currentDraft the current draft
+ * @param {*} economicAnswer the new answer for some economic question
+ */
+export const getDraftWithUpdatedEconomic = (currentDraft, economicAnswer) => {
+  const { economicSurveyDataList = [] } = currentDraft;
+  const updatedEconomics = [...economicSurveyDataList];
+  const answerToUpdateIndex = updatedEconomics.findIndex(
+    a => a.key === economicAnswer.key
+  );
+  if (answerToUpdateIndex !== -1) {
+    updatedEconomics[answerToUpdateIndex] = economicAnswer;
+  } else {
+    updatedEconomics.push(economicAnswer);
+  }
+  return { ...currentDraft, economicSurveyDataList: updatedEconomics };
+};
+
+/**
+ * Returns a new draft that contains an new/updated economic answer for a family member
+ * @param {*} currentDraft the current draft
+ * @param {*} economicAnswer the new answer for some economic per member question
+ * @param {*} index index of the member whose economic are going to be generated
+ */
+export const getDraftWithUpdatedFamilyEconomics = (
+  currentDraft,
+  economicAnswer,
+  index
+) => {
+  const { familyMembersList } = currentDraft.familyData;
+  const updatedFamilyMembersList = [...familyMembersList];
+  const { socioEconomicAnswers = [] } = updatedFamilyMembersList[index];
+  const updatedEconomics = [...socioEconomicAnswers];
+  updatedFamilyMembersList[index] = {
+    ...updatedFamilyMembersList[index],
+    socioEconomicAnswers: updatedEconomics
+  };
+  const answerToUpdateIndex = updatedEconomics.findIndex(
+    a => a.key === economicAnswer.key
+  );
+
+  if (answerToUpdateIndex !== -1) {
+    updatedEconomics[answerToUpdateIndex] = economicAnswer;
+  } else {
+    updatedEconomics.push(economicAnswer);
+  }
+  return {
+    ...currentDraft,
+    familyData: {
+      ...currentDraft.familyData,
+      familyMembersList: updatedFamilyMembersList
+    }
+  };
+};
+
+/**
+ * Returns a new draft that contains updated member data
+ * @param {*} currentDraft the current draft
+ * @param {*} field field of the member to update
+ * @param {*} value new value for the provided field
+ * @param {*} economicAnswer the new answer for some economic per member question
+ */
+export const getDraftWithUpdatedMember = (
+  currentDraft,
+  field,
+  value,
+  index
+) => {
+  const { familyMembersList } = this.props.currentDraft.familyData;
+  const updatedFamilyMembersList = [...familyMembersList];
+  const updatedFamilyMember = { ...familyMembersList[index] };
+  updatedFamilyMember[field] = value;
+  return {
+    ...currentDraft,
+    familyData: {
+      ...currentDraft.familyData,
+      familyMembersList: updatedFamilyMembersList
+    }
+  };
 };
