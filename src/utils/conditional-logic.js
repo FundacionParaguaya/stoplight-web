@@ -22,13 +22,17 @@ export const evaluateCondition = (condition, targetQuestion) => {
 
   if (condition.operator === OPERATORS.EQUALS) {
     if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') === condition.value;
+      return (
+        moment().diff(targetQuestion.value, 'years') === Number(condition.value)
+      );
     }
     return targetQuestion.value === condition.value;
   }
   if (condition.operator === OPERATORS.NOT_EQUALS) {
     if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') !== condition.value;
+      return (
+        moment().diff(targetQuestion.value, 'years') !== Number(condition.value)
+      );
     }
     return targetQuestion.value !== condition.value;
   }
@@ -214,11 +218,11 @@ export const shouldCleanUp = (
   }
   if (!currentAnswer || !currentAnswer.value) {
     // There's nothing to cleanUp, user has not answered the question yet
-    console.log(
-      `Nothing to cleanUp for conditionalQuestion ${
-        conditionalQuestion.codeName
-      }`
-    );
+    // console.log(
+    //   `Nothing to cleanUp for conditionalQuestion ${
+    //     conditionalQuestion.codeName
+    //   }`
+    // );
     return false;
   }
   let cleanUp = false;
@@ -251,11 +255,14 @@ export const shouldCleanUp = (
       option => option.value === currentAnswer.value
     );
   }
-  console.log(
-    `CleanUp needed for conditionalQuestion ${
-      conditionalQuestion.codeName
-    }: ${cleanUp}`
-  );
+  if (cleanUp) {
+    console.log(
+      `CleanUp needed for conditionalQuestion ${
+        conditionalQuestion.codeName
+      } member ${memberIndex}`
+    );
+  }
+
   return cleanUp;
 };
 

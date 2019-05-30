@@ -183,42 +183,6 @@ export class Economics extends Component {
     }
   };
 
-  updateFamilyMember = (value, question, index) => {
-    const { currentDraft } = this.props;
-    const { familyMembersList } = this.props.currentDraft.familyData;
-    let update = false;
-    // CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
-    const familyMember = familyMembersList[index];
-    familyMember.socioEconomicAnswers.forEach(e => {
-      if (e.key === question.codeName) {
-        update = true;
-        e.value = value;
-      }
-    });
-    if (update) {
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          familyMembersList
-        }
-      });
-    } else {
-      familyMember.socioEconomicAnswers.push({
-        key: question.codeName,
-        value
-      });
-      // add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          familyMembersList
-        }
-      });
-    }
-  };
-
   setCurrentScreen() {
     const questions = this.props.currentSurvey.economicScreens
       .questionsPerScreen[this.props.match.params.page];
@@ -323,7 +287,7 @@ export class Economics extends Component {
       }
       const cleanedAnswer = {
         key: conditionalQuestion.codeName,
-        value
+        value: ''
       };
       if (conditionalQuestion.forFamilyMember) {
         // Checking if we have to cleanup familyMembers socioeconomic answers
@@ -399,12 +363,7 @@ export class Economics extends Component {
                 this.handleContinue();
               }}
             >
-              {({
-                handleChange,
-                isSubmitting,
-                setFieldValue,
-                validateForm
-              }) => (
+              {({ isSubmitting, setFieldValue, validateForm }) => (
                 <Form noValidate>
                   <React.Fragment>
                     {/* List of questions for current topic */}
@@ -527,19 +486,6 @@ export class Economics extends Component {
                                                 index
                                               )
                                             }
-                                            // onChange={value => {
-                                            //   setFieldValue(
-                                            //     `forFamilyMember.[${index}].[${
-                                            //       question.codeName
-                                            //     }]`,
-                                            //     value ? value.value : ''
-                                            //   );
-                                            //   this.updateFamilyMember(
-                                            //     value ? value.value : '',
-                                            //     question,
-                                            //     index
-                                            //   );
-                                            // }}
                                           />
                                         );
                                       }
@@ -556,14 +502,6 @@ export class Economics extends Component {
                                             question.codeName
                                           }]`}
                                           required={question.required}
-                                          // onChange={e => {
-                                          //   handleChange(e);
-                                          //   this.updateFamilyMember(
-                                          //     e.target.value,
-                                          //     question,
-                                          //     index
-                                          //   );
-                                          // }}
                                           onChange={e =>
                                             this.updateEconomicAnswerCascading(
                                               question,
