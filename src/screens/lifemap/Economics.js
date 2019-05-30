@@ -21,9 +21,9 @@ import {
   shouldShowQuestion,
   familyMemberWillHaveQuestions,
   getConditionalOptions,
-  shouldCleanUp,
   getDraftWithUpdatedEconomic,
-  getDraftWithUpdatedFamilyEconomics
+  getDraftWithUpdatedFamilyEconomics,
+  getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
 
 let FamilyMemberTitle = ({ name, classes }) => (
@@ -259,9 +259,11 @@ export class Economics extends Component {
     setFieldValue,
     memberIndex
   ) => {
-    console.log('UPDATING CASCADING');
     const { currentSurvey, currentDraft: draftFromProps } = this.props;
-    const { conditionalQuestions } = currentSurvey;
+    const {
+      conditionalQuestions,
+      elementsWithConditionsOnThem: { questionsWithConditionsOnThem }
+    } = currentSurvey;
 
     // We get a draft with updated answer
     let currentDraft;
@@ -279,43 +281,38 @@ export class Economics extends Component {
       currentDraft = getDraftWithUpdatedEconomic(draftFromProps, newAnswer);
     }
 
-    conditionalQuestions.forEach(conditionalQuestion => {
-      if (conditionalQuestion.codeName === question.codeName) {
-        // Not necessary to evaluate conditionalQuestion if it's the question
-        // we're updating right now
-        return;
-      }
-      const cleanedAnswer = {
-        key: conditionalQuestion.codeName,
-        value: ''
-      };
+    const cleanUpHook = (conditionalQuestion, index) => {
+      // Cleanup value from form that won't be displayed
       if (conditionalQuestion.forFamilyMember) {
-        // Checking if we have to cleanup familyMembers socioeconomic answers
-        currentDraft.familyData.familyMembersList.forEach((member, index) => {
-          if (shouldCleanUp(conditionalQuestion, currentDraft, member, index)) {
-            // Cleaning up socioeconomic answer for family member
-            currentDraft = getDraftWithUpdatedFamilyEconomics(
-              currentDraft,
-              cleanedAnswer,
-              index
-            );
-            // Cleanup value that won't be displayed
-            if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
-              setFieldValue(
-                `forFamilyMember.[${index}].[${conditionalQuestion.codeName}]`,
-                ''
-              );
-            }
-          }
-        });
-      } else if (shouldCleanUp(conditionalQuestion, currentDraft)) {
-        // Cleanup value that won't be displayed
-        currentDraft = getDraftWithUpdatedEconomic(currentDraft, cleanedAnswer);
         if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
-          setFieldValue(`forFamily.[${conditionalQuestion.codeName}]`, '');
+          setFieldValue(
+            `forFamilyMember.[${index}].[${conditionalQuestion.codeName}]`,
+            ''
+          );
         }
+      } else if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
+        setFieldValue(`forFamily.[${conditionalQuestion.codeName}]`, '');
       }
-    });
+    };
+
+    // If the question has some conditionals on it,
+    // execute function that builds a new draft with cascaded clean up
+    // applied
+    if (questionsWithConditionsOnThem.includes(question.codeName)) {
+      console.log(
+        `Will evaluate cascading after updating ${
+          question.codeName
+        } on member ${memberIndex}`
+      );
+      currentDraft = getDraftWithUpdatedQuestionsCascading(
+        currentDraft,
+        conditionalQuestions.filter(
+          conditionalQuestion =>
+            conditionalQuestion.codeName !== question.codeName
+        ),
+        cleanUpHook
+      );
+    }
 
     // Updating formik value for the question that triggered everything
     if (question.forFamilyMember) {
