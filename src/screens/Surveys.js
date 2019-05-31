@@ -15,6 +15,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import BottomSpacer from '../components/BottomSpacer';
 import { getDateFormatByLocale } from '../utils/date-utils';
+import { CONDITION_TYPES } from '../utils/conditional-logic';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -123,13 +124,52 @@ export class Surveys extends Component {
     return conditionalQuestions;
   };
 
+  static getElementsWithConditionsOnThem = conditionalQuestions => {
+    const questionsWithConditionsOnThem = [];
+    const memberKeysWithConditionsOnThem = [];
+
+    const addTargetIfApplies = condition => {
+      // Addind this so it works after changing the key to scope
+      const scope = condition.scope || condition.type;
+      if (
+        scope !== CONDITION_TYPES.FAMILY &&
+        !questionsWithConditionsOnThem.includes(condition.codeName)
+      ) {
+        questionsWithConditionsOnThem.push(condition.codeName);
+      }
+      if (
+        scope === CONDITION_TYPES.FAMILY &&
+        !memberKeysWithConditionsOnThem.includes(condition.codeName)
+      ) {
+        memberKeysWithConditionsOnThem.push(condition.codeName);
+      }
+    };
+
+    conditionalQuestions.forEach(conditionalQuestion => {
+      const { conditions = [] } = conditionalQuestion;
+      conditions.forEach(addTargetIfApplies);
+
+      // Checking conditional options only if needed
+      const options = conditionalQuestion.options || [];
+      options.forEach(option => {
+        const { conditions: optionConditions = [] } = option;
+        optionConditions.forEach(addTargetIfApplies);
+      });
+    });
+    return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
+  };
+
   handleClickOnSurvey = survey => {
     const economicScreens = this.getEconomicScreens(survey);
     const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+    const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+      conditionalQuestions
+    );
     this.props.updateSurvey({
       ...survey,
       economicScreens,
-      conditionalQuestions
+      conditionalQuestions,
+      elementsWithConditionsOnThem
     });
     this.props.history.push('/lifemap/terms');
   };

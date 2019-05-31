@@ -25,7 +25,8 @@
     "cachedData": "cached data",
     "chooseView": "Choose view",
     "create": "Create",
-    "saveError": "Error while trying to save your lifemap"
+    "saveError": "Error while trying to save your lifemap",
+    "noOptionsToShow": "There are no options available to select"
   },
   "validation": {
     "fieldIsRequired": "This field is required",

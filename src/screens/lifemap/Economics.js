@@ -21,7 +21,9 @@ import {
   shouldShowQuestion,
   familyMemberWillHaveQuestions,
   getConditionalOptions,
-  shouldCleanUp
+  getDraftWithUpdatedEconomic,
+  getDraftWithUpdatedFamilyEconomics,
+  getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
 
 let FamilyMemberTitle = ({ name, classes }) => (
@@ -181,42 +183,6 @@ export class Economics extends Component {
     }
   };
 
-  updateFamilyMember = (value, question, index) => {
-    const { currentDraft } = this.props;
-    const { familyMembersList } = this.props.currentDraft.familyData;
-    let update = false;
-    // CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
-    const familyMember = familyMembersList[index];
-    familyMember.socioEconomicAnswers.forEach(e => {
-      if (e.key === question.codeName) {
-        update = true;
-        e.value = value;
-      }
-    });
-    if (update) {
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          familyMembersList
-        }
-      });
-    } else {
-      familyMember.socioEconomicAnswers.push({
-        key: question.codeName,
-        value
-      });
-      // add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          familyMembersList
-        }
-      });
-    }
-  };
-
   setCurrentScreen() {
     const questions = this.props.currentSurvey.economicScreens
       .questionsPerScreen[this.props.match.params.page];
@@ -287,90 +253,78 @@ export class Economics extends Component {
     return isPresent;
   };
 
-  updateEconomicAnswerCascading = (question, value, setFieldValue) => {
-    console.log('UPDATING CASCADING');
-    const { currentSurvey, currentDraft } = this.props;
-    const { conditionalQuestions } = currentSurvey;
+  updateEconomicAnswerCascading = (
+    question,
+    value,
+    setFieldValue,
+    memberIndex
+  ) => {
+    const { currentSurvey, currentDraft: draftFromProps } = this.props;
     const {
-      economicSurveyDataList,
-      familyData: { familyMembersList }
-    } = currentDraft;
+      conditionalQuestions,
+      elementsWithConditionsOnThem: { questionsWithConditionsOnThem }
+    } = currentSurvey;
 
-    const updateEconomicAnswers = (economicAnswers = [], newAnswer) => {
-      const answerToUpdate = economicAnswers.find(a => a.key === newAnswer.key);
-      if (answerToUpdate) {
-        answerToUpdate.value = newAnswer.value;
-      } else {
-        economicAnswers.push(newAnswer);
-      }
-      return [...economicAnswers];
-    };
-
-    let updatedEconomicAnswers = updateEconomicAnswers(economicSurveyDataList, {
+    // We get a draft with updated answer
+    let currentDraft;
+    const newAnswer = {
       key: question.codeName,
       value
-    });
+    };
+    if (question.forFamilyMember) {
+      currentDraft = getDraftWithUpdatedFamilyEconomics(
+        draftFromProps,
+        newAnswer,
+        memberIndex
+      );
+    } else {
+      currentDraft = getDraftWithUpdatedEconomic(draftFromProps, newAnswer);
+    }
 
-    const updatedFamilyMembers = [...familyMembersList];
-    conditionalQuestions.forEach(conditionalQuestion => {
-      if (conditionalQuestion.codeName === question.codeName) {
-        // Not necessary to evaluate conditionalQuestion if it's the question
-        // we're updating right now
-        return;
-      }
+    const cleanUpHook = (conditionalQuestion, index) => {
+      // Cleanup value from form that won't be displayed
       if (conditionalQuestion.forFamilyMember) {
-        // Checking if we have to cleanup familyMembers socioeconomic answers
-        familyMembersList.forEach((member, index) => {
-          if (
-            shouldCleanUp(
-              conditionalQuestion,
-              {
-                ...currentDraft,
-                economicSurveyDataList: updatedEconomicAnswers
-              },
-              member,
-              index
-            )
-          ) {
-            // Cleaning up socioeconomic answer for family member
-            updatedFamilyMembers[index].socioEconomicAnswers.find(
-              ea => ea.key === conditionalQuestion.codeName
-            ).value = '';
-            if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
-              setFieldValue(
-                `forFamilyMember.[${index}].[${conditionalQuestion.codeName}]`,
-                ''
-              );
-            }
-          }
-        });
-      } else if (
-        shouldCleanUp(conditionalQuestion, {
-          ...currentDraft,
-          economicSurveyDataList: updatedEconomicAnswers
-        })
-      ) {
-        // Cleanup value that won't be displayed
-        updatedEconomicAnswers = updateEconomicAnswers(updatedEconomicAnswers, {
-          key: conditionalQuestion.codeName,
-          value: ''
-        });
         if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
-          setFieldValue(`forFamily.[${conditionalQuestion.codeName}]`, '');
+          setFieldValue(
+            `forFamilyMember.[${index}].[${conditionalQuestion.codeName}]`,
+            ''
+          );
         }
+      } else if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
+        setFieldValue(`forFamily.[${conditionalQuestion.codeName}]`, '');
       }
-    });
+    };
+
+    // If the question has some conditionals on it,
+    // execute function that builds a new draft with cascaded clean up
+    // applied
+    if (questionsWithConditionsOnThem.includes(question.codeName)) {
+      console.log(
+        `Will evaluate cascading after updating ${
+          question.codeName
+        } on member ${memberIndex}`
+      );
+      currentDraft = getDraftWithUpdatedQuestionsCascading(
+        currentDraft,
+        conditionalQuestions.filter(
+          conditionalQuestion =>
+            conditionalQuestion.codeName !== question.codeName
+        ),
+        cleanUpHook
+      );
+    }
 
     // Updating formik value for the question that triggered everything
-    setFieldValue(`forFamily.[${question.codeName}]`, value);
-    this.props.updateDraft({
-      ...currentDraft,
-      economicSurveyDataList: updatedEconomicAnswers,
-      familyData: {
-        ...currentDraft.familyData,
-        familyMembersList: updatedFamilyMembers
-      }
-    });
+    if (question.forFamilyMember) {
+      setFieldValue(
+        `forFamilyMember.[${memberIndex}].[${question.codeName}]`,
+        value
+      );
+    } else {
+      setFieldValue(`forFamily.[${question.codeName}]`, value);
+    }
+
+    this.props.updateDraft(currentDraft);
   };
 
   render() {
@@ -406,12 +360,7 @@ export class Economics extends Component {
                 this.handleContinue();
               }}
             >
-              {({
-                handleChange,
-                isSubmitting,
-                setFieldValue,
-                validateForm
-              }) => (
+              {({ isSubmitting, setFieldValue, validateForm }) => (
                 <Form noValidate>
                   <React.Fragment>
                     {/* List of questions for current topic */}
@@ -437,13 +386,13 @@ export class Economics extends Component {
                               valueKey="value"
                               required={question.required}
                               isClearable={!question.required}
-                              onChange={value => {
+                              onChange={value =>
                                 this.updateEconomicAnswerCascading(
                                   question,
                                   value ? value.value : '',
                                   setFieldValue
-                                );
-                              }}
+                                )
+                              }
                             />
                           );
                         }
@@ -458,13 +407,13 @@ export class Economics extends Component {
                             }
                             name={`forFamily.[${question.codeName}]`}
                             required={question.required}
-                            onChange={e => {
+                            onChange={e =>
                               this.updateEconomicAnswerCascading(
                                 question,
                                 _.get(e, 'target.value', ''),
                                 setFieldValue
-                              );
-                            }}
+                              )
+                            }
                           />
                         );
                       })}
@@ -526,19 +475,14 @@ export class Economics extends Component {
                                             valueKey="value"
                                             required={question.required}
                                             isClearable={!question.required}
-                                            onChange={value => {
-                                              setFieldValue(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`,
-                                                value ? value.value : ''
-                                              );
-                                              this.updateFamilyMember(
-                                                value ? value.value : '',
+                                            onChange={value =>
+                                              this.updateEconomicAnswerCascading(
                                                 question,
+                                                value ? value.value : '',
+                                                setFieldValue,
                                                 index
-                                              );
-                                            }}
+                                              )
+                                            }
                                           />
                                         );
                                       }
@@ -555,14 +499,14 @@ export class Economics extends Component {
                                             question.codeName
                                           }]`}
                                           required={question.required}
-                                          onChange={e => {
-                                            handleChange(e);
-                                            this.updateFamilyMember(
-                                              e.target.value,
+                                          onChange={e =>
+                                            this.updateEconomicAnswerCascading(
                                               question,
+                                              _.get(e, 'target.value', ''),
+                                              setFieldValue,
                                               index
-                                            );
-                                          }}
+                                            )
+                                          }
                                         />
                                       );
                                     })}
