@@ -15,7 +15,7 @@ export class Begin extends Component {
     const questions = currentSurvey.surveyStoplightQuestions.length;
     return (
       <div>
-        <TitleBar title={t('views.yourLifeMap')} />
+        <TitleBar title={t('views.yourLifeMap')} progressBar />
         <Container
           variant="stretch"
           className={classes.BeginStopLightContainer}
