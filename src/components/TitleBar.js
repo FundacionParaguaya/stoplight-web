@@ -93,7 +93,7 @@ TopTitleContainer.propTypes = {
 };
 
 TopTitleContainer.defaultProps = {
-  progressBar: true
+  progressBar: false
 };
 
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });

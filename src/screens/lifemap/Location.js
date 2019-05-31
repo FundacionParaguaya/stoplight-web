@@ -159,7 +159,7 @@ export class Location extends Component {
 
     return (
       <div>
-        <TitleBar title={t('views.location.title')} />
+        <TitleBar title={t('views.location.title')} progressBar />
         <Container variant="stretch">
           {/* Map */}
           <PlacesAutocomplete
