@@ -394,7 +394,7 @@ export class Economics extends Component {
     }
     return (
       <React.Fragment>
-        <TitleBar title={topic} />
+        <TitleBar title={topic} progressBar />
         <div className={classes.mainContainer}>
           <Container variant="slim">
             <Formik

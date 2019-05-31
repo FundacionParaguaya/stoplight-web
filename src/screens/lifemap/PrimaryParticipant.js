@@ -308,7 +308,7 @@ export class PrimaryParticipant extends Component {
 
     return (
       <div>
-        <TitleBar title={t('views.primaryParticipant')} />
+        <TitleBar title={t('views.primaryParticipant')} progressBar />
         <div className={classes.topImageContainer}>
           <img alt="" height={60} width={60} src={familyFaceIcon} />
         </div>

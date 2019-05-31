@@ -111,7 +111,7 @@ export class FamilyMembers extends Component {
     const { surveyConfig } = currentSurvey;
     return (
       <div>
-        <TitleBar title={t('views.familyMembers')} />
+        <TitleBar title={t('views.familyMembers')} progressBar />
         <Container variant="slim">
           <Formik
             initialValues={{
