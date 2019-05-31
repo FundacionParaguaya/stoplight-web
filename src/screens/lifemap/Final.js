@@ -130,7 +130,7 @@ export class Final extends Component {
           leaveAction={this.state.modalLeaveAction || (() => {})}
           variant={this.state.modalVariant}
         />
-        <TitleBar title={t('views.final.title')} />
+        <TitleBar title={t('views.final.title')} progressBar />
         <Container variant="stretch">
           <Typography variant="h5" className={classes.subtitle}>
             {t('views.final.lifemapCompleted')}

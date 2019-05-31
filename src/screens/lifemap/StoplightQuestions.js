@@ -298,6 +298,7 @@ export class StoplightQuestions extends Component {
         <TitleBar
           title={question && question.questionText}
           extraTitleText={question && question.dimension}
+          progressBar
         />
 
         <Container className={classes.mainQuestionsAndBottomContainer}>
