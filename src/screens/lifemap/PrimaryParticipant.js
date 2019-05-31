@@ -21,7 +21,10 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import { withScroller } from '../../components/Scroller';
 import familyFaceIcon from '../../assets/family_face_large.png';
-import { shouldCleanUp } from '../../utils/conditional-logic';
+import {
+  getDraftWithUpdatedMember,
+  getDraftWithUpdatedQuestionsCascading
+} from '../../utils/conditional-logic';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -111,44 +114,22 @@ export class PrimaryParticipant extends Component {
 
   updateDraft = (field, value) => {
     const { currentDraft, currentSurvey } = this.props;
-    const { conditionalQuestions = [] } = currentSurvey;
+    const {
+      conditionalQuestions = [],
+      elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
+    } = currentSurvey;
 
-    const primaryParticipant = {
-      ...currentDraft.familyData.familyMembersList[0],
-      ...{
-        [field]: value
-      }
-    };
+    let newDraft = getDraftWithUpdatedMember(currentDraft, field, value, 0);
+    if (memberKeysWithConditionsOnThem.includes(field)) {
+      console.log(
+        `Will evaluate cascading after updating family key ${field} on member 0`
+      );
+      newDraft = getDraftWithUpdatedQuestionsCascading(
+        newDraft,
+        conditionalQuestions
+      );
+    }
 
-    const newDraft = {
-      ...currentDraft,
-      familyData: {
-        ...currentDraft.familyData,
-        familyMembersList: [
-          primaryParticipant,
-          ...currentDraft.familyData.familyMembersList.slice(1)
-        ]
-      }
-    };
-
-    conditionalQuestions
-      .filter(question => question.forFamilyMember)
-      .forEach(question => {
-        // We may need to cleanup some conditionalQuestions
-        if (shouldCleanUp(question, newDraft, primaryParticipant, 0)) {
-          console.log(
-            `Cleaning up conditional question ${
-              question.codeName
-            } for Primary Participant`
-          );
-          const { socioEconomicAnswers = [] } = primaryParticipant;
-          socioEconomicAnswers.find(ea => ea.key === question.codeName).value =
-            '';
-        }
-      });
-
-    // update only the first item of familyMembersList
-    //  which is the primary participant
     this.props.updateDraft(newDraft);
   };
 
@@ -240,27 +221,6 @@ export class PrimaryParticipant extends Component {
     }
   };
 
-  updateDraftWithCurrentValues = values => {
-    const { currentDraft } = this.props;
-    // The family members count does not belong in the primary participant
-    // object. We just put it there for convenience in the editing object.
-    // It is removed before storing the primary participant into the draft
-    const primaryParticipant = { ...values };
-    delete primaryParticipant.countFamilyMembers;
-    this.props.updateDraft({
-      ...currentDraft,
-      familyData: {
-        ...currentDraft.familyData,
-        familyMembersList: [
-          {
-            ...primaryParticipant
-          },
-          ...currentDraft.familyData.familyMembersList.slice(1)
-        ]
-      }
-    });
-  };
-
   syncDraft = (value, key, setFieldValue) => {
     setFieldValue(key, value);
     this.updateDraft(key, value);
@@ -320,7 +280,6 @@ export class PrimaryParticipant extends Component {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              this.updateDraftWithCurrentValues(values);
               this.handleContinue();
               setSubmitting(false);
             }}
