@@ -336,10 +336,11 @@ export const getDraftWithUpdatedMember = (
   value,
   index
 ) => {
-  const { familyMembersList } = this.props.currentDraft.familyData;
+  const { familyMembersList } = currentDraft.familyData;
   const updatedFamilyMembersList = [...familyMembersList];
   const updatedFamilyMember = { ...familyMembersList[index] };
   updatedFamilyMember[field] = value;
+  updatedFamilyMembersList[index] = updatedFamilyMember;
   return {
     ...currentDraft,
     familyData: {
