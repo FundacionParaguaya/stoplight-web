@@ -294,7 +294,7 @@ export class Overview extends Component {
           open={this.state.openModal}
           leaveAction={this.toggleModal}
         />
-        <TitleBar title={t('views.yourLifeMap')} />
+        <TitleBar title={t('views.yourLifeMap')} progressBar />
         <Container variant="stretch" ref={containerRef}>
           <SummaryDonut
             greenIndicatorCount={this.state.greenIndicatorCount}

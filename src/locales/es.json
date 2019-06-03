@@ -25,7 +25,8 @@
     "cachedData": "Datos almacenados",
     "chooseView": "Elegir vista",
     "create": "Crear",
-    "saveError": "Error al guardar tu Mapa de vida"
+    "saveError": "Error al guardar tu Mapa de vida",
+    "noOptionsToShow": "No hay opciones disponibles para seleccionar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
