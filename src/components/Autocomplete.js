@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
@@ -73,15 +74,15 @@ const styles = theme => ({
   }
 });
 
-const NoOptionsMessage = props => (
-  <Typography
-    color="textSecondary"
-    className={props.selectProps.classes.noOptionsMessage}
-    {...props.innerProps}
-  >
-    No data to show
-  </Typography>
+let NoOptionsMessage = ({ t, selectProps }) => (
+  <MenuItem component="div">
+    <Typography className={selectProps.classes.itemNotSelected}>
+      {t('general.noOptionsToShow')}
+    </Typography>
+  </MenuItem>
 );
+
+NoOptionsMessage = withTranslation()(NoOptionsMessage);
 
 const LoadingMessage = props => (
   <Typography
