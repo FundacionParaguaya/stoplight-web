@@ -26,7 +26,11 @@ const InputWithDep = ({ dep, fieldOptions, from, children, index }) => {
   const otherOption = getOtherOption(fieldOptions);
   const value = getFieldValue(from, dep, index);
 
-  return children(otherOption, value);
+  if (otherOption && value) {
+    return children(otherOption, value);
+  }
+
+  return null;
 };
 
 InputWithDep.propTypes = {
