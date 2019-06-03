@@ -31,9 +31,9 @@ const InputWithDep = ({ dep, fieldOptions, from, children, index }) => {
 
 InputWithDep.propTypes = {
   dep: PropTypes.string.isRequired,
-  fieldOptions: PropTypes.object.isRequired,
+  fieldOptions: PropTypes.array.isRequired,
   from: PropTypes.object.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.func.isRequired,
   index: PropTypes.number
 };
 
