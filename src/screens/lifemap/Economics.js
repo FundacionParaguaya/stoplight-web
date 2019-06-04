@@ -404,7 +404,7 @@ export class Economics extends Component {
                               rawOptions={question.options}
                               key={question.codeName}
                               name={`forFamily.[${question.codeName}]`}
-                              required={true}
+                              required={question.required}
                               onChange={e => {
                                 this.updateEconomicAnswerCascading(
                                   question,
