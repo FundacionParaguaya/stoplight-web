@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FormControlLabel,
   Radio,
@@ -7,25 +7,50 @@ import {
   RadioGroup,
   FormLabel
 } from '@material-ui/core';
+import { connect } from 'formik';
+import * as _ from 'lodash';
+import { withTranslation } from 'react-i18next';
+import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
 
-const RadioWithFormik = ({ label, rawOptions }) => {
-  const [value, setValue] = useState();
-
-  const handleChange = event => {
-    setValue(event.target.value);
+const RadioWithFormik = ({
+  label,
+  rawOptions,
+  formik,
+  name,
+  t,
+  tReady,
+  required,
+  ...props
+}) => {
+  const value = _.get(formik.values, name) || '';
+  const error = pathHasError(name, formik.touched, formik.errors);
+  const helperText = getErrorLabelForPath(
+    name,
+    formik.touched,
+    formik.errors,
+    t
+  );
+  const onBlur = formik.handleBlur;
+  const innerProps = {
+    name,
+    onBlur
+    // error,
+    // helperText
   };
 
+  const radioButtonProps = { ...innerProps, ...props };
   return (
     <FormControl>
-      <StyledFormLabel component="legend">{label}</StyledFormLabel>
+      <StyledFormLabel component="legend" required={required}>
+        {label}
+      </StyledFormLabel>
       <StyledRadioGroup value={value}>
         {rawOptions.map(option => (
           <FilledFormControlLabel
-            control={<GreenRadio />}
+            control={<GreenRadio {...radioButtonProps} />}
             label={option.text}
             key={option.value}
             value={option.value}
-            onChange={handleChange}
           />
         ))}
       </StyledRadioGroup>
@@ -74,4 +99,4 @@ const GreenRadio = withStyles(theme => ({
   }
 }))(props => <Radio color="default" {...props} />);
 
-export default RadioWithFormik;
+export default withTranslation()(connect(RadioWithFormik));
