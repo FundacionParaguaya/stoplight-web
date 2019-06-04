@@ -15,6 +15,7 @@ import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Container from '../../components/Container';
+import RadioWithFormik from '../../components/RadioWithFormik';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
 import {
@@ -441,6 +442,24 @@ export class Economics extends Component {
                                 this.updateEconomicAnswerCascading(
                                   question,
                                   value ? value.value : '',
+                                  setFieldValue
+                                );
+                              }}
+                            />
+                          );
+                        }
+                        if (question.answerType === 'radio') {
+                          return (
+                            <RadioWithFormik
+                              label={question.questionText}
+                              rawOptions={question.options}
+                              key={question.codeName}
+                              name={`forFamily.[${question.codeName}]`}
+                              required={true}
+                              onChange={e => {
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  _.get(e, 'target.value', ''),
                                   setFieldValue
                                 );
                               }}
