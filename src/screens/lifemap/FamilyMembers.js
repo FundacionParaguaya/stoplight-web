@@ -18,7 +18,10 @@ import TitleBar from '../../components/TitleBar';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
-import { shouldCleanUp } from '../../utils/conditional-logic';
+import {
+  getDraftWithUpdatedMember,
+  getDraftWithUpdatedQuestionsCascading
+} from '../../utils/conditional-logic';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const schemaWithDateTransform = Yup.date()
@@ -39,52 +42,27 @@ const validationSchema = Yup.object().shape({
 export class FamilyMembers extends Component {
   updateDraft = (memberIndex, value, property) => {
     const { currentDraft, currentSurvey } = this.props;
-    const { conditionalQuestions = [] } = currentSurvey;
+    const {
+      conditionalQuestions = [],
+      elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
+    } = currentSurvey;
 
-    const newDraft = {
-      ...currentDraft,
-      familyData: {
-        ...currentDraft.familyData,
-        familyMembersList: currentDraft.familyData.familyMembersList.map(
-          (item, index) => {
-            if (memberIndex === index) {
-              return {
-                ...item,
-                [property]: value
-              };
-            }
-            return item;
-          }
-        )
-      }
-    };
+    let newDraft = getDraftWithUpdatedMember(
+      currentDraft,
+      property,
+      value,
+      memberIndex
+    );
+    if (memberKeysWithConditionsOnThem.includes(property)) {
+      console.log(
+        `Will evaluate cascading after updating family key ${property} on member ${memberIndex}`
+      );
+      newDraft = getDraftWithUpdatedQuestionsCascading(
+        newDraft,
+        conditionalQuestions
+      );
+    }
 
-    conditionalQuestions
-      .filter(question => question.forFamilyMember)
-      .forEach(question => {
-        // We may need to cleanup some conditionalQuestions
-        if (
-          shouldCleanUp(
-            question,
-            newDraft,
-            newDraft.familyData.familyMembersList[memberIndex],
-            memberIndex
-          )
-        ) {
-          console.log(
-            `Cleaning up conditional question ${
-              question.codeName
-            } for Member at index ${memberIndex}`
-          );
-          const {
-            socioEconomicAnswers = []
-          } = newDraft.familyData.familyMembersList[memberIndex];
-          socioEconomicAnswers.find(ea => ea.key === question.codeName).value =
-            '';
-        }
-      });
-
-    // update only the family member that is edited
     this.props.updateDraft(newDraft);
   };
 
@@ -119,18 +97,6 @@ export class FamilyMembers extends Component {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              this.props.updateDraft({
-                ...currentDraft,
-                familyData: {
-                  ...currentDraft.familyData,
-                  familyMembersList: [
-                    {
-                      ...currentDraft.familyData.familyMembersList[0]
-                    },
-                    ...values.members
-                  ]
-                }
-              });
               this.handleContinue();
               setSubmitting(false);
             }}
