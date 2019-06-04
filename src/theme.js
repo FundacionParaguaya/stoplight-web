@@ -107,10 +107,7 @@ export const theme = {
     MuiFormControlLabel: {
       label: {
         color: '#6A6A6A',
-        fontSize: 16,
-        '&$focused': {
-          color: '#1C212F'
-        }
+        fontSize: 16
       }
     },
     MuiInputBase: {
