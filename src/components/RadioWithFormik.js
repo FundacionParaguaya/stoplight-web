@@ -4,8 +4,9 @@ import {
   Radio,
   withStyles,
   FormControl,
-  RadioGroup,
-  FormLabel
+  FormLabel,
+  FormHelperText,
+  Grid
 } from '@material-ui/core';
 import { connect } from 'formik';
 import * as _ from 'lodash';
@@ -20,6 +21,9 @@ const RadioWithFormik = ({
   t,
   tReady,
   required,
+  inputRef,
+  onChange,
+  classes,
   ...props
 }) => {
   const value = _.get(formik.values, name) || '';
@@ -30,46 +34,47 @@ const RadioWithFormik = ({
     formik.errors,
     t
   );
-  const onBlur = formik.handleBlur;
-  const innerProps = {
-    name,
-    onBlur
-    // error,
-    // helperText
-  };
 
-  const radioButtonProps = { ...innerProps, ...props };
+  const radioButtonProps = { name, onChange, ...props };
+  const labelProps = { required, error };
   return (
-    <FormControl>
-      <StyledFormLabel component="legend" required={required}>
+    <FormControl className={classes.formContainer}>
+      <StyledFormLabel component="legend" {...labelProps}>
         {label}
       </StyledFormLabel>
-      <StyledRadioGroup value={value}>
+
+      <Grid container spacing={8}>
         {rawOptions.map(option => (
-          <FilledFormControlLabel
-            control={<GreenRadio {...radioButtonProps} />}
-            label={option.text}
+          <Grid
+            item
+            xs={4}
             key={option.value}
-            value={option.value}
-          />
+            className={classes.gridCentering}
+          >
+            <FilledFormControlLabel
+              control={
+                <GreenRadio
+                  {...radioButtonProps}
+                  checked={value === option.value}
+                />
+              }
+              label={option.text}
+              value={option.value}
+              key={option.value}
+            />
+          </Grid>
         ))}
-      </StyledRadioGroup>
+      </Grid>
+      {required && <FormHelperText error={error}>{helperText}</FormHelperText>}
     </FormControl>
   );
 };
 
-const StyledRadioGroup = withStyles(() => ({
-  root: {
-    width: '100%',
-    flexDirection: 'row'
-  }
-}))(props => <RadioGroup {...props} />);
-
 const StyledFormLabel = withStyles(() => ({
   root: {
     color: '#909090',
-    marginBottom: 10,
-    marginTop: 10
+    marginBottom: 15,
+    marginTop: 15
   },
   focused: {
     color: '#909090!important'
@@ -80,13 +85,10 @@ const FilledFormControlLabel = withStyles(() => ({
   root: {
     background: '#F3F4F6',
     marginLeft: 0,
-    minWidth: 130,
-    paddingRight: 30,
+    minWidth: '100%',
+    paddingRight: 15,
     borderRadius: 50,
-    marginTop: 5,
-    marginBottom: 5,
-    height: 37,
-    marginRight: 26
+    minHeight: 37
   }
 }))(props => <FormControlLabel color="default" {...props} />);
 
@@ -99,4 +101,15 @@ const GreenRadio = withStyles(theme => ({
   }
 }))(props => <Radio color="default" {...props} />);
 
-export default withTranslation()(connect(RadioWithFormik));
+const styles = {
+  gridCentering: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  formContainer: {
+    width: '100%',
+    marginBottom: 20
+  }
+};
+
+export default withTranslation()(connect(withStyles(styles)(RadioWithFormik)));
