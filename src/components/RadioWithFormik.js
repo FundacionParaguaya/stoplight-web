@@ -17,8 +17,8 @@ const RadioWithFormik = ({ label, rawOptions }) => {
 
   return (
     <FormControl>
-      <FormLabel component="legend">{label}</FormLabel>
-      <RadioGroup value={value}>
+      <StyledFormLabel component="legend">{label}</StyledFormLabel>
+      <StyledRadioGroup value={value}>
         {rawOptions.map(option => (
           <FilledFormControlLabel
             control={<GreenRadio />}
@@ -28,10 +28,28 @@ const RadioWithFormik = ({ label, rawOptions }) => {
             onChange={handleChange}
           />
         ))}
-      </RadioGroup>
+      </StyledRadioGroup>
     </FormControl>
   );
 };
+
+const StyledRadioGroup = withStyles(() => ({
+  root: {
+    width: '100%',
+    flexDirection: 'row'
+  }
+}))(props => <RadioGroup {...props} />);
+
+const StyledFormLabel = withStyles(() => ({
+  root: {
+    color: '#909090',
+    marginBottom: 10,
+    marginTop: 10
+  },
+  focused: {
+    color: '#909090!important'
+  }
+}))(props => <FormLabel color="default" {...props} />);
 
 const FilledFormControlLabel = withStyles(() => ({
   root: {
@@ -40,8 +58,10 @@ const FilledFormControlLabel = withStyles(() => ({
     minWidth: 130,
     paddingRight: 30,
     borderRadius: 50,
-    marginTop: 10,
-    marginBottom: 10
+    marginTop: 5,
+    marginBottom: 5,
+    height: 37,
+    marginRight: 26
   }
 }))(props => <FormControlLabel color="default" {...props} />);
 
