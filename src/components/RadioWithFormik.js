@@ -61,7 +61,6 @@ const RadioWithFormik = ({
               }
               label={option.text}
               value={option.value}
-              key={option.value}
             />
           </Grid>
         ))}
