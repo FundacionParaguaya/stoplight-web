@@ -26,6 +26,7 @@ import {
   getDraftWithUpdatedFamilyEconomics,
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
+import CheckboxWithFormik from '../../components/CheckboxWithFormik';
 
 let FamilyMemberTitle = ({ name, classes }) => (
   <div className={classes.familyMemberNameLarge}>
@@ -268,9 +269,10 @@ export class Economics extends Component {
 
     // We get a draft with updated answer
     let currentDraft;
+    const keyName = !Array.isArray(value) ? 'value' : 'multipleValue';
     const newAnswer = {
       key: question.codeName,
-      value
+      [keyName]: value
     };
     if (question.forFamilyMember) {
       currentDraft = getDraftWithUpdatedFamilyEconomics(
@@ -409,6 +411,24 @@ export class Economics extends Component {
                                 this.updateEconomicAnswerCascading(
                                   question,
                                   _.get(e, 'target.value', ''),
+                                  setFieldValue
+                                );
+                              }}
+                            />
+                          );
+                        }
+                        if (question.answerType === 'checkbox') {
+                          return (
+                            <CheckboxWithFormik
+                              key={question.codeName}
+                              label={question.questionText}
+                              rawOptions={question.options}
+                              name={`forFamily.[${question.codeName}]`}
+                              required={question.required}
+                              onChange={multipleValue => {
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  multipleValue,
                                   setFieldValue
                                 );
                               }}
