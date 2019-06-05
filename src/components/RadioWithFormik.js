@@ -11,6 +11,7 @@ import {
 import { connect } from 'formik';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
 
 const RadioWithFormik = ({
@@ -68,6 +69,12 @@ const RadioWithFormik = ({
       {required && <FormHelperText error={error}>{helperText}</FormHelperText>}
     </FormControl>
   );
+};
+
+RadioWithFormik.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  rawOptions: PropTypes.array.isRequired
 };
 
 const StyledFormLabel = withStyles(() => ({
