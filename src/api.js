@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // list of environment urls
 export const url = {
-  production: 'https://platform.backend.povertystoplight.org',
+  platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
   development: 'http://localhost:8080'
