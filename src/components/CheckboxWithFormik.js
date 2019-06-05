@@ -5,7 +5,8 @@ import {
   withStyles,
   FormGroup,
   FormLabel,
-  FormHelperText
+  FormHelperText,
+  Grid
 } from '@material-ui/core';
 import { get } from 'lodash';
 import { connect } from 'formik';
@@ -54,22 +55,26 @@ const CheckboxWithFormik = ({
       >
         {label}
       </FormLabel>
-      {rawOptions.map(option => (
-        <StyledFormControlLabel
-          control={
-            <GreenCheckbox
-              name={name}
-              onChange={e => {
-                handleChange(e);
-              }}
-              checked={values.indexOf(option.value) !== -1}
+
+      <Grid container spacing={8}>
+        {rawOptions.map(option => (
+          <Grid item xs={4} key={option.value}>
+            <StyledFormControlLabel
+              control={
+                <GreenCheckbox
+                  name={name}
+                  onChange={e => {
+                    handleChange(e);
+                  }}
+                  checked={values.indexOf(option.value) !== -1}
+                />
+              }
+              label={option.text}
+              value={option.value}
             />
-          }
-          label={option.text}
-          key={option.value}
-          value={option.value}
-        />
-      ))}
+          </Grid>
+        ))}
+      </Grid>
       {required && <FormHelperText error={error}>{helperText}</FormHelperText>}
     </FormGroup>
   );
