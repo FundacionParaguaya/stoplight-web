@@ -403,7 +403,10 @@ export class Economics extends Component {
                           return (
                             <RadioWithFormik
                               label={question.questionText}
-                              rawOptions={question.options}
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
+                              )}
                               key={question.codeName}
                               name={`forFamily.[${question.codeName}]`}
                               required={question.required}
@@ -422,7 +425,10 @@ export class Economics extends Component {
                             <CheckboxWithFormik
                               key={question.codeName}
                               label={question.questionText}
-                              rawOptions={question.options}
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
+                              )}
                               name={`forFamily.[${question.codeName}]`}
                               required={question.required}
                               onChange={multipleValue => {
@@ -514,6 +520,56 @@ export class Economics extends Component {
                                             valueKey="value"
                                             required={question.required}
                                             isClearable={!question.required}
+                                            onChange={value =>
+                                              this.updateEconomicAnswerCascading(
+                                                question,
+                                                value ? value.value : '',
+                                                setFieldValue,
+                                                index
+                                              )
+                                            }
+                                          />
+                                        );
+                                      }
+                                      if (question.answerType === 'radio') {
+                                        return (
+                                          <RadioWithFormik
+                                            key={question.codeName}
+                                            label={question.questionText}
+                                            name={`forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`}
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
+                                            )}
+                                            required={question.required}
+                                            onChange={value =>
+                                              this.updateEconomicAnswerCascading(
+                                                question,
+                                                value ? value.value : '',
+                                                setFieldValue,
+                                                index
+                                              )
+                                            }
+                                          />
+                                        );
+                                      }
+                                      if (question.answerType === 'checkbox') {
+                                        return (
+                                          <CheckboxWithFormik
+                                            key={question.codeName}
+                                            label={question.questionText}
+                                            name={`forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`}
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
+                                            )}
+                                            required={question.required}
                                             onChange={value =>
                                               this.updateEconomicAnswerCascading(
                                                 question,
