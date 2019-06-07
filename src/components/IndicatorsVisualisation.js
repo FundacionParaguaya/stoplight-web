@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { withStyles, Typography, Button, Grid } from '@material-ui/core';
+import { withStyles, Typography, Grid } from '@material-ui/core';
 import { PieChart, Pie, Cell } from 'recharts';
 import TitleBar from './TitleBar';
 import Container from './Container';
 import SummaryStackedBar from './summary/SummaryStackedBar';
+import iconAchievement from '../assets/icon_achievement.png';
+import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
 
 const INDICATORS = {
@@ -111,17 +113,125 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column'
+  },
+  pieInnerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: 150,
+    textAlign: 'center',
+    position: 'relative'
+  },
+  icon: {
+    color: '#E5E4E2',
+    cursor: 'pointer',
+    paddingLeft: 5,
+    '&:nth-child(1)': {
+      borderRight: '2px solid #E5E4E2',
+      paddingRight: 5,
+      paddingLeft: 0
+    }
+  },
+  iconsContainer: {
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  iconActive: {
+    color: '#626262'
+  },
+  flexStart: {
+    alignItems: 'flex-start'
+  },
+  flexEnd: {
+    alignItems: 'flex-end'
+  },
+  detailContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 15,
+    right: 0,
+    zIndex: 1
   }
 };
+
+const INDICATORS_TYPES = ['pie', 'bar'];
+const [PIE, BAR] = INDICATORS_TYPES;
+
+const alignByIndex = index => {
+  if (index % 3 === 0) return 'flexStart';
+  if ((index - 2) % 3 === 0) return 'flexEnd';
+  return null;
+};
+
+let CountDetail = ({ type, count, classes }) => {
+  const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
+
+  return (
+    <>
+      {type === PRIORITY && (
+        <div className={`${classes.countContainer}`}>
+          <img
+            src={iconPriority}
+            alt="Priority"
+            width="18"
+            height="18"
+            className={classes.icon}
+          />
+          <Typography className={classes.count}>{count.toString()}</Typography>
+        </div>
+      )}
+      {type === ACHIEVEMENT && (
+        <div className={`${classes.countContainer}`}>
+          <img
+            src={iconAchievement}
+            alt="Achievement"
+            width="18"
+            height="18"
+            className={classes.icon}
+          />
+          <Typography className={classes.count}>{count.toString()}</Typography>
+        </div>
+      )}
+    </>
+  );
+};
+
+const countDetailStyles = {
+  countContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%'
+  },
+  count: {
+    fontSize: 16,
+    marginLeft: 5
+  },
+  icon: {
+    border: '3px solid #fff',
+    borderRadius: '50%',
+    boxSizing: 'content-box'
+  }
+};
+
+CountDetail = withStyles(countDetailStyles)(CountDetail);
 
 const Indicators = withStyles(styles)(({ classes, type }) => {
   return (
     <Grid container>
-      {Object.keys(INDICATORS).map(elem => {
+      {Object.keys(INDICATORS).map((elem, index) => {
         return (
-          <>
-            {type && (
-              <Grid xs={12} key={elem} className={classes.barContainer}>
+          <React.Fragment key={elem}>
+            {type === BAR && (
+              <Grid item xs={12} key={elem} className={classes.barContainer}>
                 <Typography variant="subtitle1" className={classes.title}>
                   {elem}
                 </Typography>
@@ -133,29 +243,38 @@ const Indicators = withStyles(styles)(({ classes, type }) => {
                 />
               </Grid>
             )}
-            {!type && (
-              <Grid item xs={4} key={elem} className={classes.pieContainer}>
-                <IndicatorsDonut
-                  greenIndicatorCount={INDICATORS[elem].green}
-                  yellowIndicatorCount={INDICATORS[elem].yellow}
-                  redIndicatorCount={INDICATORS[elem].red}
-                  skippedIndicatorCount={INDICATORS[elem].skipped}
-                />
-                <Typography variant="subtitle1" className={classes.title}>
-                  {elem}
-                </Typography>
+            {type === PIE && (
+              <Grid
+                item
+                xs={4}
+                key={`donut${elem}`}
+                className={`${classes.pieContainer} ${
+                  classes[alignByIndex(index)]
+                }`}
+              >
+                <div className={classes.pieInnerContainer}>
+                  <div className={classes.detailContainer}>
+                    <CountDetail count={14} type="achievement" />
+                    <CountDetail count={4} type="priority" />
+                  </div>
+                  <IndicatorsDonut
+                    greenIndicatorCount={INDICATORS[elem].green}
+                    yellowIndicatorCount={INDICATORS[elem].yellow}
+                    redIndicatorCount={INDICATORS[elem].red}
+                    skippedIndicatorCount={INDICATORS[elem].skipped}
+                  />
+                  <Typography variant="subtitle1" className={classes.title}>
+                    {elem}
+                  </Typography>
+                </div>
               </Grid>
             )}
-          </>
+          </React.Fragment>
         );
       })}
     </Grid>
   );
 });
-
-const Divider = () => {
-  return <div style={{ width: '100%', height: 20 }} />;
-};
 
 const IndicatorsDonut = ({
   redIndicatorCount,
@@ -190,26 +309,35 @@ const IndicatorsDonut = ({
   );
 };
 
-const IndicatorsVisualisation = () => {
-  // false bar - true pie
-  const [indicatorsType, setIndicatorsType] = useState(false);
+const IndicatorsVisualisation = ({ classes }) => {
+  const [indicatorsType, setIndicatorsType] = useState(PIE);
 
   return (
     <div>
       <TitleBar title="Indicators Visualisation" />
-      <Container variant="stretch">
-        <Divider />
-        <Button
-          variant="contained"
-          onClick={() => setIndicatorsType(!indicatorsType)}
-        >
-          Pie
-        </Button>
-        <Divider />
+      <Container>
+        <div className={classes.iconsContainer}>
+          <i
+            className={`material-icons ${
+              indicatorsType === PIE ? classes.iconActive : null
+            } ${classes.icon}`}
+            onClick={() => setIndicatorsType(PIE)}
+          >
+            trip_origin
+          </i>
+          <i
+            className={`material-icons ${
+              indicatorsType === BAR ? classes.iconActive : null
+            } ${classes.icon}`}
+            onClick={() => setIndicatorsType(BAR)}
+          >
+            view_headline
+          </i>
+        </div>
         <Indicators type={indicatorsType} />
       </Container>
     </div>
   );
 };
 
-export default IndicatorsVisualisation;
+export default withStyles(styles)(IndicatorsVisualisation);
