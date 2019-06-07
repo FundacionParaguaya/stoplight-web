@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import propTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
@@ -37,6 +37,7 @@ const InputWithFormik = ({
     onChange,
     fullWidth: true
   };
+  useEffect(() => () => props.onChange({ target: { value: '' } }), []);
   const textFieldProps = { ...innerProps, ...props };
   return <TextField {...textFieldProps} />;
 };
