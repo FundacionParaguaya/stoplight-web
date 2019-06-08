@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { withStyles, Typography, Grid } from '@material-ui/core';
 import { PieChart, Pie, Cell } from 'recharts';
+import { useTransition, animated } from 'react-spring';
 import SummaryStackedBar from './summary/SummaryStackedBar';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
@@ -111,60 +112,84 @@ const countDetailStyles = {
 CountDetail = withStyles(countDetailStyles)(CountDetail);
 
 const Indicators = withStyles(styles)(({ classes, type, indicators }) => {
-  return (
-    <Grid container>
-      {indicators.map((indicator, index) => {
-        return (
-          <React.Fragment key={indicator.name}>
-            {type === BAR && (
-              <Grid
-                item
-                xs={12}
-                key={indicator.name}
-                className={classes.barContainer}
-              >
-                <Typography variant="subtitle1" className={classes.title}>
-                  {indicator.name}
-                </Typography>
-                <SummaryStackedBar
-                  greenIndicatorCount={indicator.stoplights.green}
-                  yellowIndicatorCount={indicator.stoplights.yellow}
-                  redIndicatorCount={indicator.stoplights.red}
-                  skippedIndicatorCount={indicator.stoplights.skipped}
-                />
-              </Grid>
-            )}
-            {type === PIE && (
-              <Grid
-                item
-                xs={4}
-                key={`donut${indicator.name}`}
-                className={`${classes.pieContainer} ${
-                  classes[alignByIndex(index)]
-                }`}
-              >
-                <div className={classes.pieInnerContainer}>
-                  <div className={classes.detailContainer}>
-                    <CountDetail count={14} type="achievement" />
-                    <CountDetail count={4} type="priority" />
-                  </div>
-                  <IndicatorsDonut
-                    greenIndicatorCount={indicator.stoplights.green}
-                    yellowIndicatorCount={indicator.stoplights.yellow}
-                    redIndicatorCount={indicator.stoplights.red}
-                    skippedIndicatorCount={indicator.stoplights.skipped}
-                  />
-                  <Typography variant="subtitle1" className={classes.title}>
-                    {indicator.name}
-                  </Typography>
-                </div>
-              </Grid>
-            )}
-          </React.Fragment>
-        );
-      })}
-    </Grid>
-  );
+  const transitions = useTransition(type, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 }
+  });
+
+  useEffect(() => {});
+
+  return transitions.map(({ item, key, props }) => {
+    return (
+      <div key={key} style={{ position: 'relative' }}>
+        {item === PIE && (
+          <animated.div
+            style={{ ...props, position: type === BAR ? 'absolute' : null }}
+          >
+            <Grid container>
+              {indicators.map((indicator, index) => {
+                return (
+                  <Grid
+                    item
+                    xs={4}
+                    key={`donut${indicator.name}`}
+                    className={`${classes.pieContainer} ${
+                      classes[alignByIndex(index)]
+                    }`}
+                  >
+                    <div className={classes.pieInnerContainer}>
+                      <div className={classes.detailContainer}>
+                        <CountDetail count={14} type="achievement" />
+                        <CountDetail count={4} type="priority" />
+                      </div>
+                      <IndicatorsDonut
+                        greenIndicatorCount={indicator.stoplights.green}
+                        yellowIndicatorCount={indicator.stoplights.yellow}
+                        redIndicatorCount={indicator.stoplights.red}
+                        skippedIndicatorCount={indicator.stoplights.skipped}
+                      />
+                      <Typography variant="subtitle1" className={classes.title}>
+                        {indicator.name}
+                      </Typography>
+                    </div>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </animated.div>
+        )}
+        {item === BAR && (
+          <animated.div
+            style={{ ...props, position: type === PIE ? 'absolute' : null }}
+          >
+            <Grid container>
+              {indicators.map(indicator => {
+                return (
+                  <Grid
+                    item
+                    xs={12}
+                    key={indicator.name}
+                    className={classes.barContainer}
+                  >
+                    <Typography variant="subtitle1" className={classes.title}>
+                      {indicator.name}
+                    </Typography>
+                    <SummaryStackedBar
+                      greenIndicatorCount={indicator.stoplights.green}
+                      yellowIndicatorCount={indicator.stoplights.yellow}
+                      redIndicatorCount={indicator.stoplights.red}
+                      skippedIndicatorCount={indicator.stoplights.skipped}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </animated.div>
+        )}
+      </div>
+    );
+  });
 });
 
 const IndicatorsDonut = ({
