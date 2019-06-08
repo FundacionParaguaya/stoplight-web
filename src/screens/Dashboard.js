@@ -24,6 +24,7 @@ import dimensionHousingIcon from '../assets/dimension_housing.png';
 import dimensionIncomeIcon from '../assets/dimension_income.png';
 import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
 import dimensionOrganizationIcon from '../assets/dimension_organization.png';
+import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 
 const getIconForDimension = dimension => {
   switch (normalizeDimension(dimension)) {
@@ -41,6 +42,130 @@ const getIconForDimension = dimension => {
       return dimensionOrganizationIcon;
   }
 };
+
+const INDICATORS = [
+  {
+    name: 'Medioambiente',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Basura',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Agua',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Destino del desagüe',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Acceso a la salud',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Alimentación',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 20,
+    achievements: 100
+  },
+  {
+    name: 'Higiene',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Salud Sexual',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Dientes Sanos',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Vista',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Consumo Problemático',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  }
+];
 
 const fakeData = {
   'Ingreso y Empleo': {
@@ -190,74 +315,83 @@ const Dashboard = props => {
           </div>
         )}
         {!loading && (
-          <List>
-            {Object.keys(fakeData).map(d => {
-              const dimension = fakeData[d];
-              return (
-                <React.Fragment key={d}>
-                  <ListItem
-                    className={classes.row}
-                    classes={{ root: classes.listItem }}
-                    onClick={() => handleDimensionClick(d)}
-                  >
-                    <div className={classes.mainItemContainer}>
-                      <DimensionTitle dimension={d} />
+          <>
+            <List>
+              {Object.keys(fakeData).map(d => {
+                const dimension = fakeData[d];
+                return (
+                  <React.Fragment key={d}>
+                    <ListItem
+                      className={classes.row}
+                      classes={{ root: classes.listItem }}
+                      onClick={() => handleDimensionClick(d)}
+                    >
+                      <div className={classes.mainItemContainer}>
+                        <DimensionTitle dimension={d} />
 
-                      <div className={classes.stackbarContainer}>
-                        <SummaryStackedBar
-                          greenIndicatorCount={dimension.green}
-                          yellowIndicatorCount={dimension.yellow}
-                          redIndicatorCount={dimension.red}
-                          skippedIndicatorCount={dimension.skipped}
-                          animationDuration={500}
-                        />
-                      </div>
+                        <div className={classes.stackbarContainer}>
+                          <SummaryStackedBar
+                            greenIndicatorCount={dimension.green}
+                            yellowIndicatorCount={dimension.yellow}
+                            redIndicatorCount={dimension.red}
+                            skippedIndicatorCount={dimension.skipped}
+                            animationDuration={500}
+                          />
+                        </div>
 
-                      <div className={classes.priorAndAchievem}>
-                        <div className={classes.innerPriorAndAchievem}>
-                          <img
-                            src={iconPriority}
-                            className={classes.icon}
-                            alt=""
-                          />
-                          <Typography variant="h5" className={classes.counting}>
-                            {Number.parseInt(dimension.priorities, 10)}
-                          </Typography>
-                        </div>
-                        <div className={classes.innerPriorAndAchievem}>
-                          <img
-                            src={iconAchievement}
-                            className={classes.icon}
-                            alt=""
-                          />
-                          <Typography variant="h5" className={classes.counting}>
-                            {Number.parseInt(dimension.achievements, 10)}
-                          </Typography>
-                        </div>
-                        <div className={classes.expandContainer}>
-                          {dimensionOpen === d ? (
-                            <ExpandLess className={classes.expandIcon} />
-                          ) : (
-                            <ExpandMore className={classes.expandIcon} />
-                          )}
+                        <div className={classes.priorAndAchievem}>
+                          <div className={classes.innerPriorAndAchievem}>
+                            <img
+                              src={iconPriority}
+                              className={classes.icon}
+                              alt=""
+                            />
+                            <Typography
+                              variant="h5"
+                              className={classes.counting}
+                            >
+                              {Number.parseInt(dimension.priorities, 10)}
+                            </Typography>
+                          </div>
+                          <div className={classes.innerPriorAndAchievem}>
+                            <img
+                              src={iconAchievement}
+                              className={classes.icon}
+                              alt=""
+                            />
+                            <Typography
+                              variant="h5"
+                              className={classes.counting}
+                            >
+                              {Number.parseInt(dimension.achievements, 10)}
+                            </Typography>
+                          </div>
+                          <div className={classes.expandContainer}>
+                            {dimensionOpen === d ? (
+                              <ExpandLess className={classes.expandIcon} />
+                            ) : (
+                              <ExpandMore className={classes.expandIcon} />
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </ListItem>
-                  <Collapse
-                    in={dimensionOpen === d}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    <div className={classes.dimensionIndicatorContainer}>
-                      <DimensionIndicator dimension={dimension} />
-                    </div>
-                    <div className={classes.dimensionIndicatorUnderline} />
-                  </Collapse>
-                </React.Fragment>
-              );
-            })}
-          </List>
+                    </ListItem>
+                    <Collapse
+                      in={dimensionOpen === d}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <div className={classes.dimensionIndicatorContainer}>
+                        <DimensionIndicator dimension={dimension} />
+                      </div>
+                      <div className={classes.dimensionIndicatorUnderline} />
+                    </Collapse>
+                  </React.Fragment>
+                );
+              })}
+            </List>
+            <IndicatorsVisualisation indicators={INDICATORS} />
+          </>
         )}
         <BottomSpacer />
       </Container>
