@@ -1,12 +1,11 @@
 import React from 'react';
 import { withStyles, Typography, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import Container from './Container';
 
-const DEFAULT_BUTTON_TEXT = 'Got it!';
-
 function FooterPopup(props) {
-  const { classes } = props;
+  const { classes, t } = props;
 
   return (
     <React.Fragment>
@@ -31,7 +30,7 @@ function FooterPopup(props) {
               className={classes.button}
             >
               <i className={`material-icons ${classes.icon}`}>check</i>
-              {props.buttonText || DEFAULT_BUTTON_TEXT}
+              {t('general.gotIt')}
             </Button>
           </Container>
         </div>
@@ -92,4 +91,4 @@ const styles = theme => ({
   titleStyle: { fontWeight: 600 }
 });
 
-export default withStyles(styles)(FooterPopup);
+export default withTranslation()(withStyles(styles)(FooterPopup));
