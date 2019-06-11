@@ -185,7 +185,8 @@ export class StoplightQuestions extends Component {
     imageStatus: null,
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
-    ]
+    ],
+    aspectRatio: null
   };
 
   handleContinue = () => {
@@ -262,7 +263,8 @@ export class StoplightQuestions extends Component {
       imageStatus: 0,
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
-      ]
+      ],
+      aspectRatio: null
     });
   }
 
@@ -270,6 +272,18 @@ export class StoplightQuestions extends Component {
     this.setState(prevState => ({
       imageStatus: prevState.imageStatus + 1
     }));
+  };
+
+  setAspectRatio = aspectRatio => {
+    this.setState(prevState => {
+      const maxAspectRatio =
+        prevState.aspectRatio > aspectRatio
+          ? prevState.aspectRatio
+          : aspectRatio;
+      return {
+        aspectRatio: maxAspectRatio
+      };
+    });
   };
 
   componentDidUpdate(prevProps) {
@@ -317,6 +331,8 @@ export class StoplightQuestions extends Component {
                 submitQuestion={e => this.submitQuestion(e)}
                 handleImageLoaded={this.handleImageLoaded}
                 imageStatus={this.state.imageStatus}
+                setAspectRatio={this.setAspectRatio}
+                aspectRatio={this.state.aspectRatio}
               />
             ) : (
               <QuestionsWrapper
@@ -324,6 +340,8 @@ export class StoplightQuestions extends Component {
                 submitQuestion={e => this.submitQuestion(e)}
                 handleImageLoaded={this.handleImageLoaded}
                 imageStatus={this.state.imageStatus}
+                setAspectRatio={this.setAspectRatio}
+                aspectRatio={this.state.aspectRatio}
               />
             )}
           </div>
