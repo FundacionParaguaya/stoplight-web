@@ -20,9 +20,9 @@ const questionsWrapperStyles = {
   },
   questionImage: {
     objectFit: 'cover',
-    height: '100%',
     width: '100%',
-    display: 'block'
+    position: 'absolute',
+    top: 0
   },
   answeredQuestion: {
     justifyContent: 'center',
@@ -66,10 +66,13 @@ const questionsWrapperStyles = {
     alignItems: 'flex-start'
   },
   imageContainer: {
-    height: 240
+    position: 'relative'
   },
   circularProgress: {
-    color: 'white'
+    color: 'white',
+    height: 240,
+    position: 'absolute',
+    top: '50%'
   }
 };
 
