@@ -8,16 +8,7 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 
 const { GREEN } = COLORS;
 
-const data = [
-  { month: '2019-05-13T00:00', surveys: 750 },
-  { month: '2019-01-15T00:00', surveys: 560 },
-  { month: '2019-07-16T00:00', surveys: 1280 },
-  { month: '2019-08-23T00:00', surveys: 400 },
-  { month: '2019-09-04T00:00', surveys: 1400 },
-  { month: '2019-10-14T00:00', surveys: 1300 }
-];
-
-const GreenLineChart = () => {
+const GreenLineChart = ({ data }) => {
   return (
     <LineChart
       width={730}
@@ -27,7 +18,7 @@ const GreenLineChart = () => {
     >
       >
       <XAxis
-        dataKey="month"
+        dataKey="date"
         tickLine={false}
         tick={{ fontFamily: 'Poppins' }}
         stroke="#D8D8D8"
