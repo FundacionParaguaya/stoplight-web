@@ -24,6 +24,7 @@ import dimensionHousingIcon from '../assets/dimension_housing.png';
 import dimensionIncomeIcon from '../assets/dimension_income.png';
 import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
 import dimensionOrganizationIcon from '../assets/dimension_organization.png';
+import GreenLineChart from '../components/LineChart';
 
 const getIconForDimension = dimension => {
   switch (normalizeDimension(dimension)) {
@@ -41,6 +42,15 @@ const getIconForDimension = dimension => {
       return dimensionOrganizationIcon;
   }
 };
+
+const chartData = [
+  { date: '2019-05-13T00:00', surveys: 750 },
+  { date: '2019-01-15T00:00', surveys: 560 },
+  { date: '2019-07-16T00:00', surveys: 1280 },
+  { date: '2019-08-23T00:00', surveys: 400 },
+  { date: '2019-09-04T00:00', surveys: 1400 },
+  { date: '2019-10-14T00:00', surveys: 1300 }
+];
 
 const fakeData = {
   'Ingreso y Empleo': {
@@ -190,74 +200,84 @@ const Dashboard = props => {
           </div>
         )}
         {!loading && (
-          <List>
-            {Object.keys(fakeData).map(d => {
-              const dimension = fakeData[d];
-              return (
-                <React.Fragment key={d}>
-                  <ListItem
-                    className={classes.row}
-                    classes={{ root: classes.listItem }}
-                    onClick={() => handleDimensionClick(d)}
-                  >
-                    <div className={classes.mainItemContainer}>
-                      <DimensionTitle dimension={d} />
+          <>
+            <List>
+              {Object.keys(fakeData).map(d => {
+                const dimension = fakeData[d];
+                return (
+                  <React.Fragment key={d}>
+                    <ListItem
+                      className={classes.row}
+                      classes={{ root: classes.listItem }}
+                      onClick={() => handleDimensionClick(d)}
+                    >
+                      <div className={classes.mainItemContainer}>
+                        <DimensionTitle dimension={d} />
 
-                      <div className={classes.stackbarContainer}>
-                        <SummaryStackedBar
-                          greenIndicatorCount={dimension.green}
-                          yellowIndicatorCount={dimension.yellow}
-                          redIndicatorCount={dimension.red}
-                          skippedIndicatorCount={dimension.skipped}
-                          animationDuration={500}
-                        />
-                      </div>
+                        <div className={classes.stackbarContainer}>
+                          <SummaryStackedBar
+                            greenIndicatorCount={dimension.green}
+                            yellowIndicatorCount={dimension.yellow}
+                            redIndicatorCount={dimension.red}
+                            skippedIndicatorCount={dimension.skipped}
+                            animationDuration={500}
+                          />
+                        </div>
 
-                      <div className={classes.priorAndAchievem}>
-                        <div className={classes.innerPriorAndAchievem}>
-                          <img
-                            src={iconPriority}
-                            className={classes.icon}
-                            alt=""
-                          />
-                          <Typography variant="h5" className={classes.counting}>
-                            {Number.parseInt(dimension.priorities, 10)}
-                          </Typography>
-                        </div>
-                        <div className={classes.innerPriorAndAchievem}>
-                          <img
-                            src={iconAchievement}
-                            className={classes.icon}
-                            alt=""
-                          />
-                          <Typography variant="h5" className={classes.counting}>
-                            {Number.parseInt(dimension.achievements, 10)}
-                          </Typography>
-                        </div>
-                        <div className={classes.expandContainer}>
-                          {dimensionOpen === d ? (
-                            <ExpandLess className={classes.expandIcon} />
-                          ) : (
-                            <ExpandMore className={classes.expandIcon} />
-                          )}
+                        <div className={classes.priorAndAchievem}>
+                          <div className={classes.innerPriorAndAchievem}>
+                            <img
+                              src={iconPriority}
+                              className={classes.icon}
+                              alt=""
+                            />
+                            <Typography
+                              variant="h5"
+                              className={classes.counting}
+                            >
+                              {Number.parseInt(dimension.priorities, 10)}
+                            </Typography>
+                          </div>
+                          <div className={classes.innerPriorAndAchievem}>
+                            <img
+                              src={iconAchievement}
+                              className={classes.icon}
+                              alt=""
+                            />
+                            <Typography
+                              variant="h5"
+                              className={classes.counting}
+                            >
+                              {Number.parseInt(dimension.achievements, 10)}
+                            </Typography>
+                          </div>
+                          <div className={classes.expandContainer}>
+                            {dimensionOpen === d ? (
+                              <ExpandLess className={classes.expandIcon} />
+                            ) : (
+                              <ExpandMore className={classes.expandIcon} />
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </ListItem>
-                  <Collapse
-                    in={dimensionOpen === d}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    <div className={classes.dimensionIndicatorContainer}>
-                      <DimensionIndicator dimension={dimension} />
-                    </div>
-                    <div className={classes.dimensionIndicatorUnderline} />
-                  </Collapse>
-                </React.Fragment>
-              );
-            })}
-          </List>
+                    </ListItem>
+                    <Collapse
+                      in={dimensionOpen === d}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <div className={classes.dimensionIndicatorContainer}>
+                        <DimensionIndicator dimension={dimension} />
+                      </div>
+                      <div className={classes.dimensionIndicatorUnderline} />
+                    </Collapse>
+                  </React.Fragment>
+                );
+              })}
+            </List>
+            <div style={{ width: '100%', height: '5em' }} />
+            <GreenLineChart data={chartData} />
+          </>
         )}
         <BottomSpacer />
       </Container>
