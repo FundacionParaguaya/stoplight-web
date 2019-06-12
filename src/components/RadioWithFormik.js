@@ -65,7 +65,7 @@ const RadioWithFormik = ({
           </Grid>
         ))}
       </Grid>
-      {required && <FormHelperText error={error}>{helperText}</FormHelperText>}
+      {error && <FormHelperText error={error}>{helperText}</FormHelperText>}
     </FormControl>
   );
 };
