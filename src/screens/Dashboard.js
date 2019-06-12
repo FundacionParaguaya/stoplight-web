@@ -25,6 +25,7 @@ import dimensionIncomeIcon from '../assets/dimension_income.png';
 import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
 import dimensionOrganizationIcon from '../assets/dimension_organization.png';
 import GreenLineChart from '../components/LineChart';
+import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 
 const getIconForDimension = dimension => {
   switch (normalizeDimension(dimension)) {
@@ -50,6 +51,130 @@ const chartData = [
   { date: '2019-08-23T00:00', surveys: 400 },
   { date: '2019-09-04T00:00', surveys: 1400 },
   { date: '2019-10-14T00:00', surveys: 1300 }
+];
+
+const INDICATORS = [
+  {
+    name: 'Medioambiente',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Basura',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Agua',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Destino del desagüe',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Acceso a la salud',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Alimentación',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 20,
+    achievements: 100
+  },
+  {
+    name: 'Higiene',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Salud Sexual',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Dientes Sanos',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Vista',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  },
+  {
+    name: 'Consumo Problemático',
+    stoplights: {
+      green: 13,
+      yellow: 16,
+      red: 25,
+      skipped: 6
+    },
+    priorities: 60,
+    achievements: 100
+  }
 ];
 
 const fakeData = {
@@ -277,6 +402,8 @@ const Dashboard = props => {
             </List>
             <div style={{ width: '100%', height: '5em' }} />
             <GreenLineChart data={chartData} />
+            <div style={{ width: '100%', height: '5em' }} />
+            <IndicatorsVisualisation indicators={INDICATORS} />
           </>
         )}
         <BottomSpacer />

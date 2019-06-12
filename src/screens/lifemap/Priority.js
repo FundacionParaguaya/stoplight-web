@@ -216,6 +216,14 @@ class Priority extends Component {
             >
               {({ isSubmitting }) => (
                 <Form noValidate>
+                  <InputWithFormik
+                    label={t('views.lifemap.whyDontYouHaveIt')}
+                    name="reason"
+                  />
+                  <InputWithFormik
+                    label={t('views.lifemap.whatWillYouDoToGetIt')}
+                    name="action"
+                  />
                   <AutocompleteWithFormik
                     label={t('views.lifemap.howManyMonthsWillItTake')}
                     name="estimatedDate"
@@ -224,14 +232,6 @@ class Priority extends Component {
                     valueKey="value"
                     required
                     isClearable={false}
-                  />
-                  <InputWithFormik
-                    label={t('views.lifemap.whyDontYouHaveIt')}
-                    name="reason"
-                  />
-                  <InputWithFormik
-                    label={t('views.lifemap.whatWillYouDoToGetIt')}
-                    name="action"
                   />
                   <div className={classes.buttonContainerForm}>
                     <Button
