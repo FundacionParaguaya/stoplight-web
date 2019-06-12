@@ -20,9 +20,9 @@ const questionsWrapperStyles = {
   },
   questionImage: {
     objectFit: 'cover',
-    height: '100%',
     width: '100%',
-    display: 'block'
+    position: 'absolute',
+    top: 0
   },
   answeredQuestion: {
     justifyContent: 'center',
@@ -66,10 +66,13 @@ const questionsWrapperStyles = {
     alignItems: 'flex-start'
   },
   imageContainer: {
-    height: 240
+    position: 'relative'
   },
   circularProgress: {
-    color: 'white'
+    color: 'white',
+    height: 240,
+    position: 'absolute',
+    top: '50%'
   }
 };
 
@@ -79,7 +82,9 @@ let QuestionsWrapper = ({
   classes,
   submitQuestion,
   handleImageLoaded,
-  imageStatus
+  imageStatus,
+  setAspectRatio,
+  aspectRatio
 }) => {
   const [showIcon, setShowIcon] = useState(0);
   let sortedQuestions;
@@ -90,6 +95,17 @@ let QuestionsWrapper = ({
       return b.value - a.value;
     });
   }
+
+  const handleLoad = e => {
+    const { width, height } = e.target;
+    setAspectRatio(width / height);
+    handleImageLoaded(e);
+  };
+
+  const getPaddingBottom = a => {
+    const paddingBottom = a !== null ? 100 / a : null;
+    return { paddingBottom: `${paddingBottom}%` };
+  };
 
   return (
     <Grid container spacing={16}>
@@ -126,7 +142,10 @@ let QuestionsWrapper = ({
               >
                 <React.Fragment>
                   {imageStatus < sortedQuestions.length && (
-                    <div className={classes.imageContainer}>
+                    <div
+                      className={classes.imageContainer}
+                      style={getPaddingBottom(1)}
+                    >
                       <div className={classes.loadingContainer}>
                         {' '}
                         <CircularProgress
@@ -135,7 +154,7 @@ let QuestionsWrapper = ({
                         />
                       </div>
                       <img
-                        onLoad={handleImageLoaded}
+                        onLoad={handleLoad}
                         src={e.url}
                         alt="surveyImg"
                         style={{ display: 'none', height: 0 }}
@@ -143,7 +162,10 @@ let QuestionsWrapper = ({
                     </div>
                   )}
                   {imageStatus === sortedQuestions.length && (
-                    <div className={classes.imageContainer}>
+                    <div
+                      className={classes.imageContainer}
+                      style={getPaddingBottom(aspectRatio)}
+                    >
                       <img
                         className={classes.questionImage}
                         src={e.url}
@@ -185,7 +207,8 @@ export class StoplightQuestions extends Component {
     imageStatus: null,
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
-    ]
+    ],
+    aspectRatio: null
   };
 
   handleContinue = () => {
@@ -262,7 +285,8 @@ export class StoplightQuestions extends Component {
       imageStatus: 0,
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
-      ]
+      ],
+      aspectRatio: null
     });
   }
 
@@ -270,6 +294,18 @@ export class StoplightQuestions extends Component {
     this.setState(prevState => ({
       imageStatus: prevState.imageStatus + 1
     }));
+  };
+
+  setAspectRatio = aspectRatio => {
+    this.setState(prevState => {
+      const maxAspectRatio =
+        prevState.aspectRatio > aspectRatio
+          ? prevState.aspectRatio
+          : aspectRatio;
+      return {
+        aspectRatio: maxAspectRatio
+      };
+    });
   };
 
   componentDidUpdate(prevProps) {
@@ -317,6 +353,8 @@ export class StoplightQuestions extends Component {
                 submitQuestion={e => this.submitQuestion(e)}
                 handleImageLoaded={this.handleImageLoaded}
                 imageStatus={this.state.imageStatus}
+                setAspectRatio={this.setAspectRatio}
+                aspectRatio={this.state.aspectRatio}
               />
             ) : (
               <QuestionsWrapper
@@ -324,6 +362,8 @@ export class StoplightQuestions extends Component {
                 submitQuestion={e => this.submitQuestion(e)}
                 handleImageLoaded={this.handleImageLoaded}
                 imageStatus={this.state.imageStatus}
+                setAspectRatio={this.setAspectRatio}
+                aspectRatio={this.state.aspectRatio}
               />
             )}
           </div>
