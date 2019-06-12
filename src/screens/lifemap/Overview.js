@@ -92,7 +92,6 @@ let DimensionQuestions = ({
         xs={4}
         md={3}
         lg={2}
-        xl={2}
         key={indicator.key}
         onClick={() => history.push(getForwardURLForIndicator(indicator))}
         className={classes.gridItemStyle}
