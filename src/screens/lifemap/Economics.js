@@ -545,10 +545,10 @@ export class Economics extends Component {
                                               index
                                             )}
                                             required={question.required}
-                                            onChange={value =>
+                                            onChange={multipleValue =>
                                               this.updateEconomicAnswerCascading(
                                                 question,
-                                                value ? value.value : '',
+                                                multipleValue,
                                                 setFieldValue,
                                                 index
                                               )
@@ -570,10 +570,10 @@ export class Economics extends Component {
                                               index
                                             )}
                                             required={question.required}
-                                            onChange={value =>
+                                            onChange={multipleValue =>
                                               this.updateEconomicAnswerCascading(
                                                 question,
-                                                value ? value.value : '',
+                                                multipleValue,
                                                 setFieldValue,
                                                 index
                                               )
