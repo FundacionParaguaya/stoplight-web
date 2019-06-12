@@ -202,14 +202,13 @@ const IndicatorsFilter = ({
   );
 };
 
-const styles = theme => ({
+const styles = () => ({
   mainContainer: {
     width: '100%',
     height: '42px',
-    border: '0.5px solid #DCDEE3',
+    borderBottom: '0.5px solid #DCDEE3',
     borderRadius: 2,
     backgroundColor: '#FAFBFC',
-    marginTop: theme.spacing.unit * 4,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
