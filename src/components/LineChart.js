@@ -12,7 +12,7 @@ const GreenLineChart = ({ data }) => {
   return (
     <LineChart
       width={730}
-      height={300}
+      height={250}
       data={data}
       margin={{ bottom: 30, left: 25, right: 30, top: 25 }}
     >
@@ -30,6 +30,7 @@ const GreenLineChart = ({ data }) => {
         }
       />
       <YAxis
+        interval={1}
         tickLine={false}
         tickSize={20}
         tick={{ fontFamily: 'Poppins' }}
