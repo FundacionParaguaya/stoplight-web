@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // list of environment urls
 export const url = {
-  production: 'https://platform.backend.povertystoplight.org',
+  platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
   development: 'http://localhost:8080'
@@ -19,13 +19,27 @@ export const getSurveys = user =>
     },
     data: JSON.stringify({
       query:
-        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
+        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
     })
   });
 
 // submit a new snapshot/lifemap/draft
-export const submitDraft = (user, snapshot) =>
-  axios({
+export const submitDraft = (user, snapshot) => {
+  const sanitizedSnapshot = { ...snapshot };
+  let { economicSurveyDataList } = snapshot;
+  const validEconomicIndicator = ec =>
+    ec.value !== null && ec.value !== undefined && ec.value !== '';
+  economicSurveyDataList = economicSurveyDataList.filter(
+    validEconomicIndicator
+  );
+  sanitizedSnapshot.economicSurveyDataList = economicSurveyDataList;
+  sanitizedSnapshot.familyData.familyMembersList.forEach(member => {
+    let { socioEconomicAnswers = [] } = member;
+    socioEconomicAnswers = socioEconomicAnswers.filter(validEconomicIndicator);
+    // eslint-disable-next-line no-param-reassign
+    member.socioEconomicAnswers = socioEconomicAnswers;
+  });
+  return axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
@@ -35,9 +49,10 @@ export const submitDraft = (user, snapshot) =>
     data: JSON.stringify({
       query:
         'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
-      variables: { newSnapshot: snapshot }
+      variables: { newSnapshot: sanitizedSnapshot }
     })
   });
+};
 
 export const checkSessionToken = (token, env) =>
   axios({
