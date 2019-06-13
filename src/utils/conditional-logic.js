@@ -7,6 +7,11 @@ export const CONDITION_TYPES = {
   MEMBER_SOCIOEONOMIC: 'memberSocioEconomic'
 };
 
+export const JOIN_OPERATIONS = {
+  AND: 'AND',
+  OR: 'OR'
+};
+
 /**
  *  Returns a boolean that is the result of evaluation the condition against the question
  * @param {*} condition the condition we have to verify
@@ -146,6 +151,9 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
   return evaluateCondition(condition, targetQuestion);
 };
 
+const applyBooleanOperations = (op1, op2, operator) =>
+  operator === JOIN_OPERATIONS.AND ? op1 && op2 : op1 || op2;
+
 /**
  * Decides whether a question should be shown to the user or not
  * @param {*} question the question we want to know if can be shown
@@ -153,12 +161,31 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
  */
 export const shouldShowQuestion = (question, currentDraft, memberIndex) => {
   let shouldShow = true;
-  if (question.conditions && question.conditions.length > 0) {
-    question.conditions.forEach(condition => {
-      if (!conditionMet(condition, currentDraft, memberIndex)) {
-        shouldShow = false;
-      }
-    });
+  if (question.conditionGroups && question.conditionGroups.length > 0) {
+    ({ result: shouldShow } = question.conditionGroups.reduce(
+      (acc, current) => {
+        const { conditions, groupOperator, joinNextGroup } = current;
+        const groupResult = conditions.reduce(
+          (accGroup, currentFromGroup) =>
+            applyBooleanOperations(
+              accGroup,
+              conditionMet(currentFromGroup, currentDraft, memberIndex),
+              groupOperator
+            ),
+          groupOperator === JOIN_OPERATIONS.AND
+        );
+        return {
+          result: applyBooleanOperations(acc.result, groupResult, acc.joinPrev),
+          joinPrev: joinNextGroup
+        };
+      },
+      { result: true, joinPrev: JOIN_OPERATIONS.AND }
+    ));
+  } else if (question.conditions && question.conditions.length > 0) {
+    shouldShow = question.conditions.reduce(
+      (acc, current) => acc && conditionMet(current, currentDraft, memberIndex),
+      true
+    );
   }
   return shouldShow;
 };

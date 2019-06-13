@@ -80,7 +80,9 @@ const buildValidationSchemaForQuestions = (questions, currentDraft) => {
   const familyQuestions = (questions && questions.forFamily) || [];
 
   familyQuestions.forEach(question => {
-    forFamilySchema[question.codeName] = buildValidationForField(question);
+    if (shouldShowQuestion(question, currentDraft)) {
+      forFamilySchema[question.codeName] = buildValidationForField(question);
+    }
   });
 
   const forFamilyMemberSchema = {};
@@ -156,8 +158,7 @@ export class Economics extends Component {
     questions: null,
     initialized: false,
     topic: '',
-    initialValues: {},
-    validationSpec: {}
+    initialValues: {}
   };
 
   handleContinue = shouldReplace => {
@@ -214,10 +215,6 @@ export class Economics extends Component {
       topic: questions.forFamily.length
         ? questions.forFamily[0].topic
         : questions.forFamilyMember[0].topic,
-      validationSpec: buildValidationSchemaForQuestions(
-        questions,
-        this.props.currentDraft
-      ),
       initialValues: buildInitialValuesForForm(
         questions,
         this.props.currentDraft
@@ -328,13 +325,7 @@ export class Economics extends Component {
   };
 
   render() {
-    const {
-      questions,
-      topic,
-      validationSpec,
-      initialValues,
-      initialized
-    } = this.state;
+    const { questions, topic, initialValues, initialized } = this.state;
     const {
       t,
       currentDraft,
@@ -354,7 +345,10 @@ export class Economics extends Component {
             <Formik
               enableReinitialize
               initialValues={initialValues}
-              validationSchema={validationSpec}
+              validationSchema={buildValidationSchemaForQuestions(
+                questions,
+                this.props.currentDraft
+              )}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 this.handleContinue();
