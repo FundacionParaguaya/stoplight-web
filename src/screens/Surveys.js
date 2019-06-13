@@ -108,7 +108,10 @@ export class Surveys extends Component {
     const surveyEconomicQuestions = survey.surveyEconomicQuestions || [];
     const conditionalQuestions = [];
     surveyEconomicQuestions.forEach(eq => {
-      if (eq.conditions && eq.conditions.length > 0) {
+      if (
+        (eq.conditions && eq.conditions.length > 0) ||
+        (eq.conditionGroups && eq.conditionGroups.length > 0)
+      ) {
         conditionalQuestions.push(eq);
       } else {
         // Checking conditional options only if needed
@@ -146,7 +149,16 @@ export class Surveys extends Component {
     };
 
     conditionalQuestions.forEach(conditionalQuestion => {
-      const { conditions = [] } = conditionalQuestion;
+      let conditions = [];
+      const { conditionGroups } = conditionalQuestion;
+      if (conditionGroups && conditionGroups.length > 0) {
+        conditionGroups.forEach(conditionGroup => {
+          conditions = [...conditions, ...conditionGroup.conditions];
+        });
+      } else {
+        ({ conditions = [] } = conditionalQuestion);
+      }
+
       conditions.forEach(addTargetIfApplies);
 
       // Checking conditional options only if needed
