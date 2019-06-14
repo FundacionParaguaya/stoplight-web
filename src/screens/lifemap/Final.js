@@ -19,6 +19,7 @@ import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import OverviewScreen from './Overview';
 import { ProgressBarContext } from '../../components/ProgressBar';
+import generateIndicatorsReport from '../../pdfs/indicators-report';
 
 export class Final extends Component {
   state = {
@@ -165,7 +166,7 @@ export class Final extends Component {
                 </Button> */}
               </Grid>
               <Grid item xs={4}>
-                <ReactToPrint
+                {/* <ReactToPrint
                   trigger={() => (
                     <Button
                       variant="outlined"
@@ -178,7 +179,23 @@ export class Final extends Component {
                     </Button>
                   )}
                   content={() => this.printRef.current}
-                />
+                /> */}
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  disabled={this.state.loading}
+                  onClick={() => {
+                    const pdf = generateIndicatorsReport(
+                      this.props.currentDraft,
+                      this.props.currentSurvey
+                    );
+                    pdf.download();
+                  }}
+                >
+                  <PrintIcon className={classes.leftIcon} />
+                  {t('views.final.print')}
+                </Button>
               </Grid>
               <Grid item xs={4}>
                 {/* <Button
@@ -216,7 +233,11 @@ export class Final extends Component {
 
 Final.contextType = ProgressBarContext;
 
-const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user });
+const mapStateToProps = ({ currentDraft, currentSurvey, user }) => ({
+  currentDraft,
+  currentSurvey,
+  user
+});
 
 const styles = theme => ({
   subtitle: {
