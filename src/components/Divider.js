@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Divider = ({ variant }) => {
+const Divider = ({ height }) => {
   return (
     <div
       style={{
         width: '100%',
-        height: variant ? `${variant}em` : '1em'
+        height: height ? `${height}em` : '1em'
       }}
     />
   );
