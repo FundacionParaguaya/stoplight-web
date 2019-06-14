@@ -6,7 +6,7 @@ import { Typography } from '@material-ui/core';
 import Container from '../components/Container';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import ScreenTitleBar from '../components/ScreenTitleBar';
-import withHeader from './withHeader';
+import withHeader from '../components/withHeader';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
