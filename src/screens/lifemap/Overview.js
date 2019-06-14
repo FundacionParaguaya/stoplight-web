@@ -92,7 +92,6 @@ let DimensionQuestions = ({
         xs={4}
         md={3}
         lg={2}
-        xl={1}
         key={indicator.key}
         onClick={() => history.push(getForwardURLForIndicator(indicator))}
         className={classes.gridItemStyle}
@@ -295,7 +294,7 @@ export class Overview extends Component {
           leaveAction={this.toggleModal}
         />
         <TitleBar title={t('views.yourLifeMap')} progressBar />
-        <Container variant="fluid" ref={containerRef}>
+        <Container ref={containerRef}>
           <IndicatorsFilter
             greenIndicatorCount={this.state.greenIndicatorCount}
             yellowIndicatorCount={this.state.yellowIndicatorCount}
