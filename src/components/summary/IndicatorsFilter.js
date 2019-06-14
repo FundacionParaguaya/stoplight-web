@@ -208,6 +208,7 @@ const styles = () => ({
     height: '42px',
     border: '1px solid #DCDEE3',
     boxSizing: 'border-box',
+    marginTop: 20,
     borderRadius: 2,
     backgroundColor: '#FAFBFC',
     display: 'flex',
