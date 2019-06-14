@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withStyles, Typography, Grid } from '@material-ui/core';
 import { PieChart, Pie, Cell } from 'recharts';
 import { useTransition, animated } from 'react-spring';
