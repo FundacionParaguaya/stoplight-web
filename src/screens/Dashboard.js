@@ -205,7 +205,7 @@ const Dashboard = props => {
             </Container>
           </div>
           <div className={classes.grayContainer}>
-            <Divider variant="3" />
+            <Divider height="3" />
           </div>
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
