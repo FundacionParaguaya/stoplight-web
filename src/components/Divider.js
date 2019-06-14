@@ -5,7 +5,7 @@ const Divider = ({ height }) => {
     <div
       style={{
         width: '100%',
-        height: height ? `${height}em` : '1em'
+        height: height ? `${height}rem` : '1rem'
       }}
     />
   );
