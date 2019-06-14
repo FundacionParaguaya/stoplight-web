@@ -275,7 +275,7 @@ const Controllers = withStyles(controllersStyles)(
 );
 
 const IndicatorsVisualisation = ({ indicators }) => {
-  const [indicatorsType, setIndicatorsType] = useState(PIE);
+  const [indicatorsType, setIndicatorsType] = useState(BAR);
 
   return (
     <div>
