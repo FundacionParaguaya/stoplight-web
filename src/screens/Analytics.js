@@ -182,14 +182,6 @@ const Dashboard = props => {
   }, []);
   return (
     <>
-      <div className={classes.grayContainer}>
-        <Container variant="stretch">
-          <ScreenTitleBar
-            title="Analytics"
-            subtitle="We are working to improve our platform!"
-          />
-        </Container>
-      </div>
       {loading && (
         <div className={classes.loadingContainer}>
           <CircularProgress size={50} thickness={2} />
@@ -197,6 +189,14 @@ const Dashboard = props => {
       )}
       {!loading && (
         <>
+          <div className={classes.grayContainer}>
+            <Container variant="stretch">
+              <ScreenTitleBar
+                title="Analytics"
+                subtitle="We are working to improve our platform!"
+              />
+            </Container>
+          </div>
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
               <Typography variant="h5">Dimensions</Typography>
@@ -229,7 +229,7 @@ const styles = theme => ({
     alignItems: 'center',
     marginTop: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 4,
-    minHeight: '50vh'
+    minHeight: '75vh'
   },
   whiteContainer: {
     backgroundColor: theme.palette.background.default,
