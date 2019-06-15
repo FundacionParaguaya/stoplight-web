@@ -226,8 +226,10 @@ const styles = theme => ({
   loadingContainer: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4
+    marginBottom: theme.spacing.unit * 4,
+    minHeight: '50vh'
   },
   whiteContainer: {
     backgroundColor: theme.palette.background.default,
