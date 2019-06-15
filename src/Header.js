@@ -51,7 +51,7 @@ class Header extends Component {
   };
 
   render() {
-    const { classes, user, t } = this.props;
+    const { classes, user, t, path } = this.props;
 
     return (
       <AppBar className={classes.header} color="inherit" position="fixed">
@@ -75,13 +75,24 @@ class Header extends Component {
           </span>
           <NavLink
             to={`/surveys?sid=${this.props.user.token}&lang=en`}
-            className={`${classes.menuLink} ${classes.surveyLink}`}
+            className={
+              path === '/surveys'
+                ? `${classes.menuLink} ${classes.surveyLink}`
+                : classes.menuLink
+            }
           >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
               {t('views.toolbar.surveys')}
             </Typography>
           </NavLink>
-          <NavLink to={`/dashboard`} className={`${classes.menuLink}`}>
+          <NavLink
+            to={`/dashboard`}
+            className={
+              path === '/dashboard'
+                ? `${classes.menuLink} ${classes.surveyLink}`
+                : classes.menuLink
+            }
+          >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
               Dashboard
             </Typography>
@@ -179,7 +190,8 @@ const styles = theme => ({
   header: {
     boxShadow: 'none',
     backgroundColor: theme.palette.background.default,
-    display: 'flex'
+    display: 'flex',
+    borderBottom: `1px solid ${theme.palette.background.paper}`
   },
   imgLogo: {
     width: '20px',
