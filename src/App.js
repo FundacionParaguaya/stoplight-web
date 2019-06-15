@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
 import { PersistGate } from 'redux-persist/integration/react';
 import SurveysComponent from './screens/Surveys';
 import Lifemap from './screens/Lifemap';
-import Dashboard from './screens/Dashboard';
 import store, { persistor } from './redux';
 import defaultTheme from './theme';
 import Authenticator from './Authenticator';
@@ -14,7 +13,7 @@ import DatePickedProvider from './components/DatePickerProvider';
 import Scroller, { ScrollerProvider } from './components/Scroller';
 import CustomSnackbarProvider from './components/SnackbarProvider';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import { ProgressBarProvider } from './components/ProgressBar';
+import Analytics from './screens/Analytics';
 
 class App extends Component {
   render() {
@@ -40,7 +39,7 @@ class App extends Component {
                               component={SurveysComponent}
                             />
                             <Route path="/lifemap" component={Lifemap} />
-                            <Route path="/dashboard" component={Dashboard} />
+                            <Route path="/analytics" component={Analytics} />
                           </Switch>
                         </div>
                       </Authenticator>

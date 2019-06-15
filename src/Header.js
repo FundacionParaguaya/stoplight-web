@@ -86,15 +86,15 @@ class Header extends Component {
             </Typography>
           </NavLink>
           <NavLink
-            to={`/dashboard`}
+            to={`/analytics`}
             className={
-              path === '/dashboard'
+              path === '/analytics'
                 ? `${classes.menuLink} ${classes.surveyLink}`
                 : classes.menuLink
             }
           >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
-              Dashboard
+              Analytics
             </Typography>
           </NavLink>
           <a
