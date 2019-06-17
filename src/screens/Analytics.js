@@ -135,6 +135,15 @@ const INDICATORS = [
   }
 ];
 
+const randomized = INDICATORS.map(indicator => ({
+  ...indicator,
+  stoplights: {
+    green: parseInt(Math.random() * 20, 10),
+    red: parseInt(Math.random() * 10, 10),
+    yellow: parseInt(Math.random() * 20, 10)
+  }
+}));
+
 const fakeData = {
   'Ingreso y Empleo': {
     green: 25,
@@ -210,7 +219,7 @@ const Dashboard = props => {
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
               <Typography variant="h5">Indicators</Typography>
-              <IndicatorsVisualisation indicators={INDICATORS} />
+              <IndicatorsVisualisation indicators={randomized} />
             </Container>
           </div>
         </>
