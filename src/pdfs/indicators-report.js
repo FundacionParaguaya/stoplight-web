@@ -9,6 +9,29 @@ import yellowIndicator from '../assets/ind_yellow.png';
 import redIndicatorPriority from '../assets/ind_red_priority.png';
 import redIndicator from '../assets/ind_red.png';
 import skippedIndicator from '../assets/ind_skipped.png';
+import iconPriority from '../assets/icon_priority.png';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+const A4 = [595.28, 841.89];
+const DEFAULT_MARGINS = 80;
+const ELEMENTS_PER_ROW = 8;
+const IMAGE_MARGIN = 25;
+
+const buildUnderline = () => ({
+  canvas: [
+    {
+      type: 'rect',
+      color: '#b2b2b2',
+      x: 0,
+      y: 5,
+      w: A4[0] - DEFAULT_MARGINS,
+      h: 1.5
+    }
+  ]
+});
+
+const TITLE_MARGIN = [0, 0, 0, 13];
 
 const getImageForIndicator = (
   indicator,
@@ -37,16 +60,83 @@ const getImageForIndicator = (
   return image;
 };
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
-const A4 = [595.28, 841.89];
-const DEFAULT_MARGINS = 80;
-const ELEMENTS_PER_ROW = 8;
-const IMAGE_MARGIN = 25;
-
 const getIndicatorQuestionByCodeName = (codeName, survey) => {
   const { surveyStoplightQuestions: questions } = survey;
   return questions.find(q => q.codeName === codeName).questionText;
+};
+
+const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
+  const { priorities = [] } = snapshot;
+  const dateFormat = getDateFormatByLocale(language);
+  if (priorities.length === 0) {
+    return [];
+  }
+  const content = [
+    {
+      margin: [...TITLE_MARGIN],
+      columns: [
+        {
+          width: '50%',
+          columns: [
+            {
+              text: t('reports.priorities.myPriorities'),
+              style: 'header',
+              width: 'auto'
+            },
+            {
+              image: 'iconPriority',
+              alignment: 'justify',
+              width: 25,
+              margin: [5, 0, 0, 0]
+            }
+          ]
+        },
+        {
+          width: '50%',
+          text: moment().format(dateFormat),
+          style: ['header', 'headerRight']
+        }
+      ]
+    },
+    buildUnderline(),
+    {
+      margin: [0, 10, 0, 10],
+      columns: [
+        {
+          width: '12%',
+          text: t('reports.priorities.status'),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: '18%',
+          text: t('reports.priorities.indicator'),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: '22%',
+          text: t('reports.priorities.whyDontYouHaveIt'),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: '22%',
+          text: t('reports.priorities.whatWillYouDoToGetIt'),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: '12%',
+          text: t('reports.priorities.howManyMonthsWillItTake'),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: '14%',
+          text: t('reports.priorities.reviewDate'),
+          style: 'prioritiesHeader'
+        }
+      ]
+    },
+    buildUnderline()
+  ];
+  return content;
 };
 
 const generateIndicatorsReport = (snapshot, survey, t, language) => {
@@ -80,6 +170,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
     pageSize: 'A4',
     content: [
       {
+        margin: [...TITLE_MARGIN],
         columns: [
           {
             width: '50%',
@@ -93,11 +184,10 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
           }
         ]
       },
-      {
-        canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1.5 }]
-      },
+      buildUnderline(),
       {
         layout: 'noBorders',
+        pageBreak: 'after',
         table: {
           headerRows: 0,
           dontBreakRows: true,
@@ -138,18 +228,34 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       yellowIndicatorPriority,
       greenIndicator,
       greenIndicatorAchievement,
-      skippedIndicator
+      skippedIndicator,
+      iconPriority
     },
     styles: {
       header: {
-        fontSize: 22,
+        fontSize: 20,
         bold: true
       },
       headerRight: {
         alignment: 'right'
+      },
+      prioritiesHeader: {
+        alignment: 'center',
+        fontSize: 12,
+        bold: true
       }
     }
   };
+
+  const prioritiesDefinition = generatePrioritiesReportDefinition(
+    snapshot,
+    survey,
+    t,
+    language
+  );
+
+  dd.content.push(...prioritiesDefinition);
+
   return pdfMake.createPdf(dd);
 };
 
