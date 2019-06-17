@@ -140,7 +140,8 @@ const randomized = INDICATORS.map(indicator => ({
   stoplights: {
     green: parseInt(Math.random() * 20, 10),
     red: parseInt(Math.random() * 10, 10),
-    yellow: parseInt(Math.random() * 20, 10)
+    yellow: parseInt(Math.random() * 20, 10),
+    skipped: parseInt(Math.random() * 5, 10)
   }
 }));
 
