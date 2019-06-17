@@ -1,20 +1,61 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import dimension_income from '../assets/dimension_income.png';
+import moment from 'moment';
+import { getDateFormatByLocale } from '../utils/date-utils';
+import greenIndicatorAchievement from '../assets/ind_green_achievement.png';
+import greenIndicator from '../assets/ind_green.png';
+import yellowIndicatorPriority from '../assets/ind_yellow_priority.png';
+import yellowIndicator from '../assets/ind_yellow.png';
+import redIndicatorPriority from '../assets/ind_red_priority.png';
+import redIndicator from '../assets/ind_red.png';
+import skippedIndicator from '../assets/ind_skipped.png';
+
+const getImageForIndicator = (
+  indicator,
+  priorities = [],
+  achievements = []
+) => {
+  let image;
+  if (indicator.value === 3) {
+    image = 'greenIndicator';
+    image = achievements.find(a => a.indicator === indicator.key)
+      ? 'greenIndicatorAchievement'
+      : image;
+  } else if (indicator.value === 2) {
+    image = 'yellowIndicator';
+    image = priorities.find(a => a.indicator === indicator.key)
+      ? 'yellowIndicatorPriority'
+      : image;
+  } else if (indicator.value === 1) {
+    image = 'redIndicator';
+    image = priorities.find(a => a.indicator === indicator.key)
+      ? 'redIndicatorPriority'
+      : image;
+  } else if (indicator.value === 0) {
+    image = 'skippedIndicator';
+  }
+  return image;
+};
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const A4 = [595.28, 841.89];
 const DEFAULT_MARGINS = 80;
-const ELEMENTS_PER_ROW = 10;
+const ELEMENTS_PER_ROW = 8;
+const IMAGE_MARGIN = 25;
 
 const getIndicatorQuestionByCodeName = (codeName, survey) => {
   const { surveyStoplightQuestions: questions } = survey;
   return questions.find(q => q.codeName === codeName).questionText;
 };
 
-const generateIndicatorsReport = (snapshot, survey) => {
-  const { indicatorSurveyDataList: indicators } = snapshot;
+const generateIndicatorsReport = (snapshot, survey, t, language) => {
+  const {
+    indicatorSurveyDataList: indicators,
+    priorities,
+    achievements
+  } = snapshot;
+  const dateFormat = getDateFormatByLocale(language);
   // Building a matrix of indicators limiting the elements in a row
   const indicatorsMatrix = indicators.reduce(
     (acc, current) => {
@@ -28,82 +69,26 @@ const generateIndicatorsReport = (snapshot, survey) => {
     },
     [[]]
   );
-  // eslint-disable-next-line no-var
-  // var dd = {
-  //   content: [
-  //     {
-  //       columns: [
-  //         {
-  //           width: '50%',
-  //           text: 'My Life Map',
-  //           style: 'header'
-  //         },
-  //         {
-  //           width: '50%',
-  //           text: 'March 30, 2019',
-  //           style: ['header', 'headerRight']
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       canvas: [{ type: 'line', x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 1.5 }]
-  //     },
-  //     {
-  //       layout: 'noBorders',
-  //       table: {
-  //         headerRows: 0,
-  //         dontBreakRows: true,
-  //         widths: ['40%', '*'],
-  //         body: [
-  //           [
-  //             {
-  //               text: 'Text Two',
-  //               alignment: 'center',
-  //               bold: true
-  //             },
-  //             {
-  //               stack: [
-  //                 {
-  //                   image: 'sampleImage.jpg',
-  //                   alignment: 'center',
-  //                   width: 120,
-  //                   margin: [0, 20, 0, 20]
-  //                 },
-  //                 {
-  //                   text: 'This is a long text in a spanned rows',
-  //                   alignment: 'center',
-  //                   fontSize: 9
-  //                 }
-  //               ]
-  //             }
-  //           ]
-  //         ]
-  //       }
-  //     }
-  //   ],
 
-  //   styles: {
-  //     header: {
-  //       fontSize: 22,
-  //       bold: true
-  //     },
-  //     headerRight: {
-  //       alignment: 'right'
-  //     }
-  //   }
-  // };
+  // The pdf library requires all cells of a table to be initialized.
+  // So, we fill the matrix data with dummy elements
+  const lastRow = indicatorsMatrix[indicatorsMatrix.length - 1];
+  if (lastRow.length < ELEMENTS_PER_ROW) {
+    lastRow.push(...new Array(ELEMENTS_PER_ROW - lastRow.length).fill(null));
+  }
   const dd = {
+    pageSize: 'A4',
     content: [
       {
         columns: [
           {
             width: '50%',
-            text: 'My Life Map',
+            text: t('reports.indicators.myLifeMap'),
             style: 'header'
           },
           {
             width: '50%',
-            text: 'March 30, 2019',
+            text: moment().format(dateFormat),
             style: ['header', 'headerRight']
           }
         ]
@@ -116,53 +101,44 @@ const generateIndicatorsReport = (snapshot, survey) => {
         table: {
           headerRows: 0,
           dontBreakRows: true,
-          widths: new Array(ELEMENTS_PER_ROW).fill('*'),
+          widths: new Array(ELEMENTS_PER_ROW).fill(
+            `${100 / ELEMENTS_PER_ROW}%`
+          ),
           body: indicatorsMatrix.map(row =>
-            row.map(ind => ({
-              stack: [
-                {
-                  image: 'building',
-                  alignment: 'center',
-                  width: (A4[0] - DEFAULT_MARGINS) / ELEMENTS_PER_ROW,
-                  margin: [0, 20, 0, 5]
-                },
-                {
-                  text: getIndicatorQuestionByCodeName(ind.key, survey),
-                  alignment: 'center',
-                  fontSize: 9
-                }
-              ]
-            }))
+            row.map(ind => {
+              if (!ind) {
+                return { text: '' };
+              }
+              return {
+                stack: [
+                  {
+                    image: getImageForIndicator(ind, priorities, achievements),
+                    alignment: 'center',
+                    width:
+                      (A4[0] - DEFAULT_MARGINS) / ELEMENTS_PER_ROW -
+                      IMAGE_MARGIN,
+                    margin: [0, 12, 0, 5]
+                  },
+                  {
+                    text: getIndicatorQuestionByCodeName(ind.key, survey),
+                    alignment: 'center',
+                    fontSize: 7
+                  }
+                ]
+              };
+            })
           )
-          // body2: [
-          //   [
-          //     {
-          //       text: 'Text Two',
-          //       alignment: 'center',
-          //       bold: true
-          //     },
-          //     {
-          //       stack: [
-          //         {
-          //           image: 'sampleImage.jpg',
-          //           alignment: 'center',
-          //           width: 120,
-          //           margin: [0, 20, 0, 5]
-          //         },
-          //         {
-          //           text: 'This is a long text in a spanned rows',
-          //           alignment: 'center',
-          //           fontSize: 9
-          //         }
-          //       ]
-          //     }
-          //   ]
-          // ]
         }
       }
     ],
     images: {
-      building: dimension_income
+      redIndicator,
+      redIndicatorPriority,
+      yellowIndicator,
+      yellowIndicatorPriority,
+      greenIndicator,
+      greenIndicatorAchievement,
+      skippedIndicator
     },
     styles: {
       header: {
@@ -176,85 +152,5 @@ const generateIndicatorsReport = (snapshot, survey) => {
   };
   return pdfMake.createPdf(dd);
 };
-
-// const example = {
-//   content: [
-//     { text: 'Tables', style: 'header' },
-//     'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
-//     {
-//       text:
-//         'A simple table (no headers, no width specified, no spans, no styling)',
-//       style: 'subheader'
-//     },
-//     'The following table has nothing more than a body array',
-//     {
-//       style: 'tableExample',
-//       layout: 'noBorders',
-
-//       table: {
-//         headerRows: 0,
-//         widths: [132, 132, '*'],
-//         body: [
-//           [
-//             {
-//               text: 'Text One',
-//               alignment: 'center',
-//               bold: true,
-//               fillColor: '#efefef'
-//             },
-//             {
-//               text: 'Text Two',
-//               alignment: 'center',
-//               bold: true,
-//               fillColor: '#efefef'
-//             },
-//             {
-//               // rowSpan: 4,
-//               stack: [
-//                 {
-//                   image: 'sampleImage.jpg',
-//                   alignment: 'center',
-//                   width: 120,
-//                   margin: [0, 20, 0, 20]
-//                 },
-//                 {
-//                   text: 'This is a long text in a spanned rows',
-//                   alignment: 'center',
-//                   fontSize: 9
-//                 }
-//               ]
-//             }
-//           ],
-//           ['\n \n \n \n \n \n', '\n \n \n \n \n \n', {}],
-//           ['Name: ', 'Name: ', {}],
-//           ['Date: ', 'Date: ', {}]
-//         ]
-//       }
-//     }
-//   ],
-//   styles: {
-//     header: {
-//       fontSize: 18,
-//       bold: true,
-//       margin: [0, 0, 0, 10]
-//     },
-//     subheader: {
-//       fontSize: 16,
-//       bold: true,
-//       margin: [0, 10, 0, 5]
-//     },
-//     tableExample: {
-//       margin: [0, 5, 0, 15]
-//     },
-//     tableHeader: {
-//       bold: true,
-//       fontSize: 13,
-//       color: 'black'
-//     }
-//   },
-//   defaultStyle: {
-//     // alignment: 'justify'
-//   }
-// };
 
 export default generateIndicatorsReport;

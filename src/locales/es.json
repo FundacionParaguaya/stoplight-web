@@ -231,5 +231,10 @@
       "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
     }
+  },
+  "reports": {
+    "indicators": {
+      "myLifeMap": "Mi Mapa de vida"
+    }
   }
 }

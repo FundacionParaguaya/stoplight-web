@@ -107,7 +107,11 @@ export class Final extends Component {
   };
 
   render() {
-    const { t, classes } = this.props;
+    const {
+      t,
+      classes,
+      i18n: { language }
+    } = this.props;
     const { error } = this.state;
 
     return (
@@ -188,9 +192,11 @@ export class Final extends Component {
                   onClick={() => {
                     const pdf = generateIndicatorsReport(
                       this.props.currentDraft,
-                      this.props.currentSurvey
+                      this.props.currentSurvey,
+                      t,
+                      language
                     );
-                    pdf.download();
+                    pdf.print();
                   }}
                 >
                   <PrintIcon className={classes.leftIcon} />
