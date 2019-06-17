@@ -230,5 +230,10 @@
       "lifemapSaved": "Your life map has been successfully saved",
       "clickSafe": "Now, just click save!"
     }
+  },
+  "reports": {
+    "indicators": {
+      "myLifeMap": "My Life Map"
+    }
   }
 }
