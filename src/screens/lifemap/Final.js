@@ -9,7 +9,6 @@ import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
 // import DownloadIcon from '@material-ui/icons/CloudDownload';
 // import MailIcon from '@material-ui/icons/Mail';
-import ReactToPrint from 'react-to-print';
 import Container from '../../components/Container';
 import SummaryDonut from '../../components/summary/SummaryDonut';
 import LeaveModal from '../../components/LeaveModal';
@@ -170,20 +169,6 @@ export class Final extends Component {
                 </Button> */}
               </Grid>
               <Grid item xs={4}>
-                {/* <ReactToPrint
-                  trigger={() => (
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      fullWidth
-                      disabled={this.state.loading}
-                    >
-                      <PrintIcon className={classes.leftIcon} />
-                      {t('views.final.print')}
-                    </Button>
-                  )}
-                  content={() => this.printRef.current}
-                /> */}
                 <Button
                   variant="outlined"
                   color="primary"
