@@ -15,6 +15,7 @@
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
     "notistack": "^0.8.2",
+    "pdfmake": "^0.1.57",
     "prop-types": "^15.7.2",
     "query-string": "^6.5.0",
     "react": "^16.8.4",

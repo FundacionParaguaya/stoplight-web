@@ -15,6 +15,7 @@ import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import Container from '../../components/Container';
+import RadioWithFormik from '../../components/RadioWithFormik';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
 import {
@@ -25,6 +26,7 @@ import {
   getDraftWithUpdatedFamilyEconomics,
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
+import CheckboxWithFormik from '../../components/CheckboxWithFormik';
 
 let FamilyMemberTitle = ({ name, classes }) => (
   <div className={classes.familyMemberNameLarge}>
@@ -80,7 +82,9 @@ const buildValidationSchemaForQuestions = (questions, currentDraft) => {
   const familyQuestions = (questions && questions.forFamily) || [];
 
   familyQuestions.forEach(question => {
-    forFamilySchema[question.codeName] = buildValidationForField(question);
+    if (shouldShowQuestion(question, currentDraft)) {
+      forFamilySchema[question.codeName] = buildValidationForField(question);
+    }
   });
 
   const forFamilyMemberSchema = {};
@@ -156,8 +160,7 @@ export class Economics extends Component {
     questions: null,
     initialized: false,
     topic: '',
-    initialValues: {},
-    validationSpec: {}
+    initialValues: {}
   };
 
   handleContinue = shouldReplace => {
@@ -214,10 +217,6 @@ export class Economics extends Component {
       topic: questions.forFamily.length
         ? questions.forFamily[0].topic
         : questions.forFamilyMember[0].topic,
-      validationSpec: buildValidationSchemaForQuestions(
-        questions,
-        this.props.currentDraft
-      ),
       initialValues: buildInitialValuesForForm(
         questions,
         this.props.currentDraft
@@ -267,9 +266,10 @@ export class Economics extends Component {
 
     // We get a draft with updated answer
     let currentDraft;
+    const keyName = !Array.isArray(value) ? 'value' : 'multipleValue';
     const newAnswer = {
       key: question.codeName,
-      value
+      [keyName]: value
     };
     if (question.forFamilyMember) {
       currentDraft = getDraftWithUpdatedFamilyEconomics(
@@ -328,13 +328,7 @@ export class Economics extends Component {
   };
 
   render() {
-    const {
-      questions,
-      topic,
-      validationSpec,
-      initialValues,
-      initialized
-    } = this.state;
+    const { questions, topic, initialValues, initialized } = this.state;
     const {
       t,
       currentDraft,
@@ -354,7 +348,10 @@ export class Economics extends Component {
             <Formik
               enableReinitialize
               initialValues={initialValues}
-              validationSchema={validationSpec}
+              validationSchema={buildValidationSchemaForQuestions(
+                questions,
+                this.props.currentDraft
+              )}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 this.handleContinue();
@@ -393,6 +390,48 @@ export class Economics extends Component {
                                   setFieldValue
                                 )
                               }
+                            />
+                          );
+                        }
+                        if (question.answerType === 'radio') {
+                          return (
+                            <RadioWithFormik
+                              label={question.questionText}
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
+                              )}
+                              key={question.codeName}
+                              name={`forFamily.[${question.codeName}]`}
+                              required={question.required}
+                              onChange={e => {
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  _.get(e, 'target.value', ''),
+                                  setFieldValue
+                                );
+                              }}
+                            />
+                          );
+                        }
+                        if (question.answerType === 'checkbox') {
+                          return (
+                            <CheckboxWithFormik
+                              key={question.codeName}
+                              label={question.questionText}
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
+                              )}
+                              name={`forFamily.[${question.codeName}]`}
+                              required={question.required}
+                              onChange={multipleValue => {
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  multipleValue,
+                                  setFieldValue
+                                );
+                              }}
                             />
                           );
                         }
@@ -479,6 +518,56 @@ export class Economics extends Component {
                                               this.updateEconomicAnswerCascading(
                                                 question,
                                                 value ? value.value : '',
+                                                setFieldValue,
+                                                index
+                                              )
+                                            }
+                                          />
+                                        );
+                                      }
+                                      if (question.answerType === 'radio') {
+                                        return (
+                                          <RadioWithFormik
+                                            key={question.codeName}
+                                            label={question.questionText}
+                                            name={`forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`}
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
+                                            )}
+                                            required={question.required}
+                                            onChange={multipleValue =>
+                                              this.updateEconomicAnswerCascading(
+                                                question,
+                                                multipleValue,
+                                                setFieldValue,
+                                                index
+                                              )
+                                            }
+                                          />
+                                        );
+                                      }
+                                      if (question.answerType === 'checkbox') {
+                                        return (
+                                          <CheckboxWithFormik
+                                            key={question.codeName}
+                                            label={question.questionText}
+                                            name={`forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`}
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
+                                            )}
+                                            required={question.required}
+                                            onChange={multipleValue =>
+                                              this.updateEconomicAnswerCascading(
+                                                question,
+                                                multipleValue,
                                                 setFieldValue,
                                                 index
                                               )

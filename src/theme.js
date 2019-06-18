@@ -99,6 +99,17 @@ export const theme = {
         fontSize: 16
       }
     },
+    MuiIconButton: {
+      root: {
+        padding: 8
+      }
+    },
+    MuiFormControlLabel: {
+      label: {
+        color: '#6A6A6A',
+        fontSize: 16
+      }
+    },
     MuiInputBase: {
       input: {
         fontSize: '16px',
