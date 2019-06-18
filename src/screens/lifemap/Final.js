@@ -10,7 +10,6 @@ import PrintIcon from '@material-ui/icons/Print';
 // import DownloadIcon from '@material-ui/icons/CloudDownload';
 // import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
-import SummaryDonut from '../../components/summary/SummaryDonut';
 import LeaveModal from '../../components/LeaveModal';
 import { submitDraft } from '../../api';
 import TitleBar from '../../components/TitleBar';
@@ -127,13 +126,15 @@ export class Final extends Component {
           <Typography variant="h5" className={classes.clickSafe}>
             {t('views.final.clickSafe')}
           </Typography>
-          <SummaryDonut
+          {/* <SummaryDonut
             greenIndicatorCount={this.state.greenIndicatorCount}
             yellowIndicatorCount={this.state.yellowIndicatorCount}
             redIndicatorCount={this.state.redIndicatorCount}
             skippedIndicatorCount={this.state.skippedIndicatorCount}
-          />
-          <AllSurveyIndicators />
+          /> */}
+          <Container variant="slim">
+            <AllSurveyIndicators />
+          </Container>
           {error && <Typography color="error">{error}</Typography>}
           {this.state.loading && (
             <div className={classes.loadingContainer}>
@@ -246,6 +247,11 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 4
+  },
+  overviewContainer: { height: 0, width: 0, overflow: 'auto' },
+  surveyIndicators: {
+    maxWidth: '40%',
+    margin: 'auto'
   }
 });
 
