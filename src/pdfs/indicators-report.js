@@ -100,7 +100,7 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
               image: 'iconPriority',
               alignment: 'justify',
               width: 25,
-              margin: [5, 0, 0, 0]
+              margin: [15, 0, 0, 0]
             }
           ]
         },
@@ -321,6 +321,9 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
     },
     defaultStyle: {
       font: 'Roboto'
+    },
+    info: {
+      title: t('reports.indicators.myLifeMap')
     }
   };
 
