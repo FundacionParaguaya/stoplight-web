@@ -75,7 +75,14 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
     return [];
   }
   const tableWidths = [8, 20, 22, 22, 12, 16];
-  const sortedPriorities = [...priorities];
+  const sortedPriorities = [];
+  // We'll show priorties at the same order their corresponding indicators appear
+  indicators.forEach(ind => {
+    const pr = priorities.find(p => p.indicator === ind.key);
+    if (pr) {
+      sortedPriorities.push(pr);
+    }
+  });
   const CELL_MARGIN = [0, 5, 0, 5];
   const content = [
     {
@@ -106,36 +113,36 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
     },
     buildUnderline(),
     {
-      margin: [0, 10, 0, 10],
+      margin: [0, 10, 0, 7],
       columns: [
         {
           width: `${tableWidths[0]}%`,
-          text: t('reports.priorities.status'),
+          text: t('reports.priorities.status').toUpperCase(),
           style: 'prioritiesHeader'
         },
         {
           width: `${tableWidths[1]}%`,
-          text: t('reports.priorities.indicator'),
+          text: t('reports.priorities.indicator').toUpperCase(),
           style: 'prioritiesHeader'
         },
         {
           width: `${tableWidths[2]}%`,
-          text: t('reports.priorities.whyDontYouHaveIt'),
+          text: t('reports.priorities.whyDontYouHaveIt').toUpperCase(),
           style: 'prioritiesHeader'
         },
         {
           width: `${tableWidths[3]}%`,
-          text: t('reports.priorities.whatWillYouDoToGetIt'),
+          text: t('reports.priorities.whatWillYouDoToGetIt').toUpperCase(),
           style: 'prioritiesHeader'
         },
         {
           width: `${tableWidths[4]}%`,
-          text: t('reports.priorities.howManyMonthsWillItTake'),
+          text: t('reports.priorities.howManyMonthsWillItTake').toUpperCase(),
           style: 'prioritiesHeader'
         },
         {
           width: `${tableWidths[5]}%`,
-          text: t('reports.priorities.reviewDate'),
+          text: t('reports.priorities.reviewDate').toUpperCase(),
           style: 'prioritiesHeader'
         }
       ]
@@ -186,7 +193,9 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
               margin: CELL_MARGIN
             },
             {
-              text: priority.estimatedDate,
+              text: moment()
+                .add(priority.estimatedDate, 'M')
+                .format(dateFormat),
               alignment: 'center',
               style: 'priorityCell',
               fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
@@ -302,13 +311,16 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       },
       prioritiesHeader: {
         alignment: 'center',
-        fontSize: 11,
+        fontSize: 10,
         bold: true
       },
       priorityCell: {
         alignment: 'center',
         fontSize: 8
       }
+    },
+    defaultStyle: {
+      font: 'Roboto'
     }
   };
 
