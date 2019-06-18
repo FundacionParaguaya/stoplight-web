@@ -16,7 +16,6 @@ import { submitDraft } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
-import OverviewScreen from './Overview';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import generateIndicatorsReport from '../../pdfs/indicators-report';
 
@@ -43,11 +42,6 @@ export class Final extends Component {
     modalLeaveAction: null,
     modalVariant: ''
   };
-
-  constructor(props) {
-    super(props);
-    this.printRef = React.createRef();
-  }
 
   toggleModal = (
     modalTitle,
@@ -115,15 +109,6 @@ export class Final extends Component {
 
     return (
       <div>
-        <div className={classes.overviewContainer}>
-          {/* Really hacky, but its the easiest way to allow printing Overview from this page */}
-          <div>
-            <OverviewScreen
-              forceHideStickyFooter
-              containerRef={this.printRef}
-            />
-          </div>
-        </div>
         <LeaveModal
           title={this.state.modalTitle}
           subtitle={this.state.modalSubtitle}
@@ -261,8 +246,7 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 4
-  },
-  overviewContainer: { height: 0, width: 0, overflow: 'auto' }
+  }
 });
 
 export default withStyles(styles)(
