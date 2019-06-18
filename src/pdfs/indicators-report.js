@@ -65,12 +65,18 @@ const getIndicatorQuestionByCodeName = (codeName, survey) => {
   return questions.find(q => q.codeName === codeName).questionText;
 };
 
+const getIndicatorByPriority = (priority, indicators) =>
+  indicators.find(ind => ind.key === priority.indicator);
+
 const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
-  const { priorities = [] } = snapshot;
+  const { priorities = [], indicatorSurveyDataList: indicators } = snapshot;
   const dateFormat = getDateFormatByLocale(language);
   if (priorities.length === 0) {
     return [];
   }
+  const tableWidths = [8, 20, 22, 22, 12, 16];
+  const sortedPriorities = [...priorities];
+  const CELL_MARGIN = [0, 5, 0, 5];
   const content = [
     {
       margin: [...TITLE_MARGIN],
@@ -103,38 +109,93 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
       margin: [0, 10, 0, 10],
       columns: [
         {
-          width: '12%',
+          width: `${tableWidths[0]}%`,
           text: t('reports.priorities.status'),
           style: 'prioritiesHeader'
         },
         {
-          width: '18%',
+          width: `${tableWidths[1]}%`,
           text: t('reports.priorities.indicator'),
           style: 'prioritiesHeader'
         },
         {
-          width: '22%',
+          width: `${tableWidths[2]}%`,
           text: t('reports.priorities.whyDontYouHaveIt'),
           style: 'prioritiesHeader'
         },
         {
-          width: '22%',
+          width: `${tableWidths[3]}%`,
           text: t('reports.priorities.whatWillYouDoToGetIt'),
           style: 'prioritiesHeader'
         },
         {
-          width: '12%',
+          width: `${tableWidths[4]}%`,
           text: t('reports.priorities.howManyMonthsWillItTake'),
           style: 'prioritiesHeader'
         },
         {
-          width: '14%',
+          width: `${tableWidths[5]}%`,
           text: t('reports.priorities.reviewDate'),
           style: 'prioritiesHeader'
         }
       ]
     },
-    buildUnderline()
+    buildUnderline(),
+    {
+      layout: 'noBorders',
+      table: {
+        headerRows: 0,
+        dontBreakRows: true,
+        widths: tableWidths.map(tw => `${tw}%`),
+        body: sortedPriorities.map((priority, index) => {
+          const indicator = getIndicatorByPriority(priority, indicators);
+          return [
+            {
+              image: getImageForIndicator(indicator, priorities),
+              alignment: 'center',
+              width: (A4[0] * tableWidths[0]) / 100 - IMAGE_MARGIN,
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: getIndicatorQuestionByCodeName(indicator.key, survey),
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: priority.reason,
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: priority.action,
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: priority.estimatedDate,
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: priority.estimatedDate,
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            }
+          ];
+        })
+      }
+    }
   ];
   return content;
 };
@@ -142,8 +203,8 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
 const generateIndicatorsReport = (snapshot, survey, t, language) => {
   const {
     indicatorSurveyDataList: indicators,
-    priorities,
-    achievements
+    priorities = [],
+    achievements = []
   } = snapshot;
   const dateFormat = getDateFormatByLocale(language);
   // Building a matrix of indicators limiting the elements in a row
@@ -187,7 +248,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       buildUnderline(),
       {
         layout: 'noBorders',
-        pageBreak: 'after',
+        pageBreak: priorities.length > 0 ? 'after' : '',
         table: {
           headerRows: 0,
           dontBreakRows: true,
@@ -233,7 +294,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
     },
     styles: {
       header: {
-        fontSize: 20,
+        fontSize: 18,
         bold: true
       },
       headerRight: {
@@ -241,8 +302,12 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       },
       prioritiesHeader: {
         alignment: 'center',
-        fontSize: 12,
+        fontSize: 11,
         bold: true
+      },
+      priorityCell: {
+        alignment: 'center',
+        fontSize: 8
       }
     }
   };
