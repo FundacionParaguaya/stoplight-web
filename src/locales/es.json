@@ -231,5 +231,19 @@
       "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
     }
+  },
+  "reports": {
+    "indicators": {
+      "myLifeMap": "Mi Mapa de vida"
+    },
+    "priorities": {
+      "myPriorities": "Mis Prioridades",
+      "status": "Estado",
+      "indicator": "Indicador",
+      "whyDontYouHaveIt": "¿Por qué no lo tienes?",
+      "whatWillYouDoToGetIt": "¿Qué harás para tenerlo?",
+      "howManyMonthsWillItTake": "Meses necesarios",
+      "reviewDate": "Fecha de revisión"
+    }
   }
 }
