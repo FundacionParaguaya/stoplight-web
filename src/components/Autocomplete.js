@@ -26,7 +26,7 @@ const styles = theme => ({
     overflow: 'hidden'
   },
   chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`
+    margin: `${theme.spacing() / 2}px ${theme.spacing() / 4}px`
   },
   chipFocused: {
     backgroundColor: emphasize(
@@ -37,7 +37,7 @@ const styles = theme => ({
     )
   },
   noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
+    padding: `${theme.spacing()}px ${theme.spacing(2)}px`
   },
   singleValue: {
     // fontSize: 16
@@ -126,8 +126,6 @@ const Control = props => (
 );
 
 const Option = props => {
-  console.log(props);
-
   return (
     <StyledMenuItem
       buttonRef={props.innerRef}

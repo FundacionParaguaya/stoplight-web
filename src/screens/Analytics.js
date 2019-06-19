@@ -239,14 +239,14 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
     minHeight: '75vh'
   },
   whiteContainer: {
     backgroundColor: theme.palette.background.default,
-    paddingTop: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 4
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4)
   }
 });
 
