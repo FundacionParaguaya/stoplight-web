@@ -222,7 +222,6 @@ const Dashboard = props => {
             <Container variant="stretch">
               <Typography variant="h5">Indicators</Typography>
               <IndicatorsVisualisation indicators={randomized} />
-              <ActivityFeed />
             </Container>
           </div>
         </>
