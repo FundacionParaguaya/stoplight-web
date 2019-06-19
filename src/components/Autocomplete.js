@@ -66,20 +66,28 @@ const styles = theme => ({
   },
   itemSelected: {
     fontWeight: 500,
-    fontSize: 16
+    fontSize: 16,
+    whiteSpace: 'pre-wrap'
   },
   itemNotSelected: {
     fontWeight: 400,
-    fontSize: 16
+    fontSize: 16,
+    whiteSpace: 'pre-wrap'
   }
 });
 
+const StyledMenuItem = withStyles(() => ({
+  root: {
+    height: 'auto'
+  }
+}))(props => <MenuItem {...props} />);
+
 let NoOptionsMessage = ({ t, selectProps }) => (
-  <MenuItem component="div">
+  <StyledMenuItem component="div">
     <Typography className={selectProps.classes.itemNotSelected}>
       {t('general.noOptionsToShow')}
     </Typography>
-  </MenuItem>
+  </StyledMenuItem>
 );
 
 NoOptionsMessage = withTranslation()(NoOptionsMessage);
@@ -117,23 +125,27 @@ const Control = props => (
   />
 );
 
-const Option = props => (
-  <MenuItem
-    buttonRef={props.innerRef}
-    selected={props.isFocused}
-    component="div"
-    {...props.innerProps}
-  >
-    <Typography
-      className={clsx('', {
-        [props.selectProps.classes.itemSelected]: props.isSelected,
-        [props.selectProps.classes.itemNotSelected]: !props.isSelected
-      })}
+const Option = props => {
+  console.log(props);
+
+  return (
+    <StyledMenuItem
+      buttonRef={props.innerRef}
+      selected={props.isFocused}
+      component="div"
+      {...props.innerProps}
     >
-      {props.children}
-    </Typography>
-  </MenuItem>
-);
+      <Typography
+        className={clsx('', {
+          [props.selectProps.classes.itemSelected]: props.isSelected,
+          [props.selectProps.classes.itemNotSelected]: !props.isSelected
+        })}
+      >
+        {props.children}
+      </Typography>
+    </StyledMenuItem>
+  );
+};
 
 const Placeholder = props => (
   <Typography
