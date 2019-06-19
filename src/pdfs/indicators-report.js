@@ -15,8 +15,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const A4 = [595.28, 841.89];
 const DEFAULT_MARGINS = 80;
-const ELEMENTS_PER_ROW = 8;
-const IMAGE_MARGIN = 25;
+const ELEMENTS_PER_ROW = 10;
+const IMAGE_MARGIN = 42;
 
 const buildUnderline = () => ({
   canvas: [
@@ -25,7 +25,7 @@ const buildUnderline = () => ({
       color: '#b2b2b2',
       x: 0,
       y: 5,
-      w: A4[0] - DEFAULT_MARGINS,
+      w: A4[1] - DEFAULT_MARGINS,
       h: 1.5
     }
   ]
@@ -160,7 +160,7 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
             {
               image: getImageForIndicator(indicator, priorities),
               alignment: 'center',
-              width: (A4[0] * tableWidths[0]) / 100 - IMAGE_MARGIN,
+              width: (A4[1] * tableWidths[0]) / 100 - IMAGE_MARGIN,
               fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
               margin: CELL_MARGIN
             },
@@ -238,6 +238,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
   }
   const dd = {
     pageSize: 'A4',
+    pageOrientation: 'landscape',
     content: [
       {
         margin: [...TITLE_MARGIN],
@@ -275,7 +276,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
                     image: getImageForIndicator(ind, priorities, achievements),
                     alignment: 'center',
                     width:
-                      (A4[0] - DEFAULT_MARGINS) / ELEMENTS_PER_ROW -
+                      (A4[1] - DEFAULT_MARGINS) / ELEMENTS_PER_ROW -
                       IMAGE_MARGIN,
                     margin: [0, 12, 0, 5]
                   },
@@ -316,7 +317,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       },
       priorityCell: {
         alignment: 'center',
-        fontSize: 8
+        fontSize: 9
       }
     },
     defaultStyle: {
