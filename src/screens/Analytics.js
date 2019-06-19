@@ -10,7 +10,6 @@ import withHeader from '../components/withHeader';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
-import ActivityFeed from '../components/ActivityFeed';
 
 const INDICATORS = [
   {
