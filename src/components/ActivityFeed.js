@@ -1,9 +1,10 @@
 import React from 'react';
 import { Typography, withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { COLORS } from '../theme';
 
-const ActivityFeed = ({ classes, history }) => {
+const ActivityFeed = ({ classes, history, data }) => {
   const handleClick = () => {
     // history.push()
     console.log('routed');
@@ -30,6 +31,10 @@ const ActivityFeed = ({ classes, history }) => {
       ))}
     </div>
   );
+};
+
+ActivityFeed.propTypes = {
+  data: PropTypes.object.isRequired
 };
 
 const styles = theme => ({
