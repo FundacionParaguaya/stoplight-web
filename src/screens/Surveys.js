@@ -14,7 +14,7 @@ import chooseLifeMap from '../assets/choose_life_map.png';
 import BottomSpacer from '../components/BottomSpacer';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { CONDITION_TYPES } from '../utils/conditional-logic';
-import withHeader from '../components/withHeader';
+import withLayout from '../components/withLayout';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -342,6 +342,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(withTranslation()(withHeader(Surveys)))
+    )(withTranslation()(withLayout(Surveys)))
   )
 );
