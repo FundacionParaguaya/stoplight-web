@@ -681,7 +681,7 @@ const styles = theme => ({
     marginTop: 40
   },
   mainContainer: {
-    marginTop: theme.spacing.unit * 5
+    marginTop: theme.spacing(5)
   }
 });
 

@@ -221,7 +221,7 @@ export class Surveys extends Component {
                 <CircularProgress size={50} thickness={2} />
               </div>
             )}
-            <Grid container spacing={16}>
+            <Grid container spacing={2}>
               {this.state.surveys.map(survey => {
                 return (
                   <Grid item key={survey.id} xs={12} sm={12} md={4}>

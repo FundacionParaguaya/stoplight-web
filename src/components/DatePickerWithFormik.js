@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
-import { DatePicker } from 'material-ui-pickers';
+import { DatePicker } from '@material-ui/pickers';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { connect } from 'formik';
@@ -52,8 +52,8 @@ const DatePickerWithFormik = ({
     fullWidth: true,
     TextFieldComponent: passedProps => {
       const effectiveTextfieldProps = {
-        ...fieldProps,
         ...passedProps,
+        ...fieldProps,
         ...textFieldProps
       };
       return <TextField {...effectiveTextfieldProps} />;

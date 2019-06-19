@@ -455,8 +455,8 @@ const styles = theme => ({
   topImageContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 2
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(2)
   },
   buttonContainerForm: {
     display: 'flex',
