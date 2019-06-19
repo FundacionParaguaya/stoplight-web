@@ -184,7 +184,7 @@ Object.keys(fakeData).forEach(
 );
 
 const Dashboard = props => {
-  const { classes } = props;
+  const { classes, t } = props;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -202,8 +202,9 @@ const Dashboard = props => {
           <div className={classes.grayContainer}>
             <Container variant="stretch">
               <ScreenTitleBar
-                title="Analytics"
-                subtitle="We are working to improve our platform!"
+                title={t('views.analytics.title')}
+                subtitle={t('views.analytics.subtitle')}
+                description={t('views.analytics.description')}
                 betaBadge
               />
             </Container>
