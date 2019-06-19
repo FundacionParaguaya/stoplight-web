@@ -1,7 +1,13 @@
 import React from 'react';
 import { Typography, withStyles, Badge } from '@material-ui/core';
 
-const ScreenTitleBar = ({ classes, title, subtitle, betaBadge }) => {
+const ScreenTitleBar = ({
+  classes,
+  title,
+  subtitle,
+  betaBadge,
+  description
+}) => {
   return (
     <div className={classes.container}>
       {betaBadge && (
@@ -11,6 +17,7 @@ const ScreenTitleBar = ({ classes, title, subtitle, betaBadge }) => {
       )}
       {!betaBadge && <Typography variant="h4">{title}</Typography>}
       <Typography variant="h6">{subtitle || ''}</Typography>
+      <Typography variant="h6">{description || ''}</Typography>
     </div>
   );
 };
