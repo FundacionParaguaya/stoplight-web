@@ -6,7 +6,7 @@ import { Typography } from '@material-ui/core';
 import Container from '../components/Container';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import ScreenTitleBar from '../components/ScreenTitleBar';
-import withHeader from '../components/withHeader';
+import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
@@ -204,6 +204,7 @@ const Dashboard = props => {
               <ScreenTitleBar
                 title="Analytics"
                 subtitle="We are working to improve our platform!"
+                betaBadge
               />
             </Container>
           </div>
@@ -248,4 +249,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(withTranslation()(withHeader(Dashboard)));
+export default withStyles(styles)(withTranslation()(withLayout(Dashboard)));
