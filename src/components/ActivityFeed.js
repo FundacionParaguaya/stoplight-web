@@ -1,50 +1,18 @@
 import React from 'react';
 import { Typography, withStyles } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
 import { COLORS } from '../theme';
 
-const data = [
-  {
-    name: 'Gustavo Mentecato',
-    mentor: 'Mentor name',
-    date: '1 day ago'
-  },
-  {
-    name: 'Stacy Prendeville',
-    mentor: 'Mentor name',
-    date: '2 days ago'
-  },
-  {
-    name: 'Isaac Montercalo Cuevas',
-    mentor: 'Luis Mentor name',
-    date: '4 days ago'
-  },
-  {
-    name: 'Maria Susana Blanco Rodríguez',
-    mentor: 'Luis Mentor name',
-    date: '4 days ago'
-  },
-  {
-    name: 'Stacy Prendeville',
-    mentor: 'Mentor name',
-    date: '2 days ago'
-  },
-  {
-    name: 'Isaac Montercalo Cuevas',
-    mentor: 'Luis Mentor name',
-    date: '4 days ago'
-  },
-  {
-    name: 'Maria Susana Blanco Rodríguez',
-    mentor: 'Luis Mentor name',
-    date: '4 days ago'
-  }
-];
+const ActivityFeed = ({ classes, history }) => {
+  const handleClick = () => {
+    // history.push()
+    console.log('routed');
+  };
 
-const ActivityFeed = ({ classes }) => {
   return (
     <div className={classes.container}>
       {data.map(({ name, mentor, date }, index) => (
-        <div key={index} className={classes.children}>
+        <div key={index} className={classes.children} onClick={handleClick}>
           <div className={classes.iconContainer}>
             <i className={`material-icons ${classes.primaryIcon}`}>
               swap_calls
@@ -121,4 +89,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(ActivityFeed);
+export default withStyles(styles)(withRouter(ActivityFeed));

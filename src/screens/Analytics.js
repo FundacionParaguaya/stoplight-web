@@ -10,6 +10,7 @@ import withHeader from '../components/withHeader';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
+import ActivityFeed from '../components/ActivityFeed';
 
 const INDICATORS = [
   {
@@ -221,6 +222,7 @@ const Dashboard = props => {
             <Container variant="stretch">
               <Typography variant="h5">Indicators</Typography>
               <IndicatorsVisualisation indicators={randomized} />
+              <ActivityFeed />
             </Container>
           </div>
         </>
