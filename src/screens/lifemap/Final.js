@@ -16,7 +16,9 @@ import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
-import generateIndicatorsReport from '../../pdfs/indicators-report';
+import generateIndicatorsReport, {
+  getReportTitle
+} from '../../pdfs/indicators-report';
 
 export class Final extends Component {
   state = {
@@ -187,7 +189,7 @@ export class Final extends Component {
                       t,
                       language
                     );
-                    pdf.download(t('reports.indicators.myLifeMap'));
+                    pdf.download(getReportTitle(this.props.currentDraft, t));
                   }}
                 >
                   <DownloadIcon className={classes.leftIcon} />
