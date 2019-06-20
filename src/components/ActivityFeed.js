@@ -10,7 +10,6 @@ const ActivityFeed = ({ classes, data, user: { env } }) => {
       `https://${e}.povertystoplight.org/#families/${familyId}`
     );
   };
-  console.log(data);
 
   return (
     <div className={classes.container}>
