@@ -69,9 +69,6 @@ class Header extends Component {
               width={38}
               height={38}
             />
-            <span className={classes.badge}>
-              <Typography variant="inherit">Beta</Typography>
-            </span>
           </span>
           <NavLink
             to={`/surveys?sid=${this.props.user.token}&lang=en`}
@@ -244,19 +241,6 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: theme.palette.background.paper
     }
-  },
-  badge: {
-    position: 'absolute',
-    color: '#fff',
-    backgroundColor: theme.palette.secondary.main,
-    fontSize: '10px!important',
-    textTransform: 'uppercase',
-    borderRadius: 2,
-    fontFamily: 'Poppins',
-    padding: '0px 5px',
-    paddingTop: 1,
-    top: 8,
-    right: 0
   }
 });
 
