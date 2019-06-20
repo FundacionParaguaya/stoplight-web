@@ -8,7 +8,6 @@ import { withTranslation } from 'react-i18next';
 import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
-import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
 import IndicatorBall from '../../components/summary/IndicatorBall';
 import IndicatorsFilter, {
   FILTERED_BY_OPTIONS
@@ -39,45 +38,6 @@ const indicatorColorByAnswer = indicator => {
   return color;
 };
 
-let DimensionHeader = ({
-  classes,
-  dimension,
-  greenIndicatorCount,
-  yellowIndicatorCount,
-  redIndicatorCount,
-  skippedIndicatorCount
-}) => (
-  <div className={classes.dimensionHeader}>
-    <Typography className={classes.dimensionTitle} variant="subtitle1">
-      {dimension}
-    </Typography>
-    <SummaryStackedBar
-      greenIndicatorCount={greenIndicatorCount}
-      yellowIndicatorCount={yellowIndicatorCount}
-      redIndicatorCount={redIndicatorCount}
-      skippedIndicatorCount={skippedIndicatorCount}
-    />
-    <div className={classes.dimensionUnderline} />
-  </div>
-);
-const dimensionHeaderStyles = theme => ({
-  dimensionHeader: {
-    margin: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 4
-  },
-  dimensionTitle: {
-    marginBottom: theme.spacing.unit
-  },
-  dimensionUnderline: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 3,
-    width: '100%',
-    height: '1px',
-    backgroundColor: '#DCDEE3'
-  }
-});
-DimensionHeader = withStyles(dimensionHeaderStyles)(DimensionHeader);
-
 let DimensionQuestions = ({
   classes,
   questions,
@@ -85,7 +45,7 @@ let DimensionQuestions = ({
   achievements,
   history
 }) => (
-  <Grid container spacing={16}>
+  <Grid container spacing={2}>
     {questions.map(indicator => (
       <Grid
         item
@@ -128,8 +88,8 @@ const dimensionQuestionsStyles = theme => ({
     justifyContent: 'center'
   },
   typographyStyle: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 4
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4)
   }
 });
 DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
@@ -348,7 +308,7 @@ const styles = theme => ({
   finishSurveyButtonContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 4
+    marginTop: theme.spacing(4)
   },
   questionsContainer: {
     padding: '45px',

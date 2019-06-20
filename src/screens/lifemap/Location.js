@@ -281,8 +281,8 @@ const styles = theme => ({
   suggestionsTypography: { fontSize: 14 },
   inputContainer: {
     position: 'absolute',
-    top: theme.spacing.unit * 2,
-    left: theme.spacing.unit * 2,
+    top: theme.spacing(2),
+    left: theme.spacing(2),
     width: '60%',
     zIndex: 1
   },
@@ -310,7 +310,7 @@ const styles = theme => ({
   myLocationContainer: {
     position: 'absolute',
     zIndex: 1,
-    bottom: ZOOMING_CONTROLS_Y + theme.spacing.unit * 2 + 50,
+    bottom: ZOOMING_CONTROLS_Y + theme.spacing(2) + 50,
     right: ZOOMING_CONTROLS_X
   },
   myLocationIcon: {

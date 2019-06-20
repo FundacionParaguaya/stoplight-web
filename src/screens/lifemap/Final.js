@@ -142,7 +142,7 @@ export class Final extends Component {
             </div>
           )}
           <div className={classes.gridContainer}>
-            <Grid container spacing={16}>
+            <Grid container spacing={2}>
               {/* <Grid item xs={4}>
                 <Button
                   variant="outlined"
@@ -229,33 +229,33 @@ const styles = theme => ({
   subtitle: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 6
+    marginTop: theme.spacing(6)
   },
   clickSafe: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing()
   },
   saveButtonContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 8
+    marginTop: theme.spacing(8)
   },
   gridContainer: {
-    marginLeft: theme.spacing.unit * 4 - 8,
-    marginRight: theme.spacing.unit * 4 - 8,
-    marginTop: theme.spacing.unit * 4
+    marginLeft: theme.spacing(4) - 8,
+    marginRight: theme.spacing(4) - 8,
+    marginTop: theme.spacing(4)
   },
-  saveButtonStyle: { marginTop: theme.spacing.unit * 6 },
+  saveButtonStyle: { marginTop: theme.spacing(6) },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     fontSize: 20
   },
   loadingContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4)
   },
   overviewContainer: { height: 0, width: 0, overflow: 'auto' },
   surveyIndicators: {
