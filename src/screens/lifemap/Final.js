@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
-// import DownloadIcon from '@material-ui/icons/CloudDownload';
+import DownloadIcon from '@material-ui/icons/CloudDownload';
 // import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
@@ -16,7 +16,9 @@ import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
-import generateIndicatorsReport from '../../pdfs/indicators-report';
+import generateIndicatorsReport, {
+  getReportTitle
+} from '../../pdfs/indicators-report';
 
 export class Final extends Component {
   state = {
@@ -143,8 +145,8 @@ export class Final extends Component {
           )}
           <div className={classes.gridContainer}>
             <Grid container spacing={2}>
-              <Grid item xs={4}>
-                {/* <Button
+              {/* <Grid item xs={4}>
+                <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
@@ -152,9 +154,9 @@ export class Final extends Component {
                 >
                   <MailIcon className={classes.leftIcon} />
                   {t('views.final.email')}
-                </Button> */}
-              </Grid>
-              <Grid item xs={4}>
+                </Button>
+              </Grid> */}
+              <Grid item xs={6}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -174,16 +176,25 @@ export class Final extends Component {
                   {t('views.final.print')}
                 </Button>
               </Grid>
-              <Grid item xs={4}>
-                {/* <Button
+              <Grid item xs={6}>
+                <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
                   disabled={this.state.loading}
+                  onClick={() => {
+                    const pdf = generateIndicatorsReport(
+                      this.props.currentDraft,
+                      this.props.currentSurvey,
+                      t,
+                      language
+                    );
+                    pdf.download(getReportTitle(this.props.currentDraft, t));
+                  }}
                 >
                   <DownloadIcon className={classes.leftIcon} />
                   {t('views.final.download')}
-                </Button> */}
+                </Button>
               </Grid>
               <Grid item xs={4} />
               <Grid item xs={4}>
