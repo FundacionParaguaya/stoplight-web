@@ -55,6 +55,7 @@
   "views": {
     "toolbar": {
       "surveys": "Surveys",
+      "analytics": "Analytics",
       "households": "Households",
       "map": "Map"
     },
@@ -70,6 +71,11 @@
       "chooseSurvey": "Choose a survey",
       "contains": "Contains",
       "createdOn": "Created on"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "subtitle": "We are working to improve our platform",
+      "description": "In this area you can see some our largest advancements regarding analytics."
     },
     "location": {
       "title": "Location",
@@ -233,7 +239,7 @@
   },
   "reports": {
     "indicators": {
-      "myLifeMap": "My Life Map"
+      "myLifeMap": "Life Map"
     },
     "priorities": {
       "myPriorities": "My Priorities",

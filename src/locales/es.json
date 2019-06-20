@@ -55,6 +55,7 @@
   "views": {
     "toolbar": {
       "surveys": "Encuestas",
+      "analytics": "Analíticas",
       "households": "Familias",
       "map": "Mapa"
     },
@@ -70,6 +71,11 @@
       "chooseSurvey": "Elige una encuesta",
       "contains": "Contiene",
       "createdOn": "Creado el"
+    },
+    "analytics": {
+      "title": "Analíticas",
+      "subtitle": "Estamos trabajando para mejorar nuestra plataforma!",
+      "description": "En esta pantalla puedes ver algunos de nuestros últimos avances con respecto a las analíticas."
     },
     "location": {
       "title": "Ubicación",
@@ -234,7 +240,7 @@
   },
   "reports": {
     "indicators": {
-      "myLifeMap": "Mi Mapa de vida"
+      "myLifeMap": "Mapa de Vida"
     },
     "priorities": {
       "myPriorities": "Mis Prioridades",

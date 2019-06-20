@@ -117,8 +117,8 @@ const dimensionIndicatorStyle = theme => ({
     flexBasis: '60%',
     width: '60%',
     alignItems: 'center',
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3)
   },
   rightSpaceFiller: { display: 'flex', flexBasis: '15%', width: '15%' }
 });
@@ -206,8 +206,8 @@ const styles = theme => ({
   loadingContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4)
   },
   listItem: {
     paddingTop: 4,
@@ -224,8 +224,8 @@ const styles = theme => ({
     alignItems: 'center',
     width: '60%',
     flexBasis: '60%',
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3)
   },
   priorAndAchievem: {
     width: '15%',
@@ -248,10 +248,10 @@ const styles = theme => ({
     paddingRight: '4px'
   },
   dimensionIndicatorContainer: {
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing()
   },
   dimensionIndicatorUnderline: {
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
     width: '100%',
     height: '1px',
     backgroundColor: '#f3f4f6'

@@ -35,7 +35,7 @@ const summaryCountingSectionStyles = theme => ({
     alignItems: 'center'
   },
   itemSeparator: {
-    width: theme.spacing.unit * 2
+    width: theme.spacing(2)
   },
   typographyStyle: {
     width: '2em',
@@ -113,23 +113,23 @@ const styles = theme => ({
   mainContainer: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4)
   },
   donutContainer: {
     width: '100%',
     display: 'flex',
     flexDirection: 'row-reverse',
-    marginRight: theme.spacing.unit * 2
+    marginRight: theme.spacing(2)
   },
   summaryCountingSectionContainer: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    marginLeft: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4)
   }
 });
 
