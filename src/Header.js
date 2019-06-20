@@ -94,7 +94,7 @@ class Header extends Component {
             }
           >
             <Typography variant="subtitle1" className={classes.menuLinkText}>
-              Analytics
+              {t('views.toolbar.analytics')}
             </Typography>
           </NavLink>
           <a

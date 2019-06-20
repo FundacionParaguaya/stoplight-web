@@ -108,7 +108,7 @@ let QuestionsWrapper = ({
   };
 
   return (
-    <Grid container spacing={16}>
+    <Grid container spacing={2}>
       {question &&
         sortedQuestions.map(e => {
           let color;
