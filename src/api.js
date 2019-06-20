@@ -23,6 +23,16 @@ export const getSurveys = user =>
     })
   });
 
+export const getFamilies = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/families`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
 // submit a new snapshot/lifemap/draft
 export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
