@@ -128,6 +128,12 @@ export const theme = {
       }
     },
     MuiInputLabel: {
+      root: {
+        '&$error': {
+          top: '40%!important'
+          // transform: 'translate(12px, -50%) scale(1)!important'
+        }
+      },
       shrink: {
         transform: 'translate(12px, -85%) scale(1)!important',
         color: '#6A6A6A'
@@ -143,10 +149,6 @@ export const theme = {
         transform: 'translate(12px, 25px) scale(1)',
         color: '#6A6A6A',
         lineHeight: 1.2
-      },
-      error: {
-        top: '40%!important',
-        transform: 'translate(12px, -50%) scale(1)!important'
       }
     },
     MuiInput: {
