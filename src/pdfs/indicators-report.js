@@ -33,6 +33,15 @@ const buildUnderline = () => ({
 
 const TITLE_MARGIN = [0, 0, 0, 13];
 
+export const getReportTitle = (snapshot, t) => {
+  const firstParticipant = snapshot.familyData.familyMembersList.find(
+    m => !!m.firstParticipant
+  );
+  return `${firstParticipant.firstName} ${firstParticipant.lastName}, ${t(
+    'reports.indicators.myLifeMap'
+  )}`;
+};
+
 const getImageForIndicator = (
   indicator,
   priorities = [],
@@ -245,7 +254,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
         columns: [
           {
             width: '50%',
-            text: t('reports.indicators.myLifeMap'),
+            text: getReportTitle(snapshot, t),
             style: 'header'
           },
           {
@@ -324,7 +333,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       font: 'Roboto'
     },
     info: {
-      title: t('reports.indicators.myLifeMap')
+      title: getReportTitle(snapshot, t)
     }
   };
 
