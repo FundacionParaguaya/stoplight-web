@@ -225,9 +225,9 @@ const Dashboard = props => {
               <IndicatorsVisualisation indicators={randomized} />
             </Container>
           </div>
+          <BottomSpacer />
         </>
       )}
-      <BottomSpacer />
     </>
   );
 };
@@ -240,8 +240,8 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4),
-    minHeight: '75vh'
+    minHeight: `calc(100vh - ${theme.shape.header} - ${theme.shape.footer})`,
+    backgroundColor: theme.palette.background.paper
   },
   whiteContainer: {
     backgroundColor: theme.palette.background.default,
