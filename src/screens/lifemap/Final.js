@@ -7,18 +7,18 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
-// import DownloadIcon from '@material-ui/icons/CloudDownload';
+import DownloadIcon from '@material-ui/icons/CloudDownload';
 // import MailIcon from '@material-ui/icons/Mail';
-import ReactToPrint from 'react-to-print';
 import Container from '../../components/Container';
-import SummaryDonut from '../../components/summary/SummaryDonut';
 import LeaveModal from '../../components/LeaveModal';
 import { submitDraft } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
-import OverviewScreen from './Overview';
 import { ProgressBarContext } from '../../components/ProgressBar';
+import generateIndicatorsReport, {
+  getReportTitle
+} from '../../pdfs/indicators-report';
 
 export class Final extends Component {
   state = {
@@ -43,11 +43,6 @@ export class Final extends Component {
     modalLeaveAction: null,
     modalVariant: ''
   };
-
-  constructor(props) {
-    super(props);
-    this.printRef = React.createRef();
-  }
 
   toggleModal = (
     modalTitle,
@@ -106,20 +101,15 @@ export class Final extends Component {
   };
 
   render() {
-    const { t, classes } = this.props;
+    const {
+      t,
+      classes,
+      i18n: { language }
+    } = this.props;
     const { error } = this.state;
 
     return (
       <div>
-        <div className={classes.overviewContainer}>
-          {/* Really hacky, but its the easiest way to allow printing Overview from this page */}
-          <div>
-            <OverviewScreen
-              forceHideStickyFooter
-              containerRef={this.printRef}
-            />
-          </div>
-        </div>
         <LeaveModal
           title={this.state.modalTitle}
           subtitle={this.state.modalSubtitle}
@@ -138,13 +128,15 @@ export class Final extends Component {
           <Typography variant="h5" className={classes.clickSafe}>
             {t('views.final.clickSafe')}
           </Typography>
-          <SummaryDonut
+          {/* <SummaryDonut
             greenIndicatorCount={this.state.greenIndicatorCount}
             yellowIndicatorCount={this.state.yellowIndicatorCount}
             redIndicatorCount={this.state.redIndicatorCount}
             skippedIndicatorCount={this.state.skippedIndicatorCount}
-          />
-          <AllSurveyIndicators />
+          /> */}
+          <Container variant="slim">
+            <AllSurveyIndicators />
+          </Container>
           {error && <Typography color="error">{error}</Typography>}
           {this.state.loading && (
             <div className={classes.loadingContainer}>
@@ -152,9 +144,9 @@ export class Final extends Component {
             </div>
           )}
           <div className={classes.gridContainer}>
-            <Grid container spacing={16}>
-              <Grid item xs={4}>
-                {/* <Button
+            <Grid container spacing={2}>
+              {/* <Grid item xs={4}>
+                <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
@@ -162,34 +154,47 @@ export class Final extends Component {
                 >
                   <MailIcon className={classes.leftIcon} />
                   {t('views.final.email')}
-                </Button> */}
-              </Grid>
-              <Grid item xs={4}>
-                <ReactToPrint
-                  trigger={() => (
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      fullWidth
-                      disabled={this.state.loading}
-                    >
-                      <PrintIcon className={classes.leftIcon} />
-                      {t('views.final.print')}
-                    </Button>
-                  )}
-                  content={() => this.printRef.current}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                {/* <Button
+                </Button>
+              </Grid> */}
+              <Grid item xs={6}>
+                <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
                   disabled={this.state.loading}
+                  onClick={() => {
+                    const pdf = generateIndicatorsReport(
+                      this.props.currentDraft,
+                      this.props.currentSurvey,
+                      t,
+                      language
+                    );
+                    pdf.print();
+                  }}
+                >
+                  <PrintIcon className={classes.leftIcon} />
+                  {t('views.final.print')}
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  disabled={this.state.loading}
+                  onClick={() => {
+                    const pdf = generateIndicatorsReport(
+                      this.props.currentDraft,
+                      this.props.currentSurvey,
+                      t,
+                      language
+                    );
+                    pdf.download(getReportTitle(this.props.currentDraft, t));
+                  }}
                 >
                   <DownloadIcon className={classes.leftIcon} />
                   {t('views.final.download')}
-                </Button> */}
+                </Button>
               </Grid>
               <Grid item xs={4} />
               <Grid item xs={4}>
@@ -216,41 +221,49 @@ export class Final extends Component {
 
 Final.contextType = ProgressBarContext;
 
-const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user });
+const mapStateToProps = ({ currentDraft, currentSurvey, user }) => ({
+  currentDraft,
+  currentSurvey,
+  user
+});
 
 const styles = theme => ({
   subtitle: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 6
+    marginTop: theme.spacing(6)
   },
   clickSafe: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing()
   },
   saveButtonContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 8
+    marginTop: theme.spacing(8)
   },
   gridContainer: {
-    marginLeft: theme.spacing.unit * 4 - 8,
-    marginRight: theme.spacing.unit * 4 - 8,
-    marginTop: theme.spacing.unit * 4
+    marginLeft: theme.spacing(4) - 8,
+    marginRight: theme.spacing(4) - 8,
+    marginTop: theme.spacing(4)
   },
-  saveButtonStyle: { marginTop: theme.spacing.unit * 6 },
+  saveButtonStyle: { marginTop: theme.spacing(6) },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(),
     fontSize: 20
   },
   loadingContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 4,
-    marginBottom: theme.spacing.unit * 4
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4)
   },
-  overviewContainer: { height: 0, width: 0, overflow: 'auto' }
+  overviewContainer: { height: 0, width: 0, overflow: 'auto' },
+  surveyIndicators: {
+    maxWidth: '40%',
+    margin: 'auto'
+  }
 });
 
 export default withStyles(styles)(

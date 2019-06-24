@@ -56,7 +56,7 @@ const CheckboxWithFormik = ({
         {label}
       </FormLabel>
 
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         {rawOptions.map(option => (
           <Grid item xs={4} key={option.value}>
             <StyledFormControlLabel
