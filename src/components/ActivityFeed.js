@@ -1,19 +1,24 @@
 import React from 'react';
 import { Typography, withStyles } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { COLORS } from '../theme';
 
-const ActivityFeed = ({ classes, history, data }) => {
-  const handleClick = () => {
-    // history.push()
-    console.log('routed');
+const ActivityFeed = ({ classes, data, user: { env } }) => {
+  const handleClick = (e, familyId) => {
+    window.location.replace(
+      `https://${e}.povertystoplight.org/#families/${familyId}`
+    );
   };
 
   return (
     <div className={classes.container}>
-      {data.map(({ name, mentor, date }, index) => (
-        <div key={index} className={classes.children} onClick={handleClick}>
+      {data.map(({ name, familyId }, index) => (
+        <div
+          key={index}
+          className={classes.children}
+          onClick={() => handleClick(env, familyId)}
+        >
           <div className={classes.iconContainer}>
             <i className={`material-icons ${classes.primaryIcon}`}>
               swap_calls
@@ -21,8 +26,8 @@ const ActivityFeed = ({ classes, history, data }) => {
           </div>
           <div className={classes.content}>
             <Typography className={classes.title}>{name}</Typography>
-            <Typography className={classes.subtitle}>{mentor}</Typography>
-            <Typography className={classes.date}>{date}</Typography>
+            <Typography className={classes.subtitle}>Mentor</Typography>
+            <Typography className={classes.date}>Hace 2 dias</Typography>
             <i className={`material-icons ${classes.arrowIcon}`}>
               keyboard_arrow_right
             </i>
@@ -34,7 +39,7 @@ const ActivityFeed = ({ classes, history, data }) => {
 };
 
 ActivityFeed.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.array.isRequired
 };
 
 const styles = theme => ({
@@ -94,4 +99,6 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(withRouter(ActivityFeed));
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(withStyles(styles)(ActivityFeed));

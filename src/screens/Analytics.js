@@ -3,6 +3,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
+import { connect } from 'react-redux';
 import Container from '../components/Container';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import ScreenTitleBar from '../components/ScreenTitleBar';
@@ -10,6 +11,8 @@ import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
+import { getFamilies } from '../api';
+import ActivityFeed from '../components/ActivityFeed';
 
 const INDICATORS = [
   {
@@ -183,12 +186,13 @@ Object.keys(fakeData).forEach(
   fd => (fakeData[fd].indicators = { ...fakeData })
 );
 
-const Dashboard = props => {
-  const { classes, t } = props;
+const Analytics = ({ classes, t, user }) => {
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 3000);
+    setTimeout(() => setLoading(false), 0);
+    getFamilies(user).then(families => setData(families.data.splice(0, 25)));
   }, []);
   return (
     <>
@@ -223,6 +227,7 @@ const Dashboard = props => {
             <Container variant="stretch">
               <Typography variant="h5">Indicators</Typography>
               <IndicatorsVisualisation indicators={randomized} />
+              <ActivityFeed data={data} />
             </Container>
           </div>
           <BottomSpacer />
@@ -250,4 +255,8 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(withTranslation()(withLayout(Dashboard)));
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(
+  withStyles(styles)(withTranslation()(withLayout(Analytics)))
+);
