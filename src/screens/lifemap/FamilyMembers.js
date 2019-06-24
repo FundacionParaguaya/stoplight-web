@@ -18,6 +18,7 @@ import TitleBar from '../../components/TitleBar';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
+import InputWithDep from '../../components/InputWithDep';
 import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
@@ -146,6 +147,32 @@ export class FamilyMembers extends Component {
                                 )
                               }
                             />
+                            <InputWithDep
+                              dep="gender"
+                              from={currentDraft}
+                              fieldOptions={surveyConfig.gender}
+                              index={index + 1}
+                            >
+                              {(otherOption, value) =>
+                                otherOption === value && (
+                                  <InputWithFormik
+                                    label={`${t('views.family.specify')} ${t(
+                                      'views.family.gender'
+                                    ).toLowerCase()}`}
+                                    name={`members[${index}].customGender`}
+                                    onChange={e =>
+                                      this.syncDraft(
+                                        e.target.value,
+                                        index,
+                                        'customGender',
+                                        `members[${index}].customGender`,
+                                        setFieldValue
+                                      )
+                                    }
+                                  />
+                                )
+                              }
+                            </InputWithDep>
                             <DatePickerWithFormik
                               label={t('views.family.dateOfBirth')}
                               name={`members[${index}].birthDate`}
