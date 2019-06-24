@@ -38,7 +38,8 @@ export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
   let { economicSurveyDataList } = snapshot;
   const validEconomicIndicator = ec =>
-    ec.value !== null && ec.value !== undefined && ec.value !== '';
+    (ec.value !== null && ec.value !== undefined && ec.value !== '') ||
+    (!!ec.multipleValue && ec.multipleValue.length > 0);
   economicSurveyDataList = economicSurveyDataList.filter(
     validEconomicIndicator
   );
