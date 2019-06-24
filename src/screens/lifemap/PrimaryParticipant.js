@@ -21,6 +21,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import { withScroller } from '../../components/Scroller';
 import familyFaceIcon from '../../assets/family_face_large.png';
+import InputWithDep from '../../components/InputWithDep';
 import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
@@ -36,7 +37,7 @@ const schemaWithDateTransform = Yup.date()
     return originalValue ? moment.unix(originalValue).toDate() : new Date('');
   })
   .required(fieldIsRequired);
-const validationSchema = Yup.object().shape({
+const staticFields = {
   firstName: Yup.string().required(fieldIsRequired),
   lastName: Yup.string().required(fieldIsRequired),
   gender: Yup.string().required(fieldIsRequired),
@@ -46,13 +47,44 @@ const validationSchema = Yup.object().shape({
   birthCountry: Yup.string().required(fieldIsRequired),
   countFamilyMembers: Yup.string().required(fieldIsRequired),
   email: Yup.string().email(validEmailAddress)
-});
+};
+
+const buildValidationSchema = (surveyConfig, validationObject) => {
+  const forPrimaryParticipant = { ...validationObject };
+
+  const keys = Object.keys(surveyConfig);
+  const values = Object.values(surveyConfig)
+    .map((field, index) => {
+      if (Array.isArray(field)) {
+        return {
+          codeName: keys[index],
+          ...field.filter(e => e.otherOption)[0]
+        };
+      }
+
+      return null;
+    })
+    .filter(e => e !== null);
+
+  values.forEach(field => {
+    forPrimaryParticipant[
+      `custom${_.upperFirst(field.codeName)}`
+    ] = Yup.string().when(field.codeName, {
+      is: field.value,
+      then: Yup.string().required(fieldIsRequired),
+      otherwise: Yup.string()
+    });
+  });
+
+  return Yup.object().shape(forPrimaryParticipant);
+};
 
 export class PrimaryParticipant extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props)
+      householdSizeArray: PrimaryParticipant.constructHouseholdArray(props),
+      validationSpec: {}
     };
   }
 
@@ -152,7 +184,7 @@ export class PrimaryParticipant extends Component {
       for (
         let i = currentDraft.familyData.familyMembersList.length;
         i <= value - 1;
-        i++
+        i += 1
       ) {
         names2.push({
           firstName: '',
@@ -219,6 +251,14 @@ export class PrimaryParticipant extends Component {
         });
       }
     }
+    if (this.props.currentSurvey) {
+      this.setState({
+        validationSpec: buildValidationSchema(
+          this.props.currentSurvey.surveyConfig,
+          staticFields
+        )
+      });
+    }
   };
 
   syncDraft = (value, key, setFieldValue) => {
@@ -227,6 +267,7 @@ export class PrimaryParticipant extends Component {
   };
 
   render() {
+    const { validationSpec } = this.state;
     const {
       t,
       currentSurvey,
@@ -249,6 +290,8 @@ export class PrimaryParticipant extends Component {
       firstName: '',
       lastName: '',
       gender: '',
+      customGender: '',
+      customDocumentType: '',
       birthDate: '',
       documentType: '',
       documentNumber: '',
@@ -278,7 +321,7 @@ export class PrimaryParticipant extends Component {
               ...defaultEditingObject,
               ...participant
             }}
-            validationSchema={validationSchema}
+            validationSchema={validationSpec}
             onSubmit={(values, { setSubmitting }) => {
               this.handleContinue();
               setSubmitting(false);
@@ -315,6 +358,30 @@ export class PrimaryParticipant extends Component {
                       this.syncDraft(e ? e.value : '', 'gender', setFieldValue)
                     }
                   />
+                  <InputWithDep
+                    dep="gender"
+                    from={currentDraft}
+                    fieldOptions={surveyConfig.gender}
+                  >
+                    {(otherOption, value) =>
+                      otherOption === value && (
+                        <InputWithFormik
+                          label={`${t('views.family.specify')} ${t(
+                            'views.family.gender'
+                          ).toLowerCase()}`}
+                          name="customGender"
+                          required
+                          onChange={e =>
+                            this.syncDraft(
+                              e.target.value,
+                              'customGender',
+                              setFieldValue
+                            )
+                          }
+                        />
+                      )
+                    }
+                  </InputWithDep>
                   <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
@@ -341,6 +408,30 @@ export class PrimaryParticipant extends Component {
                       )
                     }
                   />
+                  <InputWithDep
+                    dep="documentType"
+                    from={currentDraft}
+                    fieldOptions={surveyConfig.documentType}
+                  >
+                    {(otherOption, value) =>
+                      otherOption === value && (
+                        <InputWithFormik
+                          label={`${t('views.family.specify')} ${t(
+                            'views.family.documentType'
+                          ).toLowerCase()}`}
+                          name="customDocumentType"
+                          required
+                          onChange={e =>
+                            this.syncDraft(
+                              e.target.value,
+                              'customDocumentType',
+                              setFieldValue
+                            )
+                          }
+                        />
+                      )
+                    }
+                  </InputWithDep>
                   <InputWithFormik
                     label={t('views.family.documentNumber')}
                     name="documentNumber"
