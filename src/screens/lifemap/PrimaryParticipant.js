@@ -362,6 +362,10 @@ export class PrimaryParticipant extends Component {
                     dep="gender"
                     from={currentDraft}
                     fieldOptions={surveyConfig.gender}
+                    target="customGender"
+                    cleanUp={() =>
+                      this.syncDraft('', 'customGender', setFieldValue)
+                    }
                   >
                     {(otherOption, value) =>
                       otherOption === value && (
@@ -412,6 +416,10 @@ export class PrimaryParticipant extends Component {
                     dep="documentType"
                     from={currentDraft}
                     fieldOptions={surveyConfig.documentType}
+                    target="customDocumentType"
+                    cleanUp={() =>
+                      this.syncDraft('', 'customDocumentType', setFieldValue)
+                    }
                   >
                     {(otherOption, value) =>
                       otherOption === value && (

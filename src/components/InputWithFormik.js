@@ -37,7 +37,6 @@ const InputWithFormik = ({
     onChange,
     fullWidth: true
   };
-  useEffect(() => () => props.onChange({ target: { value: '' } }), []);
   const textFieldProps = { ...innerProps, ...props };
   return <TextField {...textFieldProps} />;
 };
