@@ -152,6 +152,16 @@ export class FamilyMembers extends Component {
                               from={currentDraft}
                               fieldOptions={surveyConfig.gender}
                               index={index + 1}
+                              target={`members[${index}].customGender`}
+                              cleanUp={() =>
+                                this.syncDraft(
+                                  '',
+                                  index,
+                                  'customGender',
+                                  `members[${index}].customGender`,
+                                  setFieldValue
+                                )
+                              }
                             >
                               {(otherOption, value) =>
                                 otherOption === value && (
