@@ -8,9 +8,6 @@ import { withTranslation } from 'react-i18next';
 import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
-import SummaryDonut from '../../components/summary/SummaryDonut';
-import SummaryStackedBar from '../../components/summary/SummaryStackedBar';
-import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import IndicatorBall from '../../components/summary/IndicatorBall';
 import IndicatorsFilter, {
   FILTERED_BY_OPTIONS
@@ -41,45 +38,6 @@ const indicatorColorByAnswer = indicator => {
   return color;
 };
 
-let DimensionHeader = ({
-  classes,
-  dimension,
-  greenIndicatorCount,
-  yellowIndicatorCount,
-  redIndicatorCount,
-  skippedIndicatorCount
-}) => (
-  <div className={classes.dimensionHeader}>
-    <Typography className={classes.dimensionTitle} variant="subtitle1">
-      {dimension}
-    </Typography>
-    <SummaryStackedBar
-      greenIndicatorCount={greenIndicatorCount}
-      yellowIndicatorCount={yellowIndicatorCount}
-      redIndicatorCount={redIndicatorCount}
-      skippedIndicatorCount={skippedIndicatorCount}
-    />
-    <div className={classes.dimensionUnderline} />
-  </div>
-);
-const dimensionHeaderStyles = theme => ({
-  dimensionHeader: {
-    margin: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 4
-  },
-  dimensionTitle: {
-    marginBottom: theme.spacing.unit
-  },
-  dimensionUnderline: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 3,
-    width: '100%',
-    height: '1px',
-    backgroundColor: '#DCDEE3'
-  }
-});
-DimensionHeader = withStyles(dimensionHeaderStyles)(DimensionHeader);
-
 let DimensionQuestions = ({
   classes,
   questions,
@@ -87,12 +45,13 @@ let DimensionQuestions = ({
   achievements,
   history
 }) => (
-  <Grid container spacing={16}>
+  <Grid container spacing={2}>
     {questions.map(indicator => (
       <Grid
         item
         xs={4}
         md={3}
+        lg={2}
         key={indicator.key}
         onClick={() => history.push(getForwardURLForIndicator(indicator))}
         className={classes.gridItemStyle}
@@ -129,8 +88,8 @@ const dimensionQuestionsStyles = theme => ({
     justifyContent: 'center'
   },
   typographyStyle: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 4
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4)
   }
 });
 DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
@@ -255,7 +214,7 @@ export class Overview extends Component {
       forceHideStickyFooter,
       containerRef
     } = this.props;
-    let groupedAnswers;
+    // let groupedAnswers;
     const userAnswers = [];
 
     if (currentSurvey) {
@@ -271,12 +230,12 @@ export class Overview extends Component {
           }
         });
       });
-      groupedAnswers = userAnswers.reduce((r, a) => {
-        // eslint-disable-next-line no-param-reassign
-        r[a.dimension] = r[a.dimension] || [];
-        r[a.dimension].push(a);
-        return r;
-      }, {});
+      // groupedAnswers = userAnswers.reduce((r, a) => {
+      //   // eslint-disable-next-line no-param-reassign
+      //   r[a.dimension] = r[a.dimension] || [];
+      //   r[a.dimension].push(a);
+      //   return r;
+      // }, {});
     }
 
     return (
@@ -296,13 +255,6 @@ export class Overview extends Component {
         />
         <TitleBar title={t('views.yourLifeMap')} progressBar />
         <Container variant="stretch" ref={containerRef}>
-          <SummaryDonut
-            greenIndicatorCount={this.state.greenIndicatorCount}
-            yellowIndicatorCount={this.state.yellowIndicatorCount}
-            redIndicatorCount={this.state.redIndicatorCount}
-            skippedIndicatorCount={this.state.skippedIndicatorCount}
-          />
-          <AllSurveyIndicators />
           <IndicatorsFilter
             greenIndicatorCount={this.state.greenIndicatorCount}
             yellowIndicatorCount={this.state.yellowIndicatorCount}
@@ -311,40 +263,20 @@ export class Overview extends Component {
             filterValue={this.state.indicatorFilterValue}
             onFilterChanged={this.handleFilterChange}
           />
-          <div>
-            {Object.keys(groupedAnswers).map(elem => (
-              <div key={elem}>
-                <DimensionHeader
-                  dimension={elem}
-                  greenIndicatorCount={
-                    groupedAnswers[elem].filter(a => a.value === 3).length
-                  }
-                  yellowIndicatorCount={
-                    groupedAnswers[elem].filter(a => a.value === 2).length
-                  }
-                  redIndicatorCount={
-                    groupedAnswers[elem].filter(a => a.value === 1).length
-                  }
-                  skippedIndicatorCount={
-                    groupedAnswers[elem].filter(a => !a.value).length
-                  }
-                />
-                <DimensionQuestions
-                  questions={groupedAnswers[elem].filter(ind => {
-                    if (
-                      this.state.indicatorFilterValue ===
-                      FILTERED_BY_OPTIONS.ALL
-                    ) {
-                      return true;
-                    }
-                    return ind.value === this.state.indicatorFilterValue;
-                  })}
-                  priorities={currentDraft.priorities}
-                  achievements={currentDraft.achievements}
-                  history={this.props.history}
-                />
-              </div>
-            ))}
+          <div className={classes.questionsContainer}>
+            <DimensionQuestions
+              questions={userAnswers.filter(ind => {
+                if (
+                  this.state.indicatorFilterValue === FILTERED_BY_OPTIONS.ALL
+                ) {
+                  return true;
+                }
+                return ind.value === this.state.indicatorFilterValue;
+              })}
+              priorities={currentDraft.priorities}
+              achievements={currentDraft.achievements}
+              history={this.props.history}
+            />
           </div>
           {!this.state.showFooterPopup && (
             <div className={classes.finishSurveyButtonContainer}>
@@ -376,7 +308,11 @@ const styles = theme => ({
   finishSurveyButtonContainer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing.unit * 4
+    marginTop: theme.spacing(4)
+  },
+  questionsContainer: {
+    padding: '45px',
+    paddingBottom: 0
   }
 });
 

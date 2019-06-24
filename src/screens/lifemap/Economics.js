@@ -123,12 +123,15 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
   const familyQuestions = (questions && questions.forFamily) || [];
 
   familyQuestions.forEach(question => {
+    const draftQuestion =
+      currentDraft.economicSurveyDataList.find(
+        e => e.key === question.codeName
+      ) || {};
+
     forFamilyInitial[question.codeName] =
-      (
-        currentDraft.economicSurveyDataList.find(
-          e => e.key === question.codeName
-        ) || {}
-      ).value || '';
+      (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+        ? draftQuestion.value
+        : draftQuestion.multipleValue) || '';
   });
 
   const forFamilyMemberInitial = {};
@@ -142,9 +145,13 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
     const memberInitial = {};
     const socioEconomicAnswers = familyMember.socioEconomicAnswers || [];
     familyMemberQuestions.forEach(question => {
+      const draftQuestion =
+        socioEconomicAnswers.find(e => e.key === question.codeName) || {};
+
       memberInitial[question.codeName] =
-        (socioEconomicAnswers.find(e => e.key === question.codeName) || {})
-          .value || '';
+        (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+          ? draftQuestion.value
+          : draftQuestion.multipleValue) || '';
     });
     forFamilyMemberInitial[index] = memberInitial;
   });
@@ -681,7 +688,7 @@ const styles = theme => ({
     marginTop: 40
   },
   mainContainer: {
-    marginTop: theme.spacing.unit * 5
+    marginTop: theme.spacing(5)
   }
 });
 
