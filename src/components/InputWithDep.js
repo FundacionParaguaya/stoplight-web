@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { connect } from 'formik';
+import * as _ from 'lodash';
 
 const getOtherOption = options => {
   if (!options.some(e => e.otherOption)) {
@@ -22,9 +24,21 @@ const getFieldValue = (draft, field, index) => {
 };
 
 // Dep for dependency :)
-const InputWithDep = ({ dep, fieldOptions, from, children, index }) => {
+const InputWithDep = ({
+  dep,
+  fieldOptions,
+  from,
+  children,
+  index,
+  target,
+  cleanUp,
+  formik
+}) => {
   const otherOption = getOtherOption(fieldOptions);
   const value = getFieldValue(from, dep, index);
+  if (otherOption !== value && !!_.get(formik.values, target)) {
+    cleanUp();
+  }
 
   if (otherOption && value) {
     return children(otherOption, value);
@@ -41,4 +55,4 @@ InputWithDep.propTypes = {
   index: PropTypes.number
 };
 
-export default InputWithDep;
+export default connect(InputWithDep);
