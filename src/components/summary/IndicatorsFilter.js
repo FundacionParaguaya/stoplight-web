@@ -202,22 +202,21 @@ const IndicatorsFilter = ({
   );
 };
 
-const styles = theme => ({
+const styles = () => ({
   mainContainer: {
     width: '100%',
     height: '42px',
-    border: '0.5px solid #DCDEE3',
+    border: '1px solid #DCDEE3',
+    boxSizing: 'border-box',
+    marginTop: 20,
     borderRadius: 2,
     backgroundColor: '#FAFBFC',
-    marginTop: theme.spacing.unit * 4,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
   },
   button: {
-    backgroundColor: '#FFFFFF',
     height: '100%',
-    border: '0.1px solid #DCDEE3',
     borderRadius: 0,
     borderTop: 0,
     color: '#6A6A6A',

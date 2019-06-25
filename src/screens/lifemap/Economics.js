@@ -4,21 +4,29 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import InputWithFormik from '../../components/InputWithFormik';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-import Autocomplete from '../../components/Autocomplete';
 import Container from '../../components/Container';
+import RadioWithFormik from '../../components/RadioWithFormik';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
-import { getErrorLabelForPath, pathHasError } from '../../utils/form-utils';
+import {
+  shouldShowQuestion,
+  familyMemberWillHaveQuestions,
+  getConditionalOptions,
+  getDraftWithUpdatedEconomic,
+  getDraftWithUpdatedFamilyEconomics,
+  getDraftWithUpdatedQuestionsCascading
+} from '../../utils/conditional-logic';
+import CheckboxWithFormik from '../../components/CheckboxWithFormik';
 
 let FamilyMemberTitle = ({ name, classes }) => (
   <div className={classes.familyMemberNameLarge}>
@@ -64,108 +72,6 @@ const buildValidationForField = question => {
   return validation;
 };
 
-const evaluateCondition = (condition, targetQuestion) => {
-  const CONDITION_TYPES = {
-    EQUALS: 'equals',
-    LESS_THAN: 'less_than',
-    GREATER_THAN: 'greater_than',
-    LESS_THAN_EQ: 'less_than_eq',
-    GREATER_THAN_EQ: 'greater_than_eq',
-    BETWEEN: 'between'
-  };
-  if (!targetQuestion) {
-    return false;
-  }
-
-  if (condition.operator === CONDITION_TYPES.EQUALS) {
-    return targetQuestion.value === condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.LESS_THAN) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') < condition.value;
-    }
-    return targetQuestion.value < condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.GREATER_THAN) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') > condition.value;
-    }
-    return targetQuestion.value > condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.LESS_THAN_EQ) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') <= condition.value;
-    }
-    return targetQuestion.value <= condition.value;
-  }
-  if (condition.operator === CONDITION_TYPES.GREATER_THAN_EQ) {
-    if (moment.isMoment(targetQuestion.value)) {
-      return moment().diff(targetQuestion.value, 'years') >= condition.value;
-    }
-    return targetQuestion.value >= condition.value;
-  }
-  return false;
-};
-
-const conditionMet = (condition, currentDraft, memberIndex) => {
-  const CONDITION_TYPES = {
-    SOCIOECONOMIC: 'socioEconomic',
-    FAMILY: 'family'
-  };
-  const socioEconomicAnswers = currentDraft.economicSurveyDataList || [];
-  const { familyMembersList } = currentDraft.familyData;
-  let targetQuestion = null;
-  if (condition.type === CONDITION_TYPES.SOCIOECONOMIC) {
-    // In this case target should be located in the socioeconomic answers
-    targetQuestion = socioEconomicAnswers.find(
-      element => element.key === condition.codeName
-    );
-  } else if (condition.type === CONDITION_TYPES.FAMILY) {
-    const familyMember = familyMembersList[memberIndex];
-    // TODO HARDCODED FOR IRRADIA. WE NEED A BETTER WAY TO SPECIFY THAT THE CONDITION
-    // HAS BEEN MADE ON A DATE
-    // const value = familyMember[condition.codeName]
-    //   ? moment.unix(familyMember[condition.codeName])
-    //   : null;
-    // TODO hardcoded for Irradia, the survey has an error with the field.
-    // The lines above should be used once data is fixed for that survey
-    const value = familyMember['birthDate']
-      ? moment.unix(familyMember['birthDate'])
-      : null;
-    targetQuestion = { value };
-  }
-  return evaluateCondition(condition, targetQuestion);
-};
-
-/**
- * Decides whether a question should be shown to the user or not
- * @param {*} question the question we want to know if can be shown
- * @param {*} currentDraft the draft from redux state
- */
-const shouldShowQuestion = (question, currentDraft, memberIndex) => {
-  let shouldShow = true;
-  if (question.conditions && question.conditions.length > 0) {
-    question.conditions.forEach(condition => {
-      if (!conditionMet(condition, currentDraft, memberIndex)) {
-        shouldShow = false;
-      }
-    });
-  }
-  return shouldShow;
-};
-
-const familyMemberWillHaveQuestions = (
-  questions,
-  currentDraft,
-  memberIndex
-) => {
-  return questions.forFamilyMember.reduce(
-    (acc, current) =>
-      acc && shouldShowQuestion(current, currentDraft, memberIndex),
-    true
-  );
-};
-
 /**
  * Builds the validation schema that will be used by Formik
  * @param {*} questions The list of economic questions for the current screen
@@ -176,7 +82,9 @@ const buildValidationSchemaForQuestions = (questions, currentDraft) => {
   const familyQuestions = (questions && questions.forFamily) || [];
 
   familyQuestions.forEach(question => {
-    forFamilySchema[question.codeName] = buildValidationForField(question);
+    if (shouldShowQuestion(question, currentDraft)) {
+      forFamilySchema[question.codeName] = buildValidationForField(question);
+    }
   });
 
   const forFamilyMemberSchema = {};
@@ -215,12 +123,15 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
   const familyQuestions = (questions && questions.forFamily) || [];
 
   familyQuestions.forEach(question => {
+    const draftQuestion =
+      currentDraft.economicSurveyDataList.find(
+        e => e.key === question.codeName
+      ) || {};
+
     forFamilyInitial[question.codeName] =
-      (
-        currentDraft.economicSurveyDataList.find(
-          e => e.key === question.codeName
-        ) || {}
-      ).value || '';
+      (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+        ? draftQuestion.value
+        : draftQuestion.multipleValue) || '';
   });
 
   const forFamilyMemberInitial = {};
@@ -234,9 +145,13 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
     const memberInitial = {};
     const socioEconomicAnswers = familyMember.socioEconomicAnswers || [];
     familyMemberQuestions.forEach(question => {
+      const draftQuestion =
+        socioEconomicAnswers.find(e => e.key === question.codeName) || {};
+
       memberInitial[question.codeName] =
-        (socioEconomicAnswers.find(e => e.key === question.codeName) || {})
-          .value || '';
+        (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+          ? draftQuestion.value
+          : draftQuestion.multipleValue) || '';
     });
     forFamilyMemberInitial[index] = memberInitial;
   });
@@ -252,8 +167,7 @@ export class Economics extends Component {
     questions: null,
     initialized: false,
     topic: '',
-    initialValues: {},
-    validationSpec: {}
+    initialValues: {}
   };
 
   handleContinue = shouldReplace => {
@@ -276,76 +190,6 @@ export class Economics extends Component {
       this.props.history.replace('/lifemap/begin-stoplight');
     } else {
       this.props.history.push('/lifemap/begin-stoplight');
-    }
-  };
-
-  updateFamilyMember = (value, question, index) => {
-    const { currentDraft } = this.props;
-    const { familyMembersList } = this.props.currentDraft.familyData;
-    let update = false;
-    // CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
-    const familyMember = familyMembersList[index];
-    familyMember.socioEconomicAnswers.forEach(e => {
-      if (e.key === question.codeName) {
-        update = true;
-        e.value = value;
-      }
-    });
-    if (update) {
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          familyMembersList
-        }
-      });
-    } else {
-      familyMember.socioEconomicAnswers.push({
-        key: question.codeName,
-        value
-      });
-      // add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          familyMembersList
-        }
-      });
-    }
-  };
-
-  updateDraft = (codeName, value) => {
-    const { currentDraft } = this.props;
-    const dataList = this.props.currentDraft.economicSurveyDataList;
-    let update = false;
-    // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
-    dataList.forEach(e => {
-      if (e.key === codeName) {
-        update = true;
-        e.value = value;
-      }
-    });
-
-    // /////////if the question is in the data list then update the question
-    if (update) {
-      const economicSurveyDataList = dataList;
-      this.props.updateDraft({
-        ...currentDraft,
-        economicSurveyDataList
-      });
-    } else {
-      // ////////// add the question to the data list if it doesnt exist
-      this.props.updateDraft({
-        ...currentDraft,
-        economicSurveyDataList: [
-          ...currentDraft.economicSurveyDataList,
-          {
-            key: codeName,
-            value
-          }
-        ]
-      });
     }
   };
 
@@ -380,10 +224,6 @@ export class Economics extends Component {
       topic: questions.forFamily.length
         ? questions.forFamily[0].topic
         : questions.forFamilyMember[0].topic,
-      validationSpec: buildValidationSchemaForQuestions(
-        questions,
-        this.props.currentDraft
-      ),
       initialValues: buildInitialValuesForForm(
         questions,
         this.props.currentDraft
@@ -403,14 +243,99 @@ export class Economics extends Component {
     }
   }
 
-  render() {
+  isQuestionInCurrentScreen = question => {
     const {
-      questions,
-      topic,
-      validationSpec,
-      initialValues,
-      initialized
+      questions: { forFamily = [], forFamilyMember = [] }
     } = this.state;
+    let isPresent = false;
+    const lookIn = question.forFamilyMember ? forFamilyMember : forFamily;
+
+    for (const q of lookIn) {
+      if (q.codeName === question.codeName) {
+        isPresent = true;
+        break;
+      }
+    }
+    return isPresent;
+  };
+
+  updateEconomicAnswerCascading = (
+    question,
+    value,
+    setFieldValue,
+    memberIndex
+  ) => {
+    const { currentSurvey, currentDraft: draftFromProps } = this.props;
+    const {
+      conditionalQuestions,
+      elementsWithConditionsOnThem: { questionsWithConditionsOnThem }
+    } = currentSurvey;
+
+    // We get a draft with updated answer
+    let currentDraft;
+    const keyName = !Array.isArray(value) ? 'value' : 'multipleValue';
+    const newAnswer = {
+      key: question.codeName,
+      [keyName]: value
+    };
+    if (question.forFamilyMember) {
+      currentDraft = getDraftWithUpdatedFamilyEconomics(
+        draftFromProps,
+        newAnswer,
+        memberIndex
+      );
+    } else {
+      currentDraft = getDraftWithUpdatedEconomic(draftFromProps, newAnswer);
+    }
+
+    const cleanUpHook = (conditionalQuestion, index) => {
+      // Cleanup value from form that won't be displayed
+      if (conditionalQuestion.forFamilyMember) {
+        if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
+          setFieldValue(
+            `forFamilyMember.[${index}].[${conditionalQuestion.codeName}]`,
+            ''
+          );
+        }
+      } else if (this.isQuestionInCurrentScreen(conditionalQuestion)) {
+        setFieldValue(`forFamily.[${conditionalQuestion.codeName}]`, '');
+      }
+    };
+
+    // If the question has some conditionals on it,
+    // execute function that builds a new draft with cascaded clean up
+    // applied
+    if (questionsWithConditionsOnThem.includes(question.codeName)) {
+      console.log(
+        `Will evaluate cascading after updating ${
+          question.codeName
+        } on member ${memberIndex}`
+      );
+      currentDraft = getDraftWithUpdatedQuestionsCascading(
+        currentDraft,
+        conditionalQuestions.filter(
+          conditionalQuestion =>
+            conditionalQuestion.codeName !== question.codeName
+        ),
+        cleanUpHook
+      );
+    }
+
+    // Updating formik value for the question that triggered everything
+    if (question.forFamilyMember) {
+      setFieldValue(
+        `forFamilyMember.[${memberIndex}].[${question.codeName}]`,
+        value
+      );
+    } else {
+      setFieldValue(`forFamily.[${question.codeName}]`, value);
+    }
+
+    this.props.updateDraft(currentDraft);
+  };
+
+  render() {
+    const { questions, topic, initialValues, initialized } = this.state;
     const {
       t,
       currentDraft,
@@ -424,29 +349,22 @@ export class Economics extends Component {
     }
     return (
       <React.Fragment>
-        <TitleBar title={topic} />
+        <TitleBar title={topic} progressBar />
         <div className={classes.mainContainer}>
           <Container variant="slim">
             <Formik
               enableReinitialize
               initialValues={initialValues}
-              validationSchema={validationSpec}
+              validationSchema={buildValidationSchemaForQuestions(
+                questions,
+                this.props.currentDraft
+              )}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
                 this.handleContinue();
               }}
             >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                isSubmitting,
-                setFieldValue,
-                setFieldTouched,
-                validateForm
-              }) => (
+              {({ isSubmitting, setFieldValue, validateForm }) => (
                 <Form noValidate>
                   <React.Fragment>
                     {/* List of questions for current topic */}
@@ -460,91 +378,88 @@ export class Economics extends Component {
                         }
                         if (question.answerType === 'select') {
                           return (
-                            <Autocomplete
+                            <AutocompleteWithFormik
                               key={question.codeName}
+                              label={question.questionText}
                               name={`forFamily.[${question.codeName}]`}
-                              value={{
-                                value: values.forFamily[question.codeName],
-                                label: values.forFamily[question.codeName]
-                                  ? question.options.find(
-                                      e =>
-                                        e.value ===
-                                        values.forFamily[question.codeName]
-                                    ).text
-                                  : ''
-                              }}
-                              options={question.options.map(val => ({
-                                value: val.value,
-                                label: val.text
-                              }))}
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
+                              )}
+                              labelKey="text"
+                              valueKey="value"
+                              required={question.required}
                               isClearable={!question.required}
-                              onChange={value => {
-                                setFieldValue(
-                                  `forFamily.[${question.codeName}]`,
-                                  value ? value.value : ''
-                                );
-                                this.updateDraft(
-                                  question.codeName,
-                                  value ? value.value : ''
-                                );
-                              }}
-                              onBlur={() =>
-                                setFieldTouched(
-                                  `forFamily.[${question.codeName}]`
+                              onChange={value =>
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  value ? value.value : '',
+                                  setFieldValue
                                 )
                               }
-                              textFieldProps={{
-                                label: question.questionText,
-                                required: question.required,
-                                error: pathHasError(
-                                  `forFamily.[${question.codeName}]`,
-                                  touched,
-                                  errors
-                                ),
-                                helperText: getErrorLabelForPath(
-                                  `forFamily.[${question.codeName}]`,
-                                  touched,
-                                  errors,
-                                  t
-                                )
+                            />
+                          );
+                        }
+                        if (question.answerType === 'radio') {
+                          return (
+                            <RadioWithFormik
+                              label={question.questionText}
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
+                              )}
+                              key={question.codeName}
+                              name={`forFamily.[${question.codeName}]`}
+                              required={question.required}
+                              onChange={e => {
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  _.get(e, 'target.value', ''),
+                                  setFieldValue
+                                );
+                              }}
+                            />
+                          );
+                        }
+                        if (question.answerType === 'checkbox') {
+                          return (
+                            <CheckboxWithFormik
+                              key={question.codeName}
+                              label={question.questionText}
+                              rawOptions={getConditionalOptions(
+                                question,
+                                currentDraft
+                              )}
+                              name={`forFamily.[${question.codeName}]`}
+                              required={question.required}
+                              onChange={multipleValue => {
+                                this.updateEconomicAnswerCascading(
+                                  question,
+                                  multipleValue,
+                                  setFieldValue
+                                );
                               }}
                             />
                           );
                         }
                         return (
-                          <TextField
-                            className={this.props.classes.input}
+                          <InputWithFormik
                             key={question.codeName}
+                            label={question.questionText}
                             type={
                               question.answerType === 'string'
                                 ? 'text'
                                 : question.answerType
                             }
-                            variant="filled"
-                            label={question.questionText}
-                            value={values.forFamily[question.codeName] || ''}
                             name={`forFamily.[${question.codeName}]`}
-                            onChange={e => {
-                              handleChange(e);
-                              this.updateDraft(
-                                question.codeName,
-                                e.target.value
-                              );
-                            }}
-                            onBlur={handleBlur}
                             required={question.required}
-                            error={pathHasError(
-                              `forFamily.[${question.codeName}]`,
-                              touched,
-                              errors
-                            )}
-                            helperText={getErrorLabelForPath(
-                              `forFamily.[${question.codeName}]`,
-                              touched,
-                              errors,
-                              t
-                            )}
-                            fullWidth
+                            onChange={e =>
+                              this.updateEconomicAnswerCascading(
+                                question,
+                                _.get(e, 'target.value', ''),
+                                setFieldValue
+                              )
+                            }
                           />
                         );
                       })}
@@ -591,122 +506,103 @@ export class Economics extends Component {
                                       }
                                       if (question.answerType === 'select') {
                                         return (
-                                          <Autocomplete
+                                          <AutocompleteWithFormik
                                             key={question.codeName}
+                                            label={question.questionText}
                                             name={`forFamilyMember.[${index}].[${
                                               question.codeName
                                             }]`}
-                                            value={{
-                                              value:
-                                                values.forFamilyMember[index][
-                                                  question.codeName
-                                                ],
-                                              label: values.forFamilyMember[
-                                                index
-                                              ][question.codeName]
-                                                ? question.options.find(
-                                                    e =>
-                                                      e.value ===
-                                                      values.forFamilyMember[
-                                                        index
-                                                      ][question.codeName]
-                                                  ).text
-                                                : ''
-                                            }}
-                                            options={question.options.map(
-                                              val => ({
-                                                value: val.value,
-                                                label: val.text
-                                              })
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
                                             )}
+                                            labelKey="text"
+                                            valueKey="value"
+                                            required={question.required}
                                             isClearable={!question.required}
-                                            onChange={value => {
-                                              setFieldValue(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`,
-                                                value ? value.value : ''
-                                              );
-                                              this.updateFamilyMember(
-                                                value ? value.value : '',
+                                            onChange={value =>
+                                              this.updateEconomicAnswerCascading(
                                                 question,
+                                                value ? value.value : '',
+                                                setFieldValue,
                                                 index
-                                              );
-                                            }}
-                                            onBlur={() =>
-                                              setFieldTouched(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`
                                               )
                                             }
-                                            textFieldProps={{
-                                              label: question.questionText,
-                                              required: question.required,
-                                              error: pathHasError(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`,
-                                                touched,
-                                                errors
-                                              ),
-                                              helperText: getErrorLabelForPath(
-                                                `forFamilyMember.[${index}].[${
-                                                  question.codeName
-                                                }]`,
-                                                touched,
-                                                errors,
-                                                t
+                                          />
+                                        );
+                                      }
+                                      if (question.answerType === 'radio') {
+                                        return (
+                                          <RadioWithFormik
+                                            key={question.codeName}
+                                            label={question.questionText}
+                                            name={`forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`}
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
+                                            )}
+                                            required={question.required}
+                                            onChange={multipleValue =>
+                                              this.updateEconomicAnswerCascading(
+                                                question,
+                                                multipleValue,
+                                                setFieldValue,
+                                                index
                                               )
-                                            }}
+                                            }
+                                          />
+                                        );
+                                      }
+                                      if (question.answerType === 'checkbox') {
+                                        return (
+                                          <CheckboxWithFormik
+                                            key={question.codeName}
+                                            label={question.questionText}
+                                            name={`forFamilyMember.[${index}].[${
+                                              question.codeName
+                                            }]`}
+                                            rawOptions={getConditionalOptions(
+                                              question,
+                                              currentDraft,
+                                              index
+                                            )}
+                                            required={question.required}
+                                            onChange={multipleValue =>
+                                              this.updateEconomicAnswerCascading(
+                                                question,
+                                                multipleValue,
+                                                setFieldValue,
+                                                index
+                                              )
+                                            }
                                           />
                                         );
                                       }
                                       return (
-                                        <TextField
-                                          className={this.props.classes.input}
+                                        <InputWithFormik
                                           key={question.codeName}
+                                          label={question.questionText}
                                           type={
                                             question.answerType === 'string'
                                               ? 'text'
                                               : question.answerType
                                           }
-                                          variant="filled"
-                                          label={question.questionText}
-                                          value={
-                                            values.forFamilyMember[index][
-                                              question.codeName
-                                            ] || ''
-                                          }
                                           name={`forFamilyMember.[${index}].[${
                                             question.codeName
                                           }]`}
-                                          onChange={e => {
-                                            handleChange(e);
-                                            this.updateFamilyMember(
-                                              e.target.value,
-                                              question,
-                                              index
-                                            );
-                                          }}
-                                          onBlur={handleBlur}
                                           required={question.required}
-                                          error={pathHasError(
-                                            `forFamilyMember.[${index}].[${
-                                              question.codeName
-                                            }]`,
-                                            touched,
-                                            errors
-                                          )}
-                                          helperText={getErrorLabelForPath(
-                                            `forFamilyMember.[${index}].[${
-                                              question.codeName
-                                            }]`,
-                                            touched,
-                                            errors,
-                                            t
-                                          )}
-                                          fullWidth
+                                          onChange={e =>
+                                            this.updateEconomicAnswerCascading(
+                                              question,
+                                              _.get(e, 'target.value', ''),
+                                              setFieldValue,
+                                              index
+                                            )
+                                          }
                                         />
                                       );
                                     })}
@@ -728,15 +624,16 @@ export class Economics extends Component {
                             const forFamilyErrors =
                               validationErrors.forFamily || {};
                             const forFamilyErrorsCount = Object.keys(
-                              forFamilyErrors
+                              forFamilyErrors || {}
                             ).length;
 
                             const forFamilyMemberErrors =
                               validationErrors.forFamilyMember || [];
                             let forFamilyMemberErrorsCount = 0;
                             forFamilyMemberErrors.forEach(fm => {
-                              forFamilyMemberErrorsCount += Object.keys(fm)
-                                .length;
+                              forFamilyMemberErrorsCount += Object.keys(
+                                fm || {}
+                              ).length;
                             });
                             const errorsLength =
                               forFamilyErrorsCount + forFamilyMemberErrorsCount;
@@ -791,16 +688,7 @@ const styles = theme => ({
     marginTop: 40
   },
   mainContainer: {
-    marginTop: theme.spacing.unit * 5
-  },
-  input: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  inputFilled: {
-    '& $div': {
-      backgroundColor: '#fff!important'
-    }
+    marginTop: theme.spacing(5)
   }
 });
 

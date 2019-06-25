@@ -25,7 +25,8 @@
     "cachedData": "Datos almacenados",
     "chooseView": "Elegir vista",
     "create": "Crear",
-    "saveError": "Error al guardar tu Mapa de vida"
+    "saveError": "Error al guardar tu Mapa de vida",
+    "noOptionsToShow": "No hay opciones disponibles para seleccionar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -54,6 +55,7 @@
   "views": {
     "toolbar": {
       "surveys": "Encuestas",
+      "analytics": "Analíticas",
       "households": "Familias",
       "map": "Mapa"
     },
@@ -69,6 +71,11 @@
       "chooseSurvey": "Elige una encuesta",
       "contains": "Contiene",
       "createdOn": "Creado el"
+    },
+    "analytics": {
+      "title": "Analíticas",
+      "subtitle": "Estamos trabajando para mejorar nuestra plataforma!",
+      "description": "En esta pantalla puedes ver algunos de nuestros últimos avances con respecto a las analíticas."
     },
     "location": {
       "title": "Ubicación",
@@ -102,6 +109,7 @@
       "countryOfBirth": "País de nacimiento",
       "selectMonth": "Seleccione mes",
       "selectValidDate": "Favor ingrese una fecha válida",
+      "specify": "Especifique",
       "name": "Nombre",
       "peopleLivingInThisHousehold": "Número de personas viviendo en esta casa. ",
       "household": "familia",
@@ -171,7 +179,7 @@
       "lifeMapWillNotBeSaved": "Si no ingresa todos los detalles en esta página, ¡el Mapa de Vida no se guardará!",
       "weCannotContinueToCreateTheLifeMap": "Si no estás de acuerdo, ¡no podremos seguir creando el mapa de vida!",
       "areYouSureYouWantToExit": "¿Estás seguro de que quieres salir?",
-      "yourLifemapIsNotComplete": "Tu Mapa de Vida no está completo. ¿Estás seguro de que quieres salir?",
+      "yourLifemapIsNotComplete": "¡Perderás todos tus datos! ¿Estás seguro de que quieres salir?",
       "thisWillBeSavedAsADraft": "Esto se guardará como un borrador."
     },
     "logout": {
@@ -210,7 +218,9 @@
       "onePriorityRemainingTitle": "¡1 prioridad restante por crear!",
       "onePriorityRemainingDescription": "Ya casi...",
       "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
-      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras."
+      "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras.",
+      "noPriorityRequiredTitle": "Para completar tu mapa de vida...",
+      "noPriorityRequiredDescription": "¡Crea prioridades!"
     },
     "indicatorsFilter": {
       "red": "Rojo",
@@ -224,7 +234,23 @@
       "lifemapCompleted": "¡Tu mapa de vida está completo!",
       "print": "Imprimir",
       "email": "Email",
-      "download": "Descargar"
+      "download": "Descargar",
+      "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
+      "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
+    }
+  },
+  "reports": {
+    "indicators": {
+      "myLifeMap": "Mapa de Vida"
+    },
+    "priorities": {
+      "myPriorities": "Mis Prioridades",
+      "status": "Estado",
+      "indicator": "Indicador",
+      "whyDontYouHaveIt": "¿Por qué no lo tienes?",
+      "whatWillYouDoToGetIt": "¿Qué harás para tenerlo?",
+      "howManyMonthsWillItTake": "Meses necesarios",
+      "reviewDate": "Fecha de revisión"
     }
   }
 }

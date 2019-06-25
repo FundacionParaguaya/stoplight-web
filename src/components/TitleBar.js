@@ -5,10 +5,12 @@ import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 import NavIcons from './NavIcons';
 import leftBarDots from '../assets/left_bar_dots.png';
 import rightBarDots from '../assets/right_bar_dots.png';
 import Container from './Container';
+import ProgressBar from './ProgressBar';
 
 class TopTitleContainer extends Component {
   state = {
@@ -49,11 +51,8 @@ class TopTitleContainer extends Component {
             </div>
           </div>
         ) : (
-          <Container
-            variant="fluid"
-            className={classes.titleAndIconContainerPolicy}
-          >
-            <NavIcons />
+          <Container variant="fluid" className={classes.container}>
+            <NavIcons style={{ position: 'absolute' }} />
             <Container className={classes.innerContainer}>
               <img
                 className={classes.barDots}
@@ -79,12 +78,24 @@ class TopTitleContainer extends Component {
                 alt="Bar Dots"
               />
             </Container>
+            {this.props.progressBar && <ProgressBar />}
           </Container>
         )}
       </React.Fragment>
     );
   }
 }
+
+TopTitleContainer.propTypes = {
+  title: PropTypes.string.isRequired,
+  extraTitleText: PropTypes.string,
+  progressBar: PropTypes.bool.isRequired
+};
+
+TopTitleContainer.defaultProps = {
+  progressBar: false
+};
+
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
 
 const styles = theme => ({
@@ -109,21 +120,19 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  titleAndIconContainerPolicy: {
+  container: {
     backgroundColor: theme.palette.background.default,
-    height: 200,
+    height: 210,
     borderBottom: '1px solid #DCDEE3;',
-    position: 'relative'
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column'
   },
   innerContainer: {
     display: 'flex',
-    position: 'absolute',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '100%',
-    left: '50%',
-    top: 0,
-    transform: 'translateX(-50%)'
+    height: '100%'
   },
   titleMainAll: {
     margin: 'auto',
@@ -131,7 +140,10 @@ const styles = theme => ({
     textAlign: 'center'
   },
   barDots: {
-    height: '70%'
+    height: '70%',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   textContainer: {
     display: 'flex',
@@ -144,6 +156,9 @@ const styles = theme => ({
     color: 'rgba(0,0,0,0.5)',
     marginBottom: 10,
     lineHeight: '25px'
+  },
+  navIcons: {
+    position: 'absolute'
   }
 });
 export default withRouter(

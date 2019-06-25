@@ -8,6 +8,7 @@ import { theme } from '../../theme';
 import NavIcons from '../../components/NavIcons';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
+import LeaveModal from '../../components/LeaveModal';
 
 const titleStyles = {
   title: {
@@ -56,7 +57,8 @@ export class Terms extends Component {
     text:
       this.props.location.pathname === '/lifemap/terms'
         ? this.props.currentSurvey.termsConditions.text
-        : this.props.currentSurvey.privacyPolicy.text
+        : this.props.currentSurvey.privacyPolicy.text,
+    showLeaveModal: false
   };
 
   handleContinue = () => {
@@ -68,7 +70,11 @@ export class Terms extends Component {
   };
 
   handleDisagree = () => {
-    this.props.history.push('/');
+    this.setState({ showLeaveModal: true });
+  };
+
+  leaveSurvey = () => {
+    this.props.history.push('/surveys');
   };
 
   render() {
@@ -94,7 +100,7 @@ export class Terms extends Component {
             <br />
             {this.state.text &&
               this.state.text.split(/(?:\\n)/g).map((i, key) => (
-                <Typography color="textPrimary" key={key}>
+                <Typography variant="body2" color="textPrimary" key={key}>
                   {i}
                   <br />
                 </Typography>
@@ -110,6 +116,15 @@ export class Terms extends Component {
           </Button>
         </div>
         <BottomSpacer />
+        <LeaveModal
+          title="Warning!"
+          subtitle={t('views.modals.yourLifemapIsNotComplete')}
+          cancelButtonText={t('general.no')}
+          continueButtonText={t('general.yes')}
+          onClose={() => this.setState({ showLeaveModal: false })}
+          open={this.state.showLeaveModal}
+          leaveAction={this.leaveSurvey}
+        />
       </div>
     );
   }

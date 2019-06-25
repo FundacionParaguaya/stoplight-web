@@ -5,7 +5,8 @@ export const COLORS = {
   RED: '#e1504d',
   YELLOW: '#f0cb17',
   GREEN: '#50aa47',
-  LIGHT_GREY: '#E6E4E2'
+  LIGHT_GREY: '#E6E4E2',
+  TEXT_GREY: '#6A6A6A'
 };
 
 export const theme = {
@@ -99,6 +100,17 @@ export const theme = {
         fontSize: 16
       }
     },
+    MuiIconButton: {
+      root: {
+        padding: 8
+      }
+    },
+    MuiFormControlLabel: {
+      label: {
+        color: '#6A6A6A',
+        fontSize: 16
+      }
+    },
     MuiInputBase: {
       input: {
         fontSize: '16px',
@@ -117,6 +129,12 @@ export const theme = {
       }
     },
     MuiInputLabel: {
+      root: {
+        '&$error': {
+          top: '40%!important'
+          // transform: 'translate(12px, -50%) scale(1)!important'
+        }
+      },
       shrink: {
         transform: 'translate(12px, -85%) scale(1)!important',
         color: '#6A6A6A'
@@ -128,13 +146,10 @@ export const theme = {
         paddingRight: 24
       },
       formControl: {
+        // top: '50%',
         transform: 'translate(12px, 25px) scale(1)',
         color: '#6A6A6A',
         lineHeight: 1.2
-      },
-      error: {
-        top: '40%!important',
-        transform: 'translate(12px, -50%) scale(1)!important'
       }
     },
     MuiInput: {

@@ -19,11 +19,11 @@ class NavIcons extends Component {
   };
 
   render() {
-    const { classes, t } = this.props;
+    const { classes, t, style } = this.props;
 
     return (
       <React.Fragment>
-        <div className={classes.container}>
+        <div className={classes.container} style={style}>
           <i
             onClick={this.props.uniqueBack || this.props.history.goBack}
             className={`material-icons ${classes.icon}`}
@@ -60,7 +60,8 @@ const styles = {
     top: 0,
     left: 0,
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    zIndex: 1
   },
   icon: {
     '&:hover': {

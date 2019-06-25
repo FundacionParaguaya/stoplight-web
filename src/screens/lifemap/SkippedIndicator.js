@@ -33,6 +33,7 @@ const SkippedIndicator = props => {
       <TitleBar
         title={question.dimension}
         extraTitleText={question.questionText}
+        progressBar={false}
       />
       <Container>
         <div className={classes.container}>
@@ -71,8 +72,8 @@ const styles = theme => ({
     height: '240px'
   },
   imgContainer: {
-    marginTop: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 6
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(6)
   },
   container: {
     margin: 'auto',
@@ -80,7 +81,7 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: theme.spacing.unit * 7
+    marginTop: theme.spacing(7)
   }
 });
 

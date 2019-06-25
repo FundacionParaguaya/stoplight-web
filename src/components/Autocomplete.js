@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
@@ -25,7 +26,7 @@ const styles = theme => ({
     overflow: 'hidden'
   },
   chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`
+    margin: `${theme.spacing() / 2}px ${theme.spacing() / 4}px`
   },
   chipFocused: {
     backgroundColor: emphasize(
@@ -36,7 +37,7 @@ const styles = theme => ({
     )
   },
   noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
+    padding: `${theme.spacing()}px ${theme.spacing(2)}px`
   },
   singleValue: {
     // fontSize: 16
@@ -65,23 +66,31 @@ const styles = theme => ({
   },
   itemSelected: {
     fontWeight: 500,
-    fontSize: 16
+    fontSize: 16,
+    whiteSpace: 'pre-wrap'
   },
   itemNotSelected: {
     fontWeight: 400,
-    fontSize: 16
+    fontSize: 16,
+    whiteSpace: 'pre-wrap'
   }
 });
 
-const NoOptionsMessage = props => (
-  <Typography
-    color="textSecondary"
-    className={props.selectProps.classes.noOptionsMessage}
-    {...props.innerProps}
-  >
-    No data to show
-  </Typography>
+const StyledMenuItem = withStyles(() => ({
+  root: {
+    height: 'auto'
+  }
+}))(props => <MenuItem {...props} />);
+
+let NoOptionsMessage = ({ t, selectProps }) => (
+  <StyledMenuItem component="div">
+    <Typography className={selectProps.classes.itemNotSelected}>
+      {t('general.noOptionsToShow')}
+    </Typography>
+  </StyledMenuItem>
 );
+
+NoOptionsMessage = withTranslation()(NoOptionsMessage);
 
 const LoadingMessage = props => (
   <Typography
@@ -116,23 +125,25 @@ const Control = props => (
   />
 );
 
-const Option = props => (
-  <MenuItem
-    buttonRef={props.innerRef}
-    selected={props.isFocused}
-    component="div"
-    {...props.innerProps}
-  >
-    <Typography
-      className={clsx('', {
-        [props.selectProps.classes.itemSelected]: props.isSelected,
-        [props.selectProps.classes.itemNotSelected]: !props.isSelected
-      })}
+const Option = props => {
+  return (
+    <StyledMenuItem
+      buttonRef={props.innerRef}
+      selected={props.isFocused}
+      component="div"
+      {...props.innerProps}
     >
-      {props.children}
-    </Typography>
-  </MenuItem>
-);
+      <Typography
+        className={clsx('', {
+          [props.selectProps.classes.itemSelected]: props.isSelected,
+          [props.selectProps.classes.itemNotSelected]: !props.isSelected
+        })}
+      >
+        {props.children}
+      </Typography>
+    </StyledMenuItem>
+  );
+};
 
 const Placeholder = props => (
   <Typography

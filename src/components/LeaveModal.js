@@ -1,22 +1,37 @@
 import React from 'react';
+import clsx from 'clsx';
 import { withStyles, Modal, Typography, Button } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import redExclamation from '../assets/red_exclamation.png';
+import { COLORS } from '../theme';
 
 const DEFAULT_CANCEL_TEXT = 'Cancel';
 const DEFAULT_CONTINUE_TEXT = 'Continue';
 
+const VARIANTS = {
+  WARNING: 'warning',
+  SUCCESS: 'success'
+};
+
+// See and implementation example on NavIcons
 const LeaveModal = props => {
-  const { classes } = props;
+  const { classes, variant } = props;
+
+  const titleClass = clsx(classes.leaveModalTitle, {
+    [classes.titleWarning]: variant === VARIANTS.WARNING,
+    [classes.titleSuccess]: variant === VARIANTS.SUCCESS
+  });
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <div className={classes.leaveModal}>
-        <img src={redExclamation} alt="Red Exclamation" />
+        {variant === VARIANTS.WARNING && (
+          <img src={redExclamation} alt="Red Exclamation" />
+        )}
         <Typography
-          className={classes.leaveModalTitle}
+          className={titleClass}
           variant="h5"
-          color="error"
+          // color="error"
         >
           {props.title}
         </Typography>
@@ -27,7 +42,7 @@ const LeaveModal = props => {
           <Button
             className={classes.button}
             variant="outlined"
-            color="secondary"
+            color={variant === VARIANTS.WARNING ? 'secondary' : 'primary'}
             onClick={props.leaveAction}
           >
             {props.continueButtonText || DEFAULT_CONTINUE_TEXT}
@@ -47,6 +62,10 @@ const LeaveModal = props => {
   );
 };
 
+LeaveModal.defaultProps = {
+  variant: VARIANTS.WARNING
+};
+
 const styles = theme => ({
   leaveModal: {
     width: 370,
@@ -62,6 +81,12 @@ const styles = theme => ({
     justifyContent: 'space-around',
     flexDirection: 'column',
     padding: '25px 40px'
+  },
+  titleWarning: {
+    color: COLORS.RED
+  },
+  titleSuccess: {
+    color: COLORS.GREEN
   },
   buttonContainer: {
     width: '100%',

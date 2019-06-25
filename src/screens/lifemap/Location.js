@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,7 +18,7 @@ import { Gmaps } from 'react-gmaps';
 import Geocode from 'react-geocode';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-import Form from '../../components/Form';
+// import Form from '../../components/Form';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import LocationIcon from '../../assets/location.png';
@@ -155,11 +156,12 @@ export class Location extends Component {
   };
 
   render() {
-    const { t, classes } = this.props;
+    const { t, classes, currentDraft } = this.props;
+    const { familyData = {} } = currentDraft;
 
     return (
       <div>
-        <TitleBar title={t('views.location.title')} />
+        <TitleBar title={t('views.location.title')} progressBar />
         <Container variant="stretch">
           {/* Map */}
           <PlacesAutocomplete
@@ -263,10 +265,25 @@ export class Location extends Component {
 
           {/* Map End */}
 
-          <Form
+          {/* <Form
             onSubmit={this.handleContinue}
             submitLabel={t('general.continue')}
-          />
+          /> */}
+          <div className={classes.buttonContainerForm}>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              disabled={
+                !familyData.latitude ||
+                !familyData.longitude ||
+                !familyData.country
+              }
+              onClick={this.handleContinue}
+            >
+              {t('general.continue')}
+            </Button>
+          </div>
         </Container>
         <BottomSpacer />
       </div>
@@ -281,8 +298,8 @@ const styles = theme => ({
   suggestionsTypography: { fontSize: 14 },
   inputContainer: {
     position: 'absolute',
-    top: theme.spacing.unit * 2,
-    left: theme.spacing.unit * 2,
+    top: theme.spacing(2),
+    left: theme.spacing(2),
     width: '60%',
     zIndex: 1
   },
@@ -310,7 +327,7 @@ const styles = theme => ({
   myLocationContainer: {
     position: 'absolute',
     zIndex: 1,
-    bottom: ZOOMING_CONTROLS_Y + theme.spacing.unit * 2 + 50,
+    bottom: ZOOMING_CONTROLS_Y + theme.spacing(2) + 50,
     right: ZOOMING_CONTROLS_X
   },
   myLocationIcon: {
@@ -343,6 +360,11 @@ const styles = theme => ({
   suggestionsPaper: {
     padding: '2px 4px',
     backgroundColor: 'white'
+  },
+  buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40
   }
 });
 

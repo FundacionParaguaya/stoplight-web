@@ -13,6 +13,7 @@ import DatePickedProvider from './components/DatePickerProvider';
 import Scroller, { ScrollerProvider } from './components/Scroller';
 import CustomSnackbarProvider from './components/SnackbarProvider';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import Analytics from './screens/Analytics';
 
 class App extends Component {
   render() {
@@ -38,6 +39,7 @@ class App extends Component {
                               component={SurveysComponent}
                             />
                             <Route path="/lifemap" component={Lifemap} />
+                            <Route path="/analytics" component={Analytics} />
                           </Switch>
                         </div>
                       </Authenticator>

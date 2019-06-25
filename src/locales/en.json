@@ -25,7 +25,8 @@
     "cachedData": "cached data",
     "chooseView": "Choose view",
     "create": "Create",
-    "saveError": "Error while trying to save your lifemap"
+    "saveError": "Error while trying to save your lifemap",
+    "noOptionsToShow": "There are no options available to select"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -54,6 +55,7 @@
   "views": {
     "toolbar": {
       "surveys": "Surveys",
+      "analytics": "Analytics",
       "households": "Households",
       "map": "Map"
     },
@@ -69,6 +71,11 @@
       "chooseSurvey": "Choose a survey",
       "contains": "Contains",
       "createdOn": "Created on"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "subtitle": "We are working to improve our platform",
+      "description": "In this area you can see some our latest advancements regarding analytics."
     },
     "location": {
       "title": "Location",
@@ -102,6 +109,7 @@
       "countryOfBirth": "Country of birth",
       "selectMonth": "Select month",
       "selectValidDate": "Please enter a valid date",
+      "specify": "Specify",
       "name": "Name",
       "peopleLivingInThisHousehold": "Number of people living in this household",
       "household": "household",
@@ -170,7 +178,7 @@
       "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",
       "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the life map!",
       "areYouSureYouWantToExit": "Are you sure you want to exit?",
-      "yourLifemapIsNotComplete": "Your life map is not complete. Are you sure you want to exit?",
+      "yourLifemapIsNotComplete": "You will lose all your data! Are you sure you want to exit?",
       "thisWillBeSavedAsADraft": "This will be saved as a draft."
     },
     "logout": {
@@ -209,7 +217,9 @@
       "onePriorityRemainingTitle": "1 priority left to create!",
       "onePriorityRemainingDescription": "Nearly there...",
       "noPriorityRemainingTitle": "Great! You created all the required priorities",
-      "noPriorityRemainingDescription": "You can make as many more as you want."
+      "noPriorityRemainingDescription": "You can make as many more as you want.",
+      "noPriorityRequiredTitle": "To complete the life map...",
+      "noPriorityRequiredDescription": "Create priorities!"
     },
     "indicatorsFilter": {
       "red": "Red",
@@ -223,7 +233,23 @@
       "lifemapCompleted": "Your Life Map is completed!",
       "print": "Print",
       "email": "Email",
-      "download": "Download"
+      "download": "Download",
+      "lifemapSaved": "Your life map has been successfully saved",
+      "clickSafe": "Now, just click save!"
+    }
+  },
+  "reports": {
+    "indicators": {
+      "myLifeMap": "Life Map"
+    },
+    "priorities": {
+      "myPriorities": "My Priorities",
+      "status": "Status",
+      "indicator": "Indicator",
+      "whyDontYouHaveIt": "Why don't you have it?",
+      "whatWillYouDoToGetIt": "What will you do to get it?",
+      "howManyMonthsWillItTake": "Months required",
+      "reviewDate": "Review date"
     }
   }
 }

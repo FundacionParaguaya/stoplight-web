@@ -11,10 +11,10 @@ import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
-import Header from '../Header';
-import Footer from '../Footer';
 import BottomSpacer from '../components/BottomSpacer';
 import { getDateFormatByLocale } from '../utils/date-utils';
+import { CONDITION_TYPES } from '../utils/conditional-logic';
+import withLayout from '../components/withLayout';
 
 export class Surveys extends Component {
   state = { surveys: [], loading: true };
@@ -103,17 +103,92 @@ export class Surveys extends Component {
     };
   }
 
+  static getConditionalQuestions = survey => {
+    const surveyEconomicQuestions = survey.surveyEconomicQuestions || [];
+    const conditionalQuestions = [];
+    surveyEconomicQuestions.forEach(eq => {
+      if (
+        (eq.conditions && eq.conditions.length > 0) ||
+        (eq.conditionGroups && eq.conditionGroups.length > 0)
+      ) {
+        conditionalQuestions.push(eq);
+      } else {
+        // Checking conditional options only if needed
+        const options = eq.options || [];
+        for (const option of options) {
+          if (option.conditions && option.conditions.length > 0) {
+            conditionalQuestions.push(eq);
+            return;
+          }
+        }
+      }
+    });
+    return conditionalQuestions;
+  };
+
+  static getElementsWithConditionsOnThem = conditionalQuestions => {
+    const questionsWithConditionsOnThem = [];
+    const memberKeysWithConditionsOnThem = [];
+
+    const addTargetIfApplies = condition => {
+      // Addind this so it works after changing the key to scope
+      const scope = condition.scope || condition.type;
+      if (
+        scope !== CONDITION_TYPES.FAMILY &&
+        !questionsWithConditionsOnThem.includes(condition.codeName)
+      ) {
+        questionsWithConditionsOnThem.push(condition.codeName);
+      }
+      if (
+        scope === CONDITION_TYPES.FAMILY &&
+        !memberKeysWithConditionsOnThem.includes(condition.codeName)
+      ) {
+        memberKeysWithConditionsOnThem.push(condition.codeName);
+      }
+    };
+
+    conditionalQuestions.forEach(conditionalQuestion => {
+      let conditions = [];
+      const { conditionGroups } = conditionalQuestion;
+      if (conditionGroups && conditionGroups.length > 0) {
+        conditionGroups.forEach(conditionGroup => {
+          conditions = [...conditions, ...conditionGroup.conditions];
+        });
+      } else {
+        ({ conditions = [] } = conditionalQuestion);
+      }
+
+      conditions.forEach(addTargetIfApplies);
+
+      // Checking conditional options only if needed
+      const options = conditionalQuestion.options || [];
+      options.forEach(option => {
+        const { conditions: optionConditions = [] } = option;
+        optionConditions.forEach(addTargetIfApplies);
+      });
+    });
+    return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
+  };
+
   handleClickOnSurvey = survey => {
     const economicScreens = this.getEconomicScreens(survey);
-    this.props.updateSurvey({ ...survey, economicScreens });
+    const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+    const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+      conditionalQuestions
+    );
+    this.props.updateSurvey({
+      ...survey,
+      economicScreens,
+      conditionalQuestions,
+      elementsWithConditionsOnThem
+    });
     this.props.history.push('/lifemap/terms');
   };
 
   componentDidMount() {
-    // clear current draft from store
+    // Clear current draft from store
     this.props.updateDraft(null);
     this.props.updateSurvey(null);
-
     this.getSurveys();
   }
 
@@ -126,74 +201,70 @@ export class Surveys extends Component {
     const dateFormat = getDateFormatByLocale(language);
 
     return (
-      <>
-        <Header />
-        <div className={classes.mainSurveyContainerBoss}>
-          <Container>
-            <div className={classes.titleContainer}>
-              <div className={classes.surveyTopTitle}>
-                <Typography variant="h4">
-                  {t('views.survey.chooseSurvey')}
-                </Typography>
+      <div className={classes.mainSurveyContainerBoss}>
+        <Container>
+          <div className={classes.titleContainer}>
+            <div className={classes.surveyTopTitle}>
+              <Typography variant="h4">
+                {t('views.survey.chooseSurvey')}
+              </Typography>
+            </div>
+            <img
+              src={chooseLifeMap}
+              alt="Choose Life Map"
+              className={classes.chooseLifeMapImage}
+            />
+          </div>
+          <div className={classes.listContainer}>
+            {this.state.loading && (
+              <div className={classes.spinnerWrapper}>
+                <CircularProgress size={50} thickness={2} />
               </div>
-              <img
-                src={chooseLifeMap}
-                alt="Choose Life Map"
-                className={classes.chooseLifeMapImage}
-              />
-            </div>
-            <div className={classes.listContainer}>
-              {this.state.loading && (
-                <div className={classes.spinnerWrapper}>
-                  <CircularProgress size={50} thickness={2} />
-                </div>
-              )}
-              <Grid container spacing={16}>
-                {this.state.surveys.map(survey => {
-                  return (
-                    <Grid item key={survey.id} xs={12} sm={12} md={4}>
-                      <div className={classes.mainSurveyContainer}>
-                        <Typography
-                          className={classes.surveyTitle}
-                          onClick={() => this.handleClickOnSurvey(survey)}
+            )}
+            <Grid container spacing={2}>
+              {this.state.surveys.map(survey => {
+                return (
+                  <Grid item key={survey.id} xs={12} sm={12} md={4}>
+                    <div className={classes.mainSurveyContainer}>
+                      <Typography
+                        className={classes.surveyTitle}
+                        onClick={() => this.handleClickOnSurvey(survey)}
+                      >
+                        {survey.title}
+                      </Typography>
+                      <Typography className={classes.paragraphSurvey}>
+                        {survey.description.slice(0, 58)}
+                        {survey.description.length > 58 && '...'}
+                      </Typography>
+
+                      <Typography className={classes.contains}>
+                        {t('views.survey.contains')}
+                        {': '}
+                        <span style={{ color: '#1C212F' }}>
+                          {survey.surveyStoplightQuestions.length} indicators
+                        </span>
+                      </Typography>
+
+                      <Typography className={classes.createdOn}>
+                        {t('views.survey.createdOn')}
+                        {': '}
+                        <span
+                          style={{
+                            color: '#1C212F'
+                          }}
                         >
-                          {survey.title}
-                        </Typography>
-                        <Typography className={classes.paragraphSurvey}>
-                          {survey.description.slice(0, 58)}
-                          {survey.description.length > 58 && '...'}
-                        </Typography>
-
-                        <Typography className={classes.contains}>
-                          {t('views.survey.contains')}
-                          {': '}
-                          <span style={{ color: '#1C212F' }}>
-                            {survey.surveyStoplightQuestions.length} indicators
-                          </span>
-                        </Typography>
-
-                        <Typography className={classes.createdOn}>
-                          {t('views.survey.createdOn')}
-                          {': '}
-                          <span
-                            style={{
-                              color: '#1C212F'
-                            }}
-                          >
-                            {moment(survey.createdAt).format(dateFormat)}
-                          </span>
-                        </Typography>
-                      </div>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </div>
-          </Container>
-          <BottomSpacer />
-        </div>
-        <Footer />
-      </>
+                          {moment(survey.createdAt).format(dateFormat)}
+                        </span>
+                      </Typography>
+                    </div>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </div>
+        </Container>
+        <BottomSpacer />
+      </div>
     );
   }
 }
@@ -222,9 +293,7 @@ const styles = theme => ({
     zIndex: 1
   },
   mainSurveyContainerBoss: {
-    marginTop: `${theme.shape.header}`,
-    backgroundColor: theme.palette.background.paper,
-    minHeight: `calc(100vh - ${theme.shape.header} - ${theme.shape.footer})`
+    backgroundColor: theme.palette.background.paper
   },
   surveyTitle: {
     cursor: 'pointer',
@@ -273,6 +342,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(withTranslation()(Surveys))
+    )(withTranslation()(withLayout(Surveys)))
   )
 );
