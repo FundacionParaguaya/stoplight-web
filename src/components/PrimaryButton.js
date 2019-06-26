@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, withStyles } from '@material-ui/core';
 
-function PrimaryButton({ children, classes }) {
+function PrimaryButton({ children, classes, onClick }) {
   return (
-    <Button variant="contained" className={classes.primaryButton}>
+    <Button
+      variant="contained"
+      onClick={onClick}
+      className={classes.primaryButton}
+    >
       {children}
     </Button>
   );
