@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { withStyles, Typography, Grid } from '@material-ui/core';
+import { withStyles, Typography, Grid, Button } from '@material-ui/core';
 import { PieChart, Pie, Cell } from 'recharts';
 import { useTransition, animated } from 'react-spring';
+import PrimaryButton from './PrimaryButton';
+import Divider from './Divider';
 import SummaryStackedBar from './summary/SummaryStackedBar';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
@@ -282,14 +284,31 @@ const Controllers = withStyles(controllersStyles)(
 
 const IndicatorsVisualisation = ({ indicators }) => {
   const [indicatorsType, setIndicatorsType] = useState(BAR);
+  const [count, setCount] = useState(10);
 
   return (
-    <div>
+    <div
+      style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
+    >
       <Controllers
         type={indicatorsType}
         setIndicatorsType={setIndicatorsType}
       />
-      <Indicators type={indicatorsType} indicators={indicators} />
+      <Indicators
+        type={indicatorsType}
+        indicators={indicators.slice(0, count)}
+      />
+      <Divider height={2} />
+      {indicators.length > count && (
+        <Button
+          type="submit"
+          color="primary"
+          variant="contained"
+          onClick={() => setCount(state => state + 10)}
+        >
+          See more
+        </Button>
+      )}
     </div>
   );
 };
