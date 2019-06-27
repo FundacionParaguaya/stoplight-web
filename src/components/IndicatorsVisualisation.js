@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withStyles, Typography, Grid } from '@material-ui/core';
-import { PieChart, Pie, Cell } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTransition, animated } from 'react-spring';
 import SummaryStackedBar from './summary/SummaryStackedBar';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
+import CustomTooltip from './CustomTooltip';
 
 const styles = {
   barContainer: {
@@ -227,6 +228,11 @@ const IndicatorsDonut = ({
         <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
         <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
       </Pie>
+      <Tooltip
+        content={
+          <CustomTooltip format={({ value, name }) => `${value} ${name}`} />
+        }
+      />
     </PieChart>
   );
 };
