@@ -1,5 +1,5 @@
 export const getPlatform = env => ({
-  old: `https://${env}.povertystoplight.org/#`,
+  old: `https://${env}.povertystoplight.org`,
   new: `http://app.povertystoplight.org`
 });
 
