@@ -7,26 +7,26 @@ export const NEW = 'new';
 export const OLD = 'old';
 
 export const SURVEY_USER = [
-  { item: 'surveys', platform: 'new' },
-  { item: 'families', platform: 'old' },
-  { item: 'map', platform: 'old' }
+  { item: 'surveys', platform: NEW },
+  { item: 'families', platform: OLD },
+  { item: 'map', platform: OLD }
 ];
 
 export const HUB_ADMIN = [
-  { item: 'reports', platform: 'old' },
-  { item: 'surveys', platform: 'old' },
-  { item: 'organizations', platform: 'old' },
-  { item: 'users', platform: 'old' },
-  { item: 'families', platform: 'old' },
-  { item: 'map', platform: 'old' }
+  { item: 'reports', platform: OLD },
+  { item: 'surveys', platform: OLD },
+  { item: 'organizations', platform: OLD },
+  { item: 'users', platform: OLD },
+  { item: 'families', platform: OLD },
+  { item: 'map', platform: OLD }
 ];
 
 export const APP_ADMIN = [
-  { item: 'reports', platform: 'old' },
-  { item: 'surveys', platform: 'old' },
-  { item: 'users', platform: 'old' },
-  { item: 'families', platform: 'old' },
-  { item: 'map', platform: 'old' }
+  { item: 'reports', platform: OLD },
+  { item: 'surveys', platform: OLD },
+  { item: 'users', platform: OLD },
+  { item: 'families', platform: OLD },
+  { item: 'map', platform: OLD }
 ];
 
 export const ROLES = { APP_ADMIN, HUB_ADMIN, SURVEY_USER };
