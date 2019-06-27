@@ -57,7 +57,11 @@
       "surveys": "Surveys",
       "analytics": "Analytics",
       "households": "Households",
-      "map": "Map"
+      "map": "Map",
+      "organizations": "Organizations",
+      "users": "Users",
+      "reports": "Reports",
+      "families": "Households"
     },
     "synced": "Sync",
     "dashboard": "Dashboard",
