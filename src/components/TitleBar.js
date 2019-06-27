@@ -131,7 +131,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '100%'
+    maxHeight: 180
   },
   titleMainAll: {
     margin: 'auto',
