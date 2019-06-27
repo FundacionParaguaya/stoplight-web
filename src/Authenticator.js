@@ -97,7 +97,8 @@ const Authenticator = props => {
           updateUserActionDispatch({
             username: response.data.username,
             token: sessionId,
-            env: environment
+            env: environment,
+            role: response.data.role
           });
           setLoggedIn(true);
           setAuthVerified(true);
