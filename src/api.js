@@ -17,8 +17,7 @@ export const getSurveys = user =>
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
       query:
@@ -31,8 +30,7 @@ export const getFamilies = user =>
     method: 'get',
     url: `${url[user.env]}/api/v1/families`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     }
   });
 
@@ -73,6 +71,5 @@ export const checkSessionToken = (token, env) =>
     url: `${url[env]}/api/v1/users/validate`,
     headers: {
       Authorization: `Bearer ${token}`
-      // 'Content-Type': 'application/json'
     }
   });
