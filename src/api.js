@@ -57,8 +57,7 @@ export const submitDraft = (user, snapshot) => {
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
       query:
