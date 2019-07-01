@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// Send correct encoding in all POST requests
+axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+
 // list of environment urls
 export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
