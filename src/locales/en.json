@@ -70,7 +70,10 @@
     "survey": {
       "chooseSurvey": "Choose a survey",
       "contains": "Contains",
-      "createdOn": "Created on"
+      "createdOn": "Created on",
+      "surveys": "Surveys",
+      "indicators": "indicators",
+      "createSurvey": "Create Survey"
     },
     "analytics": {
       "title": "Analytics",
@@ -236,6 +239,20 @@
       "download": "Download",
       "lifemapSaved": "Your life map has been successfully saved",
       "clickSafe": "Now, just click save!"
+    },
+    "familiesOverviewBlock": {
+      "overview": "Overview",
+      "families": "families",
+      "including": "Including",
+      "people": "people",
+      "men": "Men",
+      "and": "&",
+      "women": "Women"
+    },
+    "saveDraftModal": {
+      "lifemapNotComplete": "Your Lifemap is not complete!",
+      "willSaveDraft": "It will be saved as a draft.",
+      "sureWantToExit": "Are you sure you want to exit?"
     }
   },
   "reports": {
