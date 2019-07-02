@@ -12,7 +12,7 @@ import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
 import { getFamilies } from '../api';
-import ActivityFeed from '../components/ActivityFeed';
+import OverviewBlock from '../components/OverviewBlock';
 
 const INDICATORS = [
   {
@@ -227,7 +227,8 @@ const Analytics = ({ classes, t, user }) => {
             <Container variant="stretch">
               <Typography variant="h5">Indicators</Typography>
               <IndicatorsVisualisation indicators={randomized} />
-              <ActivityFeed data={data} />
+              <Divider height={3} />
+              <OverviewBlock />
             </Container>
           </div>
           <BottomSpacer />
