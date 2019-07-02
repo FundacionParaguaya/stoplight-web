@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { withStyles, Typography, Grid, Button } from '@material-ui/core';
 import { PieChart, Pie, Cell } from 'recharts';
 import { useTransition, animated } from 'react-spring';
-import PrimaryButton from './PrimaryButton';
 import Divider from './Divider';
 import SummaryStackedBar from './summary/SummaryStackedBar';
 import iconAchievement from '../assets/icon_achievement.png';
@@ -60,58 +59,89 @@ const alignByIndex = index => {
   return null;
 };
 
-let CountDetail = ({ type, count, classes }) => {
-  const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
-
-  return (
-    <>
-      {type === PRIORITY && (
-        <div className={`${classes.countContainer}`}>
-          <img
-            src={iconPriority}
-            alt="Priority"
-            width="18"
-            height="18"
-            className={classes.icon}
-          />
-          <Typography className={classes.count}>{count.toString()}</Typography>
-        </div>
-      )}
-      {type === ACHIEVEMENT && (
-        <div className={`${classes.countContainer}`}>
-          <img
-            src={iconAchievement}
-            alt="Achievement"
-            width="18"
-            height="18"
-            className={classes.icon}
-          />
-          <Typography className={classes.count}>{count.toString()}</Typography>
-        </div>
-      )}
-    </>
-  );
-};
-
 const countDetailStyles = {
   countContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    flexDirection: 'column',
     width: '100%'
   },
   count: {
-    fontSize: 16,
     marginLeft: 5
   },
   icon: {
     border: '3px solid #fff',
     borderRadius: '50%',
     boxSizing: 'content-box'
+  },
+  label: {
+    textAlign: 'center',
+    color: COLORS.TEXT_LIGHTGREY
+  },
+  innerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 };
 
-CountDetail = withStyles(countDetailStyles)(CountDetail);
+const CountDetail = withStyles(countDetailStyles)(
+  ({ type, count, classes, label, countVariant }) => {
+    const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
+
+    const renderCount = innerCount => (
+      <Typography variant={countVariant} className={classes.count}>
+        {innerCount.toString()}
+      </Typography>
+    );
+
+    const renderLabel = innerLabel => (
+      <Typography variant="h6" className={classes.label}>
+        {innerLabel}
+      </Typography>
+    );
+
+    return (
+      <>
+        {type === PRIORITY && (
+          <div className={classes.countContainer}>
+            <div className={classes.innerContainer}>
+              <img
+                src={iconPriority}
+                alt="Priority"
+                width="18"
+                height="18"
+                className={classes.icon}
+              />
+              {renderCount(count)}
+            </div>
+            {label && renderLabel('Priorities')}
+          </div>
+        )}
+        {type === ACHIEVEMENT && (
+          <div className={classes.countContainer}>
+            <div className={classes.innerContainer}>
+              <img
+                src={iconAchievement}
+                alt="Achievement"
+                width="18"
+                height="18"
+                className={classes.icon}
+              />
+              {renderCount(count)}
+            </div>
+            {label && renderLabel('Achievements')}
+          </div>
+        )}
+      </>
+    );
+  }
+);
+
+CountDetail.defaultProps = {
+  countVariant: 'body2'
+};
 
 const Indicators = withStyles(styles)(
   ({ classes, type, indicators, fadeIn }) => {
@@ -314,3 +344,5 @@ const IndicatorsVisualisation = ({ indicators }) => {
 };
 
 export default withStyles(styles)(IndicatorsVisualisation);
+
+export { CountDetail };
