@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
 import { PersistGate } from 'redux-persist/integration/react';
-import SurveysComponent from './screens/Surveys';
+import Surveys from './screens/SurveysWithDrafts';
 import Lifemap from './screens/Lifemap';
 import store, { persistor } from './redux';
 import defaultTheme from './theme';
@@ -34,10 +34,7 @@ class App extends Component {
                       <Authenticator>
                         <div className={classes.appContainer}>
                           <Switch>
-                            <Route
-                              path="/surveys"
-                              component={SurveysComponent}
-                            />
+                            <Route path="/surveys" component={Surveys} />
                             <Route path="/lifemap" component={Lifemap} />
                             <Route path="/analytics" component={Analytics} />
                           </Switch>

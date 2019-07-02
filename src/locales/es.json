@@ -70,7 +70,10 @@
     "survey": {
       "chooseSurvey": "Elige una encuesta",
       "contains": "Contiene",
-      "createdOn": "Creado el"
+      "createdOn": "Creado el",
+      "surveys": "Encuestas",
+      "indicators": "indicadores",
+      "createSurvey": "Crear Encuesta"
     },
     "analytics": {
       "title": "Analíticas",
@@ -237,6 +240,20 @@
       "download": "Descargar",
       "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
+    },
+    "familiesOverviewBlock": {
+      "overview": "Vistazo general",
+      "families": "familias",
+      "including": "Incluyendo",
+      "people": "personas",
+      "men": "Hombres",
+      "and": "y",
+      "women": "Mujeres"
+    },
+    "saveDraftModal": {
+      "lifemapNotComplete": "¡Tu mapa de vida no está completo!",
+      "willSaveDraft": "Se guardará como un borrador.",
+      "sureWantToExit": "¿Estás seguro de que quieres salir?"
     }
   },
   "reports": {
