@@ -1,7 +1,15 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Tooltip
+} from 'recharts';
 import { COLORS } from '../../theme';
+import CustomTooltip from '../CustomTooltip';
 
 const SummaryStackedBar = props => {
   const {
@@ -48,6 +56,16 @@ const SummaryStackedBar = props => {
             ]}
           />
           <YAxis hide dataKey="name" type="category" />
+          <Tooltip
+            cursor={false}
+            content={
+              <CustomTooltip
+                format={({ green, red, skipped, yellow }) =>
+                  `${green} Green ${yellow} Yellow ${red} Red ${skipped} Skipped`
+                }
+              />
+            }
+          />
           <Bar
             animationDuration={animationDuration}
             dataKey="green"
