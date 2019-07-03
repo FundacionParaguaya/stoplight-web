@@ -340,7 +340,7 @@ class Surveys extends Component {
           </div>
 
           <div className={classes.snapshotsContainer}>
-            <SnapshotsTable />
+            {!this.state.loading && <SnapshotsTable />}
           </div>
         </Container>
         <BottomSpacer />
@@ -373,7 +373,8 @@ const styles = theme => ({
     zIndex: 1
   },
   mainSurveyContainerBoss: {
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    minHeight: 'calc(100vh - 110px)'
   },
   spinnerWrapper: {
     display: 'flex',
