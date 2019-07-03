@@ -18,6 +18,7 @@ const tooltipStyles = {
 };
 
 /**
+ * @param {Object} payload Data passed by recharts for the tooltip
  * @param {Function} format Function formatting the payload
  */
 const CustomTooltip = withStyles(tooltipStyles)(
