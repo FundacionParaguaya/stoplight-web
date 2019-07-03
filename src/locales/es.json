@@ -254,6 +254,18 @@
       "lifemapNotComplete": "¡Tu mapa de vida no está completo!",
       "willSaveDraft": "Se guardará como un borrador.",
       "sureWantToExit": "¿Estás seguro de que quieres salir?"
+    },
+    "snapshotsTable": {
+      "title": "Encuestas tomadas",
+      "dob": "Nac.:",
+      "today": "Hoy",
+      "dayAgo": "Hace 1 día",
+      "daysAgo": "Hace $dd días",
+      "draft": "Borrador",
+      "completed": "Completo",
+      "drafts": "Borradores",
+      "all": "Todos",
+      "searchFamily": "Buscar familia"
     }
   },
   "reports": {

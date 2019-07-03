@@ -9,17 +9,15 @@ import face from '../assets/serious_face.png';
 
 // See and implementation example on NavIcons
 const SaveDraftModal = props => {
-  const { classes, open, onClose, currentDraft, currentSurvey, match } = props;
+  const { classes, open, onClose, currentDraft, match } = props;
   const { t } = useTranslation();
   const addDraftToSnapshots = () => {
     // Before adding the draft to the snapshots list, we make sure to add information
-    // about the survey, the screen where the user left, and we set the status
-    // to DRAFT,
+    // about the screen where the user left, and we set the status to DRAFT
     const draft = {
       ...currentDraft,
       status: SNAPSHOTS_STATUS.DRAFT,
-      currentScreen: match.url,
-      surveyId: currentSurvey.id
+      currentScreen: match.url
     };
     props.upsertSnapshot(draft);
     props.history.push('/surveys');
