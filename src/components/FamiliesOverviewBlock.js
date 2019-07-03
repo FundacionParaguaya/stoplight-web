@@ -22,7 +22,9 @@ const useStyles = makeStyles(theme => ({
     marginRight: 4,
     color: '#626262',
     fontSize: '55px',
-    fontWeight: theme.typography.fontWeightRegular
+    fontWeight: theme.typography.fontWeightRegular,
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   familiesLabel: { alignSelf: 'flex-end' },
   peopleCountStyle: { fontSize: '14px' },
@@ -46,9 +48,9 @@ const FamiliesOverviewBlock = ({
       <div className={classes.familyInfoContainer}>
         <Typography variant="h4" className={classes.familiesCountStyle}>
           {familiesCount}
-        </Typography>
-        <Typography variant="h6" className={classes.familiesLabel}>
-          {t('views.familiesOverviewBlock.families')}
+          <Typography variant="h6" className={classes.familiesLabel}>
+            {t('views.familiesOverviewBlock.families')}
+          </Typography>
         </Typography>
       </div>
       <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
