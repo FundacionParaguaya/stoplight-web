@@ -9,16 +9,15 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import moment from 'moment';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import BottomSpacer from '../components/BottomSpacer';
-import { getDateFormatByLocale } from '../utils/date-utils';
 import { CONDITION_TYPES } from '../utils/conditional-logic';
 import withLayout from '../components/withLayout';
 import FamiliesOverviewBlock from '../components/FamiliesOverviewBlock';
+import SnapshotsTable from '../components/SnapshotsTable';
 import { useWindowSize } from '../utils/hooks-helpers';
 
 const useSurveysListStyle = makeStyles(theme => ({
@@ -301,12 +300,7 @@ class Surveys extends Component {
   }
 
   render() {
-    const {
-      classes,
-      i18n: { language },
-      t
-    } = this.props;
-    const dateFormat = getDateFormatByLocale(language);
+    const { classes, t } = this.props;
 
     return (
       <div className={classes.mainSurveyContainerBoss}>
@@ -343,6 +337,10 @@ class Surveys extends Component {
                 </Grid>
               </Grid>
             )}
+          </div>
+
+          <div className={classes.snapshotsContainer}>
+            <SnapshotsTable />
           </div>
         </Container>
         <BottomSpacer />
@@ -385,6 +383,9 @@ const styles = theme => ({
   },
   listContainer: {
     position: 'relative'
+  },
+  snapshotsContainer: {
+    marginTop: theme.spacing(4)
   }
 });
 

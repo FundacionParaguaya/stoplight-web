@@ -65,7 +65,7 @@ export const snapshots = (state = [], action) => {
       return action.payload;
     case UPSERT_SNAPSHOT:
       // A snapshot is basically the same object that comes from a draft, but with
-      // three added keys: surveyId, status and currentScreen.
+      // two added keys: status and currentScreen.
       // currentScreen key indicates where the user left the snapshot
       return getSnapshotsWithUpdatedElement(state, action.payload);
 
