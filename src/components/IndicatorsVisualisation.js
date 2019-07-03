@@ -86,6 +86,11 @@ const countDetailStyles = {
   }
 };
 
+/**
+ * @param {bool} label Render a label below the icon and count
+ * @param {string} countVariant Change the Typography variant of the count title
+ */
+
 const CountDetail = withStyles(countDetailStyles)(
   ({ type, count, classes, label, countVariant }) => {
     const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
@@ -140,7 +145,8 @@ const CountDetail = withStyles(countDetailStyles)(
 );
 
 CountDetail.defaultProps = {
-  countVariant: 'body2'
+  countVariant: 'body2',
+  label: false
 };
 
 const Indicators = withStyles(styles)(
