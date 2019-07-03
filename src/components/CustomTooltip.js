@@ -27,11 +27,7 @@ const CustomTooltip = withStyles(tooltipStyles)(
       return (
         <div className={classes.wrapper}>
           <p className={classes.label}>
-            {format &&
-              format(
-                { ...payload[0], name: capitalize(payload[0].name) },
-                label
-              )}
+            {format && format({ ...payload[0].payload, label })}
             {!format && `${payload[0].name} ${payload[0].value}`}
           </p>
         </div>
