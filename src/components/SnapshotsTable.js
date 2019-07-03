@@ -11,11 +11,11 @@ import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import Fuse from 'fuse.js';
 import { get } from 'lodash';
+import clsx from 'clsx';
 import { updateSurvey, updateDraft } from '../redux/actions';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
-import clsx from 'clsx';
 
 const useFilterStyles = makeStyles(theme => ({
   mainContainer: {
@@ -24,7 +24,7 @@ const useFilterStyles = makeStyles(theme => ({
   },
   statusFilterContainer: {
     display: 'flex',
-    width: '70%',
+    width: '65%',
     justifyContent: 'flex-start'
   },
   sideSpacer: {
@@ -47,7 +47,7 @@ const useFilterStyles = makeStyles(theme => ({
   },
   familiesFilterContainer: {
     display: 'flex',
-    width: '30%'
+    width: '35%'
   },
   familiesFilterInput: {
     paddingTop: '10.5px!important',
