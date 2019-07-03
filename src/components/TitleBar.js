@@ -122,7 +122,6 @@ const styles = theme => ({
   },
   container: {
     backgroundColor: theme.palette.background.default,
-    height: 210,
     borderBottom: '1px solid #DCDEE3;',
     position: 'relative',
     display: 'flex',
@@ -132,7 +131,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '100%'
+    maxHeight: 180
   },
   titleMainAll: {
     margin: 'auto',

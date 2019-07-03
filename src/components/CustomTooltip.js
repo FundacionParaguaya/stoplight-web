@@ -18,7 +18,7 @@ const tooltipStyles = {
 };
 
 /**
- * @param {Function} format render-prop the payload and receive the wanted text to display
+ * @param {Function} format Function formatting the payload
  */
 const CustomTooltip = withStyles(tooltipStyles)(
   ({ format, active, payload, label, classes }) => {
