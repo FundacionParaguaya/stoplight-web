@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,7 +7,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
+import Fuse from 'fuse.js';
 import { get } from 'lodash';
 import { updateSurvey, updateDraft } from '../redux/actions';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -45,6 +47,24 @@ const useFilterStyles = makeStyles(theme => ({
   familiesFilterContainer: {
     display: 'flex',
     width: '30%'
+  },
+  familiesFilterInput: {
+    paddingTop: '10.5px!important',
+    paddingBottom: '10.5px!important',
+    paddingRight: '14px!important',
+    paddingLeft: '14px!important',
+    fontFamily: theme.typography.subtitle1.fontFamily,
+    fontWeight: theme.typography.fontWeightMedium,
+    fontSize: '13px'
+  },
+  familiesLabel: {
+    color: '#6A6A6A',
+    fontFamily: theme.typography.subtitle1.fontFamily,
+    fontWeight: theme.typography.fontWeightMedium,
+    fontSize: '13px'
+  },
+  familiesFilterLabelInput: {
+    transform: 'translate(14px, -6px) scale(0.75)!important'
   }
 }));
 const SnapshotsFilter = ({
@@ -61,27 +81,62 @@ const SnapshotsFilter = ({
         <div className={classes.statusFilterContainer}>
           <div
             className={`${classes.filterElementContainer} ${
-              classes.activeFilter
+              statusFilter === '' ? classes.activeFilter : ''
             }`}
+            onClick={() => setStatusFilter('')}
           >
             <Typography variant="h6" className={classes.statusFilter}>
               {t('views.snapshotsTable.all')}
             </Typography>
           </div>
           <div className={classes.sideSpacer} />
-          <div className={classes.filterElementContainer}>
+          <div
+            className={`${classes.filterElementContainer} ${
+              statusFilter === SNAPSHOTS_STATUS.DRAFT
+                ? classes.activeFilter
+                : ''
+            }`}
+            onClick={() => setStatusFilter(SNAPSHOTS_STATUS.DRAFT)}
+          >
             <Typography variant="h6" className={classes.statusFilter}>
               {t('views.snapshotsTable.drafts')}
             </Typography>
           </div>
           <div className={classes.sideSpacer} />
-          <div className={classes.filterElementContainer}>
+          <div
+            className={`${classes.filterElementContainer} ${
+              statusFilter === SNAPSHOTS_STATUS.COMPLETED
+                ? classes.activeFilter
+                : ''
+            }`}
+            onClick={() => setStatusFilter(SNAPSHOTS_STATUS.COMPLETED)}
+          >
             <Typography variant="h6" className={classes.statusFilter}>
               {t('views.snapshotsTable.completed')}
             </Typography>
           </div>
         </div>
-        <div className={classes.familiesFilterContainer} />
+        <div className={classes.familiesFilterContainer}>
+          <TextField
+            InputProps={{
+              classes: {
+                input: classes.familiesFilterInput
+              }
+            }}
+            InputLabelProps={{
+              classes: {
+                root: classes.familiesLabel,
+                shrink: classes.familiesFilterLabelInput
+              }
+            }}
+            label={t('views.snapshotsTable.searchFamily')}
+            variant="outlined"
+            margin="dense"
+            value={familiesFilter}
+            fullWidth
+            onChange={e => setFamiliesFilter(e.target.value)}
+          />
+        </div>
       </div>
       <Divider />
     </React.Fragment>
@@ -180,12 +235,40 @@ const SnapshotsTable = ({ snapshots = [] }) => {
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   const classes = useStyles();
+  const [statusFilter, setStatusFilter] = useState('');
+  const [familiesFilter, setFamiliesFilter] = useState('');
+  const filteredSnapshots = useMemo(() => {
+    let filtered = snapshots;
+    if (familiesFilter) {
+      // Filter by family name or lastName using fuzzy search
+      const fuseOptions = {
+        shouldSort: true,
+        threshold: 0.45,
+        tokenize: true,
+        keys: [
+          'familyData.familyMembersList.firstName',
+          'familyData.familyMembersList.lastName'
+        ]
+      };
+      const fuse = new Fuse(filtered, fuseOptions);
+      filtered = fuse.search(familiesFilter);
+    }
+    if (statusFilter) {
+      filtered = filtered.filter(s => s.status === statusFilter);
+    }
+    return filtered;
+  }, [snapshots, familiesFilter, statusFilter]);
   return (
     <div className={classes.mainContainer}>
       <Typography variant="h5">{t('views.snapshotsTable.title')}</Typography>
-      <SnapshotsFilter />
+      <SnapshotsFilter
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+        familiesFilter={familiesFilter}
+        setFamiliesFilter={setFamiliesFilter}
+      />
       <List className={classes.listStyle}>
-        {snapshots.map((snapshot, index) => {
+        {filteredSnapshots.map((snapshot, index) => {
           const birthDate = get(
             snapshot,
             'familyData.familyMembersList[0].birthDate',
@@ -251,7 +334,7 @@ const SnapshotsTable = ({ snapshots = [] }) => {
                   </div>
                 </div>
               </ListItem>
-              {index !== snapshots.length - 1 && <Divider />}
+              {index !== filteredSnapshots.length - 1 && <Divider />}
             </React.Fragment>
           );
         })}
