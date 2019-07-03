@@ -178,6 +178,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: '20px',
     color: '#909090'
   },
+  nothingToShowStyle: {
+    fontSize: '16px',
+    width: '100%'
+  },
   nameLabelStyle: {
     fontSize: '14px',
     width: '30%'
@@ -269,6 +273,20 @@ const SnapshotsTable = ({ snapshots = [] }) => {
         setFamiliesFilter={setFamiliesFilter}
       />
       <List className={classes.listStyle}>
+        {filteredSnapshots.length === 0 && (
+          <ListItem className={classes.listItemStyle}>
+            <div className={classes.itemContainer}>
+              <Typography
+                className={classes.nothingToShowStyle}
+                variant="subtitle1"
+              >
+                {snapshots.length === 0
+                  ? t('views.snapshotsTable.noSnapshotsAvailable')
+                  : t('views.snapshotsTable.noMatchFilters')}
+              </Typography>
+            </div>
+          </ListItem>
+        )}
         {filteredSnapshots.map((snapshot, index) => {
           const birthDate = get(
             snapshot,
