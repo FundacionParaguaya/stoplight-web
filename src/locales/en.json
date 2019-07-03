@@ -264,7 +264,9 @@
       "completed": "Completed",
       "drafts": "Drafts",
       "all": "All",
-      "searchFamily": "Search family"
+      "searchFamily": "Search family",
+      "noSnapshotsAvailable": "You have not taken previous surveys",
+      "noMatchFilters": "No results matching your filters"
     }
   },
   "reports": {

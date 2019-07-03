@@ -265,7 +265,9 @@
       "completed": "Completo",
       "drafts": "Borradores",
       "all": "Todos",
-      "searchFamily": "Buscar familia"
+      "searchFamily": "Buscar familia",
+      "noSnapshotsAvailable": "No has tomado ninguna encuesta anteriormente",
+      "noMatchFilters": "No hay resultados para los filtros aplicados"
     }
   },
   "reports": {
