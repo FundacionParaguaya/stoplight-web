@@ -15,6 +15,7 @@ import { updateSurvey, updateDraft } from '../redux/actions';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
+import clsx from 'clsx';
 
 const useFilterStyles = makeStyles(theme => ({
   mainContainer: {
@@ -225,15 +226,21 @@ const useStyles = makeStyles(theme => ({
   forwardArrowContainer: {
     width: '5%',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    paddingRight: '14px'
   },
   forwardArrowStyle: {
+    cursor: 'pointer',
     fontSize: '16px',
-    color: '#909090'
+    color: '#6A6A6A'
+  },
+  forwardArrowStyleInactive: {
+    color: '#e0dedc',
+    cursor: 'unset'
   }
 }));
 
-const SnapshotsTable = ({ snapshots = [] }) => {
+const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
   const {
     t,
     i18n: { language }
@@ -349,7 +356,22 @@ const SnapshotsTable = ({ snapshots = [] }) => {
                     </Typography>
                   </div>
                   <div className={classes.forwardArrowContainer}>
-                    <ArrowForwardIos className={classes.forwardArrowStyle} />
+                    <ArrowForwardIos
+                      color={
+                        snapshot.status === SNAPSHOTS_STATUS.COMPLETED
+                          ? 'disabled'
+                          : undefined
+                      }
+                      onClick={() =>
+                        snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
+                        handleClickOnSnapshot(snapshot)
+                      }
+                      className={clsx(classes.forwardArrowStyle, {
+                        [classes.forwardArrowStyleInactive]:
+                          snapshot.status === SNAPSHOTS_STATUS.COMPLETED
+                      })}
+                      // className={classes.forwardArrowStyle}
+                    />
                   </div>
                 </div>
               </ListItem>

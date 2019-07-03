@@ -292,6 +292,26 @@ class Surveys extends Component {
     this.props.history.push('/lifemap/terms');
   };
 
+  handleClickOnSnapshot = snapshot => {
+    const survey = this.state.surveys.find(s => s.id === snapshot.surveyId);
+    const economicScreens = this.getEconomicScreens(survey);
+    const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+    const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+      conditionalQuestions
+    );
+    const draft = { ...snapshot };
+    delete draft.status;
+    delete draft.currentScreen;
+    this.props.updateDraft(draft);
+    this.props.updateSurvey({
+      ...survey,
+      economicScreens,
+      conditionalQuestions,
+      elementsWithConditionsOnThem
+    });
+    this.props.history.push(snapshot.currentScreen);
+  };
+
   componentDidMount() {
     // Clear current draft from store
     this.props.updateDraft(null);
@@ -340,7 +360,11 @@ class Surveys extends Component {
           </div>
 
           <div className={classes.snapshotsContainer}>
-            {!this.state.loading && <SnapshotsTable />}
+            {!this.state.loading && (
+              <SnapshotsTable
+                handleClickOnSnapshot={this.handleClickOnSnapshot}
+              />
+            )}
           </div>
         </Container>
         <BottomSpacer />
