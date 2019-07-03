@@ -42,8 +42,8 @@ const GreenLineChart = withTranslation()(({ data, language }) => {
       <Tooltip
         content={
           <CustomTooltip
-            format={({ value, name }) =>
-              `${value} Surveys ${moment(name).format(formatDate)}`
+            format={({ surveys, date }) =>
+              `${surveys} Surveys ${moment(date).format(formatDate)}`
             }
           />
         }
