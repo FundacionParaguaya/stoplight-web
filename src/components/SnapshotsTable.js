@@ -149,7 +149,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
-    width: '100%'
+    width: '100%',
+    maxHeight: '50vh'
   },
   listStyle: {
     overflow: 'auto',
