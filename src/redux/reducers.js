@@ -53,12 +53,12 @@ export const snapshots = (state = [], action) => {
     const index = snapshotsList.findIndex(s => s.draftId === snapshot.draftId);
     if (index >= 0) {
       return [
-        ...snapshotsList.slice(0, index),
         snapshot,
+        ...snapshotsList.slice(0, index),
         ...snapshotsList.slice(index + 1, snapshotsList.length)
       ];
     }
-    return [...snapshotsList, snapshot];
+    return [snapshot, ...snapshotsList];
   };
   switch (action.type) {
     case UPDATE_SNAPSHOTS:
