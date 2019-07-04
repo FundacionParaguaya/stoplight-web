@@ -1,10 +1,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { PieChart, Pie, Cell } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { Typography } from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
+import { capitalize } from 'lodash';
 import { COLORS } from '../../theme';
+import CustomTooltip from '../CustomTooltip';
 import IndicatorBall from './IndicatorBall';
 
 let SummaryCountingSection = props => (
@@ -84,6 +86,13 @@ const SummaryDonut = props => {
             <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
             <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
           </Pie>
+          <Tooltip
+            content={
+              <CustomTooltip
+                format={({ value, name }) => `${value} ${capitalize(name)}`}
+              />
+            }
+          />
         </PieChart>
       </div>
       {countingSection && (
