@@ -9,73 +9,6 @@ import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
 import CustomTooltip from './CustomTooltip';
 
-const INDICATORS_TYPES = ['pie', 'bar'];
-const [PIE, BAR] = INDICATORS_TYPES;
-
-const alignByIndex = index => {
-  if (index % 3 === 0) return 'flexStart';
-  if ((index - 2) % 3 === 0) return 'flexEnd';
-  return null;
-};
-
-const countDetailStyles = {
-  countContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '100%'
-  },
-  count: {
-    fontSize: 16,
-    marginLeft: 5
-  },
-  icon: {
-    borderRadius: '50%',
-    boxSizing: 'content-box'
-  }
-};
-
-const CountDetail = withStyles(countDetailStyles)(
-  ({ type, count, classes, border }) => {
-    const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
-
-    return (
-      <>
-        {type === PRIORITY && (
-          <div className={`${classes.countContainer}`}>
-            <img
-              src={iconPriority}
-              alt="Priority"
-              width="18"
-              height="18"
-              className={classes.icon}
-              style={{ border: border ? '3px solid #fff' : null }}
-            />
-            <Typography className={classes.count}>
-              {count.toString()}
-            </Typography>
-          </div>
-        )}
-        {type === ACHIEVEMENT && (
-          <div className={`${classes.countContainer}`}>
-            <img
-              src={iconAchievement}
-              alt="Achievement"
-              width="18"
-              height="18"
-              className={classes.icon}
-              style={{ border: border ? '3px solid #fff' : null }}
-            />
-            <Typography className={classes.count}>
-              {count.toString()}
-            </Typography>
-          </div>
-        )}
-      </>
-    );
-  }
-);
-
 const parseStoplights = stoplights => {
   const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
 
@@ -127,6 +60,105 @@ const indicatorsStyles = {
     right: 0,
     zIndex: 1
   }
+};
+
+const INDICATORS_TYPES = ['pie', 'bar'];
+const [PIE, BAR] = INDICATORS_TYPES;
+
+const alignByIndex = index => {
+  if (index % 3 === 0) return 'flexStart';
+  if ((index - 2) % 3 === 0) return 'flexEnd';
+  return null;
+};
+
+const countDetailStyles = {
+  countContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    width: '100%'
+  },
+  count: {
+    marginLeft: 5
+  },
+  icon: {
+    border: '3px solid #fff',
+    borderRadius: '50%',
+    boxSizing: 'content-box'
+  },
+  label: {
+    textAlign: 'center',
+    color: COLORS.TEXT_LIGHTGREY
+  },
+  innerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+};
+
+/**
+ * @param {bool} label Render a label below the icon and count
+ * @param {string} countVariant Change the Typography variant of the count title
+ */
+
+const CountDetail = withStyles(countDetailStyles)(
+  ({ type, count, classes, label, countVariant }) => {
+    const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
+
+    const renderCount = innerCount => (
+      <Typography variant={countVariant} className={classes.count}>
+        {innerCount.toString()}
+      </Typography>
+    );
+
+    const renderLabel = innerLabel => (
+      <Typography variant="h6" className={classes.label}>
+        {innerLabel}
+      </Typography>
+    );
+
+    return (
+      <>
+        {type === PRIORITY && (
+          <div className={classes.countContainer}>
+            <div className={classes.innerContainer}>
+              <img
+                src={iconPriority}
+                alt="Priority"
+                width="18"
+                height="18"
+                className={classes.icon}
+              />
+              {renderCount(count)}
+            </div>
+            {label && renderLabel('Priorities')}
+          </div>
+        )}
+        {type === ACHIEVEMENT && (
+          <div className={classes.countContainer}>
+            <div className={classes.innerContainer}>
+              <img
+                src={iconAchievement}
+                alt="Achievement"
+                width="18"
+                height="18"
+                className={classes.icon}
+              />
+              {renderCount(count)}
+            </div>
+            {label && renderLabel('Achievements')}
+          </div>
+        )}
+      </>
+    );
+  }
+);
+
+CountDetail.defaultProps = {
+  countVariant: 'body2',
+  label: false
 };
 
 const Indicators = withStyles(indicatorsStyles)(
@@ -356,4 +388,5 @@ const styles = {
 };
 
 export default withStyles(styles)(IndicatorsVisualisation);
+
 export { CountDetail };
