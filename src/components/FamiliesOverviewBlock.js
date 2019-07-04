@@ -32,10 +32,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FamiliesOverviewBlock = ({
-  familiesCount,
-  peopleCount,
-  menCount,
-  womenCount,
+  familiesOverview,
+  // familiesCount,
+  // peopleCount,
+  // menCount,
+  // womenCount,
   innerRef
 }) => {
   const classes = useStyles();
@@ -51,7 +52,7 @@ const FamiliesOverviewBlock = ({
           variant="h4"
           className={classes.familiesCountStyle}
         >
-          {familiesCount}
+          {familiesOverview.numberOfFamilies}
           <Typography
             component="span"
             variant="h6"
@@ -61,7 +62,7 @@ const FamiliesOverviewBlock = ({
           </Typography>
         </Typography>
       </div>
-      <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
+      {/* <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
         'views.familiesOverviewBlock.including'
       )} ${peopleCount} ${t(
         'views.familiesOverviewBlock.people'
@@ -71,7 +72,7 @@ const FamiliesOverviewBlock = ({
         variant="h6"
       >{`${womenCount} ${t('views.familiesOverviewBlock.women')} ${t(
         'views.familiesOverviewBlock.and'
-      )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography>
+      )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography> */}
     </div>
   );
 };
