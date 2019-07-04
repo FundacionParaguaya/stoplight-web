@@ -11,6 +11,7 @@ import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
+import OverviewBlock from '../components/OverviewBlock';
 import { getFamilies, getDimensionIndicators } from '../api';
 import ActivityFeed from '../components/ActivityFeed';
 import GreenLineChart from '../components/GreenLineChart';
@@ -118,6 +119,9 @@ const Analytics = ({ classes, t, user }) => {
           </div>
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
+              <Typography variant="h5">Indicators</Typography>
+              <Divider height={3} />
+              <OverviewBlock />
               <IndicatorsVisualisation indicators={indicators} />
               <ActivityFeed data={data} />
               <GreenLineChart data={chartData} />
