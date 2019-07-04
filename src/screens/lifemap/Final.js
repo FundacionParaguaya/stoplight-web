@@ -19,6 +19,8 @@ import { ProgressBarContext } from '../../components/ProgressBar';
 import generateIndicatorsReport, {
   getReportTitle
 } from '../../pdfs/indicators-report';
+import { upsertSnapshot } from '../../redux/actions';
+import { SNAPSHOTS_STATUS } from '../../redux/reducers';
 
 export class Final extends Component {
   state = {
@@ -77,6 +79,11 @@ export class Final extends Component {
           'success',
           this.redirectToSurveys
         );
+        const snapshot = {
+          ...this.props.currentDraft,
+          status: SNAPSHOTS_STATUS.COMPLETED
+        };
+        this.props.upsertSnapshot(snapshot);
         // Reset ProgressBar Context
         this.context.setRouteTree = {};
       })
@@ -226,6 +233,7 @@ const mapStateToProps = ({ currentDraft, currentSurvey, user }) => ({
   currentSurvey,
   user
 });
+const mapDispatchToProps = { upsertSnapshot };
 
 const styles = theme => ({
   subtitle: {
@@ -269,6 +277,6 @@ const styles = theme => ({
 export default withStyles(styles)(
   connect(
     mapStateToProps,
-    {}
+    mapDispatchToProps
   )(withTranslation()(Final))
 );

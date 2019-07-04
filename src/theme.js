@@ -48,6 +48,14 @@ export const theme = {
       lineHeight: '20px',
       fontWeight: 500
     },
+    subtitle2: {
+      fontSize: 14,
+      fontFamily: 'Poppins',
+      letterSpacing: '0.16px',
+      color: '#1C212F',
+      lineHeight: '18px',
+      fontWeight: 400
+    },
     h4: {
       fontFamily: 'Poppins',
       color: '#626262',
