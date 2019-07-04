@@ -14,6 +14,16 @@ import BottomSpacer from '../components/BottomSpacer';
 import OverviewBlock from '../components/OverviewBlock';
 import { getFamilies, getDimensionIndicators } from '../api';
 import ActivityFeed from '../components/ActivityFeed';
+import GreenLineChart from '../components/GreenLineChart';
+
+const chartData = [
+  { date: '2019-05-13T00:00', surveys: 750 },
+  { date: '2019-01-15T00:00', surveys: 560 },
+  { date: '2019-07-16T00:00', surveys: 1280 },
+  { date: '2019-08-23T00:00', surveys: 400 },
+  { date: '2019-09-04T00:00', surveys: 1400 },
+  { date: '2019-10-14T00:00', surveys: 1300 }
+];
 
 const fakeData = {
   'Ingreso y Empleo': {
@@ -114,6 +124,7 @@ const Analytics = ({ classes, t, user }) => {
               <OverviewBlock />
               <IndicatorsVisualisation indicators={indicators} />
               <ActivityFeed data={data} />
+              <GreenLineChart data={chartData} />
             </Container>
           </div>
           <BottomSpacer />
