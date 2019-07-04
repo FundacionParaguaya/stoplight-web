@@ -60,39 +60,6 @@ const alignByIndex = index => {
   return null;
 };
 
-let CountDetail = ({ type, count, classes }) => {
-  const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
-
-  return (
-    <>
-      {type === PRIORITY && (
-        <div className={`${classes.countContainer}`}>
-          <img
-            src={iconPriority}
-            alt="Priority"
-            width="18"
-            height="18"
-            className={classes.icon}
-          />
-          <Typography className={classes.count}>{count.toString()}</Typography>
-        </div>
-      )}
-      {type === ACHIEVEMENT && (
-        <div className={`${classes.countContainer}`}>
-          <img
-            src={iconAchievement}
-            alt="Achievement"
-            width="18"
-            height="18"
-            className={classes.icon}
-          />
-          <Typography className={classes.count}>{count.toString()}</Typography>
-        </div>
-      )}
-    </>
-  );
-};
-
 const countDetailStyles = {
   countContainer: {
     display: 'flex',
@@ -105,13 +72,51 @@ const countDetailStyles = {
     marginLeft: 5
   },
   icon: {
-    border: '3px solid #fff',
     borderRadius: '50%',
     boxSizing: 'content-box'
   }
 };
 
-CountDetail = withStyles(countDetailStyles)(CountDetail);
+const CountDetail = withStyles(countDetailStyles)(
+  ({ type, count, classes, border }) => {
+    const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
+
+    return (
+      <>
+        {type === PRIORITY && (
+          <div className={`${classes.countContainer}`}>
+            <img
+              src={iconPriority}
+              alt="Priority"
+              width="18"
+              height="18"
+              className={classes.icon}
+              style={{ border: border ? '3px solid #fff' : null }}
+            />
+            <Typography className={classes.count}>
+              {count.toString()}
+            </Typography>
+          </div>
+        )}
+        {type === ACHIEVEMENT && (
+          <div className={`${classes.countContainer}`}>
+            <img
+              src={iconAchievement}
+              alt="Achievement"
+              width="18"
+              height="18"
+              className={classes.icon}
+              style={{ border: border ? '3px solid #fff' : null }}
+            />
+            <Typography className={classes.count}>
+              {count.toString()}
+            </Typography>
+          </div>
+        )}
+      </>
+    );
+  }
+);
 
 const Indicators = withStyles(styles)(
   ({ classes, type, indicators, fadeIn }) => {
@@ -144,8 +149,8 @@ const Indicators = withStyles(styles)(
                     >
                       <div className={classes.pieInnerContainer}>
                         <div className={classes.detailContainer}>
-                          <CountDetail count={14} type="achievement" />
-                          <CountDetail count={4} type="priority" />
+                          <CountDetail border count={14} type="achievement" />
+                          <CountDetail border count={4} type="priority" />
                         </div>
                         <IndicatorsDonut
                           greenIndicatorCount={indicator.stoplights.green}
@@ -314,3 +319,4 @@ const IndicatorsVisualisation = ({ indicators }) => {
 };
 
 export default withStyles(styles)(IndicatorsVisualisation);
+export { CountDetail };
