@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// Send correct encoding in all POST requests
+axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+
 // list of environment urls
 export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
@@ -8,14 +11,23 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
+export const getFamiliesOverviewInfo = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/applications/dashboard`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
 // get a list of surveys available to the authorized used
 export const getSurveys = user =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
       query:
@@ -28,9 +40,23 @@ export const getFamilies = user =>
     method: 'get',
     url: `${url[user.env]}/api/v1/families`,
     headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
+export const getDimensionIndicators = (user, surveyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
       Authorization: `Bearer ${user.token}`,
       'Content-Type': 'application/json'
-    }
+    },
+    data: JSON.stringify({
+      query:
+        'query { dimensionIndicators {indicators{name, achievements, priorities, stoplights{count, color, dimension, indicator}} } }',
+      variables: { surveyId }
+    })
   });
 
 // submit a new snapshot/lifemap/draft
@@ -54,8 +80,7 @@ export const submitDraft = (user, snapshot) => {
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
       query:
@@ -71,6 +96,5 @@ export const checkSessionToken = (token, env) =>
     url: `${url[env]}/api/v1/users/validate`,
     headers: {
       Authorization: `Bearer ${token}`
-      // 'Content-Type': 'application/json'
     }
   });
