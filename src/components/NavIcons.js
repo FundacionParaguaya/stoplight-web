@@ -2,12 +2,27 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { get } from 'lodash';
 import { theme } from '../theme';
 import LeaveModal from './LeaveModal';
+import SaveDraftModal from './SaveDraftModal';
 
 class NavIcons extends Component {
   state = {
     showLeaveModal: false
+  };
+
+  canSaveDraft = () => {
+    let doDraft = false;
+    const { currentDraft = {} } = this.props;
+    if (
+      get(currentDraft, 'familyData.familyMembersList[0].firstName', null) &&
+      get(currentDraft, 'familyData.familyMembersList[0].lastName', null)
+    ) {
+      doDraft = true;
+    }
+    return doDraft;
   };
 
   handleClose = () => {
@@ -44,8 +59,12 @@ class NavIcons extends Component {
           cancelButtonText={t('general.no')}
           continueButtonText={t('general.yes')}
           onClose={this.handleClose}
-          open={this.state.showLeaveModal}
+          open={this.state.showLeaveModal && !this.canSaveDraft()}
           leaveAction={this.leaveSurvey}
+        />
+        <SaveDraftModal
+          onClose={this.handleClose}
+          open={this.state.showLeaveModal && this.canSaveDraft()}
         />
       </React.Fragment>
     );
@@ -81,4 +100,14 @@ const styles = {
   }
 };
 
-export default withRouter(withStyles(styles)(withTranslation()(NavIcons)));
+const mapStateToProps = ({ currentDraft }) => ({ currentDraft });
+const mapDispatchToProps = {};
+
+export default withRouter(
+  withStyles(styles)(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(withTranslation()(NavIcons))
+  )
+);

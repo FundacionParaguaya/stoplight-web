@@ -11,142 +11,9 @@ import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
-import { getFamilies } from '../api';
 import OverviewBlock from '../components/OverviewBlock';
-
-const INDICATORS = [
-  {
-    name: 'Medioambiente',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Basura',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Agua',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Destino del desagüe',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Acceso a la salud',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Alimentación',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 20,
-    achievements: 100
-  },
-  {
-    name: 'Higiene',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Salud Sexual',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Dientes Sanos',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Vista',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Consumo Problemático',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  }
-];
-
-const randomized = INDICATORS.map(indicator => ({
-  ...indicator,
-  stoplights: {
-    green: parseInt(Math.random() * 20, 10),
-    red: parseInt(Math.random() * 10, 10),
-    yellow: parseInt(Math.random() * 20, 10),
-    skipped: parseInt(Math.random() * 5, 10)
-  }
-}));
+import { getFamilies, getDimensionIndicators } from '../api';
+import ActivityFeed from '../components/ActivityFeed';
 
 const fakeData = {
   'Ingreso y Empleo': {
@@ -189,10 +56,27 @@ Object.keys(fakeData).forEach(
 const Analytics = ({ classes, t, user }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [indicators, setIndicators] = useState([]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 0);
     getFamilies(user).then(families => setData(families.data.splice(0, 25)));
+    getDimensionIndicators(user).then(
+      ({
+        data: {
+          data: { dimensionIndicators }
+        }
+      }) => {
+        let indicatorsArray = [];
+        for (let i = 0; i <= dimensionIndicators.length - 1; i += 1) {
+          indicatorsArray = [
+            ...indicatorsArray,
+            ...dimensionIndicators[i].indicators
+          ];
+        }
+        setIndicators(indicatorsArray);
+      }
+    );
   }, []);
   return (
     <>
@@ -226,9 +110,10 @@ const Analytics = ({ classes, t, user }) => {
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
               <Typography variant="h5">Indicators</Typography>
-              <IndicatorsVisualisation indicators={randomized} />
               <Divider height={3} />
               <OverviewBlock />
+              <IndicatorsVisualisation indicators={indicators} />
+              <ActivityFeed data={data} />
             </Container>
           </div>
           <BottomSpacer />
