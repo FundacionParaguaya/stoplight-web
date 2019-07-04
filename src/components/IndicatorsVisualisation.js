@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { withStyles, Typography, Grid, Button } from '@material-ui/core';
-import { PieChart, Pie, Cell } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTransition, animated } from 'react-spring';
+import { capitalize } from 'lodash';
 import Divider from './Divider';
 import SummaryStackedBar from './summary/SummaryStackedBar';
+import CustomTooltip from './CustomTooltip';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
@@ -283,6 +285,13 @@ const IndicatorsDonut = ({
         <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
         <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
       </Pie>
+      <Tooltip
+        content={
+          <CustomTooltip
+            format={({ value, name }) => `${value} ${capitalize(name)}`}
+          />
+        }
+      />
     </PieChart>
   );
 };

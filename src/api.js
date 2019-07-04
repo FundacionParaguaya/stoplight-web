@@ -11,13 +11,21 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
+export const logout = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/oauth/revoke-token`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
 export const getFamiliesOverviewInfo = user =>
   axios({
     method: 'get',
     url: `${url[user.env]}/api/v1/applications/dashboard`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     }
   });
 
