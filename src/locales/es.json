@@ -57,7 +57,8 @@
       "surveys": "Encuestas",
       "analytics": "Analíticas",
       "households": "Familias",
-      "map": "Mapa"
+      "map": "Mapa",
+      "logout": "Cerrar sesión"
     },
     "synced": "Sincronización",
     "families": "Familias",
