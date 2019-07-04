@@ -8,6 +8,16 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
+export const getFamiliesOverviewInfo = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/applications/dashboard`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+
 // get a list of surveys available to the authorized used
 export const getSurveys = user =>
   axios({
