@@ -2,54 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { withStyles, Typography, Grid, Button } from '@material-ui/core';
 import { PieChart, Pie, Cell } from 'recharts';
 import { useTransition, animated } from 'react-spring';
-import PrimaryButton from './PrimaryButton';
 import Divider from './Divider';
 import SummaryStackedBar from './summary/SummaryStackedBar';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
-
-const styles = {
-  barContainer: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  title: {
-    marginTop: 5,
-    marginBottom: 5
-  },
-  pieContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
-  },
-  pieInnerContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    width: 150,
-    textAlign: 'center',
-    position: 'relative'
-  },
-  flexStart: {
-    alignItems: 'flex-start'
-  },
-  flexEnd: {
-    alignItems: 'flex-end'
-  },
-  detailContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: 15,
-    right: 0,
-    zIndex: 1
-  }
-};
 
 const INDICATORS_TYPES = ['pie', 'bar'];
 const [PIE, BAR] = INDICATORS_TYPES;
@@ -118,7 +75,60 @@ const CountDetail = withStyles(countDetailStyles)(
   }
 );
 
-const Indicators = withStyles(styles)(
+const parseStoplights = stoplights => {
+  const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
+
+  const green = getByIndex(3);
+  const yellow = getByIndex(2);
+  const red = getByIndex(1);
+  const skipped = getByIndex(0);
+
+  return [green, yellow, red, skipped];
+};
+
+const indicatorsStyles = {
+  barContainer: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  title: {
+    marginTop: 5,
+    marginBottom: 5
+  },
+  pieContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  pieInnerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: 150,
+    textAlign: 'center',
+    position: 'relative'
+  },
+  flexStart: {
+    alignItems: 'flex-start'
+  },
+  flexEnd: {
+    alignItems: 'flex-end'
+  },
+  detailContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 15,
+    right: 0,
+    zIndex: 1
+  }
+};
+
+const Indicators = withStyles(indicatorsStyles)(
   ({ classes, type, indicators, fadeIn }) => {
     const transitions = useTransition(type, null, {
       config: { tension: 350, mass: 1, friction: 50 },
@@ -138,6 +148,9 @@ const Indicators = withStyles(styles)(
             >
               <Grid container>
                 {indicators.map((indicator, index) => {
+                  const [green, yellow, red, skipped] = parseStoplights(
+                    indicator.stoplights
+                  );
                   return (
                     <Grid
                       item
@@ -153,10 +166,10 @@ const Indicators = withStyles(styles)(
                           <CountDetail border count={4} type="priority" />
                         </div>
                         <IndicatorsDonut
-                          greenIndicatorCount={indicator.stoplights.green}
-                          yellowIndicatorCount={indicator.stoplights.yellow}
-                          redIndicatorCount={indicator.stoplights.red}
-                          skippedIndicatorCount={indicator.stoplights.skipped}
+                          greenIndicatorCount={green}
+                          yellowIndicatorCount={yellow}
+                          redIndicatorCount={red}
+                          skippedIndicatorCount={skipped}
                         />
                         <Typography
                           variant="subtitle1"
@@ -177,6 +190,9 @@ const Indicators = withStyles(styles)(
             >
               <Grid container>
                 {indicators.map(indicator => {
+                  const [green, yellow, red, skipped] = parseStoplights(
+                    indicator.stoplights
+                  );
                   return (
                     <Grid
                       item
@@ -187,11 +203,12 @@ const Indicators = withStyles(styles)(
                       <Typography variant="subtitle1" className={classes.title}>
                         {indicator.name}
                       </Typography>
+
                       <SummaryStackedBar
-                        greenIndicatorCount={indicator.stoplights.green}
-                        yellowIndicatorCount={indicator.stoplights.yellow}
-                        redIndicatorCount={indicator.stoplights.red}
-                        skippedIndicatorCount={indicator.stoplights.skipped}
+                        greenIndicatorCount={green}
+                        yellowIndicatorCount={yellow}
+                        redIndicatorCount={red}
+                        skippedIndicatorCount={skipped}
                       />
                     </Grid>
                   );
@@ -287,18 +304,19 @@ const Controllers = withStyles(controllersStyles)(
   }
 );
 
-const IndicatorsVisualisation = ({ indicators }) => {
+const IndicatorsVisualisation = ({ indicators, classes }) => {
   const [indicatorsType, setIndicatorsType] = useState(BAR);
   const [count, setCount] = useState(10);
 
   return (
-    <div
-      style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
-    >
-      <Controllers
-        type={indicatorsType}
-        setIndicatorsType={setIndicatorsType}
-      />
+    <div className={classes.container}>
+      <div className={classes.innerContainer}>
+        <Typography variant="h5">Indicators</Typography>
+        <Controllers
+          type={indicatorsType}
+          setIndicatorsType={setIndicatorsType}
+        />
+      </div>
       <Indicators
         type={indicatorsType}
         indicators={indicators.slice(0, count)}
@@ -316,6 +334,19 @@ const IndicatorsVisualisation = ({ indicators }) => {
       )}
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  innerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%'
+  }
 };
 
 export default withStyles(styles)(IndicatorsVisualisation);
