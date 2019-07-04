@@ -546,14 +546,14 @@ export class Economics extends Component {
                                               index
                                             )}
                                             required={question.required}
-                                            onChange={multipleValue =>
+                                            onChange={e => {
                                               this.updateEconomicAnswerCascading(
                                                 question,
-                                                multipleValue,
+                                                _.get(e, 'target.value', ''),
                                                 setFieldValue,
                                                 index
-                                              )
-                                            }
+                                              );
+                                            }}
                                           />
                                         );
                                       }

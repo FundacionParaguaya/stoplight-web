@@ -5,8 +5,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { Typography, withStyles } from '@material-ui/core';
-import iconPriority from '../assets/icon_priority.png';
-import iconAchievement from '../assets/icon_achievement.png';
 import {
   normalizeDimension,
   NORMALIZED_DIMENSIONS
@@ -18,6 +16,8 @@ import dimensionIncomeIcon from '../assets/dimension_income.png';
 import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
 import dimensionOrganizationIcon from '../assets/dimension_organization.png';
 import SummaryStackedBar from './summary/SummaryStackedBar';
+import { CountDetail } from './IndicatorsVisualisation';
+import { COLORS } from '../theme';
 
 const getIconForDimension = dimension => {
   switch (normalizeDimension(dimension)) {
@@ -50,7 +50,14 @@ let DimensionTitle = ({ classes, dimension, excludeIcon }) => (
         />
       </div>
     )}
-    <Typography className={classes.title} variant="subtitle1">
+    <Typography
+      className={classes.title}
+      style={{
+        color: excludeIcon ? COLORS.TEXT_GREY : null,
+        padding: excludeIcon ? '6px 0' : null
+      }}
+      variant="subtitle2"
+    >
       {dimension}
     </Typography>
   </div>
@@ -67,7 +74,6 @@ const dimensionTitleStyle = () => ({
     alignItems: 'center'
   },
   title: {
-    fontSize: 12,
     display: 'flex'
   },
   icon: {
@@ -159,22 +165,8 @@ const Dimensions = ({ classes, data }) => {
                 </div>
 
                 <div className={classes.priorAndAchievem}>
-                  <div className={classes.innerPriorAndAchievem}>
-                    <img src={iconPriority} className={classes.icon} alt="" />
-                    <Typography variant="h5" className={classes.counting}>
-                      {Number.parseInt(dimension.priorities, 10)}
-                    </Typography>
-                  </div>
-                  <div className={classes.innerPriorAndAchievem}>
-                    <img
-                      src={iconAchievement}
-                      className={classes.icon}
-                      alt=""
-                    />
-                    <Typography variant="h5" className={classes.counting}>
-                      {Number.parseInt(dimension.achievements, 10)}
-                    </Typography>
-                  </div>
+                  <CountDetail count={14} type="achievement" />
+                  <CountDetail count={4} type="priority" />
                   <div className={classes.expandContainer}>
                     {dimensionOpen === d ? (
                       <ExpandLess className={classes.expandIcon} />
@@ -210,8 +202,8 @@ const styles = theme => ({
     marginBottom: theme.spacing(4)
   },
   listItem: {
-    paddingTop: 4,
-    paddingBottom: 4
+    paddingTop: 12.5,
+    paddingBottom: 12.5
   },
   row: {
     '&:nth-of-type(odd)': {
@@ -248,7 +240,8 @@ const styles = theme => ({
     paddingRight: '4px'
   },
   dimensionIndicatorContainer: {
-    marginTop: theme.spacing()
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(3)
   },
   dimensionIndicatorUnderline: {
     marginTop: theme.spacing(),
