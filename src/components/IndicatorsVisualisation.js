@@ -391,5 +391,4 @@ const styles = {
 };
 
 export default withStyles(styles)(IndicatorsVisualisation);
-
 export { CountDetail };

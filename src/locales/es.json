@@ -173,7 +173,8 @@
       "red": "Rojo",
       "priorities": "Prioridades",
       "achievements": "Logros",
-      "toComplete": "Antes de que se complete el Mapa de Vida...."
+      "toComplete": "Antes de que se complete el Mapa de Vida....",
+      "indicatorDefinition": "Definición de Indicador"
     },
     "priority": {
       "month": "mes",
