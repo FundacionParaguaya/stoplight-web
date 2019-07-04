@@ -11,7 +11,7 @@ let SummaryCountingSection = props => (
   <div className={props.classes.container}>
     <Spring
       config={{ tension: 150, friction: 40, precision: 1 }}
-      from={{ number: 0 }}
+      from={{ number: props.isAnimationActive ? 0 : props.count }}
       to={{ number: props.count }}
     >
       {p => (
@@ -55,7 +55,9 @@ const SummaryDonut = props => {
     yellowIndicatorCount,
     redIndicatorCount,
     skippedIndicatorCount,
-    t
+    t,
+    countingSection,
+    isAnimationActive
   } = props;
   const data = [
     { name: 'red', value: redIndicatorCount },
@@ -67,9 +69,10 @@ const SummaryDonut = props => {
   return (
     <div className={classes.mainContainer}>
       <div className={classes.donutContainer}>
-        <PieChart width={240} height={240}>
+        <PieChart width={235} height={240}>
           <Pie
             data={data}
+            isAnimationActive={isAnimationActive}
             dataKey="value"
             nameKey="name"
             innerRadius={50}
@@ -83,30 +86,37 @@ const SummaryDonut = props => {
           </Pie>
         </PieChart>
       </div>
-      <div className={classes.summaryCountingSectionContainer}>
-        <SummaryCountingSection
-          label={t('views.overview.green')}
-          count={greenIndicatorCount}
-          color="green"
-        />
-        <SummaryCountingSection
-          label={t('views.overview.yellow')}
-          count={yellowIndicatorCount}
-          color="yellow"
-        />
-        <SummaryCountingSection
-          label={t('views.overview.red')}
-          count={redIndicatorCount}
-          color="red"
-        />
-        <SummaryCountingSection
-          label={t('views.overview.skipped')}
-          count={skippedIndicatorCount}
-          color="skipped"
-        />
-      </div>
+      {countingSection && (
+        <div className={classes.summaryCountingSectionContainer}>
+          <SummaryCountingSection
+            label={t('views.overview.green')}
+            count={greenIndicatorCount}
+            color="green"
+          />
+          <SummaryCountingSection
+            label={t('views.overview.yellow')}
+            count={yellowIndicatorCount}
+            color="yellow"
+          />
+          <SummaryCountingSection
+            label={t('views.overview.red')}
+            count={redIndicatorCount}
+            color="red"
+          />
+          <SummaryCountingSection
+            label={t('views.overview.skipped')}
+            count={skippedIndicatorCount}
+            color="skipped"
+          />
+        </div>
+      )}
     </div>
   );
+};
+
+SummaryDonut.defaultProps = {
+  isAnimationActive: false,
+  countingSection: true
 };
 
 const styles = theme => ({
@@ -119,15 +129,14 @@ const styles = theme => ({
   donutContainer: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'row-reverse',
-    marginRight: theme.spacing(2)
+    flexDirection: 'row-reverse'
   },
   summaryCountingSectionContainer: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(4),
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4)
   }
