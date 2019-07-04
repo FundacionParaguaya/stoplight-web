@@ -57,7 +57,8 @@
       "surveys": "Surveys",
       "analytics": "Analytics",
       "households": "Households",
-      "map": "Map"
+      "map": "Map",
+      "logout": "Logout"
     },
     "synced": "Sync",
     "dashboard": "Dashboard",
