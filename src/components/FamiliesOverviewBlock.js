@@ -46,9 +46,17 @@ const FamiliesOverviewBlock = ({
         {t('views.familiesOverviewBlock.overview')}
       </Typography>
       <div className={classes.familyInfoContainer}>
-        <Typography variant="h4" className={classes.familiesCountStyle}>
+        <Typography
+          component="p"
+          variant="h4"
+          className={classes.familiesCountStyle}
+        >
           {familiesCount}
-          <Typography variant="h6" className={classes.familiesLabel}>
+          <Typography
+            component="span"
+            variant="h6"
+            className={classes.familiesLabel}
+          >
             {t('views.familiesOverviewBlock.families')}
           </Typography>
         </Typography>
