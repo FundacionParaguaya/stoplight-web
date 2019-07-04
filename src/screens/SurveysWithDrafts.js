@@ -139,6 +139,7 @@ class Surveys extends Component {
       })
       .catch(error => {
         if (error.response.status === 401) {
+          delete window.localStorage['persist:root'];
           window.location.replace(
             `https://${this.props.user.env}.povertystoplight.org/login.html`
           );
