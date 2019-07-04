@@ -33,6 +33,21 @@ export const getFamilies = user =>
     }
   });
 
+export const getDimensionIndicators = (user, surveyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify({
+      query:
+        'query { dimensionIndicators {indicators{name, achievements, priorities, stoplights{count, color, dimension, indicator}} } }',
+      variables: { surveyId }
+    })
+  });
+
 // submit a new snapshot/lifemap/draft
 export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
