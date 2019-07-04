@@ -9,7 +9,85 @@ import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
 import CustomTooltip from './CustomTooltip';
 
-const styles = {
+const INDICATORS_TYPES = ['pie', 'bar'];
+const [PIE, BAR] = INDICATORS_TYPES;
+
+const alignByIndex = index => {
+  if (index % 3 === 0) return 'flexStart';
+  if ((index - 2) % 3 === 0) return 'flexEnd';
+  return null;
+};
+
+const countDetailStyles = {
+  countContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%'
+  },
+  count: {
+    fontSize: 16,
+    marginLeft: 5
+  },
+  icon: {
+    borderRadius: '50%',
+    boxSizing: 'content-box'
+  }
+};
+
+const CountDetail = withStyles(countDetailStyles)(
+  ({ type, count, classes, border }) => {
+    const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
+
+    return (
+      <>
+        {type === PRIORITY && (
+          <div className={`${classes.countContainer}`}>
+            <img
+              src={iconPriority}
+              alt="Priority"
+              width="18"
+              height="18"
+              className={classes.icon}
+              style={{ border: border ? '3px solid #fff' : null }}
+            />
+            <Typography className={classes.count}>
+              {count.toString()}
+            </Typography>
+          </div>
+        )}
+        {type === ACHIEVEMENT && (
+          <div className={`${classes.countContainer}`}>
+            <img
+              src={iconAchievement}
+              alt="Achievement"
+              width="18"
+              height="18"
+              className={classes.icon}
+              style={{ border: border ? '3px solid #fff' : null }}
+            />
+            <Typography className={classes.count}>
+              {count.toString()}
+            </Typography>
+          </div>
+        )}
+      </>
+    );
+  }
+);
+
+const parseStoplights = stoplights => {
+  const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
+
+  const green = getByIndex(3);
+  const yellow = getByIndex(2);
+  const red = getByIndex(1);
+  const skipped = getByIndex(0);
+
+  return [green, yellow, red, skipped];
+};
+
+const indicatorsStyles = {
   barContainer: {
     marginTop: 10,
     marginBottom: 10
@@ -51,69 +129,7 @@ const styles = {
   }
 };
 
-const INDICATORS_TYPES = ['pie', 'bar'];
-const [PIE, BAR] = INDICATORS_TYPES;
-
-const alignByIndex = index => {
-  if (index % 3 === 0) return 'flexStart';
-  if ((index - 2) % 3 === 0) return 'flexEnd';
-  return null;
-};
-
-let CountDetail = ({ type, count, classes }) => {
-  const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
-
-  return (
-    <>
-      {type === PRIORITY && (
-        <div className={`${classes.countContainer}`}>
-          <img
-            src={iconPriority}
-            alt="Priority"
-            width="18"
-            height="18"
-            className={classes.icon}
-          />
-          <Typography className={classes.count}>{count.toString()}</Typography>
-        </div>
-      )}
-      {type === ACHIEVEMENT && (
-        <div className={`${classes.countContainer}`}>
-          <img
-            src={iconAchievement}
-            alt="Achievement"
-            width="18"
-            height="18"
-            className={classes.icon}
-          />
-          <Typography className={classes.count}>{count.toString()}</Typography>
-        </div>
-      )}
-    </>
-  );
-};
-
-const countDetailStyles = {
-  countContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '100%'
-  },
-  count: {
-    fontSize: 16,
-    marginLeft: 5
-  },
-  icon: {
-    border: '3px solid #fff',
-    borderRadius: '50%',
-    boxSizing: 'content-box'
-  }
-};
-
-CountDetail = withStyles(countDetailStyles)(CountDetail);
-
-const Indicators = withStyles(styles)(
+const Indicators = withStyles(indicatorsStyles)(
   ({ classes, type, indicators, fadeIn }) => {
     const transitions = useTransition(type, null, {
       config: { tension: 350, mass: 1, friction: 50 },
@@ -133,6 +149,9 @@ const Indicators = withStyles(styles)(
             >
               <Grid container>
                 {indicators.map((indicator, index) => {
+                  const [green, yellow, red, skipped] = parseStoplights(
+                    indicator.stoplights
+                  );
                   return (
                     <Grid
                       item
@@ -144,14 +163,14 @@ const Indicators = withStyles(styles)(
                     >
                       <div className={classes.pieInnerContainer}>
                         <div className={classes.detailContainer}>
-                          <CountDetail count={14} type="achievement" />
-                          <CountDetail count={4} type="priority" />
+                          <CountDetail border count={14} type="achievement" />
+                          <CountDetail border count={4} type="priority" />
                         </div>
                         <IndicatorsDonut
-                          greenIndicatorCount={indicator.stoplights.green}
-                          yellowIndicatorCount={indicator.stoplights.yellow}
-                          redIndicatorCount={indicator.stoplights.red}
-                          skippedIndicatorCount={indicator.stoplights.skipped}
+                          greenIndicatorCount={green}
+                          yellowIndicatorCount={yellow}
+                          redIndicatorCount={red}
+                          skippedIndicatorCount={skipped}
                         />
                         <Typography
                           variant="subtitle1"
@@ -172,6 +191,9 @@ const Indicators = withStyles(styles)(
             >
               <Grid container>
                 {indicators.map(indicator => {
+                  const [green, yellow, red, skipped] = parseStoplights(
+                    indicator.stoplights
+                  );
                   return (
                     <Grid
                       item
@@ -182,11 +204,12 @@ const Indicators = withStyles(styles)(
                       <Typography variant="subtitle1" className={classes.title}>
                         {indicator.name}
                       </Typography>
+
                       <SummaryStackedBar
-                        greenIndicatorCount={indicator.stoplights.green}
-                        yellowIndicatorCount={indicator.stoplights.yellow}
-                        redIndicatorCount={indicator.stoplights.red}
-                        skippedIndicatorCount={indicator.stoplights.skipped}
+                        greenIndicatorCount={green}
+                        yellowIndicatorCount={yellow}
+                        redIndicatorCount={red}
+                        skippedIndicatorCount={skipped}
                       />
                     </Grid>
                   );
@@ -287,18 +310,19 @@ const Controllers = withStyles(controllersStyles)(
   }
 );
 
-const IndicatorsVisualisation = ({ indicators }) => {
+const IndicatorsVisualisation = ({ indicators, classes }) => {
   const [indicatorsType, setIndicatorsType] = useState(BAR);
   const [count, setCount] = useState(10);
 
   return (
-    <div
-      style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
-    >
-      <Controllers
-        type={indicatorsType}
-        setIndicatorsType={setIndicatorsType}
-      />
+    <div className={classes.container}>
+      <div className={classes.innerContainer}>
+        <Typography variant="h5">Indicators</Typography>
+        <Controllers
+          type={indicatorsType}
+          setIndicatorsType={setIndicatorsType}
+        />
+      </div>
       <Indicators
         type={indicatorsType}
         indicators={indicators.slice(0, count)}
@@ -318,4 +342,18 @@ const IndicatorsVisualisation = ({ indicators }) => {
   );
 };
 
+const styles = {
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  innerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%'
+  }
+};
+
 export default withStyles(styles)(IndicatorsVisualisation);
+export { CountDetail };
