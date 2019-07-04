@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { withStyles, Typography, Grid, Button } from '@material-ui/core';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTransition, animated } from 'react-spring';
+import { capitalize } from 'lodash';
 import Divider from './Divider';
 import SummaryStackedBar from './summary/SummaryStackedBar';
+import CustomTooltip from './CustomTooltip';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
-import CustomTooltip from './CustomTooltip';
 
 const parseStoplights = stoplights => {
   const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
@@ -286,7 +287,9 @@ const IndicatorsDonut = ({
       </Pie>
       <Tooltip
         content={
-          <CustomTooltip format={({ value, name }) => `${value} ${name}`} />
+          <CustomTooltip
+            format={({ value, name }) => `${value} ${capitalize(name)}`}
+          />
         }
       />
     </PieChart>
