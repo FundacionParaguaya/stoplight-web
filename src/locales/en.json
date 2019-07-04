@@ -172,7 +172,8 @@
       "makeThisAPriority": "Make this a priority!",
       "priorities": "Priorities",
       "achievements": "Achievements",
-      "toComplete": "To complete the lifemap..."
+      "toComplete": "To complete the lifemap...",
+      "indicatorDefinition": "Indicator Definition"
     },
     "priority": {
       "month": "month",
