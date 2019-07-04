@@ -376,13 +376,20 @@ export class StoplightQuestions extends Component {
               />
             )}
           </div>
-          <div className={classes.bottomContainer}>
-            <i
-              onClick={this.handleOpen}
-              className={`material-icons ${classes.icon}`}
-            >
-              info
-            </i>
+          <div
+            className={classes.bottomContainer}
+            style={{
+              justifyContent: question.definition ? 'space-between' : 'flex-end'
+            }}
+          >
+            {question.definition && (
+              <i
+                onClick={this.handleOpen}
+                className={`material-icons ${classes.icon}`}
+              >
+                info
+              </i>
+            )}
             {question && !question.required && (
               <span>
                 <Button
@@ -421,11 +428,6 @@ export class StoplightQuestions extends Component {
                       <Box mt={2} />
                     </Typography>
                   ))}
-                {!question.definition && (
-                  <Typography variant="body2" color="textPrimary">
-                    We are still working on the definition of this question.
-                  </Typography>
-                )}
               </div>
             </div>
           </Modal>
@@ -446,8 +448,7 @@ const styles = theme => ({
   },
   bottomContainer: {
     width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between'
+    display: 'flex'
   },
   icon: {
     color: 'green',
