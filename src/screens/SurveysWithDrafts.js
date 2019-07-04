@@ -10,7 +10,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
-import { getSurveys } from '../api';
+import { getSurveys, getFamiliesOverviewInfo } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import BottomSpacer from '../components/BottomSpacer';
@@ -119,7 +119,7 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
 };
 
 class Surveys extends Component {
-  state = { surveys: [], loading: true };
+  state = { surveys: [], familiesOverview: [], loading: true };
 
   constructor(props) {
     super(props);
@@ -127,10 +127,14 @@ class Surveys extends Component {
   }
 
   getSurveys(user) {
-    getSurveys(user || this.props.user)
+    Promise.all([
+      getSurveys(user || this.props.user),
+      getFamiliesOverviewInfo(user || this.props.user)
+    ])
       .then(response => {
         this.setState({
-          surveys: response.data.data.surveysByUser
+          surveys: response[0].data.data.surveysByUser,
+          familiesOverview: response[1].data.dashboard
         });
       })
       .catch(error => {
@@ -346,7 +350,10 @@ class Surveys extends Component {
             {!this.state.loading && (
               <Grid container spacing={3}>
                 <Grid item sm={4} xs={12}>
-                  <FamiliesOverviewBlock innerRef={this.heightSurveysRef} />
+                  <FamiliesOverviewBlock
+                    familiesOverview={this.state.familiesOverview}
+                    innerRef={this.heightSurveysRef}
+                  />
                 </Grid>
                 <Grid item sm={8} xs={12}>
                   <SurveysList
