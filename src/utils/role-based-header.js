@@ -1,7 +1,4 @@
-export const getPlatform = env => ({
-  old: `https://${env}.povertystoplight.org`,
-  new: `http://app.povertystoplight.org`
-});
+export const getPlatform = env => `https://${env}.povertystoplight.org`;
 
 export const NEW = 'new';
 export const OLD = 'old';
