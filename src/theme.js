@@ -6,7 +6,8 @@ export const COLORS = {
   YELLOW: '#f0cb17',
   GREEN: '#50aa47',
   LIGHT_GREY: '#E6E4E2',
-  TEXT_GREY: '#6A6A6A'
+  TEXT_GREY: '#6A6A6A',
+  TEXT_LIGHTGREY: 'rgba(0,0,0,0.5)'
 };
 
 export const theme = {

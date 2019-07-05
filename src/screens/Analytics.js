@@ -11,51 +11,25 @@ import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
+import OverviewBlock from '../components/OverviewBlock';
 import { getFamilies, getDimensionIndicators } from '../api';
 import ActivityFeed from '../components/ActivityFeed';
+import GreenLineChart from '../components/GreenLineChart';
 
-const fakeData = {
-  'Ingreso y Empleo': {
-    green: 25,
-    yellow: 7,
-    red: 15,
-    skipped: 10,
-    priorities: 520,
-    achievements: 33
-  },
-  'Salud y Medioambiente': {
-    green: 21,
-    yellow: 12,
-    red: 3,
-    skipped: 2,
-    priorities: 110,
-    achievements: 834
-  },
-  'Vivienda e Infraestructura': {
-    green: 13,
-    yellow: 16,
-    red: 25,
-    skipped: 6,
-    priorities: 60,
-    achievements: 100
-  },
-  'Organización y Participación': {
-    green: 5,
-    yellow: 23,
-    red: 12,
-    skipped: 10,
-    priorities: 0,
-    achievements: 312
-  }
-};
-Object.keys(fakeData).forEach(
-  fd => (fakeData[fd].indicators = { ...fakeData })
-);
+const chartData = [
+  { date: '2019-05-13T00:00', surveys: 750 },
+  { date: '2019-01-15T00:00', surveys: 560 },
+  { date: '2019-07-16T00:00', surveys: 1280 },
+  { date: '2019-08-23T00:00', surveys: 400 },
+  { date: '2019-09-04T00:00', surveys: 1400 },
+  { date: '2019-10-14T00:00', surveys: 1300 }
+];
 
 const Analytics = ({ classes, t, user }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [indicators, setIndicators] = useState([]);
+  const [dimensions, setDimensions] = useState([]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 0);
@@ -74,9 +48,10 @@ const Analytics = ({ classes, t, user }) => {
           ];
         }
         setIndicators(indicatorsArray);
+        setDimensions(dimensionIndicators);
       }
     );
-  }, []);
+  }, [user]);
   return (
     <>
       {loading && (
@@ -100,7 +75,7 @@ const Analytics = ({ classes, t, user }) => {
             <Container variant="stretch">
               <Typography variant="h5">Dimensions</Typography>
               <Divider />
-              <Dimensions data={fakeData} />
+              <Dimensions data={dimensions} />
             </Container>
           </div>
           <div className={classes.grayContainer}>
@@ -108,8 +83,12 @@ const Analytics = ({ classes, t, user }) => {
           </div>
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
+              <Typography variant="h5">Indicators</Typography>
+              <Divider height={3} />
+              <OverviewBlock />
               <IndicatorsVisualisation indicators={indicators} />
               <ActivityFeed data={data} />
+              <GreenLineChart data={chartData} />
             </Container>
           </div>
           <BottomSpacer />

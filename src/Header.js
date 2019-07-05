@@ -12,16 +12,20 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 import { withTranslation } from 'react-i18next';
 import logo from './assets/header_logo.png';
 import i18n from './i18n';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
 import { ROLES, getPlatform, NEW, OLD } from './utils/role-based-header';
+import { logout } from './api';
 
 class Header extends Component {
   state = {
     open: false,
+    openUserOptions: false,
     langaugeMenuMain: 'en'
   };
 
@@ -49,6 +53,24 @@ class Header extends Component {
     localStorage.setItem('language', event);
     i18n.changeLanguage(event);
     this.setState({ open: false, langaugeMenuMain: event });
+  };
+
+  handleToggleUserOptions = () => {
+    this.setState(state => ({ openUserOptions: !state.openUserOptions }));
+  };
+
+  handleCloseAwayUserOptions = () => {
+    this.setState({ openUserOptions: false });
+  };
+
+  handleLogout = () => {
+    this.setState({ openUserOptions: false });
+    logout(this.props.user).finally(() => {
+      delete window.localStorage['persist:root'];
+      window.location.replace(
+        `https://${this.props.user.env}.povertystoplight.org/login.html`
+      );
+    });
   };
 
   render() {
@@ -120,11 +142,29 @@ class Header extends Component {
                 {this.state.langaugeMenuMain === 'en' ? 'ENG' : 'ESP'}
               </Typography>
             </Button>
-            <span className={classes.username}>
+            <div className={classes.verticalDivider} />
+            <Button
+              style={{ backgroundColor: 'white' }}
+              variant="contained"
+              buttonRef={node => {
+                this.anchorUserOptionsEl = node;
+              }}
+              aria-owns={
+                this.state.openUserOptions ? 'menu-list-grow' : undefined
+              }
+              aria-haspopup="true"
+              onClick={this.handleToggleUserOptions}
+            >
               <Typography variant="subtitle1" className={classes.menuLinkText}>
                 {this.props.user.username}
               </Typography>
-            </span>
+              {!this.state.openUserOptions && (
+                <KeyboardArrowDown className={classes.rightIcon} />
+              )}
+              {this.state.openUserOptions && (
+                <KeyboardArrowUp className={classes.rightIcon} />
+              )}
+            </Button>
           </div>
 
           <Popper
@@ -166,6 +206,40 @@ class Header extends Component {
                           alt="eng"
                         />
                         Español
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+          <Popper
+            open={this.state.openUserOptions}
+            anchorEl={this.anchorUserOptionsEl}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                id="menu-list-grow"
+                style={{
+                  transformOrigin:
+                    placement === 'bottom' ? 'center top' : 'center bottom'
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener
+                    onClickAway={this.handleCloseAwayUserOptions}
+                  >
+                    <MenuList className={classes.menuList}>
+                      <MenuItem
+                        onClick={() => this.handleLogout()}
+                        className={classes.menuItem}
+                      >
+                        <Typography variant="subtitle1">
+                          {t('views.toolbar.logout')}
+                        </Typography>
                       </MenuItem>
                     </MenuList>
                   </ClickAwayListener>
@@ -218,13 +292,15 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  username: {
+  verticalDivider: {
     height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    borderLeft: `1px solid ${theme.palette.background.paper}`,
-    padding: '0 27px',
-    cursor: 'pointer'
+    borderLeft: `1px solid ${theme.palette.background.paper}`
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(0.5),
+    color: '#1C212F',
+    top: 4,
+    position: 'relative'
   },
   surveyLink: {
     borderBottom: `4px solid ${theme.palette.primary.main}`

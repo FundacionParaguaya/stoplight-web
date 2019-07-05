@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Modal, Box } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
@@ -208,7 +208,8 @@ export class StoplightQuestions extends Component {
     question: this.props.currentSurvey.surveyStoplightQuestions[
       this.props.match.params.page
     ],
-    aspectRatio: null
+    aspectRatio: null,
+    infoModal: false
   };
 
   handleContinue = () => {
@@ -308,6 +309,14 @@ export class StoplightQuestions extends Component {
     });
   };
 
+  handleClose = () => {
+    this.setState({ infoModal: false });
+  };
+
+  handleOpen = () => {
+    this.setState({ infoModal: true });
+  };
+
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
       this.setCurrentScreen();
@@ -367,14 +376,20 @@ export class StoplightQuestions extends Component {
               />
             )}
           </div>
-          <div className={classes.bottomContainer}>
-            {/* "i" icon temporarily hidden since we still don't have all the content for the surveys */}
-            {/* <i
-              style={{ color: 'green', cursor: 'pointer' }}
-              className="material-icons"
-            >
-              info
-            </i> */}
+          <div
+            className={classes.bottomContainer}
+            style={{
+              justifyContent: question.definition ? 'space-between' : 'flex-end'
+            }}
+          >
+            {question.definition && (
+              <i
+                onClick={this.handleOpen}
+                className={`material-icons ${classes.icon}`}
+              >
+                info
+              </i>
+            )}
             {question && !question.required && (
               <span>
                 <Button
@@ -386,6 +401,36 @@ export class StoplightQuestions extends Component {
               </span>
             )}
           </div>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.infoModal}
+            onClose={this.handleClose}
+          >
+            <div className={classes.infoModal}>
+              <i
+                onClick={this.handleClose}
+                className={`material-icons ${classes.closeModalIcon} ${
+                  classes.icon
+                }`}
+              >
+                close
+              </i>
+              <Typography variant="h5" id="modal-title">
+                Indicator Definition
+              </Typography>
+              <Box mt={4} />
+              <div className={classes.innerContainer}>
+                {question.definition &&
+                  question.definition.split(/(?:\\n)/g).map((i, key) => (
+                    <Typography variant="body2" color="textPrimary" key={key}>
+                      {i}
+                      <Box mt={2} />
+                    </Typography>
+                  ))}
+              </div>
+            </div>
+          </Modal>
         </Container>
         <BottomSpacer />
       </div>
@@ -393,7 +438,7 @@ export class StoplightQuestions extends Component {
   }
 }
 
-const styles = {
+const styles = theme => ({
   mainQuestionsAndBottomContainer: {
     margin: 'auto',
     display: 'flex',
@@ -403,8 +448,11 @@ const styles = {
   },
   bottomContainer: {
     width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end'
+    display: 'flex'
+  },
+  icon: {
+    color: 'green',
+    cursor: 'pointer'
   },
   skipButton: {
     cursor: 'pointer'
@@ -427,8 +475,29 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginBottom: 20
+  },
+  infoModal: {
+    width: 500,
+    maxHeight: 500,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    outline: 'none',
+    padding: theme.spacing(6),
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  closeModalIcon: {
+    alignSelf: 'flex-end'
+  },
+  innerContainer: {
+    height: '100%',
+    overflowY: 'scroll'
   }
-};
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
