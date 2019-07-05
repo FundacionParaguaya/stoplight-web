@@ -243,6 +243,8 @@
       "clickSafe": "Now, just click save!"
     },
     "familiesOverviewBlock": {
+      "economics": "Social Economics",
+      "averageIncome": "Average anual income per capita",
       "overview": "Overview",
       "families": "families",
       "including": "Including",
