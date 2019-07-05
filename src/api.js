@@ -11,13 +11,21 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
+export const logout = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/oauth/revoke-token`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
 export const getFamiliesOverviewInfo = user =>
   axios({
     method: 'get',
     url: `${url[user.env]}/api/v1/applications/dashboard`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     }
   });
 
@@ -31,7 +39,7 @@ export const getSurveys = user =>
     },
     data: JSON.stringify({
       query:
-        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
+        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id stoplightColors { url value description } required } } }'
     })
   });
 
@@ -53,8 +61,9 @@ export const getDimensionIndicators = (user, surveyId) =>
       'Content-Type': 'application/json'
     },
     data: JSON.stringify({
-      query:
-        'query { dimensionIndicators {indicators{name, achievements, priorities, stoplights{count, color, dimension, indicator}} } }',
+      query: `query { dimensionIndicators {dimension, priorities, achievements,
+          stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
+           stoplights{count, color, dimension, indicator}} } }`,
       variables: { surveyId }
     })
   });

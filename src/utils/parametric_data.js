@@ -8,12 +8,12 @@ export const NORMALIZED_DIMENSIONS = Object.freeze({
 });
 
 export const DIMENSIONS_EN = Object.freeze({
-  EDUCATION: 'Education and Culture',
-  HEALTH: 'Health and Environment',
-  HOUSING: 'Housing and Infrastructure',
-  INCOME: 'Income and Employment',
-  INTERIORITY: 'Interiority and Motivation',
-  ORGANIZATION: 'Organization and Participation'
+  EDUCATION: 'Education & Culture',
+  HEALTH: 'Health & Environment',
+  HOUSING: 'Housing & Infrastructure',
+  INCOME: 'Income & Employment',
+  INTERIORITY: 'Interiority & Motivation',
+  ORGANIZATION: 'Organization & Participation'
 });
 
 export const DIMENSIONS_ES = Object.freeze({
