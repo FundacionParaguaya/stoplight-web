@@ -187,11 +187,13 @@ const Dimensions = ({ classes, data }) => {
                     countVariant="subtitle1"
                     count={achievements}
                     type="achievement"
+                    removeBorder={true}
                   />
                   <CountDetail
                     countVariant="subtitle1"
                     count={priorities}
                     type="priority"
+                    removeBorder={true}
                   />
                   <div className={classes.expandContainer}>
                     {dimensionOpen === dimension ? (
