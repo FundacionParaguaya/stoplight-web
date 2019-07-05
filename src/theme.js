@@ -27,7 +27,9 @@ export const theme = {
       secondary: '#fff'
     },
     grey: {
-      main: '#909090'
+      main: '#909090',
+      light: 'rgba(243,244,246,0.5)',
+      medium: '#E6E4E2'
     },
     background: {
       default: '#fff',

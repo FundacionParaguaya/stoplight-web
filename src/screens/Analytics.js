@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 import { connect } from 'react-redux';
 import Container from '../components/Container';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import ScreenTitleBar from '../components/ScreenTitleBar';
 import withLayout from '../components/withLayout';
-import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
-import BottomSpacer from '../components/BottomSpacer';
 import OverviewBlock from '../components/OverviewBlock';
 import { getFamilies, getDimensionIndicators } from '../api';
 import ActivityFeed from '../components/ActivityFeed';
@@ -60,8 +58,53 @@ const Analytics = ({ classes, t, user }) => {
         </div>
       )}
       {!loading && (
-        <>
-          <div className={classes.grayContainer}>
+        <div className={classes.grayContainer}>
+          <Container>
+            <ScreenTitleBar
+              title={t('views.analytics.title')}
+              subtitle={t('views.analytics.subtitle')}
+              description={t('views.analytics.description')}
+              betaBadge
+            />
+            <div
+              className={`${classes.whiteContainer} ${
+                classes.operationsContainer
+              }`}
+            >
+              <Typography variant="h5">Operations</Typography>
+              <div className={classes.operations}>
+                <div className={classes.chartContainer}>
+                  <GreenLineChart data={chartData} height={200} />
+                </div>
+                <ActivityFeed
+                  data={data}
+                  width={'35%'}
+                  className={classes.activityFeed}
+                />
+              </div>
+            </div>
+            <Box mt={5} />
+            <div className={classes.whiteContainer}>
+              <div>
+                <Typography variant="h5">Overview</Typography>
+                <OverviewBlock />
+              </div>
+            </div>
+            <Box mt={5} />
+            <div className={classes.whiteContainer}>
+              <Typography variant="h5">Dimensions</Typography>
+              <Box mt={3} />
+              <Dimensions data={dimensions} />
+              <Box mt={7} />
+            </div>
+            <Box mt={5} />
+            <div className={classes.whiteContainer}>
+              <IndicatorsVisualisation indicators={indicators} />
+              <Box mt={7} />
+            </div>
+            <Box mt={7} />
+          </Container>
+          {/* <div className={classes.grayContainer}>
             <Container variant="stretch">
               <ScreenTitleBar
                 title={t('views.analytics.title')}
@@ -91,8 +134,8 @@ const Analytics = ({ classes, t, user }) => {
               <GreenLineChart data={chartData} />
             </Container>
           </div>
-          <BottomSpacer />
-        </>
+          <BottomSpacer /> */}
+        </div>
       )}
     </>
   );
@@ -111,8 +154,27 @@ const styles = theme => ({
   },
   whiteContainer: {
     backgroundColor: theme.palette.background.default,
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
+    padding: theme.spacing(4),
+    paddingBottom: theme.spacing(2)
+  },
+  operations: {
+    display: 'flex',
+    position: 'relative'
+  },
+  chartContainer: {
+    width: '65%',
+    paddingTop: theme.spacing(5),
+    paddingBottom: theme.spacing(7),
+    paddingRight: theme.spacing(3),
+    borderRight: `1px solid ${theme.palette.grey.medium}`
+  },
+  activityFeed: {
+    position: 'absolute',
+    maxHeight: '100%',
+    right: 0
+  },
+  operationsContainer: {
+    paddingRight: theme.spacing(2)
   }
 });
 

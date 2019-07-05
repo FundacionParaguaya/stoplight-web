@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withStyles, Typography, Grid, Button } from '@material-ui/core';
+import { withStyles, Typography, Grid, Button, Box } from '@material-ui/core';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTransition, animated } from 'react-spring';
 import { capitalize } from 'lodash';
@@ -82,8 +82,7 @@ const countDetailStyles = {
     width: '100%'
   },
   count: {
-    marginLeft: 5,
-    fontSize: '13px'
+    marginLeft: 5
   },
   icon: {
     border: '3px solid #fff',
@@ -364,6 +363,7 @@ const IndicatorsVisualisation = ({ indicators, classes }) => {
     <div className={classes.container}>
       <div className={classes.innerContainer}>
         <Typography variant="h5">Indicators</Typography>
+        <Box mt={4} />
         <Controllers
           type={indicatorsType}
           setIndicatorsType={setIndicatorsType}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { COLORS } from '../theme';
 
-const ActivityFeed = ({ classes, data, user: { env } }) => {
+const ActivityFeed = ({ classes, data, user: { env }, width, className }) => {
   const handleClick = (e, familyId) => {
     window.location.replace(
       `https://${e}.povertystoplight.org/#families/${familyId}`
@@ -12,7 +12,10 @@ const ActivityFeed = ({ classes, data, user: { env } }) => {
   };
 
   return (
-    <div className={classes.container}>
+    <div
+      className={`${classes.container} ${className}`}
+      style={{ width: width || null }}
+    >
       {data.map(({ name, familyId }, index) => (
         <div
           key={index}
@@ -64,7 +67,7 @@ const styles = theme => ({
   },
   primaryIcon: {
     color: COLORS.TEXT_GREY,
-    transform: 'rotate3d(50%,0,0)'
+    transform: 'rotate(50%)'
   },
   content: {
     position: 'relative',

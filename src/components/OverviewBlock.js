@@ -36,7 +36,7 @@ const styles = theme => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   prioritiesAndAchievements: {
     marginLeft: theme.spacing(2),

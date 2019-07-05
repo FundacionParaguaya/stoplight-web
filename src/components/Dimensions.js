@@ -239,7 +239,7 @@ const styles = theme => ({
   },
   row: {
     '&:nth-of-type(odd)': {
-      backgroundColor: '#f3f4f6'
+      backgroundColor: theme.palette.grey.light
     }
   },
   mainItemContainer: { display: 'flex', flexBasis: '100%', width: '100%' },
