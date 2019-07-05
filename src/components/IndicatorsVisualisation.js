@@ -9,6 +9,7 @@ import CustomTooltip from './CustomTooltip';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
+import clsx from 'clsx';
 
 const parseStoplights = stoplights => {
   const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
@@ -81,12 +82,16 @@ const countDetailStyles = {
     width: '100%'
   },
   count: {
-    marginLeft: 5
+    marginLeft: 5,
+    fontSize: '13px'
   },
   icon: {
     border: '3px solid #fff',
     borderRadius: '50%',
     boxSizing: 'content-box'
+  },
+  iconWithoutBorders: {
+    border: 'unset'
   },
   label: {
     textAlign: 'center',
@@ -105,7 +110,7 @@ const countDetailStyles = {
  */
 
 const CountDetail = withStyles(countDetailStyles)(
-  ({ type, count, classes, label, countVariant }) => {
+  ({ type, count, classes, label, removeBorder, countVariant }) => {
     const [PRIORITY, ACHIEVEMENT] = ['priority', 'achievement'];
 
     const renderCount = innerCount => (
@@ -130,7 +135,10 @@ const CountDetail = withStyles(countDetailStyles)(
                 alt="Priority"
                 width="18"
                 height="18"
-                className={classes.icon}
+                className={clsx(
+                  classes.icon,
+                  removeBorder && classes.iconWithoutBorders
+                )}
               />
               {renderCount(count)}
             </div>
@@ -145,7 +153,10 @@ const CountDetail = withStyles(countDetailStyles)(
                 alt="Achievement"
                 width="18"
                 height="18"
-                className={classes.icon}
+                className={clsx(
+                  classes.icon,
+                  removeBorder && classes.iconWithoutBorders
+                )}
               />
               {renderCount(count)}
             </div>
