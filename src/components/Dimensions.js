@@ -19,6 +19,15 @@ import SummaryStackedBar from './summary/SummaryStackedBar';
 import { CountDetail } from './IndicatorsVisualisation';
 import { COLORS } from '../theme';
 
+const getIndCountByColor = (data = [], color) => {
+  let count = 0;
+  const ind = data.find(d => d.color === color);
+  if (ind) {
+    count = ind.count || 0;
+  }
+  return count;
+};
+
 const getIconForDimension = dimension => {
   switch (normalizeDimension(dimension)) {
     case NORMALIZED_DIMENSIONS.EDUCATION:
@@ -56,7 +65,7 @@ let DimensionTitle = ({ classes, dimension, excludeIcon }) => (
         color: excludeIcon ? COLORS.TEXT_GREY : null,
         padding: excludeIcon ? '6px 0' : null
       }}
-      variant="subtitle2"
+      variant="subtitle1"
     >
       {dimension}
     </Typography>
@@ -74,7 +83,8 @@ const dimensionTitleStyle = () => ({
     alignItems: 'center'
   },
   title: {
-    display: 'flex'
+    display: 'flex',
+    fontSize: '13px'
   },
   icon: {
     width: '41px',
@@ -91,20 +101,28 @@ const dimensionTitleStyle = () => ({
 });
 DimensionTitle = withStyles(dimensionTitleStyle)(DimensionTitle);
 
-let DimensionIndicator = ({ classes, dimension }) => (
+let DimensionIndicator = ({ classes, dimension: { indicators } }) => (
   <React.Fragment>
-    {Object.keys(dimension.indicators).map(indicator => {
-      const indicatorData = dimension.indicators[indicator];
+    {indicators.map(indicator => {
       return (
-        <ListItem key={indicator} classes={{ root: classes.listItem }}>
+        <ListItem key={indicator.name} classes={{ root: classes.listItem }}>
           <div className={classes.mainItemContainer}>
-            <DimensionTitle dimension={indicator} excludeIcon />
+            <DimensionTitle dimension={indicator.name} excludeIcon />
             <div className={classes.stackbarContainer}>
               <SummaryStackedBar
-                greenIndicatorCount={indicatorData.green}
-                yellowIndicatorCount={indicatorData.yellow}
-                redIndicatorCount={indicatorData.red}
-                skippedIndicatorCount={indicatorData.skipped}
+                greenIndicatorCount={getIndCountByColor(
+                  indicator.stoplights,
+                  3
+                )}
+                yellowIndicatorCount={getIndCountByColor(
+                  indicator.stoplights,
+                  2
+                )}
+                redIndicatorCount={getIndCountByColor(indicator.stoplights, 1)}
+                skippedIndicatorCount={getIndCountByColor(
+                  indicator.stoplights,
+                  0
+                )}
               />
             </div>
             <div className={classes.rightSpaceFiller} />
@@ -142,33 +160,41 @@ const Dimensions = ({ classes, data }) => {
 
   return (
     <List>
-      {Object.keys(data).map(d => {
-        const dimension = data[d];
+      {data.map(d => {
+        const { dimension, stoplights, priorities, achievements } = d;
         return (
-          <React.Fragment key={d}>
+          <React.Fragment key={dimension}>
             <ListItem
               className={classes.row}
               classes={{ root: classes.listItem }}
-              onClick={() => handleDimensionClick(d)}
+              onClick={() => handleDimensionClick(dimension)}
             >
               <div className={classes.mainItemContainer}>
-                <DimensionTitle dimension={d} />
+                <DimensionTitle dimension={dimension} />
 
                 <div className={classes.stackbarContainer}>
                   <SummaryStackedBar
-                    greenIndicatorCount={dimension.green}
-                    yellowIndicatorCount={dimension.yellow}
-                    redIndicatorCount={dimension.red}
-                    skippedIndicatorCount={dimension.skipped}
+                    greenIndicatorCount={getIndCountByColor(stoplights, 3)}
+                    yellowIndicatorCount={getIndCountByColor(stoplights, 2)}
+                    redIndicatorCount={getIndCountByColor(stoplights, 1)}
+                    skippedIndicatorCount={getIndCountByColor(stoplights, 0)}
                     animationDuration={500}
                   />
                 </div>
 
                 <div className={classes.priorAndAchievem}>
-                  <CountDetail count={14} type="achievement" />
-                  <CountDetail count={4} type="priority" />
+                  <CountDetail
+                    countVariant="subtitle1"
+                    count={achievements}
+                    type="achievement"
+                  />
+                  <CountDetail
+                    countVariant="subtitle1"
+                    count={priorities}
+                    type="priority"
+                  />
                   <div className={classes.expandContainer}>
-                    {dimensionOpen === d ? (
+                    {dimensionOpen === dimension ? (
                       <ExpandLess className={classes.expandIcon} />
                     ) : (
                       <ExpandMore className={classes.expandIcon} />
@@ -177,9 +203,13 @@ const Dimensions = ({ classes, data }) => {
                 </div>
               </div>
             </ListItem>
-            <Collapse in={dimensionOpen === d} timeout="auto" unmountOnExit>
+            <Collapse
+              in={dimensionOpen === dimension}
+              timeout="auto"
+              unmountOnExit
+            >
               <div className={classes.dimensionIndicatorContainer}>
-                <DimensionIndicator dimension={dimension} />
+                <DimensionIndicator dimension={d} />
               </div>
               <div className={classes.dimensionIndicatorUnderline} />
             </Collapse>
@@ -222,7 +252,8 @@ const styles = theme => ({
   priorAndAchievem: {
     width: '15%',
     display: 'flex',
-    flexBasis: '15%'
+    flexBasis: '15%',
+    alignItems: 'center'
   },
   innerPriorAndAchievem: {
     width: '40%',

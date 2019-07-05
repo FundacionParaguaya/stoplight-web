@@ -104,7 +104,7 @@ class Header extends Component {
               {t('views.toolbar.surveys')}
             </Typography>
           </NavLink>
-          {/* <NavLink
+          <NavLink
             to={`/analytics`}
             className={
               path === '/analytics'
@@ -115,7 +115,7 @@ class Header extends Component {
             <Typography variant="subtitle1" className={classes.menuLinkText}>
               {t('views.toolbar.analytics')}
             </Typography>
-          </NavLink> */}
+          </NavLink>
           <a
             href={`https://${user.env}.povertystoplight.org/#families`}
             className={classes.menuLink}

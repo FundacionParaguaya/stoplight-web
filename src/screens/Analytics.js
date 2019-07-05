@@ -25,48 +25,11 @@ const chartData = [
   { date: '2019-10-14T00:00', surveys: 1300 }
 ];
 
-const fakeData = {
-  'Ingreso y Empleo': {
-    green: 25,
-    yellow: 7,
-    red: 15,
-    skipped: 10,
-    priorities: 520,
-    achievements: 33
-  },
-  'Salud y Medioambiente': {
-    green: 21,
-    yellow: 12,
-    red: 3,
-    skipped: 2,
-    priorities: 110,
-    achievements: 834
-  },
-  'Vivienda e Infraestructura': {
-    green: 13,
-    yellow: 16,
-    red: 25,
-    skipped: 6,
-    priorities: 60,
-    achievements: 100
-  },
-  'Organización y Participación': {
-    green: 5,
-    yellow: 23,
-    red: 12,
-    skipped: 10,
-    priorities: 0,
-    achievements: 312
-  }
-};
-Object.keys(fakeData).forEach(
-  fd => (fakeData[fd].indicators = { ...fakeData })
-);
-
 const Analytics = ({ classes, t, user }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [indicators, setIndicators] = useState([]);
+  const [dimensions, setDimensions] = useState([]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 0);
@@ -85,9 +48,10 @@ const Analytics = ({ classes, t, user }) => {
           ];
         }
         setIndicators(indicatorsArray);
+        setDimensions(dimensionIndicators);
       }
     );
-  }, []);
+  }, [user]);
   return (
     <>
       {loading && (
@@ -111,7 +75,7 @@ const Analytics = ({ classes, t, user }) => {
             <Container variant="stretch">
               <Typography variant="h5">Dimensions</Typography>
               <Divider />
-              <Dimensions data={fakeData} />
+              <Dimensions data={dimensions} />
             </Container>
           </div>
           <div className={classes.grayContainer}>

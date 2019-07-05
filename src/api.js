@@ -61,8 +61,9 @@ export const getDimensionIndicators = (user, surveyId) =>
       'Content-Type': 'application/json'
     },
     data: JSON.stringify({
-      query:
-        'query { dimensionIndicators {indicators{name, achievements, priorities, stoplights{count, color, dimension, indicator}} } }',
+      query: `query { dimensionIndicators {dimension, priorities, achievements,
+          stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
+           stoplights{count, color, dimension, indicator}} } }`,
       variables: { surveyId }
     })
   });
