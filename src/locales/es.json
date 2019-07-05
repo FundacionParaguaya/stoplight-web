@@ -57,6 +57,10 @@
       "surveys": "Encuestas",
       "analytics": "Analíticas",
       "households": "Familias",
+      "organizations": "Organizaciones",
+      "users": "Usuarios",
+      "reports": "Reportes",
+      "families": "Familias",
       "map": "Mapa",
       "logout": "Cerrar sesión"
     },

@@ -19,6 +19,7 @@ import logo from './assets/header_logo.png';
 import i18n from './i18n';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
+import { ROLES, getPlatform, NEW, OLD } from './utils/role-based-header';
 import { logout } from './api';
 
 class Header extends Component {
@@ -92,46 +93,41 @@ class Header extends Component {
               height={38}
             />
           </span>
-          <NavLink
-            to={`/surveys?sid=${this.props.user.token}&lang=en`}
-            className={
-              path === '/surveys'
-                ? `${classes.menuLink} ${classes.surveyLink}`
-                : classes.menuLink
-            }
-          >
-            <Typography variant="subtitle1" className={classes.menuLinkText}>
-              {t('views.toolbar.surveys')}
-            </Typography>
-          </NavLink>
-          <NavLink
-            to={`/analytics`}
-            className={
-              path === '/analytics'
-                ? `${classes.menuLink} ${classes.surveyLink}`
-                : classes.menuLink
-            }
-          >
-            <Typography variant="subtitle1" className={classes.menuLinkText}>
-              {t('views.toolbar.analytics')}
-            </Typography>
-          </NavLink>
-          <a
-            href={`https://${user.env}.povertystoplight.org/#families`}
-            className={classes.menuLink}
-          >
-            <Typography variant="subtitle1" className={classes.menuLinkText}>
-              {t('views.toolbar.households')}
-            </Typography>
-          </a>
-          <a
-            href={`https://${user.env}.povertystoplight.org/#map`}
-            className={classes.menuLink}
-          >
-            <Typography variant="subtitle1" className={classes.menuLinkText}>
-              {t('views.toolbar.map')}
-            </Typography>
-          </a>
+          {ROLES[user.role].map(({ item, platform }) => (
+            <>
+              {platform === OLD && (
+                <a
+                  key={item}
+                  href={`${getPlatform(user.env)}/#${item}`}
+                  className={classes.menuLink}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.menuLinkText}
+                  >
+                    {t(`views.toolbar.${item}`)}
+                  </Typography>
+                </a>
+              )}
+              {platform === NEW && (
+                <NavLink
+                  to={`/${item}?sid=${this.props.user.token}&lang=en`}
+                  className={
+                    path === `/${item}`
+                      ? `${classes.menuLink} ${classes.surveyLink}`
+                      : classes.menuLink
+                  }
+                >
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.menuLinkText}
+                  >
+                    {t(`views.toolbar.${item}`)}
+                  </Typography>
+                </NavLink>
+              )}
+            </>
+          ))}
           <div className={classes.extraButtons}>
             <Button
               style={{ color: 'white' }}

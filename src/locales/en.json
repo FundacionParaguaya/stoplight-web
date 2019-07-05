@@ -58,6 +58,10 @@
       "analytics": "Analytics",
       "households": "Households",
       "map": "Map",
+      "organizations": "Organizations",
+      "users": "Users",
+      "reports": "Reports",
+      "families": "Households",
       "logout": "Logout"
     },
     "synced": "Sync",
