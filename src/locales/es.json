@@ -244,6 +244,8 @@
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
     },
     "familiesOverviewBlock": {
+      "economics": "Socioeconómicos",
+      "averageIncome": "Ingreso anual promedio per capita",
       "overview": "Vistazo general",
       "families": "familias",
       "including": "Incluyendo",

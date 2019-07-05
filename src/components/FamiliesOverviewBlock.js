@@ -28,7 +28,25 @@ const useStyles = makeStyles(theme => ({
   },
   familiesLabel: { alignSelf: 'flex-end' },
   peopleCountStyle: { fontSize: '14px' },
-  menWomenCountStyle: { color: '#909090', fontSize: '14px' }
+  menWomenCountStyle: { color: '#909090', fontSize: '14px' },
+  economicInfoContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(0.5)
+  },
+  economicsPerCapitaStyle: {
+    color: '#626262',
+    fontSize: '35px',
+    fontWeight: theme.typography.fontWeightBold,
+    display: 'flex',
+    flexWrap: 'wrap',
+    lineHeight: '30px'
+  },
+  economicBottomLabel: {
+    color: '#909090',
+    fontSize: '14px'
+  }
 }));
 
 const FamiliesOverviewBlock = ({
@@ -37,6 +55,7 @@ const FamiliesOverviewBlock = ({
   // peopleCount,
   // menCount,
   // womenCount,
+  includeEconomics,
   innerRef
 }) => {
   const classes = useStyles();
@@ -44,7 +63,9 @@ const FamiliesOverviewBlock = ({
   return (
     <div className={classes.mainContainer} ref={innerRef}>
       <Typography variant="h5">
-        {t('views.familiesOverviewBlock.overview')}
+        {includeEconomics
+          ? t('views.familiesOverviewBlock.economics')
+          : t('views.familiesOverviewBlock.overview')}
       </Typography>
       <div className={classes.familyInfoContainer}>
         <Typography
@@ -72,7 +93,22 @@ const FamiliesOverviewBlock = ({
         variant="h6"
       >{`${womenCount} ${t('views.familiesOverviewBlock.women')} ${t(
         'views.familiesOverviewBlock.and'
-      )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography> */}
+      )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography>
+      {includeEconomics && (
+        <React.Fragment>
+          <div className={classes.economicInfoContainer}>
+            <Typography
+              variant="h5"
+              className={classes.economicsPerCapitaStyle}
+            >
+              3.500$
+            </Typography>
+          </div>
+          <Typography className={classes.economicBottomLabel} variant="h6">
+            {t('views.familiesOverviewBlock.averageIncome')}
+          </Typography>
+        </React.Fragment>
+      )} */}
     </div>
   );
 };
