@@ -98,7 +98,7 @@ class Header extends Component {
               {platform === OLD && (
                 <a
                   key={item}
-                  href={`${getPlatform(user.env)[platform]}/#${item}`}
+                  href={`${getPlatform(user.env)}/#${item}`}
                   className={classes.menuLink}
                 >
                   <Typography
