@@ -81,7 +81,8 @@ const countDetailStyles = {
     width: '100%'
   },
   count: {
-    marginLeft: 5
+    marginLeft: 5,
+    fontSize: '13px'
   },
   icon: {
     border: '3px solid #fff',
