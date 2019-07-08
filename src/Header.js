@@ -19,7 +19,7 @@ import logo from './assets/header_logo.png';
 import i18n from './i18n';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
-import { ROLES, getPlatform, NEW, OLD } from './utils/role-based-header';
+import { ROLES, getPlatform, OLD } from './utils/role-based-header';
 import { logout } from './api';
 
 class Header extends Component {
@@ -93,9 +93,9 @@ class Header extends Component {
               height={38}
             />
           </span>
-          {ROLES[user.role].map(({ item, platform }) => (
-            <>
-              {platform === OLD && (
+          {ROLES[user.role].map(({ item, platform }) => {
+            if (platform === OLD) {
+              return (
                 <a
                   key={item}
                   href={`${getPlatform(user.env)}/#${item}`}
@@ -108,26 +108,28 @@ class Header extends Component {
                     {t(`views.toolbar.${item}`)}
                   </Typography>
                 </a>
-              )}
-              {platform === NEW && (
-                <NavLink
-                  to={`/${item}?sid=${this.props.user.token}&lang=en`}
-                  className={
-                    path === `/${item}`
-                      ? `${classes.menuLink} ${classes.surveyLink}`
-                      : classes.menuLink
-                  }
+              );
+            }
+
+            return (
+              <NavLink
+                to={`/${item}?sid=${this.props.user.token}&lang=en`}
+                className={
+                  path === `/${item}`
+                    ? `${classes.menuLink} ${classes.surveyLink}`
+                    : classes.menuLink
+                }
+                key={item}
+              >
+                <Typography
+                  variant="subtitle1"
+                  className={classes.menuLinkText}
                 >
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.menuLinkText}
-                  >
-                    {t(`views.toolbar.${item}`)}
-                  </Typography>
-                </NavLink>
-              )}
-            </>
-          ))}
+                  {t(`views.toolbar.${item}`)}
+                </Typography>
+              </NavLink>
+            );
+          })}
           <div className={classes.extraButtons}>
             <Button
               style={{ color: 'white' }}
@@ -166,7 +168,6 @@ class Header extends Component {
               )}
             </Button>
           </div>
-
           <Popper
             open={this.state.open}
             anchorEl={this.anchorEl}
