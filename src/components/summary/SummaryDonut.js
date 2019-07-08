@@ -67,6 +67,11 @@ const SummaryDonut = props => {
     { name: 'green', value: greenIndicatorCount },
     { name: 'skipped', value: skippedIndicatorCount }
   ];
+  const total =
+    redIndicatorCount +
+    yellowIndicatorCount +
+    greenIndicatorCount +
+    skippedIndicatorCount;
 
   return (
     <div className={classes.mainContainer}>
@@ -89,7 +94,9 @@ const SummaryDonut = props => {
           <Tooltip
             content={
               <CustomTooltip
-                format={({ value, name }) => `${value} ${capitalize(name)}`}
+                format={({ value, name }) =>
+                  `${(value * 100) / total}% ${capitalize(name)}`
+                }
               />
             }
           />
