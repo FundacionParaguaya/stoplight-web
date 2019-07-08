@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';

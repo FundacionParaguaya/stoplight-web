@@ -1,5 +1,4 @@
 import React from 'react';
-import { capitalize } from 'lodash';
 import { withStyles } from '@material-ui/core';
 
 const tooltipStyles = {
