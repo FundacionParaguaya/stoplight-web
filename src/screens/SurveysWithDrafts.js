@@ -314,7 +314,17 @@ class Surveys extends Component {
       conditionalQuestions,
       elementsWithConditionsOnThem
     });
-    this.props.history.push(snapshot.currentScreen);
+    const { lifemapNavHistory } = snapshot;
+    if (lifemapNavHistory && lifemapNavHistory.length > 0) {
+      lifemapNavHistory.forEach(lnh =>
+        this.props.history.push({
+          pathname: lnh.url,
+          state: lnh.state
+        })
+      );
+    } else {
+      this.props.history.push(snapshot.currentScreen);
+    }
   };
 
   componentDidMount() {

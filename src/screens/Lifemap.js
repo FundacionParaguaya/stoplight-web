@@ -14,12 +14,14 @@ import SkippedQuestionsScreen from './lifemap/SkippedQuestions';
 import Priority from './lifemap/Priority';
 import Achievement from './lifemap/Achievement';
 import { ProgressBarProvider } from '../components/ProgressBar';
+import LifemapNav from '../components/LifemapNav';
 
 class Lifemap extends Component {
   render() {
     return (
       <React.Fragment>
         <ProgressBarProvider>
+          <LifemapNav />
           <Route
             path={`${this.props.match.path}/terms`}
             component={TermsView}
