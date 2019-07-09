@@ -27,7 +27,7 @@ import MarkerIcon from '../../assets/marker.png';
 const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' };
 Geocode.setApiKey(params.key);
 
-export class Location extends Component {
+class Location extends Component {
   state = {
     address: '',
     lat: '',
