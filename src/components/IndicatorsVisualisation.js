@@ -413,7 +413,6 @@ const IndicatorsVisualisation = ({ indicators, classes, t }) => {
           <Button
             aria-describedby={id}
             className={classes.popper}
-            variant="flat"
             onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}
           >
             Toggle Popper
