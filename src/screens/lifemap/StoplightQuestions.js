@@ -202,7 +202,7 @@ let QuestionsWrapper = ({
 };
 
 QuestionsWrapper = withStyles(questionsWrapperStyles)(QuestionsWrapper);
-export class StoplightQuestions extends Component {
+class StoplightQuestions extends Component {
   state = {
     imageStatus: null,
     question: this.props.currentSurvey.surveyStoplightQuestions[
