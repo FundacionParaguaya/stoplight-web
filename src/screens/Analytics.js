@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { isArray } from 'lodash';
 import Container from '../components/Container';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import ScreenTitleBar from '../components/ScreenTitleBar';
@@ -42,10 +43,12 @@ const Analytics = ({ classes, t, user }) => {
       }) => {
         let indicatorsArray = [];
         for (let i = 0; i <= dimensionIndicators.length - 1; i += 1) {
-          indicatorsArray = [
-            ...indicatorsArray,
-            ...dimensionIndicators[i].indicators
-          ];
+          if (isArray(dimensionIndicators[i].indicators)) {
+            indicatorsArray = [
+              ...indicatorsArray,
+              ...dimensionIndicators[i].indicators
+            ];
+          }
         }
         setIndicators(indicatorsArray);
         setDimensions(dimensionIndicators);
