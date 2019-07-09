@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// Send correct encoding in all POST requests
+axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+
 // list of environment urls
 export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
@@ -8,18 +11,35 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
+export const logout = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/oauth/revoke-token`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
+export const getFamiliesOverviewInfo = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/applications/dashboard`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
 // get a list of surveys available to the authorized used
 export const getSurveys = user =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
       query:
-        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
+        'query { surveysByUser { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id stoplightColors { url value description } required } } }'
     })
   });
 
@@ -28,9 +48,24 @@ export const getFamilies = user =>
     method: 'get',
     url: `${url[user.env]}/api/v1/families`,
     headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
+export const getDimensionIndicators = (user, surveyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
       Authorization: `Bearer ${user.token}`,
       'Content-Type': 'application/json'
-    }
+    },
+    data: JSON.stringify({
+      query: `query { dimensionIndicators {dimension, priorities, achievements,
+          stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
+           stoplights{count, color, dimension, indicator}} } }`,
+      variables: { surveyId }
+    })
   });
 
 // submit a new snapshot/lifemap/draft
@@ -54,8 +89,7 @@ export const submitDraft = (user, snapshot) => {
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
       query:
@@ -71,6 +105,5 @@ export const checkSessionToken = (token, env) =>
     url: `${url[env]}/api/v1/users/validate`,
     headers: {
       Authorization: `Bearer ${token}`
-      // 'Content-Type': 'application/json'
     }
   });

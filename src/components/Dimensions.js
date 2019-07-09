@@ -5,8 +5,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { Typography, withStyles } from '@material-ui/core';
-import iconPriority from '../assets/icon_priority.png';
-import iconAchievement from '../assets/icon_achievement.png';
 import {
   normalizeDimension,
   NORMALIZED_DIMENSIONS
@@ -18,6 +16,17 @@ import dimensionIncomeIcon from '../assets/dimension_income.png';
 import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
 import dimensionOrganizationIcon from '../assets/dimension_organization.png';
 import SummaryStackedBar from './summary/SummaryStackedBar';
+import { CountDetail } from './IndicatorsVisualisation';
+import { COLORS } from '../theme';
+
+const getIndCountByColor = (data = [], color) => {
+  let count = 0;
+  const ind = data.find(d => d.color === color);
+  if (ind) {
+    count = ind.count || 0;
+  }
+  return count;
+};
 
 const getIconForDimension = dimension => {
   switch (normalizeDimension(dimension)) {
@@ -50,7 +59,14 @@ let DimensionTitle = ({ classes, dimension, excludeIcon }) => (
         />
       </div>
     )}
-    <Typography className={classes.title} variant="subtitle1">
+    <Typography
+      className={classes.title}
+      style={{
+        color: excludeIcon ? COLORS.TEXT_GREY : null,
+        padding: excludeIcon ? '6px 0' : null
+      }}
+      variant="subtitle1"
+    >
       {dimension}
     </Typography>
   </div>
@@ -67,8 +83,8 @@ const dimensionTitleStyle = () => ({
     alignItems: 'center'
   },
   title: {
-    fontSize: 12,
-    display: 'flex'
+    display: 'flex',
+    fontSize: '13px'
   },
   icon: {
     width: '41px',
@@ -85,20 +101,28 @@ const dimensionTitleStyle = () => ({
 });
 DimensionTitle = withStyles(dimensionTitleStyle)(DimensionTitle);
 
-let DimensionIndicator = ({ classes, dimension }) => (
+let DimensionIndicator = ({ classes, dimension: { indicators } }) => (
   <React.Fragment>
-    {Object.keys(dimension.indicators).map(indicator => {
-      const indicatorData = dimension.indicators[indicator];
+    {indicators.map(indicator => {
       return (
-        <ListItem key={indicator} classes={{ root: classes.listItem }}>
+        <ListItem key={indicator.name} classes={{ root: classes.listItem }}>
           <div className={classes.mainItemContainer}>
-            <DimensionTitle dimension={indicator} excludeIcon />
+            <DimensionTitle dimension={indicator.name} excludeIcon />
             <div className={classes.stackbarContainer}>
               <SummaryStackedBar
-                greenIndicatorCount={indicatorData.green}
-                yellowIndicatorCount={indicatorData.yellow}
-                redIndicatorCount={indicatorData.red}
-                skippedIndicatorCount={indicatorData.skipped}
+                greenIndicatorCount={getIndCountByColor(
+                  indicator.stoplights,
+                  3
+                )}
+                yellowIndicatorCount={getIndCountByColor(
+                  indicator.stoplights,
+                  2
+                )}
+                redIndicatorCount={getIndCountByColor(indicator.stoplights, 1)}
+                skippedIndicatorCount={getIndCountByColor(
+                  indicator.stoplights,
+                  0
+                )}
               />
             </div>
             <div className={classes.rightSpaceFiller} />
@@ -136,47 +160,43 @@ const Dimensions = ({ classes, data }) => {
 
   return (
     <List>
-      {Object.keys(data).map(d => {
-        const dimension = data[d];
+      {data.map(d => {
+        const { dimension, stoplights, priorities, achievements } = d;
         return (
-          <React.Fragment key={d}>
+          <React.Fragment key={dimension}>
             <ListItem
               className={classes.row}
               classes={{ root: classes.listItem }}
-              onClick={() => handleDimensionClick(d)}
+              onClick={() => handleDimensionClick(dimension)}
             >
               <div className={classes.mainItemContainer}>
-                <DimensionTitle dimension={d} />
+                <DimensionTitle dimension={dimension} />
 
                 <div className={classes.stackbarContainer}>
                   <SummaryStackedBar
-                    greenIndicatorCount={dimension.green}
-                    yellowIndicatorCount={dimension.yellow}
-                    redIndicatorCount={dimension.red}
-                    skippedIndicatorCount={dimension.skipped}
+                    greenIndicatorCount={getIndCountByColor(stoplights, 3)}
+                    yellowIndicatorCount={getIndCountByColor(stoplights, 2)}
+                    redIndicatorCount={getIndCountByColor(stoplights, 1)}
+                    skippedIndicatorCount={getIndCountByColor(stoplights, 0)}
                     animationDuration={500}
                   />
                 </div>
 
                 <div className={classes.priorAndAchievem}>
-                  <div className={classes.innerPriorAndAchievem}>
-                    <img src={iconPriority} className={classes.icon} alt="" />
-                    <Typography variant="h5" className={classes.counting}>
-                      {Number.parseInt(dimension.priorities, 10)}
-                    </Typography>
-                  </div>
-                  <div className={classes.innerPriorAndAchievem}>
-                    <img
-                      src={iconAchievement}
-                      className={classes.icon}
-                      alt=""
-                    />
-                    <Typography variant="h5" className={classes.counting}>
-                      {Number.parseInt(dimension.achievements, 10)}
-                    </Typography>
-                  </div>
+                  <CountDetail
+                    countVariant="subtitle1"
+                    count={achievements}
+                    type="achievement"
+                    removeBorder={true}
+                  />
+                  <CountDetail
+                    countVariant="subtitle1"
+                    count={priorities}
+                    type="priority"
+                    removeBorder={true}
+                  />
                   <div className={classes.expandContainer}>
-                    {dimensionOpen === d ? (
+                    {dimensionOpen === dimension ? (
                       <ExpandLess className={classes.expandIcon} />
                     ) : (
                       <ExpandMore className={classes.expandIcon} />
@@ -185,9 +205,13 @@ const Dimensions = ({ classes, data }) => {
                 </div>
               </div>
             </ListItem>
-            <Collapse in={dimensionOpen === d} timeout="auto" unmountOnExit>
+            <Collapse
+              in={dimensionOpen === dimension}
+              timeout="auto"
+              unmountOnExit
+            >
               <div className={classes.dimensionIndicatorContainer}>
-                <DimensionIndicator dimension={dimension} />
+                <DimensionIndicator dimension={d} />
               </div>
               <div className={classes.dimensionIndicatorUnderline} />
             </Collapse>
@@ -210,8 +234,8 @@ const styles = theme => ({
     marginBottom: theme.spacing(4)
   },
   listItem: {
-    paddingTop: 4,
-    paddingBottom: 4
+    paddingTop: 12.5,
+    paddingBottom: 12.5
   },
   row: {
     '&:nth-of-type(odd)': {
@@ -230,7 +254,8 @@ const styles = theme => ({
   priorAndAchievem: {
     width: '15%',
     display: 'flex',
-    flexBasis: '15%'
+    flexBasis: '15%',
+    alignItems: 'center'
   },
   innerPriorAndAchievem: {
     width: '40%',
@@ -248,7 +273,8 @@ const styles = theme => ({
     paddingRight: '4px'
   },
   dimensionIndicatorContainer: {
-    marginTop: theme.spacing()
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(3)
   },
   dimensionIndicatorUnderline: {
     marginTop: theme.spacing(),

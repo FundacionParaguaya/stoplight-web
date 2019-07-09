@@ -11,189 +11,47 @@ import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
 import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
-import { getFamilies } from '../api';
+import OverviewBlock from '../components/OverviewBlock';
+import { getFamilies, getDimensionIndicators } from '../api';
 import ActivityFeed from '../components/ActivityFeed';
+import GreenLineChart from '../components/GreenLineChart';
 
-const INDICATORS = [
-  {
-    name: 'Medioambiente',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Basura',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Agua',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Destino del desagüe',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Acceso a la salud',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Alimentación',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 20,
-    achievements: 100
-  },
-  {
-    name: 'Higiene',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Salud Sexual',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Dientes Sanos',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Vista',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  },
-  {
-    name: 'Consumo Problemático',
-    stoplights: {
-      green: 13,
-      yellow: 16,
-      red: 25,
-      skipped: 6
-    },
-    priorities: 60,
-    achievements: 100
-  }
+const chartData = [
+  { date: '2019-05-13T00:00', surveys: 750 },
+  { date: '2019-01-15T00:00', surveys: 560 },
+  { date: '2019-07-16T00:00', surveys: 1280 },
+  { date: '2019-08-23T00:00', surveys: 400 },
+  { date: '2019-09-04T00:00', surveys: 1400 },
+  { date: '2019-10-14T00:00', surveys: 1300 }
 ];
-
-const randomized = INDICATORS.map(indicator => ({
-  ...indicator,
-  stoplights: {
-    green: parseInt(Math.random() * 20, 10),
-    red: parseInt(Math.random() * 10, 10),
-    yellow: parseInt(Math.random() * 20, 10),
-    skipped: parseInt(Math.random() * 5, 10)
-  }
-}));
-
-const fakeData = {
-  'Ingreso y Empleo': {
-    green: 25,
-    yellow: 7,
-    red: 15,
-    skipped: 10,
-    priorities: 520,
-    achievements: 33
-  },
-  'Salud y Medioambiente': {
-    green: 21,
-    yellow: 12,
-    red: 3,
-    skipped: 2,
-    priorities: 110,
-    achievements: 834
-  },
-  'Vivienda e Infraestructura': {
-    green: 13,
-    yellow: 16,
-    red: 25,
-    skipped: 6,
-    priorities: 60,
-    achievements: 100
-  },
-  'Organización y Participación': {
-    green: 5,
-    yellow: 23,
-    red: 12,
-    skipped: 10,
-    priorities: 0,
-    achievements: 312
-  }
-};
-Object.keys(fakeData).forEach(
-  fd => (fakeData[fd].indicators = { ...fakeData })
-);
 
 const Analytics = ({ classes, t, user }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [indicators, setIndicators] = useState([]);
+  const [dimensions, setDimensions] = useState([]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 0);
     getFamilies(user).then(families => setData(families.data.splice(0, 25)));
-  }, []);
+    getDimensionIndicators(user).then(
+      ({
+        data: {
+          data: { dimensionIndicators }
+        }
+      }) => {
+        let indicatorsArray = [];
+        for (let i = 0; i <= dimensionIndicators.length - 1; i += 1) {
+          indicatorsArray = [
+            ...indicatorsArray,
+            ...dimensionIndicators[i].indicators
+          ];
+        }
+        setIndicators(indicatorsArray);
+        setDimensions(dimensionIndicators);
+      }
+    );
+  }, [user]);
   return (
     <>
       {loading && (
@@ -217,7 +75,7 @@ const Analytics = ({ classes, t, user }) => {
             <Container variant="stretch">
               <Typography variant="h5">Dimensions</Typography>
               <Divider />
-              <Dimensions data={fakeData} />
+              <Dimensions data={dimensions} />
             </Container>
           </div>
           <div className={classes.grayContainer}>
@@ -226,8 +84,11 @@ const Analytics = ({ classes, t, user }) => {
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
               <Typography variant="h5">Indicators</Typography>
-              <IndicatorsVisualisation indicators={randomized} />
+              <Divider height={3} />
+              <OverviewBlock />
+              <IndicatorsVisualisation indicators={indicators} />
               <ActivityFeed data={data} />
+              <GreenLineChart data={chartData} />
             </Container>
           </div>
           <BottomSpacer />

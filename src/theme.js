@@ -6,7 +6,8 @@ export const COLORS = {
   YELLOW: '#f0cb17',
   GREEN: '#50aa47',
   LIGHT_GREY: '#E6E4E2',
-  TEXT_GREY: '#6A6A6A'
+  TEXT_GREY: '#6A6A6A',
+  TEXT_LIGHTGREY: 'rgba(0,0,0,0.5)'
 };
 
 export const theme = {
@@ -47,6 +48,14 @@ export const theme = {
       color: '#6A6A6A',
       lineHeight: '20px',
       fontWeight: 500
+    },
+    subtitle2: {
+      fontSize: 14,
+      fontFamily: 'Poppins',
+      letterSpacing: '0.16px',
+      color: '#1C212F',
+      lineHeight: '18px',
+      fontWeight: 400
     },
     h4: {
       fontFamily: 'Poppins',

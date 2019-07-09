@@ -97,7 +97,8 @@ const Authenticator = props => {
           updateUserActionDispatch({
             username: response.data.username,
             token: sessionId,
-            env: environment
+            env: environment,
+            role: response.data.role
           });
           setLoggedIn(true);
           setAuthVerified(true);
@@ -109,7 +110,8 @@ const Authenticator = props => {
         updateUserActionDispatch({
           username: null,
           token: null,
-          env: null
+          env: null,
+          role: null
         });
         setLoggedIn(false);
         setAuthVerified(true);

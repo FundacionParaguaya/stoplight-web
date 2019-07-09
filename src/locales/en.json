@@ -57,7 +57,12 @@
       "surveys": "Surveys",
       "analytics": "Analytics",
       "households": "Households",
-      "map": "Map"
+      "map": "Map",
+      "organizations": "Organizations",
+      "users": "Users",
+      "reports": "Reports",
+      "families": "Households",
+      "logout": "Logout"
     },
     "synced": "Sync",
     "dashboard": "Dashboard",
@@ -70,7 +75,10 @@
     "survey": {
       "chooseSurvey": "Choose a survey",
       "contains": "Contains",
-      "createdOn": "Created on"
+      "createdOn": "Created on",
+      "surveys": "Surveys",
+      "indicators": "indicators",
+      "createSurvey": "Create Survey"
     },
     "analytics": {
       "title": "Analytics",
@@ -168,7 +176,8 @@
       "makeThisAPriority": "Make this a priority!",
       "priorities": "Priorities",
       "achievements": "Achievements",
-      "toComplete": "To complete the lifemap..."
+      "toComplete": "To complete the lifemap...",
+      "indicatorDefinition": "Indicator Definition"
     },
     "priority": {
       "month": "month",
@@ -236,6 +245,36 @@
       "download": "Download",
       "lifemapSaved": "Your life map has been successfully saved",
       "clickSafe": "Now, just click save!"
+    },
+    "familiesOverviewBlock": {
+      "economics": "Social Economics",
+      "averageIncome": "Average anual income per capita",
+      "overview": "Overview",
+      "families": "families",
+      "including": "Including",
+      "people": "people",
+      "men": "Men",
+      "and": "&",
+      "women": "Women"
+    },
+    "saveDraftModal": {
+      "lifemapNotComplete": "Your Lifemap is not complete!",
+      "willSaveDraft": "It will be saved as a draft.",
+      "sureWantToExit": "Are you sure you want to exit?"
+    },
+    "snapshotsTable": {
+      "title": "Surveys taken",
+      "dob": "DOB:",
+      "today": "Today",
+      "dayAgo": "1 day ago",
+      "daysAgo": "$dd days ago",
+      "draft": "Draft",
+      "completed": "Completed",
+      "drafts": "Drafts",
+      "all": "All",
+      "searchFamily": "Search family",
+      "noSnapshotsAvailable": "You have not taken previous surveys",
+      "noMatchFilters": "No results matching your filters"
     }
   },
   "reports": {
