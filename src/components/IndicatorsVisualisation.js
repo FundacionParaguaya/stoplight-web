@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { withStyles, Typography, Grid, Button } from '@material-ui/core';
+import {
+  withStyles,
+  Typography,
+  Grid,
+  Button,
+  Box,
+  MenuItem,
+  Popper,
+  Paper,
+  MenuList,
+  ClickAwayListener,
+  Grow
+} from '@material-ui/core';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTransition, animated } from 'react-spring';
 import { capitalize } from 'lodash';
 import clsx from 'clsx';
-import Divider from './Divider';
+import { withTranslation } from 'react-i18next';
 import SummaryStackedBar from './summary/SummaryStackedBar';
 import CustomTooltip from './CustomTooltip';
 import iconAchievement from '../assets/icon_achievement.png';
@@ -20,48 +32,6 @@ const parseStoplights = stoplights => {
   const skipped = getByIndex(0);
 
   return [green, yellow, red, skipped];
-};
-
-const indicatorsStyles = {
-  barContainer: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  title: {
-    marginTop: 5,
-    marginBottom: 5
-  },
-  pieContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
-  },
-  pieInnerContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    width: 150,
-    textAlign: 'center',
-    position: 'relative'
-  },
-  flexStart: {
-    alignItems: 'flex-start'
-  },
-  flexEnd: {
-    alignItems: 'flex-end'
-  },
-  detailContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: 15,
-    right: 0,
-    zIndex: 1
-  }
 };
 
 const INDICATORS_TYPES = ['pie', 'bar'];
@@ -173,6 +143,58 @@ CountDetail.defaultProps = {
   label: false
 };
 
+const indicatorsStyles = theme => ({
+  barContainer: {
+    padding: `${theme.spacing()}px ${theme.spacing(3)}px`,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    '&:nth-child(2n)': {
+      backgroundColor: theme.palette.grey.light
+    }
+  },
+  title: {
+    marginTop: 5,
+    marginBottom: 5,
+    width: '25%',
+    paddingRight: theme.spacing()
+  },
+  pieContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  pieInnerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: 150,
+    textAlign: 'center',
+    position: 'relative'
+  },
+  flexStart: {
+    alignItems: 'flex-start'
+  },
+  flexEnd: {
+    alignItems: 'flex-end'
+  },
+  detailContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 15,
+    right: 0,
+    zIndex: 1
+  },
+  stackedBarContainer: {
+    width: '75%'
+  }
+});
+
 const Indicators = withStyles(indicatorsStyles)(
   ({ classes, type, indicators, fadeIn }) => {
     const transitions = useTransition(type, null, {
@@ -245,16 +267,18 @@ const Indicators = withStyles(indicatorsStyles)(
                       key={indicator.name}
                       className={classes.barContainer}
                     >
-                      <Typography variant="subtitle1" className={classes.title}>
+                      <Typography variant="subtitle2" className={classes.title}>
                         {indicator.name}
                       </Typography>
 
-                      <SummaryStackedBar
-                        greenIndicatorCount={green}
-                        yellowIndicatorCount={yellow}
-                        redIndicatorCount={red}
-                        skippedIndicatorCount={skipped}
-                      />
+                      <div className={classes.stackedBarContainer}>
+                        <SummaryStackedBar
+                          greenIndicatorCount={green}
+                          yellowIndicatorCount={yellow}
+                          redIndicatorCount={red}
+                          skippedIndicatorCount={skipped}
+                        />
+                      </div>
                     </Grid>
                   );
                 })}
@@ -311,10 +335,11 @@ const controllersStyles = {
   icon: {
     color: '#E5E4E2',
     cursor: 'pointer',
-    paddingLeft: 5,
+    fontSize: 36,
+    paddingLeft: 10,
     '&:nth-child(1)': {
       borderRight: '2px solid #E5E4E2',
-      paddingRight: 5,
+      paddingRight: 10,
       paddingLeft: 0
     }
   },
@@ -356,39 +381,78 @@ const Controllers = withStyles(controllersStyles)(
   }
 );
 
-const IndicatorsVisualisation = ({ indicators, classes }) => {
+const IndicatorsVisualisation = ({ indicators, classes, t }) => {
   const [indicatorsType, setIndicatorsType] = useState(BAR);
   const [count, setCount] = useState(10);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popper' : undefined;
+
+  function handleClick(e) {
+    setCount(prev => prev + e.target.value);
+    setAnchorEl(null);
+  }
 
   return (
     <div className={classes.container}>
       <div className={classes.innerContainer}>
-        <Typography variant="h5">Indicators</Typography>
+        <Typography variant="h5">{t('views.survey.indicators')}</Typography>
         <Controllers
           type={indicatorsType}
           setIndicatorsType={setIndicatorsType}
         />
       </div>
+      <Box mt={1} />
       <Indicators
         type={indicatorsType}
         indicators={indicators.slice(0, count)}
       />
-      <Divider height={2} />
+      <Box mt={5} />
       {indicators.length > count && (
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          onClick={() => setCount(state => state + 10)}
-        >
-          See more
-        </Button>
+        <div>
+          <Button
+            aria-describedby={id}
+            className={classes.popper}
+            variant="flat"
+            onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}
+          >
+            Toggle Popper
+          </Button>
+          <Popper id={id} open={open} anchorEl={anchorEl} transition>
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                id="menu-list-grow"
+                style={{
+                  transformOrigin:
+                    placement === 'bottom' ? 'center top' : 'center bottom'
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
+                    <MenuList>
+                      <MenuItem value={10} onClick={handleClick}>
+                        Ten
+                      </MenuItem>
+                      <MenuItem value={20} onClick={handleClick}>
+                        Twenty
+                      </MenuItem>
+                      <MenuItem value={30} onClick={handleClick}>
+                        Thirty
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
       )}
     </div>
   );
 };
 
-const styles = {
+const styles = theme => ({
   container: {
     display: 'flex',
     alignItems: 'center',
@@ -398,8 +462,20 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     width: '100%'
+  },
+  popper: {
+    backgroundColor: '#FAFBFC',
+    padding: '10px 40px!important',
+    borderRadius: 2,
+    border: '0.5px solid #D8D2D2',
+    '&:focus': {
+      background: '#FAFBFC'
+    },
+    '&::after, &::before': {
+      display: 'none'
+    }
   }
-};
+});
 
-export default withStyles(styles)(IndicatorsVisualisation);
+export default withTranslation()(withStyles(styles)(IndicatorsVisualisation));
 export { CountDetail };
