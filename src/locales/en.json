@@ -263,7 +263,7 @@
       "sureWantToExit": "Are you sure you want to exit?"
     },
     "snapshotsTable": {
-      "title": "Surveys taken",
+      "title": "Drafts",
       "dob": "DOB:",
       "today": "Today",
       "dayAgo": "1 day ago",
@@ -273,7 +273,7 @@
       "drafts": "Drafts",
       "all": "All",
       "searchFamily": "Search family",
-      "noSnapshotsAvailable": "You have not taken previous surveys",
+      "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters"
     }
   },
