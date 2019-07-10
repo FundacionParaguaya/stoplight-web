@@ -28,7 +28,8 @@ export const theme = {
     },
     grey: {
       main: '#909090',
-      light: 'rgba(243,244,246,0.5)'
+      light: 'rgba(243,244,246,0.5)',
+      middle: '#6A6A6A'
     },
     background: {
       default: '#fff',
