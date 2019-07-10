@@ -95,7 +95,7 @@ const SummaryDonut = props => {
             content={
               <CustomTooltip
                 format={({ value, name }) =>
-                  `${(value * 100) / total}% ${capitalize(name)}`
+                  `${Math.round((value * 100) / total)}% ${capitalize(name)}`
                 }
               />
             }
