@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import {
-  withStyles,
-  Typography,
-  Grid,
-  Button,
-  Box,
-  MenuItem,
-  Popper,
-  Paper,
-  MenuList,
-  ClickAwayListener,
-  Grow
-} from '@material-ui/core';
+import React, { useState } from 'react';
+import { withStyles, Typography, Grid, Box } from '@material-ui/core';
+import { useTheme } from '@material-ui/styles';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTransition, animated } from 'react-spring';
 import { capitalize } from 'lodash';
 import clsx from 'clsx';
 import { withTranslation } from 'react-i18next';
-import SummaryStackedBar from './summary/SummaryStackedBar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CustomTooltip from './CustomTooltip';
+import SummaryStackedBar from './summary/SummaryStackedBar';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
+import GreyButton from './GreyButton';
 
 const parseStoplights = stoplights => {
   const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
@@ -155,7 +146,9 @@ const indicatorsStyles = theme => ({
   },
   title: {
     marginTop: 5,
-    marginBottom: 5,
+    marginBottom: 5
+  },
+  titleContainer: {
     width: '25%',
     paddingRight: theme.spacing()
   },
@@ -204,8 +197,6 @@ const Indicators = withStyles(indicatorsStyles)(
       leave: { opacity: fadeIn ? 0 : 1 }
     });
 
-    useEffect(() => {});
-
     return transitions.map(({ item, key, props }) => {
       return (
         <div key={key} style={{ position: 'relative' }}>
@@ -239,7 +230,7 @@ const Indicators = withStyles(indicatorsStyles)(
                           skippedIndicatorCount={skipped}
                         />
                         <Typography
-                          variant="subtitle1"
+                          variant="subtitle2"
                           className={classes.title}
                         >
                           {indicator.name}
@@ -267,9 +258,14 @@ const Indicators = withStyles(indicatorsStyles)(
                       key={indicator.name}
                       className={classes.barContainer}
                     >
-                      <Typography variant="subtitle2" className={classes.title}>
-                        {indicator.name}
-                      </Typography>
+                      <div className={classes.titleContainer}>
+                        <Typography
+                          variant="subtitle2"
+                          className={classes.title}
+                        >
+                          {indicator.name}
+                        </Typography>
+                      </div>
 
                       <div className={classes.stackedBarContainer}>
                         <SummaryStackedBar
@@ -381,73 +377,46 @@ const Controllers = withStyles(controllersStyles)(
   }
 );
 
-const IndicatorsVisualisation = ({ indicators, classes, t }) => {
+const IndicatorsVisualisation = ({ indicators, classes, t, loading }) => {
   const [indicatorsType, setIndicatorsType] = useState(BAR);
   const [count, setCount] = useState(10);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
-
-  function handleClick(e) {
-    setCount(prev => prev + e.target.value);
-    setAnchorEl(null);
-  }
+  const theme = useTheme();
 
   return (
-    <div className={classes.container}>
-      <div className={classes.innerContainer}>
-        <Typography variant="h5">{t('views.survey.indicators')}</Typography>
-        <Controllers
-          type={indicatorsType}
-          setIndicatorsType={setIndicatorsType}
-        />
-      </div>
-      <Box mt={1} />
-      <Indicators
-        type={indicatorsType}
-        indicators={indicators.slice(0, count)}
-      />
-      <Box mt={5} />
-      {indicators.length > count && (
-        <div>
-          <Button
-            aria-describedby={id}
-            className={classes.popper}
-            onClick={e => setAnchorEl(anchorEl ? null : e.currentTarget)}
-          >
-            Toggle Popper
-          </Button>
-          <Popper id={id} open={open} anchorEl={anchorEl} transition>
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                id="menu-list-grow"
-                style={{
-                  transformOrigin:
-                    placement === 'bottom' ? 'center top' : 'center bottom'
-                }}
-              >
-                <Paper>
-                  <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
-                    <MenuList>
-                      <MenuItem value={10} onClick={handleClick}>
-                        Ten
-                      </MenuItem>
-                      <MenuItem value={20} onClick={handleClick}>
-                        Twenty
-                      </MenuItem>
-                      <MenuItem value={30} onClick={handleClick}>
-                        Thirty
-                      </MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
+    <>
+      <div className={classes.container}>
+        <div className={classes.innerContainer}>
+          <Typography variant="h5">{t('views.survey.indicators')}</Typography>
+          <Controllers
+            type={indicatorsType}
+            setIndicatorsType={setIndicatorsType}
+          />
         </div>
-      )}
-    </div>
+        <Box mt={1} />
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress
+              size={50}
+              thickness={2}
+              style={{ color: theme.palette.grey.main }}
+            />
+          </div>
+        )}
+        {!loading && indicators.length > 0 && (
+          <Indicators
+            type={indicatorsType}
+            indicators={indicators.slice(0, count)}
+          />
+        )}
+        <Box mt={4} />
+        <GreyButton
+          onClick={() => setCount(prev => prev + 10)}
+          disabled={indicators.length < count}
+        >
+          Show more
+        </GreyButton>
+      </div>
+    </>
   );
 };
 
@@ -462,17 +431,13 @@ const styles = theme => ({
     alignItems: 'center',
     width: '100%'
   },
-  popper: {
-    backgroundColor: '#FAFBFC',
-    padding: '10px 40px!important',
-    borderRadius: 2,
-    border: '0.5px solid #D8D2D2',
-    '&:focus': {
-      background: '#FAFBFC'
-    },
-    '&::after, &::before': {
-      display: 'none'
-    }
+  loadingContainer: {
+    width: '100%',
+    minHeight: 495,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.grey.light
   }
 });
 
