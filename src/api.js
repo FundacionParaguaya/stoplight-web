@@ -71,6 +71,7 @@ export const getDimensionIndicators = (user, surveyId) =>
 // submit a new snapshot/lifemap/draft
 export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
+  delete sanitizedSnapshot.lifemapNavHistory;
   let { economicSurveyDataList } = snapshot;
   const validEconomicIndicator = ec =>
     (ec.value !== null && ec.value !== undefined && ec.value !== '') ||

@@ -130,7 +130,12 @@ export class PrimaryParticipant extends Component {
             socioEconomicAnswers: []
           }
         ]
-      }
+      },
+      lifemapNavHistory: [
+        {
+          url: this.props.match.url
+        }
+      ]
     });
   }
 
