@@ -186,8 +186,7 @@ export const theme = {
         borderRadius: 3,
         border: 0,
         color: '#309E43',
-        height: 38,
-        // width: 280,
+        minHeight: 38,
         padding: '0 30px',
         textDecoration: 'underline'
       },
