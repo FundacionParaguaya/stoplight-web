@@ -247,7 +247,7 @@ const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   const classes = useStyles();
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState(SNAPSHOTS_STATUS.DRAFT);
   const [familiesFilter, setFamiliesFilter] = useState('');
   const filteredSnapshots = useMemo(() => {
     let filtered = snapshots;
