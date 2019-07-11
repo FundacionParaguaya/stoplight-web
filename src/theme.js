@@ -124,13 +124,10 @@ export const theme = {
       input: {
         fontSize: '16px',
         padding: '40px 12px 10px!important',
-        '&$focused': {
-          backgroundColor: '#fff!important'
-        }
-      },
-      root: {
-        '&$focused': {
-          backgroundColor: '#fff!important'
+        '&$filled': {
+          '&$focused': {
+            backgroundColor: '#fff'
+          }
         }
       },
       multiline: {
@@ -141,18 +138,17 @@ export const theme = {
       root: {
         '&$error': {
           top: '40%!important'
-          // transform: 'translate(12px, -50%) scale(1)!important'
         }
-      },
-      shrink: {
-        transform: 'translate(12px, -85%) scale(1)!important',
-        color: '#6A6A6A'
       },
       filled: {
         top: '50%',
         transform: 'translate(12px, -50%) scale(1)',
         color: '#6A6A6A',
-        paddingRight: 24
+        paddingRight: 24,
+        '&$shrink': {
+          transform: 'translate(12px, -85%) scale(1)',
+          color: '#6A6A6A'
+        }
       },
       formControl: {
         // top: '50%',
