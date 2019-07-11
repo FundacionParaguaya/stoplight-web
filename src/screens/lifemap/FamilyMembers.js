@@ -186,6 +186,7 @@ export class FamilyMembers extends Component {
                             <DatePickerWithFormik
                               label={t('views.family.dateOfBirth')}
                               name={`members[${index}].birthDate`}
+                              maxDate={new Date()}
                               disableFuture
                               minDate={moment('1910-01-01')}
                               onChange={e =>

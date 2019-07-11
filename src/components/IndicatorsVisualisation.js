@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { withStyles, Typography, Grid, Button } from '@material-ui/core';
+import React, { useState } from 'react';
+import { withStyles, Typography, Grid, Box } from '@material-ui/core';
+import { useTheme } from '@material-ui/styles';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import { useTransition, animated } from 'react-spring';
 import { capitalize } from 'lodash';
 import clsx from 'clsx';
-import Divider from './Divider';
-import SummaryStackedBar from './summary/SummaryStackedBar';
+import { withTranslation } from 'react-i18next';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CustomTooltip from './CustomTooltip';
+import SummaryStackedBar from './summary/SummaryStackedBar';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
+import GreyButton from './GreyButton';
 
 const parseStoplights = stoplights => {
   const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
@@ -20,48 +23,6 @@ const parseStoplights = stoplights => {
   const skipped = getByIndex(0);
 
   return [green, yellow, red, skipped];
-};
-
-const indicatorsStyles = {
-  barContainer: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  title: {
-    marginTop: 5,
-    marginBottom: 5
-  },
-  pieContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
-  },
-  pieInnerContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    width: 150,
-    textAlign: 'center',
-    position: 'relative'
-  },
-  flexStart: {
-    alignItems: 'flex-start'
-  },
-  flexEnd: {
-    alignItems: 'flex-end'
-  },
-  detailContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    position: 'absolute',
-    top: 15,
-    right: 0,
-    zIndex: 1
-  }
 };
 
 const INDICATORS_TYPES = ['pie', 'bar'];
@@ -173,6 +134,60 @@ CountDetail.defaultProps = {
   label: false
 };
 
+const indicatorsStyles = theme => ({
+  barContainer: {
+    padding: `${theme.spacing()}px ${theme.spacing(3)}px`,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    '&:nth-child(2n)': {
+      backgroundColor: theme.palette.grey.light
+    }
+  },
+  title: {
+    marginTop: 5,
+    marginBottom: 5
+  },
+  titleContainer: {
+    width: '25%',
+    paddingRight: theme.spacing()
+  },
+  pieContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  pieInnerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: 150,
+    textAlign: 'center',
+    position: 'relative'
+  },
+  flexStart: {
+    alignItems: 'flex-start'
+  },
+  flexEnd: {
+    alignItems: 'flex-end'
+  },
+  detailContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    position: 'absolute',
+    top: 15,
+    right: 0,
+    zIndex: 1
+  },
+  stackedBarContainer: {
+    width: '75%'
+  }
+});
+
 const Indicators = withStyles(indicatorsStyles)(
   ({ classes, type, indicators, fadeIn }) => {
     const transitions = useTransition(type, null, {
@@ -181,8 +196,6 @@ const Indicators = withStyles(indicatorsStyles)(
       enter: { opacity: 1 },
       leave: { opacity: fadeIn ? 0 : 1 }
     });
-
-    useEffect(() => {});
 
     return transitions.map(({ item, key, props }) => {
       return (
@@ -217,7 +230,7 @@ const Indicators = withStyles(indicatorsStyles)(
                           skippedIndicatorCount={skipped}
                         />
                         <Typography
-                          variant="subtitle1"
+                          variant="subtitle2"
                           className={classes.title}
                         >
                           {indicator.name}
@@ -245,16 +258,23 @@ const Indicators = withStyles(indicatorsStyles)(
                       key={indicator.name}
                       className={classes.barContainer}
                     >
-                      <Typography variant="subtitle1" className={classes.title}>
-                        {indicator.name}
-                      </Typography>
+                      <div className={classes.titleContainer}>
+                        <Typography
+                          variant="subtitle2"
+                          className={classes.title}
+                        >
+                          {indicator.name}
+                        </Typography>
+                      </div>
 
-                      <SummaryStackedBar
-                        greenIndicatorCount={green}
-                        yellowIndicatorCount={yellow}
-                        redIndicatorCount={red}
-                        skippedIndicatorCount={skipped}
-                      />
+                      <div className={classes.stackedBarContainer}>
+                        <SummaryStackedBar
+                          greenIndicatorCount={green}
+                          yellowIndicatorCount={yellow}
+                          redIndicatorCount={red}
+                          skippedIndicatorCount={skipped}
+                        />
+                      </div>
                     </Grid>
                   );
                 })}
@@ -311,10 +331,11 @@ const controllersStyles = {
   icon: {
     color: '#E5E4E2',
     cursor: 'pointer',
-    paddingLeft: 5,
+    fontSize: 36,
+    paddingLeft: 10,
     '&:nth-child(1)': {
       borderRight: '2px solid #E5E4E2',
-      paddingRight: 5,
+      paddingRight: 10,
       paddingLeft: 0
     }
   },
@@ -356,39 +377,50 @@ const Controllers = withStyles(controllersStyles)(
   }
 );
 
-const IndicatorsVisualisation = ({ indicators, classes }) => {
+const IndicatorsVisualisation = ({ indicators, classes, t, loading }) => {
   const [indicatorsType, setIndicatorsType] = useState(BAR);
   const [count, setCount] = useState(10);
+  const theme = useTheme();
 
   return (
-    <div className={classes.container}>
-      <div className={classes.innerContainer}>
-        <Typography variant="h5">Indicators</Typography>
-        <Controllers
-          type={indicatorsType}
-          setIndicatorsType={setIndicatorsType}
-        />
-      </div>
-      <Indicators
-        type={indicatorsType}
-        indicators={indicators.slice(0, count)}
-      />
-      <Divider height={2} />
-      {indicators.length > count && (
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          onClick={() => setCount(state => state + 10)}
+    <>
+      <div className={classes.container}>
+        <div className={classes.innerContainer}>
+          <Typography variant="h5">{t('views.survey.indicators')}</Typography>
+          <Controllers
+            type={indicatorsType}
+            setIndicatorsType={setIndicatorsType}
+          />
+        </div>
+        <Box mt={1} />
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress
+              size={50}
+              thickness={2}
+              style={{ color: theme.palette.grey.main }}
+            />
+          </div>
+        )}
+        {!loading && indicators.length > 0 && (
+          <Indicators
+            type={indicatorsType}
+            indicators={indicators.slice(0, count)}
+          />
+        )}
+        <Box mt={4} />
+        <GreyButton
+          onClick={() => setCount(prev => prev + 10)}
+          disabled={indicators.length < count}
         >
-          See more
-        </Button>
-      )}
-    </div>
+          Show more
+        </GreyButton>
+      </div>
+    </>
   );
 };
 
-const styles = {
+const styles = theme => ({
   container: {
     display: 'flex',
     alignItems: 'center',
@@ -398,8 +430,16 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     width: '100%'
+  },
+  loadingContainer: {
+    width: '100%',
+    minHeight: 495,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.grey.light
   }
-};
+});
 
-export default withStyles(styles)(IndicatorsVisualisation);
+export default withTranslation()(withStyles(styles)(IndicatorsVisualisation));
 export { CountDetail };

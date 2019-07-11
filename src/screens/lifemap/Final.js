@@ -79,11 +79,11 @@ export class Final extends Component {
           'success',
           this.redirectToSurveys
         );
-        const snapshot = {
-          ...this.props.currentDraft,
-          status: SNAPSHOTS_STATUS.COMPLETED
-        };
-        this.props.upsertSnapshot(snapshot);
+        // const snapshot = {
+        //   ...this.props.currentDraft,
+        //   status: SNAPSHOTS_STATUS.COMPLETED
+        // };
+        // this.props.upsertSnapshot(snapshot);
         // Reset ProgressBar Context
         this.context.setRouteTree = {};
       })

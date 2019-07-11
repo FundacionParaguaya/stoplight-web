@@ -97,8 +97,8 @@ class Achievements extends Component {
     return (
       <div>
         <TitleBar
-          title={question && question.dimension}
-          extraTitleText={question && question.questionText}
+          title={question && question.questionText}
+          extraTitleText={question && question.dimension}
           progressBar={false}
         />
         <React.Fragment>
