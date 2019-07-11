@@ -66,7 +66,6 @@ class Header extends Component {
   handleLogout = () => {
     this.setState({ openUserOptions: false });
     logout(this.props.user).finally(() => {
-      delete window.localStorage['persist:root'];
       window.location.replace(
         `https://${this.props.user.env}.povertystoplight.org/login.html`
       );
