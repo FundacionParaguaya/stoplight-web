@@ -77,7 +77,7 @@
       "contains": "Contiene",
       "createdOn": "Creado el",
       "surveys": "Encuestas",
-      "indicators": "indicadores",
+      "indicators": "Indicadores",
       "createSurvey": "Crear Encuesta"
     },
     "analytics": {
@@ -264,7 +264,7 @@
       "sureWantToExit": "¿Estás seguro de que quieres salir?"
     },
     "snapshotsTable": {
-      "title": "Encuestas tomadas",
+      "title": "Borradores",
       "dob": "Nac.:",
       "today": "Hoy",
       "dayAgo": "Hace 1 día",
@@ -274,7 +274,7 @@
       "drafts": "Borradores",
       "all": "Todos",
       "searchFamily": "Buscar familia",
-      "noSnapshotsAvailable": "No has tomado ninguna encuesta anteriormente",
+      "noSnapshotsAvailable": "No hay ningún borrador disponible",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     }
   },

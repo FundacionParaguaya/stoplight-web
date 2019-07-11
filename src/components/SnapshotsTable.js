@@ -80,7 +80,7 @@ const SnapshotsFilter = ({
     <React.Fragment>
       <div className={classes.mainContainer}>
         <div className={classes.statusFilterContainer}>
-          <div
+          {/* <div
             className={`${classes.filterElementContainer} ${
               statusFilter === '' ? classes.activeFilter : ''
             }`}
@@ -115,7 +115,7 @@ const SnapshotsFilter = ({
             <Typography variant="h6" className={classes.statusFilter}>
               {t('views.snapshotsTable.completed')}
             </Typography>
-          </div>
+          </div> */}
         </div>
         <div className={classes.familiesFilterContainer}>
           <TextField
@@ -247,7 +247,7 @@ const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   const classes = useStyles();
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState(SNAPSHOTS_STATUS.DRAFT);
   const [familiesFilter, setFamiliesFilter] = useState('');
   const filteredSnapshots = useMemo(() => {
     let filtered = snapshots;
