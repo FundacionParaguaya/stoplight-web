@@ -394,6 +394,7 @@ export class PrimaryParticipant extends Component {
                   <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
+                    maxDate={new Date()}
                     disableFuture
                     required
                     minDate={moment('1910-01-01')}
