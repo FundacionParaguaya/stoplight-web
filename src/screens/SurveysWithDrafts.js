@@ -51,7 +51,7 @@ const useSurveysListStyle = makeStyles(theme => ({
   },
   surveyTitle: {
     color: '#309E43',
-    fontSize: '16px',
+    fontSize: '18px',
     fontWeight: theme.typography.fontWeightMedium
   },
   containsStyle: {
@@ -139,7 +139,6 @@ class Surveys extends Component {
       })
       .catch(error => {
         if (error.response.status === 401) {
-          delete window.localStorage['persist:root'];
           window.location.replace(
             `https://${this.props.user.env}.povertystoplight.org/login.html`
           );
@@ -314,7 +313,17 @@ class Surveys extends Component {
       conditionalQuestions,
       elementsWithConditionsOnThem
     });
-    this.props.history.push(snapshot.currentScreen);
+    const { lifemapNavHistory } = snapshot;
+    if (lifemapNavHistory && lifemapNavHistory.length > 0) {
+      lifemapNavHistory.forEach(lnh =>
+        this.props.history.push({
+          pathname: lnh.url,
+          state: lnh.state
+        })
+      );
+    } else {
+      this.props.history.push(snapshot.currentScreen);
+    }
   };
 
   componentDidMount() {
