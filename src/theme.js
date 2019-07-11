@@ -27,7 +27,9 @@ export const theme = {
       secondary: '#fff'
     },
     grey: {
-      main: '#909090'
+      main: '#909090',
+      light: 'rgba(243,244,246,0.5)',
+      middle: '#6A6A6A'
     },
     background: {
       default: '#fff',
@@ -182,8 +184,7 @@ export const theme = {
         borderRadius: 3,
         border: 0,
         color: '#309E43',
-        height: 38,
-        // width: 280,
+        minHeight: 38,
         padding: '0 30px',
         textDecoration: 'underline'
       },
