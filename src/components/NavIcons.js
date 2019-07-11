@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+// import { get } from 'lodash';
 import { theme } from '../theme';
 import LeaveModal from './LeaveModal';
 import SaveDraftModal from './SaveDraftModal';
@@ -14,15 +14,17 @@ class NavIcons extends Component {
   };
 
   canSaveDraft = () => {
-    let doDraft = false;
-    const { currentDraft = {} } = this.props;
-    if (
-      get(currentDraft, 'familyData.familyMembersList[0].firstName', null) &&
-      get(currentDraft, 'familyData.familyMembersList[0].lastName', null)
-    ) {
-      doDraft = true;
-    }
-    return doDraft;
+    // TODO taking this functionality out. It'll be eventually available again
+    // let doDraft = false;
+    // const { currentDraft = {} } = this.props;
+    // if (
+    //   get(currentDraft, 'familyData.familyMembersList[0].firstName', null) &&
+    //   get(currentDraft, 'familyData.familyMembersList[0].lastName', null)
+    // ) {
+    //   doDraft = true;
+    // }
+    // return doDraft;
+    return false;
   };
 
   handleClose = () => {
