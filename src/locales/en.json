@@ -67,8 +67,8 @@
     "synced": "Sync",
     "dashboard": "Dashboard",
     "families": "Families",
-    "createLifemap": "Create a life map",
-    "latestDrafts": "Latest life maps",
+    "createLifemap": "Create a Life Map",
+    "latestDrafts": "Latest Life Maps",
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
@@ -92,7 +92,7 @@
       "loadingOptionsLabel": "Loading..."
     },
     "socioEconomic": "Socio Economic",
-    "yourLifeMap": "Your life map",
+    "yourLifeMap": "Your Life Map",
     "primaryParticipant": "Primary participant",
     "familyMembers": "Family members",
     "gendersBirthDates": "Genders & Birth dates",
@@ -144,13 +144,13 @@
       "describeLocation": "Could you describe your location as accurate as possible below?",
       "error": "Error: Cannot display family profile",
       "details": "Details",
-      "lifemap": "Life map",
+      "lifemap": "Life Map",
       "lifeMapCreatedOn": "Life Map draft created on",
       "created": "Created on",
       "formWithErrors": "Review %number form errors"
     },
     "lifemap": {
-      "thisLifeMapHas": "This life map has %n questions. It will take approximately 35 minutes to complete!",
+      "thisLifeMapHas": "This Life Map has %n questions. It will take approximately 35 minutes to complete!",
       "responseRequired": "*Response required",
       "skipThisQuestion": "Skip this question",
       "youSkipped": "You skipped these indicators",
@@ -169,7 +169,7 @@
       "youHaveCompletedTheLifemap": "You have completed the lifemap",
       "youNeedToAddPriotity": "You need to add one priority",
       "youNeedToAddPriorities": "You need to add %n priorities",
-      "beforeTheLifeMapIsCompleted": "Before the life map is completed...",
+      "beforeTheLifeMapIsCompleted": "Before the Life Map is completed...",
       "green": "Green",
       "yellow": "Yellow",
       "red": "Red",
@@ -184,8 +184,8 @@
       "months": "months"
     },
     "modals": {
-      "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",
-      "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the life map!",
+      "lifeMapWillNotBeSaved": "If you do not enter all details on this page the Life Map will not be saved!",
+      "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the Life Map!",
       "areYouSureYouWantToExit": "Are you sure you want to exit?",
       "yourLifemapIsNotComplete": "You will lose all your data! Are you sure you want to exit?",
       "thisWillBeSavedAsADraft": "This will be saved as a draft."
@@ -227,7 +227,7 @@
       "onePriorityRemainingDescription": "Nearly there...",
       "noPriorityRemainingTitle": "Great! You created all the required priorities",
       "noPriorityRemainingDescription": "You can make as many more as you want.",
-      "noPriorityRequiredTitle": "To complete the life map...",
+      "noPriorityRequiredTitle": "To complete the Life Map...",
       "noPriorityRequiredDescription": "Create priorities!"
     },
     "indicatorsFilter": {
@@ -243,7 +243,7 @@
       "print": "Print",
       "email": "Email",
       "download": "Download",
-      "lifemapSaved": "Your life map has been successfully saved",
+      "lifemapSaved": "Your Life Map has been successfully saved",
       "clickSafe": "Now, just click save!"
     },
     "familiesOverviewBlock": {
