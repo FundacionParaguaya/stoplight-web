@@ -39,7 +39,8 @@ export const theme = {
     fontFamily: 'Roboto',
     useNextVariants: true,
     body2: {
-      fontSize: 18
+      fontSize: 18,
+      fontFamily: 'Poppins'
     },
     subtitle1: {
       fontSize: 16,
