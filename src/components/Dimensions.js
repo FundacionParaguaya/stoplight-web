@@ -4,7 +4,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { Typography, withStyles } from '@material-ui/core';
+import { Typography, withStyles, Box } from '@material-ui/core';
 import {
   normalizeDimension,
   NORMALIZED_DIMENSIONS
@@ -63,9 +63,9 @@ let DimensionTitle = ({ classes, dimension, excludeIcon }) => (
       className={classes.title}
       style={{
         color: excludeIcon ? COLORS.TEXT_GREY : null,
-        padding: excludeIcon ? '6px 0' : null
+        padding: excludeIcon ? '4px 0' : null
       }}
-      variant="subtitle1"
+      variant="subtitle2"
     >
       {dimension}
     </Typography>
@@ -83,8 +83,7 @@ const dimensionTitleStyle = () => ({
     alignItems: 'center'
   },
   title: {
-    display: 'flex',
-    fontSize: '13px'
+    display: 'flex'
   },
   icon: {
     width: '41px',
@@ -160,6 +159,7 @@ const Dimensions = ({ classes, data }) => {
 
   return (
     <List>
+      <Box mt={2} />
       {data.map(d => {
         const { dimension, stoplights, priorities, achievements } = d;
         return (
@@ -178,7 +178,6 @@ const Dimensions = ({ classes, data }) => {
                     yellowIndicatorCount={getIndCountByColor(stoplights, 2)}
                     redIndicatorCount={getIndCountByColor(stoplights, 1)}
                     skippedIndicatorCount={getIndCountByColor(stoplights, 0)}
-                    animationDuration={500}
                   />
                 </div>
 
@@ -239,7 +238,7 @@ const styles = theme => ({
   },
   row: {
     '&:nth-of-type(odd)': {
-      backgroundColor: '#f3f4f6'
+      backgroundColor: theme.palette.grey.light
     }
   },
   mainItemContainer: { display: 'flex', flexBasis: '100%', width: '100%' },
@@ -273,7 +272,7 @@ const styles = theme => ({
     paddingRight: '4px'
   },
   dimensionIndicatorContainer: {
-    marginTop: theme.spacing(),
+    marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3)
   },
   dimensionIndicatorUnderline: {
