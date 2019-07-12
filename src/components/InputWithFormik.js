@@ -5,7 +5,43 @@ import { withTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
 import * as _ from 'lodash';
 import { connect } from 'formik';
+import NumberFormat from 'react-number-format';
 import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
+import {
+  getDecimalSeparatorByLang,
+  getThousandSeparatorByLang
+} from '../utils/lang-utils';
+
+let NumberFormatCustom = props => {
+  const {
+    i18n: { language },
+    t,
+    tReady,
+    inputRef,
+    onChange,
+    ...other
+  } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={values => {
+        onChange({
+          target: {
+            value: values.value
+          }
+        });
+      }}
+      thousandSeparator={getThousandSeparatorByLang(language)}
+      decimalSeparator={getDecimalSeparatorByLang(language)}
+      type="text"
+      isNumericString={true}
+    />
+  );
+};
+
+NumberFormatCustom = withTranslation()(NumberFormatCustom);
 
 const InputWithFormik = ({
   classes,
@@ -37,8 +73,18 @@ const InputWithFormik = ({
     onChange,
     fullWidth: true
   };
+  const { type: inputType = 'text' } = props;
   const textFieldProps = { ...innerProps, ...props };
-  return <TextField {...textFieldProps} />;
+
+  return (
+    <TextField
+      {...textFieldProps}
+      InputProps={{
+        inputComponent: inputType === 'number' ? NumberFormatCustom : undefined,
+        ...(textFieldProps.InputProps || {})
+      }}
+    />
+  );
 };
 
 InputWithFormik.propTypes = {
