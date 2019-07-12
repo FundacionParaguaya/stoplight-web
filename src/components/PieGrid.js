@@ -28,6 +28,7 @@ const IndicatorsDonut = withStyles(donutStyles)(
     greenIndicatorCount,
     skippedIndicatorCount,
     icon,
+    dimension,
     classes
   }) => {
     const data = [
@@ -39,7 +40,7 @@ const IndicatorsDonut = withStyles(donutStyles)(
 
     return (
       <div className={classes.container}>
-        {icon && <img src={icon} className={classes.icon} />}
+        {icon && <img src={icon} alt={dimension} className={classes.icon} />}
         <PieChart width={100} height={100}>
           <Pie
             data={data}
@@ -75,12 +76,15 @@ const alignByIndex = index => {
 };
 
 const parseStoplights = stoplights => {
-  const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
+  const getByColor = i =>
+    stoplights.find(s => s.color === i)
+      ? stoplights.find(s => s.color === i).count
+      : 0;
 
-  const green = getByIndex(3);
-  const yellow = getByIndex(2);
-  const red = getByIndex(1);
-  const skipped = getByIndex(0);
+  const green = getByColor(3);
+  const yellow = getByColor(2);
+  const red = getByColor(1);
+  const skipped = getByColor(0);
 
   return [green, yellow, red, skipped];
 };
@@ -88,15 +92,13 @@ const parseStoplights = stoplights => {
 const PieGrid = ({ classes, items }) => {
   return (
     <Grid container>
-      {items.map((indicator, index) => {
-        const [green, yellow, red, skipped] = parseStoplights(
-          indicator.stoplights
-        );
+      {items.map(({ stoplights, name, dimension, icon }, index) => {
+        const [green, yellow, red, skipped] = parseStoplights(stoplights);
         return (
           <Grid
             item
             xs={4}
-            key={`donut${indicator.name || indicator.dimension}`}
+            key={`donut${name || dimension}`}
             className={`${classes.pieContainer} ${
               classes[alignByIndex(index)]
             }`}
@@ -111,10 +113,11 @@ const PieGrid = ({ classes, items }) => {
                 yellowIndicatorCount={yellow}
                 redIndicatorCount={red}
                 skippedIndicatorCount={skipped}
-                icon={indicator.icon}
+                icon={icon}
+                dimension={dimension}
               />
               <Typography variant="subtitle2" className={classes.title}>
-                {indicator.name || indicator.dimension}
+                {name || dimension}
               </Typography>
             </div>
           </Grid>
