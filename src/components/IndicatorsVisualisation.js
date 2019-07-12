@@ -141,6 +141,6 @@ const Indicators = withStyles(indicatorsStyles)(
   }
 );
 
-const IndicatorsVisualisation = withControllers(Indicators);
+const IndicatorsVisualisation = withControllers('views.indicators')(Indicators);
 
 export default withTranslation()(IndicatorsVisualisation);
