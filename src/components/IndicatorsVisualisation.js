@@ -8,12 +8,15 @@ import withControllers from './withControllers';
 import { PIE, BAR } from '../utils/types';
 
 const parseStoplights = stoplights => {
-  const getByIndex = i => (stoplights[i] ? stoplights[i].count : 0);
+  const getByColor = i =>
+    stoplights.find(s => s.color === i)
+      ? stoplights.find(s => s.color === i).count
+      : 0;
 
-  const green = getByIndex(3);
-  const yellow = getByIndex(2);
-  const red = getByIndex(1);
-  const skipped = getByIndex(0);
+  const green = getByColor(3);
+  const yellow = getByColor(2);
+  const red = getByColor(1);
+  const skipped = getByColor(0);
 
   return [green, yellow, red, skipped];
 };
