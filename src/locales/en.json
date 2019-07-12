@@ -66,6 +66,8 @@
     },
     "synced": "Sync",
     "dashboard": "Dashboard",
+    "indicators": "Indicators",
+    "dimensions": "Dimensions",
     "families": "Families",
     "createLifemap": "Create a Life Map",
     "latestDrafts": "Latest Life Maps",
