@@ -4,7 +4,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { Typography, withStyles } from '@material-ui/core';
+import { Typography, withStyles, Box } from '@material-ui/core';
 import {
   normalizeDimension,
   NORMALIZED_DIMENSIONS
@@ -16,8 +16,11 @@ import dimensionIncomeIcon from '../assets/dimension_income.png';
 import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
 import dimensionOrganizationIcon from '../assets/dimension_organization.png';
 import SummaryStackedBar from './summary/SummaryStackedBar';
-import { CountDetail } from './IndicatorsVisualisation';
+import CountDetail from './CountDetail';
 import { COLORS } from '../theme';
+import withControllers from './withControllers';
+import PieGrid from './PieGrid';
+import { PIE, BAR } from '../utils/types';
 
 const getIndCountByColor = (data = [], color) => {
   let count = 0;
@@ -63,9 +66,9 @@ let DimensionTitle = ({ classes, dimension, excludeIcon }) => (
       className={classes.title}
       style={{
         color: excludeIcon ? COLORS.TEXT_GREY : null,
-        padding: excludeIcon ? '6px 0' : null
+        padding: excludeIcon ? '4px 0' : null
       }}
-      variant="subtitle1"
+      variant="subtitle2"
     >
       {dimension}
     </Typography>
@@ -83,8 +86,7 @@ const dimensionTitleStyle = () => ({
     alignItems: 'center'
   },
   title: {
-    display: 'flex',
-    fontSize: '13px'
+    display: 'flex'
   },
   icon: {
     width: '41px',
@@ -148,81 +150,7 @@ const dimensionIndicatorStyle = theme => ({
 });
 DimensionIndicator = withStyles(dimensionIndicatorStyle)(DimensionIndicator);
 
-const Dimensions = ({ classes, data }) => {
-  const [dimensionOpen, setDimensionOpen] = useState(null);
-  const handleDimensionClick = useCallback(
-    dimensionClicked =>
-      setDimensionOpen(prevDim =>
-        prevDim === dimensionClicked ? null : dimensionClicked
-      ),
-    []
-  );
-
-  return (
-    <List>
-      {data.map(d => {
-        const { dimension, stoplights, priorities, achievements } = d;
-        return (
-          <React.Fragment key={dimension}>
-            <ListItem
-              className={classes.row}
-              classes={{ root: classes.listItem }}
-              onClick={() => handleDimensionClick(dimension)}
-            >
-              <div className={classes.mainItemContainer}>
-                <DimensionTitle dimension={dimension} />
-
-                <div className={classes.stackbarContainer}>
-                  <SummaryStackedBar
-                    greenIndicatorCount={getIndCountByColor(stoplights, 3)}
-                    yellowIndicatorCount={getIndCountByColor(stoplights, 2)}
-                    redIndicatorCount={getIndCountByColor(stoplights, 1)}
-                    skippedIndicatorCount={getIndCountByColor(stoplights, 0)}
-                    animationDuration={500}
-                  />
-                </div>
-
-                <div className={classes.priorAndAchievem}>
-                  <CountDetail
-                    countVariant="subtitle1"
-                    count={achievements}
-                    type="achievement"
-                    removeBorder={true}
-                  />
-                  <CountDetail
-                    countVariant="subtitle1"
-                    count={priorities}
-                    type="priority"
-                    removeBorder={true}
-                  />
-                  <div className={classes.expandContainer}>
-                    {dimensionOpen === dimension ? (
-                      <ExpandLess className={classes.expandIcon} />
-                    ) : (
-                      <ExpandMore className={classes.expandIcon} />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </ListItem>
-            <Collapse
-              in={dimensionOpen === dimension}
-              timeout="auto"
-              unmountOnExit
-            >
-              <div className={classes.dimensionIndicatorContainer}>
-                <DimensionIndicator dimension={d} />
-              </div>
-              <div className={classes.dimensionIndicatorUnderline} />
-            </Collapse>
-          </React.Fragment>
-        );
-      })}
-    </List>
-  );
-};
-
-const styles = theme => ({
+const dimensionStyles = theme => ({
   container: {
     backgroundColor: theme.palette.background.paper,
     minHeight: '100vh'
@@ -238,8 +166,8 @@ const styles = theme => ({
     paddingBottom: 12.5
   },
   row: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#f3f4f6'
+    '&:nth-child(2n - 1)': {
+      backgroundColor: theme.palette.grey.light
     }
   },
   mainItemContainer: { display: 'flex', flexBasis: '100%', width: '100%' },
@@ -273,7 +201,7 @@ const styles = theme => ({
     paddingRight: '4px'
   },
   dimensionIndicatorContainer: {
-    marginTop: theme.spacing(),
+    marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3)
   },
   dimensionIndicatorUnderline: {
@@ -287,7 +215,98 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end'
+  },
+  list: {
+    padding: 0
   }
 });
 
-export default withStyles(styles)(Dimensions);
+const Dimensions = withStyles(dimensionStyles)(({ classes, data, type }) => {
+  const [dimensionOpen, setDimensionOpen] = useState(null);
+  const handleDimensionClick = useCallback(
+    dimensionClicked =>
+      setDimensionOpen(prevDim =>
+        prevDim === dimensionClicked ? null : dimensionClicked
+      ),
+    []
+  );
+  const dataWithIcons = data.map(d => ({
+    ...d,
+    icon: getIconForDimension(d.dimension)
+  }));
+
+  return (
+    <>
+      {type === BAR && (
+        <List className={classes.list}>
+          <Box mt={2} />
+          {data.map(d => {
+            const { dimension, stoplights, priorities, achievements } = d;
+            return (
+              <React.Fragment key={dimension}>
+                <ListItem
+                  className={classes.row}
+                  classes={{ root: classes.listItem }}
+                  onClick={() => handleDimensionClick(dimension)}
+                >
+                  <div className={classes.mainItemContainer}>
+                    <DimensionTitle dimension={dimension} />
+
+                    <div className={classes.stackbarContainer}>
+                      <SummaryStackedBar
+                        greenIndicatorCount={getIndCountByColor(stoplights, 3)}
+                        yellowIndicatorCount={getIndCountByColor(stoplights, 2)}
+                        redIndicatorCount={getIndCountByColor(stoplights, 1)}
+                        skippedIndicatorCount={getIndCountByColor(
+                          stoplights,
+                          0
+                        )}
+                      />
+                    </div>
+
+                    <div className={classes.priorAndAchievem}>
+                      <CountDetail
+                        countVariant="subtitle1"
+                        count={achievements}
+                        type="achievement"
+                        removeBorder={true}
+                      />
+                      <CountDetail
+                        countVariant="subtitle1"
+                        count={priorities}
+                        type="priority"
+                        removeBorder={true}
+                      />
+                      <div className={classes.expandContainer}>
+                        {dimensionOpen === dimension ? (
+                          <ExpandLess className={classes.expandIcon} />
+                        ) : (
+                          <ExpandMore className={classes.expandIcon} />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </ListItem>
+                <Collapse
+                  in={dimensionOpen === dimension}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <div className={classes.dimensionIndicatorContainer}>
+                    <DimensionIndicator dimension={d} />
+                  </div>
+                  <div className={classes.dimensionIndicatorUnderline} />
+                </Collapse>
+              </React.Fragment>
+            );
+          })}
+        </List>
+      )}
+      {type === PIE && <PieGrid items={dataWithIcons} />}
+    </>
+  );
+});
+
+const DimensionsVisualisation = withControllers('views.dimensions')(Dimensions);
+
+export default DimensionsVisualisation;
