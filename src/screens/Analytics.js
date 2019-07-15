@@ -10,12 +10,12 @@ import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import ScreenTitleBar from '../components/ScreenTitleBar';
 import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
-import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
 import OverviewBlock from '../components/OverviewBlock';
 import { getFamilies, getDimensionIndicators } from '../api';
 import ActivityFeed from '../components/ActivityFeed';
 import GreenLineChart from '../components/GreenLineChart';
+import DimensionsVisualisation from '../components/DimensionsVisualisation';
 
 const chartData = [
   { date: '2019-05-13T00:00', surveys: 750 },
@@ -82,9 +82,10 @@ const Analytics = ({ classes, t, user }) => {
           </div>
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
-              <Typography variant="h5">Dimensions</Typography>
-              <Divider />
-              <Dimensions data={dimensions} />
+              <DimensionsVisualisation
+                loading={indicatorsLoading}
+                data={dimensions}
+              />
             </Container>
           </div>
           <div className={classes.grayContainer}>
@@ -97,7 +98,7 @@ const Analytics = ({ classes, t, user }) => {
               <OverviewBlock />
               <IndicatorsVisualisation
                 loading={indicatorsLoading}
-                indicators={indicators}
+                data={indicators}
               />
               <ActivityFeed data={data} />
               <GreenLineChart data={chartData} />

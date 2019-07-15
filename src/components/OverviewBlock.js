@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import SummaryDonut from './summary/SummaryDonut';
 import SummaryBarChart from './SummaryBarChart';
-import { CountDetail } from './IndicatorsVisualisation';
+import CountDetail from './CountDetail';
 import Divider from './Divider';
 
 const OverviewBlock = ({ classes }) => {
