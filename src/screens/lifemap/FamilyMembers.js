@@ -31,14 +31,27 @@ const schemaWithDateTransform = Yup.date()
     return originalValue ? moment.unix(originalValue).toDate() : new Date();
   });
 
-const validationSchema = Yup.object().shape({
-  members: Yup.array().of(
-    Yup.object().shape({
-      firstName: Yup.string().required(fieldIsRequired),
-      birthDate: schemaWithDateTransform
-    })
-  )
-});
+const requiredFieldsValidation = {
+  firstName: Yup.string().required(fieldIsRequired)
+};
+
+const baseValidationObject = {
+  birthDate: schemaWithDateTransform
+};
+
+const buildValidationSchema = surveyConfig => {
+  let memberSpec = { ...baseValidationObject, ...requiredFieldsValidation };
+  const { requiredFields = {} } = surveyConfig;
+  if (requiredFields.familyMember) {
+    memberSpec = { ...baseValidationObject };
+    requiredFields.familyMember.forEach(field => {
+      memberSpec[field] = requiredFieldsValidation[field];
+    });
+  }
+  return Yup.object().shape({
+    members: Yup.array().of(Yup.object().shape(memberSpec))
+  });
+};
 
 export class FamilyMembers extends Component {
   updateDraft = (memberIndex, value, property) => {
@@ -68,6 +81,24 @@ export class FamilyMembers extends Component {
   };
 
   handleContinue = () => {
+    const {
+      currentDraft: {
+        familyData: { familyMembersList }
+      }
+    } = this.props;
+    familyMembersList.forEach((member, index) => {
+      if (index === 0) {
+        return;
+      }
+      Object.keys(requiredFieldsValidation).forEach(field => {
+        if (field === 'birthDate' && !member.birthDate) {
+          this.updateDraft(index, moment().unix(), field);
+        }
+        if (field !== 'birthDate' && !member[field]) {
+          this.updateDraft(index, '', field);
+        }
+      });
+    });
     this.props.history.push('/lifemap/location');
   };
 
@@ -96,7 +127,7 @@ export class FamilyMembers extends Component {
             initialValues={{
               members: membersList.filter(item => !item.firstParticipant)
             }}
-            validationSchema={validationSchema}
+            validationSchema={buildValidationSchema(surveyConfig)}
             onSubmit={(values, { setSubmitting }) => {
               this.handleContinue();
               setSubmitting(false);

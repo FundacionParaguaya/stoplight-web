@@ -231,7 +231,7 @@ export class PrimaryParticipant extends Component {
     this.props.updateDraft(newDraft);
   };
 
-  updateFamilyMembersCount = async (field, value) => {
+  updateFamilyMembersCount = (field, value) => {
     const { currentDraft } = this.props;
 
     if (value === 1) {
