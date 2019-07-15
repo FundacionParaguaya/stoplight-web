@@ -37,7 +37,8 @@ const schemaWithDateTransform = Yup.date()
     return originalValue ? moment.unix(originalValue).toDate() : new Date('');
   })
   .required(fieldIsRequired);
-const staticFields = {
+
+const requiredFieldsValidation = {
   firstName: Yup.string().required(fieldIsRequired),
   lastName: Yup.string().required(fieldIsRequired),
   gender: Yup.string().required(fieldIsRequired),
@@ -45,23 +46,52 @@ const staticFields = {
   documentType: Yup.string().required(fieldIsRequired),
   documentNumber: Yup.string().required(fieldIsRequired),
   birthCountry: Yup.string().required(fieldIsRequired),
-  countFamilyMembers: Yup.string().required(fieldIsRequired),
+  countFamilyMembers: Yup.string().required(fieldIsRequired)
+};
+
+const baseValidationObject = {
   email: Yup.string().email(validEmailAddress)
 };
 
-const buildValidationSchema = (surveyConfig, validationObject) => {
-  const forPrimaryParticipant = { ...validationObject };
+// const isFieldRequired = (field, surveyConfig) => {
+//   const { requiredFields = {} } = surveyConfig;
+//   // Base condition to be required is if the field is present in the
+//   // fallback validation spec
+//   let required = !!requiredFieldsValidation[field];
+//   if (required && requiredFields.primaryParticipant) {
+//     if (requiredFields.primaryParticipant.length === 0) {
+//       // If the array is empty, it means we don't have to require the field
+//       required = false;
+//     } else {
+//       // If the array is not empty, we have to look the key in it
+//       required = requiredFields.primaryParticipant.includes(field);
+//     }
+//   }
+//   return required;
+// };
 
-  const keys = Object.keys(surveyConfig);
-  const values = Object.values(surveyConfig)
-    .map((field, index) => {
-      if (Array.isArray(field)) {
+const buildValidationSchema = surveyConfig => {
+  let forPrimaryParticipant = {
+    ...baseValidationObject,
+    ...requiredFieldsValidation
+  };
+  const { requiredFields = {} } = surveyConfig;
+  if (requiredFields.primaryParticipant) {
+    forPrimaryParticipant = { ...baseValidationObject };
+    requiredFields.primaryParticipant.forEach(field => {
+      forPrimaryParticipant[field] = requiredFieldsValidation[field];
+    });
+  }
+
+  const values = Object.keys(surveyConfig)
+    .filter(field => !!forPrimaryParticipant[field])
+    .map(field => {
+      if (Array.isArray(surveyConfig[field])) {
         return {
-          codeName: keys[index],
-          ...field.filter(e => e.otherOption)[0]
+          codeName: field,
+          ...surveyConfig[field].filter(e => e.otherOption)[0]
         };
       }
-
       return null;
     })
     .filter(e => e !== null);
@@ -141,8 +171,39 @@ export class PrimaryParticipant extends Component {
 
   handleContinue = () => {
     const { currentDraft } = this.props;
+    let forceToLocation = false;
+    // First, let's fill the form with empty arrays for all fields that are by default required.
+    // We do this so backend validations still pass through
+    const {
+      familyData: { familyMembersList }
+    } = currentDraft;
+    const primaryParticipant = familyMembersList.find(
+      member => member.firstParticipant
+    );
+    Object.keys(requiredFieldsValidation).forEach(field => {
+      if (field === 'birthDate' && !primaryParticipant.birthDate) {
+        this.updateDraft(field, moment().unix());
+      }
+      if (
+        field === 'countFamilyMembers' &&
+        !currentDraft.familyData.countFamilyMembers
+      ) {
+        this.updateFamilyMembersCount(field, 1);
+        // Since the update of the family members is async, we force the
+        // next screen to be Location, otherwise it would go to an empty
+        // family members screen
+        forceToLocation = true;
+      }
+      if (
+        field !== 'birthDate' &&
+        field !== 'countFamilyMembers' &&
+        !primaryParticipant[field]
+      ) {
+        this.updateDraft(field, '');
+      }
+    });
 
-    if (currentDraft.familyData.countFamilyMembers === 1) {
+    if (currentDraft.familyData.countFamilyMembers === 1 || forceToLocation) {
       this.props.history.push('/lifemap/location');
     } else {
       this.props.history.push('/lifemap/family-members');
@@ -259,8 +320,7 @@ export class PrimaryParticipant extends Component {
     if (this.props.currentSurvey) {
       this.setState({
         validationSpec: buildValidationSchema(
-          this.props.currentSurvey.surveyConfig,
-          staticFields
+          this.props.currentSurvey.surveyConfig
         )
       });
     }
