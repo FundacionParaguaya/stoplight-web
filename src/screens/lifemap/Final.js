@@ -8,10 +8,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
-// import MailIcon from '@material-ui/icons/Mail';
+import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import { submitDraft } from '../../api';
+import { submitDraft, sendMail } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
@@ -114,6 +114,8 @@ export class Final extends Component {
       i18n: { language }
     } = this.props;
     const { error } = this.state;
+    const primaryParticipant = this.props.currentDraft.familyData
+      .familyMembersList[0];
 
     return (
       <div>
@@ -152,18 +154,36 @@ export class Final extends Component {
           )}
           <div className={classes.gridContainer}>
             <Grid container spacing={2}>
-              {/* <Grid item xs={4}>
+              <Grid item xs={4}>
                 <Button
                   variant="outlined"
                   color="primary"
                   fullWidth
-                  disabled={this.state.loading}
+                  disabled={!this.state.loading && !primaryParticipant.email}
+                  onClick={() => {
+                    const pdf = generateIndicatorsReport(
+                      this.props.currentDraft,
+                      this.props.currentSurvey,
+                      t,
+                      language
+                    );
+                    pdf.getBlob(blob => {
+                      const document = new File([blob], 'document.pdf', {
+                        type: 'application/pdf'
+                      });
+                      sendMail(
+                        document,
+                        primaryParticipant.email,
+                        this.props.user
+                      );
+                    });
+                  }}
                 >
                   <MailIcon className={classes.leftIcon} />
                   {t('views.final.email')}
                 </Button>
-              </Grid> */}
-              <Grid item xs={6}>
+              </Grid>
+              <Grid item xs={4}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -183,7 +203,7 @@ export class Final extends Component {
                   {t('views.final.print')}
                 </Button>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Button
                   variant="outlined"
                   color="primary"
