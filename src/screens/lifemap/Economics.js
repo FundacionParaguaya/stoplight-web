@@ -233,13 +233,7 @@ export class Economics extends Component {
   }
 
   componentDidMount() {
-    if (
-      this.props.currentSurvey.economicScreens.questionsPerScreen.length <= 0
-    ) {
-      this.props.history.replace('/lifemap/begin-stoplight');
-    } else {
-      this.setCurrentScreen();
-    }
+    this.setCurrentScreen();
   }
 
   componentDidUpdate(prevProps) {
