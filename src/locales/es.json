@@ -238,7 +238,18 @@
       "yellow": "Amarillo",
       "green": "Verde",
       "skipped": "Omitidas",
-      "allIndicators": "Todos los indicadores"
+      "allIndicators": "Todos los indicadores",
+      "sort": {
+        "MOST_GREENS": "Más verdes",
+        "MOST_REDS": "Más rojos",
+        "MOST_YELLOWS": "Más amarillos",
+        "MOST_SKIPPED": "Más omitidos",
+        "MOST_PRIORITIZED": "Más priorizados",
+        "LESS_PRIORITIZED": "Menos priorizados",
+        "MOST_ACHIEVED": "Más logrados",
+        "LESS_ACHIEVED": "Menos logrados",
+        "DEFAULT": "Ordenar indicadores"
+      }
     },
     "final": {
       "title": "¡Gracias!",
