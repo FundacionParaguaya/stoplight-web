@@ -85,8 +85,7 @@ const styles = {
     zIndex: 1
   },
   count: {
-    marginLeft: 5,
-    fontSize: '13px'
+    marginLeft: 5
   },
   icon: {
     border: '3px solid #fff',
