@@ -36,7 +36,7 @@ const styles = theme => ({
 function withControllers(title, sorting) {
   return WrappedComponent => {
     return withTranslation()(
-      withStyles(styles)(({ loading, classes, t, ...props }) => {
+      withStyles(styles)(({ data, classes, t, ...props }) => {
         const [type, setType] = useState(BAR);
         const [count, setCount] = useState(10);
         const [sortingBy, setSortingBy] = useState(SORT_BY_OPTIONS.DEFAULT);
@@ -54,7 +54,7 @@ function withControllers(title, sorting) {
               />
             </div>
             <Box mt={1} />
-            {loading && (
+            {!data && (
               <div className={classes.loadingContainer}>
                 <CircularProgress
                   size={50}
@@ -63,7 +63,7 @@ function withControllers(title, sorting) {
                 />
               </div>
             )}
-            {!loading && props.data.length > 0 && (
+            {data && data.length > 0 && (
               <>
                 <WrappedComponent
                   type={type}
@@ -75,7 +75,7 @@ function withControllers(title, sorting) {
                     <div className={classes.buttonContainer}>
                       <GreyButton
                         onClick={() => setCount(prev => prev + 10)}
-                        disabled={props.data.length < count}
+                        disabled={data.length < count}
                       >
                         Show more
                       </GreyButton>
