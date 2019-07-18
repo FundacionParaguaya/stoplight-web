@@ -51,17 +51,18 @@ const useStyles = makeStyles(theme => ({
 
 const FamiliesOverviewBlock = ({
   familiesOverview,
-  // familiesCount,
-  // peopleCount,
-  // menCount,
-  // womenCount,
+  familiesCount,
+  peopleCount,
+  menCount,
+  womenCount,
   includeEconomics,
-  innerRef
+  innerRef,
+  padding
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   return (
-    <div className={classes.mainContainer} ref={innerRef}>
+    <div className={classes.mainContainer} style={{ padding }} ref={innerRef}>
       <Typography variant="h5">
         {includeEconomics
           ? t('views.familiesOverviewBlock.economics')
@@ -73,7 +74,7 @@ const FamiliesOverviewBlock = ({
           variant="h4"
           className={classes.familiesCountStyle}
         >
-          {familiesOverview.numberOfFamilies}
+          {familiesOverview ? familiesOverview.numberOfFamilies : familiesCount}
           <Typography
             component="span"
             variant="h6"
@@ -83,18 +84,18 @@ const FamiliesOverviewBlock = ({
           </Typography>
         </Typography>
       </div>
-      {/* <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
+      <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
         'views.familiesOverviewBlock.including'
       )} ${peopleCount} ${t(
         'views.familiesOverviewBlock.people'
       )}`}</Typography>
-      <Typography
+      {/* <Typography
         className={classes.menWomenCountStyle}
         variant="h6"
       >{`${womenCount} ${t('views.familiesOverviewBlock.women')} ${t(
         'views.familiesOverviewBlock.and'
-      )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography>
-      {includeEconomics && (
+      )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography> */}
+      {/* {includeEconomics && (
         <React.Fragment>
           <div className={classes.economicInfoContainer}>
             <Typography
