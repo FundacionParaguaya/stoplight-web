@@ -67,9 +67,9 @@ function withControllers(title, sorting) {
               <>
                 <WrappedComponent
                   type={type}
-                  data={props.data.sort(sorter(sortingBy)).slice(0, count)}
+                  data={data.sort(sorter(sortingBy)).slice(0, count)}
                 />
-                {props.data.length > 10 && (
+                {data.length > 10 && (
                   <>
                     <Box mt={4} />
                     <div className={classes.buttonContainer}>
