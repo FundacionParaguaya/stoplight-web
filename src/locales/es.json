@@ -279,6 +279,11 @@
       "searchFamily": "Buscar familia",
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
+    },
+    "organizationsFilter": {
+      "label": "Organizaciones",
+      "loading": "Cargando...",
+      "noOption": "No quedan organizaciones"
     }
   },
   "reports": {

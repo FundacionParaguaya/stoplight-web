@@ -18,6 +18,7 @@ import FamilyOverviewBlock from './components/FamiliesOverviewBlock';
 import OverviewBlock from './components/OverviewBlock';
 import DimensionsVisualisation from './components/DimensionsVisualisation';
 import IndicatorsVisualisation from './components/IndicatorsVisualisation';
+import OrganizationsFilter from './components/OrganizationsFilter';
 
 const chartData = [
   { date: '2019-05-13T00:00', surveys: 750 },
@@ -36,42 +37,65 @@ const Dashboard = ({ classes, user, t }) => {
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
+  const [selectedOrganizations, setSelectedOrganizations] = useState([]);
+  const [
+    loadingDimensionsIndicators,
+    setLoadingDimensionsIndicators
+  ] = useState(true);
+  const [loadingOverview, setLoadingOverview] = useState(true);
+  const [loadingEconomics, setLoadingEconomics] = useState(true);
   const theme = useTheme();
-
   useEffect(() => {
     getFamilies(user).then(families => setFeed(families.data.splice(0, 25)));
+  }, [user]);
 
-    // eslint-disable-next-line func-names
-    (async function() {
-      const { dimensionIndicators } = getData(
-        await getDimensionIndicators(user)
-      );
-      const { blockOverview } = getData(await getOverviewBlock(user));
-      const { economicOverview } = getData(await getEconomicOverview(user));
+  useEffect(() => {
+    setLoadingDimensionsIndicators(true);
+    setLoadingOverview(true);
+    setLoadingEconomics(true);
+    getDimensionIndicators(user)
+      .then(data => {
+        const { dimensionIndicators } = getData(data);
+        let indicatorsArray = [];
+        dimensionIndicators.forEach(({ indicators: ind }) => {
+          if (isArray(ind)) {
+            indicatorsArray = [...indicatorsArray, ...ind];
+          }
+        });
+        setIndicators(indicatorsArray);
+        setDimensions(dimensionIndicators);
+      })
+      .finally(() => setLoadingDimensionsIndicators(false));
 
-      let indicatorsArray = [];
-      // eslint-disable-next-line no-shadow
-      dimensionIndicators.forEach(({ indicators }) => {
-        if (isArray(indicators)) {
-          indicatorsArray = [...indicatorsArray, ...indicators];
-        }
-      });
-
-      setIndicators(indicatorsArray);
-      setDimensions(dimensionIndicators);
-      setOverview(blockOverview);
-      setEconomic(economicOverview);
-    })();
+    // TODO add orgs info in the following 2 api requests
+    getOverviewBlock(user)
+      .then(data => {
+        const { blockOverview } = getData(data);
+        setOverview(blockOverview);
+      })
+      .finally(() => setLoadingOverview(false));
+    getEconomicOverview(user)
+      .then(data => {
+        const { economicOverview } = getData(data);
+        setEconomic(economicOverview);
+      })
+      .finally(() => setLoadingEconomics(false));
   }, [user]);
 
   return (
     <Container variant="fluid" className={classes.container}>
-      <Container className={classes.titleBar}>
-        <Typography variant="h4">
+      <Container className={classes.titleBar} variant="fluid">
+        <Typography variant="h4" className={classes.titleLabel}>
           {t('general.welcome').replace('$n', capitalize(user.username))}
         </Typography>
+        <div className={classes.filtersContainer}>
+          <OrganizationsFilter
+            data={selectedOrganizations}
+            onChange={setSelectedOrganizations}
+          />
+        </div>
       </Container>
-      <Container className={classes.operations}>
+      <Container className={classes.operations} variant="fluid">
         <Typography variant="h5">{t('views.operations')}</Typography>
         <Box mt={5} />
         {!feed && (
@@ -90,8 +114,8 @@ const Dashboard = ({ classes, user, t }) => {
           </div>
         )}
       </Container>
-      <Container className={classes.socialEconomics}>
-        {!economic && !overview && (
+      <Container className={classes.socialEconomics} variant="fluid">
+        {(loadingOverview || loadingEconomics) && (
           <div className={classes.loadingContainer}>
             <CircularProgress
               size={50}
@@ -117,11 +141,17 @@ const Dashboard = ({ classes, user, t }) => {
           </div>
         )}
       </Container>
-      <Container className={classes.whiteContainer}>
-        <DimensionsVisualisation data={dimensions} />
+      <Container className={classes.whiteContainer} variant="fluid">
+        <DimensionsVisualisation
+          data={dimensions}
+          loading={loadingDimensionsIndicators}
+        />
       </Container>
-      <Container className={classes.whiteContainer}>
-        <IndicatorsVisualisation data={indicators} />
+      <Container className={classes.whiteContainer} variant="fluid">
+        <IndicatorsVisualisation
+          data={indicators}
+          loading={loadingDimensionsIndicators}
+        />
       </Container>
     </Container>
   );
@@ -132,19 +162,33 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   titleBar: {
+    marginBottom: theme.spacing(5)
+  },
+  titleLabel: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(8),
+    paddingLeft: theme.spacing(6)
+  },
+  filtersContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    background: '#ffff',
+    padding: `${theme.spacing(1.7)}px ${theme.spacing(6)}px ${theme.spacing(
+      1.7
+    )}px ${theme.spacing(6)}px`
   },
   operations: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(5),
+    padding: theme.spacing(6),
     marginBottom: theme.spacing(5)
   },
   operationsContainer: {
     display: 'flex'
   },
   socialEconomics: {
-    padding: theme.spacing(5),
+    padding: theme.spacing(6),
     backgroundColor: theme.palette.background.default,
     marginBottom: theme.spacing(5),
     display: 'flex',
@@ -154,7 +198,7 @@ const styles = theme => ({
     alignSelf: 'flex-end'
   },
   whiteContainer: {
-    padding: theme.spacing(5),
+    padding: theme.spacing(6),
     backgroundColor: theme.palette.background.default,
     marginBottom: theme.spacing(5)
   },
