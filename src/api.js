@@ -43,6 +43,32 @@ export const getSurveys = user =>
     })
   });
 
+export const getOverviewBlock = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query { blockOverview(organizations: [1]) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }'
+    })
+  });
+
+export const getEconomicOverview = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query { economicOverview(organizations: [1]) { familiesCount peopleCount } }'
+    })
+  });
+
 export const getFamilies = user =>
   axios({
     method: 'get',
