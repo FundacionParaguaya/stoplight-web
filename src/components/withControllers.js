@@ -35,7 +35,7 @@ const styles = theme => ({
 function withControllers(title) {
   return WrappedComponent => {
     return withTranslation()(
-      withStyles(styles)(({ data, classes, t, ...props }) => {
+      withStyles(styles)(({ data, loading, classes, t }) => {
         const [type, setType] = useState(BAR);
         const [count, setCount] = useState(10);
         const theme = useTheme();
@@ -47,7 +47,7 @@ function withControllers(title) {
               <Controllers type={type} setIndicatorsType={setType} />
             </div>
             <Box mt={1} />
-            {!data && (
+            {loading && (
               <div className={classes.loadingContainer}>
                 <CircularProgress
                   size={50}
@@ -56,7 +56,7 @@ function withControllers(title) {
                 />
               </div>
             )}
-            {data && data.length > 0 && (
+            {!loading && data.length > 0 && (
               <>
                 <WrappedComponent type={type} data={data.slice(0, count)} />
                 {data.length > 10 && (

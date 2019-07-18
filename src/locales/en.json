@@ -278,6 +278,11 @@
       "searchFamily": "Search family",
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters"
+    },
+    "organizationsFilter": {
+      "label": "Organizations",
+      "loading": "Loading...",
+      "noOption": "No organization left"
     }
   },
   "reports": {
