@@ -1,8 +1,16 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import { PIE, BAR } from '../utils/types';
+import IndicatorsFilter from './summary/IndicatorsFilter';
 
-const Controllers = ({ type, setIndicatorsType, classes }) => {
+const Controllers = ({
+  type,
+  setIndicatorsType,
+  classes,
+  sorting,
+  sortingBy,
+  onSortingChanged
+}) => {
   return (
     <div className={classes.iconsContainer}>
       <i
@@ -21,6 +29,15 @@ const Controllers = ({ type, setIndicatorsType, classes }) => {
       >
         view_headline
       </i>
+      {sorting && (
+        <div className={classes.indicatorsFilterContainer}>
+          <IndicatorsFilter
+            sorting={sorting}
+            sortingBy={sortingBy}
+            onSortingChanged={onSortingChanged}
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -47,7 +64,8 @@ const styles = {
   },
   iconActive: {
     color: '#626262'
-  }
+  },
+  indicatorsFilterContainer: { width: '40%', marginLeft: 10, maxWidth: '250px' }
 };
 
 export default withStyles(styles)(Controllers);
