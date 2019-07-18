@@ -15,6 +15,7 @@ import Scroller, { ScrollerProvider } from './components/Scroller';
 import CustomSnackbarProvider from './components/SnackbarProvider';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import Analytics from './screens/Analytics';
+import Dashboard from './Dashboard';
 
 class App extends Component {
   render() {
@@ -38,6 +39,7 @@ class App extends Component {
                             <Route path="/surveys" component={Surveys} />
                             <Route path="/lifemap" component={Lifemap} />
                             <Route path="/analytics" component={Analytics} />
+                            <Route path="/dashboard" component={Dashboard} />
                           </Switch>
                         </div>
                       </Authenticator>
