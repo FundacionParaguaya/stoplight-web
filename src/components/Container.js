@@ -25,14 +25,14 @@ function Container(props) {
   const md = clsx({
     5: variant === 'slim',
     9: variant === 'stretch',
-    7: variant === undefined,
+    8: variant === undefined,
     12: variant === 'fluid'
   });
 
   const lg = clsx({
     4: variant === 'slim',
     9: variant === 'stretch',
-    7: variant === undefined,
+    8: variant === undefined,
     12: variant === 'fluid'
   });
 
@@ -55,7 +55,8 @@ function Container(props) {
 
 const styles = {
   root: {
-    width: '60%',
+    width: 990,
+    maxWidth: '70%',
     marginLeft: 'auto',
     marginRight: 'auto'
   },
