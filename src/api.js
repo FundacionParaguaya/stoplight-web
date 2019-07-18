@@ -108,3 +108,12 @@ export const checkSessionToken = (token, env) =>
       Authorization: `Bearer ${token}`
     }
   });
+
+export const getOrganizations = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/organizations?page=1`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
