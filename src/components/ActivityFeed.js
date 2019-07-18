@@ -19,14 +19,6 @@ const ActivityFeed = ({
 
   return (
     <>
-      {!data && (
-        <div
-          className={classes.loadingContainer}
-          style={{ width, minHeight: height }}
-        >
-          <CircularProgress color="primary" size={40} thickness={2} />
-        </div>
-      )}
       {data && (
         <div className={classes.container} style={{ width, minHeight: height }}>
           {data.map(({ name, familyId }, index) => (
