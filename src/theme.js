@@ -24,7 +24,8 @@ export const theme = {
     },
     text: {
       primary: '#1c212f',
-      secondary: '#fff'
+      secondary: '#fff',
+      light: 'rgba(0,0,0,0.5)'
     },
     grey: {
       main: '#909090',
@@ -85,7 +86,7 @@ export const theme = {
   shape: {
     padding: 40,
     marginButton: '40px 0 50px 0',
-    header: '60px',
+    header: '70px',
     footer: '40px'
   },
   shadows: Array(25).fill('none'),

@@ -1,6 +1,6 @@
 {
   "general": {
-    "welcome": "¡Bienvenido!",
+    "welcome": "¡Bienvenido $n!",
     "thankYou": "¡Gracias!",
     "disagree": "Desacuerdo",
     "agree": "De acuerdo",
@@ -74,6 +74,7 @@
     "noDrafts": "No hay borradores para mostrar",
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
+    "operations": "Operaciones",
     "survey": {
       "chooseSurvey": "Elige una encuesta",
       "contains": "Contiene",
