@@ -17,7 +17,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DashboardFilters = ({ organizationsData, onChangeOrganization }) => {
+const DashboardFilters = ({
+  organizationsData,
+  onChangeOrganization,
+  from,
+  to,
+  onFromDateChanged,
+  onToDateChanged
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -30,7 +37,12 @@ const DashboardFilters = ({ organizationsData, onChangeOrganization }) => {
         </Grid>
         <Grid item md={2} sm={1} xs={1} />
         <Grid item md={4} sm={5} xs={12}>
-          <DateRangeFilters />
+          <DateRangeFilters
+            from={from}
+            to={to}
+            setFrom={onFromDateChanged}
+            setTo={onToDateChanged}
+          />
         </Grid>
       </Grid>
     </div>
