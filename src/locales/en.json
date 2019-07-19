@@ -289,6 +289,9 @@
       "searchFamily": "Search family",
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters"
+    },
+    "activityFeed": {
+      "by": "By"
     }
   },
   "reports": {
