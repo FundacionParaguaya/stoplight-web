@@ -26,7 +26,8 @@
     "chooseView": "Elegir vista",
     "create": "Crear",
     "saveError": "Error al guardar tu Mapa de vida",
-    "noOptionsToShow": "No hay opciones disponibles para seleccionar"
+    "noOptionsToShow": "No hay opciones disponibles para seleccionar",
+    "clear": "Limpiar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -293,6 +294,15 @@
     },
     "activityFeed": {
       "by": "Por"
+    },
+    "organizationsFilter": {
+      "label": "Organizaciones",
+      "loading": "Cargando...",
+      "noOption": "No quedan organizaciones"
+    },
+    "dateRangeFilter": {
+      "from": "Desde",
+      "to": "Hasta"
     }
   },
   "reports": {
