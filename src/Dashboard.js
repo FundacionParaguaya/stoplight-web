@@ -3,12 +3,14 @@ import { Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles, useTheme } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { isArray, capitalize } from 'lodash';
+import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
   getFamilies,
   getDimensionIndicators,
   getEconomicOverview,
-  getOverviewBlock
+  getOverviewBlock,
+  getOperationsOverview
 } from './api';
 import withLayout from './components/withLayout';
 import Container from './components/Container';
@@ -19,15 +21,6 @@ import OverviewBlock from './components/OverviewBlock';
 import DimensionsVisualisation from './components/DimensionsVisualisation';
 import IndicatorsVisualisation from './components/IndicatorsVisualisation';
 import DashboardFilters from './components/DashboardFilters';
-
-const chartData = [
-  { date: '2019-05-13T00:00', surveys: 750 },
-  { date: '2019-01-15T00:00', surveys: 560 },
-  { date: '2019-07-16T00:00', surveys: 1280 },
-  { date: '2019-08-23T00:00', surveys: 400 },
-  { date: '2019-09-04T00:00', surveys: 1400 },
-  { date: '2019-10-14T00:00', surveys: 1300 }
-];
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
@@ -40,6 +33,7 @@ const Dashboard = ({ classes, user, t }) => {
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
+  const [chart, setChart] = useState(null);
   const [
     loadingDimensionsIndicators,
     setLoadingDimensionsIndicators
@@ -47,6 +41,7 @@ const Dashboard = ({ classes, user, t }) => {
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
   const theme = useTheme();
+
   useEffect(() => {
     getFamilies(user).then(families => setFeed(families.data.splice(0, 25)));
   }, [user]);
@@ -85,7 +80,24 @@ const Dashboard = ({ classes, user, t }) => {
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
-  }, [user, selectedOrganizations]);
+
+    getOperationsOverview(user, fromDate, toDate, selectedOrganizations).then(
+      data => {
+        const {
+          operationsOverview: { surveysByMonth }
+        } = getData(data);
+
+        const chartData = Object.entries(surveysByMonth)
+          .sort()
+          .map(([date, surveys]) => ({
+            date: moment(date, 'MM-YYYY').format(),
+            surveys
+          }));
+
+        setChart(chartData);
+      }
+    );
+  }, [user, selectedOrganizations, fromDate, toDate]);
 
   return (
     <Container variant="fluid" className={classes.container}>
@@ -114,9 +126,9 @@ const Dashboard = ({ classes, user, t }) => {
             />
           </div>
         )}
-        {feed && chartData && (
+        {feed && chart && (
           <div className={classes.operationsContainer}>
-            <GreenLineChart width="65%" height={220} data={chartData} />
+            <GreenLineChart width="65%" height={220} data={chart} />
             <ActivityFeed data={feed} width="35%" height={300} />
           </div>
         )}
