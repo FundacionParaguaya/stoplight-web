@@ -18,8 +18,6 @@ import FamilyOverviewBlock from './components/FamiliesOverviewBlock';
 import OverviewBlock from './components/OverviewBlock';
 import DimensionsVisualisation from './components/DimensionsVisualisation';
 import IndicatorsVisualisation from './components/IndicatorsVisualisation';
-// import OrganizationsFilter from './components/OrganizationsFilter';
-// import DateRangeFilter from './components/DateRangeFilter';
 import DashboardFilters from './components/DashboardFilters';
 
 const chartData = [
@@ -40,6 +38,8 @@ const Dashboard = ({ classes, user, t }) => {
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [
     loadingDimensionsIndicators,
     setLoadingDimensionsIndicators
@@ -93,18 +93,13 @@ const Dashboard = ({ classes, user, t }) => {
         <Typography variant="h4" className={classes.titleLabel}>
           {t('general.welcome').replace('$n', capitalize(user.username))}
         </Typography>
-        {/* <div className={classes.filtersContainer}>
-          <OrganizationsFilter
-            data={selectedOrganizations}
-            onChange={setSelectedOrganizations}
-          />
-          <div style={{ marginLeft: '80px' }}>
-            <DateRangeFilter />
-          </div>
-        </div> */}
         <DashboardFilters
           organizationsData={selectedOrganizations}
           onChangeOrganization={setSelectedOrganizations}
+          from={fromDate}
+          to={toDate}
+          onFromDateChanged={setFromDate}
+          onToDateChanged={setToDate}
         />
       </Container>
       <Container className={classes.operations} variant="fluid">

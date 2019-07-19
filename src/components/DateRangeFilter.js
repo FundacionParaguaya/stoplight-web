@@ -67,7 +67,7 @@ const DateRangeFilter = ({ from, setFrom, to, setTo }) => {
     value: from ? moment.unix(from) : null,
     okLabel: t('general.ok'),
     cancelLabel: t('general.cancel'),
-    onChange: value => setFrom(value.unix()),
+    onChange: value => setFrom(value ? value.unix() : null),
     fullWidth: true,
     TextFieldComponent: passedProps => {
       return (
@@ -96,7 +96,7 @@ const DateRangeFilter = ({ from, setFrom, to, setTo }) => {
     value: to ? moment.unix(to) : null,
     okLabel: t('general.ok'),
     cancelLabel: t('general.cancel'),
-    onChange: value => setTo(value.unix()),
+    onChange: value => setTo(value ? value.unix() : null),
     fullWidth: true,
     TextFieldComponent: passedProps => {
       return (
