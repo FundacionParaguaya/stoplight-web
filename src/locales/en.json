@@ -26,7 +26,8 @@
     "chooseView": "Choose view",
     "create": "Create",
     "saveError": "Error while trying to save your lifemap",
-    "noOptionsToShow": "There are no options available to select"
+    "noOptionsToShow": "There are no options available to select",
+    "clear": "Clear"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -294,6 +295,10 @@
       "label": "Organizations",
       "loading": "Loading...",
       "noOption": "No organization left"
+    },
+    "dateRangeFilter": {
+      "from": "From",
+      "to": "To"
     }
   },
   "reports": {
