@@ -18,7 +18,7 @@ import FamilyOverviewBlock from './components/FamiliesOverviewBlock';
 import OverviewBlock from './components/OverviewBlock';
 import DimensionsVisualisation from './components/DimensionsVisualisation';
 import IndicatorsVisualisation from './components/IndicatorsVisualisation';
-import OrganizationsFilter from './components/OrganizationsFilter';
+import DashboardFilters from './components/DashboardFilters';
 
 const chartData = [
   { date: '2019-05-13T00:00', surveys: 750 },
@@ -38,6 +38,8 @@ const Dashboard = ({ classes, user, t }) => {
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [
     loadingDimensionsIndicators,
     setLoadingDimensionsIndicators
@@ -91,12 +93,14 @@ const Dashboard = ({ classes, user, t }) => {
         <Typography variant="h4" className={classes.titleLabel}>
           {t('general.welcome').replace('$n', capitalize(user.username))}
         </Typography>
-        <div className={classes.filtersContainer}>
-          <OrganizationsFilter
-            data={selectedOrganizations}
-            onChange={setSelectedOrganizations}
-          />
-        </div>
+        <DashboardFilters
+          organizationsData={selectedOrganizations}
+          onChangeOrganization={setSelectedOrganizations}
+          from={fromDate}
+          to={toDate}
+          onFromDateChanged={setFromDate}
+          onToDateChanged={setToDate}
+        />
       </Container>
       <Container className={classes.operations} variant="fluid">
         <Typography variant="h5">{t('views.operations')}</Typography>
@@ -171,16 +175,6 @@ const styles = theme => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
     paddingLeft: theme.spacing(6)
-  },
-  filtersContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    background: '#ffff',
-    padding: `${theme.spacing(1.7)}px ${theme.spacing(6)}px ${theme.spacing(
-      1.7
-    )}px ${theme.spacing(6)}px`
   },
   operations: {
     backgroundColor: theme.palette.background.default,
