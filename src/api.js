@@ -56,6 +56,34 @@ export const getOverviewBlock = user =>
     })
   });
 
+export const getOperationsOverview = (
+  user,
+  fromDate,
+  toDate,
+  selectedOrganizations
+) => {
+  // we pass only the value of the object
+  const sanitizedOrganizations = selectedOrganizations.map(
+    ({ value }) => value
+  );
+  // we convert dates to times
+  const toTime = toDate ? new Date(toDate).getTime() : null;
+  const fromTime = fromDate ? new Date(fromDate).getTime() : null;
+
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query operationsOverview($organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(organizations: $organizations, toTime: $toTime, fromTime: $fromTime) {surveysByMonth} }'
+    }),
+    variables: { organizations: sanitizedOrganizations, toTime, fromTime }
+  });
+};
+
 export const getEconomicOverview = user =>
   axios({
     method: 'post',
