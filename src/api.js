@@ -71,11 +71,16 @@ export const getEconomicOverview = user =>
 
 export const getFamilies = user =>
   axios({
-    method: 'get',
-    url: `${url[user.env]}/api/v1/families`,
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
-    }
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify({
+      query:
+        'query { feed {activityId,activityKey,activityParams,activityType,username,createdAt, family{name}}}'
+    })
   });
 
 export const getDimensionIndicators = (user, surveyId) =>
