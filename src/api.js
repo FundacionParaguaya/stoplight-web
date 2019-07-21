@@ -159,20 +159,6 @@ export const getDrafts = user =>
     })
   });
 
-// get the user's snapshots list
-export const getSnapshots = user =>
-  axios({
-    method: 'post',
-    url: `${url[user.env]}/graphql`,
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    },
-    data: JSON.stringify({
-      query:
-        'query { getSnapshotDraft{ userName draftId surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } familyDataDTO { familyId }  indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { familyId latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }'
-    })
-  });
-
 // Saves a draft
 export const saveDraft = (user, draft) =>
   axios({

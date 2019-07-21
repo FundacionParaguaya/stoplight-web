@@ -12,7 +12,7 @@ import moment from 'moment';
 import Fuse from 'fuse.js';
 import { get } from 'lodash';
 import clsx from 'clsx';
-import { updateSurvey, updateDraft } from '../redux/actions';
+import { updateSurvey } from '../redux/actions';
 import { getDrafts } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
@@ -81,7 +81,7 @@ const SnapshotsFilter = ({
     <React.Fragment>
       <div className={classes.mainContainer}>
         <div className={classes.statusFilterContainer}>
-          <div
+          {/* <div
             className={`${classes.filterElementContainer} ${
               statusFilter === '' ? classes.activeFilter : ''
             }`}
@@ -116,7 +116,7 @@ const SnapshotsFilter = ({
             <Typography variant="h6" className={classes.statusFilter}>
               {t('views.snapshotsTable.completed')}
             </Typography>
-          </div>
+          </div> */}
         </div>
         <div className={classes.familiesFilterContainer}>
           <TextField
@@ -256,6 +256,7 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
       getDrafts(user).then(response =>
         get(response, 'data.data.getSnapshotDraft', [])
       ),
+      // TODO here we should include snapshots already taken
       Promise.resolve([])
     ]).then(([drafts, prevSnapshots]) => {
       const consolidated = [
@@ -265,7 +266,6 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
           status: SNAPSHOTS_STATUS.COMPLETED
         }))
       ];
-      console.log(consolidated);
       setSnapshots(consolidated);
     });
   }, [user]);
@@ -406,7 +406,7 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
 
 const mapStateToProps = ({ user }) => ({ user });
 
-const mapDispatchToProps = { updateSurvey, updateDraft };
+const mapDispatchToProps = { updateSurvey };
 
 export default connect(
   mapStateToProps,
