@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,6 +13,7 @@ import Fuse from 'fuse.js';
 import { get } from 'lodash';
 import clsx from 'clsx';
 import { updateSurvey, updateDraft } from '../redux/actions';
+import { getDrafts } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
@@ -80,7 +81,7 @@ const SnapshotsFilter = ({
     <React.Fragment>
       <div className={classes.mainContainer}>
         <div className={classes.statusFilterContainer}>
-          {/* <div
+          <div
             className={`${classes.filterElementContainer} ${
               statusFilter === '' ? classes.activeFilter : ''
             }`}
@@ -115,7 +116,7 @@ const SnapshotsFilter = ({
             <Typography variant="h6" className={classes.statusFilter}>
               {t('views.snapshotsTable.completed')}
             </Typography>
-          </div> */}
+          </div>
         </div>
         <div className={classes.familiesFilterContainer}>
           <TextField
@@ -240,15 +241,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
+const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   const {
     t,
     i18n: { language }
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   const classes = useStyles();
-  const [statusFilter, setStatusFilter] = useState(SNAPSHOTS_STATUS.DRAFT);
+  const [statusFilter, setStatusFilter] = useState('');
   const [familiesFilter, setFamiliesFilter] = useState('');
+  const [snapshots, setSnapshots] = useState([]);
+  useEffect(() => {
+    Promise.all([
+      getDrafts(user).then(response =>
+        get(response, 'data.data.getSnapshotDraft', [])
+      ),
+      Promise.resolve([])
+    ]).then(([drafts, prevSnapshots]) => {
+      const consolidated = [
+        ...drafts.map(d => ({ ...d, status: SNAPSHOTS_STATUS.DRAFT })),
+        ...prevSnapshots.map(d => ({
+          ...d,
+          status: SNAPSHOTS_STATUS.COMPLETED
+        }))
+      ];
+      console.log(consolidated);
+      setSnapshots(consolidated);
+    });
+  }, [user]);
   const filteredSnapshots = useMemo(() => {
     let filtered = snapshots;
     if (familiesFilter) {
@@ -384,7 +404,7 @@ const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
   );
 };
 
-const mapStateToProps = ({ snapshots }) => ({ snapshots });
+const mapStateToProps = ({ user }) => ({ user });
 
 const mapDispatchToProps = { updateSurvey, updateDraft };
 

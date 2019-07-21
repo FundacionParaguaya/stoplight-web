@@ -305,7 +305,6 @@ class Surveys extends Component {
     );
     const draft = { ...snapshot };
     delete draft.status;
-    delete draft.currentScreen;
     this.props.updateDraft(draft);
     this.props.updateSurvey({
       ...survey,
@@ -322,7 +321,7 @@ class Surveys extends Component {
         })
       );
     } else {
-      this.props.history.push(snapshot.currentScreen);
+      this.props.history.push('/lifemap/terms');
     }
   };
 

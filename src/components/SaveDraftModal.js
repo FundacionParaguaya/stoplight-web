@@ -1,29 +1,45 @@
-import React from 'react';
-import { withStyles, Modal, Typography, Button } from '@material-ui/core';
+import React, { useState } from 'react';
+import {
+  withStyles,
+  Modal,
+  Typography,
+  Button,
+  CircularProgress,
+  IconButton
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { withSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { upsertSnapshot } from '../redux/actions';
-import { SNAPSHOTS_STATUS } from '../redux/reducers';
+import { saveDraft } from '../api';
 import face from '../assets/serious_face.png';
 
-// See and implementation example on NavIcons
 const SaveDraftModal = props => {
-  const { classes, open, onClose, currentDraft, match } = props;
+  const { classes, open, onClose, currentDraft, user, history } = props;
+  const [savingDraft, setSavingDraft] = useState(false);
   const { t } = useTranslation();
-  const addDraftToSnapshots = () => {
-    // Before adding the draft to the snapshots list, we make sure to add information
-    // about the screen where the user left, and we set the status to DRAFT
-    const draft = {
-      ...currentDraft,
-      status: SNAPSHOTS_STATUS.DRAFT,
-      currentScreen: match.url
-    };
-    props.upsertSnapshot(draft);
-    props.history.push('/surveys');
+  const onSaveClicked = () => {
+    setSavingDraft(true);
+    saveDraft(user, currentDraft)
+      .then(() => {
+        history.push('/surveys');
+      })
+      .catch(() => {
+        props.enqueueSnackbar(t('views.saveDraftModal.cannotSave'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => props.closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        onClose();
+      })
+      .finally(() => setSavingDraft(false));
   };
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={savingDraft ? null : onClose}>
       <div className={classes.mainContainer}>
         <img src={face} className={classes.icon} alt="Warning icon" />
         <Typography className={classes.title} variant="h5">
@@ -35,16 +51,27 @@ const SaveDraftModal = props => {
         <Typography className={classes.exitLabel} variant="h5">
           {t('views.saveDraftModal.sureWantToExit')}
         </Typography>
+        {savingDraft && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress size={50} thickness={2} />
+          </div>
+        )}
         <div className={classes.buttonContainer}>
           <Button
             className={classes.button}
             variant="outlined"
             color="primary"
-            onClick={addDraftToSnapshots}
+            onClick={onSaveClicked}
+            disabled={savingDraft}
           >
             {t('general.yes')}
           </Button>
-          <Button variant="outlined" color="primary" onClick={onClose}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={onClose}
+            disabled={savingDraft}
+          >
             {t('general.no')}
           </Button>
         </div>
@@ -98,18 +125,24 @@ const styles = theme => ({
     marginBottom: theme.spacing(2),
     color: '#626262',
     fontSize: '14px'
+  },
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: theme.spacing(3)
   }
 });
 
-const mapStateToProps = ({ currentDraft, currentSurvey }) => ({
+const mapStateToProps = ({ currentDraft, currentSurvey, user }) => ({
   currentDraft,
-  currentSurvey
+  currentSurvey,
+  user
 });
-const mapDispatchToProps = { upsertSnapshot };
+const mapDispatchToProps = {};
 
 export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withStyles(styles)(SaveDraftModal))
+  )(withStyles(styles)(withSnackbar(SaveDraftModal)))
 );
