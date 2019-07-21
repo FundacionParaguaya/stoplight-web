@@ -275,7 +275,8 @@
     "saveDraftModal": {
       "lifemapNotComplete": "¡Tu mapa de vida no está completo!",
       "willSaveDraft": "Se guardará como un borrador.",
-      "sureWantToExit": "¿Estás seguro de que quieres salir?"
+      "sureWantToExit": "¿Estás seguro de que quieres salir?",
+      "cannotSave": "Ha ocurrido un error al guardar el borrador. Por favor inténtelo de nuevo."
     },
     "snapshotsTable": {
       "title": "Borradores",
