@@ -7,7 +7,6 @@ const useStyles = makeStyles(theme => ({
   mainContainer: {
     backgroundColor: '#fff',
     padding: theme.spacing(2),
-    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     color: '#6A6A6A'
@@ -57,12 +56,12 @@ const FamiliesOverviewBlock = ({
   womenCount,
   includeEconomics,
   innerRef,
-  padding
+  style
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   return (
-    <div className={classes.mainContainer} style={{ padding }} ref={innerRef}>
+    <div className={classes.mainContainer} style={style} ref={innerRef}>
       <Typography variant="h5">
         {includeEconomics
           ? t('views.familiesOverviewBlock.economics')
