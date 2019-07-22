@@ -254,13 +254,25 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   useEffect(() => {
     Promise.all([
       getDrafts(user).then(response =>
-        get(response, 'data.data.getSnapshotDraft', []).map(el => ({
-          ...el,
-          familyData: {
-            ...el.familyDataDTO,
-            familyMembersList: el.familyDataDTO.familyMemberDTOList
-          }
-        }))
+        get(response, 'data.data.getSnapshotDraft', []).map(element => {
+          const el = { ...element };
+          // Mapping keys for family data
+          const familyData = { ...el.familyDataDTO };
+          familyData.familyMembersList = el.familyDataDTO.familyMemberDTOList;
+          delete el.familyDataDTO.familyMemberDTOList;
+          delete el.familyDataDTO;
+          // Mapping keys for priorities and achievements
+          const achievements = el.snapshotStoplightAchievements;
+          delete el.snapshotStoplightAchievements;
+          const priorities = el.snapshotStoplightPriorities;
+          delete el.snapshotStoplightPriorities;
+          return {
+            ...el,
+            familyData,
+            achievements,
+            priorities
+          };
+        })
       ),
       // TODO here we should include snapshots already taken
       Promise.resolve([])
@@ -272,6 +284,7 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
           status: SNAPSHOTS_STATUS.COMPLETED
         }))
       ];
+      console.log(consolidated);
       setSnapshots(consolidated);
     });
   }, [user]);
