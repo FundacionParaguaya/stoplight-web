@@ -58,6 +58,32 @@ export const getSurveys = user =>
     })
   });
 
+export const getOverviewBlock = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query { blockOverview(organizations: [1]) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }'
+    })
+  });
+
+export const getEconomicOverview = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query { economicOverview(organizations: [1]) { familiesCount peopleCount } }'
+    })
+  });
+
 export const getFamilies = user =>
   axios({
     method: 'get',
@@ -67,7 +93,7 @@ export const getFamilies = user =>
     }
   });
 
-export const getDimensionIndicators = (user, surveyId) =>
+export const getDimensionIndicators = (user, organizations = []) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -76,10 +102,11 @@ export const getDimensionIndicators = (user, surveyId) =>
       'Content-Type': 'application/json'
     },
     data: JSON.stringify({
-      query: `query { dimensionIndicators {dimension, priorities, achievements,
+      query: `query { dimensionIndicators(organizations: ${JSON.stringify(
+        organizations
+      )}) {dimension, priorities, achievements,
           stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
-           stoplights{count, color, dimension, indicator}} } }`,
-      variables: { surveyId }
+           stoplights{count, color, dimension, indicator}} } }`
     })
   });
 
@@ -121,5 +148,14 @@ export const checkSessionToken = (token, env) =>
     url: `${url[env]}/api/v1/users/validate`,
     headers: {
       Authorization: `Bearer ${token}`
+    }
+  });
+
+export const getOrganizations = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/organizations?page=1`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
     }
   });

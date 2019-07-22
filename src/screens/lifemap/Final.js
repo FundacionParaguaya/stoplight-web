@@ -175,7 +175,9 @@ export class Final extends Component {
                         document,
                         primaryParticipant.email,
                         this.props.user
-                      );
+                      )
+                        .then(() => 'success')
+                        .catch(() => 'err');
                     });
                   }}
                 >

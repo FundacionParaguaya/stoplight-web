@@ -93,18 +93,14 @@ const Authenticator = props => {
     // Verifying token before logging user in
     checkSessionToken(sessionId, environment)
       .then(response => {
-        if (response.data.role === SURVEY_ROLE) {
-          updateUserActionDispatch({
-            username: response.data.username,
-            token: sessionId,
-            env: environment,
-            role: response.data.role
-          });
-          setLoggedIn(true);
-          setAuthVerified(true);
-        } else {
-          throw new Error('User does not have survey role');
-        }
+        updateUserActionDispatch({
+          username: response.data.username,
+          token: sessionId,
+          env: environment,
+          role: response.data.role
+        });
+        setLoggedIn(true);
+        setAuthVerified(true);
       })
       .catch(() => {
         updateUserActionDispatch({

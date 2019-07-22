@@ -1,6 +1,6 @@
 {
   "general": {
-    "welcome": "¡Bienvenido!",
+    "welcome": "¡Bienvenido $n!",
     "thankYou": "¡Gracias!",
     "disagree": "Desacuerdo",
     "agree": "De acuerdo",
@@ -26,7 +26,8 @@
     "chooseView": "Elegir vista",
     "create": "Crear",
     "saveError": "Error al guardar tu Mapa de vida",
-    "noOptionsToShow": "No hay opciones disponibles para seleccionar"
+    "noOptionsToShow": "No hay opciones disponibles para seleccionar",
+    "clear": "Limpiar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -67,11 +68,14 @@
     "synced": "Sincronización",
     "families": "Familias",
     "dashboard": "Tablero",
+    "indicators": "Indicadores",
+    "dimensions": "Dimensiones",
     "createLifemap": "Crear un Mapa de Vida",
     "latestDrafts": "Últimas instantáneas",
     "noDrafts": "No hay borradores para mostrar",
     "termsConditions": "Términos & condiciones",
     "privacyPolicy": "Política de privacidad",
+    "operations": "Operaciones",
     "survey": {
       "chooseSurvey": "Elige una encuesta",
       "contains": "Contiene",
@@ -236,7 +240,18 @@
       "yellow": "Amarillo",
       "green": "Verde",
       "skipped": "Omitidas",
-      "allIndicators": "Todos los indicadores"
+      "allIndicators": "Todos los indicadores",
+      "sort": {
+        "MOST_GREENS": "Más verdes",
+        "MOST_REDS": "Más rojos",
+        "MOST_YELLOWS": "Más amarillos",
+        "MOST_SKIPPED": "Más omitidos",
+        "MOST_PRIORITIZED": "Más priorizados",
+        "LESS_PRIORITIZED": "Menos priorizados",
+        "MOST_ACHIEVED": "Más logrados",
+        "LESS_ACHIEVED": "Menos logrados",
+        "DEFAULT": "Todos"
+      }
     },
     "final": {
       "title": "¡Gracias!",
@@ -276,6 +291,15 @@
       "searchFamily": "Buscar familia",
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
+    },
+    "organizationsFilter": {
+      "label": "Organizaciones",
+      "loading": "Cargando...",
+      "noOption": "No quedan organizaciones"
+    },
+    "dateRangeFilter": {
+      "from": "Desde",
+      "to": "Hasta"
     }
   },
   "reports": {
