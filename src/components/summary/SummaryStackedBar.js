@@ -29,6 +29,7 @@ const SummaryStackedBar = props => {
       skipped: skippedIndicatorCount
     }
   ];
+  const shouldAnimate = animationDuration > 0;
 
   return (
     <div className={classes.mainContainer}>
@@ -72,24 +73,28 @@ const SummaryStackedBar = props => {
             dataKey="green"
             stackId="a"
             fill={COLORS.GREEN}
+            isAnimationActive={shouldAnimate}
           />
           <Bar
             animationDuration={animationDuration}
             dataKey="yellow"
             stackId="a"
             fill={COLORS.YELLOW}
+            isAnimationActive={shouldAnimate}
           />
           <Bar
             animationDuration={animationDuration}
             dataKey="red"
             stackId="a"
             fill={COLORS.RED}
+            isAnimationActive={shouldAnimate}
           />
           <Bar
             animationDuration={animationDuration}
             dataKey="skipped"
             stackId="a"
             fill={COLORS.LIGHT_GREY}
+            isAnimationActive={shouldAnimate}
           />
         </BarChart>
       </ResponsiveContainer>

@@ -21,6 +21,60 @@ export const FILTERED_BY_OPTIONS = {
   ALL: 'ALL'
 };
 
+export const SORT_BY_OPTIONS = {
+  MOST_GREENS: 'MOST_GREENS',
+  MOST_REDS: 'MOST_REDS',
+  MOST_YELLOWS: 'MOST_YELLOWS',
+  MOST_SKIPPED: 'MOST_SKIPPED',
+  MOST_PRIORITIZED: 'MOST_PRIORITIZED',
+  LESS_PRIORITIZED: 'LESS_PRIORITIZED',
+  MOST_ACHIEVED: 'MOST_ACHIEVED',
+  LESS_ACHIEVED: 'LESS_ACHIEVED',
+  DEFAULT: 'DEFAULT'
+};
+
+export const sorter = sortBy => (indA, indB) => {
+  let compareResult = 0;
+  const stoplightCountFinder = (stoplights, filter) => {
+    const stoplight = stoplights.find(s => s.color === filter) || { count: 0 };
+    return stoplight.count;
+  };
+  const { stoplights: stoplightsA = [] } = indA;
+  const { stoplights: stoplightsB = [] } = indB;
+  const { priorities: prioritiesA = 0 } = indA;
+  const { priorities: prioritiesB = 0 } = indB;
+  const { achievements: achievementsA = 0 } = indA;
+  const { achievements: achievementsB = 0 } = indB;
+  if (sortBy === SORT_BY_OPTIONS.MOST_GREENS) {
+    compareResult =
+      stoplightCountFinder(stoplightsB, 3) -
+      stoplightCountFinder(stoplightsA, 3);
+  } else if (sortBy === SORT_BY_OPTIONS.MOST_YELLOWS) {
+    compareResult =
+      stoplightCountFinder(stoplightsB, 2) -
+      stoplightCountFinder(stoplightsA, 2);
+  } else if (sortBy === SORT_BY_OPTIONS.MOST_REDS) {
+    compareResult =
+      stoplightCountFinder(stoplightsB, 1) -
+      stoplightCountFinder(stoplightsA, 1);
+  } else if (sortBy === SORT_BY_OPTIONS.MOST_SKIPPED) {
+    compareResult =
+      stoplightCountFinder(stoplightsB, 0) -
+      stoplightCountFinder(stoplightsA, 0);
+  } else if (sortBy === SORT_BY_OPTIONS.MOST_PRIORITIZED) {
+    compareResult = prioritiesB - prioritiesA;
+  } else if (sortBy === SORT_BY_OPTIONS.LESS_PRIORITIZED) {
+    compareResult = prioritiesA - prioritiesB;
+  } else if (sortBy === SORT_BY_OPTIONS.MOST_ACHIEVED) {
+    compareResult = achievementsB - achievementsA;
+  } else if (sortBy === SORT_BY_OPTIONS.LESS_ACHIEVED) {
+    compareResult = achievementsA - achievementsB;
+  } else if (sortBy === SORT_BY_OPTIONS.DEFAULT) {
+    compareResult = 0;
+  }
+  return compareResult;
+};
+
 const IndicatorsFilter = ({
   classes,
   t,
@@ -29,7 +83,10 @@ const IndicatorsFilter = ({
   redIndicatorCount,
   skippedIndicatorCount,
   filterValue,
-  onFilterChanged
+  onFilterChanged,
+  sorting,
+  sortingBy,
+  onSortingChanged
 }) => {
   const [open, setOpen] = useState(false);
   const anchorEl = useRef(null);
@@ -48,18 +105,24 @@ const IndicatorsFilter = ({
         onClick={() => setOpen(true)}
       >
         <Typography variant="subtitle1" className={classes.buttonText}>
-          {filterValue === FILTERED_BY_OPTIONS.ALL &&
+          {!sorting &&
+            filterValue === FILTERED_BY_OPTIONS.ALL &&
             `${t(
               'views.indicatorsFilter.allIndicators'
             )}  (${allIndicatorsCount})`}
-          {filterValue === FILTERED_BY_OPTIONS.GREEN &&
+          {!sorting &&
+            filterValue === FILTERED_BY_OPTIONS.GREEN &&
             `${t('views.indicatorsFilter.green')} (${greenIndicatorCount})`}
-          {filterValue === FILTERED_BY_OPTIONS.YELLOW &&
+          {!sorting &&
+            filterValue === FILTERED_BY_OPTIONS.YELLOW &&
             `${t('views.indicatorsFilter.yellow')} (${yellowIndicatorCount})`}
-          {filterValue === FILTERED_BY_OPTIONS.RED &&
+          {!sorting &&
+            filterValue === FILTERED_BY_OPTIONS.RED &&
             `${t('views.indicatorsFilter.red')} (${redIndicatorCount})`}
-          {filterValue === FILTERED_BY_OPTIONS.SKIPPED &&
+          {!sorting &&
+            filterValue === FILTERED_BY_OPTIONS.SKIPPED &&
             `${t('views.indicatorsFilter.skipped')} (${skippedIndicatorCount})`}
+          {sorting && t(`views.indicatorsFilter.sort.${sortingBy}`)}
         </Typography>
         <ArrowDropDownIcon className={classes.buttonIcon} />
       </Button>
@@ -86,7 +149,7 @@ const IndicatorsFilter = ({
             >
               <ClickAwayListener onClickAway={() => setOpen(false)}>
                 <MenuList>
-                  {filterValue !== FILTERED_BY_OPTIONS.ALL && (
+                  {!sorting && filterValue !== FILTERED_BY_OPTIONS.ALL && (
                     <MenuItem
                       onClick={() => {
                         setOpen(false);
@@ -112,7 +175,7 @@ const IndicatorsFilter = ({
                       </Typography>
                     </MenuItem>
                   )}
-                  {filterValue !== FILTERED_BY_OPTIONS.GREEN && (
+                  {!sorting && filterValue !== FILTERED_BY_OPTIONS.GREEN && (
                     <MenuItem
                       onClick={() => {
                         setOpen(false);
@@ -132,7 +195,7 @@ const IndicatorsFilter = ({
                       </Typography>
                     </MenuItem>
                   )}
-                  {filterValue !== FILTERED_BY_OPTIONS.YELLOW && (
+                  {!sorting && filterValue !== FILTERED_BY_OPTIONS.YELLOW && (
                     <MenuItem
                       onClick={() => {
                         setOpen(false);
@@ -152,7 +215,7 @@ const IndicatorsFilter = ({
                       </Typography>
                     </MenuItem>
                   )}
-                  {filterValue !== FILTERED_BY_OPTIONS.RED && (
+                  {!sorting && filterValue !== FILTERED_BY_OPTIONS.RED && (
                     <MenuItem
                       onClick={() => {
                         setOpen(false);
@@ -172,7 +235,7 @@ const IndicatorsFilter = ({
                       </Typography>
                     </MenuItem>
                   )}
-                  {filterValue !== FILTERED_BY_OPTIONS.SKIPPED && (
+                  {!sorting && filterValue !== FILTERED_BY_OPTIONS.SKIPPED && (
                     <MenuItem
                       onClick={() => {
                         setOpen(false);
@@ -192,6 +255,35 @@ const IndicatorsFilter = ({
                       </Typography>
                     </MenuItem>
                   )}
+                  {sorting &&
+                    Object.keys(SORT_BY_OPTIONS)
+                      .filter(
+                        key =>
+                          sortingBy !== key && key !== SORT_BY_OPTIONS.DEFAULT
+                      )
+                      .map(key => (
+                        <MenuItem
+                          className={classes.sortItemStyle}
+                          key={key}
+                          onClick={() => {
+                            setOpen(false);
+                            onSortingChanged(key);
+                          }}
+                        >
+                          {/* <ListItemIcon className={classes.icon}>
+                          <div
+                            className={classes.indicatorBall}
+                            style={{ backgroundColor: COLORS.LIGHT_GREY }}
+                          />
+                        </ListItemIcon> */}
+                          <Typography
+                            variant="subtitle1"
+                            className={classes.itemTextStyle}
+                          >
+                            {t(`views.indicatorsFilter.sort.${key}`)}
+                          </Typography>
+                        </MenuItem>
+                      ))}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -208,7 +300,6 @@ const styles = () => ({
     height: '42px',
     border: '1px solid #DCDEE3',
     boxSizing: 'border-box',
-    marginTop: 20,
     borderRadius: 2,
     backgroundColor: '#FAFBFC',
     display: 'flex',
@@ -246,7 +337,14 @@ const styles = () => ({
     marginLeft: 'auto'
   },
   buttonText: {
-    marginLeft: 'auto'
+    marginLeft: 'auto',
+    fontSize: 14
+  },
+  itemTextStyle: {
+    fontSize: 14
+  },
+  sortItemStyle: {
+    minHeight: '42px'
   }
 });
 
