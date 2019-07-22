@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
     transform: 'translate(14px, -6px) scale(0.75)!important'
   },
   textField: {
+    backgroundColor: '#fff',
     marginTop: '0px!important',
     marginBottom: '0px!important',
     '& .MuiOutlinedInput-root': {
