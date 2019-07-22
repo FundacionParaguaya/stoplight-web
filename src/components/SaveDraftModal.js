@@ -42,8 +42,8 @@ const SaveDraftModal = props => {
           )
         });
         onClose();
-      })
-      .finally(() => setSavingDraft(false));
+        setSavingDraft(false);
+      });
   };
   return (
     <Modal open={open} onClose={savingDraft ? null : onClose}>
