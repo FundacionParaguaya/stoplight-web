@@ -25,7 +25,7 @@
     "cachedData": "cached data",
     "chooseView": "Choose view",
     "create": "Create",
-    "saveError": "Error while trying to save your lifemap",
+    "saveError": "Error while trying to save your Life Map",
     "noOptionsToShow": "There are no options available to select"
   },
   "validation": {
@@ -166,7 +166,7 @@
       "howDidYouGetIt": "How did you get it?",
       "whatDidItTakeToAchieveThis": "What did it take to achieve this?",
       "great": "Great!",
-      "youHaveCompletedTheLifemap": "You have completed the lifemap",
+      "youHaveCompletedTheLifemap": "You have completed the Life Map",
       "youNeedToAddPriotity": "You need to add one priority",
       "youNeedToAddPriorities": "You need to add %n priorities",
       "beforeTheLifeMapIsCompleted": "Before the Life Map is completed...",
@@ -176,7 +176,7 @@
       "makeThisAPriority": "Make this a priority!",
       "priorities": "Priorities",
       "achievements": "Achievements",
-      "toComplete": "To complete the lifemap...",
+      "toComplete": "To complete the Life Map...",
       "indicatorDefinition": "Indicator Definition"
     },
     "priority": {
@@ -258,7 +258,7 @@
       "women": "Women"
     },
     "saveDraftModal": {
-      "lifemapNotComplete": "Your Lifemap is not complete!",
+      "lifemapNotComplete": "Your Life Map is not complete!",
       "willSaveDraft": "It will be saved as a draft.",
       "sureWantToExit": "Are you sure you want to exit?"
     },
