@@ -10,10 +10,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    background: '#ffff',
-    padding: `${theme.spacing(1.7)}px ${theme.spacing(6)}px ${theme.spacing(
-      1.7
-    )}px ${theme.spacing(6)}px`
+    padding: `${theme.spacing(5)}px 0`
   }
 }));
 
