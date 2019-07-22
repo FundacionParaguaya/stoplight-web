@@ -259,8 +259,8 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
           // Mapping keys for family data
           const familyData = { ...el.familyDataDTO };
           familyData.familyMembersList = el.familyDataDTO.familyMemberDTOList;
-          delete el.familyDataDTO.familyMemberDTOList;
           delete el.familyDataDTO;
+          delete familyData.familyMemberDTOList;
           // Mapping keys for priorities and achievements
           const achievements = el.snapshotStoplightAchievements;
           delete el.snapshotStoplightAchievements;
