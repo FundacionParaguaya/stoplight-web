@@ -270,7 +270,7 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
           const { lifemapNavHistory: serializedLifemapNavHistory = [] } = el;
           const lifemapNavHistory = serializedLifemapNavHistory.map(nh => ({
             ...nh,
-            state: el.state ? JSON.parse(nh.state) : null
+            state: nh.state ? JSON.parse(nh.state) : null
           }));
           return {
             ...el,
