@@ -69,12 +69,6 @@ const IndicatorsDonut = withStyles(donutStyles)(
   }
 );
 
-const alignByIndex = index => {
-  if (index % 3 === 0) return 'flexStart';
-  if ((index - 2) % 3 === 0) return 'flexEnd';
-  return null;
-};
-
 const parseStoplights = stoplights => {
   const getByColor = i =>
     stoplights.find(s => s.color === i)
@@ -92,37 +86,39 @@ const parseStoplights = stoplights => {
 const PieGrid = ({ classes, items }) => {
   return (
     <Grid container>
-      {items.map(({ stoplights, name, dimension, icon }, index) => {
-        const [green, yellow, red, skipped] = parseStoplights(stoplights);
-        return (
-          <Grid
-            item
-            xs={4}
-            key={`donut${name || dimension}`}
-            className={`${classes.pieContainer} ${
-              classes[alignByIndex(index)]
-            }`}
-          >
-            <div className={classes.pieInnerContainer}>
-              <div className={classes.detailContainer}>
-                <CountDetail border count={14} type="achievement" />
-                <CountDetail border count={4} type="priority" />
+      {items.map(
+        ({ stoplights, name, dimension, icon, priorities, achievements }) => {
+          const [green, yellow, red, skipped] = parseStoplights(stoplights);
+
+          return (
+            <Grid
+              item
+              xs={4}
+              md={3}
+              key={`donut${name || dimension}`}
+              className={classes.pieContainer}
+            >
+              <div className={classes.pieInnerContainer}>
+                <div className={classes.detailContainer}>
+                  <CountDetail border count={priorities} type="achievement" />
+                  <CountDetail border count={achievements} type="priority" />
+                </div>
+                <IndicatorsDonut
+                  greenIndicatorCount={green}
+                  yellowIndicatorCount={yellow}
+                  redIndicatorCount={red}
+                  skippedIndicatorCount={skipped}
+                  icon={icon}
+                  dimension={dimension}
+                />
+                <Typography variant="subtitle2" className={classes.title}>
+                  {name || dimension}
+                </Typography>
               </div>
-              <IndicatorsDonut
-                greenIndicatorCount={green}
-                yellowIndicatorCount={yellow}
-                redIndicatorCount={red}
-                skippedIndicatorCount={skipped}
-                icon={icon}
-                dimension={dimension}
-              />
-              <Typography variant="subtitle2" className={classes.title}>
-                {name || dimension}
-              </Typography>
-            </div>
-          </Grid>
-        );
-      })}
+            </Grid>
+          );
+        }
+      )}
     </Grid>
   );
 };
@@ -157,7 +153,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    width: 150,
+    width: 200,
     textAlign: 'center',
     position: 'relative'
   },
