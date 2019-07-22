@@ -266,11 +266,18 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
           delete el.snapshotStoplightAchievements;
           const priorities = el.snapshotStoplightPriorities;
           delete el.snapshotStoplightPriorities;
+          // Parsing state data from navigation history
+          const { lifemapNavHistory: serializedLifemapNavHistory = [] } = el;
+          const lifemapNavHistory = serializedLifemapNavHistory.map(nh => ({
+            ...nh,
+            state: el.state ? JSON.parse(nh.state) : null
+          }));
           return {
             ...el,
             familyData,
             achievements,
-            priorities
+            priorities,
+            lifemapNavHistory
           };
         })
       ),
