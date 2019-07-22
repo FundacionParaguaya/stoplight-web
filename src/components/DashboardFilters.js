@@ -32,8 +32,8 @@ const DashboardFilters = ({
             onChange={onChangeOrganization}
           />
         </Grid>
-        <Grid item md={1} sm={1} xs={1} />
-        <Grid item md={5} sm={5} xs={12}>
+        {/* <Grid item md={1} sm={1} xs={1} /> */}
+        <Grid item md={6} sm={6} xs={12}>
           <DateRangeFilters
             from={from}
             to={to}

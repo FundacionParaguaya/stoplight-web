@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '14px!important',
     paddingLeft: '14px!important',
     fontFamily: 'Poppins',
-    fontSize: '14px'
+    fontSize: '12px'
   },
   familiesLabel: {
     color: '#6A6A6A',
