@@ -7,6 +7,7 @@ import {
   CircularProgress,
   IconButton
 } from '@material-ui/core';
+import { get } from 'lodash';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +24,10 @@ const SaveDraftModal = props => {
     setSavingDraft(true);
     saveDraft(user, {
       ...currentDraft,
-      lifemapNavHistory: JSON.stringify(currentDraft.lifemapNavHistory || [])
+      lifemapNavHistory: get(currentDraft, 'lifemapNavHistory', []).map(el => ({
+        ...el,
+        state: el.state ? JSON.stringify(el.state) : ''
+      }))
     })
       .then(() => {
         history.push('/surveys');

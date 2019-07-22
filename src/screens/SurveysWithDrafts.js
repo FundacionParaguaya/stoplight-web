@@ -304,10 +304,11 @@ class Surveys extends Component {
       conditionalQuestions
     );
     const draft = { ...snapshot };
-    const { lifemapNavHistory: serializedLifemapNavHistory } = snapshot;
-    const lifemapNavHistory = serializedLifemapNavHistory
-      ? JSON.parse(serializedLifemapNavHistory)
-      : [];
+    const { lifemapNavHistory: serializedLifemapNavHistory = [] } = snapshot;
+    const lifemapNavHistory = serializedLifemapNavHistory.map(el => ({
+      ...el,
+      state: el.state ? JSON.parse(el.state) : null
+    }));
     delete draft.status;
     this.props.updateDraft({ ...draft, lifemapNavHistory });
     this.props.updateSurvey({
