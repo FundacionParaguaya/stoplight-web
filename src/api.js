@@ -155,7 +155,7 @@ export const getDrafts = user =>
     },
     data: JSON.stringify({
       query:
-        'query { getSnapshotDraft{ userName draftId surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } familyDataDTO { familyId }  indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { familyId latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }'
+        'query { getSnapshotDraft{ draftId surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender birthDate documentType documentNumber email phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
     })
   });
 

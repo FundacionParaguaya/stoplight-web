@@ -254,7 +254,13 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   useEffect(() => {
     Promise.all([
       getDrafts(user).then(response =>
-        get(response, 'data.data.getSnapshotDraft', [])
+        get(response, 'data.data.getSnapshotDraft', []).map(el => ({
+          ...el,
+          familyData: {
+            ...el.familyDataDTO,
+            familyMembersList: el.familyDataDTO.familyMemberDTOList
+          }
+        }))
       ),
       // TODO here we should include snapshots already taken
       Promise.resolve([])
