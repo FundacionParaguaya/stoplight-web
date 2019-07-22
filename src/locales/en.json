@@ -259,7 +259,9 @@
       "email": "Email",
       "download": "Download",
       "lifemapSaved": "Your Life Map has been successfully saved",
-      "clickSafe": "Now, just click save!"
+      "clickSafe": "Now, just click save!",
+      "emailSent": "Your Life Map has been successfully sent via email",
+      "emailError": "Error while trying to send your Life Map via email"
     },
     "familiesOverviewBlock": {
       "economics": "Social Economics",
