@@ -21,7 +21,10 @@ const SaveDraftModal = props => {
   const { t } = useTranslation();
   const onSaveClicked = () => {
     setSavingDraft(true);
-    saveDraft(user, currentDraft)
+    saveDraft(user, {
+      ...currentDraft,
+      lifemapNavHistory: JSON.stringify(currentDraft.lifemapNavHistory || [])
+    })
       .then(() => {
         history.push('/surveys');
       })
