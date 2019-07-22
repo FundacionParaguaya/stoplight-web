@@ -107,6 +107,60 @@ export class Final extends Component {
     this.props.history.push(`/surveys?sid=${this.props.user.token}`);
   };
 
+  toggleLoading = () => {
+    this.setState(prev => ({
+      loading: !prev.loading
+    }));
+  };
+
+  handleMailClick = email => {
+    const {
+      t,
+      i18n: { language }
+    } = this.props;
+
+    const pdf = generateIndicatorsReport(
+      this.props.currentDraft,
+      this.props.currentSurvey,
+      t,
+      language
+    );
+
+    this.toggleLoading();
+    pdf.getBlob(blob => {
+      const document = new File([blob], 'lifemap.pdf', {
+        type: 'application/pdf'
+      });
+      return sendMail(document, email, this.props.user)
+        .then(() => {
+          this.toggleModal(
+            t('general.thankYou'),
+            t('views.final.emailSent'),
+            t('general.gotIt'),
+            'success',
+            this.closeModal
+          );
+          this.toggleLoading();
+        })
+        .catch(() => {
+          this.toggleModal(
+            t('general.warning'),
+            t('views.final.emailError'),
+            t('general.gotIt'),
+            'warning',
+            this.closeModal
+          );
+          this.toggleLoading();
+        });
+    });
+  };
+
+  closeModal = e => {
+    if (e) {
+      this.setState({ openModal: false });
+    }
+  };
+
   render() {
     const {
       t,
@@ -137,12 +191,6 @@ export class Final extends Component {
           <Typography variant="h5" className={classes.clickSafe}>
             {t('views.final.clickSafe')}
           </Typography>
-          {/* <SummaryDonut
-            greenIndicatorCount={this.state.greenIndicatorCount}
-            yellowIndicatorCount={this.state.yellowIndicatorCount}
-            redIndicatorCount={this.state.redIndicatorCount}
-            skippedIndicatorCount={this.state.skippedIndicatorCount}
-          /> */}
           <Container variant="slim">
             <AllSurveyIndicators />
           </Container>
@@ -159,26 +207,9 @@ export class Final extends Component {
                   variant="outlined"
                   color="primary"
                   fullWidth
-                  disabled={!this.state.loading && !primaryParticipant.email}
+                  disabled={this.state.loading || !primaryParticipant.email}
                   onClick={() => {
-                    const pdf = generateIndicatorsReport(
-                      this.props.currentDraft,
-                      this.props.currentSurvey,
-                      t,
-                      language
-                    );
-                    pdf.getBlob(blob => {
-                      const document = new File([blob], 'document.pdf', {
-                        type: 'application/pdf'
-                      });
-                      sendMail(
-                        document,
-                        primaryParticipant.email,
-                        this.props.user
-                      )
-                        .then(() => 'success')
-                        .catch(() => 'err');
-                    });
+                    this.handleMailClick(primaryParticipant.email);
                   }}
                 >
                   <MailIcon className={classes.leftIcon} />
