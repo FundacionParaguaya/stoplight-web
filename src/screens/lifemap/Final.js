@@ -201,21 +201,23 @@ export class Final extends Component {
             </div>
           )}
           <div className={classes.gridContainer}>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={this.state.loading || !primaryParticipant.email}
-                  onClick={() => {
-                    this.handleMailClick(primaryParticipant.email);
-                  }}
-                >
-                  <MailIcon className={classes.leftIcon} />
-                  {t('views.final.email')}
-                </Button>
-              </Grid>
+            <Grid container spacing={2} className={classes.buttonContainer}>
+              {primaryParticipant.email && (
+                <Grid item xs={4}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    disabled={this.state.loading}
+                    onClick={() => {
+                      this.handleMailClick(primaryParticipant.email);
+                    }}
+                  >
+                    <MailIcon className={classes.leftIcon} />
+                    {t('views.final.email')}
+                  </Button>
+                </Grid>
+              )}
               <Grid item xs={4}>
                 <Button
                   variant="outlined"
@@ -256,7 +258,8 @@ export class Final extends Component {
                   {t('views.final.download')}
                 </Button>
               </Grid>
-              <Grid item xs={4} />
+            </Grid>
+            <Grid container spacing={2} className={classes.buttonContainer}>
               <Grid item xs={4}>
                 <Button
                   variant="contained"
@@ -269,7 +272,6 @@ export class Final extends Component {
                   {t('general.close')}
                 </Button>
               </Grid>
-              <Grid item xs={4} />
             </Grid>
           </div>
           <BottomSpacer />
@@ -324,6 +326,10 @@ const styles = theme => ({
   surveyIndicators: {
     maxWidth: '40%',
     margin: 'auto'
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center'
   }
 });
 
