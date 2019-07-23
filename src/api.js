@@ -81,9 +81,6 @@ export const getOperationsOverview = (
   const sanitizedOrganizations = selectedOrganizations.map(
     ({ value }) => value
   );
-  // we convert dates to times
-  const fromTime = fromDate ? new Date(fromDate).getTime() : null;
-  const toTime = toDate ? new Date(toDate).getTime() : null;
 
   return axios({
     method: 'post',
@@ -94,7 +91,11 @@ export const getOperationsOverview = (
     data: JSON.stringify({
       query:
         'query operationsOverview($organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
-      variables: { organizations: sanitizedOrganizations, toTime, fromTime }
+      variables: {
+        organizations: sanitizedOrganizations,
+        toTime: toDate,
+        fromTime: fromDate
+      }
     })
   });
 };
