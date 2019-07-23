@@ -83,22 +83,24 @@ const Dashboard = ({ classes, user, t }) => {
       })
       .finally(() => setLoadingEconomics(false));
 
-    getOperationsOverview(user, fromDate, toDate, selectedOrganizations).then(
-      data => {
+    getOperationsOverview(user, fromDate, toDate, selectedOrganizations)
+      .then(data => {
         const {
           operationsOverview: { surveysByMonth }
         } = getData(data);
 
-        const chartData = Object.entries(surveysByMonth)
-          .sort()
-          .map(([date, surveys]) => ({
-            date: moment(date, 'MM-YYYY').format(),
-            surveys
-          }));
+        if (surveysByMonth) {
+          const chartData = Object.entries(surveysByMonth)
+            .sort()
+            .map(([date, surveys]) => ({
+              date: moment(date, 'MM-YYYY').format(),
+              surveys
+            }));
 
-        setChart(chartData);
-      }
-    );
+          setChart(chartData);
+        }
+      })
+      .finally(() => setLoadingChart(false));
   }, [user, selectedOrganizations, fromDate, toDate]);
 
   return (
