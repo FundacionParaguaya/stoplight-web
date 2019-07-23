@@ -324,7 +324,14 @@ export class PrimaryParticipant extends Component {
           <Formik
             initialValues={{
               ...defaultEditingObject,
-              ...participant
+              ...Object.keys(participant).reduce(
+                (acc, current) => ({
+                  ...acc,
+                  [current]:
+                    participant[current] || defaultEditingObject[current]
+                }),
+                {}
+              )
             }}
             validationSchema={validationSpec}
             onSubmit={(values, { setSubmitting }) => {
