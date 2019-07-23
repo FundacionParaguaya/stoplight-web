@@ -100,7 +100,7 @@ export class Terms extends Component {
             <br />
             {this.state.text &&
               this.state.text.split(/(?:\\n)/g).map((i, key) => (
-                <Typography variant="body2" color="textPrimary" key={key}>
+                <Typography color="textPrimary" key={key}>
                   {i}
                   <br />
                 </Typography>
