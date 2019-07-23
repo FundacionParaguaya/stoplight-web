@@ -1,6 +1,8 @@
 import React from 'react';
 import { Typography, withStyles } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
+import moment from 'moment';
 import { COLORS } from '../theme';
 
 const ActivityFeed = ({
@@ -8,7 +10,8 @@ const ActivityFeed = ({
   data,
   width = '40%',
   height = 200,
-  user: { env }
+  user: { env },
+  t
 }) => {
   const handleClick = (e, familyId) => {
     window.location.replace(
@@ -20,27 +23,46 @@ const ActivityFeed = ({
     <>
       {data && (
         <div className={classes.container} style={{ width, minHeight: height }}>
-          {data.map(({ name, familyId }, index) => (
-            <div
-              key={index}
-              className={classes.children}
-              onClick={() => handleClick(env, familyId)}
-            >
-              <div className={classes.iconContainer}>
-                <i className={`material-icons ${classes.primaryIcon}`}>
-                  swap_calls
-                </i>
+          {data.map(({ familyName, createdAt, username, activityId }) => {
+            const createdDaysAgo = moment().diff(createdAt, 'days');
+            let daysAgoLabel = t('views.activityFeed.today');
+            if (createdDaysAgo === 1) {
+              daysAgoLabel = t('views.activityFeed.dayAgo');
+            } else if (createdDaysAgo > 1) {
+              daysAgoLabel = t('views.activityFeed.daysAgo').replace(
+                '$dd',
+                createdDaysAgo
+              );
+            }
+
+            return (
+              <div
+                key={activityId}
+                className={classes.children}
+                onClick={() => handleClick(env, activityId)}
+              >
+                <div className={classes.iconContainer}>
+                  <i className={`material-icons ${classes.primaryIcon}`}>
+                    swap_calls
+                  </i>
+                </div>
+                <div className={classes.content}>
+                  <Typography className={classes.title}>
+                    {familyName}
+                  </Typography>
+                  <Typography className={classes.subtitle}>
+                    {username}
+                  </Typography>
+                  <Typography className={classes.date}>
+                    {daysAgoLabel}
+                  </Typography>
+                  <i className={`material-icons ${classes.arrowIcon}`}>
+                    keyboard_arrow_right
+                  </i>
+                </div>
               </div>
-              <div className={classes.content}>
-                <Typography className={classes.title}>{name}</Typography>
-                <Typography className={classes.subtitle}>Mentor</Typography>
-                <Typography className={classes.date}>Hace 2 dias</Typography>
-                <i className={`material-icons ${classes.arrowIcon}`}>
-                  keyboard_arrow_right
-                </i>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </>
@@ -116,4 +138,6 @@ const styles = theme => ({
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps)(withStyles(styles)(ActivityFeed));
+export default connect(mapStateToProps)(
+  withStyles(styles)(withTranslation()(ActivityFeed))
+);
