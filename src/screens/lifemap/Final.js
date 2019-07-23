@@ -8,10 +8,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
-// import MailIcon from '@material-ui/icons/Mail';
+import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import { submitDraft } from '../../api';
+import { submitDraft, sendMail } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
@@ -107,6 +107,60 @@ export class Final extends Component {
     this.props.history.push(`/surveys?sid=${this.props.user.token}`);
   };
 
+  toggleLoading = () => {
+    this.setState(prev => ({
+      loading: !prev.loading
+    }));
+  };
+
+  handleMailClick = email => {
+    const {
+      t,
+      i18n: { language }
+    } = this.props;
+
+    const pdf = generateIndicatorsReport(
+      this.props.currentDraft,
+      this.props.currentSurvey,
+      t,
+      language
+    );
+
+    this.toggleLoading();
+    pdf.getBlob(blob => {
+      const document = new File([blob], 'lifemap.pdf', {
+        type: 'application/pdf'
+      });
+      return sendMail(document, email, this.props.user)
+        .then(() => {
+          this.toggleModal(
+            t('general.thankYou'),
+            t('views.final.emailSent'),
+            t('general.gotIt'),
+            'success',
+            this.closeModal
+          );
+          this.toggleLoading();
+        })
+        .catch(() => {
+          this.toggleModal(
+            t('general.warning'),
+            t('views.final.emailError'),
+            t('general.gotIt'),
+            'warning',
+            this.closeModal
+          );
+          this.toggleLoading();
+        });
+    });
+  };
+
+  closeModal = e => {
+    if (e) {
+      this.setState({ openModal: false });
+    }
+  };
+
   render() {
     const {
       t,
@@ -114,6 +168,8 @@ export class Final extends Component {
       i18n: { language }
     } = this.props;
     const { error } = this.state;
+    const primaryParticipant = this.props.currentDraft.familyData
+      .familyMembersList[0];
 
     return (
       <div>
@@ -135,12 +191,6 @@ export class Final extends Component {
           <Typography variant="h5" className={classes.clickSafe}>
             {t('views.final.clickSafe')}
           </Typography>
-          {/* <SummaryDonut
-            greenIndicatorCount={this.state.greenIndicatorCount}
-            yellowIndicatorCount={this.state.yellowIndicatorCount}
-            redIndicatorCount={this.state.redIndicatorCount}
-            skippedIndicatorCount={this.state.skippedIndicatorCount}
-          /> */}
           <Container variant="slim">
             <AllSurveyIndicators />
           </Container>
@@ -151,19 +201,24 @@ export class Final extends Component {
             </div>
           )}
           <div className={classes.gridContainer}>
-            <Grid container spacing={2}>
-              {/* <Grid item xs={4}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={this.state.loading}
-                >
-                  <MailIcon className={classes.leftIcon} />
-                  {t('views.final.email')}
-                </Button>
-              </Grid> */}
-              <Grid item xs={6}>
+            <Grid container spacing={2} className={classes.buttonContainer}>
+              {primaryParticipant.email && (
+                <Grid item xs={4}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    disabled={this.state.loading}
+                    onClick={() => {
+                      this.handleMailClick(primaryParticipant.email);
+                    }}
+                  >
+                    <MailIcon className={classes.leftIcon} />
+                    {t('views.final.email')}
+                  </Button>
+                </Grid>
+              )}
+              <Grid item xs={4}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -183,7 +238,7 @@ export class Final extends Component {
                   {t('views.final.print')}
                 </Button>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -203,7 +258,8 @@ export class Final extends Component {
                   {t('views.final.download')}
                 </Button>
               </Grid>
-              <Grid item xs={4} />
+            </Grid>
+            <Grid container spacing={2} className={classes.buttonContainer}>
               <Grid item xs={4}>
                 <Button
                   variant="contained"
@@ -216,7 +272,6 @@ export class Final extends Component {
                   {t('general.close')}
                 </Button>
               </Grid>
-              <Grid item xs={4} />
             </Grid>
           </div>
           <BottomSpacer />
@@ -271,6 +326,10 @@ const styles = theme => ({
   surveyIndicators: {
     maxWidth: '40%',
     margin: 'auto'
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center'
   }
 });
 

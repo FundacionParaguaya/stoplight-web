@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '14px!important',
     paddingLeft: '14px!important',
     fontFamily: 'Poppins',
-    fontSize: '14px'
+    fontSize: '12px'
   },
   familiesLabel: {
     color: '#6A6A6A',
@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
     transform: 'translate(14px, -6px) scale(0.75)!important'
   },
   textField: {
+    backgroundColor: '#fff',
     marginTop: '0px!important',
     marginBottom: '0px!important',
     '& .MuiOutlinedInput-root': {
