@@ -94,7 +94,7 @@ export const getFamilies = user =>
     },
     data: JSON.stringify({
       query:
-        'query { feed {activityId,activityKey,activityParams,activityType,username,createdAt, family{name}}}'
+        'query { feed {activityId,activityKey,activityParams,activityType,username,createdAt, familyName}}'
     })
   });
 
