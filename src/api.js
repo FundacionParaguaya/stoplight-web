@@ -154,7 +154,7 @@ export const checkSessionToken = (token, env) =>
 export const getOrganizations = user =>
   axios({
     method: 'get',
-    url: `${url[user.env]}/api/v1/organizations?page=1`,
+    url: `${url[user.env]}/api/v1/organizations/list`,
     headers: {
       Authorization: `Bearer ${user.token}`
     }
