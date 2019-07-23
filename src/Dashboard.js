@@ -57,7 +57,9 @@ const Dashboard = ({ classes, user, t }) => {
     setLoadingEconomics(true);
     getDimensionIndicators(
       user,
-      (selectedOrganizations || []).map(o => o.value)
+      (selectedOrganizations || []).map(o => o.value),
+      fromDate,
+      toDate
     )
       .then(data => {
         const { dimensionIndicators } = getData(data);
@@ -85,7 +87,7 @@ const Dashboard = ({ classes, user, t }) => {
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
-  }, [user, selectedOrganizations]);
+  }, [user, selectedOrganizations, fromDate, toDate]);
 
   return (
     <Container variant="fluid" className={classes.greyBackground}>

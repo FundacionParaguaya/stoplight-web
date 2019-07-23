@@ -93,7 +93,12 @@ export const getFamilies = user =>
     }
   });
 
-export const getDimensionIndicators = (user, organizations = []) =>
+export const getDimensionIndicators = (
+  user,
+  organizations = [],
+  fromDate,
+  toDate
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -104,7 +109,9 @@ export const getDimensionIndicators = (user, organizations = []) =>
     data: JSON.stringify({
       query: `query { dimensionIndicators(organizations: ${JSON.stringify(
         organizations
-      )}) {dimension, priorities, achievements,
+      )} ${fromDate ? `fromDate: ${fromDate}` : ''} ${
+        toDate ? `toDate: ${toDate}` : ''
+      }) {dimension, priorities, achievements,
           stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
            stoplights{count, color, dimension, indicator}} } }`
     })
