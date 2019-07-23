@@ -294,7 +294,10 @@
       "noMatchFilters": "No results matching your filters"
     },
     "activityFeed": {
-      "by": "By"
+      "by": "By",
+      "today": "Today",
+      "dayAgo": "1 day ago",
+      "daysAgo": "$dd days ago"
     },
     "organizationsFilter": {
       "label": "Organizations",
