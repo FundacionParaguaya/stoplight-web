@@ -24,6 +24,12 @@ import DashboardFilters from './components/DashboardFilters';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
+const LoadingContainer = () => (
+  <div style={{ height: 300, margin: 'auto', display: 'flex' }}>
+    <CircularProgress style={{ margin: 'auto' }} />
+  </div>
+);
+
 const Dashboard = ({ classes, user, t }) => {
   const [feed, setFeed] = useState(null);
   const [overview, setOverview] = useState(null);
@@ -40,16 +46,20 @@ const Dashboard = ({ classes, user, t }) => {
   ] = useState(true);
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
-  const theme = useTheme();
+  const [loadingChart, setLoadingChart] = useState(true);
+  const [loadingFeed, setLoadingFeed] = useState(true);
 
   useEffect(() => {
-    getFamilies(user).then(families => setFeed(families.data.splice(0, 25)));
+    getFamilies(user)
+      .then(families => setFeed(families.data.splice(0, 25)))
+      .finally(() => setLoadingFeed(false));
   }, [user]);
 
   useEffect(() => {
     setLoadingDimensionsIndicators(true);
     setLoadingOverview(true);
     setLoadingEconomics(true);
+    setLoadingChart(true);
     getDimensionIndicators(
       user,
       (selectedOrganizations || []).map(o => o.value),
@@ -76,6 +86,7 @@ const Dashboard = ({ classes, user, t }) => {
         setOverview(blockOverview);
       })
       .finally(() => setLoadingOverview(false));
+
     getEconomicOverview(user)
       .then(data => {
         const { economicOverview } = getData(data);
@@ -129,37 +140,24 @@ const Dashboard = ({ classes, user, t }) => {
         <Container>
           <Typography variant="h5">{t('views.operations')}</Typography>
           <Box mt={5} />
-          {!feed && (
-            <div className={classes.loadingContainer}>
-              <CircularProgress
-                size={50}
-                thickness={2}
-                style={{ color: theme.palette.grey.main }}
-              />
-            </div>
-          )}
-          {feed && chart && (
-            <div className={classes.operationsContainer}>
+          <div className={classes.operationsContainer}>
+            {loadingChart && <LoadingContainer />}
+            {!loadingChart && (
               <GreenLineChart width="65%" height={300} data={chart} />
+            )}
+            {loadingFeed && <LoadingContainer />}
+            {!loadingFeed && (
               <ActivityFeed data={feed} width="35%" height={300} />
-            </div>
-          )}
+            )}
+          </div>
         </Container>
       </Container>
 
       {/* Social Economics */}
       <Container className={classes.socialEconomics} variant="fluid">
         <Container className={classes.containerInnerSocial}>
-          {(loadingOverview || loadingEconomics) && (
-            <div className={classes.loadingContainer}>
-              <CircularProgress
-                size={50}
-                thickness={2}
-                style={{ color: theme.palette.grey.main }}
-              />
-            </div>
-          )}
-          {economic && (
+          {loadingEconomics && <LoadingContainer />}
+          {!loadingEconomics && (
             <FamilyOverviewBlock
               familiesCount={economic.familiesCount}
               peopleCount={economic.peopleCount}
@@ -167,8 +165,9 @@ const Dashboard = ({ classes, user, t }) => {
               includeEconomics
             />
           )}
-          {overview && (
-            <div className={classes.innerSocial}>
+          {loadingOverview && <LoadingContainer />}
+          {!loadingOverview && (
+            <div>
               <Typography variant="h5">
                 {t('views.familiesOverviewBlock.overview')}
               </Typography>
@@ -229,6 +228,7 @@ const styles = theme => ({
     marginBottom: theme.spacing(5)
   },
   containerInnerSocial: {
+    minHeight: 250,
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.down('xs')]: {
