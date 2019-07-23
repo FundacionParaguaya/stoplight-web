@@ -67,7 +67,7 @@ function withControllers(title, sorting) {
               <>
                 <WrappedComponent
                   type={type}
-                  data={data.sort(sorter(sortingBy)).slice(0, count)}
+                  data={[...data].sort(sorter(sortingBy)).slice(0, count)}
                 />
                 {data.length > 10 && (
                   <>
