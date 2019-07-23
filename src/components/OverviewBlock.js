@@ -34,10 +34,10 @@ const OverviewBlock = ({ classes, data }) => {
             />
           </div>
           <SummaryBarChart
-            greenIndicatorCount={5}
-            redIndicatorCount={11}
-            yellowIndicatorCount={2}
-            skippedIndicatorCount={10}
+            greenIndicatorCount={data.stoplightOverview.greens}
+            redIndicatorCount={data.stoplightOverview.reds}
+            yellowIndicatorCount={data.stoplightOverview.yellows}
+            skippedIndicatorCount={data.stoplightOverview.skipped}
             isAnimationActive={false}
           />
         </div>
@@ -50,7 +50,11 @@ const styles = theme => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: '100%',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column'
+    }
   },
   prioritiesAndAchievements: {
     marginLeft: theme.spacing(1),
