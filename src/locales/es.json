@@ -297,7 +297,8 @@
     "organizationsFilter": {
       "label": "Organizaciones",
       "loading": "Cargando...",
-      "noOption": "No quedan organizaciones"
+      "noOption": "No quedan organizaciones",
+      "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
     "dateRangeFilter": {
       "from": "Desde",
