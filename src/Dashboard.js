@@ -32,7 +32,7 @@ const chartData = [
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
 const Dashboard = ({ classes, user, t }) => {
-  const [feed, setFeed] = useState(null);
+  const [activityFeed, setActivityFeed] = useState(null);
   const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
@@ -46,10 +46,8 @@ const Dashboard = ({ classes, user, t }) => {
   ] = useState(true);
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
+  const [loadingFeed, setLoadingFeed] = useState(true);
   const theme = useTheme();
-  useEffect(() => {
-    getFamilies(user).then(families => setFeed(families.data.splice(0, 25)));
-  }, [user]);
 
   useEffect(() => {
     setLoadingDimensionsIndicators(true);
@@ -71,6 +69,12 @@ const Dashboard = ({ classes, user, t }) => {
         setDimensions(dimensionIndicators);
       })
       .finally(() => setLoadingDimensionsIndicators(false));
+    getFamilies(user)
+      .then(data => {
+        const { feed } = getData(data);
+        setActivityFeed(feed);
+      })
+      .finally(() => setLoadingFeed(false));
 
     // TODO add orgs info in the following 2 api requests
     getOverviewBlock(user)
@@ -113,7 +117,7 @@ const Dashboard = ({ classes, user, t }) => {
         <Container>
           <Typography variant="h5">{t('views.operations')}</Typography>
           <Box mt={5} />
-          {!feed && (
+          {!activityFeed && (
             <div className={classes.loadingContainer}>
               <CircularProgress
                 size={50}
@@ -122,10 +126,10 @@ const Dashboard = ({ classes, user, t }) => {
               />
             </div>
           )}
-          {feed && chartData && (
+          {activityFeed && chartData && (
             <div className={classes.operationsContainer}>
               <GreenLineChart width="65%" height={300} data={chartData} />
-              <ActivityFeed data={feed} width="35%" height={300} />
+              <ActivityFeed data={activityFeed} width="35%" height={300} />
             </div>
           )}
         </Container>
