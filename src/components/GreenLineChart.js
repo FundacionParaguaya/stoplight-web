@@ -23,7 +23,7 @@ const GreenLineChart = withTranslation()(
       <ResponsiveContainer width={width || '100%'} height={height || 250}>
         <LineChart
           data={data}
-          margin={{ bottom: 5, left: 0, right: 0, top: 5 }}
+          margin={{ bottom: 5, left: 0, right: 25, top: 5 }}
         >
           >
           <XAxis

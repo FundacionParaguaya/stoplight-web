@@ -417,7 +417,7 @@ class StoplightQuestions extends Component {
                 close
               </i>
               <Typography variant="h5" id="modal-title">
-                Indicator Definition
+                {t('views.lifemap.indicatorDefinition')}
               </Typography>
               <Box mt={4} />
               <div className={classes.innerContainer}>
@@ -495,6 +495,7 @@ const styles = theme => ({
   },
   innerContainer: {
     height: '100%',
+    width: '100%',
     overflowY: 'scroll'
   }
 });
