@@ -52,7 +52,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xs')]: {
       flexDirection: 'column'
     }
   },
