@@ -37,7 +37,13 @@ class Location extends Component {
 
   handleContinue = () => {
     // validation happens here
-    this.props.history.push('/lifemap/economics/0');
+    if (
+      this.props.currentSurvey.economicScreens.questionsPerScreen.length <= 0
+    ) {
+      this.props.history.push('/lifemap/begin-stoplight');
+    } else {
+      this.props.history.push('/lifemap/economics/0');
+    }
   };
 
   handleChange = address => {

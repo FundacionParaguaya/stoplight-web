@@ -24,10 +24,13 @@ export const theme = {
     },
     text: {
       primary: '#1c212f',
-      secondary: '#fff'
+      secondary: '#fff',
+      light: 'rgba(0,0,0,0.5)'
     },
     grey: {
-      main: '#909090'
+      main: '#909090',
+      light: 'rgba(243,244,246,0.5)',
+      middle: '#6A6A6A'
     },
     background: {
       default: '#fff',
@@ -39,7 +42,8 @@ export const theme = {
     fontFamily: 'Roboto',
     useNextVariants: true,
     body2: {
-      fontSize: 18
+      fontSize: 18,
+      fontFamily: 'Poppins'
     },
     subtitle1: {
       fontSize: 16,
@@ -82,7 +86,7 @@ export const theme = {
   shape: {
     padding: 40,
     marginButton: '40px 0 50px 0',
-    header: '60px',
+    header: '70px',
     footer: '40px'
   },
   shadows: Array(25).fill('none'),
@@ -124,13 +128,10 @@ export const theme = {
       input: {
         fontSize: '16px',
         padding: '40px 12px 10px!important',
-        '&$focused': {
-          backgroundColor: '#fff!important'
-        }
-      },
-      root: {
-        '&$focused': {
-          backgroundColor: '#fff!important'
+        '&$filled': {
+          '&$focused': {
+            backgroundColor: '#fff'
+          }
         }
       },
       multiline: {
@@ -141,18 +142,17 @@ export const theme = {
       root: {
         '&$error': {
           top: '40%!important'
-          // transform: 'translate(12px, -50%) scale(1)!important'
         }
-      },
-      shrink: {
-        transform: 'translate(12px, -85%) scale(1)!important',
-        color: '#6A6A6A'
       },
       filled: {
         top: '50%',
         transform: 'translate(12px, -50%) scale(1)',
         color: '#6A6A6A',
-        paddingRight: 24
+        paddingRight: 24,
+        '&$shrink': {
+          transform: 'translate(12px, -85%) scale(1)',
+          color: '#6A6A6A'
+        }
       },
       formControl: {
         // top: '50%',
@@ -185,8 +185,7 @@ export const theme = {
         borderRadius: 3,
         border: 0,
         color: '#309E43',
-        height: 38,
-        // width: 280,
+        minHeight: 38,
         padding: '0 30px',
         textDecoration: 'underline'
       },

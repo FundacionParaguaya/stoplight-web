@@ -1,6 +1,6 @@
 {
   "general": {
-    "welcome": "Welcome!",
+    "welcome": "Welcome $n!",
     "thankYou": "Thank you!",
     "disagree": "Disagree",
     "agree": "Agree",
@@ -25,8 +25,9 @@
     "cachedData": "cached data",
     "chooseView": "Choose view",
     "create": "Create",
-    "saveError": "Error while trying to save your lifemap",
-    "noOptionsToShow": "There are no options available to select"
+    "saveError": "Error while trying to save your Life Map",
+    "noOptionsToShow": "There are no options available to select",
+    "clear": "Clear"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -66,18 +67,21 @@
     },
     "synced": "Sync",
     "dashboard": "Dashboard",
+    "indicators": "Indicators",
+    "dimensions": "Dimensions",
     "families": "Families",
-    "createLifemap": "Create a life map",
-    "latestDrafts": "Latest life maps",
+    "createLifemap": "Create a Life Map",
+    "latestDrafts": "Latest Life Maps",
     "noDrafts": "No drafts to display",
     "termsConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
+    "operations": "Operations",
     "survey": {
       "chooseSurvey": "Choose a survey",
       "contains": "Contains",
       "createdOn": "Created on",
       "surveys": "Surveys",
-      "indicators": "indicators",
+      "indicators": "Indicators",
       "createSurvey": "Create Survey"
     },
     "analytics": {
@@ -92,7 +96,7 @@
       "loadingOptionsLabel": "Loading..."
     },
     "socioEconomic": "Socio Economic",
-    "yourLifeMap": "Your life map",
+    "yourLifeMap": "Your Life Map",
     "primaryParticipant": "Primary participant",
     "familyMembers": "Family members",
     "gendersBirthDates": "Genders & Birth dates",
@@ -144,13 +148,13 @@
       "describeLocation": "Could you describe your location as accurate as possible below?",
       "error": "Error: Cannot display family profile",
       "details": "Details",
-      "lifemap": "Life map",
+      "lifemap": "Life Map",
       "lifeMapCreatedOn": "Life Map draft created on",
       "created": "Created on",
       "formWithErrors": "Review %number form errors"
     },
     "lifemap": {
-      "thisLifeMapHas": "This life map has %n questions. It will take approximately 35 minutes to complete!",
+      "thisLifeMapHas": "This Life Map has %n questions. It will take approximately 35 minutes to complete!",
       "responseRequired": "*Response required",
       "skipThisQuestion": "Skip this question",
       "youSkipped": "You skipped these indicators",
@@ -166,17 +170,17 @@
       "howDidYouGetIt": "How did you get it?",
       "whatDidItTakeToAchieveThis": "What did it take to achieve this?",
       "great": "Great!",
-      "youHaveCompletedTheLifemap": "You have completed the lifemap",
+      "youHaveCompletedTheLifemap": "You have completed the Life Map",
       "youNeedToAddPriotity": "You need to add one priority",
       "youNeedToAddPriorities": "You need to add %n priorities",
-      "beforeTheLifeMapIsCompleted": "Before the life map is completed...",
+      "beforeTheLifeMapIsCompleted": "Before the Life Map is completed...",
       "green": "Green",
       "yellow": "Yellow",
       "red": "Red",
       "makeThisAPriority": "Make this a priority!",
       "priorities": "Priorities",
       "achievements": "Achievements",
-      "toComplete": "To complete the lifemap...",
+      "toComplete": "To complete the Life Map...",
       "indicatorDefinition": "Indicator Definition"
     },
     "priority": {
@@ -184,8 +188,8 @@
       "months": "months"
     },
     "modals": {
-      "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",
-      "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the life map!",
+      "lifeMapWillNotBeSaved": "If you do not enter all details on this page the Life Map will not be saved!",
+      "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the Life Map!",
       "areYouSureYouWantToExit": "Are you sure you want to exit?",
       "yourLifemapIsNotComplete": "You will lose all your data! Are you sure you want to exit?",
       "thisWillBeSavedAsADraft": "This will be saved as a draft."
@@ -227,7 +231,7 @@
       "onePriorityRemainingDescription": "Nearly there...",
       "noPriorityRemainingTitle": "Great! You created all the required priorities",
       "noPriorityRemainingDescription": "You can make as many more as you want.",
-      "noPriorityRequiredTitle": "To complete the life map...",
+      "noPriorityRequiredTitle": "To complete the Life Map...",
       "noPriorityRequiredDescription": "Create priorities!"
     },
     "indicatorsFilter": {
@@ -235,7 +239,18 @@
       "yellow": "Yellow",
       "green": "Green",
       "skipped": "Skipped",
-      "allIndicators": "All indicators"
+      "allIndicators": "All indicators",
+      "sort": {
+        "MOST_GREENS": "Most greens",
+        "MOST_REDS": "Most reds",
+        "MOST_YELLOWS": "Most yellows",
+        "MOST_SKIPPED": "Most skipped",
+        "MOST_PRIORITIZED": "Most prioritized",
+        "LESS_PRIORITIZED": "Less prioritized",
+        "MOST_ACHIEVED": "Most achieved",
+        "LESS_ACHIEVED": "Less achieved",
+        "DEFAULT": "All"
+      }
     },
     "final": {
       "title": "Thank you!",
@@ -243,8 +258,10 @@
       "print": "Print",
       "email": "Email",
       "download": "Download",
-      "lifemapSaved": "Your life map has been successfully saved",
-      "clickSafe": "Now, just click save!"
+      "lifemapSaved": "Your Life Map has been successfully saved",
+      "clickSafe": "Now, just click save!",
+      "emailSent": "Your Life Map has been successfully sent via email",
+      "emailError": "Error while trying to send your Life Map via email"
     },
     "familiesOverviewBlock": {
       "economics": "Social Economics",
@@ -258,7 +275,7 @@
       "women": "Women"
     },
     "saveDraftModal": {
-      "lifemapNotComplete": "Your Lifemap is not complete!",
+      "lifemapNotComplete": "Your Life Map is not complete!",
       "willSaveDraft": "It will be saved as a draft.",
       "sureWantToExit": "Are you sure you want to exit?"
     },
@@ -275,6 +292,15 @@
       "searchFamily": "Search family",
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters"
+    },
+    "organizationsFilter": {
+      "label": "Organizations",
+      "loading": "Loading...",
+      "noOption": "No organization left"
+    },
+    "dateRangeFilter": {
+      "from": "From",
+      "to": "To"
     }
   },
   "reports": {

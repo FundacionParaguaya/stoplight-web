@@ -4,17 +4,18 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { isArray } from 'lodash';
 import Container from '../components/Container';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import ScreenTitleBar from '../components/ScreenTitleBar';
 import withLayout from '../components/withLayout';
 import Divider from '../components/Divider';
-import Dimensions from '../components/Dimensions';
 import BottomSpacer from '../components/BottomSpacer';
 import OverviewBlock from '../components/OverviewBlock';
 import { getFamilies, getDimensionIndicators } from '../api';
 import ActivityFeed from '../components/ActivityFeed';
 import GreenLineChart from '../components/GreenLineChart';
+import DimensionsVisualisation from '../components/DimensionsVisualisation';
 
 const chartData = [
   { date: '2019-05-13T00:00', surveys: 750 },
@@ -30,27 +31,35 @@ const Analytics = ({ classes, t, user }) => {
   const [data, setData] = useState([]);
   const [indicators, setIndicators] = useState([]);
   const [dimensions, setDimensions] = useState([]);
+  const [indicatorsLoading, setIndicatorsLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 0);
     getFamilies(user).then(families => setData(families.data.splice(0, 25)));
-    getDimensionIndicators(user).then(
-      ({
-        data: {
-          data: { dimensionIndicators }
+
+    // eslint-disable-next-line func-names
+    (async function() {
+      const dimensionData = await getDimensionIndicators(user);
+
+      // we verify data exist
+      const dimensionIndicators =
+        dimensionData.data && dimensionData.data.data
+          ? dimensionData.data.data.dimensionIndicators
+          : null;
+
+      let indicatorsArray = [];
+
+      // eslint-disable-next-line no-shadow
+      dimensionIndicators.forEach(({ indicators }) => {
+        if (isArray(indicators)) {
+          indicatorsArray = [...indicatorsArray, ...indicators];
         }
-      }) => {
-        let indicatorsArray = [];
-        for (let i = 0; i <= dimensionIndicators.length - 1; i += 1) {
-          indicatorsArray = [
-            ...indicatorsArray,
-            ...dimensionIndicators[i].indicators
-          ];
-        }
-        setIndicators(indicatorsArray);
-        setDimensions(dimensionIndicators);
-      }
-    );
+      });
+
+      setIndicators(indicatorsArray);
+      setDimensions(dimensionIndicators);
+      setIndicatorsLoading(Boolean(!dimensionData));
+    })();
   }, [user]);
   return (
     <>
@@ -73,9 +82,10 @@ const Analytics = ({ classes, t, user }) => {
           </div>
           <div className={classes.whiteContainer}>
             <Container variant="stretch">
-              <Typography variant="h5">Dimensions</Typography>
-              <Divider />
-              <Dimensions data={dimensions} />
+              <DimensionsVisualisation
+                loading={indicatorsLoading}
+                data={dimensions}
+              />
             </Container>
           </div>
           <div className={classes.grayContainer}>
@@ -86,7 +96,10 @@ const Analytics = ({ classes, t, user }) => {
               <Typography variant="h5">Indicators</Typography>
               <Divider height={3} />
               <OverviewBlock />
-              <IndicatorsVisualisation indicators={indicators} />
+              <IndicatorsVisualisation
+                loading={indicatorsLoading}
+                data={indicators}
+              />
               <ActivityFeed data={data} />
               <GreenLineChart data={chartData} />
             </Container>
