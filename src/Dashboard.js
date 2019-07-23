@@ -52,7 +52,9 @@ const Dashboard = ({ classes, user, t }) => {
     setLoadingEconomics(true);
     getDimensionIndicators(
       user,
-      (selectedOrganizations || []).map(o => o.value)
+      (selectedOrganizations || []).map(o => o.value),
+      fromDate,
+      toDate
     )
       .then(data => {
         const { dimensionIndicators } = getData(data);
