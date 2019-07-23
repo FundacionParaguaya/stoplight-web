@@ -87,7 +87,7 @@ const Authenticator = props => {
       // There's no sid or env to use. User no logged in
       setAuthVerified(true);
       setLoggedIn(false);
-      redirect(environment);
+      // redirect(environment);
       return;
     }
     // Verifying token before logging user in
@@ -111,7 +111,7 @@ const Authenticator = props => {
         });
         setLoggedIn(false);
         setAuthVerified(true);
-        redirect(environment);
+        // redirect(environment);
       });
   }, [
     sid,
