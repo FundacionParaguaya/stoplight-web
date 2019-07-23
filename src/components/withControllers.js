@@ -40,7 +40,7 @@ function withControllers(title, sorting) {
         const [type, setType] = useState(BAR);
         const [count, setCount] = useState(10);
         const [sortingBy, setSortingBy] = useState(SORT_BY_OPTIONS.DEFAULT);
-        const theme = useTheme();
+
         return (
           <div>
             <div className={classes.innerContainer}>
@@ -58,6 +58,11 @@ function withControllers(title, sorting) {
               <div className={classes.loadingContainer}>
                 <CircularProgress />
               </div>
+            )}
+            {!loading && data.length <= 0 && (
+              <Typography>
+                {t('views.organizationsFilter.noMatchFilters')}
+              </Typography>
             )}
             {!loading && data.length > 0 && (
               <>
