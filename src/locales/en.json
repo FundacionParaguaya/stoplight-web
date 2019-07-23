@@ -296,7 +296,8 @@
     "organizationsFilter": {
       "label": "Organizations",
       "loading": "Loading...",
-      "noOption": "No organization left"
+      "noOption": "No organization left",
+      "noMatchFilters": "No results matching your filters"
     },
     "dateRangeFilter": {
       "from": "From",
