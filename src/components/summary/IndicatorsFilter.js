@@ -22,6 +22,7 @@ export const FILTERED_BY_OPTIONS = {
 };
 
 export const SORT_BY_OPTIONS = {
+  DEFAULT: 'DEFAULT',
   MOST_GREENS: 'MOST_GREENS',
   MOST_REDS: 'MOST_REDS',
   MOST_YELLOWS: 'MOST_YELLOWS',
@@ -29,8 +30,7 @@ export const SORT_BY_OPTIONS = {
   MOST_PRIORITIZED: 'MOST_PRIORITIZED',
   LESS_PRIORITIZED: 'LESS_PRIORITIZED',
   MOST_ACHIEVED: 'MOST_ACHIEVED',
-  LESS_ACHIEVED: 'LESS_ACHIEVED',
-  DEFAULT: 'DEFAULT'
+  LESS_ACHIEVED: 'LESS_ACHIEVED'
 };
 
 export const sorter = sortBy => (indA, indB) => {
@@ -257,10 +257,7 @@ const IndicatorsFilter = ({
                   )}
                   {sorting &&
                     Object.keys(SORT_BY_OPTIONS)
-                      .filter(
-                        key =>
-                          sortingBy !== key && key !== SORT_BY_OPTIONS.DEFAULT
-                      )
+                      .filter(key => sortingBy !== key)
                       .map(key => (
                         <MenuItem
                           className={classes.sortItemStyle}
@@ -270,12 +267,6 @@ const IndicatorsFilter = ({
                             onSortingChanged(key);
                           }}
                         >
-                          {/* <ListItemIcon className={classes.icon}>
-                          <div
-                            className={classes.indicatorBall}
-                            style={{ backgroundColor: COLORS.LIGHT_GREY }}
-                          />
-                        </ListItemIcon> */}
                           <Typography
                             variant="subtitle1"
                             className={classes.itemTextStyle}
