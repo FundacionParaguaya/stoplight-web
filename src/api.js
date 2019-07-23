@@ -93,9 +93,9 @@ export const getOperationsOverview = (
     },
     data: JSON.stringify({
       query:
-        'query operationsOverview($organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }'
-    }),
-    variables: { organizations: sanitizedOrganizations, toTime, fromTime }
+        'query operationsOverview($organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
+      variables: { organizations: sanitizedOrganizations, toTime, fromTime }
+    })
   });
 };
 
