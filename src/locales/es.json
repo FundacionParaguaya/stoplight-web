@@ -26,7 +26,8 @@
     "chooseView": "Elegir vista",
     "create": "Crear",
     "saveError": "Error al guardar tu Mapa de vida",
-    "noOptionsToShow": "No hay opciones disponibles para seleccionar"
+    "noOptionsToShow": "No hay opciones disponibles para seleccionar",
+    "clear": "Limpiar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -259,7 +260,9 @@
       "email": "Email",
       "download": "Descargar",
       "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
-      "clickSafe": "Ahora, ¡simplemente haz click en guardar!"
+      "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
+      "emailSent": "Tu mapa de vida ha sido enviado exitosamente vía email",
+      "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
     "familiesOverviewBlock": {
       "economics": "Socioeconómicos",
@@ -296,6 +299,10 @@
       "label": "Organizaciones",
       "loading": "Cargando...",
       "noOption": "No quedan organizaciones"
+    },
+    "dateRangeFilter": {
+      "from": "Desde",
+      "to": "Hasta"
     }
   },
   "reports": {

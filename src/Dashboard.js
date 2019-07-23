@@ -18,7 +18,7 @@ import FamilyOverviewBlock from './components/FamiliesOverviewBlock';
 import OverviewBlock from './components/OverviewBlock';
 import DimensionsVisualisation from './components/DimensionsVisualisation';
 import IndicatorsVisualisation from './components/IndicatorsVisualisation';
-import OrganizationsFilter from './components/OrganizationsFilter';
+import DashboardFilters from './components/DashboardFilters';
 
 const chartData = [
   { date: '2019-05-13T00:00', surveys: 750 },
@@ -38,6 +38,8 @@ const Dashboard = ({ classes, user, t }) => {
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [
     loadingDimensionsIndicators,
     setLoadingDimensionsIndicators
@@ -86,122 +88,140 @@ const Dashboard = ({ classes, user, t }) => {
   }, [user, selectedOrganizations]);
 
   return (
-    <Container variant="fluid" className={classes.container}>
-      <Container className={classes.titleBar} variant="fluid">
-        <Typography variant="h4" className={classes.titleLabel}>
+    <Container variant="fluid" className={classes.greyBackground}>
+      {/* Tite bar */}
+      <Container className={classes.titleBar}>
+        <Typography variant="h4">
           {t('general.welcome').replace('$n', capitalize(user.username))}
         </Typography>
-        <div className={classes.filtersContainer}>
-          <OrganizationsFilter
-            data={selectedOrganizations}
-            onChange={setSelectedOrganizations}
-          />
-        </div>
       </Container>
+
+      {/* Dashboard Filters */}
+      <Container>
+        <DashboardFilters
+          organizationsData={selectedOrganizations}
+          onChangeOrganization={setSelectedOrganizations}
+          from={fromDate}
+          to={toDate}
+          onFromDateChanged={setFromDate}
+          onToDateChanged={setToDate}
+        />
+      </Container>
+
+      {/* Operations */}
       <Container className={classes.operations} variant="fluid">
-        <Typography variant="h5">{t('views.operations')}</Typography>
-        <Box mt={5} />
-        {!feed && (
-          <div className={classes.loadingContainer}>
-            <CircularProgress
-              size={50}
-              thickness={2}
-              style={{ color: theme.palette.grey.main }}
-            />
-          </div>
-        )}
-        {feed && chartData && (
-          <div className={classes.operationsContainer}>
-            <GreenLineChart width="65%" height={220} data={chartData} />
-            <ActivityFeed data={feed} width="35%" height={300} />
-          </div>
-        )}
+        <Container>
+          <Typography variant="h5">{t('views.operations')}</Typography>
+          <Box mt={5} />
+          {!feed && (
+            <div className={classes.loadingContainer}>
+              <CircularProgress
+                size={50}
+                thickness={2}
+                style={{ color: theme.palette.grey.main }}
+              />
+            </div>
+          )}
+          {feed && chartData && (
+            <div className={classes.operationsContainer}>
+              <GreenLineChart width="65%" height={300} data={chartData} />
+              <ActivityFeed data={feed} width="35%" height={300} />
+            </div>
+          )}
+        </Container>
       </Container>
+
+      {/* Social Economics */}
       <Container className={classes.socialEconomics} variant="fluid">
-        {(loadingOverview || loadingEconomics) && (
-          <div className={classes.loadingContainer}>
-            <CircularProgress
-              size={50}
-              thickness={2}
-              style={{ color: theme.palette.grey.main }}
+        <Container className={classes.containerInnerSocial}>
+          {(loadingOverview || loadingEconomics) && (
+            <div className={classes.loadingContainer}>
+              <CircularProgress
+                size={50}
+                thickness={2}
+                style={{ color: theme.palette.grey.main }}
+              />
+            </div>
+          )}
+          {economic && (
+            <FamilyOverviewBlock
+              familiesCount={economic.familiesCount}
+              peopleCount={economic.peopleCount}
+              style={{ padding: 0, marginRight: 60 }}
+              includeEconomics
             />
-          </div>
-        )}
-        {economic && (
-          <FamilyOverviewBlock
-            familiesCount={economic.familiesCount}
-            peopleCount={economic.peopleCount}
-            padding={0}
-            includeEconomics
+          )}
+          {overview && (
+            <div className={classes.innerSocial}>
+              <Typography variant="h5">
+                {t('views.familiesOverviewBlock.overview')}
+              </Typography>
+              <OverviewBlock data={overview} />
+            </div>
+          )}
+        </Container>
+      </Container>
+
+      {/* Dimensions */}
+      <Container className={classes.whiteContainer} variant="fluid">
+        <Container>
+          <DimensionsVisualisation
+            data={dimensions}
+            loading={loadingDimensionsIndicators}
           />
-        )}
-        {overview && (
-          <div className={classes.innerSocial}>
-            <Typography variant="h5">
-              {t('views.familiesOverviewBlock.overview')}
-            </Typography>
-            <OverviewBlock data={overview} />
-          </div>
-        )}
+        </Container>
       </Container>
+
+      {/* Indicators */}
       <Container className={classes.whiteContainer} variant="fluid">
-        <DimensionsVisualisation
-          data={dimensions}
-          loading={loadingDimensionsIndicators}
-        />
-      </Container>
-      <Container className={classes.whiteContainer} variant="fluid">
-        <IndicatorsVisualisation
-          data={indicators}
-          loading={loadingDimensionsIndicators}
-        />
+        <Container>
+          <IndicatorsVisualisation
+            data={indicators}
+            loading={loadingDimensionsIndicators}
+          />
+        </Container>
       </Container>
     </Container>
   );
 };
 
 const styles = theme => ({
-  container: {
+  titleBar: {
+    paddingTop: theme.spacing(6)
+  },
+  greyBackground: {
     backgroundColor: theme.palette.background.paper
   },
-  titleBar: {
-    marginBottom: theme.spacing(5)
+  whiteBackground: {
+    backgroundColor: theme.palette.background.default
   },
   titleLabel: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-    paddingLeft: theme.spacing(6)
-  },
-  filtersContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    background: '#ffff',
-    padding: `${theme.spacing(1.7)}px ${theme.spacing(6)}px ${theme.spacing(
-      1.7
-    )}px ${theme.spacing(6)}px`
+    paddingBottom: theme.spacing(5)
   },
   operations: {
+    padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(6),
     marginBottom: theme.spacing(5)
   },
   operationsContainer: {
     display: 'flex'
   },
   socialEconomics: {
-    padding: theme.spacing(6),
+    padding: `${theme.spacing(6)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: theme.spacing(5),
-    display: 'flex',
-    justifyContent: 'space-between'
+    marginBottom: theme.spacing(5)
   },
-  innerSocial: {
-    alignSelf: 'flex-end'
+  containerInnerSocial: {
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
   },
   whiteContainer: {
-    padding: theme.spacing(6),
+    padding: `${theme.spacing(6)}px 0`,
     backgroundColor: theme.palette.background.default,
     marginBottom: theme.spacing(5)
   },
