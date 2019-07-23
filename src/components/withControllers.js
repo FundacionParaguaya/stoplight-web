@@ -24,7 +24,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: theme.palette.grey.light
+    backgroundColor: theme.palette.background.default
   },
   buttonContainer: {
     width: '100%',
@@ -40,7 +40,7 @@ function withControllers(title, sorting) {
         const [type, setType] = useState(BAR);
         const [count, setCount] = useState(10);
         const [sortingBy, setSortingBy] = useState(SORT_BY_OPTIONS.DEFAULT);
-        const theme = useTheme();
+
         return (
           <div>
             <div className={classes.innerContainer}>
@@ -56,12 +56,13 @@ function withControllers(title, sorting) {
             <Box mt={1} />
             {loading && (
               <div className={classes.loadingContainer}>
-                <CircularProgress
-                  size={50}
-                  thickness={2}
-                  style={{ color: theme.palette.grey.main }}
-                />
+                <CircularProgress />
               </div>
+            )}
+            {!loading && data.length <= 0 && (
+              <Typography>
+                {t('views.organizationsFilter.noMatchFilters')}
+              </Typography>
             )}
             {!loading && data.length > 0 && (
               <>
