@@ -61,7 +61,7 @@ const OrganizationsFilter = ({ user, data, onChange }) => {
   useEffect(() => {
     getOrganizations(user)
       .then(response => {
-        const orgs = _.get(response, 'data.list', []).map(org => ({
+        const orgs = _.get(response, 'data', []).map(org => ({
           label: org.name,
           value: org.id
         }));
