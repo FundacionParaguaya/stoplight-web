@@ -45,9 +45,6 @@ export const theme = {
       fontSize: 18,
       fontFamily: 'Poppins'
     },
-    body1: {
-      fontSize: 18
-    },
     subtitle1: {
       fontSize: 16,
       fontFamily: 'Poppins',
