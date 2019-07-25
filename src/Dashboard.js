@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
-import { withStyles, useTheme } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { isArray, capitalize } from 'lodash';
 import moment from 'moment';
@@ -165,19 +165,14 @@ const Dashboard = ({ classes, user, t }) => {
             <FamilyOverviewBlock
               familiesCount={economic.familiesCount}
               peopleCount={economic.peopleCount}
-              style={{ padding: 0, marginRight: 60 }}
+              noPadding
+              width="30%"
               includeEconomics
             />
           )}
+          <div className={classes.spacingHelper} />
           {loadingOverview && <LoadingContainer />}
-          {!loadingOverview && (
-            <div>
-              <Typography variant="h5">
-                {t('views.familiesOverviewBlock.overview')}
-              </Typography>
-              <OverviewBlock data={overview} />
-            </div>
-          )}
+          {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
         </Container>
       </Container>
 
@@ -234,10 +229,19 @@ const styles = theme => ({
   containerInnerSocial: {
     minHeight: 250,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      textAlign: 'center',
+      justifyContent: 'center',
+      width: '100%'
+    }
+  },
+  spacingHelper: {
+    [theme.breakpoints.down('xs')]: {
+      height: theme.spacing(5),
+      width: '100%'
     }
   },
   whiteContainer: {
