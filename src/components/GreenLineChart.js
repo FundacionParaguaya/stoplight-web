@@ -56,15 +56,17 @@ const GreenLineChart = withTranslation()(
             }
             cursor={false}
           />
-          <Line
-            isAnimationActive={false}
-            type="linear"
-            dataKey="surveys"
-            stroke={GREEN}
-            strokeWidth="2"
-            dot={{ fill: GREEN, strokeWidth: 2 }}
-            activeDot={false}
-          />
+          {data && (
+            <Line
+              isAnimationActive={false}
+              type="linear"
+              dataKey="surveys"
+              stroke={GREEN}
+              strokeWidth="2"
+              dot={{ fill: GREEN, strokeWidth: 2 }}
+              activeDot={false}
+            />
+          )}
         </LineChart>
       </ResponsiveContainer>
     );

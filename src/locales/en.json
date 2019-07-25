@@ -167,8 +167,8 @@
       "howManyMonthsWillItTake": "How many months will it take?",
       "markAchievement": "Mark achievement!",
       "achievement": "Achievement",
-      "howDidYouGetIt": "How did you get it?",
-      "whatDidItTakeToAchieveThis": "What did it take to achieve this?",
+      "howDidYouGetIt": "Who or What motivated you to get there?",
+      "whatDidItTakeToAchieveThis": "What did you do to achieve this?",
       "great": "Great!",
       "youHaveCompletedTheLifemap": "You have completed the Life Map",
       "youNeedToAddPriotity": "You need to add one priority",
@@ -277,7 +277,8 @@
     "saveDraftModal": {
       "lifemapNotComplete": "Your Life Map is not complete!",
       "willSaveDraft": "It will be saved as a draft.",
-      "sureWantToExit": "Are you sure you want to exit?"
+      "sureWantToExit": "Are you sure you want to exit?",
+      "cannotSave": "Something went wrong while saving this draft. Please try again."
     },
     "snapshotsTable": {
       "title": "Drafts",
@@ -302,7 +303,8 @@
     "organizationsFilter": {
       "label": "Organizations",
       "loading": "Loading...",
-      "noOption": "No organization left"
+      "noOption": "No organization left",
+      "noMatchFilters": "No results matching your filters"
     },
     "dateRangeFilter": {
       "from": "From",

@@ -22,6 +22,7 @@ export const FILTERED_BY_OPTIONS = {
 };
 
 export const SORT_BY_OPTIONS = {
+  DEFAULT: 'DEFAULT',
   MOST_GREENS: 'MOST_GREENS',
   MOST_REDS: 'MOST_REDS',
   MOST_YELLOWS: 'MOST_YELLOWS',
@@ -29,15 +30,14 @@ export const SORT_BY_OPTIONS = {
   MOST_PRIORITIZED: 'MOST_PRIORITIZED',
   LESS_PRIORITIZED: 'LESS_PRIORITIZED',
   MOST_ACHIEVED: 'MOST_ACHIEVED',
-  LESS_ACHIEVED: 'LESS_ACHIEVED',
-  DEFAULT: 'DEFAULT'
+  LESS_ACHIEVED: 'LESS_ACHIEVED'
 };
 
 export const sorter = sortBy => (indA, indB) => {
   let compareResult = 0;
-  const stoplightCountFinder = (stoplights, filter) => {
+  const stoplightCountFinder = (stoplights, filter, total) => {
     const stoplight = stoplights.find(s => s.color === filter) || { count: 0 };
-    return stoplight.count;
+    return stoplight.count / total;
   };
   const { stoplights: stoplightsA = [] } = indA;
   const { stoplights: stoplightsB = [] } = indB;
@@ -45,22 +45,24 @@ export const sorter = sortBy => (indA, indB) => {
   const { priorities: prioritiesB = 0 } = indB;
   const { achievements: achievementsA = 0 } = indA;
   const { achievements: achievementsB = 0 } = indB;
+  const totalA = stoplightsA.reduce((acc, current) => acc + current.count, 0);
+  const totalB = stoplightsB.reduce((acc, current) => acc + current.count, 0);
   if (sortBy === SORT_BY_OPTIONS.MOST_GREENS) {
     compareResult =
-      stoplightCountFinder(stoplightsB, 3) -
-      stoplightCountFinder(stoplightsA, 3);
+      stoplightCountFinder(stoplightsB, 3, totalB) -
+      stoplightCountFinder(stoplightsA, 3, totalA);
   } else if (sortBy === SORT_BY_OPTIONS.MOST_YELLOWS) {
     compareResult =
-      stoplightCountFinder(stoplightsB, 2) -
-      stoplightCountFinder(stoplightsA, 2);
+      stoplightCountFinder(stoplightsB, 2, totalB) -
+      stoplightCountFinder(stoplightsA, 2, totalA);
   } else if (sortBy === SORT_BY_OPTIONS.MOST_REDS) {
     compareResult =
-      stoplightCountFinder(stoplightsB, 1) -
-      stoplightCountFinder(stoplightsA, 1);
+      stoplightCountFinder(stoplightsB, 1, totalB) -
+      stoplightCountFinder(stoplightsA, 1, totalA);
   } else if (sortBy === SORT_BY_OPTIONS.MOST_SKIPPED) {
     compareResult =
-      stoplightCountFinder(stoplightsB, 0) -
-      stoplightCountFinder(stoplightsA, 0);
+      stoplightCountFinder(stoplightsB, 0, totalB) -
+      stoplightCountFinder(stoplightsA, 0, totalA);
   } else if (sortBy === SORT_BY_OPTIONS.MOST_PRIORITIZED) {
     compareResult = prioritiesB - prioritiesA;
   } else if (sortBy === SORT_BY_OPTIONS.LESS_PRIORITIZED) {
@@ -257,10 +259,7 @@ const IndicatorsFilter = ({
                   )}
                   {sorting &&
                     Object.keys(SORT_BY_OPTIONS)
-                      .filter(
-                        key =>
-                          sortingBy !== key && key !== SORT_BY_OPTIONS.DEFAULT
-                      )
+                      .filter(key => sortingBy !== key)
                       .map(key => (
                         <MenuItem
                           className={classes.sortItemStyle}
@@ -270,12 +269,6 @@ const IndicatorsFilter = ({
                             onSortingChanged(key);
                           }}
                         >
-                          {/* <ListItemIcon className={classes.icon}>
-                          <div
-                            className={classes.indicatorBall}
-                            style={{ backgroundColor: COLORS.LIGHT_GREY }}
-                          />
-                        </ListItemIcon> */}
                           <Typography
                             variant="subtitle1"
                             className={classes.itemTextStyle}
