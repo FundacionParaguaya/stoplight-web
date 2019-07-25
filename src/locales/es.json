@@ -74,8 +74,8 @@
       "dimensions": "Dimensiones",
       "achievements": "Logros",
       "priorities": "Prioridades",
-      "red": "Rojo",
-      "yellow": "Amarillo",
+      "red": "Rojos",
+      "yellow": "Amarillos",
       "green": "Verdes",
       "skipped": "Omitidas"
     },
@@ -304,6 +304,12 @@
       "searchFamily": "Buscar familia",
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
+    },
+    "activityFeed": {
+      "by": "Por",
+      "today": "Hoy",
+      "dayAgo": "Hace 1 día",
+      "daysAgo": "Hace $dd días"
     },
     "organizationsFilter": {
       "label": "Organizaciones",
