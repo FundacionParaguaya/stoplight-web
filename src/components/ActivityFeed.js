@@ -19,53 +19,51 @@ const ActivityFeed = ({
     );
   };
 
-  return (
-    <>
-      {data && (
-        <div className={classes.container} style={{ width, minHeight: height }}>
-          {data.map(({ familyName, createdAt, username, activityId }) => {
-            const createdDaysAgo = moment().diff(createdAt, 'days');
-            let daysAgoLabel = t('views.activityFeed.today');
-            if (createdDaysAgo === 1) {
-              daysAgoLabel = t('views.activityFeed.dayAgo');
-            } else if (createdDaysAgo > 1) {
-              daysAgoLabel = t('views.activityFeed.daysAgo').replace(
-                '$dd',
-                createdDaysAgo
-              );
-            }
+  if (!data || data.length <= 0) {
+    return (
+      <Typography align="center">
+        {t('views.organizationsFilter.noMatchFilters')}
+      </Typography>
+    );
+  }
 
-            return (
-              <div
-                key={activityId}
-                className={classes.children}
-                onClick={() => handleClick(env, activityId)}
-              >
-                <div className={classes.iconContainer}>
-                  <i className={`material-icons ${classes.primaryIcon}`}>
-                    swap_calls
-                  </i>
-                </div>
-                <div className={classes.content}>
-                  <Typography className={classes.title}>
-                    {familyName}
-                  </Typography>
-                  <Typography className={classes.subtitle}>
-                    {username}
-                  </Typography>
-                  <Typography className={classes.date}>
-                    {daysAgoLabel}
-                  </Typography>
-                  <i className={`material-icons ${classes.arrowIcon}`}>
-                    keyboard_arrow_right
-                  </i>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </>
+  return (
+    <div className={classes.container} style={{ width, minHeight: height }}>
+      {data.map(({ familyName, createdAt, username, activityId }) => {
+        const createdDaysAgo = moment().diff(createdAt, 'days');
+        let daysAgoLabel = t('views.activityFeed.today');
+        if (createdDaysAgo === 1) {
+          daysAgoLabel = t('views.activityFeed.dayAgo');
+        } else if (createdDaysAgo > 1) {
+          daysAgoLabel = t('views.activityFeed.daysAgo').replace(
+            '$dd',
+            createdDaysAgo
+          );
+        }
+
+        return (
+          <div
+            key={activityId}
+            className={classes.children}
+            // onClick={() => handleClick(env, activityId)}
+          >
+            <div className={classes.iconContainer}>
+              <i className={`material-icons ${classes.primaryIcon}`}>
+                swap_calls
+              </i>
+            </div>
+            <div className={classes.content}>
+              <Typography className={classes.title}>{familyName}</Typography>
+              <Typography className={classes.subtitle}>{username}</Typography>
+              <Typography className={classes.date}>{daysAgoLabel}</Typography>
+              {/* <i className={`material-icons ${classes.arrowIcon}`}>
+                keyboard_arrow_right
+              </i> */}
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
@@ -86,12 +84,12 @@ const styles = theme => ({
     overflow: 'scroll'
   },
   children: {
-    cursor: 'pointer',
+    // cursor: 'pointer',
     width: '100%',
-    display: 'flex',
-    '&:hover': {
-      backgroundColor: theme.palette.background.paper
-    }
+    display: 'flex'
+    // '&:hover': {
+    //   backgroundColor: theme.palette.background.paper
+    // }
   },
   iconContainer: {
     width: 60,
