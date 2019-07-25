@@ -14,7 +14,7 @@ const renderCustomizedLabel = ({ value, x, y }) => {
   return (
     <g>
       <text
-        style={{ fontFamily: 'Poppins' }}
+        style={{ fontFamily: 'Poppins', fontSize: 16 }}
         x={x}
         y={y - padding}
         textAnchor="top"
@@ -46,7 +46,7 @@ const SummaryBarChart = ({
     <ResponsiveContainer width={width} height={240}>
       <BarChart
         data={data}
-        barGap={32}
+        barGap={35}
         barSize={18}
         layout="vertical"
         margin={{
