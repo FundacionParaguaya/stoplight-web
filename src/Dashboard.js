@@ -47,7 +47,6 @@ const Dashboard = ({ classes, user, t }) => {
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
-  const theme = useTheme();
   const [loadingChart, setLoadingChart] = useState(true);
 
   useEffect(() => {
