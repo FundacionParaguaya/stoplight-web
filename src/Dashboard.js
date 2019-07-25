@@ -31,7 +31,7 @@ const LoadingContainer = () => (
 );
 
 const Dashboard = ({ classes, user, t }) => {
-  const [feed, setFeed] = useState(null);
+  const [activityFeed, setActivityFeed] = useState(null);
   const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
@@ -46,12 +46,15 @@ const Dashboard = ({ classes, user, t }) => {
   ] = useState(true);
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
-  const [loadingChart, setLoadingChart] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
+  const [loadingChart, setLoadingChart] = useState(true);
 
   useEffect(() => {
     getFamilies(user)
-      .then(families => setFeed(families.data.splice(0, 25)))
+      .then(data => {
+        const { feed } = getData(data);
+        setActivityFeed(feed);
+      })
       .finally(() => setLoadingFeed(false));
   }, [user]);
 
@@ -156,7 +159,7 @@ const Dashboard = ({ classes, user, t }) => {
             )}
             {loadingFeed && <LoadingContainer />}
             {!loadingFeed && (
-              <ActivityFeed data={feed} width="35%" height={300} />
+              <ActivityFeed data={activityFeed} width="35%" height={300} />
             )}
           </div>
         </Container>

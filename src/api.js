@@ -114,11 +114,16 @@ export const getOperationsOverview = (user, fromDate, toDate, organizations) =>
 
 export const getFamilies = user =>
   axios({
-    method: 'get',
-    url: `${url[user.env]}/api/v1/families`,
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
-    }
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify({
+      query:
+        'query { feed {activityId,activityKey,activityParams,activityType,username,createdAt, familyName}}'
+    })
   });
 
 export const getDimensionIndicators = (
