@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
-import { withStyles, useTheme } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { isArray, capitalize } from 'lodash';
 import moment from 'moment';
@@ -109,6 +109,8 @@ const Dashboard = ({ classes, user, t }) => {
             }));
 
           setChart(chartData);
+        } else {
+          setChart(null);
         }
       })
       .finally(() => setLoadingChart(false));
