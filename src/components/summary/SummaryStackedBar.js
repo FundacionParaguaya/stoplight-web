@@ -8,6 +8,7 @@ import {
   YAxis,
   Tooltip
 } from 'recharts';
+import { withTranslation } from 'react-i18next';
 import { COLORS } from '../../theme';
 import CustomTooltip from '../CustomTooltip';
 
@@ -18,7 +19,8 @@ const SummaryStackedBar = props => {
     yellowIndicatorCount,
     redIndicatorCount,
     skippedIndicatorCount,
-    animationDuration
+    animationDuration,
+    t
   } = props;
   const data = [
     {
@@ -30,6 +32,7 @@ const SummaryStackedBar = props => {
     }
   ];
   const shouldAnimate = animationDuration > 0;
+  const getTranslated = name => t(`views.dashboard.${name}`);
 
   return (
     <div className={classes.mainContainer}>
@@ -63,7 +66,11 @@ const SummaryStackedBar = props => {
             content={
               <CustomTooltip
                 format={({ green, red, skipped, yellow }) =>
-                  `${green} Green ${yellow} Yellow ${red} Red ${skipped} Skipped`
+                  `${green} ${getTranslated('green')} ${yellow} ${getTranslated(
+                    'yellow'
+                  )} ${red} ${getTranslated('red')} ${skipped} ${getTranslated(
+                    'skipped'
+                  )}`
                 }
               />
             }
@@ -112,4 +119,4 @@ const styles = () => ({
   }
 });
 
-export default withStyles(styles)(SummaryStackedBar);
+export default withTranslation()(withStyles(styles)(SummaryStackedBar));
