@@ -1,6 +1,6 @@
 {
   "general": {
-    "welcome": "¡Bienvenido $n!",
+    "welcome": "¡Bienvenido!",
     "thankYou": "¡Gracias!",
     "disagree": "Desacuerdo",
     "agree": "De acuerdo",
@@ -27,7 +27,8 @@
     "create": "Crear",
     "saveError": "Error al guardar tu Mapa de vida",
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
-    "clear": "Limpiar"
+    "clear": "Limpiar",
+    "showMore": "Mostrar Más"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -66,10 +67,19 @@
       "logout": "Cerrar sesión"
     },
     "synced": "Sincronización",
+    "dashboard": {
+      "welcome": "¡Bienvenido $n!",
+      "dashboard": "Tablero",
+      "indicators": "Indicadores",
+      "dimensions": "Dimensiones",
+      "achievements": "Logros",
+      "priorities": "Prioridades",
+      "red": "Rojo",
+      "yellow": "Amarillo",
+      "green": "Verdes",
+      "skipped": "Omitidas"
+    },
     "families": "Familias",
-    "dashboard": "Tablero",
-    "indicators": "Indicadores",
-    "dimensions": "Dimensiones",
     "createLifemap": "Crear un Mapa de Vida",
     "latestDrafts": "Últimas instantáneas",
     "noDrafts": "No hay borradores para mostrar",
