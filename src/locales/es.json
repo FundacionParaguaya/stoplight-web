@@ -169,8 +169,8 @@
       "whatWillYouDoToGetIt": "¿Qué harás para tenerlo?",
       "howManyMonthsWillItTake": "¿Cuántos meses tardará?",
       "achievement": "Logro",
-      "howDidYouGetIt": "¿Cómo lo conseguiste?",
-      "whatDidItTakeToAchieveThis": "¿Qué se necesitó para lograr esto?",
+      "howDidYouGetIt": "¿Quién o qué te motivó a alcanzarlo?",
+      "whatDidItTakeToAchieveThis": "¿Qué hiciste para conseguirlo?",
       "great": "¡Fantástico!",
       "youHaveCompletedTheLifemap": "Has completado tu Mapa de Vida",
       "youNeedToAddPriotity": "Necesitas agregar una prioridad",
@@ -278,7 +278,8 @@
     "saveDraftModal": {
       "lifemapNotComplete": "¡Tu mapa de vida no está completo!",
       "willSaveDraft": "Se guardará como un borrador.",
-      "sureWantToExit": "¿Estás seguro de que quieres salir?"
+      "sureWantToExit": "¿Estás seguro de que quieres salir?",
+      "cannotSave": "Ha ocurrido un error al guardar el borrador. Por favor inténtelo de nuevo."
     },
     "snapshotsTable": {
       "title": "Borradores",
@@ -303,7 +304,8 @@
     "organizationsFilter": {
       "label": "Organizaciones",
       "loading": "Cargando...",
-      "noOption": "No quedan organizaciones"
+      "noOption": "No quedan organizaciones",
+      "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
     "dateRangeFilter": {
       "from": "Desde",

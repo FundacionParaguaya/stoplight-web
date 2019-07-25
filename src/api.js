@@ -71,6 +71,35 @@ export const getOverviewBlock = user =>
     })
   });
 
+export const getOperationsOverview = (
+  user,
+  fromDate,
+  toDate,
+  selectedOrganizations
+) => {
+  // we pass only the value of the object
+  const sanitizedOrganizations = selectedOrganizations.map(
+    ({ value }) => value
+  );
+
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query operationsOverview($organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
+      variables: {
+        organizations: sanitizedOrganizations,
+        toTime: toDate,
+        fromTime: fromDate
+      }
+    })
+  });
+};
+
 export const getEconomicOverview = user =>
   axios({
     method: 'post',
@@ -98,7 +127,12 @@ export const getFamilies = user =>
     })
   });
 
-export const getDimensionIndicators = (user, organizations = []) =>
+export const getDimensionIndicators = (
+  user,
+  organizations = [],
+  fromDate,
+  toDate
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -109,7 +143,9 @@ export const getDimensionIndicators = (user, organizations = []) =>
     data: JSON.stringify({
       query: `query { dimensionIndicators(organizations: ${JSON.stringify(
         organizations
-      )}) {dimension, priorities, achievements,
+      )} ${fromDate ? `fromDate: ${fromDate}` : ''} ${
+        toDate ? `toDate: ${toDate}` : ''
+      }) {dimension, priorities, achievements,
           stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
            stoplights{count, color, dimension, indicator}} } }`
     })
@@ -159,8 +195,37 @@ export const checkSessionToken = (token, env) =>
 export const getOrganizations = user =>
   axios({
     method: 'get',
-    url: `${url[user.env]}/api/v1/organizations?page=1`,
+    url: `${url[user.env]}/api/v1/organizations/list`,
     headers: {
       Authorization: `Bearer ${user.token}`
     }
+  });
+
+// get the user's draft list
+export const getDrafts = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query { getSnapshotDraft{ draftId lifemapNavHistory { url state } surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value multipleValue other} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender customGender birthDate documentType customDocumentType documentNumber email phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
+    })
+  });
+
+// Saves a draft
+export const saveDraft = (user, draft) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation addSnapshotDraft($newSnapshot: NewSnapshotDTOInput) {addSnapshotDraft(newSnapshot: $newSnapshot)} ',
+      variables: { newSnapshot: draft }
+    })
   });

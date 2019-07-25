@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'; // provides css reset
 import { PersistGate } from 'redux-persist/integration/react';
-// import Surveys from './screens/SurveysWithDrafts';
-import Surveys from './screens/Surveys';
+import Surveys from './screens/SurveysWithDrafts';
+// import Surveys from './screens/Surveys';
 import Lifemap from './screens/Lifemap';
 import store, { persistor } from './redux';
 import defaultTheme from './theme';
