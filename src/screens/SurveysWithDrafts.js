@@ -304,8 +304,8 @@ class Surveys extends Component {
       conditionalQuestions
     );
     const draft = { ...snapshot };
+    const { lifemapNavHistory } = snapshot;
     delete draft.status;
-    delete draft.currentScreen;
     this.props.updateDraft(draft);
     this.props.updateSurvey({
       ...survey,
@@ -313,7 +313,7 @@ class Surveys extends Component {
       conditionalQuestions,
       elementsWithConditionsOnThem
     });
-    const { lifemapNavHistory } = snapshot;
+
     if (lifemapNavHistory && lifemapNavHistory.length > 0) {
       lifemapNavHistory.forEach(lnh =>
         this.props.history.push({
@@ -322,7 +322,7 @@ class Surveys extends Component {
         })
       );
     } else {
-      this.props.history.push(snapshot.currentScreen);
+      this.props.history.push('/lifemap/terms');
     }
   };
 

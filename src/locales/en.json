@@ -277,7 +277,8 @@
     "saveDraftModal": {
       "lifemapNotComplete": "Your Life Map is not complete!",
       "willSaveDraft": "It will be saved as a draft.",
-      "sureWantToExit": "Are you sure you want to exit?"
+      "sureWantToExit": "Are you sure you want to exit?",
+      "cannotSave": "Something went wrong while saving this draft. Please try again."
     },
     "snapshotsTable": {
       "title": "Drafts",
