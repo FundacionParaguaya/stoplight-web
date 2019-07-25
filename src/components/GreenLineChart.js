@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
+import { Typography } from '@material-ui/core';
 import { COLORS } from '../theme';
 import CustomTooltip from './CustomTooltip';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -16,8 +17,15 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 const { GREEN } = COLORS;
 
 const GreenLineChart = withTranslation()(
-  ({ data, language, width, height }) => {
+  ({ data, i18n: { language }, width, height, t }) => {
     const formatDate = getDateFormatByLocale(language);
+    if (!data) {
+      return (
+        <Typography style={{ width }}>
+          {t('views.organizationsFilter.noMatchFilters')}
+        </Typography>
+      );
+    }
 
     return (
       <ResponsiveContainer width={width || '100%'} height={height || 250}>
