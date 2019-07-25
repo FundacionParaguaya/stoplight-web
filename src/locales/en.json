@@ -1,6 +1,6 @@
 {
   "general": {
-    "welcome": "Welcome $n!",
+    "welcome": "Welcome!",
     "thankYou": "Thank you!",
     "disagree": "Disagree",
     "agree": "Agree",
@@ -27,7 +27,8 @@
     "create": "Create",
     "saveError": "Error while trying to save your Life Map",
     "noOptionsToShow": "There are no options available to select",
-    "clear": "Clear"
+    "clear": "Clear",
+    "showMore": "Show More"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -66,9 +67,18 @@
       "logout": "Logout"
     },
     "synced": "Sync",
-    "dashboard": "Dashboard",
-    "indicators": "Indicators",
-    "dimensions": "Dimensions",
+    "dashboard": {
+      "welcome": "Welcome $n!",
+      "dashboard": "Dashboard",
+      "indicators": "Indicators",
+      "dimensions": "Dimensions",
+      "achievements": "Achievements",
+      "priorities": "Priorities",
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped"
+    },
     "families": "Families",
     "createLifemap": "Create a Life Map",
     "latestDrafts": "Latest Life Maps",

@@ -307,6 +307,8 @@ const Dimensions = withStyles(dimensionStyles)(({ classes, data, type }) => {
   );
 });
 
-const DimensionsVisualisation = withControllers('views.dimensions')(Dimensions);
+const DimensionsVisualisation = withControllers('views.dashboard.dimensions')(
+  Dimensions
+);
 
 export default DimensionsVisualisation;

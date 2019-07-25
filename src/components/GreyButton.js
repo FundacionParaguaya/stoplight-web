@@ -3,7 +3,7 @@ import { withStyles, Button } from '@material-ui/core';
 
 const GreyButton = ({ children, className, classes, ...props }) => (
   <Button className={`${classes.button} ${className}`} {...props}>
-    Show more
+    {children}
   </Button>
 );
 
