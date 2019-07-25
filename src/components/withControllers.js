@@ -78,7 +78,7 @@ function withControllers(title, sorting) {
                         onClick={() => setCount(prev => prev + 10)}
                         disabled={data.length < count}
                       >
-                        Show more
+                        {t('general.showMore')}
                       </GreyButton>
                     </div>
                   </>
