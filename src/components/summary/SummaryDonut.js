@@ -95,7 +95,9 @@ const SummaryDonut = props => {
             content={
               <CustomTooltip
                 format={({ value, name }) =>
-                  `${Math.round((value * 100) / total)}% ${capitalize(name)}`
+                  `${Math.round((value * 100) / total)}% ${t(
+                    `views.dashboard.${name}`
+                  )}`
                 }
               />
             }
@@ -105,22 +107,22 @@ const SummaryDonut = props => {
       {countingSection && (
         <div className={classes.summaryCountingSectionContainer}>
           <SummaryCountingSection
-            label={t('views.overview.green')}
+            label={t('views.dashboard.green')}
             count={greenIndicatorCount}
             color="green"
           />
           <SummaryCountingSection
-            label={t('views.overview.yellow')}
+            label={t('views.dashboard.yellow')}
             count={yellowIndicatorCount}
             color="yellow"
           />
           <SummaryCountingSection
-            label={t('views.overview.red')}
+            label={t('views.dashboard.red')}
             count={redIndicatorCount}
             color="red"
           />
           <SummaryCountingSection
-            label={t('views.overview.skipped')}
+            label={t('views.dashboard.skipped')}
             count={skippedIndicatorCount}
             color="skipped"
           />
