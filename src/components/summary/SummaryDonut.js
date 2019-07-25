@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography } from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
 import { capitalize } from 'lodash';
@@ -59,7 +59,8 @@ const SummaryDonut = props => {
     skippedIndicatorCount,
     t,
     countingSection,
-    isAnimationActive
+    isAnimationActive,
+    width
   } = props;
   const data = [
     { name: 'red', value: redIndicatorCount },
@@ -74,35 +75,37 @@ const SummaryDonut = props => {
     skippedIndicatorCount;
 
   return (
-    <div className={classes.mainContainer}>
+    <div className={classes.mainContainer} style={{ width }}>
       <div className={classes.donutContainer}>
-        <PieChart width={235} height={240}>
-          <Pie
-            data={data}
-            isAnimationActive={isAnimationActive}
-            dataKey="value"
-            nameKey="name"
-            innerRadius={50}
-            outerRadius={110}
-            paddingAngle={0}
-          >
-            <Cell fill={COLORS.RED} stroke={COLORS.RED} />
-            <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
-            <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
-            <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
-          </Pie>
-          <Tooltip
-            content={
-              <CustomTooltip
-                format={({ value, name }) =>
-                  `${Math.round((value * 100) / total)}% ${t(
-                    `views.dashboard.${name}`
-                  )}`
-                }
-              />
-            }
-          />
-        </PieChart>
+        <ResponsiveContainer width="100%" height={240}>
+          <PieChart>
+            <Pie
+              data={data}
+              isAnimationActive={isAnimationActive}
+              dataKey="value"
+              nameKey="name"
+              innerRadius="50%"
+              outerRadius="100%"
+              paddingAngle={0}
+            >
+              <Cell fill={COLORS.RED} stroke={COLORS.RED} />
+              <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
+              <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
+              <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
+            </Pie>
+            <Tooltip
+              content={
+                <CustomTooltip
+                  format={({ value, name }) =>
+                    `${Math.round((value * 100) / total)}% ${t(
+                      `views.dashboard.${name}`
+                    )}`
+                  }
+                />
+              }
+            />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
       {countingSection && (
         <div className={classes.summaryCountingSectionContainer}>

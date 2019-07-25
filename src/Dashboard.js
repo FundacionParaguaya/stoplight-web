@@ -60,6 +60,10 @@ const Dashboard = ({ classes, user, t }) => {
     setLoadingOverview(true);
     setLoadingEconomics(true);
     setLoadingChart(true);
+    const sanitizedOrganizations = selectedOrganizations.map(
+      ({ value }) => value
+    );
+
     getDimensionIndicators(
       user,
       (selectedOrganizations || []).map(o => o.value),
@@ -80,21 +84,21 @@ const Dashboard = ({ classes, user, t }) => {
       .finally(() => setLoadingDimensionsIndicators(false));
 
     // TODO add orgs info in the following 2 api requests
-    getOverviewBlock(user)
+    getOverviewBlock(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { blockOverview } = getData(data);
         setOverview(blockOverview);
       })
       .finally(() => setLoadingOverview(false));
 
-    getEconomicOverview(user)
+    getEconomicOverview(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { economicOverview } = getData(data);
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
 
-    getOperationsOverview(user, fromDate, toDate, selectedOrganizations)
+    getOperationsOverview(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const {
           operationsOverview: { surveysByMonth }
@@ -166,19 +170,14 @@ const Dashboard = ({ classes, user, t }) => {
             <FamilyOverviewBlock
               familiesCount={economic.familiesCount}
               peopleCount={economic.peopleCount}
-              style={{ padding: 0, marginRight: 60 }}
+              noPadding
+              width="30%"
               includeEconomics
             />
           )}
+          <div className={classes.spacingHelper} />
           {loadingOverview && <LoadingContainer />}
-          {!loadingOverview && (
-            <div>
-              <Typography variant="h5">
-                {t('views.familiesOverviewBlock.overview')}
-              </Typography>
-              <OverviewBlock data={overview} />
-            </div>
-          )}
+          {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
         </Container>
       </Container>
 
@@ -235,10 +234,19 @@ const styles = theme => ({
   containerInnerSocial: {
     minHeight: 250,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      textAlign: 'center',
+      justifyContent: 'center',
+      width: '100%'
+    }
+  },
+  spacingHelper: {
+    [theme.breakpoints.down('xs')]: {
+      height: theme.spacing(5),
+      width: '100%'
     }
   },
   whiteContainer: {
