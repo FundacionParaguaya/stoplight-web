@@ -1,6 +1,6 @@
 {
   "general": {
-    "welcome": "Welcome $n!",
+    "welcome": "Welcome!",
     "thankYou": "Thank you!",
     "disagree": "Disagree",
     "agree": "Agree",
@@ -68,6 +68,7 @@
     },
     "synced": "Sync",
     "dashboard": {
+      "welcome": "Welcome $n!",
       "dashboard": "Dashboard",
       "indicators": "Indicators",
       "dimensions": "Dimensions",
