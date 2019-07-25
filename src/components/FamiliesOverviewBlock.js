@@ -9,13 +9,19 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
-    color: '#6A6A6A'
+    color: '#6A6A6A',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%!important'
+    }
   },
   familyInfoContainer: {
     display: 'flex',
     alignItems: 'center',
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing()
+    marginBottom: theme.spacing(),
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center'
+    }
   },
   familiesCountStyle: {
     marginRight: 4,
@@ -56,12 +62,17 @@ const FamiliesOverviewBlock = ({
   womenCount,
   includeEconomics,
   innerRef,
-  style
+  noPadding,
+  width
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   return (
-    <div className={classes.mainContainer} style={style} ref={innerRef}>
+    <div
+      className={classes.mainContainer}
+      style={{ padding: noPadding ? 0 : null, width }}
+      ref={innerRef}
+    >
       <Typography variant="h5">
         {includeEconomics
           ? t('views.familiesOverviewBlock.economics')
