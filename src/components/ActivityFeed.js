@@ -29,40 +29,43 @@ const ActivityFeed = ({
 
   return (
     <div className={classes.container} style={{ width, minHeight: height }}>
-      {data.map(({ familyName, createdAt, username, activityId }) => {
-        const createdDaysAgo = moment().diff(createdAt, 'days');
-        let daysAgoLabel = t('views.activityFeed.today');
-        if (createdDaysAgo === 1) {
-          daysAgoLabel = t('views.activityFeed.dayAgo');
-        } else if (createdDaysAgo > 1) {
-          daysAgoLabel = t('views.activityFeed.daysAgo').replace(
-            '$dd',
-            createdDaysAgo
-          );
-        }
+      <div className={classes.overlay} />
+      <div className={classes.childrenContainer}>
+        {data.map(({ familyName, createdAt, username, activityId }) => {
+          const createdDaysAgo = moment().diff(createdAt, 'days');
+          let daysAgoLabel = t('views.activityFeed.today');
+          if (createdDaysAgo === 1) {
+            daysAgoLabel = t('views.activityFeed.dayAgo');
+          } else if (createdDaysAgo > 1) {
+            daysAgoLabel = t('views.activityFeed.daysAgo').replace(
+              '$dd',
+              createdDaysAgo
+            );
+          }
 
-        return (
-          <div
-            key={activityId}
-            className={classes.children}
-            // onClick={() => handleClick(env, activityId)}
-          >
-            <div className={classes.iconContainer}>
-              <i className={`material-icons ${classes.primaryIcon}`}>
-                swap_calls
-              </i>
-            </div>
-            <div className={classes.content}>
-              <Typography className={classes.title}>{familyName}</Typography>
-              <Typography className={classes.subtitle}>{username}</Typography>
-              <Typography className={classes.date}>{daysAgoLabel}</Typography>
-              {/* <i className={`material-icons ${classes.arrowIcon}`}>
+          return (
+            <div
+              key={activityId}
+              className={classes.children}
+              // onClick={() => handleClick(env, activityId)}
+            >
+              <div className={classes.iconContainer}>
+                <i className={`material-icons ${classes.primaryIcon}`}>
+                  swap_calls
+                </i>
+              </div>
+              <div className={classes.content}>
+                <Typography className={classes.title}>{familyName}</Typography>
+                <Typography className={classes.subtitle}>{username}</Typography>
+                <Typography className={classes.date}>{daysAgoLabel}</Typography>
+                {/* <i className={`material-icons ${classes.arrowIcon}`}>
                 keyboard_arrow_right
               </i> */}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -81,7 +84,25 @@ const styles = theme => ({
     width: '40%',
     maxHeight: 200,
     borderLeft: `1px solid ${theme.palette.grey.light}`,
-    overflow: 'scroll'
+    position: 'relative'
+  },
+  overlay: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    background:
+      'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(46,46,46,0) 30%)',
+    zIndex: 1,
+    pointerEvents: 'none'
+  },
+  childrenContainer: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    overflowY: 'scroll'
   },
   children: {
     // cursor: 'pointer',
