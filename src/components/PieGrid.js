@@ -170,8 +170,9 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'absolute',
     top: 15,
-    right: 0,
-    zIndex: 1
+    right: 15,
+    zIndex: 1,
+    pointerEvents: 'none'
   },
   stackedBarContainer: {
     width: '75%'
