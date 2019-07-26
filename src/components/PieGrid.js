@@ -100,8 +100,16 @@ const PieGrid = ({ classes, items }) => {
             >
               <div className={classes.pieInnerContainer}>
                 <div className={classes.detailContainer}>
-                  <CountDetail border count={priorities} type="achievement" />
-                  <CountDetail border count={achievements} type="priority" />
+                  {priorities > 0 && (
+                    <CountDetail border count={priorities} type="priority" />
+                  )}
+                  {achievements > 0 && (
+                    <CountDetail
+                      border
+                      count={achievements}
+                      type="achievement"
+                    />
+                  )}
                 </div>
                 <IndicatorsDonut
                   greenIndicatorCount={green}
