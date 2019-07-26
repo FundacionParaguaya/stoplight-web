@@ -6,6 +6,7 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import CountDetail from './CountDetail';
 import CustomTooltip from './CustomTooltip';
 import { COLORS } from '../theme';
+import { withTranslation } from 'react-i18next';
 
 const donutStyles = {
   container: {
@@ -21,52 +22,57 @@ const donutStyles = {
   }
 };
 
-const IndicatorsDonut = withStyles(donutStyles)(
-  ({
-    redIndicatorCount,
-    yellowIndicatorCount,
-    greenIndicatorCount,
-    skippedIndicatorCount,
-    icon,
-    dimension,
-    classes
-  }) => {
-    const data = [
-      { name: 'red', value: redIndicatorCount },
-      { name: 'yellow', value: yellowIndicatorCount },
-      { name: 'green', value: greenIndicatorCount },
-      { name: 'skipped', value: skippedIndicatorCount }
-    ];
+const IndicatorsDonut = withTranslation()(
+  withStyles(donutStyles)(
+    ({
+      redIndicatorCount,
+      yellowIndicatorCount,
+      greenIndicatorCount,
+      skippedIndicatorCount,
+      icon,
+      dimension,
+      classes,
+      t
+    }) => {
+      const data = [
+        { name: 'red', value: redIndicatorCount },
+        { name: 'yellow', value: yellowIndicatorCount },
+        { name: 'green', value: greenIndicatorCount },
+        { name: 'skipped', value: skippedIndicatorCount }
+      ];
 
-    return (
-      <div className={classes.container}>
-        {icon && <img src={icon} alt={dimension} className={classes.icon} />}
-        <PieChart width={100} height={100}>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            innerRadius={27.5}
-            outerRadius={40}
-            paddingAngle={0}
-            isAnimationActive={false}
-          >
-            <Cell fill={COLORS.RED} stroke={COLORS.RED} />
-            <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
-            <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
-            <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
-          </Pie>
-          <Tooltip
-            content={
-              <CustomTooltip
-                format={({ value, name }) => `${value} ${capitalize(name)}`}
-              />
-            }
-          />
-        </PieChart>
-      </div>
-    );
-  }
+      return (
+        <div className={classes.container}>
+          {icon && <img src={icon} alt={dimension} className={classes.icon} />}
+          <PieChart width={100} height={100}>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={27.5}
+              outerRadius={40}
+              paddingAngle={0}
+              isAnimationActive={false}
+            >
+              <Cell fill={COLORS.RED} stroke={COLORS.RED} />
+              <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
+              <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
+              <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
+            </Pie>
+            <Tooltip
+              content={
+                <CustomTooltip
+                  format={({ value, name }) =>
+                    `${value} ${t(`views.dashboard.${name}`)}`
+                  }
+                />
+              }
+            />
+          </PieChart>
+        </div>
+      );
+    }
+  )
 );
 
 const parseStoplights = stoplights => {
