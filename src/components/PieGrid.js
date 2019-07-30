@@ -106,8 +106,16 @@ const PieGrid = ({ classes, items }) => {
             >
               <div className={classes.pieInnerContainer}>
                 <div className={classes.detailContainer}>
-                  <CountDetail border count={priorities} type="achievement" />
-                  <CountDetail border count={achievements} type="priority" />
+                  {priorities > 0 && (
+                    <CountDetail border count={priorities} type="priority" />
+                  )}
+                  {achievements > 0 && (
+                    <CountDetail
+                      border
+                      count={achievements}
+                      type="achievement"
+                    />
+                  )}
                 </div>
                 <IndicatorsDonut
                   greenIndicatorCount={green}
@@ -176,8 +184,9 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'absolute',
     top: 15,
-    right: 0,
-    zIndex: 1
+    right: 15,
+    zIndex: 1,
+    pointerEvents: 'none'
   },
   stackedBarContainer: {
     width: '75%'

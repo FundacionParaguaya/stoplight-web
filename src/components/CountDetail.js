@@ -87,7 +87,8 @@ const styles = {
     zIndex: 1
   },
   count: {
-    marginLeft: 5
+    minWidth: 15,
+    textAlign: 'right'
   },
   icon: {
     border: '3px solid #fff',
@@ -96,7 +97,8 @@ const styles = {
     backgroundColor: '#fff'
   },
   iconWithoutBorders: {
-    border: 'unset'
+    borderColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   label: {
     textAlign: 'center',
