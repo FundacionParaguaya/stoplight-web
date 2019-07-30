@@ -128,7 +128,7 @@ const Dashboard = ({ classes, user, t }) => {
     <Container variant="fluid" className={classes.greyBackground}>
       {/* Tite bar */}
       <Container className={classes.titleBar}>
-        <img src={ballstoit} className={classes.titleBalls} />
+        <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
         <Typography variant="h4">
           {t('views.dashboard.welcome').replace(
             '$n',
