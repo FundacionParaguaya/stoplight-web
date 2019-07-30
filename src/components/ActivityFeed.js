@@ -134,7 +134,7 @@ const styles = theme => ({
   },
   primaryIcon: {
     color: COLORS.TEXT_GREY,
-    transform: 'rotate3d(50%,0,0)'
+    transform: 'rotate(90deg)'
   },
   content: {
     position: 'relative',
