@@ -27,12 +27,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: 4,
     color: '#626262',
     fontSize: '55px',
-    fontWeight: theme.typography.fontWeightRegular,
+    fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
     flexWrap: 'wrap'
   },
-  familiesLabel: { alignSelf: 'flex-end' },
-  peopleCountStyle: { fontSize: '14px' },
+  familiesLabel: { alignSelf: 'flex-end', marginLeft: 5 },
+  peopleCountStyle: { fontSize: '16px' },
   menWomenCountStyle: { color: '#909090', fontSize: '14px' },
   economicInfoContainer: {
     display: 'flex',
