@@ -18,7 +18,7 @@ export const HUB_ADMIN = [
   { item: 'map', platform: OLD }
 ];
 
-export const APP_ADMIN = [
+export const ROOT = [
   { item: 'reports', platform: OLD },
   { item: 'surveys', platform: OLD },
   { item: 'users', platform: OLD },
@@ -26,4 +26,4 @@ export const APP_ADMIN = [
   { item: 'map', platform: OLD }
 ];
 
-export const ROLES = { APP_ADMIN, HUB_ADMIN, SURVEY_USER };
+export const ROLES = { ROOT, ROLE_ROOT: ROOT, HUB_ADMIN, SURVEY_USER };
