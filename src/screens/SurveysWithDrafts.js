@@ -354,7 +354,7 @@ class Surveys extends Component {
           <div className={classes.listContainer}>
             {this.state.loading && (
               <div className={classes.spinnerWrapper}>
-                <CircularProgress size={50} thickness={2} />
+                <CircularProgress />
               </div>
             )}
             {!this.state.loading && (
