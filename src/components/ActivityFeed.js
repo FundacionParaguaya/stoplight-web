@@ -133,7 +133,7 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   primaryIcon: {
-    color: COLORS.TEXT_GREY,
+    color: theme.palette.grey.main,
     transform: 'rotate(90deg)'
   },
   content: {
@@ -165,7 +165,7 @@ const styles = theme => ({
     right: 15,
     top: '50%',
     transform: 'translateY(-70%)',
-    color: COLORS.TEXT_GREY
+    color: theme.palette.grey.main
   }
 });
 
