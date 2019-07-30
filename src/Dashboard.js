@@ -12,6 +12,7 @@ import {
   getOverviewBlock,
   getOperationsOverview
 } from './api';
+import ballstoit from './assets/ballstoit.png';
 import withLayout from './components/withLayout';
 import Container from './components/Container';
 import GreenLineChart from './components/GreenLineChart';
@@ -127,16 +128,13 @@ const Dashboard = ({ classes, user, t }) => {
     <Container variant="fluid" className={classes.greyBackground}>
       {/* Tite bar */}
       <Container className={classes.titleBar}>
+        <img src={ballstoit} className={classes.titleBalls} />
         <Typography variant="h4">
           {t('views.dashboard.welcome').replace(
             '$n',
             capitalize(user.username)
           )}
         </Typography>
-      </Container>
-
-      {/* Dashboard Filters */}
-      <Container>
         <DashboardFilters
           organizationsData={selectedOrganizations}
           onChangeOrganization={setSelectedOrganizations}
@@ -209,7 +207,18 @@ const Dashboard = ({ classes, user, t }) => {
 
 const styles = theme => ({
   titleBar: {
-    paddingTop: theme.spacing(6)
+    paddingTop: theme.spacing(8),
+    position: 'relative',
+    overflow: 'hidden',
+    marginBottom: theme.spacing(5)
+  },
+  titleBalls: {
+    position: 'absolute',
+    top: '-5%',
+    right: '10%',
+    width: '50%',
+    objectFit: 'cover',
+    zIndex: 0
   },
   greyBackground: {
     backgroundColor: theme.palette.background.paper
