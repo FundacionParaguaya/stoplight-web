@@ -25,7 +25,7 @@
     "cachedData": "Datos almacenados",
     "chooseView": "Elegir vista",
     "create": "Crear",
-    "saveError": "Error al guardar tu Mapa de vida",
+    "saveError": "Error al guardar tu Mapa de Vida",
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
     "clear": "Limpiar",
     "showMore": "Mostrar Más"
@@ -159,7 +159,7 @@
       "describeLocation": "¿Podría describir su ubicación de la forma más precisa posible a continuación?",
       "error": "Error: No se puede visualizar el perfil de familia",
       "details": "Detalles",
-      "lifemap": "Mapa de vida",
+      "lifemap": "Mapa de Vida",
       "lifeMapCreatedOn": "Borrador del Mapa de Vida creado",
       "created": "Creado",
       "formWithErrors": "Revise %number errores en el formulario"
@@ -200,7 +200,7 @@
     },
     "modals": {
       "lifeMapWillNotBeSaved": "Si no ingresa todos los detalles en esta página, ¡el Mapa de Vida no se guardará!",
-      "weCannotContinueToCreateTheLifeMap": "Si no estás de acuerdo, ¡no podremos seguir creando el mapa de vida!",
+      "weCannotContinueToCreateTheLifeMap": "Si no estás de acuerdo, ¡no podremos seguir creando el Mapa de Vida!",
       "areYouSureYouWantToExit": "¿Estás seguro de que quieres salir?",
       "yourLifemapIsNotComplete": "¡Perderás todos tus datos! ¿Estás seguro de que quieres salir?",
       "thisWillBeSavedAsADraft": "Esto se guardará como un borrador."
@@ -242,7 +242,7 @@
       "onePriorityRemainingDescription": "Ya casi...",
       "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
       "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras.",
-      "noPriorityRequiredTitle": "Para completar tu mapa de vida...",
+      "noPriorityRequiredTitle": "Para completar tu Mapa de Vida...",
       "noPriorityRequiredDescription": "¡Crea prioridades!"
     },
     "indicatorsFilter": {
@@ -265,13 +265,13 @@
     },
     "final": {
       "title": "¡Gracias!",
-      "lifemapCompleted": "¡Tu mapa de vida está completo!",
+      "lifemapCompleted": "¡Tu Mapa de Vida está completo!",
       "print": "Imprimir",
       "email": "Email",
       "download": "Descargar",
-      "lifemapSaved": "Tu mapa de vida ha sido guardado exitosamente",
+      "lifemapSaved": "Tu Mapa de Vida ha sido guardado exitosamente",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
-      "emailSent": "Tu mapa de vida ha sido enviado exitosamente vía email",
+      "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
     "familiesOverviewBlock": {
@@ -286,7 +286,7 @@
       "women": "Mujeres"
     },
     "saveDraftModal": {
-      "lifemapNotComplete": "¡Tu mapa de vida no está completo!",
+      "lifemapNotComplete": "¡Tu Mapa de Vida no está completo!",
       "willSaveDraft": "Se guardará como un borrador.",
       "sureWantToExit": "¿Estás seguro de que quieres salir?",
       "cannotSave": "Ha ocurrido un error al guardar el borrador. Por favor inténtelo de nuevo."
