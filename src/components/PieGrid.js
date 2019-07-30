@@ -1,12 +1,11 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { capitalize } from 'lodash';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { withTranslation } from 'react-i18next';
 import CountDetail from './CountDetail';
 import CustomTooltip from './CustomTooltip';
 import { COLORS } from '../theme';
-import { withTranslation } from 'react-i18next';
 
 const donutStyles = {
   container: {
