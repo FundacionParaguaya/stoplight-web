@@ -209,7 +209,6 @@ const styles = theme => ({
   titleBar: {
     paddingTop: theme.spacing(8),
     position: 'relative',
-    overflow: 'hidden',
     marginBottom: theme.spacing(5)
   },
   titleBalls: {
