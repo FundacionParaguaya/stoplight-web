@@ -74,7 +74,7 @@ class Header extends Component {
 
   render() {
     const { classes, user, t, path } = this.props;
-    const currentRole = ROLES[user.role] || ROLES.FALLBACK;
+    const currentRole = ROLES[user.role];
 
     return (
       <AppBar className={classes.header} color="inherit" position="fixed">
