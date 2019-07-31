@@ -113,7 +113,9 @@ class Header extends Component {
 
             return (
               <NavLink
-                to={`/${item}?sid=${this.props.user.token}&lang=en`}
+                to={`/${item}?sid=${this.props.user.token}&lang=en&env=${
+                  this.props.user.env
+                }`}
                 className={
                   path === `/${item}`
                     ? `${classes.menuLink} ${classes.surveyLink}`
