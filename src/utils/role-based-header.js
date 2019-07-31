@@ -3,13 +3,15 @@ export const getPlatform = env => `https://${env}.povertystoplight.org`;
 export const NEW = 'new';
 export const OLD = 'old';
 
-export const SURVEY_USER = [
+export const FALLBACK = [{ item: 'surveys', platform: NEW }];
+
+export const ROLE_SURVEY_USER = [
   { item: 'surveys', platform: NEW },
   { item: 'families', platform: OLD },
   { item: 'map', platform: OLD }
 ];
 
-export const HUB_ADMIN = [
+export const ROLE_HUB_ADMIN = [
   { item: 'reports', platform: OLD },
   { item: 'surveys', platform: OLD },
   { item: 'organizations', platform: OLD },
@@ -18,7 +20,7 @@ export const HUB_ADMIN = [
   { item: 'map', platform: OLD }
 ];
 
-export const APP_ADMIN = [
+export const ROLE_ROOT = [
   { item: 'reports', platform: OLD },
   { item: 'surveys', platform: OLD },
   { item: 'users', platform: OLD },
@@ -26,4 +28,4 @@ export const APP_ADMIN = [
   { item: 'map', platform: OLD }
 ];
 
-export const ROLES = { APP_ADMIN, HUB_ADMIN, SURVEY_USER };
+export const ROLES = { FALLBACK, ROLE_SURVEY_USER, ROLE_HUB_ADMIN, ROLE_ROOT };
