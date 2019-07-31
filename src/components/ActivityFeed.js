@@ -31,40 +31,52 @@ const ActivityFeed = ({
     <div className={classes.container} style={{ width, minHeight: height }}>
       <div className={classes.overlay} />
       <div className={classes.childrenContainer}>
-        {data.map(({ familyName, createdAt, username, activityId }) => {
-          const createdDaysAgo = moment().diff(createdAt, 'days');
-          let daysAgoLabel = t('views.activityFeed.today');
-          if (createdDaysAgo === 1) {
-            daysAgoLabel = t('views.activityFeed.dayAgo');
-          } else if (createdDaysAgo > 1) {
-            daysAgoLabel = t('views.activityFeed.daysAgo').replace(
-              '$dd',
-              createdDaysAgo
+        {data.map(
+          ({ familyName, createdAt, username, activityId, familyId }) => {
+            const createdDaysAgo = moment().diff(createdAt, 'days');
+            let daysAgoLabel = t('views.activityFeed.today');
+            if (createdDaysAgo === 1) {
+              daysAgoLabel = t('views.activityFeed.dayAgo');
+            } else if (createdDaysAgo > 1) {
+              daysAgoLabel = t('views.activityFeed.daysAgo').replace(
+                '$dd',
+                createdDaysAgo
+              );
+            }
+
+            return (
+              <div
+                key={activityId}
+                className={`${classes.children} ${
+                  familyId ? classes.clickable : null
+                }`}
+                onClick={() => (familyId ? handleClick(env, familyId) : null)}
+              >
+                <div className={classes.iconContainer}>
+                  <i className={`material-icons ${classes.primaryIcon}`}>
+                    swap_calls
+                  </i>
+                </div>
+                <div className={classes.content}>
+                  <Typography className={classes.title}>
+                    {familyName}
+                  </Typography>
+                  <Typography className={classes.subtitle}>
+                    {username}
+                  </Typography>
+                  <Typography className={classes.date}>
+                    {daysAgoLabel}
+                  </Typography>
+                  {familyId && (
+                    <i className={`material-icons ${classes.arrowIcon}`}>
+                      keyboard_arrow_right
+                    </i>
+                  )}
+                </div>
+              </div>
             );
           }
-
-          return (
-            <div
-              key={activityId}
-              className={classes.children}
-              // onClick={() => handleClick(env, activityId)}
-            >
-              <div className={classes.iconContainer}>
-                <i className={`material-icons ${classes.primaryIcon}`}>
-                  swap_calls
-                </i>
-              </div>
-              <div className={classes.content}>
-                <Typography className={classes.title}>{familyName}</Typography>
-                <Typography className={classes.subtitle}>{username}</Typography>
-                <Typography className={classes.date}>{daysAgoLabel}</Typography>
-                {/* <i className={`material-icons ${classes.arrowIcon}`}>
-                keyboard_arrow_right
-              </i> */}
-              </div>
-            </div>
-          );
-        })}
+        )}
       </div>
     </div>
   );
@@ -105,12 +117,14 @@ const styles = theme => ({
     overflowY: 'scroll'
   },
   children: {
-    // cursor: 'pointer',
     width: '100%',
     display: 'flex'
-    // '&:hover': {
-    //   backgroundColor: theme.palette.background.paper
-    // }
+  },
+  clickable: {
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper
+    }
   },
   iconContainer: {
     width: 60,
@@ -119,8 +133,8 @@ const styles = theme => ({
     justifyContent: 'center'
   },
   primaryIcon: {
-    color: COLORS.TEXT_GREY,
-    transform: 'rotate3d(50%,0,0)'
+    color: theme.palette.grey.main,
+    transform: 'rotate(90deg)'
   },
   content: {
     position: 'relative',
@@ -148,10 +162,10 @@ const styles = theme => ({
   },
   arrowIcon: {
     position: 'absolute',
-    right: 0,
+    right: 15,
     top: '50%',
-    transform: 'translateY(-50%)',
-    color: COLORS.TEXT_GREY
+    transform: 'translateY(-70%)',
+    color: theme.palette.grey.main
   }
 });
 

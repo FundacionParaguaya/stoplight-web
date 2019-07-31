@@ -5,7 +5,6 @@ import {
   Box,
   CircularProgress
 } from '@material-ui/core';
-import { useTheme } from '@material-ui/styles';
 import { withTranslation } from 'react-i18next';
 import GreyButton from './GreyButton';
 import Controllers from './Controllers';

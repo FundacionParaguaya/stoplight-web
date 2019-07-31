@@ -122,7 +122,7 @@ export const getFamilies = user =>
     },
     data: JSON.stringify({
       query:
-        'query { feed {activityId,activityKey,activityParams,activityType,username,createdAt, familyName}}'
+        'query { feed { activityId, activityKey, activityParams, activityType, username, createdAt, familyId, familyName } }'
     })
   });
 

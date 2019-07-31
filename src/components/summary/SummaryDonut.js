@@ -4,7 +4,6 @@ import { withTranslation } from 'react-i18next';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography } from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
-import { capitalize } from 'lodash';
 import { COLORS } from '../../theme';
 import CustomTooltip from '../CustomTooltip';
 import IndicatorBall from './IndicatorBall';

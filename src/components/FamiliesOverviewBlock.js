@@ -27,12 +27,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: 4,
     color: '#626262',
     fontSize: '55px',
-    fontWeight: theme.typography.fontWeightRegular,
+    fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
     flexWrap: 'wrap'
   },
-  familiesLabel: { alignSelf: 'flex-end' },
-  peopleCountStyle: { fontSize: '14px' },
+  familiesLabel: { alignSelf: 'flex-end', marginLeft: 5 },
+  peopleCountStyle: { fontSize: '16px' },
   menWomenCountStyle: { color: '#909090', fontSize: '14px' },
   economicInfoContainer: {
     display: 'flex',
@@ -67,6 +67,10 @@ const FamiliesOverviewBlock = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const families = familiesOverview
+    ? familiesOverview.familiesCount
+    : familiesCount;
+
   return (
     <div
       className={classes.mainContainer}
@@ -84,19 +88,21 @@ const FamiliesOverviewBlock = ({
           variant="h4"
           className={classes.familiesCountStyle}
         >
-          {familiesOverview ? familiesOverview.numberOfFamilies : familiesCount}
+          {families}
           <Typography
             component="span"
             variant="h6"
             className={classes.familiesLabel}
           >
-            {t('views.familiesOverviewBlock.families')}
+            {families !== 1
+              ? t('views.familiesOverviewBlock.families')
+              : t('views.familiesOverviewBlock.family')}
           </Typography>
         </Typography>
       </div>
       <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
         'views.familiesOverviewBlock.including'
-      )} ${peopleCount} ${t(
+      )} ${peopleCount || familiesOverview.peopleCount} ${t(
         'views.familiesOverviewBlock.people'
       )}`}</Typography>
       {/* <Typography
@@ -125,10 +131,10 @@ const FamiliesOverviewBlock = ({
 };
 
 FamiliesOverviewBlock.defaultProps = {
-  familiesCount: 1350,
-  peopleCount: 12500,
-  menCount: 550,
-  womenCount: 800
+  familiesCount: 0,
+  peopleCount: 0,
+  menCount: 0,
+  womenCount: 0
 };
 
 export default FamiliesOverviewBlock;
