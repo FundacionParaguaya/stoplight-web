@@ -74,6 +74,7 @@ class Header extends Component {
 
   render() {
     const { classes, user, t, path } = this.props;
+    const currentRole = ROLES[user.role] || ROLES.FALLBACK;
 
     return (
       <AppBar className={classes.header} color="inherit" position="fixed">
@@ -92,7 +93,7 @@ class Header extends Component {
               height={38}
             />
           </span>
-          {ROLES[user.role].map(({ item, platform }) => {
+          {currentRole.map(({ item, platform }) => {
             if (platform === OLD) {
               return (
                 <a
