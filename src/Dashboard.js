@@ -232,7 +232,8 @@ const styles = theme => ({
   operations: {
     padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: theme.spacing(5)
+    marginBottom: theme.spacing(5),
+    zIndex: 2 // In case operations touch the balls
   },
   operationsContainer: {
     display: 'flex'
