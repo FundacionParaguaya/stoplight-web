@@ -74,16 +74,22 @@ class Header extends Component {
 
   render() {
     const { classes, user, t, path } = this.props;
-    const currentRole = ROLES[user.role] || ROLES.FALLBACK;
+    const currentRole = ROLES[user.role];
 
     return (
       <AppBar className={classes.header} color="inherit" position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
-          <span
-            // If we need to reimplement href, change </span> to </a>
-            // href={`https://${user.env}.povertystoplight.org`}
-            className={classes.menuLink}
-            style={{ position: 'relative' }}
+          {/* Logo to dashboard */}
+          <NavLink
+            to={`/dashboard?sid=${this.props.user.token}&lang=en&env=${
+              this.props.user.env
+            }`}
+            className={
+              path === `/dashboard`
+                ? `${classes.menuLink} ${classes.surveyLink}`
+                : classes.menuLink
+            }
+            key="dashboard"
           >
             <img
               style={{ marginTop: 4 }}
@@ -92,7 +98,9 @@ class Header extends Component {
               width={38}
               height={38}
             />
-          </span>
+          </NavLink>
+
+          {/* Rest of the items */}
           {currentRole.map(({ item, platform }) => {
             if (platform === OLD) {
               return (
@@ -113,7 +121,9 @@ class Header extends Component {
 
             return (
               <NavLink
-                to={`/${item}?sid=${this.props.user.token}&lang=en`}
+                to={`/${item}?sid=${this.props.user.token}&lang=en&env=${
+                  this.props.user.env
+                }`}
                 className={
                   path === `/${item}`
                     ? `${classes.menuLink} ${classes.surveyLink}`
@@ -130,6 +140,8 @@ class Header extends Component {
               </NavLink>
             );
           })}
+
+          {/* Extra Buttons */}
           <div className={classes.extraButtons}>
             <Button
               style={{ color: 'white' }}
