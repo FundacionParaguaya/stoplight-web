@@ -88,6 +88,7 @@
     "operations": "Operations",
     "survey": {
       "chooseSurvey": "Choose a survey",
+      "welcome": "Welcome",
       "contains": "Contains",
       "createdOn": "Created on",
       "surveys": "Surveys",
@@ -286,8 +287,8 @@
       "women": "Women"
     },
     "saveDraftModal": {
-      "lifemapNotComplete": "Your Life Map is not complete!",
-      "willSaveDraft": "It will be saved as a draft.",
+      "lifemapNotComplete": "Your Life Map is not complete",
+      "willSaveDraft": "It will be saved as a draft",
       "sureWantToExit": "Are you sure you want to exit?",
       "cannotSave": "Something went wrong while saving this draft. Please try again."
     },
@@ -301,7 +302,7 @@
       "completed": "Completed",
       "drafts": "Drafts",
       "all": "All",
-      "searchFamily": "Search family",
+      "searchFamily": "Search families",
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters"
     },

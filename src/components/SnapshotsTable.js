@@ -163,7 +163,8 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    cursor: 'pointer'
   },
   itemContainer: {
     display: 'flex',
@@ -291,7 +292,7 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
           status: SNAPSHOTS_STATUS.COMPLETED
         }))
       ];
-      console.log(consolidated);
+      // console.log(consolidated);
       setSnapshots(consolidated);
     });
   }, [user]);
@@ -362,7 +363,13 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
               : t('views.snapshotsTable.completed');
           return (
             <React.Fragment key={snapshot.draftId}>
-              <ListItem className={classes.listItemStyle}>
+              <ListItem
+                className={classes.listItemStyle}
+                onClick={() =>
+                  snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
+                  handleClickOnSnapshot(snapshot)
+                }
+              >
                 <div className={classes.itemContainer}>
                   <div className={classes.retakeContainer}>
                     <SwapCalls className={classes.retakeIcon} />
@@ -407,10 +414,6 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
                         snapshot.status === SNAPSHOTS_STATUS.COMPLETED
                           ? 'disabled'
                           : undefined
-                      }
-                      onClick={() =>
-                        snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
-                        handleClickOnSnapshot(snapshot)
                       }
                       className={clsx(classes.forwardArrowStyle, {
                         [classes.forwardArrowStyleInactive]:

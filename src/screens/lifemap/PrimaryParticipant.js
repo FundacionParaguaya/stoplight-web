@@ -194,7 +194,7 @@ export class PrimaryParticipant extends Component {
         names2.push({
           firstName: '',
           gender: '',
-          birthDate: '',
+          birthDate: null,
           firstParticipant: false,
           socioEconomicAnswers: []
         });

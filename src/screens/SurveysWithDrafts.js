@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import { capitalize } from 'lodash';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys, getEconomicOverview } from '../api';
 import Container from '../components/Container';
@@ -31,7 +32,9 @@ const useSurveysListStyle = makeStyles(theme => ({
   listStyle: {
     overflow: 'auto',
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    WebkitAppearance: 'none'
+    // width: 7
   },
   listItemStyle: {
     paddingLeft: 0,
@@ -342,7 +345,9 @@ class Surveys extends Component {
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
               <Typography variant="h4">
-                {t('views.survey.chooseSurvey')}
+                {`${t('views.survey.welcome')} ${capitalize(
+                  this.props.user.username
+                )}`}
               </Typography>
             </div>
             <img

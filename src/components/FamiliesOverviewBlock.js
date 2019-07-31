@@ -7,6 +7,8 @@ const useStyles = makeStyles(theme => ({
   mainContainer: {
     backgroundColor: '#fff',
     padding: theme.spacing(2),
+    paddingTop: theme.spacing(5.5),
+    paddingBottom: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
     color: '#6A6A6A',
@@ -17,8 +19,8 @@ const useStyles = makeStyles(theme => ({
   familyInfoContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(),
+    marginTop: theme.spacing(4.5),
+    marginBottom: theme.spacing(1.5),
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center'
     }
