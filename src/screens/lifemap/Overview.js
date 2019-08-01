@@ -49,7 +49,7 @@ let DimensionQuestions = ({
     {questions.map(indicator => (
       <Grid
         item
-        xs={4}
+        xs={12}
         md={3}
         lg={2}
         key={indicator.key}
