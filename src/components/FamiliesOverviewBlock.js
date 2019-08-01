@@ -7,8 +7,6 @@ const useStyles = makeStyles(theme => ({
   mainContainer: {
     backgroundColor: '#fff',
     padding: theme.spacing(2),
-    paddingTop: theme.spacing(5.5),
-    paddingBottom: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
     color: '#6A6A6A',
