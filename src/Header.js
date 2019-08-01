@@ -73,7 +73,13 @@ class Header extends Component {
   };
 
   render() {
-    const { classes, user, t, path } = this.props;
+    const {
+      classes,
+      user,
+      t,
+      path,
+      i18n: { language }
+    } = this.props;
     const currentRole = ROLES[user.role];
 
     return (
@@ -81,7 +87,7 @@ class Header extends Component {
         <Toolbar className={classes.toolbar} disableGutters={false}>
           {/* Logo to dashboard */}
           <NavLink
-            to={`/dashboard?sid=${this.props.user.token}&lang=en&env=${
+            to={`/dashboard?sid=${this.props.user.token}&lang=${language}&env=${
               this.props.user.env
             }`}
             className={
@@ -121,9 +127,9 @@ class Header extends Component {
 
             return (
               <NavLink
-                to={`/${item}?sid=${this.props.user.token}&lang=en&env=${
-                  this.props.user.env
-                }`}
+                to={`/${item}?sid=${
+                  this.props.user.token
+                }&lang=${language}&env=${this.props.user.env}`}
                 className={
                   path === `/${item}`
                     ? `${classes.menuLink} ${classes.surveyLink}`

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
-import { isArray, capitalize } from 'lodash';
+import { isArray, capitalize, reverse } from 'lodash';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
@@ -109,12 +109,13 @@ const Dashboard = ({ classes, user, t }) => {
         } = getData(data);
 
         if (surveysByMonth) {
-          const chartData = Object.entries(surveysByMonth)
-            .sort()
-            .map(([date, surveys]) => ({
+          let chartData = Object.entries(surveysByMonth).map(
+            ([date, surveys]) => ({
               date: moment(date, 'MM-YYYY').format(),
               surveys
-            }));
+            })
+          );
+          chartData = reverse(chartData);
 
           setChart(chartData);
         } else {
@@ -128,7 +129,9 @@ const Dashboard = ({ classes, user, t }) => {
     <Container variant="fluid" className={classes.greyBackground}>
       {/* Tite bar */}
       <Container className={classes.titleBar}>
-        <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
+        <div className={classes.ballsContainer}>
+          <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
+        </div>
         <Typography variant="h4">
           {t('views.dashboard.welcome').replace(
             '$n',
@@ -211,13 +214,22 @@ const styles = theme => ({
     position: 'relative',
     marginBottom: theme.spacing(5)
   },
-  titleBalls: {
+  ballsContainer: {
     position: 'absolute',
-    top: '-5%',
-    right: '10%',
-    width: '50%',
-    objectFit: 'cover',
+    top: 0,
+    right: 0,
+    height: '100%',
     zIndex: 0
+  },
+  titleBalls: {
+    position: 'relative',
+    top: '10%',
+    right: '15%',
+    width: '90%',
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   greyBackground: {
     backgroundColor: theme.palette.background.paper
@@ -232,8 +244,7 @@ const styles = theme => ({
   operations: {
     padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: theme.spacing(5),
-    zIndex: 2 // In case operations touch the balls
+    marginBottom: theme.spacing(5)
   },
   operationsContainer: {
     display: 'flex'
