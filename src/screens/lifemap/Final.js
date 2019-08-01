@@ -197,7 +197,7 @@ export class Final extends Component {
           <div className={classes.gridContainer}>
             <Grid container spacing={2} className={classes.buttonContainer}>
               {primaryParticipant.email && (
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={4}>
                   <Button
                     variant="outlined"
                     color="primary"
@@ -212,7 +212,7 @@ export class Final extends Component {
                   </Button>
                 </Grid>
               )}
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -232,7 +232,7 @@ export class Final extends Component {
                   {t('views.final.print')}
                 </Button>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -254,7 +254,7 @@ export class Final extends Component {
               </Grid>
             </Grid>
             <Grid container spacing={2} className={classes.buttonContainer}>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Button
                   variant="contained"
                   color="primary"
