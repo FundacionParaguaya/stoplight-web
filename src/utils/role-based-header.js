@@ -22,7 +22,7 @@ export const ROLE_HUB_ADMIN = [
 ];
 
 export const ROLE_PS_TEAM = [
-  { item: 'hubs', platform: NEW },
+  { item: 'hubs', platform: OLD },
   { item: 'users', platform: OLD },
   { item: 'surveys', platform: OLD },
   { item: 'map', platform: OLD }
