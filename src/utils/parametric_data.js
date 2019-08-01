@@ -63,18 +63,6 @@ export const DIMENSIONS_ES = Object.freeze({
 export const normalizeDimension = d => {
   const dimension = d.trim();
   let normalized = '';
-  // Object.keys(DIMENSIONS_EN).forEach(d => {
-  //   if (DIMENSIONS_EN[d] === dimension) {
-  //     normalized = NORMALIZED_DIMENSIONS[d];
-  //   }
-  // });
-  // if (!normalized) {
-  //   Object.keys(DIMENSIONS_ES).forEach(d => {
-  //     if (DIMENSIONS_ES[d] === dimension) {
-  //       normalized = NORMALIZED_DIMENSIONS[d];
-  //     }
-  //   });
-  // }
   if (EDUCATION_OPTIONS.indexOf(dimension) >= 0) {
     normalized = NORMALIZED_DIMENSIONS.EDUCATION;
   } else if (HEALTH_OPTIONS.indexOf(dimension) >= 0) {
