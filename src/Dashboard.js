@@ -222,10 +222,14 @@ const styles = theme => ({
     zIndex: 0
   },
   titleBalls: {
-    height: '100%',
     position: 'relative',
     top: '10%',
-    right: '15%'
+    right: '15%',
+    width: '90%',
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   greyBackground: {
     backgroundColor: theme.palette.background.paper
