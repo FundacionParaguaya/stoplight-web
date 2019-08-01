@@ -73,6 +73,8 @@ const FamiliesOverviewBlock = ({
     ? familiesOverview.familiesCount
     : familiesCount;
 
+  const people = familiesOverview ? familiesOverview.peopleCount : peopleCount;
+
   return (
     <div
       className={classes.mainContainer}
@@ -104,9 +106,7 @@ const FamiliesOverviewBlock = ({
       </div>
       <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
         'views.familiesOverviewBlock.including'
-      )} ${peopleCount || familiesOverview.peopleCount} ${t(
-        'views.familiesOverviewBlock.people'
-      )}`}</Typography>
+      )} ${people} ${t('views.familiesOverviewBlock.people')}`}</Typography>
       {/* <Typography
         className={classes.menWomenCountStyle}
         variant="h6"
