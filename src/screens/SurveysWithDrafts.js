@@ -32,9 +32,7 @@ const useSurveysListStyle = makeStyles(theme => ({
   listStyle: {
     overflow: 'auto',
     paddingTop: 0,
-    paddingBottom: 0,
-    WebkitAppearance: 'none'
-    // width: 7
+    paddingBottom: 0
   },
   listItemStyle: {
     paddingLeft: 0,
@@ -84,7 +82,12 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
   return (
     <div className={classes.mainContainer} style={{ maxHeight: height }}>
       <Typography variant="h5">{t('views.survey.surveys')}</Typography>
-      <List dense className={classes.listStyle}>
+      <List
+        dense
+        className={`${
+          classes.listStyle
+        } visible-scrollbar visible-scrollbar-thumb`}
+      >
         {surveys.map((survey, index) => (
           <React.Fragment key={survey.id}>
             <ListItem className={classes.listItemStyle}>

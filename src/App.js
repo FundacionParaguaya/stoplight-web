@@ -16,6 +16,7 @@ import CustomSnackbarProvider from './components/SnackbarProvider';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import Analytics from './screens/Analytics';
 import Dashboard from './Dashboard';
+import './index.css';
 
 class App extends Component {
   render() {

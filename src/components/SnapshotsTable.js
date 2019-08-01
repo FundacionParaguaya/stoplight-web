@@ -326,7 +326,11 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
         familiesFilter={familiesFilter}
         setFamiliesFilter={setFamiliesFilter}
       />
-      <List className={classes.listStyle}>
+      <List
+        className={`${
+          classes.listStyle
+        } visible-scrollbar visible-scrollbar-thumb`}
+      >
         {filteredSnapshots.length === 0 && (
           <ListItem className={classes.listItemStyle}>
             <div className={classes.itemContainer}>
