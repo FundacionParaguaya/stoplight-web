@@ -153,6 +153,7 @@ class Header extends Component {
               style={{ color: 'white' }}
               href="https://intercom.help/poverty-stoplight"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <Typography variant="subtitle1" className={classes.menuLinkText}>
                 FAQs
