@@ -149,6 +149,15 @@ class Header extends Component {
 
           {/* Extra Buttons */}
           <div className={classes.extraButtons}>
+            <a
+              style={{ color: 'white' }}
+              href="https://intercom.help/poverty-stoplight"
+              target="_blank"
+            >
+              <Typography variant="subtitle1" className={classes.menuLinkText}>
+                FAQs
+              </Typography>
+            </a>
             <Button
               style={{ color: 'white' }}
               buttonRef={node => {
