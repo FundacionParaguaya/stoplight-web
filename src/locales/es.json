@@ -88,6 +88,7 @@
     "operations": "Operaciones",
     "survey": {
       "chooseSurvey": "Elige una encuesta",
+      "welcome": "Bienvenido",
       "contains": "Contiene",
       "createdOn": "Creado el",
       "surveys": "Encuestas",
@@ -287,8 +288,8 @@
       "women": "Mujeres"
     },
     "saveDraftModal": {
-      "lifemapNotComplete": "¡Tu Mapa de Vida no está completo!",
-      "willSaveDraft": "Se guardará como un borrador.",
+      "lifemapNotComplete": "Tu Mapa de Vida no está completo",
+      "willSaveDraft": "Se guardará como un borrador",
       "sureWantToExit": "¿Estás seguro de que quieres salir?",
       "cannotSave": "Ha ocurrido un error al guardar el borrador. Por favor inténtelo de nuevo."
     },
@@ -302,7 +303,7 @@
       "completed": "Completo",
       "drafts": "Borradores",
       "all": "Todos",
-      "searchFamily": "Buscar familia",
+      "searchFamily": "Buscar familias",
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     },

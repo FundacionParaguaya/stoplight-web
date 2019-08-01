@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import { capitalize } from 'lodash';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys, getEconomicOverview } from '../api';
 import Container from '../components/Container';
@@ -81,7 +82,12 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
   return (
     <div className={classes.mainContainer} style={{ maxHeight: height }}>
       <Typography variant="h5">{t('views.survey.surveys')}</Typography>
-      <List dense className={classes.listStyle}>
+      <List
+        dense
+        className={`${
+          classes.listStyle
+        } visible-scrollbar visible-scrollbar-thumb`}
+      >
         {surveys.map((survey, index) => (
           <React.Fragment key={survey.id}>
             <ListItem className={classes.listItemStyle}>
@@ -342,7 +348,9 @@ class Surveys extends Component {
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
               <Typography variant="h4">
-                {t('views.survey.chooseSurvey')}
+                {`${t('views.survey.welcome')} ${capitalize(
+                  this.props.user.username
+                )}`}
               </Typography>
             </div>
             <img
