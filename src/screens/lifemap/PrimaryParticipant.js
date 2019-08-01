@@ -45,7 +45,9 @@ const staticFields = {
   documentType: Yup.string().required(fieldIsRequired),
   documentNumber: Yup.string().required(fieldIsRequired),
   birthCountry: Yup.string().required(fieldIsRequired),
-  countFamilyMembers: Yup.string().required(fieldIsRequired),
+  countFamilyMembers: Yup.string()
+    .required(fieldIsRequired)
+    .nullable(),
   email: Yup.string().email(validEmailAddress)
 };
 
