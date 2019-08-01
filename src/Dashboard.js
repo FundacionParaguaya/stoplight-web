@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
-import { isArray, capitalize, reverse } from 'lodash';
+import { isArray, capitalize } from 'lodash';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
@@ -107,15 +107,15 @@ const Dashboard = ({ classes, user, t }) => {
         const {
           operationsOverview: { surveysByMonth }
         } = getData(data);
+        const getTime = date => new Date(date).getTime();
 
         if (surveysByMonth) {
-          let chartData = Object.entries(surveysByMonth).map(
-            ([date, surveys]) => ({
+          const chartData = Object.entries(surveysByMonth)
+            .map(([date, surveys]) => ({
               date: moment(date, 'MM-YYYY').format(),
               surveys
-            })
-          );
-          chartData = reverse(chartData);
+            }))
+            .sort((a, b) => getTime(a.date) - getTime(b.date));
 
           setChart(chartData);
         } else {
@@ -224,7 +224,7 @@ const styles = theme => ({
   titleBalls: {
     position: 'relative',
     top: '10%',
-    right: '15%',
+    right: '25%',
     width: '90%',
     objectFit: 'cover',
     [theme.breakpoints.down('xs')]: {
