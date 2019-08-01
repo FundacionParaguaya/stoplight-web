@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
-import { isArray, capitalize } from 'lodash';
+import { isArray, capitalize, reverse } from 'lodash';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
@@ -109,12 +109,13 @@ const Dashboard = ({ classes, user, t }) => {
         } = getData(data);
 
         if (surveysByMonth) {
-          const chartData = Object.entries(surveysByMonth)
-            .sort()
-            .map(([date, surveys]) => ({
+          let chartData = Object.entries(surveysByMonth).map(
+            ([date, surveys]) => ({
               date: moment(date, 'MM-YYYY').format(),
               surveys
-            }));
+            })
+          );
+          chartData = reverse(chartData);
 
           setChart(chartData);
         } else {
@@ -221,10 +222,14 @@ const styles = theme => ({
     zIndex: 0
   },
   titleBalls: {
-    height: '100%',
     position: 'relative',
     top: '10%',
-    right: '15%'
+    right: '15%',
+    width: '90%',
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   greyBackground: {
     backgroundColor: theme.palette.background.paper
