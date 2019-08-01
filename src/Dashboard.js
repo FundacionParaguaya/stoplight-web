@@ -224,7 +224,7 @@ const styles = theme => ({
   titleBalls: {
     position: 'relative',
     top: '10%',
-    right: '15%',
+    right: '25%',
     width: '90%',
     objectFit: 'cover',
     [theme.breakpoints.down('xs')]: {
