@@ -9,24 +9,30 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
-    color: '#6A6A6A'
+    color: '#6A6A6A',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%!important'
+    }
   },
   familyInfoContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing()
+    marginTop: theme.spacing(4.5),
+    marginBottom: theme.spacing(1.5),
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center'
+    }
   },
   familiesCountStyle: {
     marginRight: 4,
     color: '#626262',
     fontSize: '55px',
-    fontWeight: theme.typography.fontWeightRegular,
+    fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
     flexWrap: 'wrap'
   },
-  familiesLabel: { alignSelf: 'flex-end' },
-  peopleCountStyle: { fontSize: '14px' },
+  familiesLabel: { alignSelf: 'flex-end', marginLeft: 5 },
+  peopleCountStyle: { fontSize: '16px' },
   menWomenCountStyle: { color: '#909090', fontSize: '14px' },
   economicInfoContainer: {
     display: 'flex',
@@ -56,12 +62,23 @@ const FamiliesOverviewBlock = ({
   womenCount,
   includeEconomics,
   innerRef,
-  style
+  noPadding,
+  width
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const families = familiesOverview
+    ? familiesOverview.familiesCount
+    : familiesCount;
+
+  const people = familiesOverview ? familiesOverview.peopleCount : peopleCount;
+
   return (
-    <div className={classes.mainContainer} style={style} ref={innerRef}>
+    <div
+      className={classes.mainContainer}
+      style={{ padding: noPadding ? 0 : null, width }}
+      ref={innerRef}
+    >
       <Typography variant="h5">
         {includeEconomics
           ? t('views.familiesOverviewBlock.economics')
@@ -73,21 +90,21 @@ const FamiliesOverviewBlock = ({
           variant="h4"
           className={classes.familiesCountStyle}
         >
-          {familiesOverview ? familiesOverview.numberOfFamilies : familiesCount}
+          {families}
           <Typography
             component="span"
             variant="h6"
             className={classes.familiesLabel}
           >
-            {t('views.familiesOverviewBlock.families')}
+            {families !== 1
+              ? t('views.familiesOverviewBlock.families')
+              : t('views.familiesOverviewBlock.family')}
           </Typography>
         </Typography>
       </div>
       <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
         'views.familiesOverviewBlock.including'
-      )} ${peopleCount} ${t(
-        'views.familiesOverviewBlock.people'
-      )}`}</Typography>
+      )} ${people} ${t('views.familiesOverviewBlock.people')}`}</Typography>
       {/* <Typography
         className={classes.menWomenCountStyle}
         variant="h6"
@@ -114,10 +131,10 @@ const FamiliesOverviewBlock = ({
 };
 
 FamiliesOverviewBlock.defaultProps = {
-  familiesCount: 1350,
-  peopleCount: 12500,
-  menCount: 550,
-  womenCount: 800
+  familiesCount: 0,
+  peopleCount: 0,
+  menCount: 0,
+  womenCount: 0
 };
 
 export default FamiliesOverviewBlock;

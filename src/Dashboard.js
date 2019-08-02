@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
-import { withStyles, useTheme } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { isArray, capitalize } from 'lodash';
+import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
   getFamilies,
   getDimensionIndicators,
   getEconomicOverview,
-  getOverviewBlock
+  getOverviewBlock,
+  getOperationsOverview
 } from './api';
+import ballstoit from './assets/ballstoit.png';
 import withLayout from './components/withLayout';
 import Container from './components/Container';
 import GreenLineChart from './components/GreenLineChart';
@@ -20,19 +23,16 @@ import DimensionsVisualisation from './components/DimensionsVisualisation';
 import IndicatorsVisualisation from './components/IndicatorsVisualisation';
 import DashboardFilters from './components/DashboardFilters';
 
-const chartData = [
-  { date: '2019-05-13T00:00', surveys: 750 },
-  { date: '2019-01-15T00:00', surveys: 560 },
-  { date: '2019-07-16T00:00', surveys: 1280 },
-  { date: '2019-08-23T00:00', surveys: 400 },
-  { date: '2019-09-04T00:00', surveys: 1400 },
-  { date: '2019-10-14T00:00', surveys: 1300 }
-];
-
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
+const LoadingContainer = () => (
+  <div style={{ height: 300, margin: 'auto', display: 'flex' }}>
+    <CircularProgress style={{ margin: 'auto' }} />
+  </div>
+);
+
 const Dashboard = ({ classes, user, t }) => {
-  const [feed, setFeed] = useState(null);
+  const [activityFeed, setActivityFeed] = useState(null);
   const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
@@ -40,24 +40,39 @@ const Dashboard = ({ classes, user, t }) => {
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
+  const [chart, setChart] = useState(null);
   const [
     loadingDimensionsIndicators,
     setLoadingDimensionsIndicators
   ] = useState(true);
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
-  const theme = useTheme();
+  const [loadingFeed, setLoadingFeed] = useState(true);
+  const [loadingChart, setLoadingChart] = useState(true);
+
   useEffect(() => {
-    getFamilies(user).then(families => setFeed(families.data.splice(0, 25)));
+    getFamilies(user)
+      .then(data => {
+        const { feed } = getData(data);
+        setActivityFeed(feed);
+      })
+      .finally(() => setLoadingFeed(false));
   }, [user]);
 
   useEffect(() => {
     setLoadingDimensionsIndicators(true);
     setLoadingOverview(true);
     setLoadingEconomics(true);
+    setLoadingChart(true);
+    const sanitizedOrganizations = selectedOrganizations.map(
+      ({ value }) => value
+    );
+
     getDimensionIndicators(
       user,
-      (selectedOrganizations || []).map(o => o.value)
+      (selectedOrganizations || []).map(o => o.value),
+      fromDate,
+      toDate
     )
       .then(data => {
         const { dimensionIndicators } = getData(data);
@@ -73,31 +88,56 @@ const Dashboard = ({ classes, user, t }) => {
       .finally(() => setLoadingDimensionsIndicators(false));
 
     // TODO add orgs info in the following 2 api requests
-    getOverviewBlock(user)
+    getOverviewBlock(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { blockOverview } = getData(data);
         setOverview(blockOverview);
       })
       .finally(() => setLoadingOverview(false));
-    getEconomicOverview(user)
+
+    getEconomicOverview(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { economicOverview } = getData(data);
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
-  }, [user, selectedOrganizations]);
+
+    getOperationsOverview(user, fromDate, toDate, sanitizedOrganizations)
+      .then(data => {
+        const {
+          operationsOverview: { surveysByMonth }
+        } = getData(data);
+        const getTime = date => new Date(date).getTime();
+
+        if (surveysByMonth) {
+          const chartData = Object.entries(surveysByMonth)
+            .map(([date, surveys]) => ({
+              date: moment(date, 'MM-YYYY').format(),
+              surveys
+            }))
+            .sort((a, b) => getTime(a.date) - getTime(b.date));
+
+          setChart(chartData);
+        } else {
+          setChart(null);
+        }
+      })
+      .finally(() => setLoadingChart(false));
+  }, [user, selectedOrganizations, fromDate, toDate]);
 
   return (
     <Container variant="fluid" className={classes.greyBackground}>
       {/* Tite bar */}
       <Container className={classes.titleBar}>
+        <div className={classes.ballsContainer}>
+          <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
+        </div>
         <Typography variant="h4">
-          {t('general.welcome').replace('$n', capitalize(user.username))}
+          {t('views.dashboard.welcome').replace(
+            '$n',
+            capitalize(user.username)
+          )}
         </Typography>
-      </Container>
-
-      {/* Dashboard Filters */}
-      <Container>
         <DashboardFilters
           organizationsData={selectedOrganizations}
           onChangeOrganization={setSelectedOrganizations}
@@ -113,52 +153,35 @@ const Dashboard = ({ classes, user, t }) => {
         <Container>
           <Typography variant="h5">{t('views.operations')}</Typography>
           <Box mt={5} />
-          {!feed && (
-            <div className={classes.loadingContainer}>
-              <CircularProgress
-                size={50}
-                thickness={2}
-                style={{ color: theme.palette.grey.main }}
-              />
-            </div>
-          )}
-          {feed && chartData && (
-            <div className={classes.operationsContainer}>
-              <GreenLineChart width="65%" height={300} data={chartData} />
-              <ActivityFeed data={feed} width="35%" height={300} />
-            </div>
-          )}
+          <div className={classes.operationsContainer}>
+            {loadingChart && <LoadingContainer />}
+            {!loadingChart && (
+              <GreenLineChart width="65%" height={300} data={chart} />
+            )}
+            {loadingFeed && <LoadingContainer />}
+            {!loadingFeed && (
+              <ActivityFeed data={activityFeed} width="35%" height={300} />
+            )}
+          </div>
         </Container>
       </Container>
 
       {/* Social Economics */}
       <Container className={classes.socialEconomics} variant="fluid">
         <Container className={classes.containerInnerSocial}>
-          {(loadingOverview || loadingEconomics) && (
-            <div className={classes.loadingContainer}>
-              <CircularProgress
-                size={50}
-                thickness={2}
-                style={{ color: theme.palette.grey.main }}
-              />
-            </div>
-          )}
-          {economic && (
+          {loadingEconomics && <LoadingContainer />}
+          {!loadingEconomics && (
             <FamilyOverviewBlock
               familiesCount={economic.familiesCount}
               peopleCount={economic.peopleCount}
-              style={{ padding: 0, marginRight: 60 }}
+              noPadding
+              width="30%"
               includeEconomics
             />
           )}
-          {overview && (
-            <div className={classes.innerSocial}>
-              <Typography variant="h5">
-                {t('views.familiesOverviewBlock.overview')}
-              </Typography>
-              <OverviewBlock data={overview} />
-            </div>
-          )}
+          <div className={classes.spacingHelper} />
+          {loadingOverview && <LoadingContainer />}
+          {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
         </Container>
       </Container>
 
@@ -187,7 +210,26 @@ const Dashboard = ({ classes, user, t }) => {
 
 const styles = theme => ({
   titleBar: {
-    paddingTop: theme.spacing(6)
+    paddingTop: theme.spacing(8),
+    position: 'relative',
+    marginBottom: theme.spacing(5)
+  },
+  ballsContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: '100%',
+    zIndex: 0
+  },
+  titleBalls: {
+    position: 'relative',
+    top: '10%',
+    right: '25%',
+    width: '90%',
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   greyBackground: {
     backgroundColor: theme.palette.background.paper
@@ -213,11 +255,21 @@ const styles = theme => ({
     marginBottom: theme.spacing(5)
   },
   containerInnerSocial: {
+    minHeight: 250,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      textAlign: 'center',
+      justifyContent: 'center',
+      width: '100%'
+    }
+  },
+  spacingHelper: {
+    [theme.breakpoints.down('xs')]: {
+      height: theme.spacing(5),
+      width: '100%'
     }
   },
   whiteContainer: {

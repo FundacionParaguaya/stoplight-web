@@ -1,6 +1,6 @@
 {
   "general": {
-    "welcome": "Welcome $n!",
+    "welcome": "Welcome!",
     "thankYou": "Thank you!",
     "disagree": "Disagree",
     "agree": "Agree",
@@ -27,7 +27,8 @@
     "create": "Create",
     "saveError": "Error while trying to save your Life Map",
     "noOptionsToShow": "There are no options available to select",
-    "clear": "Clear"
+    "clear": "Clear",
+    "showMore": "Show More"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -58,6 +59,7 @@
       "surveys": "Surveys",
       "analytics": "Analytics",
       "households": "Households",
+      "hubs": "Hubs",
       "map": "Map",
       "organizations": "Organizations",
       "users": "Users",
@@ -66,9 +68,18 @@
       "logout": "Logout"
     },
     "synced": "Sync",
-    "dashboard": "Dashboard",
-    "indicators": "Indicators",
-    "dimensions": "Dimensions",
+    "dashboard": {
+      "welcome": "Welcome $n!",
+      "dashboard": "Dashboard",
+      "indicators": "Indicators",
+      "dimensions": "Dimensions",
+      "achievements": "Achievements",
+      "priorities": "Priorities",
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped"
+    },
     "families": "Families",
     "createLifemap": "Create a Life Map",
     "latestDrafts": "Latest Life Maps",
@@ -78,6 +89,7 @@
     "operations": "Operations",
     "survey": {
       "chooseSurvey": "Choose a survey",
+      "welcome": "Welcome",
       "contains": "Contains",
       "createdOn": "Created on",
       "surveys": "Surveys",
@@ -167,8 +179,8 @@
       "howManyMonthsWillItTake": "How many months will it take?",
       "markAchievement": "Mark achievement!",
       "achievement": "Achievement",
-      "howDidYouGetIt": "How did you get it?",
-      "whatDidItTakeToAchieveThis": "What did it take to achieve this?",
+      "howDidYouGetIt": "Who or What motivated you to get there?",
+      "whatDidItTakeToAchieveThis": "What did you do to achieve this?",
       "great": "Great!",
       "youHaveCompletedTheLifemap": "You have completed the Life Map",
       "youNeedToAddPriotity": "You need to add one priority",
@@ -268,6 +280,7 @@
       "averageIncome": "Average anual income per capita",
       "overview": "Overview",
       "families": "families",
+      "family": "family",
       "including": "Including",
       "people": "people",
       "men": "Men",
@@ -275,9 +288,10 @@
       "women": "Women"
     },
     "saveDraftModal": {
-      "lifemapNotComplete": "Your Life Map is not complete!",
-      "willSaveDraft": "It will be saved as a draft.",
-      "sureWantToExit": "Are you sure you want to exit?"
+      "lifemapNotComplete": "Your Life Map is not complete",
+      "willSaveDraft": "It will be saved as a draft",
+      "sureWantToExit": "Are you sure you want to exit?",
+      "cannotSave": "Something went wrong while saving this draft. Please try again."
     },
     "snapshotsTable": {
       "title": "Drafts",
@@ -289,14 +303,21 @@
       "completed": "Completed",
       "drafts": "Drafts",
       "all": "All",
-      "searchFamily": "Search family",
+      "searchFamily": "Search families",
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters"
+    },
+    "activityFeed": {
+      "by": "By",
+      "today": "Today",
+      "dayAgo": "1 day ago",
+      "daysAgo": "$dd days ago"
     },
     "organizationsFilter": {
       "label": "Organizations",
       "loading": "Loading...",
-      "noOption": "No organization left"
+      "noOption": "No organization left",
+      "noMatchFilters": "No results matching your filters"
     },
     "dateRangeFilter": {
       "from": "From",

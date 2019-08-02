@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/styles';
+import { withTranslation } from 'react-i18next';
 import iconAchievement from '../assets/icon_achievement.png';
 import iconPriority from '../assets/icon_priority.png';
 import { COLORS } from '../theme';
@@ -10,6 +11,7 @@ const CountDetail = ({
   type,
   count,
   classes,
+  t,
   label,
   removeBorder,
   countVariant
@@ -45,7 +47,7 @@ const CountDetail = ({
             />
             {renderCount(count)}
           </div>
-          {label && renderLabel('Priorities')}
+          {label && renderLabel(t('views.dashboard.priorities'))}
         </div>
       )}
       {type === ACHIEVEMENT && (
@@ -63,7 +65,7 @@ const CountDetail = ({
             />
             {renderCount(count)}
           </div>
-          {label && renderLabel('Achievements')}
+          {label && renderLabel(t('views.dashboard.achievements'))}
         </div>
       )}
     </>
@@ -85,7 +87,8 @@ const styles = {
     zIndex: 1
   },
   count: {
-    marginLeft: 5
+    minWidth: 15,
+    textAlign: 'right'
   },
   icon: {
     border: '3px solid #fff',
@@ -94,7 +97,8 @@ const styles = {
     backgroundColor: '#fff'
   },
   iconWithoutBorders: {
-    border: 'unset'
+    borderColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   label: {
     textAlign: 'center',
@@ -107,4 +111,4 @@ const styles = {
   }
 };
 
-export default withStyles(styles)(CountDetail);
+export default withTranslation()(withStyles(styles)(CountDetail));

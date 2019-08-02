@@ -19,7 +19,8 @@ let Accent = ({ classes, variant, achievement, priority }) => (
             width: 27,
             height: 27,
             border: '2px solid #FFFFFF',
-            borderRadius: '50%'
+            borderRadius: '50%',
+            backgroundColor: '#fff'
           }}
           alt=""
         />

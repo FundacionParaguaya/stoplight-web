@@ -10,7 +10,11 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    padding: `${theme.spacing(5)}px 0`
+    padding: `${theme.spacing(8)}px 0`,
+    paddingBottom: 0
+  },
+  innerContainer: {
+    zIndex: 2
   }
 }));
 
@@ -23,9 +27,10 @@ const DashboardFilters = ({
   onToDateChanged
 }) => {
   const classes = useStyles();
+
   return (
     <div className={classes.container}>
-      <Grid container spacing={1}>
+      <Grid className={classes.innerContainer} container spacing={1}>
         <Grid item md={6} sm={6} xs={12}>
           <OrganizationsFilter
             data={organizationsData}

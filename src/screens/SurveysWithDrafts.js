@@ -9,8 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import { capitalize } from 'lodash';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
-import { getSurveys, getFamiliesOverviewInfo } from '../api';
+import { getSurveys, getEconomicOverview } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import BottomSpacer from '../components/BottomSpacer';
@@ -81,7 +82,12 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
   return (
     <div className={classes.mainContainer} style={{ maxHeight: height }}>
       <Typography variant="h5">{t('views.survey.surveys')}</Typography>
-      <List dense className={classes.listStyle}>
+      <List
+        dense
+        className={`${
+          classes.listStyle
+        } visible-scrollbar visible-scrollbar-thumb`}
+      >
         {surveys.map((survey, index) => (
           <React.Fragment key={survey.id}>
             <ListItem className={classes.listItemStyle}>
@@ -129,12 +135,12 @@ class Surveys extends Component {
   getSurveys(user) {
     Promise.all([
       getSurveys(user || this.props.user),
-      getFamiliesOverviewInfo(user || this.props.user)
+      getEconomicOverview(user || this.props.user)
     ])
       .then(response => {
         this.setState({
           surveys: response[0].data.data.surveysByUser,
-          familiesOverview: response[1].data.dashboard
+          familiesOverview: response[1].data.data.economicOverview
         });
       })
       .catch(error => {
@@ -304,8 +310,8 @@ class Surveys extends Component {
       conditionalQuestions
     );
     const draft = { ...snapshot };
+    const { lifemapNavHistory } = snapshot;
     delete draft.status;
-    delete draft.currentScreen;
     this.props.updateDraft(draft);
     this.props.updateSurvey({
       ...survey,
@@ -313,7 +319,7 @@ class Surveys extends Component {
       conditionalQuestions,
       elementsWithConditionsOnThem
     });
-    const { lifemapNavHistory } = snapshot;
+
     if (lifemapNavHistory && lifemapNavHistory.length > 0) {
       lifemapNavHistory.forEach(lnh =>
         this.props.history.push({
@@ -322,7 +328,7 @@ class Surveys extends Component {
         })
       );
     } else {
-      this.props.history.push(snapshot.currentScreen);
+      this.props.history.push('/lifemap/terms');
     }
   };
 
@@ -342,7 +348,9 @@ class Surveys extends Component {
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
               <Typography variant="h4">
-                {t('views.survey.chooseSurvey')}
+                {`${t('views.survey.welcome')} ${capitalize(
+                  this.props.user.username
+                )}`}
               </Typography>
             </div>
             <img
@@ -354,7 +362,7 @@ class Surveys extends Component {
           <div className={classes.listContainer}>
             {this.state.loading && (
               <div className={classes.spinnerWrapper}>
-                <CircularProgress size={50} thickness={2} />
+                <CircularProgress />
               </div>
             )}
             {!this.state.loading && (

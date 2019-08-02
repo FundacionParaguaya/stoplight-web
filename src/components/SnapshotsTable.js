@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,7 +12,8 @@ import moment from 'moment';
 import Fuse from 'fuse.js';
 import { get } from 'lodash';
 import clsx from 'clsx';
-import { updateSurvey, updateDraft } from '../redux/actions';
+import { updateSurvey } from '../redux/actions';
+import { getDrafts } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
@@ -162,7 +163,8 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    cursor: 'pointer'
   },
   itemContainer: {
     display: 'flex',
@@ -240,15 +242,60 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
+const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   const {
     t,
     i18n: { language }
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   const classes = useStyles();
-  const [statusFilter, setStatusFilter] = useState(SNAPSHOTS_STATUS.DRAFT);
+  const [statusFilter, setStatusFilter] = useState('');
   const [familiesFilter, setFamiliesFilter] = useState('');
+  const [snapshots, setSnapshots] = useState([]);
+  useEffect(() => {
+    Promise.all([
+      getDrafts(user).then(response =>
+        get(response, 'data.data.getSnapshotDraft', []).map(element => {
+          const el = { ...element };
+          // Mapping keys for family data
+          const familyData = { ...el.familyDataDTO };
+          familyData.familyMembersList = el.familyDataDTO.familyMemberDTOList;
+          delete el.familyDataDTO;
+          delete familyData.familyMemberDTOList;
+          // Mapping keys for priorities and achievements
+          const achievements = el.snapshotStoplightAchievements;
+          delete el.snapshotStoplightAchievements;
+          const priorities = el.snapshotStoplightPriorities;
+          delete el.snapshotStoplightPriorities;
+          // Parsing state data from navigation history
+          const { lifemapNavHistory: serializedLifemapNavHistory = [] } = el;
+          const lifemapNavHistory = serializedLifemapNavHistory.map(nh => ({
+            ...nh,
+            state: nh.state ? JSON.parse(nh.state) : null
+          }));
+          return {
+            ...el,
+            familyData,
+            achievements,
+            priorities,
+            lifemapNavHistory
+          };
+        })
+      ),
+      // TODO here we should include snapshots already taken
+      Promise.resolve([])
+    ]).then(([drafts, prevSnapshots]) => {
+      const consolidated = [
+        ...drafts.map(d => ({ ...d, status: SNAPSHOTS_STATUS.DRAFT })),
+        ...prevSnapshots.map(d => ({
+          ...d,
+          status: SNAPSHOTS_STATUS.COMPLETED
+        }))
+      ];
+      // console.log(consolidated);
+      setSnapshots(consolidated);
+    });
+  }, [user]);
   const filteredSnapshots = useMemo(() => {
     let filtered = snapshots;
     if (familiesFilter) {
@@ -279,7 +326,11 @@ const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
         familiesFilter={familiesFilter}
         setFamiliesFilter={setFamiliesFilter}
       />
-      <List className={classes.listStyle}>
+      <List
+        className={`${
+          classes.listStyle
+        } visible-scrollbar visible-scrollbar-thumb`}
+      >
         {filteredSnapshots.length === 0 && (
           <ListItem className={classes.listItemStyle}>
             <div className={classes.itemContainer}>
@@ -316,7 +367,13 @@ const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
               : t('views.snapshotsTable.completed');
           return (
             <React.Fragment key={snapshot.draftId}>
-              <ListItem className={classes.listItemStyle}>
+              <ListItem
+                className={classes.listItemStyle}
+                onClick={() =>
+                  snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
+                  handleClickOnSnapshot(snapshot)
+                }
+              >
                 <div className={classes.itemContainer}>
                   <div className={classes.retakeContainer}>
                     <SwapCalls className={classes.retakeIcon} />
@@ -362,10 +419,6 @@ const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
                           ? 'disabled'
                           : undefined
                       }
-                      onClick={() =>
-                        snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
-                        handleClickOnSnapshot(snapshot)
-                      }
                       className={clsx(classes.forwardArrowStyle, {
                         [classes.forwardArrowStyleInactive]:
                           snapshot.status === SNAPSHOTS_STATUS.COMPLETED
@@ -384,9 +437,9 @@ const SnapshotsTable = ({ snapshots = [], handleClickOnSnapshot }) => {
   );
 };
 
-const mapStateToProps = ({ snapshots }) => ({ snapshots });
+const mapStateToProps = ({ user }) => ({ user });
 
-const mapDispatchToProps = { updateSurvey, updateDraft };
+const mapDispatchToProps = { updateSurvey };
 
 export default connect(
   mapStateToProps,
