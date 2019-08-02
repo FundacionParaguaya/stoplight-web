@@ -189,7 +189,9 @@ const Dashboard = ({ classes, user, t }) => {
       <Container className={classes.whiteContainer} variant="fluid">
         <Container>
           <DimensionsVisualisation
-            data={dimensions}
+            data={[...(dimensions || [])].sort((a, b) =>
+              a.dimension.toLowerCase().localeCompare(b.dimension.toLowerCase())
+            )}
             loading={loadingDimensionsIndicators}
           />
         </Container>
@@ -199,7 +201,9 @@ const Dashboard = ({ classes, user, t }) => {
       <Container className={classes.whiteContainer} variant="fluid">
         <Container>
           <IndicatorsVisualisation
-            data={indicators}
+            data={[...(indicators || [])].sort((a, b) =>
+              a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+            )}
             loading={loadingDimensionsIndicators}
           />
         </Container>

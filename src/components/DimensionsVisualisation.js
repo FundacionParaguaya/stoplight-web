@@ -105,33 +105,38 @@ DimensionTitle = withStyles(dimensionTitleStyle)(DimensionTitle);
 
 let DimensionIndicator = ({ classes, dimension: { indicators } }) => (
   <React.Fragment>
-    {indicators.map(indicator => {
-      return (
-        <ListItem key={indicator.name} classes={{ root: classes.listItem }}>
-          <div className={classes.mainItemContainer}>
-            <DimensionTitle dimension={indicator.name} excludeIcon />
-            <div className={classes.stackbarContainer}>
-              <SummaryStackedBar
-                greenIndicatorCount={getIndCountByColor(
-                  indicator.stoplights,
-                  3
-                )}
-                yellowIndicatorCount={getIndCountByColor(
-                  indicator.stoplights,
-                  2
-                )}
-                redIndicatorCount={getIndCountByColor(indicator.stoplights, 1)}
-                skippedIndicatorCount={getIndCountByColor(
-                  indicator.stoplights,
-                  0
-                )}
-              />
+    {indicators
+      .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+      .map(indicator => {
+        return (
+          <ListItem key={indicator.name} classes={{ root: classes.listItem }}>
+            <div className={classes.mainItemContainer}>
+              <DimensionTitle dimension={indicator.name} excludeIcon />
+              <div className={classes.stackbarContainer}>
+                <SummaryStackedBar
+                  greenIndicatorCount={getIndCountByColor(
+                    indicator.stoplights,
+                    3
+                  )}
+                  yellowIndicatorCount={getIndCountByColor(
+                    indicator.stoplights,
+                    2
+                  )}
+                  redIndicatorCount={getIndCountByColor(
+                    indicator.stoplights,
+                    1
+                  )}
+                  skippedIndicatorCount={getIndCountByColor(
+                    indicator.stoplights,
+                    0
+                  )}
+                />
+              </div>
+              <div className={classes.rightSpaceFiller} />
             </div>
-            <div className={classes.rightSpaceFiller} />
-          </div>
-        </ListItem>
-      );
-    })}
+          </ListItem>
+        );
+      })}
   </React.Fragment>
 );
 
