@@ -10,17 +10,24 @@ import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import LeaveModal from '../../components/LeaveModal';
 
-const titleStyles = {
+const titleStyles = theme => ({
   title: {
     position: 'relative',
-    top: '55%'
+    top: '55%',
+    zIndex: 1
   },
   termsCheckboxImage: {
     margin: 'auto',
     position: 'absolute',
     right: 0,
-    bottom: -30,
-    width: 370
+    bottom: '-10%',
+    width: '35%',
+    [theme.breakpoints.down('sm')]: {
+      bottom: '50%',
+      transform: 'translateY(50%)',
+      width: '60%',
+      zIndex: 0
+    }
   },
   container: {
     position: 'absolute',
@@ -29,7 +36,7 @@ const titleStyles = {
     left: '50%',
     transform: 'translateX(-50%)'
   }
-};
+});
 
 const TitleContainer = withStyles(titleStyles)(props => {
   const { classes } = props;
