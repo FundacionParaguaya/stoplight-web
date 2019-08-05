@@ -20,6 +20,7 @@ import i18n from './i18n';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
 import { ROLES, getPlatform, OLD } from './utils/role-based-header';
+import { ROLE_SURVEY_USER } from './utils/role-utils';
 import { logout } from './api';
 
 class Header extends Component {
@@ -81,15 +82,19 @@ class Header extends Component {
       i18n: { language }
     } = this.props;
     const currentRole = ROLES[user.role];
+    const enableDashboard = user.role !== ROLE_SURVEY_USER;
 
     return (
       <AppBar className={classes.header} color="inherit" position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
           {/* Logo to dashboard */}
           <NavLink
-            to={`/dashboard?sid=${this.props.user.token}&lang=${language}&env=${
-              this.props.user.env
-            }`}
+            to={
+              enableDashboard &&
+              `/dashboard?sid=${this.props.user.token}&lang=${language}&env=${
+                this.props.user.env
+              }`
+            }
             className={
               path === `/dashboard`
                 ? `${classes.menuLink} ${classes.surveyLink}`
