@@ -313,7 +313,8 @@
       "by": "Por",
       "today": "Hoy",
       "dayAgo": "Hace 1 día",
-      "daysAgo": "Hace $dd días"
+      "daysAgo": "Hace $dd días",
+      "facilitator": "Facilitador"
     },
     "organizationsFilter": {
       "label": "Organizaciones",
