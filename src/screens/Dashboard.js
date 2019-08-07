@@ -132,7 +132,7 @@ const Dashboard = ({ classes, user, t }) => {
         <div className={classes.ballsContainer}>
           <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
         </div>
-        <Typography variant="h4">
+        <Typography variant="h4" className={classes.title}>
           {t('views.dashboard.welcome').replace(
             '$n',
             capitalize(user.username)
@@ -223,6 +223,9 @@ const styles = theme => ({
     paddingTop: theme.spacing(8),
     position: 'relative',
     marginBottom: theme.spacing(5)
+  },
+  title: {
+    textTransform: 'capitalize'
   },
   ballsContainer: {
     position: 'absolute',
