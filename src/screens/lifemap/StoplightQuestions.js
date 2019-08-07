@@ -496,7 +496,7 @@ const styles = theme => ({
   innerContainer: {
     height: '100%',
     width: '100%',
-    overflowY: 'scroll'
+    overflowY: 'auto'
   }
 });
 
