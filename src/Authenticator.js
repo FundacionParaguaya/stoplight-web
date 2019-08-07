@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 import { updateUser } from './redux/actions';
 import { checkSessionToken } from './api';
 
-const SURVEY_ROLE = 'SURVEY_USER';
-
 let LoadingAuth = ({ classes }) => (
   <div className={classes.container}>
     <CircularProgress />

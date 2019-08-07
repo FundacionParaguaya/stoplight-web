@@ -259,7 +259,7 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentDraft
 });
 const mapDispatchToProps = { updateDraft };
-const styles = {
+const styles = theme => ({
   imageContainer: { display: 'flex', position: 'inherit', width: '100%' },
   loadingContainer: { position: 'absolute', top: '50%', left: '50%' },
   circularProgress: { color: 'white' },
@@ -329,14 +329,18 @@ const styles = {
     display: 'flex',
     width: '614px',
     margin: 'auto',
-    marginTop: '30px'
+    marginTop: '30px',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      width: '100%'
+    }
   },
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
   }
-};
+});
 export default withStyles(styles)(
   connect(
     mapStateToProps,

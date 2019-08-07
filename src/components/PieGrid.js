@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { capitalize } from 'lodash';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { withTranslation } from 'react-i18next';
 import CountDetail from './CountDetail';
 import CustomTooltip from './CustomTooltip';
 import { COLORS } from '../theme';
@@ -21,52 +21,57 @@ const donutStyles = {
   }
 };
 
-const IndicatorsDonut = withStyles(donutStyles)(
-  ({
-    redIndicatorCount,
-    yellowIndicatorCount,
-    greenIndicatorCount,
-    skippedIndicatorCount,
-    icon,
-    dimension,
-    classes
-  }) => {
-    const data = [
-      { name: 'red', value: redIndicatorCount },
-      { name: 'yellow', value: yellowIndicatorCount },
-      { name: 'green', value: greenIndicatorCount },
-      { name: 'skipped', value: skippedIndicatorCount }
-    ];
+const IndicatorsDonut = withTranslation()(
+  withStyles(donutStyles)(
+    ({
+      redIndicatorCount,
+      yellowIndicatorCount,
+      greenIndicatorCount,
+      skippedIndicatorCount,
+      icon,
+      dimension,
+      classes,
+      t
+    }) => {
+      const data = [
+        { name: 'red', value: redIndicatorCount },
+        { name: 'yellow', value: yellowIndicatorCount },
+        { name: 'green', value: greenIndicatorCount },
+        { name: 'skipped', value: skippedIndicatorCount }
+      ];
 
-    return (
-      <div className={classes.container}>
-        {icon && <img src={icon} alt={dimension} className={classes.icon} />}
-        <PieChart width={100} height={100}>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            innerRadius={27.5}
-            outerRadius={40}
-            paddingAngle={0}
-            isAnimationActive={false}
-          >
-            <Cell fill={COLORS.RED} stroke={COLORS.RED} />
-            <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
-            <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
-            <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
-          </Pie>
-          <Tooltip
-            content={
-              <CustomTooltip
-                format={({ value, name }) => `${value} ${capitalize(name)}`}
-              />
-            }
-          />
-        </PieChart>
-      </div>
-    );
-  }
+      return (
+        <div className={classes.container}>
+          {icon && <img src={icon} alt={dimension} className={classes.icon} />}
+          <PieChart width={100} height={100}>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={27.5}
+              outerRadius={40}
+              paddingAngle={0}
+              isAnimationActive={false}
+            >
+              <Cell fill={COLORS.RED} stroke={COLORS.RED} />
+              <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
+              <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
+              <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
+            </Pie>
+            <Tooltip
+              content={
+                <CustomTooltip
+                  format={({ value, name }) =>
+                    `${value} ${t(`views.dashboard.${name}`)}`
+                  }
+                />
+              }
+            />
+          </PieChart>
+        </div>
+      );
+    }
+  )
 );
 
 const parseStoplights = stoplights => {
@@ -100,8 +105,16 @@ const PieGrid = ({ classes, items }) => {
             >
               <div className={classes.pieInnerContainer}>
                 <div className={classes.detailContainer}>
-                  <CountDetail border count={priorities} type="achievement" />
-                  <CountDetail border count={achievements} type="priority" />
+                  {priorities > 0 && (
+                    <CountDetail border count={priorities} type="priority" />
+                  )}
+                  {achievements > 0 && (
+                    <CountDetail
+                      border
+                      count={achievements}
+                      type="achievement"
+                    />
+                  )}
                 </div>
                 <IndicatorsDonut
                   greenIndicatorCount={green}
@@ -170,8 +183,9 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'absolute',
     top: 15,
-    right: 0,
-    zIndex: 1
+    right: 15,
+    zIndex: 1,
+    pointerEvents: 'none'
   },
   stackedBarContainer: {
     width: '75%'

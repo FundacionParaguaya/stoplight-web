@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { DatePicker } from '@material-ui/pickers';
-import * as _ from 'lodash';
 import * as moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
 

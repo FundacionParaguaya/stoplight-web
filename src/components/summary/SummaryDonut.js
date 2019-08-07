@@ -1,10 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography } from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
-import { capitalize } from 'lodash';
 import { COLORS } from '../../theme';
 import CustomTooltip from '../CustomTooltip';
 import IndicatorBall from './IndicatorBall';
@@ -59,7 +58,8 @@ const SummaryDonut = props => {
     skippedIndicatorCount,
     t,
     countingSection,
-    isAnimationActive
+    isAnimationActive,
+    width
   } = props;
   const data = [
     { name: 'red', value: redIndicatorCount },
@@ -74,53 +74,57 @@ const SummaryDonut = props => {
     skippedIndicatorCount;
 
   return (
-    <div className={classes.mainContainer}>
+    <div className={classes.mainContainer} style={{ width }}>
       <div className={classes.donutContainer}>
-        <PieChart width={235} height={240}>
-          <Pie
-            data={data}
-            isAnimationActive={isAnimationActive}
-            dataKey="value"
-            nameKey="name"
-            innerRadius={50}
-            outerRadius={110}
-            paddingAngle={0}
-          >
-            <Cell fill={COLORS.RED} stroke={COLORS.RED} />
-            <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
-            <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
-            <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
-          </Pie>
-          <Tooltip
-            content={
-              <CustomTooltip
-                format={({ value, name }) =>
-                  `${Math.round((value * 100) / total)}% ${capitalize(name)}`
-                }
-              />
-            }
-          />
-        </PieChart>
+        <ResponsiveContainer width="100%" height={240}>
+          <PieChart>
+            <Pie
+              data={data}
+              isAnimationActive={isAnimationActive}
+              dataKey="value"
+              nameKey="name"
+              innerRadius="50%"
+              outerRadius="100%"
+              paddingAngle={0}
+            >
+              <Cell fill={COLORS.RED} stroke={COLORS.RED} />
+              <Cell fill={COLORS.YELLOW} stroke={COLORS.YELLOW} />
+              <Cell fill={COLORS.GREEN} stroke={COLORS.GREEN} />
+              <Cell fill={COLORS.LIGHT_GREY} stroke={COLORS.LIGHT_GREY} />
+            </Pie>
+            <Tooltip
+              content={
+                <CustomTooltip
+                  format={({ value, name }) =>
+                    `${Math.round((value * 100) / total)}% ${t(
+                      `views.dashboard.${name}`
+                    )}`
+                  }
+                />
+              }
+            />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
       {countingSection && (
         <div className={classes.summaryCountingSectionContainer}>
           <SummaryCountingSection
-            label={t('views.overview.green')}
+            label={t('views.dashboard.green')}
             count={greenIndicatorCount}
             color="green"
           />
           <SummaryCountingSection
-            label={t('views.overview.yellow')}
+            label={t('views.dashboard.yellow')}
             count={yellowIndicatorCount}
             color="yellow"
           />
           <SummaryCountingSection
-            label={t('views.overview.red')}
+            label={t('views.dashboard.red')}
             count={redIndicatorCount}
             color="red"
           />
           <SummaryCountingSection
-            label={t('views.overview.skipped')}
+            label={t('views.dashboard.skipped')}
             count={skippedIndicatorCount}
             color="skipped"
           />

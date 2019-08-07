@@ -73,16 +73,29 @@ class Header extends Component {
   };
 
   render() {
-    const { classes, user, t, path } = this.props;
+    const {
+      classes,
+      user,
+      t,
+      path,
+      i18n: { language }
+    } = this.props;
+    const currentRole = ROLES[user.role];
 
     return (
       <AppBar className={classes.header} color="inherit" position="fixed">
         <Toolbar className={classes.toolbar} disableGutters={false}>
-          <span
-            // If we need to reimplement href, change </span> to </a>
-            // href={`https://${user.env}.povertystoplight.org`}
-            className={classes.menuLink}
-            style={{ position: 'relative' }}
+          {/* Logo to dashboard */}
+          <NavLink
+            to={`/dashboard?sid=${this.props.user.token}&lang=${language}&env=${
+              this.props.user.env
+            }`}
+            className={
+              path === `/dashboard`
+                ? `${classes.menuLink} ${classes.surveyLink}`
+                : classes.menuLink
+            }
+            key="dashboard"
           >
             <img
               style={{ marginTop: 4 }}
@@ -91,8 +104,10 @@ class Header extends Component {
               width={38}
               height={38}
             />
-          </span>
-          {ROLES[user.role].map(({ item, platform }) => {
+          </NavLink>
+
+          {/* Rest of the items */}
+          {currentRole.map(({ item, platform }) => {
             if (platform === OLD) {
               return (
                 <a
@@ -112,7 +127,9 @@ class Header extends Component {
 
             return (
               <NavLink
-                to={`/${item}?sid=${this.props.user.token}&lang=en`}
+                to={`/${item}?sid=${
+                  this.props.user.token
+                }&lang=${language}&env=${this.props.user.env}`}
                 className={
                   path === `/${item}`
                     ? `${classes.menuLink} ${classes.surveyLink}`
@@ -129,7 +146,19 @@ class Header extends Component {
               </NavLink>
             );
           })}
+
+          {/* Extra Buttons */}
           <div className={classes.extraButtons}>
+            <a
+              style={{ color: 'white' }}
+              href="https://intercom.help/poverty-stoplight"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Typography variant="subtitle1" className={classes.menuLinkText}>
+                FAQs
+              </Typography>
+            </a>
             <Button
               style={{ color: 'white' }}
               buttonRef={node => {

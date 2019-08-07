@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
-import { withStyles, useTheme } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { isArray, capitalize } from 'lodash';
 import moment from 'moment';
@@ -12,6 +12,7 @@ import {
   getOverviewBlock,
   getOperationsOverview
 } from './api';
+import ballstoit from './assets/ballstoit.png';
 import withLayout from './components/withLayout';
 import Container from './components/Container';
 import GreenLineChart from './components/GreenLineChart';
@@ -31,7 +32,7 @@ const LoadingContainer = () => (
 );
 
 const Dashboard = ({ classes, user, t }) => {
-  const [feed, setFeed] = useState(null);
+  const [activityFeed, setActivityFeed] = useState(null);
   const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
@@ -46,12 +47,15 @@ const Dashboard = ({ classes, user, t }) => {
   ] = useState(true);
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
-  const [loadingChart, setLoadingChart] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
+  const [loadingChart, setLoadingChart] = useState(true);
 
   useEffect(() => {
     getFamilies(user)
-      .then(families => setFeed(families.data.splice(0, 25)))
+      .then(data => {
+        const { feed } = getData(data);
+        setActivityFeed(feed);
+      })
       .finally(() => setLoadingFeed(false));
   }, [user]);
 
@@ -60,6 +64,10 @@ const Dashboard = ({ classes, user, t }) => {
     setLoadingOverview(true);
     setLoadingEconomics(true);
     setLoadingChart(true);
+    const sanitizedOrganizations = selectedOrganizations.map(
+      ({ value }) => value
+    );
+
     getDimensionIndicators(
       user,
       (selectedOrganizations || []).map(o => o.value),
@@ -80,35 +88,38 @@ const Dashboard = ({ classes, user, t }) => {
       .finally(() => setLoadingDimensionsIndicators(false));
 
     // TODO add orgs info in the following 2 api requests
-    getOverviewBlock(user)
+    getOverviewBlock(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { blockOverview } = getData(data);
         setOverview(blockOverview);
       })
       .finally(() => setLoadingOverview(false));
 
-    getEconomicOverview(user)
+    getEconomicOverview(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { economicOverview } = getData(data);
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
 
-    getOperationsOverview(user, fromDate, toDate, selectedOrganizations)
+    getOperationsOverview(user, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const {
           operationsOverview: { surveysByMonth }
         } = getData(data);
+        const getTime = date => new Date(date).getTime();
 
         if (surveysByMonth) {
           const chartData = Object.entries(surveysByMonth)
-            .sort()
             .map(([date, surveys]) => ({
               date: moment(date, 'MM-YYYY').format(),
               surveys
-            }));
+            }))
+            .sort((a, b) => getTime(a.date) - getTime(b.date));
 
           setChart(chartData);
+        } else {
+          setChart(null);
         }
       })
       .finally(() => setLoadingChart(false));
@@ -118,13 +129,15 @@ const Dashboard = ({ classes, user, t }) => {
     <Container variant="fluid" className={classes.greyBackground}>
       {/* Tite bar */}
       <Container className={classes.titleBar}>
+        <div className={classes.ballsContainer}>
+          <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
+        </div>
         <Typography variant="h4">
-          {t('general.welcome').replace('$n', capitalize(user.username))}
+          {t('views.dashboard.welcome').replace(
+            '$n',
+            capitalize(user.username)
+          )}
         </Typography>
-      </Container>
-
-      {/* Dashboard Filters */}
-      <Container>
         <DashboardFilters
           organizationsData={selectedOrganizations}
           onChangeOrganization={setSelectedOrganizations}
@@ -147,7 +160,7 @@ const Dashboard = ({ classes, user, t }) => {
             )}
             {loadingFeed && <LoadingContainer />}
             {!loadingFeed && (
-              <ActivityFeed data={feed} width="35%" height={300} />
+              <ActivityFeed data={activityFeed} width="35%" height={300} />
             )}
           </div>
         </Container>
@@ -161,19 +174,14 @@ const Dashboard = ({ classes, user, t }) => {
             <FamilyOverviewBlock
               familiesCount={economic.familiesCount}
               peopleCount={economic.peopleCount}
-              style={{ padding: 0, marginRight: 60 }}
+              noPadding
+              width="30%"
               includeEconomics
             />
           )}
+          <div className={classes.spacingHelper} />
           {loadingOverview && <LoadingContainer />}
-          {!loadingOverview && (
-            <div>
-              <Typography variant="h5">
-                {t('views.familiesOverviewBlock.overview')}
-              </Typography>
-              <OverviewBlock data={overview} />
-            </div>
-          )}
+          {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
         </Container>
       </Container>
 
@@ -181,7 +189,9 @@ const Dashboard = ({ classes, user, t }) => {
       <Container className={classes.whiteContainer} variant="fluid">
         <Container>
           <DimensionsVisualisation
-            data={dimensions}
+            data={[...(dimensions || [])].sort((a, b) =>
+              a.dimension.toLowerCase().localeCompare(b.dimension.toLowerCase())
+            )}
             loading={loadingDimensionsIndicators}
           />
         </Container>
@@ -191,7 +201,9 @@ const Dashboard = ({ classes, user, t }) => {
       <Container className={classes.whiteContainer} variant="fluid">
         <Container>
           <IndicatorsVisualisation
-            data={indicators}
+            data={[...(indicators || [])].sort((a, b) =>
+              a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+            )}
             loading={loadingDimensionsIndicators}
           />
         </Container>
@@ -202,7 +214,26 @@ const Dashboard = ({ classes, user, t }) => {
 
 const styles = theme => ({
   titleBar: {
-    paddingTop: theme.spacing(6)
+    paddingTop: theme.spacing(8),
+    position: 'relative',
+    marginBottom: theme.spacing(5)
+  },
+  ballsContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: '100%',
+    zIndex: 0
+  },
+  titleBalls: {
+    position: 'relative',
+    top: '10%',
+    right: '25%',
+    width: '90%',
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   greyBackground: {
     backgroundColor: theme.palette.background.paper
@@ -230,10 +261,19 @@ const styles = theme => ({
   containerInnerSocial: {
     minHeight: 250,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      textAlign: 'center',
+      justifyContent: 'center',
+      width: '100%'
+    }
+  },
+  spacingHelper: {
+    [theme.breakpoints.down('xs')]: {
+      height: theme.spacing(5),
+      width: '100%'
     }
   },
   whiteContainer: {

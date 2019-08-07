@@ -45,7 +45,9 @@ const staticFields = {
   documentType: Yup.string().required(fieldIsRequired),
   documentNumber: Yup.string().required(fieldIsRequired),
   birthCountry: Yup.string().required(fieldIsRequired),
-  countFamilyMembers: Yup.string().required(fieldIsRequired),
+  countFamilyMembers: Yup.string()
+    .required(fieldIsRequired)
+    .nullable(),
   email: Yup.string().email(validEmailAddress)
 };
 
@@ -194,7 +196,7 @@ export class PrimaryParticipant extends Component {
         names2.push({
           firstName: '',
           gender: '',
-          birthDate: '',
+          birthDate: null,
           firstParticipant: false,
           socioEconomicAnswers: []
         });
@@ -324,7 +326,14 @@ export class PrimaryParticipant extends Component {
           <Formik
             initialValues={{
               ...defaultEditingObject,
-              ...participant
+              ...Object.keys(participant).reduce(
+                (acc, current) => ({
+                  ...acc,
+                  [current]:
+                    participant[current] || defaultEditingObject[current]
+                }),
+                {}
+              )
             }}
             validationSchema={validationSpec}
             onSubmit={(values, { setSubmitting }) => {
