@@ -51,7 +51,8 @@ const questionsWrapperStyles = {
   innerContainer: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    overflow: 'hidden'
   },
   answeredIcon: {
     color: 'white',
