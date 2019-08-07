@@ -11,17 +11,17 @@ import {
   getEconomicOverview,
   getOverviewBlock,
   getOperationsOverview
-} from './api';
-import ballstoit from './assets/ballstoit.png';
-import withLayout from './components/withLayout';
-import Container from './components/Container';
-import GreenLineChart from './components/GreenLineChart';
-import ActivityFeed from './components/ActivityFeed';
-import FamilyOverviewBlock from './components/FamiliesOverviewBlock';
-import OverviewBlock from './components/OverviewBlock';
-import DimensionsVisualisation from './components/DimensionsVisualisation';
-import IndicatorsVisualisation from './components/IndicatorsVisualisation';
-import DashboardFilters from './components/DashboardFilters';
+} from '../api';
+import ballstoit from '../assets/ballstoit.png';
+import withLayout from '../components/withLayout';
+import Container from '../components/Container';
+import GreenLineChart from '../components/GreenLineChart';
+import ActivityFeed from '../components/ActivityFeed';
+import FamilyOverviewBlock from '../components/FamiliesOverviewBlock';
+import OverviewBlock from '../components/OverviewBlock';
+import DimensionsVisualisation from '../components/DimensionsVisualisation';
+import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
+import DashboardFilters from '../components/DashboardFilters';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
@@ -150,17 +150,23 @@ const Dashboard = ({ classes, user, t }) => {
 
       {/* Operations */}
       <Container className={classes.operations} variant="fluid">
-        <Container>
-          <Typography variant="h5">{t('views.operations')}</Typography>
-          <Box mt={5} />
-          <div className={classes.operationsContainer}>
+        <Container className={classes.operationsInner}>
+          <div className={classes.chartContainer}>
+            <Typography variant="h5">{t('views.operations')}</Typography>
+            <Box mt={3} />
             {loadingChart && <LoadingContainer />}
             {!loadingChart && (
-              <GreenLineChart width="65%" height={300} data={chart} />
+              <GreenLineChart width="100%" height={300} data={chart} />
             )}
+          </div>
+          <div className={classes.feedContainer}>
+            <Typography variant="h5">
+              {t('views.dashboard.latestActivity')}
+            </Typography>
+            <Box mt={3} />
             {loadingFeed && <LoadingContainer />}
             {!loadingFeed && (
-              <ActivityFeed data={activityFeed} width="35%" height={300} />
+              <ActivityFeed data={activityFeed} width="100%" height={300} />
             )}
           </div>
         </Container>
@@ -250,8 +256,14 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     marginBottom: theme.spacing(5)
   },
-  operationsContainer: {
+  operationsInner: {
     display: 'flex'
+  },
+  chartContainer: {
+    width: '65%'
+  },
+  feedContainer: {
+    width: '35%'
   },
   socialEconomics: {
     padding: `${theme.spacing(6)}px 0`,
