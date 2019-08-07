@@ -110,6 +110,7 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
                   color="primary"
                   variant="contained"
                   className={classes.buttonStyle}
+                  survey-id={survey.id}
                   onClick={() => handleSurveyClick(survey)}
                 >
                   {t('views.survey.createSurvey')}

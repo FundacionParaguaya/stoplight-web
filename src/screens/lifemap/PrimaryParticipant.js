@@ -347,6 +347,7 @@ export class PrimaryParticipant extends Component {
                   <InputWithFormik
                     label={t('views.family.firstName')}
                     name="firstName"
+                    test-id="firstName"
                     required
                     onChange={e =>
                       this.syncDraft(e.target.value, `firstName`, setFieldValue)
@@ -355,6 +356,7 @@ export class PrimaryParticipant extends Component {
                   <InputWithFormik
                     label={t('views.family.lastName')}
                     name="lastName"
+                    test-id="lastName"
                     required
                     onChange={e =>
                       this.syncDraft(e.target.value, `lastName`, setFieldValue)
@@ -363,6 +365,7 @@ export class PrimaryParticipant extends Component {
                   <AutocompleteWithFormik
                     label={t('views.family.selectGender')}
                     name="gender"
+                    test-id="gender"
                     rawOptions={surveyConfig.gender}
                     labelKey="text"
                     valueKey="value"
@@ -403,6 +406,7 @@ export class PrimaryParticipant extends Component {
                   <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
+                    test-id="birhDate"
                     maxDate={new Date()}
                     disableFuture
                     required
@@ -414,6 +418,7 @@ export class PrimaryParticipant extends Component {
                   <AutocompleteWithFormik
                     label={t('views.family.documentType')}
                     name="documentType"
+                    test-id="documentType"
                     rawOptions={surveyConfig.documentType}
                     labelKey="text"
                     valueKey="value"
@@ -458,6 +463,7 @@ export class PrimaryParticipant extends Component {
                   <InputWithFormik
                     label={t('views.family.documentNumber')}
                     name="documentNumber"
+                    test-id="documentNumber"
                     required
                     onChange={e =>
                       this.syncDraft(
@@ -470,6 +476,7 @@ export class PrimaryParticipant extends Component {
                   <AutocompleteWithFormik
                     label={t('views.family.countryOfBirth')}
                     name="birthCountry"
+                    test-id="birthCountry"
                     rawOptions={countryList}
                     labelKey="label"
                     valueKey="code"
@@ -486,6 +493,7 @@ export class PrimaryParticipant extends Component {
                   <AutocompleteWithFormik
                     label={t('views.family.peopleLivingInThisHousehold')}
                     name="countFamilyMembers"
+                    test-id="countFamilyMembers"
                     rawOptions={this.state.householdSizeArray}
                     labelKey="text"
                     valueKey="value"
