@@ -32,7 +32,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
           dataKey="date"
           tickLine={false}
           tick={{ fontFamily: 'Poppins', fontSize: 14 }}
-          stroke="#D8D8D8"
+          stroke="#909090"
           tickSize={20}
           tickFormatter={tick =>
             moment(tick)
@@ -45,7 +45,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
           tickLine={false}
           tickSize={20}
           tick={{ fontFamily: 'Poppins', fontSize: 14 }}
-          stroke="#D8D8D8"
+          stroke="#909090"
           padding={{ bottom: 5 }}
         />
         <Tooltip
