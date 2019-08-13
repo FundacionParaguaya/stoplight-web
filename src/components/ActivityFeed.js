@@ -61,9 +61,11 @@ const ActivityFeed = ({
                   <Typography className={classes.title}>
                     {familyName}
                   </Typography>
-                  <Typography className={classes.subtitle}>
-                    {`${t('views.activityFeed.facilitator')}: ${username}`}
-                  </Typography>
+                  {username && (
+                    <Typography className={classes.subtitle}>
+                      {`${t('views.activityFeed.facilitator')}: ${username}`}
+                    </Typography>
+                  )}
                   <Typography className={classes.date}>
                     {daysAgoLabel}
                   </Typography>
