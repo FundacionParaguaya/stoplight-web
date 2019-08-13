@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import { capitalize } from 'lodash';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import { getSurveys, getEconomicOverview } from '../api';
 import Container from '../components/Container';
@@ -348,9 +347,7 @@ class Surveys extends Component {
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
               <Typography variant="h4">
-                {`${t('views.survey.welcome')} ${capitalize(
-                  this.props.user.username
-                )}`}
+                {`${t('views.survey.welcome')} ${this.props.user.username}`}
               </Typography>
             </div>
             <img

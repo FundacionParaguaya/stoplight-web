@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
-import { isArray, capitalize } from 'lodash';
+import { isArray, startCase, toLower } from 'lodash';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
@@ -132,11 +132,8 @@ const Dashboard = ({ classes, user, t }) => {
         <div className={classes.ballsContainer}>
           <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
         </div>
-        <Typography variant="h4" className={classes.title}>
-          {t('views.dashboard.welcome').replace(
-            '$n',
-            capitalize(user.username)
-          )}
+        <Typography variant="h4">
+          {t('views.dashboard.welcome').replace('$n', user.username)}
         </Typography>
         <DashboardFilters
           organizationsData={selectedOrganizations}
@@ -223,9 +220,6 @@ const styles = theme => ({
     paddingTop: theme.spacing(8),
     position: 'relative',
     marginBottom: theme.spacing(5)
-  },
-  title: {
-    textTransform: 'capitalize'
   },
   ballsContainer: {
     position: 'absolute',

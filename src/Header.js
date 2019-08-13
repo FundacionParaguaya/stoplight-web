@@ -303,7 +303,6 @@ const styles = theme => ({
   menuLinkText: {
     color: '#1C212F',
     fontWeight: 400,
-    textTransform: 'capitalize',
     position: 'relative',
     top: 4
   },
