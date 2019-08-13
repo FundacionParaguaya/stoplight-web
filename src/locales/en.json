@@ -312,7 +312,8 @@
       "by": "By",
       "today": "Today",
       "dayAgo": "1 day ago",
-      "daysAgo": "$dd days ago"
+      "daysAgo": "$dd days ago",
+      "facilitator": "Facilitator"
     },
     "organizationsFilter": {
       "label": "Organizations",

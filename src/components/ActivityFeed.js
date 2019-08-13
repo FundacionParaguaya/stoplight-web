@@ -62,7 +62,7 @@ const ActivityFeed = ({
                     {familyName}
                   </Typography>
                   <Typography className={classes.subtitle}>
-                    {username}
+                    {`${t('views.activityFeed.facilitator')}: ${username}`}
                   </Typography>
                   <Typography className={classes.date}>
                     {daysAgoLabel}
@@ -150,7 +150,8 @@ const styles = theme => ({
   },
   subtitle: {
     fontSize: 14,
-    color: COLORS.TEXT_GREY
+    color: COLORS.TEXT_GREY,
+    textTransform: 'capitalize'
   },
   date: {
     fontSize: 13,
