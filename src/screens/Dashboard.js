@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
-import { isArray, startCase, toLower } from 'lodash';
+import { isArray } from 'lodash';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
