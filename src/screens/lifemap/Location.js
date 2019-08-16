@@ -280,6 +280,7 @@ class Location extends Component {
               type="submit"
               color="primary"
               variant="contained"
+              test-id="continue"
               disabled={
                 !familyData.latitude ||
                 !familyData.longitude ||

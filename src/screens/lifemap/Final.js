@@ -262,6 +262,7 @@ export class Final extends Component {
                   fullWidth
                   className={classes.saveButtonStyle}
                   disabled={this.state.loading}
+                  test-id="close"
                 >
                   {t('general.close')}
                 </Button>

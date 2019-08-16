@@ -31,6 +31,7 @@ const LeaveModal = props => {
         <Typography
           className={titleClass}
           variant="h5"
+          test-id="modal-title"
           // color="error"
         >
           {props.title}
@@ -42,6 +43,7 @@ const LeaveModal = props => {
           <Button
             className={classes.button}
             variant="outlined"
+            test-id="continue"
             color={variant === VARIANTS.WARNING ? 'secondary' : 'primary'}
             onClick={props.leaveAction}
           >
