@@ -114,6 +114,7 @@ class Header extends Component {
                   key={item}
                   href={`${getPlatform(user.env)}/#${item}`}
                   className={classes.menuLink}
+                  test-id={item}
                 >
                   <Typography
                     variant="subtitle1"

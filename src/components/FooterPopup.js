@@ -28,6 +28,7 @@ function FooterPopup(props) {
               variant="contained"
               onClick={props.handleButtonClick}
               className={classes.button}
+              test-id="got-it"
             >
               <i className={`material-icons ${classes.icon}`}>check</i>
               {t('general.gotIt')}

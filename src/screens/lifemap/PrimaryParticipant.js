@@ -406,7 +406,7 @@ export class PrimaryParticipant extends Component {
                   <DatePickerWithFormik
                     label={t('views.family.dateOfBirth')}
                     name="birthDate"
-                    test-id="birhDate"
+                    test-id="birthDate"
                     maxDate={new Date()}
                     disableFuture
                     required
@@ -531,6 +531,7 @@ export class PrimaryParticipant extends Component {
                       type="submit"
                       color="primary"
                       variant="contained"
+                      test-id="continue"
                       disabled={isSubmitting}
                       onClick={() => {
                         validateForm().then(validationErrors => {

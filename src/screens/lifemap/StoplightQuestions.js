@@ -127,6 +127,7 @@ let QuestionsWrapper = ({
               item
               key={e.value}
               onClick={() => submitQuestion(e.value)}
+              test-id={`stoplight-question-${e.value}`}
               className={classes.questionContainer}
               md={4}
               onMouseEnter={() => setShowIcon(e.value)}

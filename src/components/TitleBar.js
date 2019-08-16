@@ -68,7 +68,11 @@ class TopTitleContainer extends Component {
                     {this.props.extraTitleText}
                   </Typography>
                 )}
-                <Typography variant="h4" className={classes.titleMainAll}>
+                <Typography
+                  variant="h4"
+                  test-id="title-bar"
+                  className={classes.titleMainAll}
+                >
                   {this.props.title}
                 </Typography>
               </div>

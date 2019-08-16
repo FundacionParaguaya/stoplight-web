@@ -282,6 +282,7 @@ export class Overview extends Component {
             <div className={classes.finishSurveyButtonContainer}>
               <Button
                 variant="contained"
+                test-id="continue"
                 onClick={this.finishSurvey}
                 color="primary"
               >
