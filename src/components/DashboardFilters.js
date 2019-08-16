@@ -1,8 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 import DateRangeFilters from './DateRangeFilter';
 import OrganizationsFilter from './OrganizationsFilter';
+import HubsFilter from './HubsFilter';
+import { ROLES_NAMES } from '../utils/role-based-header';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -18,36 +21,73 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const showHubFilters = ({ role }) =>
+  role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+  role === ROLES_NAMES.ROLE_PS_TEAM ||
+  role === ROLES_NAMES.ROLE_ROOT;
+
 const DashboardFilters = ({
+  hubData,
+  onChangeHub,
   organizationsData,
   onChangeOrganization,
   from,
   to,
   onFromDateChanged,
-  onToDateChanged
+  onToDateChanged,
+  user
 }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <Grid className={classes.innerContainer} container spacing={1}>
-        <Grid item md={6} sm={6} xs={12}>
-          <OrganizationsFilter
-            data={organizationsData}
-            onChange={onChangeOrganization}
-          />
-        </Grid>
-        {/* <Grid item md={1} sm={1} xs={1} /> */}
-        <Grid item md={6} sm={6} xs={12}>
-          <DateRangeFilters
-            from={from}
-            to={to}
-            setFrom={onFromDateChanged}
-            setTo={onToDateChanged}
-          />
-        </Grid>
+        {showHubFilters(user) && (
+          <React.Fragment>
+            <Grid item md={6} sm={6} xs={12} />
+            <Grid item md={6} sm={6} xs={12}>
+              <DateRangeFilters
+                from={from}
+                to={to}
+                setFrom={onFromDateChanged}
+                setTo={onToDateChanged}
+              />
+            </Grid>
+            <Grid item md={4} sm={4} xs={12}>
+              <HubsFilter data={hubData} onChange={onChangeHub} />
+            </Grid>
+            <Grid item md={8} sm={8} xs={12}>
+              <OrganizationsFilter
+                data={organizationsData}
+                onChange={onChangeOrganization}
+                hub={hubData}
+              />
+            </Grid>
+          </React.Fragment>
+        )}
+        {!showHubFilters(user) && (
+          <React.Fragment>
+            <Grid item md={6} sm={6} xs={12}>
+              <OrganizationsFilter
+                data={organizationsData}
+                onChange={onChangeOrganization}
+                hub={hubData}
+              />
+            </Grid>
+            <Grid item md={6} sm={6} xs={12}>
+              <DateRangeFilters
+                from={from}
+                to={to}
+                setFrom={onFromDateChanged}
+                setTo={onToDateChanged}
+              />
+            </Grid>
+          </React.Fragment>
+        )}
       </Grid>
     </div>
   );
 };
-export default DashboardFilters;
+
+const mapStateToProps = ({ user }) => ({ user });
+export default connect(mapStateToProps)(DashboardFilters);

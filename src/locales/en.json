@@ -75,6 +75,7 @@
       "dimensions": "Dimensions",
       "achievements": "Achievements",
       "priorities": "Priorities",
+      "latestActivity": "Latest Activity",
       "red": "Red",
       "yellow": "Yellow",
       "green": "Green",
@@ -311,12 +312,19 @@
       "by": "By",
       "today": "Today",
       "dayAgo": "1 day ago",
-      "daysAgo": "$dd days ago"
+      "daysAgo": "$dd days ago",
+      "facilitator": "Facilitator"
     },
     "organizationsFilter": {
       "label": "Organizations",
       "loading": "Loading...",
       "noOption": "No organization left",
+      "noMatchFilters": "No results matching your filters"
+    },
+    "hubsFilter": {
+      "label": "Hub",
+      "loading": "Loading...",
+      "noOption": "No hub left",
       "noMatchFilters": "No results matching your filters"
     },
     "dateRangeFilter": {

@@ -191,10 +191,32 @@ export const checkSessionToken = (token, env) =>
     }
   });
 
+export const getOrganizationsByHub = (user, hub) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `query { organizations {id, name,code} }`
+    })
+  });
+
 export const getOrganizations = user =>
   axios({
     method: 'get',
     url: `${url[user.env]}/api/v1/organizations/list`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
+export const getHubs = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/applications?page=1`,
     headers: {
       Authorization: `Bearer ${user.token}`
     }

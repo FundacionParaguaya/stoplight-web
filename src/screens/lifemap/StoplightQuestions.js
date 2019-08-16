@@ -51,7 +51,8 @@ const questionsWrapperStyles = {
   innerContainer: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    overflow: 'hidden'
   },
   answeredIcon: {
     color: 'white',
@@ -496,7 +497,7 @@ const styles = theme => ({
   innerContainer: {
     height: '100%',
     width: '100%',
-    overflowY: 'scroll'
+    overflowY: 'auto'
   }
 });
 

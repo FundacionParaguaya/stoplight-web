@@ -42,10 +42,26 @@ export const ROLE_SURVEY_USER = [
   { item: 'map', platform: OLD }
 ];
 
+export const ROLE_SURVEY_USER_ADMIN = [
+  { item: 'surveys', platform: NEW },
+  { item: 'families', platform: OLD },
+  { item: 'map', platform: OLD }
+];
+
 export const ROLES = {
   ROLE_ROOT,
   ROLE_HUB_ADMIN,
   ROLE_PS_TEAM,
   ROLE_APP_ADMIN,
-  ROLE_SURVEY_USER
+  ROLE_SURVEY_USER,
+  ROLE_SURVEY_USER_ADMIN
+};
+
+export const ROLES_NAMES = {
+  ROLE_ROOT: 'ROLE_ROOT',
+  ROLE_HUB_ADMIN: 'ROLE_HUB_ADMIN',
+  ROLE_PS_TEAM: 'ROLE_PS_TEAM',
+  ROLE_APP_ADMIN: 'ROLE_APP_ADMIN',
+  ROLE_SURVEY_USER: 'ROLE_SURVEY_USER',
+  ROLE_SURVEY_USER_ADMIN: 'ROLE_SURVEY_USER_ADMIN'
 };
