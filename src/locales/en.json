@@ -321,6 +321,12 @@
       "noOption": "No organization left",
       "noMatchFilters": "No results matching your filters"
     },
+    "hubsFilter": {
+      "label": "Hub",
+      "loading": "Loading...",
+      "noOption": "No hub left",
+      "noMatchFilters": "No results matching your filters"
+    },
     "dateRangeFilter": {
       "from": "From",
       "to": "To"
