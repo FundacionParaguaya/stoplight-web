@@ -13,7 +13,11 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     alignItems: 'center'
   },
-  label: {
+  fromLabel: {
+    marginRight: theme.spacing(1),
+    fontSize: 14
+  },
+  toLabel: {
     marginRight: theme.spacing(1),
     marginLeft: theme.spacing(1),
     fontSize: 14
@@ -122,11 +126,11 @@ const DateRangeFilter = ({ from, setFrom, to, setTo }) => {
   };
   return (
     <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
+      <Typography variant="subtitle1" className={classes.fromLabel}>
         {t('views.dateRangeFilter.from')}
       </Typography>
       <DatePicker clearLabel={t('general.clear')} clearable {...fromProps} />
-      <Typography variant="subtitle1" className={classes.label}>
+      <Typography variant="subtitle1" className={classes.toLabel}>
         {t('views.dateRangeFilter.to')}
       </Typography>
       <DatePicker clearLabel={t('general.clear')} clearable {...toProps} />

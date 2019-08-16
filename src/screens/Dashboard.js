@@ -38,6 +38,7 @@ const Dashboard = ({ classes, user, t }) => {
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
+  const [selectedHub, setSelectedHub] = useState(null);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [chart, setChart] = useState(null);
@@ -49,6 +50,11 @@ const Dashboard = ({ classes, user, t }) => {
   const [loadingEconomics, setLoadingEconomics] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
   const [loadingChart, setLoadingChart] = useState(true);
+
+  // Clearing selected organizations when the hub filter changes
+  useEffect(() => {
+    setSelectedOrganizations([]);
+  }, [selectedHub]);
 
   useEffect(() => {
     getFamilies(user)
@@ -123,7 +129,7 @@ const Dashboard = ({ classes, user, t }) => {
         }
       })
       .finally(() => setLoadingChart(false));
-  }, [user, selectedOrganizations, fromDate, toDate]);
+  }, [user, selectedHub, selectedOrganizations, fromDate, toDate]);
 
   return (
     <Container variant="fluid" className={classes.greyBackground}>
@@ -141,6 +147,8 @@ const Dashboard = ({ classes, user, t }) => {
         <DashboardFilters
           organizationsData={selectedOrganizations}
           onChangeOrganization={setSelectedOrganizations}
+          hubData={selectedHub}
+          onChangeHub={setSelectedHub}
           from={fromDate}
           to={toDate}
           onFromDateChanged={setFromDate}
