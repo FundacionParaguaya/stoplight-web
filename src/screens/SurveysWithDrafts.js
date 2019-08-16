@@ -291,8 +291,8 @@ class Surveys extends Component {
     return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
   };
 
-  handleClickOnSurvey = (user, s) => {
-    getSurveyById(user, s.id).then(response => {
+  handleClickOnSurvey = s => {
+    getSurveyById(this.props.user, s.id).then(response => {
       const survey = response.data.data.surveyById;
       const economicScreens = this.getEconomicScreens(survey);
       const conditionalQuestions = Surveys.getConditionalQuestions(survey);
@@ -310,33 +310,35 @@ class Surveys extends Component {
   };
 
   handleClickOnSnapshot = snapshot => {
-    const survey = this.state.surveys.find(s => s.id === snapshot.surveyId);
-    const economicScreens = this.getEconomicScreens(survey);
-    const conditionalQuestions = Surveys.getConditionalQuestions(survey);
-    const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
-      conditionalQuestions
-    );
-    const draft = { ...snapshot };
-    const { lifemapNavHistory } = snapshot;
-    delete draft.status;
-    this.props.updateDraft(draft);
-    this.props.updateSurvey({
-      ...survey,
-      economicScreens,
-      conditionalQuestions,
-      elementsWithConditionsOnThem
-    });
-
-    if (lifemapNavHistory && lifemapNavHistory.length > 0) {
-      lifemapNavHistory.forEach(lnh =>
-        this.props.history.push({
-          pathname: lnh.url,
-          state: lnh.state
-        })
+    getSurveyById(this.props.user, snapshot.surveyId).then(response => {
+      const survey = response.data.data.surveyById;
+      const economicScreens = this.getEconomicScreens(survey);
+      const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+      const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+        conditionalQuestions
       );
-    } else {
-      this.props.history.push('/lifemap/terms');
-    }
+      const draft = { ...snapshot };
+      const { lifemapNavHistory } = snapshot;
+      delete draft.status;
+      this.props.updateDraft(draft);
+      this.props.updateSurvey({
+        ...survey,
+        economicScreens,
+        conditionalQuestions,
+        elementsWithConditionsOnThem
+      });
+
+      if (lifemapNavHistory && lifemapNavHistory.length > 0) {
+        lifemapNavHistory.forEach(lnh =>
+          this.props.history.push({
+            pathname: lnh.url,
+            state: lnh.state
+          })
+        );
+      } else {
+        this.props.history.push('/lifemap/terms');
+      }
+    });
   };
 
   componentDidMount() {
@@ -384,7 +386,7 @@ class Surveys extends Component {
                   <SurveysList
                     surveys={this.state.surveys}
                     heightRef={this.heightSurveysRef}
-                    handleSurveyClick={s => this.handleClickOnSurvey(user, s)}
+                    handleSurveyClick={this.handleClickOnSurvey}
                   />
                 </Grid>
               </Grid>
