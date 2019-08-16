@@ -174,6 +174,9 @@ export const theme = {
       }
     },
     MuiButton: {
+      root: {
+        textTransform: 'initial'
+      },
       text: {
         '&:hover': {
           backgroundColor: 'transparent',
@@ -193,7 +196,6 @@ export const theme = {
         '&:hover': {
           backgroundColor: '#309E43'
         },
-        textTransform: 'capitalize',
         fontSize: 16,
         fontFamily: 'Poppins',
         backgroundColor: '#309E43',

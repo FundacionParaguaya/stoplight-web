@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import { startCase } from 'lodash';
+import { capitalize } from 'lodash';
 import { updateUser } from './redux/actions';
 import { checkSessionToken } from './api';
 
@@ -92,7 +92,10 @@ const Authenticator = props => {
     // Verifying token before logging user in
     checkSessionToken(sessionId, environment)
       .then(response => {
-        const username = startCase(response.data.username).replace(' ', '');
+        const username = response.data.username
+          .split(' ')
+          .map(capitalize)
+          .join(' ');
 
         updateUserActionDispatch({
           username,
