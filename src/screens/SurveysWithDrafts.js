@@ -10,7 +10,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
-import { getSurveys, getEconomicOverview } from '../api';
+import {
+  getSurveysDefinition,
+  getSurveyById,
+  getEconomicOverview
+} from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import BottomSpacer from '../components/BottomSpacer';
@@ -99,7 +103,7 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
                     {t('views.survey.contains')}
                     {': '}
                     <span className={classes.spanStyle}>
-                      {`${survey.surveyStoplightQuestions.length} ${t(
+                      {`${survey.indicatorsCount} ${t(
                         'views.survey.indicators'
                       )}`}
                     </span>
@@ -134,12 +138,12 @@ class Surveys extends Component {
 
   getSurveys(user) {
     Promise.all([
-      getSurveys(user || this.props.user),
+      getSurveysDefinition(user || this.props.user),
       getEconomicOverview(user || this.props.user)
     ])
       .then(response => {
         this.setState({
-          surveys: response[0].data.data.surveysByUser,
+          surveys: response[0].data.data.surveysDefinitionByUser,
           familiesOverview: response[1].data.data.economicOverview
         });
       })
@@ -287,49 +291,54 @@ class Surveys extends Component {
     return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
   };
 
-  handleClickOnSurvey = survey => {
-    const economicScreens = this.getEconomicScreens(survey);
-    const conditionalQuestions = Surveys.getConditionalQuestions(survey);
-    const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
-      conditionalQuestions
-    );
-    this.props.updateSurvey({
-      ...survey,
-      economicScreens,
-      conditionalQuestions,
-      elementsWithConditionsOnThem
+  handleClickOnSurvey = s => {
+    getSurveyById(this.props.user, s.id).then(response => {
+      const survey = response.data.data.surveyById;
+      const economicScreens = this.getEconomicScreens(survey);
+      const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+      const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+        conditionalQuestions
+      );
+      this.props.updateSurvey({
+        ...survey,
+        economicScreens,
+        conditionalQuestions,
+        elementsWithConditionsOnThem
+      });
+      this.props.history.push('/lifemap/terms');
     });
-    this.props.history.push('/lifemap/terms');
   };
 
   handleClickOnSnapshot = snapshot => {
-    const survey = this.state.surveys.find(s => s.id === snapshot.surveyId);
-    const economicScreens = this.getEconomicScreens(survey);
-    const conditionalQuestions = Surveys.getConditionalQuestions(survey);
-    const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
-      conditionalQuestions
-    );
-    const draft = { ...snapshot };
-    const { lifemapNavHistory } = snapshot;
-    delete draft.status;
-    this.props.updateDraft(draft);
-    this.props.updateSurvey({
-      ...survey,
-      economicScreens,
-      conditionalQuestions,
-      elementsWithConditionsOnThem
-    });
-
-    if (lifemapNavHistory && lifemapNavHistory.length > 0) {
-      lifemapNavHistory.forEach(lnh =>
-        this.props.history.push({
-          pathname: lnh.url,
-          state: lnh.state
-        })
+    getSurveyById(this.props.user, snapshot.surveyId).then(response => {
+      const survey = response.data.data.surveyById;
+      const economicScreens = this.getEconomicScreens(survey);
+      const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+      const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+        conditionalQuestions
       );
-    } else {
-      this.props.history.push('/lifemap/terms');
-    }
+      const draft = { ...snapshot };
+      const { lifemapNavHistory } = snapshot;
+      delete draft.status;
+      this.props.updateDraft(draft);
+      this.props.updateSurvey({
+        ...survey,
+        economicScreens,
+        conditionalQuestions,
+        elementsWithConditionsOnThem
+      });
+
+      if (lifemapNavHistory && lifemapNavHistory.length > 0) {
+        lifemapNavHistory.forEach(lnh =>
+          this.props.history.push({
+            pathname: lnh.url,
+            state: lnh.state
+          })
+        );
+      } else {
+        this.props.history.push('/lifemap/terms');
+      }
+    });
   };
 
   componentDidMount() {
@@ -340,7 +349,7 @@ class Surveys extends Component {
   }
 
   render() {
-    const { classes, t } = this.props;
+    const { classes, t, user } = this.props;
 
     return (
       <div className={classes.mainSurveyContainerBoss}>
