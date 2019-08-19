@@ -183,7 +183,7 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'absolute',
     top: 15,
-    right: 15,
+    right: 25,
     zIndex: 1,
     pointerEvents: 'none'
   },
