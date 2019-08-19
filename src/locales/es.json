@@ -331,6 +331,11 @@
     "dateRangeFilter": {
       "from": "Desde",
       "to": "Hasta"
+    },
+    "nonProdWarning": {
+      "title": "Hola!",
+      "subtitle": "Bienvenido al ambiente de demostración.",
+      "bottom": "Recuerda que todo el contenido introducido aquí es público y será eliminado automáticamente"
     }
   },
   "reports": {
