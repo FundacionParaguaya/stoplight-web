@@ -132,7 +132,12 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
 };
 
 class Surveys extends Component {
-  state = { surveys: [], familiesOverview: [], loading: true };
+  state = {
+    surveys: [],
+    familiesOverview: [],
+    loading: true,
+    loadingSurvey: false
+  };
 
   constructor(props) {
     super(props);
@@ -295,53 +300,63 @@ class Surveys extends Component {
   };
 
   handleClickOnSurvey = s => {
-    getSurveyById(this.props.user, s.id).then(response => {
-      const survey = response.data.data.surveyById;
-      const economicScreens = this.getEconomicScreens(survey);
-      const conditionalQuestions = Surveys.getConditionalQuestions(survey);
-      const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
-        conditionalQuestions
-      );
-      this.props.updateSurvey({
-        ...survey,
-        economicScreens,
-        conditionalQuestions,
-        elementsWithConditionsOnThem
+    this.setState({ loadingSurvey: true });
+    getSurveyById(this.props.user, s.id)
+      .then(response => {
+        const survey = response.data.data.surveyById;
+        const economicScreens = this.getEconomicScreens(survey);
+        const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+        const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+          conditionalQuestions
+        );
+        this.props.updateSurvey({
+          ...survey,
+          economicScreens,
+          conditionalQuestions,
+          elementsWithConditionsOnThem
+        });
+        this.props.history.push('/lifemap/terms');
+      })
+      .catch(() => {
+        this.setState({ loadingSurvey: false });
       });
-      this.props.history.push('/lifemap/terms');
-    });
   };
 
   handleClickOnSnapshot = snapshot => {
-    getSurveyById(this.props.user, snapshot.surveyId).then(response => {
-      const survey = response.data.data.surveyById;
-      const economicScreens = this.getEconomicScreens(survey);
-      const conditionalQuestions = Surveys.getConditionalQuestions(survey);
-      const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
-        conditionalQuestions
-      );
-      const draft = { ...snapshot };
-      const { lifemapNavHistory } = snapshot;
-      delete draft.status;
-      this.props.updateDraft(draft);
-      this.props.updateSurvey({
-        ...survey,
-        economicScreens,
-        conditionalQuestions,
-        elementsWithConditionsOnThem
-      });
-
-      if (lifemapNavHistory && lifemapNavHistory.length > 0) {
-        lifemapNavHistory.forEach(lnh =>
-          this.props.history.push({
-            pathname: lnh.url,
-            state: lnh.state
-          })
+    this.setState({ loadingSurvey: true });
+    getSurveyById(this.props.user, snapshot.surveyId)
+      .then(response => {
+        const survey = response.data.data.surveyById;
+        const economicScreens = this.getEconomicScreens(survey);
+        const conditionalQuestions = Surveys.getConditionalQuestions(survey);
+        const elementsWithConditionsOnThem = Surveys.getElementsWithConditionsOnThem(
+          conditionalQuestions
         );
-      } else {
-        this.props.history.push('/lifemap/terms');
-      }
-    });
+        const draft = { ...snapshot };
+        const { lifemapNavHistory } = snapshot;
+        delete draft.status;
+        this.props.updateDraft(draft);
+        this.props.updateSurvey({
+          ...survey,
+          economicScreens,
+          conditionalQuestions,
+          elementsWithConditionsOnThem
+        });
+
+        if (lifemapNavHistory && lifemapNavHistory.length > 0) {
+          lifemapNavHistory.forEach(lnh =>
+            this.props.history.push({
+              pathname: lnh.url,
+              state: lnh.state
+            })
+          );
+        } else {
+          this.props.history.push('/lifemap/terms');
+        }
+      })
+      .catch(() => {
+        this.setState({ loadingSurvey: false });
+      });
   };
 
   componentDidMount() {
@@ -356,6 +371,11 @@ class Surveys extends Component {
 
     return (
       <div className={classes.mainSurveyContainerBoss}>
+        {this.state.loadingSurvey && (
+          <div className={classes.loadingSurveyContainer}>
+            <CircularProgress />
+          </div>
+        )}
         <Container variant="stretch">
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
@@ -446,6 +466,18 @@ const styles = theme => ({
   },
   snapshotsContainer: {
     marginTop: theme.spacing(4)
+  },
+  loadingSurveyContainer: {
+    zIndex: 10000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 });
 
