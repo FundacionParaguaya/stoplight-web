@@ -17,6 +17,7 @@ import LanguageSwitcher from './components/LanguageSwitcher';
 import Dashboard from './screens/Dashboard';
 import NonProdWarning from './components/NonProdWarning';
 import './index.css';
+import Intercom from './components/Intercom';
 
 class App extends Component {
   render() {
@@ -37,6 +38,7 @@ class App extends Component {
                       <Authenticator>
                         <div className={classes.appContainer}>
                           <NonProdWarning>
+                            <Intercom />
                             <Switch>
                               <Route path="/surveys" component={Surveys} />
                               <Route path="/lifemap" component={Lifemap} />
