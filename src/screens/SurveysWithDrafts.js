@@ -83,7 +83,10 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
     setHeight((heightRef.current && heightRef.current.clientHeight) || 'unset');
   }, [heightRef, windowSize]);
   return (
-    <div className={classes.mainContainer} style={{ maxHeight: height }}>
+    <div
+      className={classes.mainContainer}
+      style={{ height, maxHeight: height }}
+    >
       <Typography variant="h5">{t('views.survey.surveys')}</Typography>
       <List
         dense
