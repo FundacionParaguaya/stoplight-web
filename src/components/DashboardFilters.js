@@ -22,9 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const showHubFilters = ({ role }) =>
-  role === ROLES_NAMES.ROLE_HUB_ADMIN ||
-  role === ROLES_NAMES.ROLE_PS_TEAM ||
-  role === ROLES_NAMES.ROLE_ROOT;
+  role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
 const DashboardFilters = ({
   hubData,

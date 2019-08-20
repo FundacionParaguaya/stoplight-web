@@ -73,9 +73,10 @@ const Dashboard = ({ classes, user, t }) => {
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
     );
-
+    const hubId = selectedHub && selectedHub.value ? selectedHub.value : null;
     getDimensionIndicators(
       user,
+      hubId,
       (selectedOrganizations || []).map(o => o.value),
       fromDate,
       toDate
@@ -93,22 +94,21 @@ const Dashboard = ({ classes, user, t }) => {
       })
       .finally(() => setLoadingDimensionsIndicators(false));
 
-    // TODO add orgs info in the following 2 api requests
-    getOverviewBlock(user, fromDate, toDate, sanitizedOrganizations)
+    getOverviewBlock(user, hubId, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { blockOverview } = getData(data);
         setOverview(blockOverview);
       })
       .finally(() => setLoadingOverview(false));
 
-    getEconomicOverview(user, fromDate, toDate, sanitizedOrganizations)
+    getEconomicOverview(user, hubId, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { economicOverview } = getData(data);
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
 
-    getOperationsOverview(user, fromDate, toDate, sanitizedOrganizations)
+    getOperationsOverview(user, hubId, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const {
           operationsOverview: { surveysByMonth }
