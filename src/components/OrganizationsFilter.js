@@ -61,7 +61,7 @@ const OrganizationsFilter = ({ user, data, hub, onChange }) => {
   useEffect(() => {
     setLoading(true);
     setOrganizations([]);
-    getOrganizationsByHub(user, hub)
+    getOrganizationsByHub(user, hub && hub.value ? hub.value : null)
       .then(response => {
         const orgs = _.get(response, 'data.data.organizations', []).map(
           org => ({

@@ -83,7 +83,7 @@ export const getSurveyById = (user, surveyId) =>
     })
   });
 
-export const getOverviewBlock = (user, fromDate, toDate, organizations) =>
+export const getOverviewBlock = (user, hub, fromDate, toDate, organizations) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -92,8 +92,9 @@ export const getOverviewBlock = (user, fromDate, toDate, organizations) =>
     },
     data: JSON.stringify({
       query:
-        'query blockOverview($organizations: [Long], $toDate: Long, $fromDate: Long) { blockOverview(organizations: $organizations, toDate: $toDate, fromDate: $fromDate) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }',
+        'query blockOverview($hub: Long, $organizations: [Long], $toDate: Long, $fromDate: Long) { blockOverview(hub: $hub, organizations: $organizations, toDate: $toDate, fromDate: $fromDate) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }',
       variables: {
+        hub,
         organizations,
         fromDate,
         toDate
@@ -101,7 +102,13 @@ export const getOverviewBlock = (user, fromDate, toDate, organizations) =>
     })
   });
 
-export const getEconomicOverview = (user, fromDate, toDate, organizations) =>
+export const getEconomicOverview = (
+  user,
+  hub,
+  fromDate,
+  toDate,
+  organizations
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -110,8 +117,9 @@ export const getEconomicOverview = (user, fromDate, toDate, organizations) =>
     },
     data: JSON.stringify({
       query:
-        'query economicOverview($organizations: [Long], $toDate: Long, $fromDate: Long) { economicOverview(organizations: $organizations, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount} }',
+        'query economicOverview($hub: Long, $organizations: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount} }',
       variables: {
+        hub,
         organizations,
         fromDate,
         toDate
@@ -119,7 +127,13 @@ export const getEconomicOverview = (user, fromDate, toDate, organizations) =>
     })
   });
 
-export const getOperationsOverview = (user, fromDate, toDate, organizations) =>
+export const getOperationsOverview = (
+  user,
+  hub,
+  fromDate,
+  toDate,
+  organizations
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -128,8 +142,9 @@ export const getOperationsOverview = (user, fromDate, toDate, organizations) =>
     },
     data: JSON.stringify({
       query:
-        'query operationsOverview($organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
+        'query operationsOverview($hub: Long, $organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(hub: $hub, organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
       variables: {
+        hub,
         organizations,
         toTime: toDate,
         fromTime: fromDate
@@ -153,6 +168,7 @@ export const getFamilies = user =>
 
 export const getDimensionIndicators = (
   user,
+  hub,
   organizations = [],
   fromDate,
   toDate
@@ -165,7 +181,7 @@ export const getDimensionIndicators = (
       'Content-Type': 'application/json'
     },
     data: JSON.stringify({
-      query: `query { dimensionIndicators(organizations: ${JSON.stringify(
+      query: `query { dimensionIndicators(hub: ${hub} organizations: ${JSON.stringify(
         organizations
       )} ${fromDate ? `fromDate: ${fromDate}` : ''} ${
         toDate ? `toDate: ${toDate}` : ''
@@ -225,7 +241,7 @@ export const getOrganizationsByHub = (user, hub) =>
     },
 
     data: JSON.stringify({
-      query: `query { organizations {id, name,code} }`
+      query: `query { organizations (hub:${hub}) {id, name,code} }`
     })
   });
 
