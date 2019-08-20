@@ -11,13 +11,13 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
-export const sendMail = (document, mail, user) => {
+export const sendMail = (document, mail, user, lang) => {
   const formData = new FormData();
   formData.set('file', document);
 
   return axios({
     method: 'post',
-    url: `${url[user.env]}/api/lifemap/send?familyEmail=${mail}`,
+    url: `${url[user.env]}/api/lifemap/send?familyEmail=${mail}&lang=${lang}`,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'Content-Type': 'multipart/form-data'

@@ -125,7 +125,7 @@ export class Final extends Component {
       const document = new File([blob], 'lifemap.pdf', {
         type: 'application/pdf'
       });
-      return sendMail(document, email, this.props.user)
+      return sendMail(document, email, this.props.user, language)
         .then(() => {
           this.toggleModal(
             t('general.thankYou'),
