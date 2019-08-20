@@ -169,7 +169,10 @@ const useStyles = makeStyles(theme => ({
   itemContainer: {
     display: 'flex',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'space-between'
+    }
   },
   retakeContainer: {
     display: 'flex',
@@ -192,7 +195,10 @@ const useStyles = makeStyles(theme => ({
   birthDateContainer: {
     width: '25%',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   birthDateStyle: {
     fontSize: '14px',
