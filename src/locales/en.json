@@ -334,7 +334,7 @@
     "nonProdWarning": {
       "title": "Hello!",
       "subtitle": "Welcome to the demonstration environment.",
-      "bottom": "Remember, all content entered here is public and will be deleted automatically"
+      "bottom": "Remember, all content entered here is public and will be deleted automatically."
     }
   },
   "reports": {
