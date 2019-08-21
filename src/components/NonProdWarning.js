@@ -3,7 +3,7 @@ import { Modal, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import face from '../assets/serious_face.png';
+import face from '../assets/happy_face.png';
 import { COLORS } from '../theme';
 
 const PROD_ENV = 'platform';
