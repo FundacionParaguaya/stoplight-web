@@ -48,7 +48,10 @@ const useFilterStyles = makeStyles(theme => ({
   },
   familiesFilterContainer: {
     display: 'flex',
-    width: '35%'
+    width: '35%',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%'
+    }
   },
   familiesFilterInput: {
     paddingTop: '10.5px!important',
