@@ -75,6 +75,7 @@
       "dimensions": "Dimensiones",
       "achievements": "Logros",
       "priorities": "Prioridades",
+      "latestActivity": "Actividades Recientes",
       "red": "Rojos",
       "yellow": "Amarillos",
       "green": "Verdes",
@@ -312,7 +313,8 @@
       "by": "Por",
       "today": "Hoy",
       "dayAgo": "Hace 1 día",
-      "daysAgo": "Hace $dd días"
+      "daysAgo": "Hace $dd días",
+      "facilitator": "Facilitador"
     },
     "organizationsFilter": {
       "label": "Organizaciones",
@@ -320,9 +322,20 @@
       "noOption": "No quedan organizaciones",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
+    "hubsFilter": {
+      "label": "Hubs",
+      "loading": "Cargando...",
+      "noOption": "No quedan hubs",
+      "noMatchFilters": "No hay resultados para los filtros aplicados"
+    },
     "dateRangeFilter": {
       "from": "Desde",
       "to": "Hasta"
+    },
+    "nonProdWarning": {
+      "title": "¡Hola!",
+      "subtitle": "Bienvenido al ambiente de demostración.",
+      "bottom": "Recuerda que todo el contenido introducido aquí es público y será eliminado automáticamente."
     }
   },
   "reports": {

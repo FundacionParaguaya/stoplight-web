@@ -114,6 +114,7 @@ class Header extends Component {
                   key={item}
                   href={`${getPlatform(user.env)}/#${item}`}
                   className={classes.menuLink}
+                  test-id={item}
                 >
                   <Typography
                     variant="subtitle1"
@@ -303,7 +304,6 @@ const styles = theme => ({
   menuLinkText: {
     color: '#1C212F',
     fontWeight: 400,
-    textTransform: 'capitalize',
     position: 'relative',
     top: 4
   },

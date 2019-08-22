@@ -30,6 +30,7 @@ export class Begin extends Component {
           />
           <Button
             variant="contained"
+            test-id="continue"
             color="primary"
             onClick={() => this.props.history.push('/lifemap/stoplight/0')}
             style={{ color: 'white' }}

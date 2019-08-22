@@ -49,7 +49,7 @@ let DimensionQuestions = ({
     {questions.map(indicator => (
       <Grid
         item
-        xs={4}
+        xs={12}
         md={3}
         lg={2}
         key={indicator.key}
@@ -282,6 +282,7 @@ export class Overview extends Component {
             <div className={classes.finishSurveyButtonContainer}>
               <Button
                 variant="contained"
+                test-id="continue"
                 onClick={this.finishSurvey}
                 color="primary"
               >

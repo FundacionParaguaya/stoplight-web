@@ -68,7 +68,11 @@ class TopTitleContainer extends Component {
                     {this.props.extraTitleText}
                   </Typography>
                 )}
-                <Typography variant="h4" className={classes.titleMainAll}>
+                <Typography
+                  variant="h4"
+                  test-id="title-bar"
+                  className={classes.titleMainAll}
+                >
                   {this.props.title}
                 </Typography>
               </div>
@@ -125,7 +129,10 @@ const styles = theme => ({
     borderBottom: '1px solid #DCDEE3;',
     position: 'relative',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    [theme.breakpoints.down('xs')]: {
+      minHeight: '70%'
+    }
   },
   innerContainer: {
     display: 'flex',
@@ -136,12 +143,16 @@ const styles = theme => ({
   titleMainAll: {
     margin: 'auto',
     zIndex: 1,
-    textAlign: 'center'
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16,
+      lineHeight: 1.2
+    }
   },
   barDots: {
     height: '70%',
     [theme.breakpoints.down('xs')]: {
-      display: 'none'
+      height: '50%'
     }
   },
   textContainer: {
@@ -154,7 +165,11 @@ const styles = theme => ({
     textTransform: 'uppercase',
     color: 'rgba(0,0,0,0.5)',
     marginBottom: 10,
-    lineHeight: '25px'
+    lineHeight: '25px',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14,
+      lineHeight: 1.2
+    }
   },
   navIcons: {
     position: 'absolute'

@@ -51,7 +51,8 @@ const questionsWrapperStyles = {
   innerContainer: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    overflow: 'hidden'
   },
   answeredIcon: {
     color: 'white',
@@ -127,6 +128,7 @@ let QuestionsWrapper = ({
               item
               key={e.value}
               onClick={() => submitQuestion(e.value)}
+              test-id={`stoplight-question-${e.value}`}
               className={classes.questionContainer}
               md={4}
               onMouseEnter={() => setShowIcon(e.value)}
@@ -496,7 +498,7 @@ const styles = theme => ({
   innerContainer: {
     height: '100%',
     width: '100%',
-    overflowY: 'scroll'
+    overflowY: 'auto'
   }
 });
 

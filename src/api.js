@@ -11,16 +11,23 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
-export const sendMail = (document, mail, user) => {
+export const sendMail = (document, mail, user, lang) => {
   const formData = new FormData();
   formData.set('file', document);
+
+  // For some reason, the backend only accepts some specific locales. Let's normalize it
+  let normalizedLang = 'es_PY';
+  if (lang === 'en') {
+    normalizedLang = 'en_US';
+  }
 
   return axios({
     method: 'post',
     url: `${url[user.env]}/api/lifemap/send?familyEmail=${mail}`,
     headers: {
       Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
+      'X-locale': normalizedLang
     },
     data: formData
   });
@@ -58,7 +65,7 @@ export const getSurveys = user =>
     })
   });
 
-export const getOverviewBlock = (user, fromDate, toDate, organizations) =>
+export const getSurveysDefinition = user =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -67,8 +74,34 @@ export const getOverviewBlock = (user, fromDate, toDate, organizations) =>
     },
     data: JSON.stringify({
       query:
-        'query blockOverview($organizations: [Long], $toDate: Long, $fromDate: Long) { blockOverview(organizations: $organizations, toDate: $toDate, fromDate: $fromDate) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }',
+        'query { surveysDefinitionByUser {id,title,description,indicatorsCount, createdAt} }'
+    })
+  });
+export const getSurveyById = (user, surveyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id stoplightColors { url value description } required } } }`
+    })
+  });
+
+export const getOverviewBlock = (user, hub, fromDate, toDate, organizations) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query blockOverview($hub: Long, $organizations: [Long], $toDate: Long, $fromDate: Long) { blockOverview(hub: $hub, organizations: $organizations, toDate: $toDate, fromDate: $fromDate) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }',
       variables: {
+        hub,
         organizations,
         fromDate,
         toDate
@@ -76,7 +109,13 @@ export const getOverviewBlock = (user, fromDate, toDate, organizations) =>
     })
   });
 
-export const getEconomicOverview = (user, fromDate, toDate, organizations) =>
+export const getEconomicOverview = (
+  user,
+  hub,
+  fromDate,
+  toDate,
+  organizations
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -85,8 +124,9 @@ export const getEconomicOverview = (user, fromDate, toDate, organizations) =>
     },
     data: JSON.stringify({
       query:
-        'query economicOverview($organizations: [Long], $toDate: Long, $fromDate: Long) { economicOverview(organizations: $organizations, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount} }',
+        'query economicOverview($hub: Long, $organizations: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount} }',
       variables: {
+        hub,
         organizations,
         fromDate,
         toDate
@@ -94,7 +134,13 @@ export const getEconomicOverview = (user, fromDate, toDate, organizations) =>
     })
   });
 
-export const getOperationsOverview = (user, fromDate, toDate, organizations) =>
+export const getOperationsOverview = (
+  user,
+  hub,
+  fromDate,
+  toDate,
+  organizations
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -103,8 +149,9 @@ export const getOperationsOverview = (user, fromDate, toDate, organizations) =>
     },
     data: JSON.stringify({
       query:
-        'query operationsOverview($organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
+        'query operationsOverview($hub: Long, $organizations: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(hub: $hub, organizations: $organizations, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
       variables: {
+        hub,
         organizations,
         toTime: toDate,
         fromTime: fromDate
@@ -128,6 +175,7 @@ export const getFamilies = user =>
 
 export const getDimensionIndicators = (
   user,
+  hub,
   organizations = [],
   fromDate,
   toDate
@@ -140,7 +188,7 @@ export const getDimensionIndicators = (
       'Content-Type': 'application/json'
     },
     data: JSON.stringify({
-      query: `query { dimensionIndicators(organizations: ${JSON.stringify(
+      query: `query { dimensionIndicators(hub: ${hub} organizations: ${JSON.stringify(
         organizations
       )} ${fromDate ? `fromDate: ${fromDate}` : ''} ${
         toDate ? `toDate: ${toDate}` : ''
@@ -191,10 +239,32 @@ export const checkSessionToken = (token, env) =>
     }
   });
 
+export const getOrganizationsByHub = (user, hub) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `query { organizations (hub:${hub}) {id, name,code} }`
+    })
+  });
+
 export const getOrganizations = user =>
   axios({
     method: 'get',
     url: `${url[user.env]}/api/v1/organizations/list`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
+export const getHubs = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/applications?page=1`,
     headers: {
       Authorization: `Bearer ${user.token}`
     }

@@ -8,7 +8,7 @@ function Footer(props) {
   return (
     <div className={classes.footer}>
       <Typography className={classes.footerText}>
-        ©Copyright 2019 - Spotlight Desktop 1.4.0
+        ©Copyright 2019 - Stoplight Desktop 1.5.0
       </Typography>
     </div>
   );

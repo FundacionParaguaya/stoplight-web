@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
-import { getOrganizationsByHub } from '../api';
+import { getHubs } from '../api';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -53,30 +53,26 @@ const useStyles = makeStyles(() => ({
   selector: { width: '100%' }
 }));
 
-const OrganizationsFilter = ({ user, data, hub, onChange }) => {
-  const [organizations, setOrganizations] = useState([]);
+const HubsFilter = ({ user, data, onChange }) => {
+  const [hubs, setHubs] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
   const { t } = useTranslation();
   useEffect(() => {
-    setLoading(true);
-    setOrganizations([]);
-    getOrganizationsByHub(user, hub && hub.value ? hub.value : null)
+    getHubs(user)
       .then(response => {
-        const orgs = _.get(response, 'data.data.organizations', []).map(
-          org => ({
-            label: org.name,
-            value: org.id
-          })
-        );
-        setOrganizations(orgs);
+        const hubsFromAPI = _.get(response, 'data.list', []).map(hub => ({
+          label: hub.name,
+          value: hub.id
+        }));
+        setHubs(hubsFromAPI);
       })
       .finally(() => setLoading(false));
-  }, [user, hub]);
+  }, [user]);
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
-        {t('views.organizationsFilter.label')}
+        {t('views.hubsFilter.label')}
       </Typography>
       <div className={classes.selector}>
         <Select
@@ -84,17 +80,16 @@ const OrganizationsFilter = ({ user, data, hub, onChange }) => {
           onChange={value => onChange(value)}
           placeholder=""
           isLoading={loading}
-          loadingMessage={() => t('views.organizationsFilter.loading')}
-          noOptionsMessage={() => t('views.organizationsFilter.noOption')}
-          options={organizations}
+          loadingMessage={() => t('views.hubsFilter.loading')}
+          noOptionsMessage={() => t('views.hubsFilter.noOption')}
+          options={hubs}
           components={{
             DropdownIndicator: () => <div />,
-            IndicatorSeparator: () => <div />,
-            ClearIndicator: () => <div />
+            IndicatorSeparator: () => <div />
           }}
-          closeMenuOnSelect={false}
-          isMulti
           styles={selectStyle}
+          isClearable
+          hideSelectedOptions
         />
       </div>
     </div>
@@ -103,4 +98,4 @@ const OrganizationsFilter = ({ user, data, hub, onChange }) => {
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps)(OrganizationsFilter);
+export default connect(mapStateToProps)(HubsFilter);

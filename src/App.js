@@ -14,9 +14,10 @@ import DatePickedProvider from './components/DatePickerProvider';
 import Scroller, { ScrollerProvider } from './components/Scroller';
 import CustomSnackbarProvider from './components/SnackbarProvider';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import Analytics from './screens/Analytics';
-import Dashboard from './Dashboard';
+import Dashboard from './screens/Dashboard';
+import NonProdWarning from './components/NonProdWarning';
 import './index.css';
+import Intercom from './components/Intercom';
 
 class App extends Component {
   render() {
@@ -36,12 +37,15 @@ class App extends Component {
                       <LanguageSwitcher />
                       <Authenticator>
                         <div className={classes.appContainer}>
-                          <Switch>
-                            <Route path="/surveys" component={Surveys} />
-                            <Route path="/lifemap" component={Lifemap} />
-                            <Route path="/analytics" component={Analytics} />
-                            <Route path="/dashboard" component={Dashboard} />
-                          </Switch>
+                          <NonProdWarning>
+                            <Intercom />
+                            <Switch>
+                              <Route path="/surveys" component={Surveys} />
+                              <Route path="/lifemap" component={Lifemap} />
+                              {/* <Route path="/analytics" component={Analytics} /> */}
+                              <Route path="/dashboard" component={Dashboard} />
+                            </Switch>
+                          </NonProdWarning>
                         </div>
                       </Authenticator>
                     </ScrollerProvider>

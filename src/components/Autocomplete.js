@@ -108,6 +108,7 @@ function inputComponent({ inputRef, ...props }) {
 
 const Control = props => (
   <TextField
+    test-id={props.selectProps.name}
     className={props.selectProps.classes.controlInput}
     variant="filled"
     fullWidth
@@ -239,6 +240,7 @@ class IntegrationReactSelect extends React.Component {
       <NoSsr>
         {async && (
           <AsyncSelect
+            test-id={name}
             classes={classes}
             name={name}
             styles={selectStyles}
