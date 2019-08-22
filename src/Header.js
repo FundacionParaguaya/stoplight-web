@@ -157,7 +157,7 @@ class Header extends Component {
               rel="noopener noreferrer"
             >
               <Typography variant="subtitle1" className={classes.menuLinkText}>
-                FAQs
+                {t('views.toolbar.support')}
               </Typography>
             </a>
             <Button
