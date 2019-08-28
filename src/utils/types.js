@@ -9,7 +9,7 @@ export const INDICATORS = 'INDICATORS';
 export const DIMENSIONS = 'DIMENSIONS';
 export const ECONOMICS = 'ECONOMICS';
 export const CHART = 'CHART';
-export const START_LOADING = 'START_LOADING';
+export const BEGIN_LOADING = 'BEGIN_LOADING';
 
 export const LOADING = {
   OVERVIEW,

@@ -20,7 +20,7 @@ import {
   ECONOMICS,
   CHART,
   LOADING,
-  START_LOADING
+  BEGIN_LOADING
 } from '../utils/types';
 import ballstoit from '../assets/ballstoit.png';
 import withLayout from '../components/withLayout';
@@ -48,7 +48,7 @@ const initialLoading = Object.fromEntries(
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case START_LOADING:
+    case BEGIN_LOADING:
       return {
         ...state,
         ...initialLoading
@@ -82,7 +82,7 @@ const Dashboard = ({ classes, user, t }) => {
   }, [user]);
 
   useEffect(() => {
-    dispatchLoading({ type: START_LOADING });
+    dispatchLoading({ type: BEGIN_LOADING });
 
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
