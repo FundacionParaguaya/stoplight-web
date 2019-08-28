@@ -12,6 +12,10 @@ import {
   getOverviewBlock,
   getOperationsOverview
 } from '../api';
+import {
+  ORDERED_DIMENSIONS,
+  normalizeDimension
+} from '../utils/parametric_data';
 import ballstoit from '../assets/ballstoit.png';
 import withLayout from '../components/withLayout';
 import Container from '../components/Container';
@@ -90,7 +94,16 @@ const Dashboard = ({ classes, user, t }) => {
           }
         });
         setIndicators(indicatorsArray);
-        setDimensions(dimensionIndicators);
+
+        // We sort the array against a static ORDERED_DIMENSIONS order
+        const sortedDimensions = dimensionIndicators;
+        ORDERED_DIMENSIONS.forEach(item =>
+          sortedDimensions.sort(
+            ({ dimension }) => -(normalizeDimension(dimension) === item)
+          )
+        );
+
+        setDimensions(sortedDimensions);
       })
       .finally(() => setLoadingDimensionsIndicators(false));
 
@@ -200,9 +213,8 @@ const Dashboard = ({ classes, user, t }) => {
       <Container className={classes.whiteContainer} variant="fluid">
         <Container>
           <DimensionsVisualisation
-            data={[...(dimensions || [])].sort((a, b) =>
-              a.dimension.toLowerCase().localeCompare(b.dimension.toLowerCase())
-            )}
+            noFilter
+            data={dimensions}
             loading={loadingDimensionsIndicators}
           />
         </Container>

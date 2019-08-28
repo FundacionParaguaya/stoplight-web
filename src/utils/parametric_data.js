@@ -42,6 +42,29 @@ const ORGANIZATION_OPTIONS = [
   'Organization and Participation'
 ];
 
+const {
+  INCOME,
+  HEALTH,
+  HOUSING,
+  EDUCATION,
+  ORGANIZATION,
+  INTERIORITY
+} = NORMALIZED_DIMENSIONS;
+
+// TODO: find a better way of doing this
+// it's backwards because on each call on sort
+// if the condition is met creating a stack like data structure
+// so one is stacked after the previous
+// see implementation on Dashboard.js on setDimension call
+export const ORDERED_DIMENSIONS = [
+  INTERIORITY,
+  ORGANIZATION,
+  EDUCATION,
+  HOUSING,
+  HEALTH,
+  INCOME
+];
+
 export const DIMENSIONS_EN = Object.freeze({
   EDUCATION: 'Education & Culture',
   HEALTH: 'Health & Environment',

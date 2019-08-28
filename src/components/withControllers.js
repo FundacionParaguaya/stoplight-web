@@ -35,7 +35,7 @@ const styles = theme => ({
 function withControllers(title, sorting) {
   return WrappedComponent => {
     return withTranslation()(
-      withStyles(styles)(({ data, loading, classes, t }) => {
+      withStyles(styles)(({ data, loading, noFilter = false, classes, t }) => {
         const [type, setType] = useState(BAR);
         const [count, setCount] = useState(10);
         const [sortingBy, setSortingBy] = useState(SORT_BY_OPTIONS.DEFAULT);
@@ -67,7 +67,11 @@ function withControllers(title, sorting) {
               <>
                 <WrappedComponent
                   type={type}
-                  data={[...data].sort(sorter(sortingBy)).slice(0, count)}
+                  data={
+                    noFilter
+                      ? data.slice(0, count)
+                      : [...data].sort(sorter(sortingBy)).slice(0, count)
+                  }
                 />
                 {data.length > 10 && (
                   <>
