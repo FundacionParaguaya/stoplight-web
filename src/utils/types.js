@@ -14,7 +14,6 @@ export const BEGIN_LOADING = 'BEGIN_LOADING';
 export const LOADING = {
   OVERVIEW,
   ECONOMICS,
-  ACTIVITY_FEED,
   CHART,
   DIMENSIONS
 };

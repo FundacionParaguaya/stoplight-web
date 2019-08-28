@@ -62,6 +62,7 @@ const reducer = (state, action) => {
 const Dashboard = ({ classes, user, t }) => {
   const [state, dispatch] = useReducer(reducer, {});
   const [loading, dispatchLoading] = useReducer(reducer, initialLoading);
+  const [loadingFeed, setLoadingFeed] = useState(true);
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
   const [selectedHub, setSelectedHub] = useState(null);
   const [fromDate, setFromDate] = useState(null);
@@ -78,7 +79,7 @@ const Dashboard = ({ classes, user, t }) => {
         const { feed } = getData(data);
         dispatch({ type: ACTIVITY_FEED, payload: feed });
       })
-      .finally(() => dispatchLoading({ type: ACTIVITY_FEED, payload: false }));
+      .finally(() => setLoadingFeed(false));
   }, [user]);
 
   useEffect(() => {
@@ -186,8 +187,8 @@ const Dashboard = ({ classes, user, t }) => {
               {t('views.dashboard.latestActivity')}
             </Typography>
             <Box mt={3} />
-            {loading.activityFeed && <LoadingContainer />}
-            {!loading.activityFeed && (
+            {loadingFeed && <LoadingContainer />}
+            {!loadingFeed && (
               <ActivityFeed
                 data={state.activityFeed}
                 width="100%"
