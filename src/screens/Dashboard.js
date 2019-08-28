@@ -213,7 +213,6 @@ const Dashboard = ({ classes, user, t }) => {
       <Container className={classes.whiteContainer} variant="fluid">
         <Container>
           <DimensionsVisualisation
-            noFilter
             data={dimensions}
             loading={loadingDimensionsIndicators}
           />
