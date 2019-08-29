@@ -10,8 +10,8 @@ import {
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
-import { COLORS } from '../theme';
-import CustomTooltip from './CustomTooltip';
+import { COLORS } from '../../theme';
+import CustomTooltip from '../CustomTooltip';
 
 const { GREEN } = COLORS;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BarChart,
+  BarChart as ReBarChart,
   Bar,
   XAxis,
   YAxis,
@@ -27,7 +27,7 @@ const renderCustomizedLabel = ({ value, x, y }, label) => {
     </g>
   );
 };
-const SummaryBarChart = ({
+const BarChart = ({
   greenIndicatorCount,
   yellowIndicatorCount,
   redIndicatorCount,
@@ -47,7 +47,7 @@ const SummaryBarChart = ({
   ];
   return (
     <ResponsiveContainer width={width} height={240}>
-      <BarChart
+      <ReBarChart
         data={data}
         barGap={35}
         barSize={18}
@@ -103,13 +103,13 @@ const SummaryBarChart = ({
             }
           />
         </Bar>
-      </BarChart>
+      </ReBarChart>
     </ResponsiveContainer>
   );
 };
 
-SummaryBarChart.defaultProps = {
+BarChart.defaultProps = {
   isAnimationActive: false
 };
 
-export default withTranslation()(SummaryBarChart);
+export default withTranslation()(BarChart);

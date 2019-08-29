@@ -8,10 +8,10 @@ import { withTranslation } from 'react-i18next';
 import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
-import IndicatorBall from '../../components/summary/IndicatorBall';
+import IndicatorBall from '../../components/IndicatorBall';
 import IndicatorsFilter, {
   FILTERED_BY_OPTIONS
-} from '../../components/summary/IndicatorsFilter';
+} from '../../components/IndicatorsFilter';
 import LeaveModal from '../../components/LeaveModal';
 import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';

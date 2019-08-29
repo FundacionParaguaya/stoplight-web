@@ -2,10 +2,10 @@ import React from 'react';
 import { withStyles, Typography, Grid } from '@material-ui/core';
 import { useTransition, animated } from 'react-spring';
 import { withTranslation } from 'react-i18next';
-import SummaryStackedBar from './summary/SummaryStackedBar';
+import StackedBar from '../StackedBar';
 import PieGrid from './PieGrid';
 import withControllers from './withControllers';
-import { PIE, BAR } from '../utils/types';
+import { PIE, BAR } from '../../utils/types';
 
 const parseStoplights = stoplights => {
   const getByColor = i =>
@@ -125,7 +125,7 @@ const Indicators = withStyles(indicatorsStyles)(
                       </div>
 
                       <div className={classes.stackedBarContainer}>
-                        <SummaryStackedBar
+                        <StackedBar
                           greenIndicatorCount={green}
                           yellowIndicatorCount={yellow}
                           redIndicatorCount={red}

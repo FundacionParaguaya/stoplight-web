@@ -4,8 +4,8 @@ import { withTranslation } from 'react-i18next';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { Typography } from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
-import { COLORS } from '../../theme';
-import CustomTooltip from '../CustomTooltip';
+import { COLORS } from '../theme';
+import CustomTooltip from './CustomTooltip';
 import IndicatorBall from './IndicatorBall';
 
 let SummaryCountingSection = props => (
@@ -49,7 +49,7 @@ SummaryCountingSection = withStyles(summaryCountingSectionStyles)(
   SummaryCountingSection
 );
 
-const SummaryDonut = props => {
+const DonutChart = props => {
   const {
     classes,
     greenIndicatorCount,
@@ -134,7 +134,7 @@ const SummaryDonut = props => {
   );
 };
 
-SummaryDonut.defaultProps = {
+DonutChart.defaultProps = {
   isAnimationActive: false,
   countingSection: true
 };
@@ -162,9 +162,9 @@ const styles = theme => ({
   }
 });
 
-SummaryDonut.defaultProps = {
+DonutChart.defaultProps = {
   variant: 'normal',
   animated: true
 };
 
-export default withStyles(styles)(withTranslation()(SummaryDonut));
+export default withStyles(styles)(withTranslation()(DonutChart));

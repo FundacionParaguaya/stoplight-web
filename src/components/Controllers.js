@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import { PIE, BAR } from '../utils/types';
-import IndicatorsFilter from './summary/IndicatorsFilter';
+import IndicatorsFilter from './IndicatorsFilter';
 
 const Controllers = ({
   type,

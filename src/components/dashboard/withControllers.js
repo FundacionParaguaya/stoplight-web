@@ -6,10 +6,10 @@ import {
   CircularProgress
 } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
-import GreyButton from './GreyButton';
-import Controllers from './Controllers';
-import { BAR } from '../utils/types';
-import { SORT_BY_OPTIONS, sorter } from './summary/IndicatorsFilter';
+import GreyButton from '../GreyButton';
+import Controllers from '../Controllers';
+import { BAR } from '../../utils/types';
+import { SORT_BY_OPTIONS, sorter } from '../IndicatorsFilter';
 
 const styles = theme => ({
   innerContainer: {

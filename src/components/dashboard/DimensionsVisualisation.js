@@ -8,19 +8,19 @@ import { Typography, withStyles, Box } from '@material-ui/core';
 import {
   normalizeDimension,
   NORMALIZED_DIMENSIONS
-} from '../utils/parametric_data';
-import dimensionEducationIcon from '../assets/dimension_education.png';
-import dimensionHealthIcon from '../assets/dimension_health.png';
-import dimensionHousingIcon from '../assets/dimension_housing.png';
-import dimensionIncomeIcon from '../assets/dimension_income.png';
-import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
-import dimensionOrganizationIcon from '../assets/dimension_organization.png';
-import SummaryStackedBar from './summary/SummaryStackedBar';
-import CountDetail from './CountDetail';
-import { COLORS } from '../theme';
+} from '../../utils/parametric_data';
+import dimensionEducationIcon from '../../assets/dimension_education.png';
+import dimensionHealthIcon from '../../assets/dimension_health.png';
+import dimensionHousingIcon from '../../assets/dimension_housing.png';
+import dimensionIncomeIcon from '../../assets/dimension_income.png';
+import dimensionInteriorityIcon from '../../assets/dimension_interiority.png';
+import dimensionOrganizationIcon from '../../assets/dimension_organization.png';
+import StackedBar from '../StackedBar';
+import CountDetail from '../CountDetail';
+import { COLORS } from '../../theme';
 import withControllers from './withControllers';
 import PieGrid from './PieGrid';
-import { PIE, BAR } from '../utils/types';
+import { PIE, BAR } from '../../utils/types';
 
 const getIndCountByColor = (data = [], color) => {
   let count = 0;
@@ -113,7 +113,7 @@ let DimensionIndicator = ({ classes, dimension: { indicators } }) => (
             <div className={classes.mainItemContainer}>
               <DimensionTitle dimension={indicator.name} excludeIcon />
               <div className={classes.stackbarContainer}>
-                <SummaryStackedBar
+                <StackedBar
                   greenIndicatorCount={getIndCountByColor(
                     indicator.stoplights,
                     3
@@ -258,7 +258,7 @@ const Dimensions = withStyles(dimensionStyles)(({ classes, data, type }) => {
                     <DimensionTitle dimension={dimension} />
 
                     <div className={classes.stackbarContainer}>
-                      <SummaryStackedBar
+                      <StackedBar
                         greenIndicatorCount={getIndCountByColor(stoplights, 3)}
                         yellowIndicatorCount={getIndCountByColor(stoplights, 2)}
                         redIndicatorCount={getIndCountByColor(stoplights, 1)}

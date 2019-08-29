@@ -9,10 +9,10 @@ import {
   Tooltip
 } from 'recharts';
 import { withTranslation } from 'react-i18next';
-import { COLORS } from '../../theme';
-import CustomTooltip from '../CustomTooltip';
+import { COLORS } from '../theme';
+import CustomTooltip from './CustomTooltip';
 
-const SummaryStackedBar = props => {
+const StackedBar = props => {
   const {
     classes,
     greenIndicatorCount,
@@ -109,7 +109,7 @@ const SummaryStackedBar = props => {
   );
 };
 
-SummaryStackedBar.defaultProps = {
+StackedBar.defaultProps = {
   animationDuration: 0
 };
 
@@ -119,4 +119,4 @@ const styles = () => ({
   }
 });
 
-export default withTranslation()(withStyles(styles)(SummaryStackedBar));
+export default withTranslation()(withStyles(styles)(StackedBar));

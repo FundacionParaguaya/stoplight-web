@@ -19,13 +19,13 @@ import {
 import ballstoit from '../assets/ballstoit.png';
 import withLayout from '../components/withLayout';
 import Container from '../components/Container';
-import GreenLineChart from '../components/GreenLineChart';
-import ActivityFeed from '../components/ActivityFeed';
+import GreenLineChart from '../components/dashboard/GreenLineChart';
+import ActivityFeed from '../components/dashboard/ActivityFeed';
 import FamilyOverviewBlock from '../components/FamiliesOverviewBlock';
-import OverviewBlock from '../components/OverviewBlock';
-import DimensionsVisualisation from '../components/DimensionsVisualisation';
-import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
-import DashboardFilters from '../components/DashboardFilters';
+import OverviewBlock from '../components/dashboard/OverviewBlock';
+import DimensionsVisualisation from '../components/dashboard/DimensionsVisualisation';
+import IndicatorsVisualisation from '../components/dashboard/IndicatorsVisualisation';
+import DashboardFilters from '../components/dashboard/DashboardFilters';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 

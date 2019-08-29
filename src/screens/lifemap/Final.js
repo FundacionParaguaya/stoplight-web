@@ -13,7 +13,7 @@ import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
 import { submitDraft, sendMail } from '../../api';
 import TitleBar from '../../components/TitleBar';
-import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
+import AllSurveyIndicators from '../../components/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import generateIndicatorsReport, {

@@ -3,7 +3,7 @@ import { Typography, withStyles } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import { COLORS } from '../theme';
+import { COLORS } from '../../theme';
 
 const ActivityFeed = ({
   classes,

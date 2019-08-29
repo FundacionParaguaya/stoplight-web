@@ -2,10 +2,10 @@ import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
-import SummaryDonut from './summary/SummaryDonut';
-import SummaryBarChart from './SummaryBarChart';
-import CountDetail from './CountDetail';
-import Divider from './Divider';
+import DonutChart from '../DonutChart';
+import BarChart from '../BarChart';
+import CountDetail from '../CountDetail';
+import Divider from '../Divider';
 
 const OverviewBlock = ({ classes, data, t, width }) => {
   if (
@@ -29,7 +29,7 @@ const OverviewBlock = ({ classes, data, t, width }) => {
         {t('views.familiesOverviewBlock.overview')}
       </Typography>
       <div className={classes.container}>
-        <SummaryDonut
+        <DonutChart
           greenIndicatorCount={data.stoplightOverview.greens}
           redIndicatorCount={data.stoplightOverview.reds}
           yellowIndicatorCount={data.stoplightOverview.yellows}
@@ -53,7 +53,7 @@ const OverviewBlock = ({ classes, data, t, width }) => {
             countVariant="h5"
           />
         </div>
-        <SummaryBarChart
+        <BarChart
           greenIndicatorCount={data.stoplightOverview.greens}
           redIndicatorCount={data.stoplightOverview.reds}
           yellowIndicatorCount={data.stoplightOverview.yellows}

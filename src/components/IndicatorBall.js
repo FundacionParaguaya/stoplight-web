@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Spring } from 'react-spring/renderprops';
 import clsx from 'clsx';
-import iconPriority from '../../assets/icon_priority.png';
-import iconAchievement from '../../assets/icon_achievement.png';
-import { COLORS } from '../../theme';
+import iconPriority from '../assets/icon_priority.png';
+import iconAchievement from '../assets/icon_achievement.png';
+import { COLORS } from '../theme';
 
 let Accent = ({ classes, variant, achievement, priority }) => (
   <React.Fragment>

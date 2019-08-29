@@ -2,10 +2,10 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import DateRangeFilters from './DateRangeFilter';
-import OrganizationsFilter from './OrganizationsFilter';
-import HubsFilter from './HubsFilter';
-import { ROLES_NAMES } from '../utils/role-based-header';
+import DateRangeFilters from '../DateRangeFilter';
+import OrganizationsFilter from '../OrganizationsFilter';
+import HubsFilter from '../HubsFilter';
+import { ROLES_NAMES } from '../../utils/role-based-header';
 
 const useStyles = makeStyles(theme => ({
   container: {

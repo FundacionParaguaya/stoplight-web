@@ -11,7 +11,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import { COLORS } from '../../theme';
+import { COLORS } from '../theme';
 
 export const FILTERED_BY_OPTIONS = {
   GREEN: 3,
