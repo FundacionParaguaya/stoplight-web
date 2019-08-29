@@ -351,6 +351,13 @@
       "whatWillYouDoToGetIt": "¿Qué harás para tenerlo?",
       "howManyMonthsWillItTake": "Meses necesarios",
       "reviewDate": "Fecha de revisión"
+    },
+    "achievements": {
+      "myAchievements": "Mis Logros",
+      "status": "Estado",
+      "indicator": "Indicador",
+      "roadmap": "¿Quién o qué te motivó a alcanzarlo?",
+      "action": "¿Qué hiciste para conseguirlo?"
     }
   }
 }

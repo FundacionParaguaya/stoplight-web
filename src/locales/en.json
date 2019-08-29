@@ -350,6 +350,13 @@
       "whatWillYouDoToGetIt": "What will you do to get it?",
       "howManyMonthsWillItTake": "Months required",
       "reviewDate": "Review date"
+    },
+    "achievements": {
+      "myAchievements": "My Achievements",
+      "status": "Status",
+      "indicator": "Indicator",
+      "roadmap": "Who or what motivated you to get there?",
+      "action": "What did you do to achieve this?"
     }
   }
 }
