@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
-import { isArray, camelCase } from 'lodash';
+import { isArray } from 'lodash';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 import {
@@ -18,10 +18,9 @@ import {
   DIMENSIONS,
   OVERVIEW,
   ECONOMICS,
-  CHART,
-  LOADING,
-  BEGIN_LOADING
+  CHART
 } from '../utils/types';
+import { useDashboard } from '../utils/dashboard-state';
 import ballstoit from '../assets/ballstoit.png';
 import withLayout from '../components/withLayout';
 import Container from '../components/Container';
@@ -41,27 +40,8 @@ const LoadingContainer = () => (
   </div>
 );
 
-// Camel case LOADING object and set to true
-const initialLoading = Object.fromEntries(
-  Object.entries(LOADING).map(([key]) => [camelCase(key), true])
-);
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case BEGIN_LOADING:
-      return {
-        ...state,
-        ...initialLoading
-      };
-    default:
-      // Camel case the type and assign the payload
-      return { ...state, [camelCase(action.type)]: action.payload };
-  }
-};
-
 const Dashboard = ({ classes, user, t }) => {
-  const [state, dispatch] = useReducer(reducer, {});
-  const [loading, dispatchLoading] = useReducer(reducer, initialLoading);
+  const [state, setState, setLoading, beginLoading] = useDashboard();
   const [loadingFeed, setLoadingFeed] = useState(true);
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
   const [selectedHub, setSelectedHub] = useState(null);
@@ -77,13 +57,13 @@ const Dashboard = ({ classes, user, t }) => {
     getFamilies(user)
       .then(data => {
         const { feed } = getData(data);
-        dispatch({ type: ACTIVITY_FEED, payload: feed });
+        setState({ key: ACTIVITY_FEED, data: feed });
       })
       .finally(() => setLoadingFeed(false));
   }, [user]);
 
   useEffect(() => {
-    dispatchLoading({ type: BEGIN_LOADING });
+    beginLoading();
 
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
@@ -105,26 +85,46 @@ const Dashboard = ({ classes, user, t }) => {
           }
         });
 
-        dispatch({ type: INDICATORS, payload: indicatorsArray });
-        dispatch({ type: DIMENSIONS, payload: dimensionIndicators });
+        setState({ key: INDICATORS, data: indicatorsArray });
+
+        setState({
+          key: DIMENSIONS,
+          data: dimensionIndicators
+        });
       })
-      .finally(() => dispatchLoading({ type: DIMENSIONS, payload: false }));
+      .finally(() => setLoading({ key: DIMENSIONS, loading: false }));
 
     getOverviewBlock(user, hubId, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { blockOverview } = getData(data);
 
-        dispatch({ type: OVERVIEW, payload: blockOverview });
+        setState({
+          key: OVERVIEW,
+          data: blockOverview
+        });
       })
-      .finally(() => dispatchLoading({ type: OVERVIEW, payload: false }));
+      .finally(() =>
+        setLoading({
+          key: OVERVIEW,
+          loading: false
+        })
+      );
 
     getEconomicOverview(user, hubId, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
         const { economicOverview } = getData(data);
 
-        dispatch({ type: ECONOMICS, payload: economicOverview });
+        setState({
+          key: ECONOMICS,
+          data: economicOverview
+        });
       })
-      .finally(() => dispatchLoading({ type: ECONOMICS, payload: false }));
+      .finally(() =>
+        setLoading({
+          key: ECONOMICS,
+          loading: false
+        })
+      );
 
     getOperationsOverview(user, hubId, fromDate, toDate, sanitizedOrganizations)
       .then(data => {
@@ -141,12 +141,12 @@ const Dashboard = ({ classes, user, t }) => {
             }))
             .sort((a, b) => getTime(a.date) - getTime(b.date));
 
-          dispatch({ type: CHART, payload: chartData });
+          setState({ key: CHART, data: chartData });
         } else {
-          dispatch({ type: CHART, payload: null });
+          setState({ key: CHART, data: null });
         }
       })
-      .finally(() => dispatchLoading({ type: CHART, payload: false }));
+      .finally(() => setLoading({ key: CHART, loading: false }));
   }, [user, selectedHub, selectedOrganizations, fromDate, toDate]);
 
   return (
@@ -177,8 +177,8 @@ const Dashboard = ({ classes, user, t }) => {
           <div className={classes.chartContainer}>
             <Typography variant="h5">{t('views.operations')}</Typography>
             <Box mt={3} />
-            {loading.chart && <LoadingContainer />}
-            {!loading.chart && (
+            {state.loading.chart && <LoadingContainer />}
+            {!state.loading.chart && (
               <GreenLineChart width="100%" height={300} data={state.chart} />
             )}
           </div>
@@ -202,8 +202,8 @@ const Dashboard = ({ classes, user, t }) => {
       {/* Social Economics */}
       <Container className={classes.socialEconomics} variant="fluid">
         <Container className={classes.containerInnerSocial}>
-          {loading.economics && <LoadingContainer />}
-          {!loading.economics && (
+          {state.loading.economics && <LoadingContainer />}
+          {!state.loading.economics && (
             <FamilyOverviewBlock
               familiesCount={state.economics.familiesCount}
               peopleCount={state.economics.peopleCount}
@@ -213,8 +213,8 @@ const Dashboard = ({ classes, user, t }) => {
             />
           )}
           <div className={classes.spacingHelper} />
-          {loading.overview && <LoadingContainer />}
-          {!loading.overview && (
+          {state.loading.overview && <LoadingContainer />}
+          {!state.loading.overview && (
             <OverviewBlock data={state.overview} width="70%" />
           )}
         </Container>
@@ -227,7 +227,7 @@ const Dashboard = ({ classes, user, t }) => {
             data={[...(state.dimensions || [])].sort((a, b) =>
               a.dimension.toLowerCase().localeCompare(b.dimension.toLowerCase())
             )}
-            loading={loading.dimensions}
+            loading={state.loading.dimensions}
           />
         </Container>
       </Container>
@@ -239,7 +239,7 @@ const Dashboard = ({ classes, user, t }) => {
             data={[...(state.indicators || [])].sort((a, b) =>
               a.name.toLowerCase().localeCompare(b.name.toLowerCase())
             )}
-            loading={loading.dimensions}
+            loading={state.loading.dimensions}
           />
         </Container>
       </Container>
