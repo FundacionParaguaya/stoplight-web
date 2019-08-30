@@ -177,16 +177,6 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'space-between'
     }
   },
-  retakeContainer: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    width: '5%'
-  },
-  retakeIcon: {
-    transform: 'rotate(90deg)',
-    fontSize: '20px',
-    color: '#909090'
-  },
   nothingToShowStyle: {
     fontSize: '16px',
     width: '100%'
@@ -196,7 +186,7 @@ const useStyles = makeStyles(theme => ({
     width: '30%'
   },
   birthDateContainer: {
-    width: '25%',
+    width: '30%',
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.down('xs')]: {
@@ -242,7 +232,7 @@ const useStyles = makeStyles(theme => ({
   },
   deleteStyle: {
     cursor: 'pointer',
-    fontSize: '20px',
+    fontSize: '24px',
     color: '#6A6A6A'
   }
 }));
@@ -257,12 +247,14 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   const [statusFilter, setStatusFilter] = useState('');
   const [familiesFilter, setFamiliesFilter] = useState('');
   const [snapshots, setSnapshots] = useState([]);
+  const [loadingSnapshots, setLoadingSnapshots] = useState(false);
   const [deletingDraft, setDeletingDraft] = useState({
     open: false,
     draft: null
   });
   const reloadDrafts = useCallback(() => {
     setSnapshots([]);
+    setLoadingSnapshots(true);
     Promise.all([
       getDrafts(user).then(response =>
         get(response, 'data.data.getSnapshotDraft', []).map(element => {
@@ -304,6 +296,7 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
       ];
       // console.log(consolidated);
       setSnapshots(consolidated);
+      setLoadingSnapshots(false);
     });
   }, [user]);
   useEffect(() => {
@@ -358,9 +351,13 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
                 className={classes.nothingToShowStyle}
                 variant="subtitle1"
               >
-                {snapshots.length === 0
-                  ? t('views.snapshotsTable.noSnapshotsAvailable')
-                  : t('views.snapshotsTable.noMatchFilters')}
+                {!loadingSnapshots &&
+                  snapshots.length === 0 &&
+                  t('views.snapshotsTable.noSnapshotsAvailable')}
+                {!loadingSnapshots &&
+                  snapshots.length !== 0 &&
+                  t('views.snapshotsTable.noMatchFilters')}
+                {loadingSnapshots && t('views.snapshotsTable.loadingSnapshots')}
               </Typography>
             </div>
           </ListItem>
@@ -371,7 +368,11 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
             'familyData.familyMembersList[0].birthDate',
             null
           );
-          const createdDaysAgo = moment().diff(snapshot.created, 'days');
+          console.log(snapshot);
+          const createdDaysAgo = moment().diff(
+            moment(snapshot.createdAt),
+            'days'
+          );
           let daysAgoLabel = t('views.snapshotsTable.today');
           if (createdDaysAgo === 1) {
             daysAgoLabel = t('views.snapshotsTable.dayAgo');
@@ -395,9 +396,6 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
                 }
               >
                 <div className={classes.itemContainer}>
-                  <div className={classes.retakeContainer}>
-                    <SwapCalls className={classes.retakeIcon} />
-                  </div>
                   <Typography
                     className={classes.nameLabelStyle}
                     variant="subtitle1"

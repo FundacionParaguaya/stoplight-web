@@ -308,7 +308,8 @@
       "all": "Todos",
       "searchFamily": "Buscar familias",
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
-      "noMatchFilters": "No hay resultados para los filtros aplicados"
+      "noMatchFilters": "No hay resultados para los filtros aplicados",
+      "loadingSnapshots": "Cargando borradores..."
     },
     "activityFeed": {
       "by": "Por",
