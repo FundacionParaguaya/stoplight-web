@@ -298,3 +298,17 @@ export const saveDraft = (user, draft) =>
       variables: { newSnapshot: draft }
     })
   });
+
+export const deleteDraft = (user, draftId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteDraft($draftId: String) {deleteDraft(draftId: $draftId)} ',
+      variables: { draftId }
+    })
+  });

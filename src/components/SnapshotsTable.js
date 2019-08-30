@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { ArrowForwardIos, SwapCalls } from '@material-ui/icons';
+import { SwapCalls, Delete } from '@material-ui/icons';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import Fuse from 'fuse.js';
 import { get } from 'lodash';
-import clsx from 'clsx';
+import DeleteDraftModal from './DeleteDraftModal';
 import { updateSurvey } from '../redux/actions';
 import { getDrafts } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -234,20 +234,16 @@ const useStyles = makeStyles(theme => ({
     fontSize: '11px',
     color: '#909090'
   },
-  forwardArrowContainer: {
+  deleteContainer: {
     width: '5%',
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: '14px'
   },
-  forwardArrowStyle: {
+  deleteStyle: {
     cursor: 'pointer',
-    fontSize: '16px',
+    fontSize: '20px',
     color: '#6A6A6A'
-  },
-  forwardArrowStyleInactive: {
-    color: '#e0dedc',
-    cursor: 'unset'
   }
 }));
 
@@ -261,7 +257,12 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   const [statusFilter, setStatusFilter] = useState('');
   const [familiesFilter, setFamiliesFilter] = useState('');
   const [snapshots, setSnapshots] = useState([]);
-  useEffect(() => {
+  const [deletingDraft, setDeletingDraft] = useState({
+    open: false,
+    draft: null
+  });
+  const reloadDrafts = useCallback(() => {
+    setSnapshots([]);
     Promise.all([
       getDrafts(user).then(response =>
         get(response, 'data.data.getSnapshotDraft', []).map(element => {
@@ -305,6 +306,10 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
       setSnapshots(consolidated);
     });
   }, [user]);
+  useEffect(() => {
+    reloadDrafts();
+  }, [user, reloadDrafts]);
+
   const filteredSnapshots = useMemo(() => {
     let filtered = snapshots;
     if (familiesFilter) {
@@ -328,6 +333,12 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   }, [snapshots, familiesFilter, statusFilter]);
   return (
     <div className={classes.mainContainer}>
+      <DeleteDraftModal
+        onClose={() => setDeletingDraft({ open: false, draft: null })}
+        open={deletingDraft.open}
+        draft={deletingDraft.draft}
+        reloadDrafts={reloadDrafts}
+      />
       <Typography variant="h5">{t('views.snapshotsTable.title')}</Typography>
       <SnapshotsFilter
         statusFilter={statusFilter}
@@ -421,18 +432,13 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
                       {daysAgoLabel}
                     </Typography>
                   </div>
-                  <div className={classes.forwardArrowContainer}>
-                    <ArrowForwardIos
-                      color={
-                        snapshot.status === SNAPSHOTS_STATUS.COMPLETED
-                          ? 'disabled'
-                          : undefined
-                      }
-                      className={clsx(classes.forwardArrowStyle, {
-                        [classes.forwardArrowStyleInactive]:
-                          snapshot.status === SNAPSHOTS_STATUS.COMPLETED
-                      })}
-                      // className={classes.forwardArrowStyle}
+                  <div className={classes.deleteContainer}>
+                    <Delete
+                      className={classes.deleteStyle}
+                      onClick={e => {
+                        e.stopPropagation();
+                        setDeletingDraft({ open: true, draft: snapshot });
+                      }}
                     />
                   </div>
                 </div>
