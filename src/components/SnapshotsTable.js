@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { SwapCalls, Delete } from '@material-ui/icons';
+import { Delete } from '@material-ui/icons';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -73,8 +73,8 @@ const useFilterStyles = makeStyles(theme => ({
   }
 }));
 const SnapshotsFilter = ({
-  statusFilter,
-  setStatusFilter,
+  // statusFilter,
+  // setStatusFilter,
   familiesFilter,
   setFamiliesFilter
 }) => {
@@ -368,9 +368,8 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
             'familyData.familyMembersList[0].birthDate',
             null
           );
-          console.log(snapshot);
           const createdDaysAgo = moment().diff(
-            moment(snapshot.createdAt),
+            moment.unix(snapshot.snapshotDraftDate),
             'days'
           );
           let daysAgoLabel = t('views.snapshotsTable.today');
