@@ -138,7 +138,7 @@ class Surveys extends Component {
     familiesOverview: [],
     loading: true,
     loadingSurvey: false,
-    numberOfDrafts: null,
+    draftsNumber: null,
     draftsLoading: true
   };
 
@@ -369,8 +369,12 @@ class Surveys extends Component {
     this.getSurveys();
   }
 
-  setNumberOfDrafts = n => {
-    this.setState({ numberOfDrafts: n, draftsLoading: false });
+  setDraftsNumber = n => {
+    this.setState({ draftsNumber: n });
+  };
+
+  setDraftsLoading = () => {
+    this.setState({ draftsLoading: false });
   };
 
   render() {
@@ -408,7 +412,7 @@ class Surveys extends Component {
                     <FamiliesOverviewBlock
                       withDetail={false}
                       subtitle={t('general.drafts')}
-                      familiesCount={this.state.numberOfDrafts}
+                      familiesCount={this.state.draftsNumber}
                       innerRef={this.heightSurveysRef}
                       loading={this.state.draftsLoading}
                     />
@@ -427,7 +431,8 @@ class Surveys extends Component {
           <div className={classes.snapshotsContainer}>
             <SnapshotsTable
               handleClickOnSnapshot={this.handleClickOnSnapshot}
-              setNumberOfDrafts={this.setNumberOfDrafts}
+              setDraftsNumber={this.setDraftsNumber}
+              setDraftsLoading={this.setDraftsLoading}
             />
           </div>
         </Container>

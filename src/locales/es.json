@@ -309,7 +309,8 @@
       "all": "Todos",
       "searchFamily": "Buscar familias",
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
-      "noMatchFilters": "No hay resultados para los filtros aplicados"
+      "noMatchFilters": "No hay resultados para los filtros aplicados",
+      "loadingSnapshots": "Cargando borradores..."
     },
     "activityFeed": {
       "by": "Por",
@@ -338,6 +339,12 @@
       "title": "¡Hola!",
       "subtitle": "Bienvenido al ambiente de demostración.",
       "bottom": "Recuerda que todo el contenido introducido aquí es público y será eliminado automáticamente."
+    },
+    "deleteDraft": {
+      "confirmDeletion": "Confirme la eliminación",
+      "cannotUndo": "¡No puedes deshacer esta acción!",
+      "areYouSure": "¿Estás seguro de que quieres eliminar este borrador?",
+      "cannotDelete": "Ha ocurrido un error al eliminar el borrador. Por favor inténtelo de nuevo."
     }
   },
   "reports": {
@@ -352,6 +359,13 @@
       "whatWillYouDoToGetIt": "¿Qué harás para tenerlo?",
       "howManyMonthsWillItTake": "Meses necesarios",
       "reviewDate": "Fecha de revisión"
+    },
+    "achievements": {
+      "myAchievements": "Mis Logros",
+      "status": "Estado",
+      "indicator": "Indicador",
+      "roadmap": "¿Quién o qué te motivó a alcanzarlo?",
+      "action": "¿Qué hiciste para conseguirlo?"
     }
   }
 }
