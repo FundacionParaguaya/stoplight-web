@@ -80,7 +80,8 @@
       "red": "Rojos",
       "yellow": "Amarillos",
       "green": "Verdes",
-      "skipped": "Omitidas"
+      "skipped": "Omitidas",
+      "yourProgress": "Tu progreso"
     },
     "families": "Familias",
     "createLifemap": "Crear un Mapa de Vida",

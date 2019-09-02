@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import DateRangeFilters from './DateRangeFilter';
 import OrganizationsFilter from './OrganizationsFilter';
 import HubsFilter from './HubsFilter';
-import { ROLES_NAMES } from '../utils/role-based-header';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   container: {

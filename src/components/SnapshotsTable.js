@@ -17,6 +17,7 @@ import { getDrafts } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
+import { CircularProgress } from '@material-ui/core';
 
 const useFilterStyles = makeStyles(theme => ({
   mainContainer: {
@@ -248,10 +249,17 @@ const useStyles = makeStyles(theme => ({
   forwardArrowStyleInactive: {
     color: '#e0dedc',
     cursor: 'unset'
+  },
+  spinnerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: 500
   }
 }));
 
-const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
+const SnapshotsTable = ({ user, handleClickOnSnapshot, setNumberOfDrafts }) => {
   const {
     t,
     i18n: { language }
@@ -261,10 +269,13 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   const [statusFilter, setStatusFilter] = useState('');
   const [familiesFilter, setFamiliesFilter] = useState('');
   const [snapshots, setSnapshots] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     Promise.all([
-      getDrafts(user).then(response =>
-        get(response, 'data.data.getSnapshotDraft', []).map(element => {
+      getDrafts(user).then(response => {
+        setNumberOfDrafts(response.data.data.getSnapshotDraft.length);
+        return get(response, 'data.data.getSnapshotDraft', []).map(element => {
           const el = { ...element };
           // Mapping keys for family data
           const familyData = { ...el.familyDataDTO };
@@ -289,21 +300,23 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
             priorities,
             lifemapNavHistory
           };
-        })
-      ),
+        });
+      }),
       // TODO here we should include snapshots already taken
       Promise.resolve([])
-    ]).then(([drafts, prevSnapshots]) => {
-      const consolidated = [
-        ...drafts.map(d => ({ ...d, status: SNAPSHOTS_STATUS.DRAFT })),
-        ...prevSnapshots.map(d => ({
-          ...d,
-          status: SNAPSHOTS_STATUS.COMPLETED
-        }))
-      ];
-      // console.log(consolidated);
-      setSnapshots(consolidated);
-    });
+    ])
+      .then(([drafts, prevSnapshots]) => {
+        const consolidated = [
+          ...drafts.map(d => ({ ...d, status: SNAPSHOTS_STATUS.DRAFT })),
+          ...prevSnapshots.map(d => ({
+            ...d,
+            status: SNAPSHOTS_STATUS.COMPLETED
+          }))
+        ];
+        // console.log(consolidated);
+        setSnapshots(consolidated);
+      })
+      .finally(() => setLoading(false));
   }, [user]);
   const filteredSnapshots = useMemo(() => {
     let filtered = snapshots;
@@ -327,122 +340,139 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
     return filtered;
   }, [snapshots, familiesFilter, statusFilter]);
   return (
-    <div className={classes.mainContainer}>
-      <Typography variant="h5">{t('views.snapshotsTable.title')}</Typography>
-      <SnapshotsFilter
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        familiesFilter={familiesFilter}
-        setFamiliesFilter={setFamiliesFilter}
-      />
-      <List
-        className={`${
-          classes.listStyle
-        } visible-scrollbar visible-scrollbar-thumb`}
-      >
-        {filteredSnapshots.length === 0 && (
-          <ListItem className={classes.listItemStyle}>
-            <div className={classes.itemContainer}>
-              <Typography
-                className={classes.nothingToShowStyle}
-                variant="subtitle1"
-              >
-                {snapshots.length === 0
-                  ? t('views.snapshotsTable.noSnapshotsAvailable')
-                  : t('views.snapshotsTable.noMatchFilters')}
-              </Typography>
-            </div>
-          </ListItem>
-        )}
-        {filteredSnapshots.map((snapshot, index) => {
-          const birthDate = get(
-            snapshot,
-            'familyData.familyMembersList[0].birthDate',
-            null
-          );
-          const createdDaysAgo = moment().diff(snapshot.created, 'days');
-          let daysAgoLabel = t('views.snapshotsTable.today');
-          if (createdDaysAgo === 1) {
-            daysAgoLabel = t('views.snapshotsTable.dayAgo');
-          } else if (createdDaysAgo > 1) {
-            daysAgoLabel = t('views.snapshotsTable.daysAgo').replace(
-              '$dd',
-              createdDaysAgo
-            );
-          }
-          const statusLabel =
-            snapshot.status === SNAPSHOTS_STATUS.DRAFT
-              ? t('views.snapshotsTable.draft')
-              : t('views.snapshotsTable.completed');
-          return (
-            <React.Fragment key={snapshot.draftId}>
-              <ListItem
-                className={classes.listItemStyle}
-                onClick={() =>
-                  snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
-                  handleClickOnSnapshot(snapshot)
-                }
-              >
+    <>
+      {loading && (
+        <div className={classes.spinnerContainer}>
+          <CircularProgress />
+        </div>
+      )}
+      {!loading && (
+        <div className={classes.mainContainer}>
+          <Typography variant="h5">
+            {t('views.snapshotsTable.title')}
+          </Typography>
+          <SnapshotsFilter
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            familiesFilter={familiesFilter}
+            setFamiliesFilter={setFamiliesFilter}
+          />
+          <List
+            className={`${
+              classes.listStyle
+            } visible-scrollbar visible-scrollbar-thumb`}
+          >
+            {filteredSnapshots.length === 0 && (
+              <ListItem className={classes.listItemStyle}>
                 <div className={classes.itemContainer}>
-                  <div className={classes.retakeContainer}>
-                    <SwapCalls className={classes.retakeIcon} />
-                  </div>
                   <Typography
-                    className={classes.nameLabelStyle}
+                    className={classes.nothingToShowStyle}
                     variant="subtitle1"
-                  >{`${get(
-                    snapshot,
-                    'familyData.familyMembersList[0].firstName'
-                  )} ${get(
-                    snapshot,
-                    'familyData.familyMembersList[0].lastName'
-                  )}`}</Typography>
-                  <div className={classes.birthDateContainer}>
-                    <Typography className={classes.birthDateStyle} variant="h6">
-                      {birthDate
-                        ? `${t('views.snapshotsTable.dob')} ${moment
-                            .unix(birthDate)
-                            .format(dateFormat)}`
-                        : ''}
-                    </Typography>
-                  </div>
-                  <div className={classes.statusContainer}>
-                    <div className={classes.statusBox}>
-                      <Typography
-                        className={classes.statusLabel}
-                        variant="subtitle1"
-                      >
-                        {statusLabel}
-                      </Typography>
-                    </div>
-                  </div>
-                  <div className={classes.daysAgoContainer}>
-                    <Typography className={classes.daysAgoStyle} variant="h6">
-                      {daysAgoLabel}
-                    </Typography>
-                  </div>
-                  <div className={classes.forwardArrowContainer}>
-                    <ArrowForwardIos
-                      color={
-                        snapshot.status === SNAPSHOTS_STATUS.COMPLETED
-                          ? 'disabled'
-                          : undefined
-                      }
-                      className={clsx(classes.forwardArrowStyle, {
-                        [classes.forwardArrowStyleInactive]:
-                          snapshot.status === SNAPSHOTS_STATUS.COMPLETED
-                      })}
-                      // className={classes.forwardArrowStyle}
-                    />
-                  </div>
+                  >
+                    {snapshots.length === 0
+                      ? t('views.snapshotsTable.noSnapshotsAvailable')
+                      : t('views.snapshotsTable.noMatchFilters')}
+                  </Typography>
                 </div>
               </ListItem>
-              {index !== filteredSnapshots.length - 1 && <Divider />}
-            </React.Fragment>
-          );
-        })}
-      </List>
-    </div>
+            )}
+            {filteredSnapshots.map((snapshot, index) => {
+              const birthDate = get(
+                snapshot,
+                'familyData.familyMembersList[0].birthDate',
+                null
+              );
+              const createdDaysAgo = moment().diff(snapshot.created, 'days');
+              let daysAgoLabel = t('views.snapshotsTable.today');
+              if (createdDaysAgo === 1) {
+                daysAgoLabel = t('views.snapshotsTable.dayAgo');
+              } else if (createdDaysAgo > 1) {
+                daysAgoLabel = t('views.snapshotsTable.daysAgo').replace(
+                  '$dd',
+                  createdDaysAgo
+                );
+              }
+              const statusLabel =
+                snapshot.status === SNAPSHOTS_STATUS.DRAFT
+                  ? t('views.snapshotsTable.draft')
+                  : t('views.snapshotsTable.completed');
+              return (
+                <React.Fragment key={snapshot.draftId}>
+                  <ListItem
+                    className={classes.listItemStyle}
+                    onClick={() =>
+                      snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
+                      handleClickOnSnapshot(snapshot)
+                    }
+                  >
+                    <div className={classes.itemContainer}>
+                      <div className={classes.retakeContainer}>
+                        <SwapCalls className={classes.retakeIcon} />
+                      </div>
+                      <Typography
+                        className={classes.nameLabelStyle}
+                        variant="subtitle1"
+                      >{`${get(
+                        snapshot,
+                        'familyData.familyMembersList[0].firstName'
+                      )} ${get(
+                        snapshot,
+                        'familyData.familyMembersList[0].lastName'
+                      )}`}</Typography>
+                      <div className={classes.birthDateContainer}>
+                        <Typography
+                          className={classes.birthDateStyle}
+                          variant="h6"
+                        >
+                          {birthDate
+                            ? `${t('views.snapshotsTable.dob')} ${moment
+                                .unix(birthDate)
+                                .format(dateFormat)}`
+                            : ''}
+                        </Typography>
+                      </div>
+                      <div className={classes.statusContainer}>
+                        <div className={classes.statusBox}>
+                          <Typography
+                            className={classes.statusLabel}
+                            variant="subtitle1"
+                          >
+                            {statusLabel}
+                          </Typography>
+                        </div>
+                      </div>
+                      <div className={classes.daysAgoContainer}>
+                        <Typography
+                          className={classes.daysAgoStyle}
+                          variant="h6"
+                        >
+                          {daysAgoLabel}
+                        </Typography>
+                      </div>
+                      <div className={classes.forwardArrowContainer}>
+                        <ArrowForwardIos
+                          color={
+                            snapshot.status === SNAPSHOTS_STATUS.COMPLETED
+                              ? 'disabled'
+                              : undefined
+                          }
+                          className={clsx(classes.forwardArrowStyle, {
+                            [classes.forwardArrowStyleInactive]:
+                              snapshot.status === SNAPSHOTS_STATUS.COMPLETED
+                          })}
+                          // className={classes.forwardArrowStyle}
+                        />
+                      </div>
+                    </div>
+                  </ListItem>
+                  {index !== filteredSnapshots.length - 1 && <Divider />}
+                </React.Fragment>
+              );
+            })}
+          </List>
+        </div>
+      )}
+    </>
   );
 };
 
