@@ -23,6 +23,7 @@ import withLayout from '../components/withLayout';
 import FamiliesOverviewBlock from '../components/FamiliesOverviewBlock';
 import SnapshotsTable from '../components/SnapshotsTable';
 import { useWindowSize } from '../utils/hooks-helpers';
+import { ROLE_SURVEY_USER } from '../utils/role-utils';
 
 const useSurveysListStyle = makeStyles(theme => ({
   mainContainer: {
@@ -136,7 +137,9 @@ class Surveys extends Component {
     surveys: [],
     familiesOverview: [],
     loading: true,
-    loadingSurvey: false
+    loadingSurvey: false,
+    draftsNumber: null,
+    draftsLoading: true
   };
 
   constructor(props) {
@@ -366,8 +369,18 @@ class Surveys extends Component {
     this.getSurveys();
   }
 
+  setDraftsNumber = n => {
+    this.setState({ draftsNumber: n });
+  };
+
+  setDraftsLoading = () => {
+    this.setState({ draftsLoading: false });
+  };
+
   render() {
     const { classes, t, user } = this.props;
+    const { role } = user;
+    const isMentor = role === ROLE_SURVEY_USER;
 
     return (
       <div className={classes.mainSurveyContainerBoss}>
@@ -380,7 +393,9 @@ class Surveys extends Component {
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
               <Typography variant="h4">
-                {`${t('views.survey.welcome')} ${this.props.user.username}`}
+                {isMentor
+                  ? t('views.survey.surveys')
+                  : `${t('views.survey.welcome')} ${this.props.user.username}`}
               </Typography>
             </div>
             <img
@@ -390,36 +405,35 @@ class Surveys extends Component {
             />
           </div>
           <div className={classes.listContainer}>
-            {this.state.loading && (
-              <div className={classes.spinnerWrapper}>
-                <CircularProgress />
-              </div>
-            )}
-            {!this.state.loading && (
-              <Grid container spacing={3}>
-                <Grid item sm={4} xs={12}>
-                  <FamiliesOverviewBlock
-                    familiesOverview={this.state.familiesOverview}
-                    innerRef={this.heightSurveysRef}
-                  />
-                </Grid>
-                <Grid item sm={8} xs={12}>
-                  <SurveysList
-                    surveys={this.state.surveys}
-                    heightRef={this.heightSurveysRef}
-                    handleSurveyClick={this.handleClickOnSurvey}
-                  />
-                </Grid>
-              </Grid>
-            )}
+            <Grid container spacing={3}>
+              {!this.state.draftsLoading && (
+                <>
+                  <Grid item sm={4} xs={12}>
+                    <FamiliesOverviewBlock
+                      withDetail={false}
+                      subtitle={t('general.drafts')}
+                      familiesCount={this.state.draftsNumber}
+                      innerRef={this.heightSurveysRef}
+                      loading={this.state.draftsLoading}
+                    />
+                  </Grid>
+                  <Grid item sm={8} xs={12}>
+                    <SurveysList
+                      surveys={this.state.surveys}
+                      heightRef={this.heightSurveysRef}
+                      handleSurveyClick={this.handleClickOnSurvey}
+                    />
+                  </Grid>
+                </>
+              )}
+            </Grid>
           </div>
-
           <div className={classes.snapshotsContainer}>
-            {!this.state.loading && (
-              <SnapshotsTable
-                handleClickOnSnapshot={this.handleClickOnSnapshot}
-              />
-            )}
+            <SnapshotsTable
+              handleClickOnSnapshot={this.handleClickOnSnapshot}
+              setDraftsNumber={this.setDraftsNumber}
+              setDraftsLoading={this.setDraftsLoading}
+            />
           </div>
         </Container>
         <BottomSpacer />
@@ -450,6 +464,14 @@ const styles = theme => ({
     flexDirection: 'column',
     height: 220,
     zIndex: 1
+  },
+  familiesSpinner: {
+    padding: `50px 0px`,
+    width: '100%',
+    backgroundColor: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   mainSurveyContainerBoss: {
     backgroundColor: theme.palette.background.paper,
