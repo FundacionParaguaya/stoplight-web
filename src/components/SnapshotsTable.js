@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { ArrowForwardIos, SwapCalls } from '@material-ui/icons';
+import { Delete } from '@material-ui/icons';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -10,8 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import Fuse from 'fuse.js';
+import { CircularProgress } from '@material-ui/core';
 import { get } from 'lodash';
-import clsx from 'clsx';
+import DeleteDraftModal from './DeleteDraftModal';
 import { updateSurvey } from '../redux/actions';
 import { getDrafts } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -73,8 +74,8 @@ const useFilterStyles = makeStyles(theme => ({
   }
 }));
 const SnapshotsFilter = ({
-  statusFilter,
-  setStatusFilter,
+  // statusFilter,
+  // setStatusFilter,
   familiesFilter,
   setFamiliesFilter
 }) => {
@@ -177,16 +178,6 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'space-between'
     }
   },
-  retakeContainer: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    width: '5%'
-  },
-  retakeIcon: {
-    transform: 'rotate(90deg)',
-    fontSize: '20px',
-    color: '#909090'
-  },
   nothingToShowStyle: {
     fontSize: '16px',
     width: '100%'
@@ -196,7 +187,7 @@ const useStyles = makeStyles(theme => ({
     width: '30%'
   },
   birthDateContainer: {
-    width: '25%',
+    width: '30%',
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.down('xs')]: {
@@ -234,24 +225,32 @@ const useStyles = makeStyles(theme => ({
     fontSize: '11px',
     color: '#909090'
   },
-  forwardArrowContainer: {
+  deleteContainer: {
     width: '5%',
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: '14px'
   },
-  forwardArrowStyle: {
+  deleteStyle: {
     cursor: 'pointer',
-    fontSize: '16px',
+    fontSize: '24px',
     color: '#6A6A6A'
   },
-  forwardArrowStyleInactive: {
-    color: '#e0dedc',
-    cursor: 'unset'
+  spinnerContainer: {
+    width: '100%',
+    height: 500,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 }));
 
-const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
+const SnapshotsTable = ({
+  user,
+  handleClickOnSnapshot,
+  setDraftsNumber,
+  setDraftsLoading
+}) => {
   const {
     t,
     i18n: { language }
@@ -261,10 +260,18 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
   const [statusFilter, setStatusFilter] = useState('');
   const [familiesFilter, setFamiliesFilter] = useState('');
   const [snapshots, setSnapshots] = useState([]);
-  useEffect(() => {
+  const [loadingSnapshots, setLoadingSnapshots] = useState(false);
+  const [deletingDraft, setDeletingDraft] = useState({
+    open: false,
+    draft: null
+  });
+  const reloadDrafts = useCallback(() => {
+    setSnapshots([]);
+    setLoadingSnapshots(true);
     Promise.all([
-      getDrafts(user).then(response =>
-        get(response, 'data.data.getSnapshotDraft', []).map(element => {
+      getDrafts(user).then(response => {
+        setDraftsNumber(response.data.data.getSnapshotDraft.length);
+        return get(response, 'data.data.getSnapshotDraft', []).map(element => {
           const el = { ...element };
           // Mapping keys for family data
           const familyData = { ...el.familyDataDTO };
@@ -289,22 +296,29 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
             priorities,
             lifemapNavHistory
           };
-        })
-      ),
+        });
+      }),
       // TODO here we should include snapshots already taken
       Promise.resolve([])
-    ]).then(([drafts, prevSnapshots]) => {
-      const consolidated = [
-        ...drafts.map(d => ({ ...d, status: SNAPSHOTS_STATUS.DRAFT })),
-        ...prevSnapshots.map(d => ({
-          ...d,
-          status: SNAPSHOTS_STATUS.COMPLETED
-        }))
-      ];
-      // console.log(consolidated);
-      setSnapshots(consolidated);
-    });
-  }, [user]);
+    ])
+      .then(([drafts, prevSnapshots]) => {
+        const consolidated = [
+          ...drafts.map(d => ({ ...d, status: SNAPSHOTS_STATUS.DRAFT })),
+          ...prevSnapshots.map(d => ({
+            ...d,
+            status: SNAPSHOTS_STATUS.COMPLETED
+          }))
+        ];
+        // console.log(consolidated);
+        setSnapshots(consolidated);
+        setLoadingSnapshots(false);
+      })
+      .finally(() => setDraftsLoading(false));
+  }, [user, setDraftsNumber]);
+  useEffect(() => {
+    reloadDrafts();
+  }, [user, reloadDrafts]);
+
   const filteredSnapshots = useMemo(() => {
     let filtered = snapshots;
     if (familiesFilter) {
@@ -327,122 +341,145 @@ const SnapshotsTable = ({ user, handleClickOnSnapshot }) => {
     return filtered;
   }, [snapshots, familiesFilter, statusFilter]);
   return (
-    <div className={classes.mainContainer}>
-      <Typography variant="h5">{t('views.snapshotsTable.title')}</Typography>
-      <SnapshotsFilter
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        familiesFilter={familiesFilter}
-        setFamiliesFilter={setFamiliesFilter}
-      />
-      <List
-        className={`${
-          classes.listStyle
-        } visible-scrollbar visible-scrollbar-thumb`}
-      >
-        {filteredSnapshots.length === 0 && (
-          <ListItem className={classes.listItemStyle}>
-            <div className={classes.itemContainer}>
-              <Typography
-                className={classes.nothingToShowStyle}
-                variant="subtitle1"
-              >
-                {snapshots.length === 0
-                  ? t('views.snapshotsTable.noSnapshotsAvailable')
-                  : t('views.snapshotsTable.noMatchFilters')}
-              </Typography>
-            </div>
-          </ListItem>
-        )}
-        {filteredSnapshots.map((snapshot, index) => {
-          const birthDate = get(
-            snapshot,
-            'familyData.familyMembersList[0].birthDate',
-            null
-          );
-          const createdDaysAgo = moment().diff(snapshot.created, 'days');
-          let daysAgoLabel = t('views.snapshotsTable.today');
-          if (createdDaysAgo === 1) {
-            daysAgoLabel = t('views.snapshotsTable.dayAgo');
-          } else if (createdDaysAgo > 1) {
-            daysAgoLabel = t('views.snapshotsTable.daysAgo').replace(
-              '$dd',
-              createdDaysAgo
-            );
-          }
-          const statusLabel =
-            snapshot.status === SNAPSHOTS_STATUS.DRAFT
-              ? t('views.snapshotsTable.draft')
-              : t('views.snapshotsTable.completed');
-          return (
-            <React.Fragment key={snapshot.draftId}>
-              <ListItem
-                className={classes.listItemStyle}
-                onClick={() =>
-                  snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
-                  handleClickOnSnapshot(snapshot)
-                }
-              >
+    <>
+      {loadingSnapshots && (
+        <div className={classes.spinnerContainer}>
+          <CircularProgress />
+        </div>
+      )}
+      {!loadingSnapshots && (
+        <div className={classes.mainContainer}>
+          <DeleteDraftModal
+            onClose={() => setDeletingDraft({ open: false, draft: null })}
+            open={deletingDraft.open}
+            draft={deletingDraft.draft}
+            reloadDrafts={reloadDrafts}
+          />
+          <Typography variant="h5">
+            {t('views.snapshotsTable.title')}
+          </Typography>
+          <SnapshotsFilter
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            familiesFilter={familiesFilter}
+            setFamiliesFilter={setFamiliesFilter}
+          />
+          <List
+            className={`${
+              classes.listStyle
+            } visible-scrollbar visible-scrollbar-thumb`}
+          >
+            {filteredSnapshots.length === 0 && (
+              <ListItem className={classes.listItemStyle}>
                 <div className={classes.itemContainer}>
-                  <div className={classes.retakeContainer}>
-                    <SwapCalls className={classes.retakeIcon} />
-                  </div>
                   <Typography
-                    className={classes.nameLabelStyle}
+                    className={classes.nothingToShowStyle}
                     variant="subtitle1"
-                  >{`${get(
-                    snapshot,
-                    'familyData.familyMembersList[0].firstName'
-                  )} ${get(
-                    snapshot,
-                    'familyData.familyMembersList[0].lastName'
-                  )}`}</Typography>
-                  <div className={classes.birthDateContainer}>
-                    <Typography className={classes.birthDateStyle} variant="h6">
-                      {birthDate
-                        ? `${t('views.snapshotsTable.dob')} ${moment
-                            .unix(birthDate)
-                            .format(dateFormat)}`
-                        : ''}
-                    </Typography>
-                  </div>
-                  <div className={classes.statusContainer}>
-                    <div className={classes.statusBox}>
-                      <Typography
-                        className={classes.statusLabel}
-                        variant="subtitle1"
-                      >
-                        {statusLabel}
-                      </Typography>
-                    </div>
-                  </div>
-                  <div className={classes.daysAgoContainer}>
-                    <Typography className={classes.daysAgoStyle} variant="h6">
-                      {daysAgoLabel}
-                    </Typography>
-                  </div>
-                  <div className={classes.forwardArrowContainer}>
-                    <ArrowForwardIos
-                      color={
-                        snapshot.status === SNAPSHOTS_STATUS.COMPLETED
-                          ? 'disabled'
-                          : undefined
-                      }
-                      className={clsx(classes.forwardArrowStyle, {
-                        [classes.forwardArrowStyleInactive]:
-                          snapshot.status === SNAPSHOTS_STATUS.COMPLETED
-                      })}
-                      // className={classes.forwardArrowStyle}
-                    />
-                  </div>
+                  >
+                    {!loadingSnapshots &&
+                      snapshots.length === 0 &&
+                      t('views.snapshotsTable.noSnapshotsAvailable')}
+                    {!loadingSnapshots &&
+                      snapshots.length !== 0 &&
+                      t('views.snapshotsTable.noMatchFilters')}
+                    {loadingSnapshots &&
+                      t('views.snapshotsTable.loadingSnapshots')}
+                  </Typography>
                 </div>
               </ListItem>
-              {index !== filteredSnapshots.length - 1 && <Divider />}
-            </React.Fragment>
-          );
-        })}
-      </List>
-    </div>
+            )}
+            {filteredSnapshots.map((snapshot, index) => {
+              const birthDate = get(
+                snapshot,
+                'familyData.familyMembersList[0].birthDate',
+                null
+              );
+              const createdDaysAgo = moment().diff(
+                moment.unix(snapshot.snapshotDraftDate),
+                'days'
+              );
+              let daysAgoLabel = t('views.snapshotsTable.today');
+              if (createdDaysAgo === 1) {
+                daysAgoLabel = t('views.snapshotsTable.dayAgo');
+              } else if (createdDaysAgo > 1) {
+                daysAgoLabel = t('views.snapshotsTable.daysAgo').replace(
+                  '$dd',
+                  createdDaysAgo
+                );
+              }
+              const statusLabel =
+                snapshot.status === SNAPSHOTS_STATUS.DRAFT
+                  ? t('views.snapshotsTable.draft')
+                  : t('views.snapshotsTable.completed');
+              return (
+                <React.Fragment key={snapshot.draftId}>
+                  <ListItem
+                    className={classes.listItemStyle}
+                    onClick={() =>
+                      snapshot.status === SNAPSHOTS_STATUS.DRAFT &&
+                      handleClickOnSnapshot(snapshot)
+                    }
+                  >
+                    <div className={classes.itemContainer}>
+                      <Typography
+                        className={classes.nameLabelStyle}
+                        variant="subtitle1"
+                      >{`${get(
+                        snapshot,
+                        'familyData.familyMembersList[0].firstName'
+                      )} ${get(
+                        snapshot,
+                        'familyData.familyMembersList[0].lastName'
+                      )}`}</Typography>
+                      <div className={classes.birthDateContainer}>
+                        <Typography
+                          className={classes.birthDateStyle}
+                          variant="h6"
+                        >
+                          {birthDate
+                            ? `${t('views.snapshotsTable.dob')} ${moment
+                                .unix(birthDate)
+                                .format(dateFormat)}`
+                            : ''}
+                        </Typography>
+                      </div>
+                      <div className={classes.statusContainer}>
+                        <div className={classes.statusBox}>
+                          <Typography
+                            className={classes.statusLabel}
+                            variant="subtitle1"
+                          >
+                            {statusLabel}
+                          </Typography>
+                        </div>
+                      </div>
+                      <div className={classes.daysAgoContainer}>
+                        <Typography
+                          className={classes.daysAgoStyle}
+                          variant="h6"
+                        >
+                          {daysAgoLabel}
+                        </Typography>
+                      </div>
+                      <div className={classes.deleteContainer}>
+                        <Delete
+                          className={classes.deleteStyle}
+                          onClick={e => {
+                            e.stopPropagation();
+                            setDeletingDraft({ open: true, draft: snapshot });
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </ListItem>
+                  {index !== filteredSnapshots.length - 1 && <Divider />}
+                </React.Fragment>
+              );
+            })}
+          </List>
+        </div>
+      )}
+    </>
   );
 };
 

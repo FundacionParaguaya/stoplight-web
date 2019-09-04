@@ -12,6 +12,10 @@ import {
   getOverviewBlock,
   getOperationsOverview
 } from '../api';
+import {
+  ORDERED_DIMENSIONS,
+  normalizeDimension
+} from '../utils/parametric_data';
 import ballstoit from '../assets/ballstoit.png';
 import withLayout from '../components/withLayout';
 import Container from '../components/Container';
@@ -22,6 +26,7 @@ import OverviewBlock from '../components/OverviewBlock';
 import DimensionsVisualisation from '../components/DimensionsVisualisation';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import DashboardFilters from '../components/DashboardFilters';
+import { ROLE_SURVEY_USER } from '../utils/role-utils';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
@@ -50,6 +55,9 @@ const Dashboard = ({ classes, user, t }) => {
   const [loadingEconomics, setLoadingEconomics] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
   const [loadingChart, setLoadingChart] = useState(true);
+  // TODO: If we have more conditions make an Authorize component
+  const { role } = user;
+  const isMentor = role === ROLE_SURVEY_USER;
 
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
@@ -90,7 +98,16 @@ const Dashboard = ({ classes, user, t }) => {
           }
         });
         setIndicators(indicatorsArray);
-        setDimensions(dimensionIndicators);
+
+        // We sort the array against a static ORDERED_DIMENSIONS order
+        const sortedDimensions = dimensionIndicators;
+        ORDERED_DIMENSIONS.forEach(item =>
+          sortedDimensions.sort(
+            ({ dimension }) => -(normalizeDimension(dimension) === item)
+          )
+        );
+
+        setDimensions(sortedDimensions);
       })
       .finally(() => setLoadingDimensionsIndicators(false));
 
@@ -134,30 +151,39 @@ const Dashboard = ({ classes, user, t }) => {
   return (
     <Container variant="fluid" className={classes.greyBackground}>
       {/* Tite bar */}
-      <Container className={classes.titleBar}>
+      <Container
+        className={classes.titleBar}
+        style={{ overflow: isMentor ? 'hidden' : null }}
+      >
         <div className={classes.ballsContainer}>
           <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
         </div>
         <Typography variant="h4">
           {t('views.dashboard.welcome').replace('$n', user.username)}
         </Typography>
-        <DashboardFilters
-          organizationsData={selectedOrganizations}
-          onChangeOrganization={setSelectedOrganizations}
-          hubData={selectedHub}
-          onChangeHub={setSelectedHub}
-          from={fromDate}
-          to={toDate}
-          onFromDateChanged={setFromDate}
-          onToDateChanged={setToDate}
-        />
+        {!isMentor && (
+          <DashboardFilters
+            organizationsData={selectedOrganizations}
+            onChangeOrganization={setSelectedOrganizations}
+            hubData={selectedHub}
+            onChangeHub={setSelectedHub}
+            from={fromDate}
+            to={toDate}
+            onFromDateChanged={setFromDate}
+            onToDateChanged={setToDate}
+          />
+        )}
       </Container>
 
       {/* Operations */}
       <Container className={classes.operations} variant="fluid">
         <Container className={classes.operationsInner}>
           <div className={classes.chartContainer}>
-            <Typography variant="h5">{t('views.operations')}</Typography>
+            <Typography variant="h5">
+              {isMentor
+                ? t('views.dashboard.yourProgress')
+                : t('views.operations')}
+            </Typography>
             <Box mt={3} />
             {loadingChart && <LoadingContainer />}
             {!loadingChart && (
@@ -197,16 +223,16 @@ const Dashboard = ({ classes, user, t }) => {
       </Container>
 
       {/* Dimensions */}
-      <Container className={classes.whiteContainer} variant="fluid">
-        <Container>
-          <DimensionsVisualisation
-            data={[...(dimensions || [])].sort((a, b) =>
-              a.dimension.toLowerCase().localeCompare(b.dimension.toLowerCase())
-            )}
-            loading={loadingDimensionsIndicators}
-          />
+      {!isMentor && (
+        <Container className={classes.whiteContainer} variant="fluid">
+          <Container>
+            <DimensionsVisualisation
+              data={dimensions}
+              loading={loadingDimensionsIndicators}
+            />
+          </Container>
         </Container>
-      </Container>
+      )}
 
       {/* Indicators */}
       <Container className={classes.whiteContainer} variant="fluid">
@@ -227,7 +253,7 @@ const styles = theme => ({
   titleBar: {
     paddingTop: theme.spacing(8),
     position: 'relative',
-    marginBottom: theme.spacing(5)
+    paddingBottom: theme.spacing(5)
   },
   ballsContainer: {
     position: 'absolute',

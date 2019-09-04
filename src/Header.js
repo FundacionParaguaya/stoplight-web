@@ -19,7 +19,7 @@ import logo from './assets/header_logo.png';
 import i18n from './i18n';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
-import { ROLES, getPlatform, OLD } from './utils/role-based-header';
+import { ROLES, getPlatform, OLD } from './utils/role-utils';
 import { logout } from './api';
 
 class Header extends Component {
@@ -157,7 +157,7 @@ class Header extends Component {
               rel="noopener noreferrer"
             >
               <Typography variant="subtitle1" className={classes.menuLinkText}>
-                FAQs
+                {t('views.toolbar.support')}
               </Typography>
             </a>
             <Button

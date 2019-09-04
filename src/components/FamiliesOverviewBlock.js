@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
+import { CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -63,13 +64,19 @@ const FamiliesOverviewBlock = ({
   includeEconomics,
   innerRef,
   noPadding,
-  width
+  width,
+  withDetail,
+  subtitle
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const families = familiesOverview
     ? familiesOverview.familiesCount
     : familiesCount;
+  const defaultSubtitle =
+    families !== 1
+      ? t('views.familiesOverviewBlock.families')
+      : t('views.familiesOverviewBlock.family');
 
   const people = familiesOverview ? familiesOverview.peopleCount : peopleCount;
 
@@ -96,34 +103,34 @@ const FamiliesOverviewBlock = ({
             variant="h6"
             className={classes.familiesLabel}
           >
-            {families !== 1
-              ? t('views.familiesOverviewBlock.families')
-              : t('views.familiesOverviewBlock.family')}
+            {subtitle ? subtitle.toLocaleLowerCase() : defaultSubtitle}
           </Typography>
         </Typography>
       </div>
-      <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
-        'views.familiesOverviewBlock.including'
-      )} ${people} ${t('views.familiesOverviewBlock.people')}`}</Typography>
+      {withDetail && (
+        <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
+          'views.familiesOverviewBlock.including'
+        )} ${people} ${t('views.familiesOverviewBlock.people')}`}</Typography>
+      )}
       {/* <Typography
         className={classes.menWomenCountStyle}
         variant="h6"
-      >{`${womenCount} ${t('views.familiesOverviewBlock.women')} ${t(
-        'views.familiesOverviewBlock.and'
-      )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography> */}
+        >{`${womenCount} ${t('views.familiesOverviewBlock.women')} ${t(
+          'views.familiesOverviewBlock.and'
+        )} ${menCount} ${t('views.familiesOverviewBlock.men')}`}</Typography> */}
       {/* {includeEconomics && (
         <React.Fragment>
-          <div className={classes.economicInfoContainer}>
-            <Typography
-              variant="h5"
-              className={classes.economicsPerCapitaStyle}
-            >
-              3.500$
-            </Typography>
-          </div>
-          <Typography className={classes.economicBottomLabel} variant="h6">
-            {t('views.familiesOverviewBlock.averageIncome')}
-          </Typography>
+        <div className={classes.economicInfoContainer}>
+        <Typography
+        variant="h5"
+        className={classes.economicsPerCapitaStyle}
+        >
+        3.500$
+        </Typography>
+        </div>
+        <Typography className={classes.economicBottomLabel} variant="h6">
+        {t('views.familiesOverviewBlock.averageIncome')}
+        </Typography>
         </React.Fragment>
       )} */}
     </div>
@@ -134,7 +141,8 @@ FamiliesOverviewBlock.defaultProps = {
   familiesCount: 0,
   peopleCount: 0,
   menCount: 0,
-  womenCount: 0
+  womenCount: 0,
+  withDetail: true
 };
 
 export default FamiliesOverviewBlock;

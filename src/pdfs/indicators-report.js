@@ -10,6 +10,7 @@ import redIndicatorPriority from '../assets/ind_red_priority.png';
 import redIndicator from '../assets/ind_red.png';
 import skippedIndicator from '../assets/ind_skipped.png';
 import iconPriority from '../assets/icon_priority.png';
+import iconAchievement from '../assets/icon_achievement.png';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -218,6 +219,127 @@ const generatePrioritiesReportDefinition = (snapshot, survey, t, language) => {
   return content;
 };
 
+const generateAchievementsReportDefinition = (
+  snapshot,
+  survey,
+  t,
+  language
+) => {
+  const { achievements = [], indicatorSurveyDataList: indicators } = snapshot;
+  const dateFormat = getDateFormatByLocale(language);
+  if (achievements.length === 0) {
+    return [];
+  }
+  const tableWidths = [8, 20, 36, 36];
+  const sortedAchievements = [];
+  // We'll show priorties at the same order their corresponding indicators appear
+  indicators.forEach(ind => {
+    const pr = achievements.find(p => p.indicator === ind.key);
+    if (pr) {
+      sortedAchievements.push(pr);
+    }
+  });
+  const CELL_MARGIN = [0, 5, 0, 5];
+  const content = [
+    {
+      pageBreak: 'before',
+      margin: [...TITLE_MARGIN],
+      columns: [
+        {
+          width: '50%',
+          columns: [
+            {
+              text: t('reports.achievements.myAchievements'),
+              style: 'header',
+              width: 'auto'
+            },
+            {
+              image: 'iconAchievement',
+              alignment: 'justify',
+              width: 25,
+              margin: [15, 0, 0, 0]
+            }
+          ]
+        },
+        {
+          width: '50%',
+          text: moment().format(dateFormat),
+          style: ['header', 'headerRight']
+        }
+      ]
+    },
+    buildUnderline(),
+    {
+      margin: [0, 10, 0, 7],
+      columns: [
+        {
+          width: `${tableWidths[0]}%`,
+          text: t('reports.achievements.status').toUpperCase(),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: `${tableWidths[1]}%`,
+          text: t('reports.achievements.indicator').toUpperCase(),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: `${tableWidths[2]}%`,
+          text: t('reports.achievements.action').toUpperCase(),
+          style: 'prioritiesHeader'
+        },
+        {
+          width: `${tableWidths[3]}%`,
+          text: t('reports.achievements.roadmap').toUpperCase(),
+          style: 'prioritiesHeader'
+        }
+      ]
+    },
+    buildUnderline(),
+    {
+      layout: 'noBorders',
+      table: {
+        headerRows: 0,
+        dontBreakRows: true,
+        widths: tableWidths.map(tw => `${tw}%`),
+        body: sortedAchievements.map((achievement, index) => {
+          const indicator = getIndicatorByPriority(achievement, indicators);
+          return [
+            {
+              image: getImageForIndicator(indicator, null, achievements),
+              alignment: 'center',
+              width: (A4[1] * tableWidths[0]) / 100 - IMAGE_MARGIN,
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: getIndicatorQuestionByCodeName(indicator.key, survey),
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: achievement.roadmap,
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            },
+            {
+              text: achievement.action,
+              alignment: 'center',
+              style: 'priorityCell',
+              fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
+              margin: CELL_MARGIN
+            }
+          ];
+        })
+      }
+    }
+  ];
+  return content;
+};
+
 const generateIndicatorsReport = (snapshot, survey, t, language) => {
   const {
     indicatorSurveyDataList: indicators,
@@ -309,7 +431,8 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       greenIndicator,
       greenIndicatorAchievement,
       skippedIndicator,
-      iconPriority
+      iconPriority,
+      iconAchievement
     },
     styles: {
       header: {
@@ -344,7 +467,15 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
     language
   );
 
+  const achievementsDefinition = generateAchievementsReportDefinition(
+    snapshot,
+    survey,
+    t,
+    language
+  );
+
   dd.content.push(...prioritiesDefinition);
+  dd.content.push(...achievementsDefinition);
 
   return pdfMake.createPdf(dd);
 };
