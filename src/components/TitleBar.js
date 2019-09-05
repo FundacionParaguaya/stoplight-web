@@ -151,6 +151,7 @@ const styles = theme => ({
   },
   barDots: {
     height: '70%',
+    objectFit: 'contain',
     [theme.breakpoints.down('xs')]: {
       height: '50%'
     }
