@@ -10,7 +10,19 @@ const getOtherOption = options => {
   return options.filter(e => e.otherOption)[0].value;
 };
 
-const getFieldValue = (draft, field, index) => {
+const getFieldValue = (draft, field, index, isEconomic) => {
+  if (isEconomic) {
+    if (
+      !draft ||
+      !draft.economicSurveyDataList ||
+      !draft.economicSurveyDataList.find(e => e.key === field)
+    ) {
+      return null;
+    }
+
+    return draft.economicSurveyDataList.find(e => e.key === field).value;
+  }
+
   const innerIndex = index || 0;
   if (
     !draft ||
@@ -32,10 +44,11 @@ const InputWithDep = ({
   index,
   target,
   cleanUp,
-  formik
+  formik,
+  isEconomic
 }) => {
   const otherOption = getOtherOption(fieldOptions);
-  const value = getFieldValue(from, dep, index);
+  const value = getFieldValue(from, dep, index, isEconomic);
   if (otherOption !== value && !!_.get(formik.values, target)) {
     cleanUp();
   }
