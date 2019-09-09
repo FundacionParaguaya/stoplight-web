@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 
 // list of environment urls
 export const url = {
