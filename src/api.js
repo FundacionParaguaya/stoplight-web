@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 
 // list of environment urls
 export const url = {
@@ -11,15 +12,14 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
+const normalizeLang = lang => (lang === 'en' ? 'en_US' : 'es_PY');
+
 export const sendMail = (document, mail, user, lang) => {
   const formData = new FormData();
   formData.set('file', document);
 
   // For some reason, the backend only accepts some specific locales. Let's normalize it
-  let normalizedLang = 'es_PY';
-  if (lang === 'en') {
-    normalizedLang = 'en_US';
-  }
+  const normalizedLang = normalizeLang(lang);
 
   return axios({
     method: 'post',
@@ -90,12 +90,20 @@ export const getSurveyById = (user, surveyId) =>
     })
   });
 
-export const getOverviewBlock = (user, hub, fromDate, toDate, organizations) =>
+export const getOverviewBlock = (
+  user,
+  hub,
+  fromDate,
+  toDate,
+  organizations,
+  lang
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -114,13 +122,15 @@ export const getEconomicOverview = (
   hub,
   fromDate,
   toDate,
-  organizations
+  organizations,
+  lang
 ) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -139,13 +149,15 @@ export const getOperationsOverview = (
   hub,
   fromDate,
   toDate,
-  organizations
+  organizations,
+  lang
 ) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -159,13 +171,14 @@ export const getOperationsOverview = (
     })
   });
 
-export const getFamilies = user =>
+export const getFamilies = (user, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -178,14 +191,16 @@ export const getDimensionIndicators = (
   hub,
   organizations = [],
   fromDate,
-  toDate
+  toDate,
+  lang
 ) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query: `query { dimensionIndicators(hub: ${hub} organizations: ${JSON.stringify(
