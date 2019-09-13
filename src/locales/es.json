@@ -323,7 +323,8 @@
       "label": "Organizaciones",
       "loading": "Cargando...",
       "noOption": "No quedan organizaciones",
-      "noMatchFilters": "No hay resultados para los filtros aplicados"
+      "noMatchFilters": "No hay resultados para los filtros aplicados",
+      "allOrganizations": "Todas las Organizaciones"
     },
     "hubsFilter": {
       "label": "Hubs",

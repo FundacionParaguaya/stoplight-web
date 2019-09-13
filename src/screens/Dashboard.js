@@ -42,7 +42,7 @@ const Dashboard = ({ classes, user, t, i18n: { language } }) => {
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
-  const [selectedOrganizations, setSelectedOrganizations] = useState([]);
+  const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedHub, setSelectedHub] = useState(null);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -59,6 +59,13 @@ const Dashboard = ({ classes, user, t, i18n: { language } }) => {
   const { role } = user;
   const isMentor = role === ROLE_SURVEY_USER;
   const lang = language;
+  const setSelectedOrganizations = (selected, allOrganizations) => {
+    if (selected.some(org => org.value === 'ALL')) {
+      setOrganizations(allOrganizations);
+    } else {
+      setOrganizations(selected);
+    }
+  };
 
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
