@@ -130,7 +130,9 @@ class Location extends Component {
     navigator.geolocation.getCurrentPosition(position => {
       this.setState({
         lat: position.coords.latitude,
-        lng: position.coords.longitude
+        lng: position.coords.longitude,
+        initialLat: position.coords.latitude,
+        initialLng: position.coords.longitude
       });
       this.props.updateDraft({
         ...currentDraft,
@@ -156,7 +158,9 @@ class Location extends Component {
     } else {
       this.setState({
         lat: currentDraft.familyData.latitude,
-        lng: currentDraft.familyData.longitude
+        lng: currentDraft.familyData.longitude,
+        initialLat: currentDraft.familyData.latitude,
+        initialLng: currentDraft.familyData.longitude
       });
     }
   };
@@ -184,8 +188,8 @@ class Location extends Component {
               <div className={classes.mapContainer}>
                 <Gmaps
                   height="65vh"
-                  lat={this.state.lat}
-                  lng={this.state.lng}
+                  lat={this.state.initialLat}
+                  lng={this.state.initialLng}
                   zoom={12}
                   loadingMessage={t('views.location.mapLoading')}
                   params={params}
