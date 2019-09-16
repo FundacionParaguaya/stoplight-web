@@ -277,12 +277,22 @@ export const getOrganizations = user =>
   });
 
 export const getHubs = user =>
+  // axios({
+  //   method: 'get',
+  //   url: `${url[user.env]}/api/v1/applications?page=1`,
+  //   headers: {
+  //     Authorization: `Bearer ${user.token}`
+  //   }
+  // });
   axios({
-    method: 'get',
-    url: `${url[user.env]}/api/v1/applications?page=1`,
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
-    }
+    },
+    data: JSON.stringify({
+      query: 'query { hubsByUser {id, name, code, description} }'
+    })
   });
 
 // get the user's draft list
