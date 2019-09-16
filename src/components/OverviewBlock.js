@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 import SummaryDonut from './summary/SummaryDonut';
 import SummaryBarChart from './SummaryBarChart';
 import CountDetail from './CountDetail';
@@ -19,7 +19,13 @@ const OverviewBlock = ({ classes, data, t, width }) => {
       data.stoplightOverview.skipped === 0)
   ) {
     return (
-      <Typography>{t('views.organizationsFilter.noMatchFilters')}</Typography>
+      <div className={classes.mainContainer} style={{ width }}>
+        <Typography variant="h5">
+          {t('views.familiesOverviewBlock.overview')}
+        </Typography>
+        <Box mt={2} />
+        <Typography>{t('views.organizationsFilter.noMatchFilters')}</Typography>
+      </div>
     );
   }
 

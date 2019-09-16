@@ -21,9 +21,7 @@ const ActivityFeed = ({
 
   if (!data || data.length <= 0) {
     return (
-      <Typography align="center">
-        {t('views.organizationsFilter.noMatchFilters')}
-      </Typography>
+      <Typography>{t('views.organizationsFilter.noMatchFilters')}</Typography>
     );
   }
 
