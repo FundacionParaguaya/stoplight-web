@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import { theme } from '../theme';
 import LeaveModal from './LeaveModal';
 import SaveDraftModal from './SaveDraftModal';
+import { ROLE_SURVEY_TAKER } from '../utils/role-utils';
 
 class NavIcons extends Component {
   state = {
@@ -15,10 +16,14 @@ class NavIcons extends Component {
 
   canSaveDraft = () => {
     let doDraft = false;
-    const { currentDraft = {} } = this.props;
+    const {
+      currentDraft = {},
+      user: { role }
+    } = this.props;
     if (
       get(currentDraft, 'familyData.familyMembersList[0].firstName', null) &&
-      get(currentDraft, 'familyData.familyMembersList[0].lastName', null)
+      get(currentDraft, 'familyData.familyMembersList[0].lastName', null) &&
+      role !== ROLE_SURVEY_TAKER
     ) {
       doDraft = true;
     }
@@ -100,7 +105,7 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({ currentDraft }) => ({ currentDraft });
+const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user });
 const mapDispatchToProps = {};
 
 export default withRouter(
