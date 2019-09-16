@@ -55,7 +55,13 @@ class Location extends Component {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        this.setState({ lat: latLng.lat, lng: latLng.lng, address });
+        this.setState({
+          lat: latLng.lat,
+          lng: latLng.lng,
+          address,
+          initialLat: latLng.lat,
+          initialLng: latLng.lng
+        });
         this.props.updateDraft({
           ...currentDraft,
           familyData: {
