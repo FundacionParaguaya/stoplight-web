@@ -110,8 +110,8 @@ class Location extends Component {
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
-        latitude: this.state.lat,
-        longitude: this.state.lng
+        latitude: lat,
+        longitude: lng
       }
     });
 
@@ -127,26 +127,28 @@ class Location extends Component {
 
   locateMe = () => {
     const { currentDraft } = this.props;
-    navigator.geolocation.getCurrentPosition(position => {
-      this.setState({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-        initialLat: position.coords.latitude,
-        initialLng: position.coords.longitude
-      });
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }
-      });
-      Location.getCountryFromLatLng(
-        position.coords.latitude,
-        position.coords.longitude
-      ).then(c => this.updateDraft('country', c));
-    });
+    this.setState({ initialLat: null, initialLng: null }, () =>
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          initialLat: position.coords.latitude,
+          initialLng: position.coords.longitude
+        });
+        this.props.updateDraft({
+          ...currentDraft,
+          familyData: {
+            ...currentDraft.familyData,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }
+        });
+        Location.getCountryFromLatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        ).then(c => this.updateDraft('country', c));
+      })
+    );
   };
 
   componentDidMount = async () => {
