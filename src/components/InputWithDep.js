@@ -69,7 +69,7 @@ const InputWithDep = ({
     (otherOption !== value && !!get(formik.values, `forFamily.${target}`)) ||
     (otherOption !== value && !!get(formik.values, `forFamilyMember.${target}`))
   ) {
-    cleanUp();
+    cleanUp(value);
   }
 
   if (otherOption && value) {

@@ -285,13 +285,26 @@ export class Economics extends Component {
       elementsWithConditionsOnThem: { questionsWithConditionsOnThem }
     } = currentSurvey;
 
+    const hasOtherOption = question.codeName.match(/^custom/g);
+
     // We get a draft with updated answer
+    let key = question.codeName;
     let currentDraft;
     const keyName = !Array.isArray(value) ? 'value' : 'multipleValue';
-    const newAnswer = {
-      key: question.codeName,
+    let newAnswer = {
+      key,
       [keyName]: value
     };
+
+    if (hasOtherOption) {
+      key = _.camelCase(question.codeName.replace(/^custom/g, ''));
+      newAnswer = {
+        key,
+        [keyName]: question.options.find(o => o.otherOption).value,
+        other: value
+      };
+    }
+
     if (question.forFamilyMember) {
       currentDraft = getDraftWithUpdatedFamilyEconomics(
         draftFromProps,
@@ -396,6 +409,18 @@ export class Economics extends Component {
                               codeName: `custom${capitalize(question.codeName)}`
                             }
                           : null;
+                        const cleanUp = value => {
+                          this.updateEconomicAnswerCascading(
+                            modifiedQuestion,
+                            '',
+                            setFieldValue
+                          );
+                          this.updateEconomicAnswerCascading(
+                            question,
+                            value,
+                            setFieldValue
+                          );
+                        };
 
                         if (!shouldShowQuestion(question, currentDraft)) {
                           return <React.Fragment key={question.codeName} />;
@@ -431,13 +456,7 @@ export class Economics extends Component {
                                   question.codeName
                                 )}`}
                                 isEconomic
-                                cleanUp={() =>
-                                  this.updateEconomicAnswerCascading(
-                                    modifiedQuestion,
-                                    '',
-                                    setFieldValue
-                                  )
-                                }
+                                cleanUp={cleanUp}
                               >
                                 {(otherOption, value) =>
                                   otherOption === value && (
@@ -494,13 +513,7 @@ export class Economics extends Component {
                                   question.codeName
                                 )}`}
                                 isEconomic
-                                cleanUp={() =>
-                                  this.updateEconomicAnswerCascading(
-                                    modifiedQuestion,
-                                    '',
-                                    setFieldValue
-                                  )
-                                }
+                                cleanUp={cleanUp}
                               >
                                 {(otherOption, value) =>
                                   otherOption === value && (
@@ -609,6 +622,20 @@ export class Economics extends Component {
                                             )}`
                                           }
                                         : null;
+                                      const cleanUp = value => {
+                                        this.updateEconomicAnswerCascading(
+                                          modifiedQuestion,
+                                          '',
+                                          setFieldValue,
+                                          index
+                                        );
+                                        this.updateEconomicAnswerCascading(
+                                          question,
+                                          value,
+                                          setFieldValue,
+                                          index
+                                        );
+                                      };
                                       if (
                                         !shouldShowQuestion(
                                           question,
@@ -662,14 +689,7 @@ export class Economics extends Component {
                                               target={`forFamilyMember.[${index}].[custom${capitalize(
                                                 question.codeName
                                               )}]`}
-                                              cleanUp={() =>
-                                                this.updateEconomicAnswerCascading(
-                                                  modifiedQuestion,
-                                                  '',
-                                                  setFieldValue,
-                                                  index
-                                                )
-                                              }
+                                              cleanUp={cleanUp}
                                             >
                                               {(otherOption, value) =>
                                                 otherOption === value && (
@@ -738,14 +758,7 @@ export class Economics extends Component {
                                               target={`forFamilyMember.[${index}].[custom${capitalize(
                                                 question.codeName
                                               )}]`}
-                                              cleanUp={() =>
-                                                this.updateEconomicAnswerCascading(
-                                                  modifiedQuestion,
-                                                  '',
-                                                  setFieldValue,
-                                                  index
-                                                )
-                                              }
+                                              cleanUp={cleanUp}
                                             >
                                               {(otherOption, value) =>
                                                 otherOption === value && (
