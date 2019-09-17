@@ -40,6 +40,8 @@ let FamilyMemberTitle = ({ name, classes }) => (
   </div>
 );
 
+const capitalize = string => _.startCase(string).replace(/ /g, '');
+
 const familyMemberTitleStyles = {
   familyMemberNameLarge: {
     marginTop: '15px',
@@ -124,14 +126,21 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
   const familyQuestions = (questions && questions.forFamily) || [];
 
   familyQuestions.forEach(question => {
-    if (question.options.find(o => o.otherOption)) {
-      forFamilyInitial[`custom${_.capitalize(question.codeName)}`] = '';
-    }
-
     const draftQuestion =
       currentDraft.economicSurveyDataList.find(
         e => e.key === question.codeName
       ) || {};
+
+    if (question.options.find(o => o.otherOption)) {
+      const customDraftQuestion =
+        currentDraft.economicSurveyDataList.find(
+          e => e.key === `custom${capitalize(question.codeName)}`
+        ) || {};
+      forFamilyInitial[`custom${capitalize(question.codeName)}`] =
+        (Object.prototype.hasOwnProperty.call(customDraftQuestion, 'value')
+          ? customDraftQuestion.value
+          : customDraftQuestion.multipleValue) || '';
+    }
 
     forFamilyInitial[question.codeName] =
       (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
@@ -384,9 +393,7 @@ export class Economics extends Component {
                         const modifiedQuestion = hasOtherOption
                           ? {
                               ...question,
-                              codeName: `custom${_.capitalize(
-                                question.codeName
-                              )}`
+                              codeName: `custom${capitalize(question.codeName)}`
                             }
                           : null;
 
@@ -416,11 +423,11 @@ export class Economics extends Component {
                                 }
                               />
                               <InputWithDep
-                                key={`custom${_.capitalize(question.codeName)}`}
+                                key={`custom${capitalize(question.codeName)}`}
                                 dep={question.codeName}
                                 from={currentDraft}
                                 fieldOptions={question.options}
-                                target={`custom${_.capitalize(
+                                target={`custom${capitalize(
                                   question.codeName
                                 )}`}
                                 isEconomic
@@ -435,12 +442,12 @@ export class Economics extends Component {
                                 {(otherOption, value) =>
                                   otherOption === value && (
                                     <InputWithFormik
-                                      key={`custom${_.capitalize(
+                                      key={`custom${capitalize(
                                         question.codeName
                                       )}`}
                                       type="text"
-                                      label={`Other ${question.questionText.toLowerCase()}`}
-                                      name={`forFamily.custom${_.capitalize(
+                                      label={t('views.survey.specifyOther')}
+                                      name={`forFamily.custom${capitalize(
                                         question.codeName
                                       )}`}
                                       required
@@ -479,11 +486,11 @@ export class Economics extends Component {
                                 }}
                               />
                               <InputWithDep
-                                key={`custom${_.capitalize(question.codeName)}`}
+                                key={`custom${capitalize(question.codeName)}`}
                                 dep={question.codeName}
                                 from={currentDraft}
                                 fieldOptions={question.options}
-                                target={`custom${_.capitalize(
+                                target={`custom${capitalize(
                                   question.codeName
                                 )}`}
                                 isEconomic
@@ -498,15 +505,15 @@ export class Economics extends Component {
                                 {(otherOption, value) =>
                                   otherOption === value && (
                                     <InputWithFormik
-                                      key={`custom${_.capitalize(
+                                      key={`custom${capitalize(
                                         question.codeName
                                       )}`}
                                       type="text"
-                                      label={`Other ${question.questionText.toLowerCase()}`}
-                                      name={`forFamily.custom${_.capitalize(
+                                      label={t('views.survey.specifyOther')}
+                                      name={`forFamily.custom${capitalize(
                                         question.codeName
                                       )}`}
-                                      required
+                                      required={questions.required}
                                       onChange={e =>
                                         this.updateEconomicAnswerCascading(
                                           modifiedQuestion,
@@ -597,7 +604,7 @@ export class Economics extends Component {
                                       const modifiedQuestion = hasOtherOption
                                         ? {
                                             ...question,
-                                            codeName: `custom${_.capitalize(
+                                            codeName: `custom${capitalize(
                                               question.codeName
                                             )}`
                                           }
@@ -644,7 +651,7 @@ export class Economics extends Component {
                                               }
                                             />
                                             <InputWithDep
-                                              key={`custom${_.capitalize(
+                                              key={`custom${capitalize(
                                                 question.codeName
                                               )}`}
                                               dep={question.codeName}
@@ -652,7 +659,7 @@ export class Economics extends Component {
                                               from={currentDraft}
                                               fieldOptions={question.options}
                                               isEconomic
-                                              target={`forFamilyMember.[${index}].[custom${_.capitalize(
+                                              target={`forFamilyMember.[${index}].[custom${capitalize(
                                                 question.codeName
                                               )}]`}
                                               cleanUp={() =>
@@ -668,8 +675,10 @@ export class Economics extends Component {
                                                 otherOption === value && (
                                                   <InputWithFormik
                                                     type="text"
-                                                    label={`Other ${question.questionText.toLowerCase()}`}
-                                                    name={`forFamilyMember.[${index}].[custom${_.capitalize(
+                                                    label={t(
+                                                      'views.survey.specifyOther'
+                                                    )}
+                                                    name={`forFamilyMember.[${index}].[custom${capitalize(
                                                       question.codeName
                                                     )}]`}
                                                     required
@@ -718,7 +727,7 @@ export class Economics extends Component {
                                               }}
                                             />
                                             <InputWithDep
-                                              key={`custom${_.capitalize(
+                                              key={`custom${capitalize(
                                                 question.codeName
                                               )}`}
                                               dep={question.codeName}
@@ -726,7 +735,7 @@ export class Economics extends Component {
                                               from={currentDraft}
                                               fieldOptions={question.options}
                                               isEconomic
-                                              target={`forFamilyMember.[${index}].[custom${_.capitalize(
+                                              target={`forFamilyMember.[${index}].[custom${capitalize(
                                                 question.codeName
                                               )}]`}
                                               cleanUp={() =>
@@ -742,8 +751,10 @@ export class Economics extends Component {
                                                 otherOption === value && (
                                                   <InputWithFormik
                                                     type="text"
-                                                    label={`Other ${question.questionText.toLowerCase()}`}
-                                                    name={`forFamilyMember.[${index}].[custom${_.capitalize(
+                                                    label={t(
+                                                      'views.survey.specifyOther'
+                                                    )}
+                                                    name={`forFamilyMember.[${index}].[custom${capitalize(
                                                       question.codeName
                                                     )}]`}
                                                     required
