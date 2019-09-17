@@ -132,14 +132,11 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
       ) || {};
 
     if (question.options.find(o => o.otherOption)) {
-      const customDraftQuestion =
-        currentDraft.economicSurveyDataList.find(
-          e => e.key === `custom${capitalize(question.codeName)}`
-        ) || {};
-      forFamilyInitial[`custom${capitalize(question.codeName)}`] =
-        (Object.prototype.hasOwnProperty.call(customDraftQuestion, 'value')
-          ? customDraftQuestion.value
-          : customDraftQuestion.multipleValue) || '';
+      forFamilyInitial[
+        `custom${capitalize(question.codeName)}`
+      ] = Object.prototype.hasOwnProperty.call(draftQuestion, 'other')
+        ? draftQuestion.other
+        : '';
     }
 
     forFamilyInitial[question.codeName] =
@@ -526,7 +523,6 @@ export class Economics extends Component {
                                       name={`forFamily.custom${capitalize(
                                         question.codeName
                                       )}`}
-                                      required={questions.required}
                                       onChange={e =>
                                         this.updateEconomicAnswerCascading(
                                           modifiedQuestion,
