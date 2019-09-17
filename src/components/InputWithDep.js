@@ -64,7 +64,11 @@ const InputWithDep = ({
   const otherOption = getOtherOption(fieldOptions);
   const value = getFieldValue(from, dep, index, isEconomic);
 
-  if (otherOption !== value && !!get(formik.values, target)) {
+  if (
+    (otherOption !== value && !!get(formik.values, target)) ||
+    (otherOption !== value && !!get(formik.values, `forFamily.${target}`)) ||
+    (otherOption !== value && !!get(formik.values, `forFamilyMember.${target}`))
+  ) {
     cleanUp();
   }
 

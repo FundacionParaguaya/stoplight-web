@@ -97,7 +97,8 @@
       "createdOn": "Creado el",
       "surveys": "Encuestas",
       "indicators": "Indicadores",
-      "createSurvey": "Crear Encuesta"
+      "createSurvey": "Crear Encuesta",
+      "specifyOther": "Especifica otro"
     },
     "analytics": {
       "title": "Analíticas",
