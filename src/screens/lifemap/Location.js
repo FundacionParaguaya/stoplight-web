@@ -55,7 +55,13 @@ class Location extends Component {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
-        this.setState({ lat: latLng.lat, lng: latLng.lng, address });
+        this.setState({
+          lat: latLng.lat,
+          lng: latLng.lng,
+          address,
+          initialLat: latLng.lat,
+          initialLng: latLng.lng
+        });
         this.props.updateDraft({
           ...currentDraft,
           familyData: {
@@ -110,8 +116,8 @@ class Location extends Component {
       ...currentDraft,
       familyData: {
         ...currentDraft.familyData,
-        latitude: this.state.lat,
-        longitude: this.state.lng
+        latitude: lat,
+        longitude: lng
       }
     });
 
@@ -127,24 +133,28 @@ class Location extends Component {
 
   locateMe = () => {
     const { currentDraft } = this.props;
-    navigator.geolocation.getCurrentPosition(position => {
-      this.setState({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      });
-      this.props.updateDraft({
-        ...currentDraft,
-        familyData: {
-          ...currentDraft.familyData,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }
-      });
-      Location.getCountryFromLatLng(
-        position.coords.latitude,
-        position.coords.longitude
-      ).then(c => this.updateDraft('country', c));
-    });
+    this.setState({ initialLat: null, initialLng: null }, () =>
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          initialLat: position.coords.latitude,
+          initialLng: position.coords.longitude
+        });
+        this.props.updateDraft({
+          ...currentDraft,
+          familyData: {
+            ...currentDraft.familyData,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }
+        });
+        Location.getCountryFromLatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        ).then(c => this.updateDraft('country', c));
+      })
+    );
   };
 
   componentDidMount = async () => {
@@ -156,7 +166,9 @@ class Location extends Component {
     } else {
       this.setState({
         lat: currentDraft.familyData.latitude,
-        lng: currentDraft.familyData.longitude
+        lng: currentDraft.familyData.longitude,
+        initialLat: currentDraft.familyData.latitude,
+        initialLng: currentDraft.familyData.longitude
       });
     }
   };
@@ -184,8 +196,8 @@ class Location extends Component {
               <div className={classes.mapContainer}>
                 <Gmaps
                   height="65vh"
-                  lat={this.state.lat}
-                  lng={this.state.lng}
+                  lat={this.state.initialLat}
+                  lng={this.state.initialLng}
                   zoom={12}
                   loadingMessage={t('views.location.mapLoading')}
                   params={params}

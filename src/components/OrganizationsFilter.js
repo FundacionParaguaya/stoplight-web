@@ -73,6 +73,17 @@ const OrganizationsFilter = ({ user, data, hub, onChange }) => {
       })
       .finally(() => setLoading(false));
   }, [user, hub]);
+  const allOrganizationsOption = {
+    label: t('views.organizationsFilter.allOrganizations'),
+    value: 'ALL'
+  };
+  let organizationsToShow =
+    organizations.length !== data.length && organizations.length > 1
+      ? [allOrganizationsOption, ...organizations]
+      : [...organizations];
+  if (data.some(d => d.value === 'ALL')) {
+    organizationsToShow = [];
+  }
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
@@ -81,12 +92,12 @@ const OrganizationsFilter = ({ user, data, hub, onChange }) => {
       <div className={classes.selector}>
         <Select
           value={data}
-          onChange={value => onChange(value)}
+          onChange={value => onChange(value, organizations)}
           placeholder=""
           isLoading={loading}
           loadingMessage={() => t('views.organizationsFilter.loading')}
           noOptionsMessage={() => t('views.organizationsFilter.noOption')}
-          options={organizations}
+          options={organizationsToShow}
           components={{
             DropdownIndicator: () => <div />,
             IndicatorSeparator: () => <div />,

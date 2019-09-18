@@ -36,13 +36,13 @@ const LoadingContainer = () => (
   </div>
 );
 
-const Dashboard = ({ classes, user, t }) => {
+const Dashboard = ({ classes, user, t, i18n: { language } }) => {
   const [activityFeed, setActivityFeed] = useState(null);
   const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
-  const [selectedOrganizations, setSelectedOrganizations] = useState([]);
+  const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedHub, setSelectedHub] = useState(null);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
@@ -58,6 +58,14 @@ const Dashboard = ({ classes, user, t }) => {
   // TODO: If we have more conditions make an Authorize component
   const { role } = user;
   const isMentor = role === ROLE_SURVEY_USER;
+  const lang = language;
+  const setSelectedOrganizations = (selected, allOrganizations) => {
+    if (selected.some(org => org.value === 'ALL')) {
+      setOrganizations(allOrganizations);
+    } else {
+      setOrganizations(selected);
+    }
+  };
 
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
@@ -65,13 +73,13 @@ const Dashboard = ({ classes, user, t }) => {
   }, [selectedHub]);
 
   useEffect(() => {
-    getFamilies(user)
+    getFamilies(user, lang)
       .then(data => {
         const { feed } = getData(data);
         setActivityFeed(feed);
       })
       .finally(() => setLoadingFeed(false));
-  }, [user]);
+  }, [user, lang]);
 
   useEffect(() => {
     setLoadingDimensionsIndicators(true);
@@ -87,7 +95,8 @@ const Dashboard = ({ classes, user, t }) => {
       hubId,
       (selectedOrganizations || []).map(o => o.value),
       fromDate,
-      toDate
+      toDate,
+      lang
     )
       .then(data => {
         const { dimensionIndicators } = getData(data);
@@ -111,21 +120,42 @@ const Dashboard = ({ classes, user, t }) => {
       })
       .finally(() => setLoadingDimensionsIndicators(false));
 
-    getOverviewBlock(user, hubId, fromDate, toDate, sanitizedOrganizations)
+    getOverviewBlock(
+      user,
+      hubId,
+      fromDate,
+      toDate,
+      sanitizedOrganizations,
+      lang
+    )
       .then(data => {
         const { blockOverview } = getData(data);
         setOverview(blockOverview);
       })
       .finally(() => setLoadingOverview(false));
 
-    getEconomicOverview(user, hubId, fromDate, toDate, sanitizedOrganizations)
+    getEconomicOverview(
+      user,
+      hubId,
+      fromDate,
+      toDate,
+      sanitizedOrganizations,
+      lang
+    )
       .then(data => {
         const { economicOverview } = getData(data);
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
 
-    getOperationsOverview(user, hubId, fromDate, toDate, sanitizedOrganizations)
+    getOperationsOverview(
+      user,
+      hubId,
+      fromDate,
+      toDate,
+      sanitizedOrganizations,
+      lang
+    )
       .then(data => {
         const {
           operationsOverview: { surveysByMonth }
@@ -146,7 +176,7 @@ const Dashboard = ({ classes, user, t }) => {
         }
       })
       .finally(() => setLoadingChart(false));
-  }, [user, selectedHub, selectedOrganizations, fromDate, toDate]);
+  }, [user, selectedHub, selectedOrganizations, fromDate, toDate, lang]);
 
   return (
     <Container variant="fluid" className={classes.greyBackground}>

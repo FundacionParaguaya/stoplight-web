@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 
 // list of environment urls
 export const url = {
@@ -11,15 +12,14 @@ export const url = {
   development: 'http://localhost:8080'
 };
 
+const normalizeLang = lang => (lang === 'en' ? 'en_US' : 'es_PY');
+
 export const sendMail = (document, mail, user, lang) => {
   const formData = new FormData();
   formData.set('file', document);
 
   // For some reason, the backend only accepts some specific locales. Let's normalize it
-  let normalizedLang = 'es_PY';
-  if (lang === 'en') {
-    normalizedLang = 'en_US';
-  }
+  const normalizedLang = normalizeLang(lang);
 
   return axios({
     method: 'post',
@@ -86,16 +86,24 @@ export const getSurveyById = (user, surveyId) =>
     },
 
     data: JSON.stringify({
-      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id stoplightColors { url value description } required } } }`
+      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id stoplightColors { url value description } required } } }`
     })
   });
 
-export const getOverviewBlock = (user, hub, fromDate, toDate, organizations) =>
+export const getOverviewBlock = (
+  user,
+  hub,
+  fromDate,
+  toDate,
+  organizations,
+  lang
+) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -114,13 +122,15 @@ export const getEconomicOverview = (
   hub,
   fromDate,
   toDate,
-  organizations
+  organizations,
+  lang
 ) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -139,13 +149,15 @@ export const getOperationsOverview = (
   hub,
   fromDate,
   toDate,
-  organizations
+  organizations,
+  lang
 ) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -159,13 +171,14 @@ export const getOperationsOverview = (
     })
   });
 
-export const getFamilies = user =>
+export const getFamilies = (user, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query:
@@ -178,14 +191,16 @@ export const getDimensionIndicators = (
   hub,
   organizations = [],
   fromDate,
-  toDate
+  toDate,
+  lang
 ) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
       query: `query { dimensionIndicators(hub: ${hub} organizations: ${JSON.stringify(
@@ -262,12 +277,22 @@ export const getOrganizations = user =>
   });
 
 export const getHubs = user =>
+  // axios({
+  //   method: 'get',
+  //   url: `${url[user.env]}/api/v1/applications?page=1`,
+  //   headers: {
+  //     Authorization: `Bearer ${user.token}`
+  //   }
+  // });
   axios({
-    method: 'get',
-    url: `${url[user.env]}/api/v1/applications?page=1`,
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
-    }
+    },
+    data: JSON.stringify({
+      query: 'query { hubsByUser {id, name, code, description} }'
+    })
   });
 
 // get the user's draft list

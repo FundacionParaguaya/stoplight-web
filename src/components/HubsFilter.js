@@ -61,10 +61,12 @@ const HubsFilter = ({ user, data, onChange }) => {
   useEffect(() => {
     getHubs(user)
       .then(response => {
-        const hubsFromAPI = _.get(response, 'data.list', []).map(hub => ({
-          label: hub.name,
-          value: hub.id
-        }));
+        const hubsFromAPI = _.get(response, 'data.data.hubsByUser', []).map(
+          hub => ({
+            label: hub.name,
+            value: hub.id
+          })
+        );
         setHubs(hubsFromAPI);
       })
       .finally(() => setLoading(false));

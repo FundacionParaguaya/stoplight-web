@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { connect } from 'formik';
-import * as _ from 'lodash';
+import { get } from 'lodash';
 
 const getOtherOption = options => {
   if (!options.some(e => e.otherOption)) {
@@ -10,7 +10,33 @@ const getOtherOption = options => {
   return options.filter(e => e.otherOption)[0].value;
 };
 
-const getFieldValue = (draft, field, index) => {
+const getFieldValue = (draft, field, index, isEconomic) => {
+  if (isEconomic) {
+    if (
+      index >= 0 &&
+      draft &&
+      (index >= 0 && draft.familyData) &&
+      (index >= 0 &&
+        draft.familyData.familyMembersList[index].socioEconomicAnswers.find(
+          e => e.key === field
+        ))
+    ) {
+      return draft.familyData.familyMembersList[
+        index
+      ].socioEconomicAnswers.find(e => e.key === field).value;
+    }
+
+    if (
+      !draft ||
+      !draft.economicSurveyDataList ||
+      !draft.economicSurveyDataList.find(e => e.key === field)
+    ) {
+      return null;
+    }
+
+    return draft.economicSurveyDataList.find(e => e.key === field).value;
+  }
+
   const innerIndex = index || 0;
   if (
     !draft ||
@@ -32,12 +58,18 @@ const InputWithDep = ({
   index,
   target,
   cleanUp,
-  formik
+  formik,
+  isEconomic
 }) => {
   const otherOption = getOtherOption(fieldOptions);
-  const value = getFieldValue(from, dep, index);
-  if (otherOption !== value && !!_.get(formik.values, target)) {
-    cleanUp();
+  const value = getFieldValue(from, dep, index, isEconomic);
+
+  if (
+    (otherOption !== value && !!get(formik.values, target)) ||
+    (otherOption !== value && !!get(formik.values, `forFamily.${target}`)) ||
+    (otherOption !== value && !!get(formik.values, `forFamilyMember.${target}`))
+  ) {
+    cleanUp(value);
   }
 
   if (otherOption && value) {

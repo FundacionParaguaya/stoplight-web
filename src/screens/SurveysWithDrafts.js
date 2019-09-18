@@ -23,7 +23,7 @@ import withLayout from '../components/withLayout';
 import FamiliesOverviewBlock from '../components/FamiliesOverviewBlock';
 import SnapshotsTable from '../components/SnapshotsTable';
 import { useWindowSize } from '../utils/hooks-helpers';
-import { ROLE_SURVEY_USER } from '../utils/role-utils';
+import { ROLE_SURVEY_USER, ROLE_SURVEY_TAKER } from '../utils/role-utils';
 
 const useSurveysListStyle = makeStyles(theme => ({
   mainContainer: {
@@ -367,6 +367,16 @@ class Surveys extends Component {
     this.props.updateDraft(null);
     this.props.updateSurvey(null);
     this.getSurveys();
+
+    const {
+      user: { role }
+    } = this.props;
+    if (role === ROLE_SURVEY_TAKER) {
+      this.setState({
+        draftsNumber: 0,
+        draftsLoading: false
+      });
+    }
   }
 
   setDraftsNumber = n => {
@@ -381,6 +391,7 @@ class Surveys extends Component {
     const { classes, t, user } = this.props;
     const { role } = user;
     const isMentor = role === ROLE_SURVEY_USER;
+    const isSurveyTaker = role === ROLE_SURVEY_TAKER;
 
     return (
       <div className={classes.mainSurveyContainerBoss}>
@@ -408,16 +419,18 @@ class Surveys extends Component {
             <Grid container spacing={3}>
               {!this.state.draftsLoading && (
                 <>
-                  <Grid item sm={4} xs={12}>
-                    <FamiliesOverviewBlock
-                      withDetail={false}
-                      subtitle={t('general.drafts')}
-                      familiesCount={this.state.draftsNumber}
-                      innerRef={this.heightSurveysRef}
-                      loading={this.state.draftsLoading}
-                    />
-                  </Grid>
-                  <Grid item sm={8} xs={12}>
+                  {!isSurveyTaker && (
+                    <Grid item sm={4} xs={12}>
+                      <FamiliesOverviewBlock
+                        withDetail={false}
+                        subtitle={t('general.drafts')}
+                        familiesCount={this.state.draftsNumber}
+                        innerRef={this.heightSurveysRef}
+                        loading={this.state.draftsLoading}
+                      />
+                    </Grid>
+                  )}
+                  <Grid item sm={isSurveyTaker ? 12 : 8} xs={12}>
                     <SurveysList
                       surveys={this.state.surveys}
                       heightRef={this.heightSurveysRef}
@@ -428,13 +441,15 @@ class Surveys extends Component {
               )}
             </Grid>
           </div>
-          <div className={classes.snapshotsContainer}>
-            <SnapshotsTable
-              handleClickOnSnapshot={this.handleClickOnSnapshot}
-              setDraftsNumber={this.setDraftsNumber}
-              setDraftsLoading={this.setDraftsLoading}
-            />
-          </div>
+          {!isSurveyTaker && (
+            <div className={classes.snapshotsContainer}>
+              <SnapshotsTable
+                handleClickOnSnapshot={this.handleClickOnSnapshot}
+                setDraftsNumber={this.setDraftsNumber}
+                setDraftsLoading={this.setDraftsLoading}
+              />
+            </div>
+          )}
         </Container>
         <BottomSpacer />
       </div>
