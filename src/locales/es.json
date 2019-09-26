@@ -277,7 +277,7 @@
       "download": "Descargar",
       "lifemapSaved": "Tu Mapa de Vida ha sido guardado exitosamente",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
-      "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email",
+      "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email. ¡No te olvides de seleccionar Guardar & cerrar!",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
     "familiesOverviewBlock": {
