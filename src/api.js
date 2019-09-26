@@ -230,6 +230,8 @@ export const submitDraft = (user, snapshot) => {
     socioEconomicAnswers = socioEconomicAnswers.filter(validEconomicIndicator);
     // eslint-disable-next-line no-param-reassign
     member.socioEconomicAnswers = socioEconomicAnswers;
+    // eslint-disable-next-line no-param-reassign
+    delete member.countFamilyMembers;
   });
   return axios({
     method: 'post',

@@ -143,8 +143,8 @@ export class PrimaryParticipant extends Component {
 
   handleContinue = () => {
     const { currentDraft } = this.props;
-
-    if (currentDraft.familyData.countFamilyMembers === 1) {
+    const { countFamilyMembers } = currentDraft.familyData;
+    if (countFamilyMembers === 1 || countFamilyMembers === -1) {
       this.props.history.push('/lifemap/location');
     } else {
       this.props.history.push('/lifemap/family-members');
@@ -172,10 +172,11 @@ export class PrimaryParticipant extends Component {
     this.props.updateDraft(newDraft);
   };
 
-  updateFamilyMembersCount = async (field, value) => {
+  updateFamilyMembersCount = (field, value) => {
     const { currentDraft } = this.props;
 
-    if (value === 1) {
+    // Covering the case where user does not want to specify
+    if (value === 1 || value === -1) {
       const name = currentDraft.familyData.familyMembersList;
       name.splice(1);
       this.props.updateDraft({
