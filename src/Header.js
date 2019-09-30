@@ -172,7 +172,7 @@ class Header extends Component {
               onClick={this.handleToggle}
             >
               <Typography variant="subtitle1" className={classes.menuLinkText}>
-                {this.state.langaugeMenuMain === 'en' ? 'ENG' : 'ESP'}
+                {this.state.langaugeMenuMain === 'en' ? 'English' : 'Español'}
               </Typography>
             </Button>
             <div className={classes.verticalDivider} />
