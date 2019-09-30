@@ -83,6 +83,7 @@ const InputWithFormik = ({
         inputComponent: inputType === 'number' ? NumberFormatCustom : undefined,
         ...(textFieldProps.InputProps || {})
       }}
+      autoComplete="off"
     />
   );
 };
