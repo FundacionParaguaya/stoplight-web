@@ -24,7 +24,7 @@ const loadingAuthStyles = {
 };
 LoadingAuth = withStyles(loadingAuthStyles)(LoadingAuth);
 
-let UserNotAllowed = ({ classes }) => <div />;
+let UserNotAllowed = () => <div />;
 
 const userNotAllowedStyles = {
   container: {
@@ -48,10 +48,13 @@ const Authenticator = props => {
   const [authVerified, setAuthVerified] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const redirect = to =>
-    window.location.replace(`https://${to}.povertystoplight.org/login.html`);
+  const redirect = to => {};
+  // window.location.replace(`https://${to}.povertystoplight.org/login.html`);
 
   const sid = useMemo(() => queryString.parse(location.search).sid, [
+    location.search
+  ]);
+  const refresh = useMemo(() => queryString.parse(location.search).refresh, [
     location.search
   ]);
   // TODO delete the default testing environment, used only while
@@ -59,9 +62,21 @@ const Authenticator = props => {
     location.search
   ]);
 
-  const { localStorageToken, localStorageEnviroment } = useMemo(() => {
-    const { token, env: envFromStorage } = user || {};
-    return { localStorageToken: token, localStorageEnviroment: envFromStorage };
+  const {
+    localStorageToken,
+    localStorageEnviroment,
+    localStorageRefreshToken
+  } = useMemo(() => {
+    const {
+      token,
+      env: envFromStorage,
+      refreshToken: refreshTokenFromStorage
+    } = user || {};
+    return {
+      localStorageToken: token,
+      localStorageEnviroment: envFromStorage,
+      localStorageRefreshToken: refreshTokenFromStorage
+    };
   }, [user]);
 
   useEffect(() => {
@@ -73,10 +88,15 @@ const Authenticator = props => {
     }
 
     let sessionId = sid;
+    let refreshToken = refresh;
     let environment = env;
     if (!sessionId) {
       // If there's no sid from queryParam, will try to use from localStorage
       sessionId = localStorageToken;
+    }
+    if (!refreshToken) {
+      // If there's no sid from queryParam, will try to use from localStorage
+      refreshToken = localStorageRefreshToken;
     }
     if (!environment) {
       // If there's no env from queryParam, will try to use from localStorage
@@ -100,6 +120,7 @@ const Authenticator = props => {
         updateUserActionDispatch({
           username,
           token: sessionId,
+          refreshToken,
           env: environment,
           role: response.data.role
         });
@@ -119,9 +140,11 @@ const Authenticator = props => {
       });
   }, [
     sid,
+    refresh,
     env,
     rehydrated,
     localStorageToken,
+    localStorageRefreshToken,
     localStorageEnviroment,
     updateUserActionDispatch
   ]);
