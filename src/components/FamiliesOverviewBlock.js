@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
-import { CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -59,8 +58,8 @@ const FamiliesOverviewBlock = ({
   familiesOverview,
   familiesCount,
   peopleCount,
-  menCount,
-  womenCount,
+  // menCount,
+  // womenCount,
   includeEconomics,
   innerRef,
   noPadding,

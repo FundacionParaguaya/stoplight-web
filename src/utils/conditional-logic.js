@@ -103,8 +103,8 @@ export const conditionMet = (condition, currentDraft, memberIndex) => {
     // The lines above should be used once data is fixed for that survey
     let value;
     if (condition.codeName.toLowerCase() === 'birthdate') {
-      value = familyMember['birthDate']
-        ? moment.unix(familyMember['birthDate'])
+      value = familyMember.birthDate
+        ? moment.unix(familyMember.birthDate)
         : null;
       // TODO DELETE THIS after reviewing the conditional logic
       // In case the target question is null, we should return true.

@@ -158,14 +158,6 @@ class Surveys extends Component {
           familiesOverview: response[1].data.data.economicOverview
         });
       })
-      .catch(error => {
-        if (error.response.status === 401) {
-          window.location.replace(
-            `https://${this.props.user.env}.povertystoplight.org/login.html`
-          );
-        }
-      })
-
       .finally(() =>
         this.setState({
           loading: false
