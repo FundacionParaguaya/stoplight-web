@@ -48,8 +48,8 @@ const Authenticator = props => {
   const [authVerified, setAuthVerified] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const redirect = to => {};
-  // window.location.replace(`https://${to}.povertystoplight.org/login.html`);
+  const redirect = to =>
+    window.location.replace(`https://${to}.povertystoplight.org/login.html`);
 
   const sid = useMemo(() => queryString.parse(location.search).sid, [
     location.search

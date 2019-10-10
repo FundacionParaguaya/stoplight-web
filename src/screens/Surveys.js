@@ -26,14 +26,6 @@ export class Surveys extends Component {
           surveys: response.data.data.surveysByUser
         });
       })
-      .catch(error => {
-        if (error.response.status === 401) {
-          window.location.replace(
-            `https://${this.props.user.env}.povertystoplight.org/login.html`
-          );
-        }
-      })
-
       .finally(() =>
         this.setState({
           loading: false

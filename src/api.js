@@ -18,43 +18,11 @@ axios.interceptors.response.use(
   error => {
     const status = error.response ? error.response.status : null;
     const { user = {} } = store.getState();
-    console.log(error.config);
-
-    const toLogin = to =>
-      window.location.replace(`https://${to}.povertystoplight.org/login.html`);
-
-    if (status !== 401) {
-      return Promise.reject(error);
+    if (status === 401) {
+      window.location.replace(
+        `https://${user.env}.povertystoplight.org/login.html`
+      );
     }
-    if (user.env && user.refreshToken) {
-      return axios({
-        method: 'post',
-        url: `${url[user.env]}/oauth/token?refresh_token=${
-          user.refreshToken
-        }&grant_type=refresh_token`,
-        headers: {
-          // Authorization: `Bearer ${store.getState().user.token}`
-        }
-      })
-        .catch(() => {
-          console.log('Will go to login, refresh failed');
-          toLogin(user.env);
-        })
-        .then(resp => {
-          const { refreshToken } = resp.data;
-          const requestConfig = error.config;
-          requestConfig.headers.Authorization = `Bearer ${refreshToken}`;
-          return axios(requestConfig);
-        });
-    }
-
-    if (user.env) {
-      console.log('Will go to login');
-      toLogin(user.env);
-    }
-    console.log(
-      'Theres no redirect context. Will fallback to reject promise chain'
-    );
     return Promise.reject(error);
   }
 );
