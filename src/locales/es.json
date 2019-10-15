@@ -97,7 +97,7 @@
       "createdOn": "Creado el",
       "surveys": "Encuestas",
       "indicators": "Indicadores",
-      "createSurvey": "Crear Encuesta",
+      "createSurvey": "Toma tu Semáforo",
       "specifyOther": "Especifica otro"
     },
     "analytics": {
@@ -171,7 +171,7 @@
       "formWithErrors": "Revise %number errores en el formulario"
     },
     "lifemap": {
-      "thisLifeMapHas": "Este Mapa de Vida tiene %n preguntas. ¡Tardará aproximadamente 35 minutos en completarse!",
+      "thisLifeMapHas": "Este Mapa de Vida tiene %n preguntas",
       "responseRequired": "*Respuesta requerida",
       "skipThisQuestion": "Omitir esta pregunta",
       "youSkipped": "Has omitido estos indicadores",
@@ -277,13 +277,13 @@
       "download": "Descargar",
       "lifemapSaved": "Tu Mapa de Vida ha sido guardado exitosamente",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
-      "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email",
+      "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email. ¡No te olvides de seleccionar Guardar & cerrar!",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
     "familiesOverviewBlock": {
       "economics": "Socioeconómicos",
       "averageIncome": "Ingreso anual promedio per capita",
-      "overview": "Vistazo general",
+      "overview": "Vista general",
       "families": "familias",
       "family": "familia",
       "including": "Incluyendo",

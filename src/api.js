@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from './redux';
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -11,6 +12,20 @@ export const url = {
   testing: 'https://testing.backend.povertystoplight.org',
   development: 'http://localhost:8080'
 };
+
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    const status = error.response ? error.response.status : null;
+    const { user = {} } = store.getState();
+    if (status === 401) {
+      window.location.replace(
+        `https://${user.env}.povertystoplight.org/login.html`
+      );
+    }
+    return Promise.reject(error);
+  }
+);
 
 const normalizeLang = lang => (lang === 'en' ? 'en_US' : 'es_PY');
 
@@ -230,6 +245,8 @@ export const submitDraft = (user, snapshot) => {
     socioEconomicAnswers = socioEconomicAnswers.filter(validEconomicIndicator);
     // eslint-disable-next-line no-param-reassign
     member.socioEconomicAnswers = socioEconomicAnswers;
+    // eslint-disable-next-line no-param-reassign
+    delete member.countFamilyMembers;
   });
   return axios({
     method: 'post',

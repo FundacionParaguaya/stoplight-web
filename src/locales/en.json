@@ -97,7 +97,7 @@
       "createdOn": "Created on",
       "surveys": "Surveys",
       "indicators": "Indicators",
-      "createSurvey": "Create Survey",
+      "createSurvey": "Begin Stoplight survey",
       "specifyOther": "Specify other"
     },
     "analytics": {
@@ -170,7 +170,7 @@
       "formWithErrors": "Review %number form errors"
     },
     "lifemap": {
-      "thisLifeMapHas": "This Life Map has %n questions. It will take approximately 35 minutes to complete!",
+      "thisLifeMapHas": "This Life Map has %n questions",
       "responseRequired": "*Response required",
       "skipThisQuestion": "Skip this question",
       "youSkipped": "You skipped these indicators",
@@ -276,7 +276,7 @@
       "download": "Download",
       "lifemapSaved": "Your Life Map has been successfully saved",
       "clickSafe": "Now, just click save!",
-      "emailSent": "Your Life Map has been successfully sent via email",
+      "emailSent": "Your Life Map has been successfully sent via email. Don't forget to click on Save & Close!",
       "emailError": "Error while trying to send your Life Map via email"
     },
     "familiesOverviewBlock": {

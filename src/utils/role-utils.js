@@ -21,6 +21,7 @@ export const ROLES = {
     { item: 'map', platform: OLD }
   ],
   ROLE_PS_TEAM: [
+    { item: 'reports', platform: OLD },
     { item: 'hubs', platform: OLD },
     { item: 'users', platform: OLD },
     { item: 'surveys', platform: OLD },

@@ -193,12 +193,12 @@ class Achievements extends Component {
                 <Form noValidate>
                   <InputWithFormik
                     label={t('views.lifemap.whatDidItTakeToAchieveThis')}
-                    name="roadmap"
+                    name="action"
+                    required
                   />
                   <InputWithFormik
                     label={t('views.lifemap.howDidYouGetIt')}
-                    name="action"
-                    required
+                    name="roadmap"
                   />
                   <div className={classes.buttonContainerForm}>
                     <Button

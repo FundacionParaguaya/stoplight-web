@@ -10,7 +10,7 @@ import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import LeaveModal from '../../components/LeaveModal';
 
-const titleStyles = theme => ({
+const titleStyles = muiTheme => ({
   title: {
     position: 'relative',
     top: '55%',
@@ -22,7 +22,7 @@ const titleStyles = theme => ({
     right: 0,
     bottom: '-10%',
     width: '35%',
-    [theme.breakpoints.down('sm')]: {
+    [muiTheme.breakpoints.down('sm')]: {
       bottom: '50%',
       transform: 'translateY(50%)',
       width: '60%',
