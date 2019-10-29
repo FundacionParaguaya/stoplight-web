@@ -34,7 +34,8 @@ const INCOME_OPTIONS = [
 const INTERIORITY_OPTIONS = [
   'Interioridad y Motivación',
   'Interiority & Motivation',
-  'Interiority and Motivation'
+  'Interiority and Motivation',
+  'Desarrollo Personal'
 ];
 const ORGANIZATION_OPTIONS = [
   'Organización y Participación',
