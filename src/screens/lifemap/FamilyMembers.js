@@ -109,13 +109,14 @@ export class FamilyMembers extends Component {
                   render={() => (
                     <React.Fragment>
                       {values.members.map((item, index) => {
+                        //It's index + 2  to make it clear that no family member it's  the first participant
                         return (
                           <div key={index} className={classes.familyMemberForm}>
                             <Typography variant="h6" className={classes.title}>
                               <i className={`material-icons ${classes.icon}`}>
                                 face
                               </i>
-                              {t('views.family.familyMember')} {index + 1}
+                              {t('views.family.familyMember')} {index + 2}
                             </Typography>
                             <InputWithFormik
                               label={t('views.family.firstName')}
