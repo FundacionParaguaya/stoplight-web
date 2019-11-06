@@ -3,7 +3,7 @@ import {
   FormControlLabel,
   Checkbox,
   withStyles,
-  FormGroup,
+  FormControl,
   FormLabel,
   FormHelperText,
   Grid
@@ -13,6 +13,7 @@ import { connect } from 'formik';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { pathHasError, getErrorLabelForPath } from '../utils/form-utils';
+import { width } from '@material-ui/system';
 
 const removeByIndex = (array, index) => {
   const prior = array.slice(0, index);
@@ -47,19 +48,20 @@ const CheckboxWithFormik = ({
   };
 
   return (
-    <FormGroup>
-      <FormLabel
-        className={classes.formLabel}
-        component="legend"
-        {...labelProps}
-      >
+    <FormControl className={classes.formContainer}>
+      <StyledFormLabel component="legend" {...labelProps}>
         {label}
-      </FormLabel>
+      </StyledFormLabel>
 
       <Grid container spacing={1}>
         {rawOptions.map(option => (
-          <Grid item xs={4} key={option.value}>
-            <StyledFormControlLabel
+          <Grid
+            item
+            xs={4}
+            key={option.value}
+            className={classes.gridCentering}
+          >
+            <FilledFormControlLabel
               control={
                 <GreenCheckbox
                   name={name}
@@ -76,7 +78,7 @@ const CheckboxWithFormik = ({
         ))}
       </Grid>
       {error && <FormHelperText error={error}>{helperText}</FormHelperText>}
-    </FormGroup>
+    </FormControl>
   );
 };
 
@@ -95,19 +97,45 @@ const GreenCheckbox = withStyles(theme => ({
   }
 }))(props => <Checkbox color="default" {...props} />);
 
-const StyledFormControlLabel = withStyles(() => ({
-  root: {
-    marginLeft: 0
-  }
-}))(props => <FormControlLabel {...props} />);
-
 const styles = {
   formLabel: {
     color: '#909090',
     marginBottom: 15,
     marginTop: 15
+  },
+  gridCentering: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  formContainer: {
+    width: '100%',
+    marginBottom: 20
   }
 };
+
+const FilledFormControlLabel = withStyles(() => ({
+  root: {
+    marginLeft: 0,
+    minWidth: '100%',
+    paddingRight: 15,
+    overflowWrap: 'break-word'
+  },
+  label: {
+    maxWidth: '75%'
+  }
+}))(props => <FormControlLabel color="default" {...props} />);
+
+const StyledFormLabel = withStyles(() => ({
+  root: {
+    color: '#909090',
+    marginBottom: 15,
+    marginTop: 15,
+    maxWidth: '100%'
+  },
+  focused: {
+    color: '#909090!important'
+  }
+}))(props => <FormLabel color="default" {...props} />);
 
 export default withTranslation()(
   connect(withStyles(styles)(CheckboxWithFormik))
