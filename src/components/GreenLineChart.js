@@ -34,10 +34,9 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
           tick={{ fontFamily: 'Poppins', fontSize: 14 }}
           stroke="#909090"
           tickSize={20}
-          tickFormatter={tick =>
-            moment(tick)
-              .format('MMM')
-              .toUpperCase()
+          tickFormatter={
+            tick => moment(tick).format('MMM')
+            //.toUpperCase()
           }
         />
         <YAxis
