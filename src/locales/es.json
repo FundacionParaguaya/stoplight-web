@@ -26,6 +26,7 @@
     "chooseView": "Elegir vista",
     "create": "Crear",
     "saveError": "Error al guardar tu Mapa de Vida",
+    "savePdfError": "Error al guardar tu Mapa de Vida en pdf para whatsapp",
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
     "clear": "Limpiar",
     "showMore": "Mostrar Más"

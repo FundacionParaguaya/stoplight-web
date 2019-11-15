@@ -11,7 +11,7 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import { submitDraft, sendMail } from '../../api';
+import { submitDraft, sendMail, sendLifemapPdf } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
@@ -66,20 +66,64 @@ export class Final extends Component {
     this.setState({
       loading: true
     });
-    const { t } = this.props;
+
+    const {
+      t,
+      i18n: { language }
+    } = this.props;
+
+    const pdf = generateIndicatorsReport(
+      this.props.currentDraft,
+      this.props.currentSurvey,
+      t,
+      language
+    );
+
+    pdf.getBlob(blob => {
+      const document = new File([blob], 'lifemap.pdf', {
+        type: 'application/pdf'
+      });
+    });
 
     // submit draft to server and wait for response
     submitDraft(this.props.user, this.props.currentDraft)
-      .then(() => {
-        this.toggleModal(
-          t('general.thankYou'),
-          t('views.final.lifemapSaved'),
-          t('general.gotIt'),
-          'success',
-          this.redirectToSurveys
-        );
-        // Reset ProgressBar Context
-        this.context.setRouteTree = {};
+      .then(response => {
+        const familyId = response.data.data.addSnapshot.family.familyId;
+        console.log('Family ID');
+        console.log(familyId);
+        pdf.getBlob(blob => {
+          const document = new File([blob], 'lifemap.pdf', {
+            type: 'application/pdf'
+          });
+
+          return sendLifemapPdf(document, familyId, this.props.user)
+            .then(() => {
+              this.toggleModal(
+                t('general.thankYou'),
+                t('views.final.lifemapSaved'),
+                t('general.gotIt'),
+                'success',
+                this.redirectToSurveys
+              );
+              // Reset ProgressBar Context
+              this.context.setRouteTree = {};
+            })
+            .catch(() => {
+              this.toggleModal(
+                t('general.warning'),
+                t('general.savePdfError'),
+                t('general.gotIt'),
+                'warning',
+                this.closeModal
+              );
+              this.toggleLoading();
+            })
+            .finally(() =>
+              this.setState({
+                loading: false
+              })
+            );
+        });
       })
       .catch(() => {
         this.toggleModal(
