@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
 import { submitDraft, sendMail, sendLifemapPdf } from '../../api';
@@ -151,6 +152,18 @@ export class Final extends Component {
     }));
   };
 
+  handleWhatsappClick = () => {
+    const { t } = this.props;
+
+    this.toggleModal(
+      t('general.thankYou'),
+      t('views.final.whatsappSent'),
+      t('general.gotIt'),
+      'success',
+      this.closeModal
+    );
+  };
+
   handleMailClick = email => {
     const {
       t,
@@ -241,7 +254,7 @@ export class Final extends Component {
           <div className={classes.gridContainer}>
             <Grid container spacing={2} className={classes.buttonContainer}>
               {primaryParticipant.email && (
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <Button
                     variant="outlined"
                     color="primary"
@@ -256,7 +269,25 @@ export class Final extends Component {
                   </Button>
                 </Grid>
               )}
-              <Grid item xs={12} sm={4}>
+
+              {primaryParticipant.phoneNumber && (
+                <Grid item xs={12} sm={3}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    disabled={this.state.loading}
+                    onClick={() => {
+                      this.handleWhatsappClick();
+                    }}
+                  >
+                    <WhatsAppIcon className={classes.leftIcon} />
+                    {t('views.final.whatsapp')}
+                  </Button>
+                </Grid>
+              )}
+
+              <Grid item xs={12} sm={3}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -276,7 +307,7 @@ export class Final extends Component {
                   {t('views.final.print')}
                 </Button>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -298,7 +329,7 @@ export class Final extends Component {
               </Grid>
             </Grid>
             <Grid container spacing={2} className={classes.buttonContainer}>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <Button
                   variant="contained"
                   color="primary"
