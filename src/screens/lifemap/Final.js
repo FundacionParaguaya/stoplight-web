@@ -9,7 +9,6 @@ import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
 import { submitDraft, sendMail, sendLifemapPdf } from '../../api';
@@ -281,7 +280,7 @@ export class Final extends Component {
                       this.handleWhatsappClick();
                     }}
                   >
-                    <WhatsAppIcon className={classes.leftIcon} />
+                    <MailIcon className={classes.leftIcon} />
                     {t('views.final.whatsapp')}
                   </Button>
                 </Grid>
