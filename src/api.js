@@ -48,6 +48,21 @@ export const sendMail = (document, mail, user, lang) => {
   });
 };
 
+export const sendLifemapPdf = (document, familyId, user) => {
+  const formData = new FormData();
+  formData.set('file', document);
+
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/lifemap/save?familyId=${familyId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  });
+};
+
 export const logout = user =>
   axios({
     method: 'get',
