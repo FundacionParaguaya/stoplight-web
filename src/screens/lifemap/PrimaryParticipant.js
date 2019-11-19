@@ -11,6 +11,8 @@ import uuid from 'uuid/v1';
 import * as Yup from 'yup';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import CallingCodes from './CallingCodes';
+import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import countries from 'localized-countries';
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
@@ -28,6 +30,10 @@ import {
 } from '../../utils/conditional-logic';
 
 const countryList = countries(require('localized-countries/data/en')).array();
+const phoneCodes = CallingCodes.map(element => ({
+  ...element,
+  country: `${element.country} - (+${element.value})`
+}));
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const validEmailAddress = 'validation.validEmailAddress';
@@ -48,7 +54,27 @@ const staticFields = {
   countFamilyMembers: Yup.string()
     .required(fieldIsRequired)
     .nullable(),
-  email: Yup.string().email(validEmailAddress)
+  email: Yup.string().email(validEmailAddress),
+  phoneNumber: Yup.string()
+    .test('phone-test', 'Not a valid phone number for the region', function(
+      value
+    ) {
+      const phoneUtil = PhoneNumberUtil.getInstance();
+      let validation = true;
+      if (value && value.length > 0) {
+        try {
+          console.log('Validating Phone number for US');
+          console.log(value);
+          const phone = phoneUtil.parse(value);
+          validation = phoneUtil.isValidNumber(phone);
+          console.log(phone);
+        } catch (e) {
+          validation = false;
+        }
+      }
+      return validation;
+    })
+    .nullable()
 };
 
 const buildValidationSchema = (surveyConfig, validationObject) => {
@@ -314,7 +340,8 @@ export class PrimaryParticipant extends Component {
         ''
       ),
       email: '',
-      phoneNumber: ''
+      phoneNumber: '',
+      phoneCode: _.get(currentSurvey, 'surveyConfig.surveyLocation.country', '')
     };
 
     return (
@@ -514,6 +541,18 @@ export class PrimaryParticipant extends Component {
                     name="email"
                     onChange={e =>
                       this.syncDraft(e.target.value, 'email', setFieldValue)
+                    }
+                  />
+
+                  <AutocompleteWithFormik
+                    label="Country Code Number"
+                    name="phoneCode"
+                    rawOptions={phoneCodes}
+                    labelKey="country"
+                    valueKey="code"
+                    isClearable={false}
+                    onChange={e =>
+                      this.syncDraft(e.target.value, 'phoneCode', setFieldValue)
                     }
                   />
                   <InputWithFormik
