@@ -79,12 +79,6 @@ export class Final extends Component {
       language
     );
 
-    pdf.getBlob(blob => {
-      const document = new File([blob], 'lifemap.pdf', {
-        type: 'application/pdf'
-      });
-    });
-
     // submit draft to server and wait for response
     submitDraft(this.props.user, this.props.currentDraft)
       .then(response => {
