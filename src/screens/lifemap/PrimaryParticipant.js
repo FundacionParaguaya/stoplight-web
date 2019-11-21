@@ -43,6 +43,8 @@ const schemaWithDateTransform = Yup.date()
     return originalValue ? moment.unix(originalValue).toDate() : new Date('');
   })
   .required(fieldIsRequired);
+
+const phoneUtil = PhoneNumberUtil.getInstance();
 const staticFields = {
   firstName: Yup.string().required(fieldIsRequired),
   lastName: Yup.string().required(fieldIsRequired),
@@ -60,7 +62,6 @@ const staticFields = {
     .test('phone-test', 'Not a valid phone number for the region', function(
       value
     ) {
-      const phoneUtil = PhoneNumberUtil.getInstance();
       let validation = true;
       if (value && value.length > 0) {
         try {
@@ -68,7 +69,6 @@ const staticFields = {
           const contryCode = phoneCodes.find(x => x.value === phoneCode).code;
           const international = '+' + phoneCode + ' ' + value;
           const phone = phoneUtil.parse(international, contryCode);
-
           validation = phoneUtil.isValidNumber(phone);
         } catch (e) {
           console.log(e);
@@ -280,6 +280,32 @@ export class PrimaryParticipant extends Component {
                 ...{
                   birthCountry: this.props.currentSurvey.surveyConfig
                     .surveyLocation.country
+                }
+              },
+              ...currentDraft.familyData.familyMembersList.slice(1)
+            ]
+          }
+        });
+      }
+      if (!this.props.currentDraft.familyData.familyMembersList[0].phoneCode) {
+        const { currentDraft } = this.props;
+        // update only the first item of familyMembersList
+        //  which is the primary participant
+        this.props.updateDraft({
+          ...currentDraft,
+          familyData: {
+            ...currentDraft.familyData,
+            familyMembersList: [
+              ...currentDraft.familyData.familyMembersList.slice(0, 0),
+              {
+                ...currentDraft.familyData.familyMembersList[0],
+                ...{
+                  phoneCode: phoneCodes.find(
+                    e =>
+                      e.code ==
+                      this.props.currentSurvey.surveyConfig.surveyLocation
+                        .country
+                  ).value
                 }
               },
               ...currentDraft.familyData.familyMembersList.slice(1)

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import store from './redux';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -243,6 +244,16 @@ export const getDimensionIndicators = (
     })
   });
 
+const formatPhone = (code, phone) => {
+  const phoneUtil = PhoneNumberUtil.getInstance();
+  if (phone && phone.length > 0) {
+    const international = '+' + code + ' ' + phone;
+    let phoneNumber = phoneUtil.parse(international, code);
+    console.log('Saving number as: ' + phoneNumber.getNationalNumber());
+    phone = phoneNumber.getNationalNumber();
+  }
+  return phone;
+};
 // submit a new snapshot/lifemap/draft
 export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
@@ -257,6 +268,7 @@ export const submitDraft = (user, snapshot) => {
   sanitizedSnapshot.economicSurveyDataList = economicSurveyDataList;
   sanitizedSnapshot.familyData.familyMembersList.forEach(member => {
     let { socioEconomicAnswers = [] } = member;
+    member.phoneNumber = formatPhone(member.phoneCode, member.phoneNumber);
     socioEconomicAnswers = socioEconomicAnswers.filter(validEconomicIndicator);
     // eslint-disable-next-line no-param-reassign
     member.socioEconomicAnswers = socioEconomicAnswers;
@@ -337,7 +349,7 @@ export const getDrafts = user =>
     },
     data: JSON.stringify({
       query:
-        'query { getSnapshotDraft{ snapshotDraftDate draftId lifemapNavHistory { url state } surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value multipleValue other} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender customGender birthDate documentType customDocumentType documentNumber email phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
+        'query { getSnapshotDraft{ snapshotDraftDate draftId lifemapNavHistory { url state } surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value multipleValue other} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
     })
   });
 
