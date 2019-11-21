@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import CallingCodes from './CallingCodes';
-import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 import countries from 'localized-countries';
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
@@ -55,6 +55,7 @@ const staticFields = {
     .required(fieldIsRequired)
     .nullable(),
   email: Yup.string().email(validEmailAddress),
+  phoneCode: Yup.string(),
   phoneNumber: Yup.string()
     .test('phone-test', 'Not a valid phone number for the region', function(
       value
@@ -65,10 +66,16 @@ const staticFields = {
         try {
           console.log('Validating Phone number for US');
           console.log(value);
-          const phone = phoneUtil.parse(value);
-          validation = phoneUtil.isValidNumber(phone);
+          const { phoneCode } = this.parent;
+          const codeValue = phoneCodes.find(x => x.code === phoneCode).value;
+          const international = '+' + codeValue + ' ' + value;
+          const phone = phoneUtil.parse(international, phoneCode);
           console.log(phone);
+          validation = phoneUtil.isValidNumber(phone);
+          console.log('validation');
+          console.log(validation);
         } catch (e) {
+          console.log(e);
           validation = false;
         }
       }
@@ -552,7 +559,11 @@ export class PrimaryParticipant extends Component {
                     valueKey="code"
                     isClearable={false}
                     onChange={e =>
-                      this.syncDraft(e.target.value, 'phoneCode', setFieldValue)
+                      this.syncDraft(
+                        e ? e.value : '',
+                        'phoneCode',
+                        setFieldValue
+                      )
                     }
                   />
                   <InputWithFormik
