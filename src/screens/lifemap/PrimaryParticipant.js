@@ -64,16 +64,12 @@ const staticFields = {
       let validation = true;
       if (value && value.length > 0) {
         try {
-          console.log('Validating Phone number for US');
-          console.log(value);
           const { phoneCode } = this.parent;
-          const codeValue = phoneCodes.find(x => x.code === phoneCode).value;
-          const international = '+' + codeValue + ' ' + value;
-          const phone = phoneUtil.parse(international, phoneCode);
-          console.log(phone);
+          const contryCode = phoneCodes.find(x => x.value === phoneCode).code;
+          const international = '+' + phoneCode + ' ' + value;
+          const phone = phoneUtil.parse(international, contryCode);
+
           validation = phoneUtil.isValidNumber(phone);
-          console.log('validation');
-          console.log(validation);
         } catch (e) {
           console.log(e);
           validation = false;
@@ -348,7 +344,11 @@ export class PrimaryParticipant extends Component {
       ),
       email: '',
       phoneNumber: '',
-      phoneCode: _.get(currentSurvey, 'surveyConfig.surveyLocation.country', '')
+      phoneCode: phoneCodes.find(
+        e =>
+          e.code ==
+          _.get(currentSurvey, 'surveyConfig.surveyLocation.country', '')
+      ).value
     };
 
     return (
@@ -556,7 +556,7 @@ export class PrimaryParticipant extends Component {
                     name="phoneCode"
                     rawOptions={phoneCodes}
                     labelKey="country"
-                    valueKey="code"
+                    valueKey="value"
                     isClearable={false}
                     onChange={e =>
                       this.syncDraft(
