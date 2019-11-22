@@ -16,6 +16,7 @@ import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import generateIndicatorsReport, {
   getReportTitle
 } from '../../pdfs/indicators-report';
@@ -127,12 +128,7 @@ export class Final extends Component {
           'warning',
           () => this.toggleModal()
         );
-      })
-      .finally(() =>
-        this.setState({
-          loading: false
-        })
-      );
+      });
   };
 
   redirectToSurveys = () => {
@@ -274,7 +270,7 @@ export class Final extends Component {
                       this.handleWhatsappClick();
                     }}
                   >
-                    <MailIcon className={classes.leftIcon} />
+                    <WhatsAppIcon className={classes.leftIcon} />
                     {t('views.final.whatsapp')}
                   </Button>
                 </Grid>
