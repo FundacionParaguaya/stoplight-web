@@ -11,6 +11,8 @@ import uuid from 'uuid/v1';
 import * as Yup from 'yup';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import CallingCodes from './CallingCodes';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 import countries from 'localized-countries';
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
@@ -28,15 +30,23 @@ import {
 } from '../../utils/conditional-logic';
 
 const countryList = countries(require('localized-countries/data/en')).array();
+const phoneCodes = CallingCodes.map(element => ({
+  ...element,
+  country: `${element.country} - (+${element.value})`
+}));
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const validEmailAddress = 'validation.validEmailAddress';
+const validPhoneNumber = 'validation.validPhoneNumber';
+
 const schemaWithDateTransform = Yup.date()
   .typeError(fieldIsRequired)
   .transform((_value, originalValue) => {
     return originalValue ? moment.unix(originalValue).toDate() : new Date('');
   })
   .required(fieldIsRequired);
+
+const phoneUtil = PhoneNumberUtil.getInstance();
 const staticFields = {
   firstName: Yup.string().required(fieldIsRequired),
   lastName: Yup.string().required(fieldIsRequired),
@@ -48,7 +58,26 @@ const staticFields = {
   countFamilyMembers: Yup.string()
     .required(fieldIsRequired)
     .nullable(),
-  email: Yup.string().email(validEmailAddress)
+  email: Yup.string().email(validEmailAddress),
+  phoneCode: Yup.string(),
+  phoneNumber: Yup.string()
+    .test('phone-test', validPhoneNumber, function(value) {
+      let validation = true;
+      if (value && value.length > 0) {
+        try {
+          const { phoneCode } = this.parent;
+          const contryCode = phoneCodes.find(x => x.value === phoneCode).code;
+          const international = '+' + phoneCode + ' ' + value;
+          const phone = phoneUtil.parse(international, contryCode);
+          validation = phoneUtil.isValidNumber(phone);
+        } catch (e) {
+          console.log(e);
+          validation = false;
+        }
+      }
+      return validation;
+    })
+    .nullable()
 };
 
 const buildValidationSchema = (surveyConfig, validationObject) => {
@@ -258,6 +287,32 @@ export class PrimaryParticipant extends Component {
           }
         });
       }
+      if (!this.props.currentDraft.familyData.familyMembersList[0].phoneCode) {
+        const { currentDraft } = this.props;
+        // update only the first item of familyMembersList
+        //  which is the primary participant
+        this.props.updateDraft({
+          ...currentDraft,
+          familyData: {
+            ...currentDraft.familyData,
+            familyMembersList: [
+              ...currentDraft.familyData.familyMembersList.slice(0, 0),
+              {
+                ...currentDraft.familyData.familyMembersList[0],
+                ...{
+                  phoneCode: phoneCodes.find(
+                    e =>
+                      e.code ==
+                      this.props.currentSurvey.surveyConfig.surveyLocation
+                        .country
+                  ).value
+                }
+              },
+              ...currentDraft.familyData.familyMembersList.slice(1)
+            ]
+          }
+        });
+      }
     }
     if (this.props.currentSurvey) {
       this.setState({
@@ -314,7 +369,12 @@ export class PrimaryParticipant extends Component {
         ''
       ),
       email: '',
-      phoneNumber: ''
+      phoneNumber: '',
+      phoneCode: phoneCodes.find(
+        e =>
+          e.code ==
+          _.get(currentSurvey, 'surveyConfig.surveyLocation.country', '')
+      ).value
     };
 
     return (
@@ -514,6 +574,22 @@ export class PrimaryParticipant extends Component {
                     name="email"
                     onChange={e =>
                       this.syncDraft(e.target.value, 'email', setFieldValue)
+                    }
+                  />
+
+                  <AutocompleteWithFormik
+                    label={t('views.family.phoneCode')}
+                    name="phoneCode"
+                    rawOptions={phoneCodes}
+                    labelKey="country"
+                    valueKey="value"
+                    isClearable={false}
+                    onChange={e =>
+                      this.syncDraft(
+                        e ? e.value : '',
+                        'phoneCode',
+                        setFieldValue
+                      )
                     }
                   />
                   <InputWithFormik
