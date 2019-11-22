@@ -135,6 +135,7 @@
       "gender": "Gender",
       "dateOfBirth": "Date of birth",
       "documentType": "Document type",
+      "phoneCode": "Country Code Number",
       "countryOfBirth": "Country of birth",
       "selectMonth": "Select month",
       "selectValidDate": "Please enter a valid date",

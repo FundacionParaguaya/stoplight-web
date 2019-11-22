@@ -37,6 +37,8 @@ const phoneCodes = CallingCodes.map(element => ({
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const validEmailAddress = 'validation.validEmailAddress';
+const validPhoneNumber = 'validation.validPhoneNumber';
+
 const schemaWithDateTransform = Yup.date()
   .typeError(fieldIsRequired)
   .transform((_value, originalValue) => {
@@ -59,9 +61,7 @@ const staticFields = {
   email: Yup.string().email(validEmailAddress),
   phoneCode: Yup.string(),
   phoneNumber: Yup.string()
-    .test('phone-test', 'Not a valid phone number for the region', function(
-      value
-    ) {
+    .test('phone-test', validPhoneNumber, function(value) {
       let validation = true;
       if (value && value.length > 0) {
         try {
@@ -578,7 +578,7 @@ export class PrimaryParticipant extends Component {
                   />
 
                   <AutocompleteWithFormik
-                    label="Country Code Number"
+                    label={t('views.family.phoneCode')}
                     name="phoneCode"
                     rawOptions={phoneCodes}
                     labelKey="country"
