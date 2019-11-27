@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Surveys from './screens/SurveysWithDrafts';
 // import Surveys from './screens/Surveys';
 import Lifemap from './screens/Lifemap';
+import Families from './screens/Families';
 import store, { persistor } from './redux';
 import defaultTheme from './theme';
 import Authenticator from './Authenticator';
@@ -42,6 +43,7 @@ class App extends Component {
                             <Switch>
                               <Route path="/surveys" component={Surveys} />
                               <Route path="/lifemap" component={Lifemap} />
+                              <Route path="/families" component={Families} />
                               {/* <Route path="/analytics" component={Analytics} /> */}
                               <Route path="/dashboard" component={Dashboard} />
                             </Switch>
