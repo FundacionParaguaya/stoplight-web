@@ -8,7 +8,7 @@ import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
-import chooseLifeMap from '../assets/choose_life_map.png';
+import chooseLifeMap from '../assets/family.png';
 import BottomSpacer from '../components/BottomSpacer';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { CONDITION_TYPES } from '../utils/conditional-logic';
@@ -21,6 +21,7 @@ const Families = ({ classes, user, t, i18n: { language } }) => {
   const [loading, setLoading] = useState(false);
   const [selectedOrganizations, setSelectedOrganizations] = useState([]);
   const [draftsNumber, setDraftsNumber] = useState(0);
+  const [height, setHeight] = React.useState('unset');
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -42,7 +43,10 @@ const Families = ({ classes, user, t, i18n: { language } }) => {
           organizationsData={selectedOrganizations}
           onChangeOrganization={setSelectedOrganizations}
         />
-        <div className={classes.snapshotsContainer}>
+        <div
+          className={classes.mainContainer}
+          style={{ height, maxHeight: height }}
+        >
           <FamilyTable
             //handleClickOnSnapshot={this.handleClickOnSnapshot}
             setDraftsNumber={setDraftsNumber}
@@ -56,11 +60,12 @@ const Families = ({ classes, user, t, i18n: { language } }) => {
 };
 
 const styles = theme => ({
-  snapshotsContainer: {
-    marginTop: theme.spacing(4)
-  },
-  subtitle: {
-    fontWeight: 400
+  mainContainer: {
+    //backgroundColor: '#fff',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(2),
+    width: '100%'
   },
   chooseLifeMapImage: {
     display: 'block',
@@ -83,42 +88,6 @@ const styles = theme => ({
   },
   mainSurveyContainerBoss: {
     backgroundColor: theme.palette.background.paper
-  },
-  surveyTitle: {
-    cursor: 'pointer',
-    color: '#309E43!important',
-    marginRight: 'auto',
-    fontSize: '18px!important',
-    marginBottom: '15px!important'
-  },
-  mainSurveyContainer: {
-    backgroundColor: '#fff',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 17,
-    paddingRight: 65,
-    height: '100%',
-
-    '& $p': {
-      fontSize: '14px',
-      color: '#6A6A6A',
-      marginBottom: 7
-    },
-    '& $p:last-child': {
-      marginBottom: 0
-    }
-  },
-  spinnerWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    height: 500,
-    alignItems: 'center'
-  },
-  button: {
-    marginBottom: 20
-  },
-  listContainer: {
-    position: 'relative'
   }
 });
 
