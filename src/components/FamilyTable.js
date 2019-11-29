@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { updateSurvey } from '../redux/actions';
 import { getFamiliesList } from '../api';
-import { getDateFormatByLocale } from '../utils/date-utils';
 import MaterialTable from 'material-table';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/family_face_large.png';
 import { Delete } from '@material-ui/icons';
+import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
+import { getDateFormatByLocale } from '../utils/date-utils';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -17,6 +19,18 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(2),
     width: '100%'
+  },
+  nameLabelStyle: {
+    fontSize: '14px',
+    width: '100%'
+  },
+  statusLabel: {
+    fontSize: '11px',
+    color: '#909090'
+  },
+  birthDateStyle: {
+    fontSize: '14px',
+    color: '#909090'
   }
 }));
 
@@ -31,8 +45,10 @@ const FamilyTable = ({
     t,
     i18n: { language }
   } = useTranslation();
+
   const classes = useStyles();
   const [families, setFamilies] = useState([]);
+  const dateFormat = getDateFormatByLocale(language);
 
   const goToFamily = rowData => {
     //TODO
@@ -62,6 +78,8 @@ const FamilyTable = ({
     <div className={classes.familyContainer}>
       <MaterialTable
         options={{
+          search: false,
+          toolbar: false,
           actionsColumnIndex: 4,
           pageSize: 10,
           rowStyle: {
@@ -88,7 +106,27 @@ const FamilyTable = ({
               />
             )
           },
-          { title: 'Family Name', field: 'name' },
+          {
+            title: 'Family Name',
+            field: 'name',
+            render: rowData => (
+              <div>
+                <Typography
+                  className={classes.nameLabelStyle}
+                  variant="subtitle1"
+                >
+                  {rowData.name}
+                </Typography>
+                <Typography className={classes.birthDateStyle} variant="h6">
+                  {rowData.person.birthdate
+                    ? `${t('views.snapshotsTable.dob')} ${moment(
+                        rowData.person.birthdate
+                      ).format(dateFormat)}`
+                    : ''}
+                </Typography>
+              </div>
+            )
+          },
           { title: 'Document', field: 'person.identificationNumber' },
           { title: 'Family Code', field: 'code' }
         ]}
