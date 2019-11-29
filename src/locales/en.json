@@ -26,6 +26,7 @@
     "chooseView": "Choose view",
     "create": "Create",
     "saveError": "Error while trying to save your Life Map",
+    "savePdfError": "Error while trying to save your Life Map pdf for whatsapp",
     "noOptionsToShow": "There are no options available to select",
     "clear": "Clear",
     "showMore": "Show More"
@@ -134,6 +135,7 @@
       "gender": "Gender",
       "dateOfBirth": "Date of birth",
       "documentType": "Document type",
+      "phoneCode": "Country Code Number",
       "countryOfBirth": "Country of birth",
       "selectMonth": "Select month",
       "selectValidDate": "Please enter a valid date",
@@ -273,10 +275,12 @@
       "lifemapCompleted": "Your Life Map is completed!",
       "print": "Print",
       "email": "Email",
+      "whatsapp": "Whatsapp",
       "download": "Download",
       "lifemapSaved": "Your Life Map has been successfully saved",
       "clickSafe": "Now, just click save!",
       "emailSent": "Your Life Map has been successfully sent via email. Don't forget to click on Save & Close!",
+      "whatsappSent": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184 after finishing the survey.",
       "emailError": "Error while trying to send your Life Map via email"
     },
     "familiesOverviewBlock": {

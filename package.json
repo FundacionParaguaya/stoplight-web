@@ -12,6 +12,7 @@
     "clsx": "^1.0.4",
     "formik": "^1.5.4",
     "fuse.js": "^3.4.5",
+    "google-libphonenumber": "^3.2.6",
     "i18next": "^15.0.8",
     "localized-countries": "^1.0.2",
     "lodash": "^4.17.14",

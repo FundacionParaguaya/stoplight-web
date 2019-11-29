@@ -11,11 +11,12 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import { submitDraft, sendMail } from '../../api';
+import { submitDraft, sendMail, sendLifemapPdf } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import generateIndicatorsReport, {
   getReportTitle
 } from '../../pdfs/indicators-report';
@@ -66,20 +67,58 @@ export class Final extends Component {
     this.setState({
       loading: true
     });
-    const { t } = this.props;
+
+    const {
+      t,
+      i18n: { language }
+    } = this.props;
+
+    const pdf = generateIndicatorsReport(
+      this.props.currentDraft,
+      this.props.currentSurvey,
+      t,
+      language
+    );
 
     // submit draft to server and wait for response
     submitDraft(this.props.user, this.props.currentDraft)
-      .then(() => {
-        this.toggleModal(
-          t('general.thankYou'),
-          t('views.final.lifemapSaved'),
-          t('general.gotIt'),
-          'success',
-          this.redirectToSurveys
-        );
-        // Reset ProgressBar Context
-        this.context.setRouteTree = {};
+      .then(response => {
+        const familyId = response.data.data.addSnapshot.family.familyId;
+        console.log('Family ID');
+        console.log(familyId);
+        pdf.getBlob(blob => {
+          const document = new File([blob], 'lifemap.pdf', {
+            type: 'application/pdf'
+          });
+
+          return sendLifemapPdf(document, familyId, this.props.user)
+            .then(() => {
+              this.toggleModal(
+                t('general.thankYou'),
+                t('views.final.lifemapSaved'),
+                t('general.gotIt'),
+                'success',
+                this.redirectToSurveys
+              );
+              // Reset ProgressBar Context
+              this.context.setRouteTree = {};
+            })
+            .catch(() => {
+              this.toggleModal(
+                t('general.warning'),
+                t('general.savePdfError'),
+                t('general.gotIt'),
+                'warning',
+                this.closeModal
+              );
+              this.toggleLoading();
+            })
+            .finally(() =>
+              this.setState({
+                loading: false
+              })
+            );
+        });
       })
       .catch(() => {
         this.toggleModal(
@@ -89,12 +128,7 @@ export class Final extends Component {
           'warning',
           () => this.toggleModal()
         );
-      })
-      .finally(() =>
-        this.setState({
-          loading: false
-        })
-      );
+      });
   };
 
   redirectToSurveys = () => {
@@ -105,6 +139,18 @@ export class Final extends Component {
     this.setState(prev => ({
       loading: !prev.loading
     }));
+  };
+
+  handleWhatsappClick = () => {
+    const { t } = this.props;
+
+    this.toggleModal(
+      t('general.thankYou'),
+      t('views.final.whatsappSent'),
+      t('general.gotIt'),
+      'success',
+      this.closeModal
+    );
   };
 
   handleMailClick = email => {
@@ -197,7 +243,7 @@ export class Final extends Component {
           <div className={classes.gridContainer}>
             <Grid container spacing={2} className={classes.buttonContainer}>
               {primaryParticipant.email && (
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <Button
                     variant="outlined"
                     color="primary"
@@ -212,7 +258,25 @@ export class Final extends Component {
                   </Button>
                 </Grid>
               )}
-              <Grid item xs={12} sm={4}>
+
+              {primaryParticipant.phoneNumber && (
+                <Grid item xs={12} sm={3}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    disabled={this.state.loading}
+                    onClick={() => {
+                      this.handleWhatsappClick();
+                    }}
+                  >
+                    <WhatsAppIcon className={classes.leftIcon} />
+                    {t('views.final.whatsapp')}
+                  </Button>
+                </Grid>
+              )}
+
+              <Grid item xs={12} sm={3}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -232,7 +296,7 @@ export class Final extends Component {
                   {t('views.final.print')}
                 </Button>
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={3}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -254,7 +318,7 @@ export class Final extends Component {
               </Grid>
             </Grid>
             <Grid container spacing={2} className={classes.buttonContainer}>
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <Button
                   variant="contained"
                   color="primary"

@@ -319,14 +319,14 @@ const generateAchievementsReportDefinition = (
               margin: CELL_MARGIN
             },
             {
-              text: achievement.roadmap,
+              text: achievement.action,
               alignment: 'center',
               style: 'priorityCell',
               fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',
               margin: CELL_MARGIN
             },
             {
-              text: achievement.action,
+              text: achievement.roadmap,
               alignment: 'center',
               style: 'priorityCell',
               fillColor: index % 2 === 0 ? '#ffffff' : '#f3f4f6',

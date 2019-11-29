@@ -26,6 +26,7 @@
     "chooseView": "Elegir vista",
     "create": "Crear",
     "saveError": "Error al guardar tu Mapa de Vida",
+    "savePdfError": "Error al guardar tu Mapa de Vida en pdf para whatsapp",
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
     "clear": "Limpiar",
     "showMore": "Mostrar Más"
@@ -130,6 +131,7 @@
       "documentNumber": "Número de documento",
       "selectACountry": "Seleccione un/tu país",
       "email": "Correo electrónico",
+      "phoneCode": "Código de teléfono",
       "phone": "Teléfono",
       "gender": "Género",
       "dateOfBirth": "Fecha de nacimiento",
@@ -274,10 +276,12 @@
       "lifemapCompleted": "¡Tu Mapa de Vida está completo!",
       "print": "Imprimir",
       "email": "Email",
+      "whatsapp": "Whatsapp",
       "download": "Descargar",
       "lifemapSaved": "Tu Mapa de Vida ha sido guardado exitosamente",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
       "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email. ¡No te olvides de seleccionar Guardar & cerrar!",
+      "whatsappSent": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184 después de guardar la encuesta.",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
     "familiesOverviewBlock": {
