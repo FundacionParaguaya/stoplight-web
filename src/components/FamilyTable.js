@@ -2,21 +2,13 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { Delete } from '@material-ui/icons';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
-import Fuse from 'fuse.js';
-import { CircularProgress } from '@material-ui/core';
-import { get } from 'lodash';
 import { updateSurvey } from '../redux/actions';
-import { getDrafts } from '../api';
+import { getFamiliesList } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
-import { SNAPSHOTS_STATUS } from '../redux/reducers';
-import { COLORS } from '../theme';
 import MaterialTable from 'material-table';
+import { withSnackbar } from 'notistack';
+import familyFace from '../assets/family_face_large.png';
+import { Delete } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -32,30 +24,45 @@ const FamilyTable = ({
   user,
   handleClickOnSnapshot,
   setDraftsNumber,
-  setDraftsLoading
+  setDraftsLoading,
+  enqueueSnackbar
 }) => {
   const {
     t,
     i18n: { language }
   } = useTranslation();
-  const dateFormat = getDateFormatByLocale(language);
   const classes = useStyles();
-  const [statusFilter, setStatusFilter] = useState('');
-  const [familiesFilter, setFamiliesFilter] = useState('');
-  const [snapshots, setSnapshots] = useState([]);
-  const [loadingSnapshots, setLoadingSnapshots] = useState(false);
-  const [deletingDraft, setDeletingDraft] = useState({
-    open: false,
-    draft: null
-  });
+  const [families, setFamilies] = useState([]);
 
   const goToFamily = rowData => {
     //TODO
   };
+
+  const loadFamilies = () => {
+    //TODO send information about pagination, family name and organizations
+    getFamiliesList(user, 1, null, null)
+      .then(response => {
+        setFamilies(response.data.content);
+      })
+      .catch(function(error) {
+        setFamilies([]);
+        enqueueSnackbar('Error al cargar lista de familias: ' + error.message, {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center'
+          }
+        });
+      });
+  };
+  useEffect(() => {
+    loadFamilies();
+  }, []);
   return (
     <div className={classes.familyContainer}>
       <MaterialTable
         options={{
+          actionsColumnIndex: 4,
           pageSize: 10,
           rowStyle: {
             backgroundColor: '#fff',
@@ -71,8 +78,18 @@ const FamilyTable = ({
           }
         }}
         columns={[
+          {
+            field: 'id',
+            Title: 'Avatar',
+            render: rowData => (
+              <img
+                src={familyFace}
+                style={{ width: 30, borderRadius: '50%' }}
+              />
+            )
+          },
           { title: 'Family Name', field: 'name' },
-          { title: 'Document', field: 'document' },
+          { title: 'Document', field: 'person.identificationNumber' },
           { title: 'Family Code', field: 'code' }
         ]}
         localization={{
@@ -94,15 +111,15 @@ const FamilyTable = ({
             }
           }
         }}
-        data={[]}
+        data={families}
         actions={[
           {
-            icon: 'delete',
-            tooltip: 'Borrar Usuario',
+            icon: Delete,
+            tooltip: 'Borrar Familia',
             onClick: (event, rowData) => goToFamily(rowData)
           }
         ]}
-        title="Lista de Usuarios"
+        title=""
       />
     </div>
   );
@@ -112,4 +129,7 @@ const mapStateToProps = ({ user }) => ({ user });
 
 const mapDispatchToProps = { updateSurvey };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FamilyTable);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withSnackbar(FamilyTable));

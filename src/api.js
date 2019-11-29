@@ -381,3 +381,14 @@ export const deleteDraft = (user, draftId) =>
       variables: { draftId }
     })
   });
+
+export const getFamiliesList = (user, page, name, organizations) =>
+  axios({
+    method: 'get',
+    url: `${
+      url[user.env]
+    }/api/v1/families/user/paginated?page=${page}&sortBy=name&sortDirection=asc`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
