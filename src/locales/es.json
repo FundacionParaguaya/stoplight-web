@@ -351,6 +351,12 @@
       "cannotUndo": "¡No puedes deshacer esta acción!",
       "areYouSure": "¿Estás seguro de que quieres eliminar este borrador?",
       "cannotDelete": "Ha ocurrido un error al eliminar el borrador. Por favor inténtelo de nuevo."
+    },
+    "deleteFamily": {
+      "confirmDeletion": "Confirme la eliminación",
+      "cannotUndo": "¡No puedes deshacer esta acción!",
+      "areYouSure": "¿Estás seguro de que quieres eliminar esta familia?",
+      "cannotDelete": "Ha ocurrido un error al eliminar la familia. Por favor inténtelo de nuevo."
     }
   },
   "reports": {

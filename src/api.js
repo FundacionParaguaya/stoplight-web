@@ -392,3 +392,12 @@ export const getFamiliesList = (user, page, name, organizations) =>
       Authorization: `Bearer ${user.token}`
     }
   });
+
+export const deleteFamily = (user, familyId) =>
+  axios({
+    method: 'delete',
+    url: `${url[user.env]}/api/v1/families/user/${familyId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });

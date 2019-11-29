@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import DeleteFamilyModal from './DeleteFamilyModal';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -34,6 +35,11 @@ const useStyles = makeStyles(theme => ({
   birthDateStyle: {
     fontSize: '14px',
     color: '#909090'
+  },
+  deleteStyle: {
+    cursor: 'pointer',
+    fontSize: '24px',
+    color: '#6A6A6A'
   }
 }));
 
@@ -51,6 +57,10 @@ const FamilyTable = ({
 
   const classes = useStyles();
   const [families, setFamilies] = useState([]);
+  const [deletingFamily, setDeletingFamily] = useState({
+    open: false,
+    family: null
+  });
   const dateFormat = getDateFormatByLocale(language);
 
   const goToFamily = (e, familyId) => {
@@ -60,12 +70,10 @@ const FamilyTable = ({
   };
 
   const renderDocumentType = type => {
-    console.log(type);
     type = type
       .replace(/-/gi, ' ')
       .replace(/_/gi, ' ')
       .toLowerCase();
-    console.log(type);
 
     return type;
   };
@@ -93,6 +101,12 @@ const FamilyTable = ({
 
   return (
     <div className={classes.familyContainer}>
+      <DeleteFamilyModal
+        onClose={() => setDeletingFamily({ open: false, family: null })}
+        open={deletingFamily.open}
+        family={deletingFamily.family}
+        reloadFamilies={loadFamilies}
+      />
       <MaterialTable
         options={{
           search: false,
@@ -202,12 +216,21 @@ const FamilyTable = ({
         actions={[
           {
             icon: Delete,
+            iconProps: {
+              color: '#6A6A6A'
+            },
             tooltip: 'Borrar Familia',
-            onClick: (event, rowData) => goToFamily(rowData)
+            onClick: (e, rowData) => {
+              e.stopPropagation();
+              setDeletingFamily({ open: true, family: rowData.familyId });
+            }
           },
           {
             icon: ArrowForwardIosIcon,
             tooltip: 'Ver Familia',
+            iconProps: {
+              color: '#6A6A6A'
+            },
             onClick: (event, rowData) => goToFamily(event, rowData.familyId)
           }
         ]}
