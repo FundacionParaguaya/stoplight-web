@@ -86,7 +86,7 @@ const FamilyTable = ({
       })
       .catch(function(error) {
         setFamilies([]);
-        enqueueSnackbar('Error al cargar lista de familias: ' + error.message, {
+        enqueueSnackbar(t('views.familyList.errorLoadingFamilies'), {
           variant: 'error',
           anchorOrigin: {
             vertical: 'bottom',
@@ -142,7 +142,7 @@ const FamilyTable = ({
 
           //Column Family Name
           {
-            title: 'Family Name',
+            title: t('views.familyList.familyName'),
             field: 'name',
             render: rowData => (
               <div>
@@ -164,7 +164,7 @@ const FamilyTable = ({
           },
           //Column Document
           {
-            title: 'Document',
+            title: t('views.familyList.document'),
             field: 'person.identificationNumber',
             render: rowData => (
               <div>
@@ -184,7 +184,7 @@ const FamilyTable = ({
           },
           //Column Family Code
           {
-            title: 'Family Code',
+            title: t('views.familyList.familyCode'),
             field: 'code',
             render: rowData => (
               <Typography className={classes.nameLabelStyle} variant="h6">
