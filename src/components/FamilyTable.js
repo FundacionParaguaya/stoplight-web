@@ -24,9 +24,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: '14px',
     width: '100%'
   },
-  statusLabel: {
-    fontSize: '11px',
-    color: '#909090'
+  documentLabel: {
+    fontSize: '14px',
+    color: '#909090',
+    textTransform: 'capitalize'
   },
   birthDateStyle: {
     fontSize: '14px',
@@ -54,6 +55,17 @@ const FamilyTable = ({
     //TODO
   };
 
+  const renderDocumentType = type => {
+    console.log(type);
+    type = type
+      .replace(/-/gi, ' ')
+      .replace(/_/gi, ' ')
+      .toLowerCase();
+    console.log(type);
+
+    return type;
+  };
+
   const loadFamilies = () => {
     //TODO send information about pagination, family name and organizations
     getFamiliesList(user, 1, null, null)
@@ -74,6 +86,7 @@ const FamilyTable = ({
   useEffect(() => {
     loadFamilies();
   }, []);
+
   return (
     <div className={classes.familyContainer}>
       <MaterialTable
@@ -96,6 +109,7 @@ const FamilyTable = ({
           }
         }}
         columns={[
+          //Column Avatar number of members
           {
             field: 'id',
             Title: 'Avatar',
@@ -106,6 +120,8 @@ const FamilyTable = ({
               />
             )
           },
+
+          //Column Family Name
           {
             title: 'Family Name',
             field: 'name',
@@ -127,7 +143,27 @@ const FamilyTable = ({
               </div>
             )
           },
-          { title: 'Document', field: 'person.identificationNumber' },
+          //Column Document
+          {
+            title: 'Document',
+            field: 'person.identificationNumber',
+            render: rowData => (
+              <div>
+                <Typography className={classes.documentLabel} variant="h6">
+                  {rowData.person.identificationType
+                    ? renderDocumentType(rowData.person.identificationType)
+                    : ''}
+                </Typography>
+                <Typography
+                  className={classes.nameLabelStyle}
+                  variant="subtitle1"
+                >
+                  {rowData.person.identificationNumber}
+                </Typography>
+              </div>
+            )
+          },
+          //Column Family Code
           { title: 'Family Code', field: 'code' }
         ]}
         localization={{
