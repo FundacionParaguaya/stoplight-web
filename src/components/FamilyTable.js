@@ -11,6 +11,7 @@ import { Delete } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles(theme => ({
     color: '#909090',
     textTransform: 'capitalize'
   },
+
   birthDateStyle: {
     fontSize: '14px',
     color: '#909090'
@@ -51,8 +53,10 @@ const FamilyTable = ({
   const [families, setFamilies] = useState([]);
   const dateFormat = getDateFormatByLocale(language);
 
-  const goToFamily = rowData => {
-    //TODO
+  const goToFamily = (e, familyId) => {
+    window.location.replace(
+      `https://${user.env}.povertystoplight.org/#families/${familyId}`
+    );
   };
 
   const renderDocumentType = type => {
@@ -101,7 +105,8 @@ const FamilyTable = ({
           },
           headerStyle: {
             backgroundColor: '#fff',
-            color: '#626262'
+            color: '#626262',
+            fontSize: '14px'
           },
           searchFieldStyle: {
             backgroundColor: '#fff',
@@ -164,7 +169,15 @@ const FamilyTable = ({
             )
           },
           //Column Family Code
-          { title: 'Family Code', field: 'code' }
+          {
+            title: 'Family Code',
+            field: 'code',
+            render: rowData => (
+              <Typography className={classes.nameLabelStyle} variant="h6">
+                {rowData.code ? rowData.code : ''}
+              </Typography>
+            )
+          }
         ]}
         localization={{
           pagination: {
@@ -191,6 +204,11 @@ const FamilyTable = ({
             icon: Delete,
             tooltip: 'Borrar Familia',
             onClick: (event, rowData) => goToFamily(rowData)
+          },
+          {
+            icon: ArrowForwardIosIcon,
+            tooltip: 'Ver Familia',
+            onClick: (event, rowData) => goToFamily(event, rowData.familyId)
           }
         ]}
         title=""
