@@ -31,13 +31,12 @@ const useStyles = makeStyles(theme => ({
     }
   },
   familiesFilterInput: {
-    paddingTop: '10.5px!important',
-    paddingBottom: '10.5px!important',
+    paddingTop: '12.0px!important',
+    paddingBottom: '12.0px!important',
     paddingRight: '14px!important',
     paddingLeft: '14px!important',
-    fontFamily: theme.typography.subtitle1.fontFamily,
-    fontWeight: theme.typography.fontWeightMedium,
-    fontSize: '13px'
+    fontFamily: 'Poppins',
+    fontSize: '12px'
   },
   familiesLabel: {
     color: '#6A6A6A',
@@ -47,6 +46,23 @@ const useStyles = makeStyles(theme => ({
   },
   familiesFilterLabelInput: {
     transform: 'translate(14px, -6px) scale(0.75)!important'
+  },
+  textField: {
+    backgroundColor: '#fff',
+    marginTop: '0px!important',
+    marginBottom: '0px!important',
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderRadius: '2px',
+        border: '1.5px solid #DCDEE3'
+      },
+      '&:hover fieldset': {
+        borderColor: 'hsl(0, 0%, 70%)'
+      },
+      '&.Mui-focused fieldset': {
+        border: '1.5px solid #309E43'
+      }
+    }
   }
 }));
 
@@ -85,27 +101,25 @@ const FamilyFilter = ({
         />
       </Grid>
       <Grid item md={8} sm={8} xs={12}>
-        <div className={classes.familiesFilterContainer}>
-          <TextField
-            InputProps={{
-              classes: {
-                input: classes.familiesFilterInput
-              }
-            }}
-            InputLabelProps={{
-              classes: {
-                root: classes.familiesLabel,
-                shrink: classes.familiesFilterLabelInput
-              }
-            }}
-            label={t('views.snapshotsTable.searchFamily')}
-            variant="outlined"
-            value={familiesFilter}
-            margin="dense"
-            fullWidth
-            onChange={e => setFamiliesFilter(e.target.value)}
-          />
-        </div>
+        <TextField
+          InputProps={{
+            classes: {
+              input: classes.familiesFilterInput
+            }
+          }}
+          InputLabelProps={{
+            classes: {
+              root: classes.familiesLabel,
+              shrink: classes.familiesFilterLabelInput
+            }
+          }}
+          variant="outlined"
+          margin="dense"
+          fullWidth
+          className={classes.textField}
+          onChange={e => setFamiliesFilter(e.target.value)}
+          label={t('views.snapshotsTable.searchFamily')}
+        />
       </Grid>
     </Grid>
   );
