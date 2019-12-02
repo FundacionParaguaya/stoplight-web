@@ -24,6 +24,10 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     [theme.breakpoints.down('xs')]: {
       width: '100%'
+    },
+    '& .MuiFormControl-marginDense': {
+      marginTop: 0,
+      marginBottom: 0
     }
   },
   familiesFilterInput: {
@@ -33,8 +37,16 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '14px!important',
     fontFamily: theme.typography.subtitle1.fontFamily,
     fontWeight: theme.typography.fontWeightMedium,
-    fontSize: '10px',
-    height: 'max-content'
+    fontSize: '13px'
+  },
+  familiesLabel: {
+    color: '#6A6A6A',
+    fontFamily: theme.typography.subtitle1.fontFamily,
+    fontWeight: theme.typography.fontWeightMedium,
+    fontSize: '13px'
+  },
+  familiesFilterLabelInput: {
+    transform: 'translate(14px, -6px) scale(0.75)!important'
   }
 }));
 
@@ -58,42 +70,44 @@ const FamilyFilter = ({
   const { t } = useTranslation();
 
   return (
-    <div className={classes.container}>
-      <Grid className={classes.innerContainer} container spacing={1}>
-        <React.Fragment>
-          <Grid item md={4} sm={4} xs={12}>
-            <OrganizationsFilter
-              data={[]}
-              showLabel={false}
-              //onChange={onChangeOrganization}
-              //hub={hubData}
-            />
-          </Grid>
-          <Grid item md={8} sm={8} xs={12}>
-            <div className={classes.familiesFilterContainer}>
-              <TextField
-                InputProps={{
-                  classes: {
-                    input: classes.familiesFilterInput
-                  }
-                }}
-                InputLabelProps={{
-                  classes: {
-                    root: classes.familiesLabel,
-                    shrink: classes.familiesFilterLabelInput
-                  }
-                }}
-                label={t('views.snapshotsTable.searchFamily')}
-                variant="outlined"
-                value={familiesFilter}
-                fullWidth
-                onChange={e => setFamiliesFilter(e.target.value)}
-              />
-            </div>
-          </Grid>
-        </React.Fragment>
+    <Grid
+      container
+      spacing={2}
+      className={classes.container}
+      alignItems="center"
+    >
+      <Grid item md={4} sm={4} xs={12}>
+        <OrganizationsFilter
+          data={[]}
+          showLabel={false}
+          //onChange={onChangeOrganization}
+          //hub={hubData}
+        />
       </Grid>
-    </div>
+      <Grid item md={8} sm={8} xs={12}>
+        <div className={classes.familiesFilterContainer}>
+          <TextField
+            InputProps={{
+              classes: {
+                input: classes.familiesFilterInput
+              }
+            }}
+            InputLabelProps={{
+              classes: {
+                root: classes.familiesLabel,
+                shrink: classes.familiesFilterLabelInput
+              }
+            }}
+            label={t('views.snapshotsTable.searchFamily')}
+            variant="outlined"
+            value={familiesFilter}
+            margin="dense"
+            fullWidth
+            onChange={e => setFamiliesFilter(e.target.value)}
+          />
+        </div>
+      </Grid>
+    </Grid>
   );
 };
 
