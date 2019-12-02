@@ -39,10 +39,12 @@ const Families = ({ classes, user, t, i18n: { language } }) => {
           />
         </div>
 
-        <FamilyFilter
-          organizationsData={selectedOrganizations}
-          onChangeOrganization={setSelectedOrganizations}
-        />
+        <div>
+          <FamilyFilter
+            organizationsData={selectedOrganizations}
+            onChangeOrganization={setSelectedOrganizations}
+          />
+        </div>
         <div
           className={classes.mainContainer}
           style={{ height, maxHeight: height }}
@@ -61,7 +63,7 @@ const Families = ({ classes, user, t, i18n: { language } }) => {
 
 const styles = theme => ({
   mainContainer: {
-    //backgroundColor: '#fff',
+    backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),

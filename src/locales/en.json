@@ -361,7 +361,9 @@
       "errorLoadingFamilies": "Something went wrong while loading the families. Please try again.",
       "familyName": "Family Name",
       "document": "Document",
-      "familyCode": "Family Code"
+      "familyCode": "Family Code",
+      "search": "Search",
+      "empty": "No Family to show"
     }
   },
   "reports": {

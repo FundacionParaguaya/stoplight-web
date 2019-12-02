@@ -362,7 +362,9 @@
       "errorLoadingFamilies": "Ocurrió un error al cargar las familias. Por favor intente otra vez.",
       "familyName": "Familia",
       "document": "Documento",
-      "familyCode": "Código"
+      "familyCode": "Código",
+      "search": "Buscar",
+      "empty": "No hay familias para mostrar"
     }
   },
   "reports": {

@@ -20,7 +20,29 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
-    width: '100%'
+    width: '100%',
+    zIndex: 0,
+    '& .MuiButtonBase-root:hover': {
+      color: '#909090'
+    },
+    '& .MuiTypography-root': {
+      color: '#6A6A6A',
+      '&:hover': {
+        color: '#909090'
+      }
+    },
+    '& .MuiToolbar-root': {
+      backgroundColor: '#fff'
+    },
+    '& .MuiTableSortLabel-iconDirectionAsc': {
+      color: '#909090'
+    },
+    '& .MuiTableSortLabel-iconDirectionDesc': {
+      color: '#909090'
+    },
+    '& .MuiInputBase-input': {
+      padding: '0px 5px'
+    }
   },
   nameLabelStyle: {
     fontSize: '14px',
@@ -196,20 +218,17 @@ const FamilyTable = ({
         localization={{
           pagination: {
             labelDisplayedRows: '{from}-{to} of {count}',
-            labelRowsSelect: 'Filas'
+            labelRowsSelect: ''
           },
           toolbar: {
             nRowsSelected: '{0} row(s) selected',
-            searchPlaceholder: 'Buscar'
+            searchPlaceholder: t('views.familyList.search')
           },
           header: {
             actions: ''
           },
           body: {
-            emptyDataSourceMessage: 'No hay registros para mostrar',
-            filterRow: {
-              filterTooltip: 'Filtrar'
-            }
+            emptyDataSourceMessage: t('views.familyList.empty')
           }
         }}
         data={families}
