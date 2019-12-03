@@ -41,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     },
     '& .MuiInputBase-input': {
       padding: '0px 5px'
+    },
+    '& .MuiTableRow-root': {
+      backgroundColor: '#fff'
     }
   },
   nameLabelStyle: {

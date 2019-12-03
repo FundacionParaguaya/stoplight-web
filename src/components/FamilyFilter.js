@@ -87,6 +87,13 @@ const FamilyFilter = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
+  const checkFamiliesFilter = e => {
+    console.log(e.key);
+    if (e.key === 'Enter') {
+      console.log('do search');
+      setFamiliesFilter(e.target.value);
+    }
+  };
   return (
     <Grid
       container
@@ -122,7 +129,7 @@ const FamilyFilter = ({
             margin="dense"
             fullWidth
             className={classes.textField}
-            onChange={e => setFamiliesFilter(e.target.value)}
+            onKeyDown={e => checkFamiliesFilter(e)}
             label={t('views.familyList.searchFamily')}
           />
         </div>

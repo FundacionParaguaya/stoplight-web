@@ -28,6 +28,8 @@ const Families = ({
   //export class Families extends Component {
   const [loading, setLoading] = useState(false);
   const [selectedOrganizations, setOrganizations] = useState([]);
+  const [selectedFamilyFilter, setFamilyFilter] = useState(null);
+
   const [height, setHeight] = React.useState('unset');
   const [families, setFamilies] = useState([]);
 
@@ -41,11 +43,25 @@ const Families = ({
 
   const loadFamilies = () => {
     //TODO send information about pagination, family name and organizations
-    getFamiliesList(user, 1, null, null)
+    const sanitizedOrganizations = selectedOrganizations.map(
+      ({ value }) => value
+    );
+    console.log('seleted family filter: ', selectedFamilyFilter);
+
+    getFamiliesList(
+      user,
+      1,
+      null,
+      null,
+      selectedFamilyFilter,
+      sanitizedOrganizations
+    )
       .then(response => {
-        setFamilies(response.data.content);
+        console.log(response);
+        setFamilies(response.data.data.families.content);
       })
       .catch(function(error) {
+        console.log(error);
         setFamilies([]);
         enqueueSnackbar(t('views.familyList.errorLoadingFamilies'), {
           variant: 'error',
@@ -66,7 +82,8 @@ const Families = ({
   //Load Grid
   useEffect(() => {
     //Load Families
-  }, [selectedOrganizations]);
+    loadFamilies();
+  }, [selectedOrganizations, selectedFamilyFilter]);
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -88,6 +105,8 @@ const Families = ({
           <FamilyFilter
             organizationsData={selectedOrganizations}
             onChangeOrganization={setSelectedOrganizations}
+            familiesFilter={selectedFamilyFilter}
+            setFamiliesFilter={setFamilyFilter}
           />
         </div>
         <div
