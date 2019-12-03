@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -15,13 +15,58 @@ import { CONDITION_TYPES } from '../utils/conditional-logic';
 import withLayout from '../components/withLayout';
 import FamilyTable from '../components/FamilyTable';
 import FamilyFilter from '../components/FamilyFilter';
+import { getFamiliesList } from '../api';
+import { withSnackbar } from 'notistack';
 
-const Families = ({ classes, user, t, i18n: { language } }) => {
+const Families = ({
+  classes,
+  user,
+  t,
+  i18n: { language },
+  enqueueSnackbar
+}) => {
   //export class Families extends Component {
   const [loading, setLoading] = useState(false);
-  const [selectedOrganizations, setSelectedOrganizations] = useState([]);
-  const [draftsNumber, setDraftsNumber] = useState(0);
+  const [selectedOrganizations, setOrganizations] = useState([]);
   const [height, setHeight] = React.useState('unset');
+  const [families, setFamilies] = useState([]);
+
+  const setSelectedOrganizations = (selected, allOrganizations) => {
+    if (selected.some(org => org.value === 'ALL')) {
+      setOrganizations(allOrganizations);
+    } else {
+      setOrganizations(selected);
+    }
+  };
+
+  const loadFamilies = () => {
+    //TODO send information about pagination, family name and organizations
+    getFamiliesList(user, 1, null, null)
+      .then(response => {
+        setFamilies(response.data.content);
+      })
+      .catch(function(error) {
+        setFamilies([]);
+        enqueueSnackbar(t('views.familyList.errorLoadingFamilies'), {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center'
+          }
+        });
+      });
+  };
+
+  // Clearing selected organizations when the hub filter changes
+  useEffect(() => {
+    loadFamilies();
+    setSelectedOrganizations([]);
+  }, []);
+
+  //Load Grid
+  useEffect(() => {
+    //Load Families
+  }, [selectedOrganizations]);
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -50,9 +95,9 @@ const Families = ({ classes, user, t, i18n: { language } }) => {
           style={{ height, maxHeight: height }}
         >
           <FamilyTable
-            //handleClickOnSnapshot={this.handleClickOnSnapshot}
-            setDraftsNumber={setDraftsNumber}
-            setDraftsLoading={setLoading}
+            setFamilies={setFamilies}
+            families={families}
+            loadFamilies={loadFamilies}
           />
         </div>
       </Container>
@@ -102,6 +147,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(withTranslation()(withLayout(Families)))
+    )(withTranslation()(withLayout(withSnackbar(Families))))
   )
 );

@@ -53,7 +53,7 @@ const useStyles = makeStyles(() => ({
   selector: { width: '100%' }
 }));
 
-const OrganizationsFilter = ({ user, data, hub, onChange, showLabel }) => {
+const OrganizationsFilter = ({ user, data, hub, onChange }) => {
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -86,11 +86,10 @@ const OrganizationsFilter = ({ user, data, hub, onChange, showLabel }) => {
   }
   return (
     <div className={classes.container}>
-      {showLabel && (
-        <Typography variant="subtitle1" className={classes.label}>
-          {t('views.organizationsFilter.label')}
-        </Typography>
-      )}
+      <Typography variant="subtitle1" className={classes.label}>
+        {t('views.organizationsFilter.label')}
+      </Typography>
+
       <div className={classes.selector}>
         <Select
           value={data}

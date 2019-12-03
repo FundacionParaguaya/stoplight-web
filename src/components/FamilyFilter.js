@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import OrganizationsFilter from './OrganizationsFilter';
 import { ROLES_NAMES } from '../utils/role-utils';
 import TextField from '@material-ui/core/TextField';
 import { useTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    padding: `${theme.spacing(10)}px 0`,
+    padding: `${theme.spacing(8)}px 0`,
     paddingBottom: 40
   },
   innerContainer: {
@@ -63,6 +64,13 @@ const useStyles = makeStyles(theme => ({
         border: '1.5px solid #309E43'
       }
     }
+  },
+  label: { marginRight: 10, fontSize: 14 },
+  containerFamilySearch: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center'
   }
 }));
 
@@ -70,14 +78,8 @@ const showHubFilters = ({ role }) =>
   role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
 const FamilyFilter = ({
-  hubData,
-  onChangeHub,
   organizationsData,
   onChangeOrganization,
-  from,
-  to,
-  onFromDateChanged,
-  onToDateChanged,
   familiesFilter,
   setFamiliesFilter,
   user
@@ -92,34 +94,38 @@ const FamilyFilter = ({
       className={classes.container}
       alignItems="center"
     >
-      <Grid item md={4} sm={4} xs={12}>
+      <Grid item md={6} sm={6} xs={12}>
         <OrganizationsFilter
-          data={[]}
-          showLabel={false}
-          //onChange={onChangeOrganization}
-          //hub={hubData}
+          data={organizationsData}
+          onChange={onChangeOrganization}
         />
       </Grid>
-      <Grid item md={8} sm={8} xs={12}>
-        <TextField
-          InputProps={{
-            classes: {
-              input: classes.familiesFilterInput
-            }
-          }}
-          InputLabelProps={{
-            classes: {
-              root: classes.familiesLabel,
-              shrink: classes.familiesFilterLabelInput
-            }
-          }}
-          variant="outlined"
-          margin="dense"
-          fullWidth
-          className={classes.textField}
-          onChange={e => setFamiliesFilter(e.target.value)}
-          label={t('views.snapshotsTable.searchFamily')}
-        />
+      <Grid item md={6} sm={6} xs={12}>
+        <div className={classes.containerFamilySearch}>
+          <Typography variant="subtitle1" className={classes.label}>
+            {t('views.familyList.search')}
+          </Typography>
+          <TextField
+            InputProps={{
+              //startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
+              classes: {
+                input: classes.familiesFilterInput
+              }
+            }}
+            InputLabelProps={{
+              classes: {
+                root: classes.familiesLabel,
+                shrink: classes.familiesFilterLabelInput
+              }
+            }}
+            variant="outlined"
+            margin="dense"
+            fullWidth
+            className={classes.textField}
+            onChange={e => setFamiliesFilter(e.target.value)}
+            label={t('views.familyList.searchFamily')}
+          />
+        </div>
       </Grid>
     </Grid>
   );

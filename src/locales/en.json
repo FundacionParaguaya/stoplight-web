@@ -363,7 +363,8 @@
       "document": "Document",
       "familyCode": "Family Code",
       "search": "Search",
-      "empty": "No Family to show"
+      "empty": "No Family to show",
+      "searchFamily": "Name or Document Number"
     }
   },
   "reports": {

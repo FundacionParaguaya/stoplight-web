@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { updateSurvey } from '../redux/actions';
-import { getFamiliesList } from '../api';
 import MaterialTable from 'material-table';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/family_face_large.png';
@@ -65,20 +64,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FamilyTable = ({
-  user,
-  handleClickOnSnapshot,
-  setDraftsNumber,
-  setDraftsLoading,
-  enqueueSnackbar
-}) => {
+const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
   const {
     t,
     i18n: { language }
   } = useTranslation();
 
   const classes = useStyles();
-  const [families, setFamilies] = useState([]);
   const [deletingFamily, setDeletingFamily] = useState({
     open: false,
     family: null
@@ -99,27 +91,6 @@ const FamilyTable = ({
 
     return type;
   };
-
-  const loadFamilies = () => {
-    //TODO send information about pagination, family name and organizations
-    getFamiliesList(user, 1, null, null)
-      .then(response => {
-        setFamilies(response.data.content);
-      })
-      .catch(function(error) {
-        setFamilies([]);
-        enqueueSnackbar(t('views.familyList.errorLoadingFamilies'), {
-          variant: 'error',
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'center'
-          }
-        });
-      });
-  };
-  useEffect(() => {
-    loadFamilies();
-  }, []);
 
   return (
     <div className={classes.familyContainer}>
