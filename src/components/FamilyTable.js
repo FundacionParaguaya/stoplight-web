@@ -149,10 +149,10 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
                   {rowData.name}
                 </Typography>
                 <Typography className={classes.birthDateStyle} variant="h6">
-                  {rowData.person.birthdate
-                    ? `${t('views.snapshotsTable.dob')} ${moment(
-                        rowData.person.birthdate
-                      ).format(dateFormat)}`
+                  {rowData.birthDate
+                    ? `${t('views.snapshotsTable.dob')} ${moment
+                        .unix(rowData.birthDate)
+                        .format(dateFormat)}`
                     : ''}
                 </Typography>
               </div>
@@ -161,19 +161,19 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
           //Column Document
           {
             title: t('views.familyList.document'),
-            field: 'person.identificationNumber',
+            field: 'documentTypeText',
             render: rowData => (
               <div>
                 <Typography className={classes.documentLabel} variant="h6">
-                  {rowData.person.identificationType
-                    ? renderDocumentType(rowData.person.identificationType)
+                  {rowData.documentTypeText
+                    ? renderDocumentType(rowData.documentTypeText)
                     : ''}
                 </Typography>
                 <Typography
                   className={classes.nameLabelStyle}
                   variant="subtitle1"
                 >
-                  {rowData.person.identificationNumber}
+                  {rowData.documentNumber}
                 </Typography>
               </div>
             )
