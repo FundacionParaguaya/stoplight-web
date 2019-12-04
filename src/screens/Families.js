@@ -1,17 +1,19 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+  useRef
+} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
-import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/family.png';
 import BottomSpacer from '../components/BottomSpacer';
-import { getDateFormatByLocale } from '../utils/date-utils';
-import { CONDITION_TYPES } from '../utils/conditional-logic';
 import withLayout from '../components/withLayout';
 import FamilyTable from '../components/FamilyTable';
 import FamilyFilter from '../components/FamilyFilter';
@@ -29,7 +31,7 @@ const Families = ({
   const [loading, setLoading] = useState(false);
   const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedFamilyFilter, setFamilyFilter] = useState(null);
-
+  const tableRef = useRef();
   const [height, setHeight] = React.useState('unset');
   const [families, setFamilies] = useState([]);
 
@@ -47,23 +49,27 @@ const Families = ({
       ({ value }) => value
     );
     console.log('Current Page: ', query);
-    const page = query ? query.page + 1 : 1;
+    const page = query ? query.page : 0;
     const pageSize = query ? query.pageSize : 20;
+    const orderDirection = query ? query.orderDirection : '';
+    const sortBy = query && query.orderBy ? query.orderBy.field : '';
+
     console.log('Current Page Size : ', pageSize);
 
     return getFamiliesList(
       user,
       page,
-      null,
-      null,
+      sortBy,
+      orderDirection,
       selectedFamilyFilter,
       sanitizedOrganizations
     )
       .then(response => {
         //https://material-table.com/#/docs/features/remote-data
+        console.log('reloading data');
         return {
           data: response.data.data.families.content,
-          page: page - 1,
+          page: page,
           totalCount: response.data.data.families.totalElements
         };
       })
@@ -89,7 +95,10 @@ const Families = ({
   //Load Grid
   useEffect(() => {
     //Load Families
-    loadFamilies();
+    // loadFamilies();
+    if (tableRef.current && tableRef.current.onQueryChange) {
+      tableRef.current.onQueryChange();
+    }
   }, [selectedOrganizations, selectedFamilyFilter]);
 
   return (
@@ -121,6 +130,7 @@ const Families = ({
           style={{ height, maxHeight: height }}
         >
           <FamilyTable
+            tableRef={tableRef}
             setFamilies={setFamilies}
             families={families}
             loadFamilies={loadFamilies}

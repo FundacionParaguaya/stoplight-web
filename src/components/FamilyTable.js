@@ -34,10 +34,10 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: '#fff'
     },
     '& .MuiTableSortLabel-iconDirectionAsc': {
-      color: '#909090'
+      color: '#6A6A6A'
     },
     '& .MuiTableSortLabel-iconDirectionDesc': {
-      color: '#909090'
+      color: '#6A6A6A'
     },
     '& .MuiInputBase-input': {
       padding: '0px 5px'
@@ -67,7 +67,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
+const FamilyTable = ({
+  user,
+  setFamilies,
+  families,
+  loadFamilies,
+  tableRef
+}) => {
   const {
     t,
     i18n: { language }
@@ -104,6 +110,7 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
         reloadFamilies={loadFamilies}
       />
       <MaterialTable
+        tableRef={tableRef}
         options={{
           search: false,
           toolbar: false,
@@ -130,6 +137,7 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
           {
             field: 'id',
             Title: 'Avatar',
+            sorting: false,
             render: rowData => (
               <img
                 src={familyFace}
@@ -163,7 +171,8 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
           //Column Document
           {
             title: t('views.familyList.document'),
-            field: 'documentTypeText',
+            field: 'documentNumber',
+            sorting: false,
             render: rowData => (
               <div>
                 <Typography className={classes.documentLabel} variant="h6">

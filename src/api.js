@@ -398,7 +398,8 @@ export const getFamiliesList = (
     },
     data: JSON.stringify({
       query:
-        'query families($organizations: [Long], $name: String, $page: Int) { families(organizations: $organizations, name:$name, page:$page){content {familyId name code birthDate documentTypeText  documentNumber} totalPages totalElements }}',
+        'query families($organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String) ' +
+        '{ families(organizations: $organizations, name:$name, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber} totalPages totalElements }}',
       variables: {
         organizations,
         name,
