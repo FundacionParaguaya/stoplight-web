@@ -43,7 +43,8 @@ const useStyles = makeStyles(theme => ({
       padding: '0px 5px'
     },
     '& .MuiTableRow-root': {
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
+      color: '#fff'
     }
   },
   nameLabelStyle: {
@@ -107,7 +108,7 @@ const FamilyTable = ({
         onClose={() => setDeletingFamily({ open: false, family: null })}
         open={deletingFamily.open}
         family={deletingFamily.family}
-        reloadFamilies={loadFamilies}
+        tableRef={tableRef}
       />
       <MaterialTable
         tableRef={tableRef}
@@ -115,8 +116,8 @@ const FamilyTable = ({
           search: false,
           toolbar: false,
           actionsColumnIndex: 4,
-          pageSize: 20,
-          pageSizeOptions: [20],
+          pageSize: 10,
+          pageSizeOptions: [10],
           initialPage: 0,
           rowStyle: {
             backgroundColor: '#fff',
