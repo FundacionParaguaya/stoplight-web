@@ -12,6 +12,7 @@ import moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import DeleteFamilyModal from './DeleteFamilyModal';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -65,6 +66,19 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer',
     fontSize: '24px',
     color: '#6A6A6A'
+  },
+  icon: {
+    border: '2px solid #FFFFFF',
+    borderRadius: '50%',
+    backgroundColor: '#F3F4F6',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 22,
+    height: 22,
+    position: 'absolute',
+    top: -7,
+    right: -7
   }
 }));
 
@@ -140,10 +154,24 @@ const FamilyTable = ({
             Title: 'Avatar',
             sorting: false,
             render: rowData => (
-              <img
-                src={familyFace}
-                style={{ width: 30, borderRadius: '50%' }}
-              />
+              <div
+                style={{
+                  position: 'relative',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  display: 'flex'
+                }}
+              >
+                <div className={classes.icon}>
+                  <Typography variant="h6" style={{ fontSize: 9 }}>
+                    +3
+                  </Typography>
+                </div>
+                <img
+                  src={familyFace}
+                  style={{ maxWidth: 30, maxHeight: 30, objectFit: 'contain' }}
+                />
+              </div>
             )
           },
 

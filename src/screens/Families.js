@@ -28,7 +28,6 @@ const Families = ({
   enqueueSnackbar
 }) => {
   //export class Families extends Component {
-  const [loading, setLoading] = useState(false);
   const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedFamilyFilter, setFamilyFilter] = useState(null);
   const tableRef = useRef();
@@ -44,7 +43,6 @@ const Families = ({
   };
 
   const loadFamilies = query => {
-    //TODO send information about pagination, family name and organizations
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
     );
@@ -53,8 +51,6 @@ const Families = ({
     const pageSize = query ? query.pageSize : 20;
     const orderDirection = query ? query.orderDirection : '';
     const sortBy = query && query.orderBy ? query.orderBy.field : '';
-
-    console.log('Current Page Size : ', pageSize);
 
     return getFamiliesList(
       user,
