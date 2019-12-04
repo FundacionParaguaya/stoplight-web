@@ -364,7 +364,9 @@
       "familyCode": "Family Code",
       "search": "Search",
       "empty": "No Family to show",
-      "searchFamily": "Name or Document Number"
+      "searchFamily": "Name or Document Number",
+      "delete": "Delete Family",
+      "show": "Show Family"
     }
   },
   "reports": {

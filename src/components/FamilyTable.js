@@ -212,7 +212,7 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
             iconProps: {
               color: '#6A6A6A'
             },
-            tooltip: 'Borrar Familia',
+            tooltip: t('views.familyList.delete'),
             onClick: (e, rowData) => {
               e.stopPropagation();
               setDeletingFamily({ open: true, family: rowData.familyId });
@@ -220,7 +220,7 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
           },
           {
             icon: ArrowForwardIosIcon,
-            tooltip: 'Ver Familia',
+            tooltip: t('views.familyList.show'),
             iconProps: {
               color: '#6A6A6A'
             },

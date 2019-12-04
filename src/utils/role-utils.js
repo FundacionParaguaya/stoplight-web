@@ -9,7 +9,7 @@ export const ROLES = {
     { item: 'hubs', platform: OLD },
     { item: 'surveys', platform: OLD },
     { item: 'users', platform: OLD },
-    { item: 'families', platform: OLD },
+    { item: 'families', platform: NEW },
     { item: 'map', platform: OLD }
   ],
   ROLE_HUB_ADMIN: [
@@ -17,7 +17,7 @@ export const ROLES = {
     { item: 'surveys', platform: OLD },
     { item: 'organizations', platform: OLD },
     { item: 'users', platform: OLD },
-    { item: 'families', platform: OLD },
+    { item: 'families', platform: NEW },
     { item: 'map', platform: OLD }
   ],
   ROLE_PS_TEAM: [
@@ -31,17 +31,17 @@ export const ROLES = {
     { item: 'reports', platform: OLD },
     { item: 'surveys', platform: OLD },
     { item: 'users', platform: OLD },
-    { item: 'families', platform: OLD },
+    { item: 'families', platform: NEW },
     { item: 'map', platform: OLD }
   ],
   ROLE_SURVEY_USER: [
     { item: 'surveys', platform: NEW },
-    { item: 'families', platform: OLD },
+    { item: 'families', platform: NEW },
     { item: 'map', platform: OLD }
   ],
   ROLE_SURVEY_USER_ADMIN: [
     { item: 'surveys', platform: NEW },
-    { item: 'families', platform: OLD },
+    { item: 'families', platform: NEW },
     { item: 'map', platform: OLD }
   ],
   ROLE_SURVEY_TAKER: [{ item: 'surveys', platform: NEW }]

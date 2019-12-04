@@ -365,7 +365,9 @@
       "familyCode": "Código",
       "search": "Buscar",
       "empty": "No hay familias para mostrar",
-      "searchFamily": "Nombre o número de documento"
+      "searchFamily": "Nombre o número de documento",
+      "delete": "Borrar Familia",
+      "show": "Mostrar Familia"
     }
   },
   "reports": {
