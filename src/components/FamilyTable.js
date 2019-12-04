@@ -108,7 +108,9 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
           search: false,
           toolbar: false,
           actionsColumnIndex: 4,
-          pageSize: 10,
+          pageSize: 20,
+          pageSizeOptions: [20],
+          initialPage: 0,
           rowStyle: {
             backgroundColor: '#fff',
             color: '#626262'
@@ -192,7 +194,7 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
         localization={{
           pagination: {
             labelDisplayedRows: '{from}-{to} of {count}',
-            labelRowsSelect: ''
+            labelRowsSelect: 'rows'
           },
           toolbar: {
             nRowsSelected: '{0} row(s) selected',
@@ -205,7 +207,7 @@ const FamilyTable = ({ user, setFamilies, families, loadFamilies }) => {
             emptyDataSourceMessage: t('views.familyList.empty')
           }
         }}
-        data={families}
+        data={loadFamilies}
         actions={[
           {
             icon: Delete,

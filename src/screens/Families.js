@@ -41,24 +41,31 @@ const Families = ({
     }
   };
 
-  const loadFamilies = () => {
+  const loadFamilies = query => {
     //TODO send information about pagination, family name and organizations
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
     );
-    console.log('seleted family filter: ', selectedFamilyFilter);
+    console.log('Current Page: ', query);
+    const page = query ? query.page + 1 : 1;
+    const pageSize = query ? query.pageSize : 20;
+    console.log('Current Page Size : ', pageSize);
 
-    getFamiliesList(
+    return getFamiliesList(
       user,
-      1,
+      page,
       null,
       null,
       selectedFamilyFilter,
       sanitizedOrganizations
     )
       .then(response => {
-        console.log(response);
-        setFamilies(response.data.data.families.content);
+        //https://material-table.com/#/docs/features/remote-data
+        return {
+          data: response.data.data.families.content,
+          page: page - 1,
+          totalCount: response.data.data.families.totalElements
+        };
       })
       .catch(function(error) {
         console.log(error);
