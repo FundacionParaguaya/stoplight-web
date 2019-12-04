@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '24px',
     color: '#6A6A6A'
   },
-  icon: {
+  iconBadgeNumber: {
     border: '2px solid #FFFFFF',
     borderRadius: '50%',
     backgroundColor: '#F3F4F6',
@@ -79,6 +79,17 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: -7,
     right: -7
+  },
+  iconFamily: {
+    maxWidth: 30,
+    maxHeight: 30,
+    objectFit: 'contain'
+  },
+  badgeNumberContainer: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex'
   }
 }));
 
@@ -154,23 +165,13 @@ const FamilyTable = ({
             Title: 'Avatar',
             sorting: false,
             render: rowData => (
-              <div
-                style={{
-                  position: 'relative',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  display: 'flex'
-                }}
-              >
-                <div className={classes.icon}>
+              <div class={classes.badgeNumberContainer}>
+                <div className={classes.iconBadgeNumber}>
                   <Typography variant="h6" style={{ fontSize: 9 }}>
-                    +3
+                    +{rowData.countFamilyMembers}
                   </Typography>
                 </div>
-                <img
-                  src={familyFace}
-                  style={{ maxWidth: 30, maxHeight: 30, objectFit: 'contain' }}
-                />
+                <img src={familyFace} className={classes.iconFamily} />
               </div>
             )
           },
