@@ -22,6 +22,9 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     width: '100%',
     zIndex: 0,
+    '& .overflow-y': {
+      backgroundColor: '#fff'
+    },
     '& .MuiButtonBase-root:hover': {
       color: '#909090'
     },
@@ -46,6 +49,9 @@ const useStyles = makeStyles(theme => ({
     '& .MuiTableRow-root': {
       backgroundColor: '#fff',
       color: '#fff'
+    },
+    '& .MuiPaper-root > div > div:first-of-type': {
+      backgroundColor: '#fff'
     }
   },
   nameLabelStyle: {
