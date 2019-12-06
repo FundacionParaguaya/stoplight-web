@@ -67,7 +67,9 @@ const Families = ({
           'reloading data',
           response.data.data.families.totalElements
         );
-        setNumberOfRows(response.data.data.families.totalElements);
+        setNumberOfRows(
+          getFormatNumber(response.data.data.families.totalElements + '')
+        );
         return {
           data: response.data.data.families.content,
           page: page,
@@ -87,6 +89,9 @@ const Families = ({
       });
   };
 
+  const getFormatNumber = total => {
+    return total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
     loadFamilies();
@@ -107,15 +112,15 @@ const Families = ({
       <Container>
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
+            <img
+              src={chooseLifeMap}
+              alt="Choose Life Map"
+              className={classes.chooseLifeMapImage}
+            />
             <Typography variant="h4">
               {t('views.toolbar.households')}
             </Typography>
           </div>
-          <img
-            src={chooseLifeMap}
-            alt="Choose Life Map"
-            className={classes.chooseLifeMapImage}
-          />
         </div>
 
         <div>
@@ -152,12 +157,27 @@ const styles = theme => ({
     //padding: theme.spacing(2),
     width: '100%'
   },
+  titleBalls: {
+    position: 'relative',
+    top: '10%',
+    right: '25%',
+    width: '90%',
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
+  },
   chooseLifeMapImage: {
     display: 'block',
     height: 240,
     right: 30,
     position: 'absolute',
-    top: 20
+    top: 20,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   titleContainer: {
     display: 'flex',
