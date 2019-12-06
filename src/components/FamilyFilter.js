@@ -16,7 +16,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     padding: `${theme.spacing(4)}px 0`,
     paddingBottom: 40,
-    zIndex: 99
+    zIndex: 99,
+    position: 'relative'
   },
   innerContainer: {
     zIndex: 2
