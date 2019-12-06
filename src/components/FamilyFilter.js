@@ -76,8 +76,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const showHubFilters = ({ role }) =>
-  role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
+const showOrgFilters = ({ role }) => {
+  return (
+    role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+    role === ROLES_NAMES.ROLE_APP_ADMIN ||
+    role === ROLES_NAMES.ROLE_ROOT
+  );
+};
 
 const FamilyFilter = ({
   organizationsData,
@@ -103,12 +108,14 @@ const FamilyFilter = ({
       className={classes.container}
       alignItems="center"
     >
-      <Grid item md={6} sm={6} xs={12}>
-        <OrganizationsFilter
-          data={organizationsData}
-          onChange={onChangeOrganization}
-        />
-      </Grid>
+      {showOrgFilters(user) && (
+        <Grid item md={6} sm={6} xs={12}>
+          <OrganizationsFilter
+            data={organizationsData}
+            onChange={onChangeOrganization}
+          />
+        </Grid>
+      )}
       <Grid item md={6} sm={6} xs={12}>
         <div className={classes.containerFamilySearch}>
           <Typography variant="subtitle1" className={classes.label}>

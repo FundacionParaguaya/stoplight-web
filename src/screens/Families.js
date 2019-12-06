@@ -92,6 +92,7 @@ const Families = ({
   const getFormatNumber = total => {
     return total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
+
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
     loadFamilies();

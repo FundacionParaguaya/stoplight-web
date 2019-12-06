@@ -106,7 +106,7 @@ const useStyles = makeStyles(theme => ({
   labelRows: {
     marginRight: 10,
     marginLeft: 10,
-    fontSize: 12,
+    fontSize: 14,
     height: 20
   }
 }));
