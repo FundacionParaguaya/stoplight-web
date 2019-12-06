@@ -366,7 +366,8 @@
       "empty": "No Family to show",
       "searchFamily": "Name or Document Number",
       "delete": "Delete Family",
-      "show": "Show Family"
+      "show": "Show Family",
+      "rows": "Families Found"
     }
   },
   "reports": {

@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2),
+    //padding: theme.spacing(1),
     width: '100%',
     zIndex: 0,
     '& .overflow-y': {
@@ -94,16 +94,24 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     display: 'flex'
+  },
+  familyCountContainer: {
+    height: 37,
+    width: '100%',
+    opacity: 1,
+    backgroundColor: '#f3f4f687',
+    display: 'flex',
+    alignItems: 'center'
+  },
+  labelRows: {
+    marginRight: 10,
+    marginLeft: 10,
+    fontSize: 12,
+    height: 20
   }
 }));
 
-const FamilyTable = ({
-  user,
-  setFamilies,
-  families,
-  loadFamilies,
-  tableRef
-}) => {
+const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
   const {
     t,
     i18n: { language }
@@ -139,6 +147,11 @@ const FamilyTable = ({
         family={deletingFamily.family}
         tableRef={tableRef}
       />
+      <div className={classes.familyCountContainer}>
+        <Typography className={classes.labelRows} variant="subtitle1">
+          {numberOfRows} {t('views.familyList.rows')}
+        </Typography>
+      </div>
       <MaterialTable
         tableRef={tableRef}
         options={{

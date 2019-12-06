@@ -367,7 +367,8 @@
       "empty": "No hay familias para mostrar",
       "searchFamily": "Nombre o número de documento",
       "delete": "Borrar Familia",
-      "show": "Mostrar Familia"
+      "show": "Mostrar Familia",
+      "rows": "Familias Encontradas"
     }
   },
   "reports": {

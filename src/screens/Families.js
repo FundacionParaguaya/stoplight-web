@@ -33,6 +33,7 @@ const Families = ({
   const tableRef = useRef();
   const [height, setHeight] = React.useState('unset');
   const [families, setFamilies] = useState([]);
+  const [numberOfRows, setNumberOfRows] = useState(0);
 
   const setSelectedOrganizations = (selected, allOrganizations) => {
     if (selected.some(org => org.value === 'ALL')) {
@@ -62,7 +63,11 @@ const Families = ({
     )
       .then(response => {
         //https://material-table.com/#/docs/features/remote-data
-        console.log('reloading data');
+        console.log(
+          'reloading data',
+          response.data.data.families.totalElements
+        );
+        setNumberOfRows(response.data.data.families.totalElements);
         return {
           data: response.data.data.families.content,
           page: page,
@@ -130,6 +135,7 @@ const Families = ({
             setFamilies={setFamilies}
             families={families}
             loadFamilies={loadFamilies}
+            numberOfRows={numberOfRows}
           />
         </div>
       </Container>
@@ -143,7 +149,7 @@ const styles = theme => ({
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
-    padding: theme.spacing(2),
+    //padding: theme.spacing(2),
     width: '100%'
   },
   chooseLifeMapImage: {
