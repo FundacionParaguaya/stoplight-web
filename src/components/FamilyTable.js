@@ -37,12 +37,10 @@ const useStyles = makeStyles(theme => ({
     '& .MuiToolbar-root': {
       backgroundColor: '#fff'
     },
-    '& .MuiTableSortLabel-iconDirectionAsc': {
+    '& .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon': {
       color: '#6A6A6A'
     },
-    '& .MuiTableSortLabel-iconDirectionDesc': {
-      color: '#6A6A6A'
-    },
+
     '& .MuiInputBase-input': {
       padding: '0px 5px'
     },
@@ -171,7 +169,7 @@ const FamilyTable = ({
             Title: 'Avatar',
             sorting: false,
             render: rowData => (
-              <div class={classes.badgeNumberContainer}>
+              <div className={classes.badgeNumberContainer}>
                 <div className={classes.iconBadgeNumber}>
                   <Typography variant="h6" style={{ fontSize: 9 }}>
                     +{rowData.countFamilyMembers}
@@ -229,6 +227,7 @@ const FamilyTable = ({
           {
             title: t('views.familyList.familyCode'),
             field: 'code',
+            sorting: false,
             render: rowData => (
               <Typography className={classes.nameLabelStyle} variant="h6">
                 {rowData.code ? rowData.code : ''}
