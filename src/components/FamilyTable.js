@@ -183,11 +183,14 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
             sorting: false,
             render: rowData => (
               <div className={classes.badgeNumberContainer}>
-                <div className={classes.iconBadgeNumber}>
-                  <Typography variant="h6" style={{ fontSize: 9 }}>
-                    +{rowData.countFamilyMembers}
-                  </Typography>
-                </div>
+                {rowData.countFamilyMembers > 1 && (
+                  <div className={classes.iconBadgeNumber}>
+                    <Typography variant="h6" style={{ fontSize: 9 }}>
+                      +{rowData.countFamilyMembers - 1}
+                    </Typography>
+                  </div>
+                )}
+
                 <img src={familyFace} className={classes.iconFamily} />
               </div>
             )
