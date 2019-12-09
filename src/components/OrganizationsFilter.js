@@ -89,6 +89,7 @@ const OrganizationsFilter = ({ user, data, hub, onChange }) => {
       <Typography variant="subtitle1" className={classes.label}>
         {t('views.organizationsFilter.label')}
       </Typography>
+
       <div className={classes.selector}>
         <Select
           value={data}

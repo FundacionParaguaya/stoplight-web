@@ -106,6 +106,7 @@ const Dashboard = ({ classes, user, t, i18n: { language } }) => {
             indicatorsArray = [...indicatorsArray, ...ind];
           }
         });
+        console.log(indicatorsArray);
         setIndicators(indicatorsArray);
 
         // We sort the array against a static ORDERED_DIMENSIONS order
@@ -268,9 +269,10 @@ const Dashboard = ({ classes, user, t, i18n: { language } }) => {
       <Container className={classes.whiteContainer} variant="fluid">
         <Container>
           <IndicatorsVisualisation
-            data={[...(indicators || [])].sort((a, b) =>
+            /* data={[...(indicators || [])].sort((a, b) =>
               a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-            )}
+            )}*/
+            data={indicators}
             loading={loadingDimensionsIndicators}
           />
         </Container>

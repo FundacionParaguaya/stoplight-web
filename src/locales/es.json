@@ -351,6 +351,24 @@
       "cannotUndo": "¡No puedes deshacer esta acción!",
       "areYouSure": "¿Estás seguro de que quieres eliminar este borrador?",
       "cannotDelete": "Ha ocurrido un error al eliminar el borrador. Por favor inténtelo de nuevo."
+    },
+    "deleteFamily": {
+      "confirmDeletion": "Confirme la eliminación",
+      "cannotUndo": "¡No puedes deshacer esta acción!",
+      "areYouSure": "¿Estás seguro de que quieres eliminar esta familia?",
+      "cannotDelete": "Ha ocurrido un error al eliminar la familia. Por favor inténtelo de nuevo."
+    },
+    "familyList": {
+      "errorLoadingFamilies": "Ocurrió un error al cargar las familias. Por favor intente otra vez.",
+      "familyName": "Familia",
+      "document": "Documento",
+      "familyCode": "Código",
+      "search": "Buscar",
+      "empty": "No hay familias para mostrar",
+      "searchFamily": "Nombre o número de documento",
+      "delete": "Borrar Familia",
+      "show": "Mostrar Familia",
+      "rows": "Familias Encontradas"
     }
   },
   "reports": {

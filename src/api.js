@@ -381,3 +381,40 @@ export const deleteDraft = (user, draftId) =>
       variables: { draftId }
     })
   });
+
+export const getFamiliesList = (
+  user,
+  page,
+  sortBy,
+  sortDirection,
+  name,
+  organizations
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query families($organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String) ' +
+        '{ families(organizations: $organizations, name:$name, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
+      variables: {
+        organizations,
+        name,
+        page,
+        sortBy,
+        sortDirection
+      }
+    })
+  });
+
+export const deleteFamily = (user, familyId) =>
+  axios({
+    method: 'delete',
+    url: `${url[user.env]}/api/v1/families/user/${familyId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
