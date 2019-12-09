@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ import moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import DeleteFamilyModal from './DeleteFamilyModal';
-import clsx from 'clsx';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -124,6 +124,32 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
   });
   const dateFormat = getDateFormatByLocale(language);
 
+  const actionList = () => {
+    const list = [];
+    if (showDeleteAction(user)) {
+      list.push({
+        icon: Delete,
+        iconProps: {
+          color: '#6A6A6A'
+        },
+        tooltip: t('views.familyList.delete'),
+        onClick: (e, rowData) => {
+          e.stopPropagation();
+          setDeletingFamily({ open: true, family: rowData.familyId });
+        }
+      });
+    }
+    list.push({
+      icon: ArrowForwardIosIcon,
+      tooltip: t('views.familyList.show'),
+      iconProps: {
+        color: '#6A6A6A'
+      },
+      onClick: (event, rowData) => goToFamily(event, rowData.familyId)
+    });
+    return list;
+  };
+
   const goToFamily = (e, familyId) => {
     window.location.replace(
       `https://${user.env}.povertystoplight.org/#families/${familyId}`
@@ -137,6 +163,14 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
       .toLowerCase();
 
     return type;
+  };
+
+  const showDeleteAction = ({ role }) => {
+    return (
+      role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+      role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_ROOT
+    );
   };
 
   return (
@@ -268,27 +302,7 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
           }
         }}
         data={loadFamilies}
-        actions={[
-          {
-            icon: Delete,
-            iconProps: {
-              color: '#6A6A6A'
-            },
-            tooltip: t('views.familyList.delete'),
-            onClick: (e, rowData) => {
-              e.stopPropagation();
-              setDeletingFamily({ open: true, family: rowData.familyId });
-            }
-          },
-          {
-            icon: ArrowForwardIosIcon,
-            tooltip: t('views.familyList.show'),
-            iconProps: {
-              color: '#6A6A6A'
-            },
-            onClick: (event, rowData) => goToFamily(event, rowData.familyId)
-          }
-        ]}
+        actions={actionList()}
         title=""
       />
     </div>
