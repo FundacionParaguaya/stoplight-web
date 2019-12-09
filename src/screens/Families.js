@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useMemo,
-  useEffect,
-  useCallback,
-  useRef
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -49,7 +43,6 @@ const Families = ({
     );
     console.log('Current Page: ', query);
     const page = query ? query.page : 0;
-    const pageSize = query ? query.pageSize : 20;
     const orderDirection = query ? query.orderDirection : '';
     const sortBy = query && query.orderBy ? query.orderBy.field : '';
 
