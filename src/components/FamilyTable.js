@@ -12,7 +12,7 @@ import moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import DeleteFamilyModal from './DeleteFamilyModal';
-import { ROLES_NAMES } from '../utils/role-utils';
+import { ROLES_NAMES, getPlatform } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -151,9 +151,7 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
   };
 
   const goToFamily = (e, familyId) => {
-    window.location.replace(
-      `https://${user.env}.povertystoplight.org/#families/${familyId}`
-    );
+    window.location.replace(`${getPlatform(user.env)}/#families/${familyId}`);
   };
 
   const renderDocumentType = type => {
