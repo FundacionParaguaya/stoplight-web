@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
-    //padding: theme.spacing(1),
+    //padding: theme.spacing(2),
     width: '100%',
     zIndex: 0,
     '& .overflow-y': {
@@ -193,6 +193,7 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
           pageSize: 10,
           pageSizeOptions: [10],
           initialPage: 0,
+          draggable: false,
           rowStyle: {
             backgroundColor: '#fff',
             color: '#626262'
@@ -213,6 +214,7 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
             field: 'id',
             Title: 'Avatar',
             sorting: false,
+            grouping: false,
             render: rowData => (
               <div className={classes.badgeNumberContainer}>
                 {rowData.countFamilyMembers > 1 && (
@@ -232,6 +234,10 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
           {
             title: t('views.familyList.familyName'),
             field: 'name',
+            grouping: false,
+            removable: false,
+            disableClick: true,
+            readonly: true,
             render: rowData => (
               <div>
                 <Typography

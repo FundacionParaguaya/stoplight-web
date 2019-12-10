@@ -103,7 +103,7 @@ const Families = ({
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
-      <Container>
+      <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
             <img
