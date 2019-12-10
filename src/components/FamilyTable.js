@@ -40,6 +40,9 @@ const useStyles = makeStyles(theme => ({
     '& .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon': {
       color: '#6A6A6A'
     },
+    '& .MuiTableSortLabel-root': {
+      color: '#6A6A6A'
+    },
 
     '& .MuiInputBase-input': {
       padding: '0px 5px'
