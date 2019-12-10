@@ -28,8 +28,10 @@ const Families = ({
   const [height, setHeight] = React.useState('unset');
   const [families, setFamilies] = useState([]);
   const [numberOfRows, setNumberOfRows] = useState(0);
+  const [resetPagination, setResetPagination] = useState(false);
 
   const setSelectedOrganizations = (selected, allOrganizations) => {
+    setResetPagination(true);
     if (selected.some(org => org.value === 'ALL')) {
       setOrganizations(allOrganizations);
     } else {
@@ -37,12 +39,29 @@ const Families = ({
     }
   };
 
+  const onChangeFamiliesFilter = e => {
+    console.log(e.key);
+    if (e.key === 'Enter') {
+      console.log('do search');
+      setFamilyFilter(e.target.value);
+      setResetPagination(true);
+    }
+  };
+
   const loadFamilies = query => {
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
     );
-    console.log('Current Page: ', query);
-    const page = query ? query.page : 0;
+
+    let page = query ? query.page : 0;
+    console.log('selectedFamilyFilter: ', selectedFamilyFilter);
+    if (resetPagination) {
+      console.log('reset Pagination: ', resetPagination);
+      page = 0;
+      setResetPagination(false);
+    }
+    console.log('Current Page: ', page);
+
     const orderDirection = query ? query.orderDirection : '';
     const sortBy = query && query.orderBy ? query.orderBy.field : '';
 
@@ -56,10 +75,7 @@ const Families = ({
     )
       .then(response => {
         //https://material-table.com/#/docs/features/remote-data
-        console.log(
-          'reloading data',
-          response.data.data.families.totalElements
-        );
+
         setNumberOfRows(
           getFormatNumber(response.data.data.families.totalElements + '')
         );
@@ -121,8 +137,10 @@ const Families = ({
           <FamilyFilter
             organizationsData={selectedOrganizations}
             onChangeOrganization={setSelectedOrganizations}
+            onChangeFamiliesFilter={onChangeFamiliesFilter}
             familiesFilter={selectedFamilyFilter}
             setFamiliesFilter={setFamilyFilter}
+            setResetPagination={setResetPagination}
           />
         </div>
         <div
