@@ -86,39 +86,16 @@ export class Final extends Component {
         const familyId = response.data.data.addSnapshot.family.familyId;
         console.log('Family ID');
         console.log(familyId);
-        pdf.getBlob(blob => {
-          const document = new File([blob], 'lifemap.pdf', {
-            type: 'application/pdf'
-          });
 
-          return sendLifemapPdf(document, familyId, this.props.user)
-            .then(() => {
-              this.toggleModal(
-                t('general.thankYou'),
-                t('views.final.lifemapSaved'),
-                t('general.gotIt'),
-                'success',
-                this.redirectToSurveys
-              );
-              // Reset ProgressBar Context
-              this.context.setRouteTree = {};
-            })
-            .catch(() => {
-              this.toggleModal(
-                t('general.warning'),
-                t('general.savePdfError'),
-                t('general.gotIt'),
-                'warning',
-                this.closeModal
-              );
-              this.toggleLoading();
-            })
-            .finally(() =>
-              this.setState({
-                loading: false
-              })
-            );
-        });
+        this.toggleModal(
+          t('general.thankYou'),
+          t('views.final.lifemapSaved'),
+          t('general.gotIt'),
+          'success',
+          this.redirectToSurveys
+        );
+        // Reset ProgressBar Context
+        this.context.setRouteTree = {};
       })
       .catch(() => {
         this.toggleModal(
@@ -128,7 +105,12 @@ export class Final extends Component {
           'warning',
           () => this.toggleModal()
         );
-      });
+      })
+      .finally(() =>
+        this.setState({
+          loading: false
+        })
+      );
   };
 
   redirectToSurveys = () => {
@@ -393,8 +375,5 @@ const styles = theme => ({
 });
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(Final))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Final))
 );
