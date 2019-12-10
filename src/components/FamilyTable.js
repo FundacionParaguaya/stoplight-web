@@ -85,7 +85,7 @@ const useStyles = makeStyles(theme => ({
     height: 22,
     position: 'absolute',
     top: -7,
-    right: -7
+    right: -1
   },
   iconFamily: {
     maxWidth: 30,
