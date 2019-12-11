@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
-    //padding: theme.spacing(1),
+    //padding: theme.spacing(2),
     width: '100%',
     zIndex: 0,
     '& .overflow-y': {
@@ -38,6 +38,9 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: '#fff'
     },
     '& .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon': {
+      color: '#6A6A6A'
+    },
+    '& .MuiTableSortLabel-root': {
       color: '#6A6A6A'
     },
 
@@ -82,7 +85,7 @@ const useStyles = makeStyles(theme => ({
     height: 22,
     position: 'absolute',
     top: -7,
-    right: -7
+    right: -1
   },
   iconFamily: {
     maxWidth: 30,
@@ -193,6 +196,7 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
           pageSize: 10,
           pageSizeOptions: [10],
           initialPage: 0,
+          draggable: false,
           rowStyle: {
             backgroundColor: '#fff',
             color: '#626262'
@@ -213,6 +217,7 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
             field: 'id',
             Title: 'Avatar',
             sorting: false,
+            grouping: false,
             render: rowData => (
               <div className={classes.badgeNumberContainer}>
                 {rowData.countFamilyMembers > 1 && (
@@ -232,6 +237,10 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
           {
             title: t('views.familyList.familyName'),
             field: 'name',
+            grouping: false,
+            removable: false,
+            disableClick: true,
+            readonly: true,
             render: rowData => (
               <div>
                 <Typography
