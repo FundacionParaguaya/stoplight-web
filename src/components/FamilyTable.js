@@ -84,8 +84,8 @@ const useStyles = makeStyles(theme => ({
     width: 22,
     height: 22,
     position: 'absolute',
-    top: -7,
-    right: -1
+    top: -9,
+    right: 3
   },
   iconFamily: {
     maxWidth: 30,
@@ -96,7 +96,9 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
-    display: 'flex'
+    display: 'flex',
+    margin: '0 auto',
+    width: 60
   },
   familyCountContainer: {
     height: 37,
