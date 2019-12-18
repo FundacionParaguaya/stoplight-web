@@ -24,7 +24,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import LocationIcon from '../../assets/location.png';
 import MarkerIcon from '../../assets/marker.png';
 
-const params = { v: '3.exp', key: 'AIzaSyAOJGqHfbWY_u7XhRnLi7EbVjdK-osBgAM' };
+const params = { v: '3.exp', key: 'AIzaSyDF4n6tIKlZ6m1EVoV3riz6ENQgVeBPNmU' };
 Geocode.setApiKey(params.key);
 
 class Location extends Component {
@@ -395,8 +395,5 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(Location))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Location))
 );
