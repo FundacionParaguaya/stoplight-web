@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
-import { getOrganizationsByHub } from '../api';
+import { getMentors } from '../api';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -74,9 +74,9 @@ const FacilitatoFilter = ({ user, data, org, onChange }) => {
     value: 'ALL'
   };
   let organizationsToShow =
-    organizations.length !== data.length && organizations.length > 1
-      ? [allOrganizationsOption, ...organizations]
-      : [...organizations];
+    facilitators.length !== data.length && facilitators.length > 1
+      ? [allOrganizationsOption, ...facilitators]
+      : [...facilitators];
   if (data.some(d => d.value === 'ALL')) {
     organizationsToShow = [];
   }

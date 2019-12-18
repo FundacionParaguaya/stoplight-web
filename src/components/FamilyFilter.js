@@ -7,6 +7,7 @@ import { ROLES_NAMES } from '../utils/role-utils';
 import TextField from '@material-ui/core/TextField';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
+import FacilitatorFilter from './FacilitatorFilter';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -112,7 +113,7 @@ const FamilyFilter = ({
       )}
       {showOrgFilters(user) && (
         <Grid item md={4} sm={4} xs={12}>
-          <OrganizationsFilter
+          <FacilitatorFilter
             data={organizationsData}
             onChange={onChangeOrganization}
           />
