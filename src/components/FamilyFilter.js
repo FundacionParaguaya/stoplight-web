@@ -91,7 +91,9 @@ const FamilyFilter = ({
   familiesFilter,
   onChangeFamiliesFilter,
   user,
-  setResetPagination
+  setResetPagination,
+  facilitatorsData,
+  onChangeFacilitator
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -114,8 +116,9 @@ const FamilyFilter = ({
       {showOrgFilters(user) && (
         <Grid item md={4} sm={4} xs={12}>
           <FacilitatorFilter
-            data={organizationsData}
-            onChange={onChangeOrganization}
+            data={facilitatorsData}
+            org={organizationsData}
+            onChange={onChangeFacilitator}
           />
         </Grid>
       )}

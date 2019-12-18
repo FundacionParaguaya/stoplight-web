@@ -53,7 +53,7 @@ const useStyles = makeStyles(() => ({
   selector: { width: '100%' }
 }));
 
-const FacilitatoFilter = ({ user, data, org, onChange }) => {
+const FacilitatorFilter = ({ user, data, org, onChange }) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -62,7 +62,7 @@ const FacilitatoFilter = ({ user, data, org, onChange }) => {
     setLoading(true);
     setFacilitators([]);
     //TODO support array of orgs id
-    getMentors(user, org && org.value ? org.value : null)
+    getMentors(user, org[0] && org[0].value ? org[0].value : null)
       .then(response => {
         setFacilitators(response.data.data.getMentors);
       })
@@ -73,12 +73,15 @@ const FacilitatoFilter = ({ user, data, org, onChange }) => {
     label: t('views.facilitatorFilter.allFacilitators'),
     value: 'ALL'
   };
-  let organizationsToShow =
-    facilitators.length !== data.length && facilitators.length > 1
-      ? [allOrganizationsOption, ...facilitators]
+  let facilitatorsToShow =
+    facilitators &&
+    data &&
+    facilitators.length !== data.length &&
+    facilitators.length > 1
+      ? [allFacilitatorsOption, ...facilitators]
       : [...facilitators];
   if (data.some(d => d.value === 'ALL')) {
-    organizationsToShow = [];
+    facilitatorsToShow = [];
   }
   return (
     <div className={classes.container}>
@@ -94,7 +97,7 @@ const FacilitatoFilter = ({ user, data, org, onChange }) => {
           isLoading={loading}
           loadingMessage={() => t('views.facilitatorFilter.loading')}
           noOptionsMessage={() => t('views.facilitatorFilter.noOption')}
-          options={organizationsToShow}
+          options={facilitatorsToShow}
           components={{
             DropdownIndicator: () => <div />,
             IndicatorSeparator: () => <div />,

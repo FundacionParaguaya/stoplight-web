@@ -23,6 +23,7 @@ const Families = ({
 }) => {
   //export class Families extends Component {
   const [selectedOrganizations, setOrganizations] = useState([]);
+  const [selectedFacilitators, setFacilitators] = useState([]);
   const [selectedFamilyFilter, setFamilyFilter] = useState(null);
   const tableRef = useRef();
   const [height, setHeight] = React.useState('unset');
@@ -36,6 +37,15 @@ const Families = ({
       setOrganizations(allOrganizations);
     } else {
       setOrganizations(selected);
+    }
+  };
+
+  const setSelectedFacilitator = (selected, allFacilitators) => {
+    setResetPagination(true);
+    if (selected.some(org => org.value === 'ALL')) {
+      setFacilitators(allFacilitators);
+    } else {
+      setFacilitators(selected);
     }
   };
 
@@ -135,9 +145,11 @@ const Families = ({
 
         <div>
           <FamilyFilter
+            facilitatorsData={selectedFacilitators}
             organizationsData={selectedOrganizations}
             onChangeOrganization={setSelectedOrganizations}
             onChangeFamiliesFilter={onChangeFamiliesFilter}
+            onChangeFacilitator={setSelectedFacilitator}
             familiesFilter={selectedFamilyFilter}
             setFamiliesFilter={setFamilyFilter}
             setResetPagination={setResetPagination}

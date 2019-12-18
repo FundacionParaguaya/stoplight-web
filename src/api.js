@@ -409,6 +409,21 @@ export const getFamiliesList = (
       }
     })
   });
+export const getMentors = (user, organizationId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getMentors($organizationId: Long) {getMentors(organizationId: $organizationId) { userId username email}}',
+      variables: {
+        organizationId
+      }
+    })
+  });
 
 export const deleteFamily = (user, familyId) =>
   axios({
