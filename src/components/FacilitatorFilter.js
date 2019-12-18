@@ -61,10 +61,22 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
   useEffect(() => {
     setLoading(true);
     setFacilitators([]);
-    //TODO support array of orgs id
-    getMentors(user, org[0] && org[0].value ? org[0].value : null)
+
+    let organizations = org.map(function(el) {
+      return el.value;
+    });
+    console.log('organizations', organizations);
+    getMentors(user, organizations)
       .then(response => {
-        setFacilitators(response.data.data.getMentors);
+        const mentors = _.get(
+          response,
+          'data.data.getMentorsByOrganizations',
+          []
+        ).map(m => ({
+          label: m.username,
+          value: m.userId
+        }));
+        setFacilitators(mentors);
       })
       .finally(() => setLoading(false));
   }, [user, org]);

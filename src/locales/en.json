@@ -374,7 +374,7 @@
       "loading": "Loading...",
       "noOption": "No facilitators left",
       "noMatchFilters": "No results matching your filters",
-      "allOrganizations": "All Facilitators"
+      "allFacilitators": "All Facilitators"
     }
   },
   "reports": {

@@ -42,6 +42,7 @@ const Families = ({
 
   const setSelectedFacilitator = (selected, allFacilitators) => {
     setResetPagination(true);
+    console.log('setSelectedFacilitator', selected);
     if (selected.some(org => org.value === 'ALL')) {
       setFacilitators(allFacilitators);
     } else {
@@ -63,6 +64,10 @@ const Families = ({
       ({ value }) => value
     );
 
+    const sanitizedFacilitators = selectedFacilitators.map(
+      ({ value }) => value
+    );
+
     let page = query ? query.page : 0;
     console.log('selectedFamilyFilter: ', selectedFamilyFilter);
     if (resetPagination) {
@@ -81,7 +86,8 @@ const Families = ({
       sortBy,
       orderDirection,
       selectedFamilyFilter,
-      sanitizedOrganizations
+      sanitizedOrganizations,
+      sanitizedFacilitators
     )
       .then(response => {
         //https://material-table.com/#/docs/features/remote-data
@@ -116,6 +122,7 @@ const Families = ({
   useEffect(() => {
     loadFamilies();
     setSelectedOrganizations([]);
+    setSelectedFacilitator([]);
   }, []);
 
   //Load Grid
@@ -125,7 +132,7 @@ const Families = ({
     if (tableRef.current && tableRef.current.onQueryChange) {
       tableRef.current.onQueryChange();
     }
-  }, [selectedOrganizations, selectedFamilyFilter]);
+  }, [selectedOrganizations, selectedFamilyFilter, selectedFacilitators]);
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
