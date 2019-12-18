@@ -103,14 +103,22 @@ const FamilyFilter = ({
       alignItems="center"
     >
       {showOrgFilters(user) && (
-        <Grid item md={6} sm={6} xs={12}>
+        <Grid item md={4} sm={4} xs={12}>
           <OrganizationsFilter
             data={organizationsData}
             onChange={onChangeOrganization}
           />
         </Grid>
       )}
-      <Grid item md={6} sm={6} xs={12}>
+      {showOrgFilters(user) && (
+        <Grid item md={4} sm={4} xs={12}>
+          <OrganizationsFilter
+            data={organizationsData}
+            onChange={onChangeOrganization}
+          />
+        </Grid>
+      )}
+      <Grid item md={4} sm={4} xs={12}>
         <div className={classes.containerFamilySearch}>
           <Typography variant="subtitle1" className={classes.label}>
             {t('views.familyList.search')}

@@ -391,5 +391,12 @@
       "roadmap": "¿Quién o qué te motivó a alcanzarlo?",
       "action": "¿Qué hiciste para conseguirlo?"
     }
+  },
+  "facilitatorsFilter": {
+    "label": "Facilitadores",
+    "loading": "Cargando...",
+    "noOption": "No quedan facilitadores",
+    "noMatchFilters": "No hay resultados para los filtros aplicados",
+    "allOrganizations": "Todos los Facilitadores"
   }
 }
