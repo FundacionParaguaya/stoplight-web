@@ -203,7 +203,7 @@ const styles = theme => ({
     height: 240,
     right: 30,
     position: 'absolute',
-    top: 20,
+    top: -10,
     zIndex: 0,
     objectFit: 'cover',
     [theme.breakpoints.down('xs')]: {

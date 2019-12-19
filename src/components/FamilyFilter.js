@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    padding: `${theme.spacing(4)}px 0`,
-    paddingBottom: 40,
+    //padding: `${theme.spacing(4)}px 0`,
+    paddingBottom: 20,
     zIndex: 99,
     position: 'relative'
   },
@@ -85,6 +85,10 @@ const showOrgFilters = ({ role }) => {
   );
 };
 
+const showFalicitatorFilters = ({ role }) => {
+  return role === ROLES_NAMES.ROLE_APP_ADMIN;
+};
+
 const FamilyFilter = ({
   organizationsData,
   onChangeOrganization,
@@ -101,20 +105,55 @@ const FamilyFilter = ({
   return (
     <Grid
       container
-      spacing={2}
       className={classes.container}
       alignItems="center"
+      direction="column"
     >
-      {showOrgFilters(user) && (
-        <Grid item md={4} sm={4} xs={12}>
-          <OrganizationsFilter
-            data={organizationsData}
-            onChange={onChangeOrganization}
-          />
+      <Grid
+        container
+        spacing={1}
+        className={classes.container}
+        alignItems="center"
+      >
+        {showOrgFilters(user) && (
+          <Grid item md={6} sm={4} xs={12}>
+            <OrganizationsFilter
+              data={organizationsData}
+              onChange={onChangeOrganization}
+            />
+          </Grid>
+        )}
+
+        <Grid item md={6} sm={4} xs={12}>
+          <div className={classes.containerFamilySearch}>
+            <Typography variant="subtitle1" className={classes.label}>
+              {t('views.familyList.search')}
+            </Typography>
+            <TextField
+              InputProps={{
+                //startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
+                classes: {
+                  input: classes.familiesFilterInput
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.familiesLabel,
+                  shrink: classes.familiesFilterLabelInput
+                }
+              }}
+              variant="outlined"
+              margin="dense"
+              fullWidth
+              className={classes.textField}
+              onKeyDown={e => onChangeFamiliesFilter(e)}
+              label={t('views.familyList.searchFamily')}
+            />
+          </div>
         </Grid>
-      )}
-      {showOrgFilters(user) && (
-        <Grid item md={4} sm={4} xs={12}>
+      </Grid>
+      {showFalicitatorFilters(user) && (
+        <Grid item md={6} sm={6} xs={12}>
           <FacilitatorFilter
             data={facilitatorsData}
             org={organizationsData}
@@ -122,33 +161,6 @@ const FamilyFilter = ({
           />
         </Grid>
       )}
-      <Grid item md={4} sm={4} xs={12}>
-        <div className={classes.containerFamilySearch}>
-          <Typography variant="subtitle1" className={classes.label}>
-            {t('views.familyList.search')}
-          </Typography>
-          <TextField
-            InputProps={{
-              //startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
-              classes: {
-                input: classes.familiesFilterInput
-              }
-            }}
-            InputLabelProps={{
-              classes: {
-                root: classes.familiesLabel,
-                shrink: classes.familiesFilterLabelInput
-              }
-            }}
-            variant="outlined"
-            margin="dense"
-            fullWidth
-            className={classes.textField}
-            onKeyDown={e => onChangeFamiliesFilter(e)}
-            label={t('views.familyList.searchFamily')}
-          />
-        </div>
-      </Grid>
     </Grid>
   );
 };
