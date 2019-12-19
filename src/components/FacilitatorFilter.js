@@ -81,11 +81,11 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
       .finally(() => setLoading(false));
   }, [user, org]);
 
-  const allFacilitatorsOption = {
-    label: t('views.facilitatorFilter.allFacilitators'),
-    value: 'ALL'
-  };
-  let facilitatorsToShow =
+  /* const allFacilitatorsOption = {
+     label: t('views.facilitatorFilter.allFacilitators'),
+     value: 'ALL'
+   };*/
+  /*let facilitatorsToShow =
     facilitators &&
     data &&
     facilitators.length !== data.length &&
@@ -94,7 +94,7 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
       : [...facilitators];
   if (data.some(d => d.value === 'ALL')) {
     facilitatorsToShow = [];
-  }
+  }*/
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
