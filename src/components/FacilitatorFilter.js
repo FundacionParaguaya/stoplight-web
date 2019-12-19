@@ -109,7 +109,7 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
           isLoading={loading}
           loadingMessage={() => t('views.facilitatorFilter.loading')}
           noOptionsMessage={() => t('views.facilitatorFilter.noOption')}
-          options={facilitatorsToShow}
+          options={facilitators}
           components={{
             DropdownIndicator: () => <div />,
             IndicatorSeparator: () => <div />,
