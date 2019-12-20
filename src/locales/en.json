@@ -368,6 +368,13 @@
       "delete": "Delete Family",
       "show": "Show Family",
       "rows": "Families Found"
+    },
+    "facilitatorFilter": {
+      "label": "Facilitators",
+      "loading": "Loading...",
+      "noOption": "No facilitators left",
+      "noMatchFilters": "No results matching your filters",
+      "allFacilitators": "All Facilitators"
     }
   },
   "reports": {

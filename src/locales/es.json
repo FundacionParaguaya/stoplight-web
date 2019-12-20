@@ -369,6 +369,13 @@
       "delete": "Borrar Familia",
       "show": "Mostrar Familia",
       "rows": "Familias Encontradas"
+    },
+    "facilitatorFilter": {
+      "label": "Facilitadores",
+      "loading": "Cargando...",
+      "noOption": "No quedan facilitadores",
+      "noMatchFilters": "No hay resultados para los filtros aplicados",
+      "allFacilitators": "Todos los Facilitadores"
     }
   },
   "reports": {

@@ -388,7 +388,8 @@ export const getFamiliesList = (
   sortBy,
   sortDirection,
   name,
-  organizations
+  organizations,
+  facilitators
 ) =>
   axios({
     method: 'post',
@@ -398,14 +399,30 @@ export const getFamiliesList = (
     },
     data: JSON.stringify({
       query:
-        'query families($organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String) ' +
-        '{ families(organizations: $organizations, name:$name, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
+        'query families($facilitators: [Long], $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String) ' +
+        '{ families(facilitators:$facilitators, organizations: $organizations, name:$name, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
       variables: {
+        facilitators,
         organizations,
         name,
         page,
         sortBy,
         sortDirection
+      }
+    })
+  });
+export const getMentors = (user, organizations) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getMentorsByOrganizations($organizations: [Long]) {getMentorsByOrganizations(organizations: $organizations) { userId username email}}',
+      variables: {
+        organizations
       }
     })
   });

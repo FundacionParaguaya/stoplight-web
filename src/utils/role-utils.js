@@ -1,4 +1,4 @@
-export const getPlatform = env => `https://${env}.povertystoplight.org`;
+export const getPlatform = env => `http://localhost:9000`;
 
 export const NEW = 'new';
 export const OLD = 'old';

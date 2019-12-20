@@ -230,7 +230,11 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
                   </div>
                 )}
 
-                <img src={familyFace} className={classes.iconFamily} />
+                <img
+                  src={familyFace}
+                  className={classes.iconFamily}
+                  alt="Family Member"
+                />
               </div>
             )
           },

@@ -7,6 +7,7 @@ import { ROLES_NAMES } from '../utils/role-utils';
 import TextField from '@material-ui/core/TextField';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
+import FacilitatorFilter from './FacilitatorFilter';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -14,8 +15,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    padding: `${theme.spacing(4)}px 0`,
-    paddingBottom: 40,
+    //padding: `${theme.spacing(4)}px 0`,
+    paddingBottom: 20,
     zIndex: 99,
     position: 'relative'
   },
@@ -84,13 +85,19 @@ const showOrgFilters = ({ role }) => {
   );
 };
 
+const showFalicitatorFilters = ({ role }) => {
+  return role === ROLES_NAMES.ROLE_APP_ADMIN;
+};
+
 const FamilyFilter = ({
   organizationsData,
   onChangeOrganization,
   familiesFilter,
   onChangeFamiliesFilter,
   user,
-  setResetPagination
+  setResetPagination,
+  facilitatorsData,
+  onChangeFacilitator
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -98,45 +105,62 @@ const FamilyFilter = ({
   return (
     <Grid
       container
-      spacing={2}
       className={classes.container}
       alignItems="center"
+      direction="column"
     >
-      {showOrgFilters(user) && (
+      <Grid
+        container
+        spacing={1}
+        className={classes.container}
+        alignItems="center"
+      >
+        {showOrgFilters(user) && (
+          <Grid item md={6} sm={4} xs={12}>
+            <OrganizationsFilter
+              data={organizationsData}
+              onChange={onChangeOrganization}
+            />
+          </Grid>
+        )}
+
+        <Grid item md={6} sm={4} xs={12}>
+          <div className={classes.containerFamilySearch}>
+            <Typography variant="subtitle1" className={classes.label}>
+              {t('views.familyList.search')}
+            </Typography>
+            <TextField
+              InputProps={{
+                //startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
+                classes: {
+                  input: classes.familiesFilterInput
+                }
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.familiesLabel,
+                  shrink: classes.familiesFilterLabelInput
+                }
+              }}
+              variant="outlined"
+              margin="dense"
+              fullWidth
+              className={classes.textField}
+              onKeyDown={e => onChangeFamiliesFilter(e)}
+              label={t('views.familyList.searchFamily')}
+            />
+          </div>
+        </Grid>
+      </Grid>
+      {showFalicitatorFilters(user) && (
         <Grid item md={6} sm={6} xs={12}>
-          <OrganizationsFilter
-            data={organizationsData}
-            onChange={onChangeOrganization}
+          <FacilitatorFilter
+            data={facilitatorsData}
+            org={organizationsData}
+            onChange={onChangeFacilitator}
           />
         </Grid>
       )}
-      <Grid item md={6} sm={6} xs={12}>
-        <div className={classes.containerFamilySearch}>
-          <Typography variant="subtitle1" className={classes.label}>
-            {t('views.familyList.search')}
-          </Typography>
-          <TextField
-            InputProps={{
-              //startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
-              classes: {
-                input: classes.familiesFilterInput
-              }
-            }}
-            InputLabelProps={{
-              classes: {
-                root: classes.familiesLabel,
-                shrink: classes.familiesFilterLabelInput
-              }
-            }}
-            variant="outlined"
-            margin="dense"
-            fullWidth
-            className={classes.textField}
-            onKeyDown={e => onChangeFamiliesFilter(e)}
-            label={t('views.familyList.searchFamily')}
-          />
-        </div>
-      </Grid>
     </Grid>
   );
 };

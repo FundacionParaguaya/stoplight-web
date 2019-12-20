@@ -23,9 +23,10 @@ const Families = ({
 }) => {
   //export class Families extends Component {
   const [selectedOrganizations, setOrganizations] = useState([]);
+  const [selectedFacilitators, setFacilitators] = useState([]);
   const [selectedFamilyFilter, setFamilyFilter] = useState(null);
   const tableRef = useRef();
-  const [height, setHeight] = React.useState('unset');
+  const [height] = React.useState('unset');
   const [families, setFamilies] = useState([]);
   const [numberOfRows, setNumberOfRows] = useState(0);
   const [resetPagination, setResetPagination] = useState(false);
@@ -36,6 +37,16 @@ const Families = ({
       setOrganizations(allOrganizations);
     } else {
       setOrganizations(selected);
+    }
+  };
+
+  const setSelectedFacilitator = (selected, allFacilitators) => {
+    setResetPagination(true);
+    console.log('setSelectedFacilitator', selected);
+    if (selected.some(org => org.value === 'ALL')) {
+      setFacilitators(allFacilitators);
+    } else {
+      setFacilitators(selected);
     }
   };
 
@@ -50,6 +61,10 @@ const Families = ({
 
   const loadFamilies = query => {
     const sanitizedOrganizations = selectedOrganizations.map(
+      ({ value }) => value
+    );
+
+    const sanitizedFacilitators = selectedFacilitators.map(
       ({ value }) => value
     );
 
@@ -71,7 +86,8 @@ const Families = ({
       sortBy,
       orderDirection,
       selectedFamilyFilter,
-      sanitizedOrganizations
+      sanitizedOrganizations,
+      sanitizedFacilitators
     )
       .then(response => {
         //https://material-table.com/#/docs/features/remote-data
@@ -106,6 +122,7 @@ const Families = ({
   useEffect(() => {
     loadFamilies();
     setSelectedOrganizations([]);
+    setSelectedFacilitator([]);
   }, []);
 
   //Load Grid
@@ -115,7 +132,7 @@ const Families = ({
     if (tableRef.current && tableRef.current.onQueryChange) {
       tableRef.current.onQueryChange();
     }
-  }, [selectedOrganizations, selectedFamilyFilter]);
+  }, [selectedOrganizations, selectedFamilyFilter, selectedFacilitators]);
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -135,9 +152,11 @@ const Families = ({
 
         <div>
           <FamilyFilter
+            facilitatorsData={selectedFacilitators}
             organizationsData={selectedOrganizations}
             onChangeOrganization={setSelectedOrganizations}
             onChangeFamiliesFilter={onChangeFamiliesFilter}
+            onChangeFacilitator={setSelectedFacilitator}
             familiesFilter={selectedFamilyFilter}
             setFamiliesFilter={setFamilyFilter}
             setResetPagination={setResetPagination}
@@ -184,7 +203,7 @@ const styles = theme => ({
     height: 240,
     right: 30,
     position: 'absolute',
-    top: 20,
+    top: -10,
     zIndex: 0,
     objectFit: 'cover',
     [theme.breakpoints.down('xs')]: {
