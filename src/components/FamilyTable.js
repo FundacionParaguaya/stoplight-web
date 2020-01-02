@@ -116,12 +116,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
+const FamilyTable = ({
+  user,
+  loadFamilies,
+  tableRef,
+  numberOfRows,
+  redirectToFamily
+}) => {
   const {
     t,
     i18n: { language }
   } = useTranslation();
-
   const classes = useStyles();
   const [deletingFamily, setDeletingFamily] = useState({
     open: false,
@@ -150,7 +155,7 @@ const FamilyTable = ({ user, loadFamilies, tableRef, numberOfRows }) => {
       iconProps: {
         color: '#6A6A6A'
       },
-      onClick: (event, rowData) => goToFamily(event, rowData.familyId)
+      onClick: (event, rowData) => redirectToFamily(event, rowData.familyId)
     });
     return list;
   };

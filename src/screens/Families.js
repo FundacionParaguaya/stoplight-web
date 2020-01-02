@@ -19,7 +19,8 @@ const Families = ({
   user,
   t,
   i18n: { language },
-  enqueueSnackbar
+  enqueueSnackbar,
+  history
 }) => {
   //export class Families extends Component {
   const [selectedOrganizations, setOrganizations] = useState([]);
@@ -57,6 +58,10 @@ const Families = ({
       setFamilyFilter(e.target.value);
       setResetPagination(true);
     }
+  };
+
+  const redirectToFamily = (e, familyId) => {
+    history.push(`/family/${familyId}`);
   };
 
   const loadFamilies = query => {
@@ -172,6 +177,7 @@ const Families = ({
             families={families}
             loadFamilies={loadFamilies}
             numberOfRows={numberOfRows}
+            redirectToFamily={redirectToFamily}
           />
         </div>
       </Container>

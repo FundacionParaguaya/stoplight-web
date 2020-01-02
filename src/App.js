@@ -19,6 +19,7 @@ import Dashboard from './screens/Dashboard';
 import NonProdWarning from './components/NonProdWarning';
 import './index.css';
 import Intercom from './components/Intercom';
+import FamilyProfile from './screens/FamilyProfile';
 
 class App extends Component {
   render() {
@@ -44,7 +45,11 @@ class App extends Component {
                               <Route path="/surveys" component={Surveys} />
                               <Route path="/lifemap" component={Lifemap} />
                               <Route path="/families" component={Families} />
-                              {/* <Route path="/analytics" component={Analytics} /> */}
+                              <Route
+                                path="/family/:familyId"
+                                component={FamilyProfile}
+                              />
+                              {/* <Route path="/analytics" component={Analytics} /> */}{' '}
                               <Route path="/dashboard" component={Dashboard} />
                             </Switch>
                           </NonProdWarning>
