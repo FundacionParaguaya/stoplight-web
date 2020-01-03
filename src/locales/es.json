@@ -376,6 +376,9 @@
       "noOption": "No quedan facilitadores",
       "noMatchFilters": "No hay resultados para los filtros aplicados",
       "allFacilitators": "Todos los Facilitadores"
+    },
+    "familyProfile": {
+      "organization": "Organización"
     }
   },
   "reports": {

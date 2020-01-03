@@ -52,6 +52,14 @@ const FamilyProfile = ({
               className={classes.chooseLifeMapImage}
             />
             <Typography variant="h4">{family.name}</Typography>
+            <div className={classes.container}>
+              <Typography variant="subtitle2" className={classes.label}>
+                {t('views.familyProfile.organization')}:
+              </Typography>
+              <Typography variant="subtitle1" className={classes.label}>
+                {family.organization ? family.organization.name : ''}
+              </Typography>
+            </div>
           </div>
         </div>
       </Container>
@@ -104,6 +112,13 @@ const styles = theme => ({
   },
   mainSurveyContainerBoss: {
     backgroundColor: theme.palette.background.paper
+  },
+  label: { marginRight: 10, fontSize: 14 },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center'
   }
 });
 
