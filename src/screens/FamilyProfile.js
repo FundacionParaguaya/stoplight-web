@@ -23,22 +23,19 @@ const FamilyProfile = ({
 }) => {
   //export class FamilyProfile extends Component {
   const [family, setFamily] = useState({});
-  const [firtsParticipant, setFirtsParticipant] = useState(null);
+  const [firtsParticipant, setFirtsParticipant] = useState({});
   let { familyId } = useParams();
 
   useEffect(() => {
     getFamily(familyId, user).then(response => {
-      const firtsParticipantMap = _.get(
-        response,
-        'data.data.familyMemberDTOList',
-        []
-      ).filter(function(obj) {
-        return obj.firtsParticipant;
-      });
-
+      let members = response.data.data.familyById.familyMemberDTOList;
+      console.log('members', members);
+      let firtsParticipantMap = members.find(
+        element => element.firstParticipant === true
+      );
+      console.log('firtsParticipantMap', firtsParticipantMap);
       setFamily(response.data.data.familyById);
       setFirtsParticipant(firtsParticipantMap);
-      console.log('response', family);
     });
   }, []);
 
@@ -68,20 +65,37 @@ const FamilyProfile = ({
       {/* Firts Participant Information */}
       <Container className={classes.basicInfo} variant="fluid">
         <div className={classes.iconBaiconFamilyBorder}>
-          {family.familyMemberDTOList && family.familyMemberDTOList.lenght > 1 && (
-            <div className={classes.iconBadgeNumber}>
-              <Typography variant="h6" style={{ fontSize: 9 }}>
-                +{family.familyMemberDTOList.lenght - 1}
-              </Typography>
-            </div>
-          )}
-
           <img
             src={familyFace}
             className={classes.iconFamily}
             alt="Family Member"
           />
         </div>
+        {family.familyMemberDTOList && family.familyMemberDTOList.length > 1 && (
+          <div className={classes.iconBadgeNumber}>
+            <Typography variant="h6" style={{ fontSize: 9 }}>
+              +{family.familyMemberDTOList.length - 1}
+            </Typography>
+          </div>
+        )}
+      </Container>
+      <Container className={classes.basicInfoText} variant="fluid">
+        <Typography variant="h4" className={classes.label}>
+          {family ? family.name : ''}
+        </Typography>
+        <Typography variant="subtitle1" className={classes.labelGreen}>
+          {firtsParticipant && firtsParticipant.email
+            ? firtsParticipant.email
+            : ''}
+        </Typography>
+        <Typography variant="subtitle1" className={classes.labelGreen}>
+          {firtsParticipant && firtsParticipant.phoneNumber
+            ? firtsParticipant.phoneNumber
+            : ''}
+        </Typography>
+        <Typography variant="subtitle1" className={classes.label}>
+          {family && family.country ? family.country.country : ''}
+        </Typography>
       </Container>
     </div>
   );
@@ -91,10 +105,18 @@ const styles = theme => ({
   basicInfo: {
     //padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: theme.spacing(5),
     display: 'flex',
     justifyContent: 'center',
     zIndex: 9
+    //position: 'relative'
+  },
+  basicInfoText: {
+    //padding: `${theme.spacing(5)}px 0`,
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   iconBaiconFamilyBorder: {
@@ -141,6 +163,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   label: { marginRight: 10, fontSize: 14 },
+  labelGreen: { marginRight: 10, fontSize: 14, color: '#309E43' },
   container: {
     display: 'flex',
     flexDirection: 'row',
@@ -150,15 +173,15 @@ const styles = theme => ({
   iconBadgeNumber: {
     border: '2px solid #FFFFFF',
     borderRadius: '50%',
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#FFFFFF',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: 22,
     height: 22,
-    position: 'absolute',
-    top: -9,
-    right: 3
+    position: 'relative',
+    top: -16,
+    right: 41
   }
 });
 
