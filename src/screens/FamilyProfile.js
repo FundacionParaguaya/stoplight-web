@@ -12,6 +12,7 @@ import withLayout from '../components/withLayout';
 import { getFamily } from '../api';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
+import familyFace from '../assets/face_icon_large.png';
 
 const FamilyProfile = ({
   classes,
@@ -63,28 +64,54 @@ const FamilyProfile = ({
           </div>
         </div>
       </Container>
-      <BottomSpacer />
+
+      {/* Firts Participant Information */}
+      <Container className={classes.basicInfo} variant="fluid">
+        <div className={classes.iconBaiconFamilyBorder}>
+          {family.familyMemberDTOList && family.familyMemberDTOList.lenght > 1 && (
+            <div className={classes.iconBadgeNumber}>
+              <Typography variant="h6" style={{ fontSize: 9 }}>
+                +{family.familyMemberDTOList.lenght - 1}
+              </Typography>
+            </div>
+          )}
+
+          <img
+            src={familyFace}
+            className={classes.iconFamily}
+            alt="Family Member"
+          />
+        </div>
+      </Container>
     </div>
   );
 };
 
 const styles = theme => ({
-  mainContainer: {
-    backgroundColor: '#fff',
+  basicInfo: {
+    //padding: `${theme.spacing(5)}px 0`,
+    backgroundColor: theme.palette.background.default,
+    marginBottom: theme.spacing(5),
     display: 'flex',
-    flexDirection: 'column',
-    //padding: theme.spacing(2),
-    width: '100%'
+    justifyContent: 'center',
+    zIndex: 9
   },
-  titleBalls: {
-    position: 'relative',
-    top: '10%',
-    right: '25%',
-    width: '90%',
-    objectFit: 'cover',
-    [theme.breakpoints.down('xs')]: {
-      display: 'none'
-    }
+
+  iconBaiconFamilyBorder: {
+    border: '2px solid #FFFFFF',
+    borderRadius: '50%',
+    backgroundColor: '#FFFFFF',
+    minWidth: 90,
+    minHeight: 90,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '-2%'
+  },
+  iconFamily: {
+    maxWidth: 50,
+    maxHeight: 50,
+    objectFit: 'contain'
   },
   chooseLifeMapImage: {
     display: 'block',
@@ -119,6 +146,19 @@ const styles = theme => ({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center'
+  },
+  iconBadgeNumber: {
+    border: '2px solid #FFFFFF',
+    borderRadius: '50%',
+    backgroundColor: '#F3F4F6',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 22,
+    height: 22,
+    position: 'absolute',
+    top: -9,
+    right: 3
   }
 });
 
