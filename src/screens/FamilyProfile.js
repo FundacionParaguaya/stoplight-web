@@ -13,6 +13,9 @@ import { getFamily } from '../api';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import familyFace from '../assets/face_icon_large.png';
+import MailIcon from '@material-ui/icons/Mail';
+import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const FamilyProfile = ({
   classes,
@@ -83,27 +86,40 @@ const FamilyProfile = ({
         <Typography variant="h4" className={classes.label}>
           {family ? family.name : ''}
         </Typography>
-        <Typography variant="subtitle1" className={classes.labelGreen}>
-          {firtsParticipant && firtsParticipant.email
-            ? firtsParticipant.email
-            : ''}
-        </Typography>
-        <Typography variant="subtitle1" className={classes.labelGreen}>
-          {firtsParticipant && firtsParticipant.phoneNumber
-            ? firtsParticipant.phoneNumber
-            : ''}
-        </Typography>
-        <Typography variant="subtitle1" className={classes.label}>
-          {family && family.country ? family.country.country : ''}
-        </Typography>
+        <div className={classes.horizontalAlign}>
+          <MailIcon className={classes.iconGreen} />
+          <Typography variant="subtitle1" className={classes.labelGreen}>
+            {firtsParticipant && firtsParticipant.email
+              ? firtsParticipant.email
+              : ''}
+          </Typography>
+        </div>
+        <div className={classes.horizontalAlign}>
+          <PhoneInTalkIcon className={classes.iconGreen} />
+          <Typography variant="subtitle1" className={classes.labelGreen}>
+            {firtsParticipant && firtsParticipant.phoneNumber
+              ? firtsParticipant.phoneNumber
+              : ''}
+          </Typography>
+        </div>
+        <div className={classes.horizontalAlign}>
+          <LocationOnIcon className={classes.iconGray} />
+          <Typography variant="subtitle1" className={classes.label}>
+            {family && family.country ? family.country.country : ''}
+          </Typography>
+        </div>
       </Container>
     </div>
   );
 };
 
 const styles = theme => ({
+  horizontalAlign: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: `${theme.spacing(0.5)}px 0`
+  },
   basicInfo: {
-    //padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     justifyContent: 'center',
@@ -111,7 +127,6 @@ const styles = theme => ({
     //position: 'relative'
   },
   basicInfoText: {
-    //padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     flexDirection: 'column',
@@ -164,7 +179,14 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   label: { marginRight: 10, fontSize: 14 },
-  labelGreen: { marginRight: 10, fontSize: 14, color: '#309E43' },
+  iconGreen: { color: '#309E43' },
+  iconGray: { color: '#6A6A6A' },
+  labelGreen: {
+    marginRight: 10,
+    fontSize: 14,
+    color: '#309E43',
+    paddingLeft: 10
+  },
   container: {
     display: 'flex',
     flexDirection: 'row',
