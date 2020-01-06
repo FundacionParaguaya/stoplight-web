@@ -16,6 +16,10 @@ import familyFace from '../assets/face_icon_large.png';
 import MailIcon from '@material-ui/icons/Mail';
 import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import SummaryDonut from '../components/summary/SummaryDonut';
+import SummaryBarChart from '../components/SummaryBarChart';
+import Divider from '../components/Divider';
+import CountDetail from '../components/CountDetail';
 
 const FamilyProfile = ({
   classes,
@@ -108,12 +112,54 @@ const FamilyProfile = ({
             {family && family.country ? family.country.country : ''}
           </Typography>
         </div>
+
+        {/* Counting Donut */}
+        <div className={classes.sumaryMainContainer}>
+          <Typography variant="h5">
+            {t('views.familyProfile.lifemapNumber')}
+          </Typography>
+          <div className={classes.sumaryContainer}>
+            <SummaryDonut
+              greenIndicatorCount={20}
+              redIndicatorCount={30}
+              yellowIndicatorCount={50}
+              skippedIndicatorCount={3}
+              isAnimationActive={true}
+              countingSection={true}
+              width="60%"
+            />
+
+            <SummaryBarChart
+              greenIndicatorCount={20}
+              redIndicatorCount={30}
+              yellowIndicatorCount={3}
+              skippedIndicatorCount={3}
+              isAnimationActive={true}
+              width="40%"
+            />
+          </div>
+        </div>
       </Container>
     </div>
   );
 };
 
 const styles = theme => ({
+  sumaryMainContainer: {
+    padding: `${theme.spacing(1)}px 0`,
+    display: 'flex',
+    flexDirection: 'column',
+    width: '50%',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%!important'
+    }
+  },
+  sumaryContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%'
+  },
   horizontalAlign: {
     display: 'flex',
     flexDirection: 'row',

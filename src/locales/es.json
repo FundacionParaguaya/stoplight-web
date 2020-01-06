@@ -378,7 +378,8 @@
       "allFacilitators": "Todos los Facilitadores"
     },
     "familyProfile": {
-      "organization": "Organización"
+      "organization": "Organización",
+      "lifemapNumber": "Mapa de Vida - Número"
     }
   },
   "reports": {
