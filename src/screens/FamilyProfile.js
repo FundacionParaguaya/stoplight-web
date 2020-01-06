@@ -70,14 +70,14 @@ const FamilyProfile = ({
             className={classes.iconFamily}
             alt="Family Member"
           />
+          {family.familyMemberDTOList && family.familyMemberDTOList.length > 1 && (
+            <div className={classes.iconBadgeNumber}>
+              <Typography variant="h6" style={{ fontSize: 9 }}>
+                +{family.familyMemberDTOList.length - 1}
+              </Typography>
+            </div>
+          )}
         </div>
-        {family.familyMemberDTOList && family.familyMemberDTOList.length > 1 && (
-          <div className={classes.iconBadgeNumber}>
-            <Typography variant="h6" style={{ fontSize: 9 }}>
-              +{family.familyMemberDTOList.length - 1}
-            </Typography>
-          </div>
-        )}
       </Container>
       <Container className={classes.basicInfoText} variant="fluid">
         <Typography variant="h4" className={classes.label}>
@@ -128,7 +128,8 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '-2%'
+    marginTop: '-2%',
+    position: 'relative'
   },
   iconFamily: {
     maxWidth: 50,
@@ -179,9 +180,9 @@ const styles = theme => ({
     justifyContent: 'center',
     width: 22,
     height: 22,
-    position: 'relative',
-    top: -16,
-    right: 41
+    position: 'absolute',
+    top: 15,
+    right: 15
   }
 });
 
