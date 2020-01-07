@@ -142,7 +142,10 @@ const FamilyProfile = ({
           </div>
           {/* Summary */}
           <div className={classes.lifemapContainer}>
-            <Typography variant="h5" style={{ textAlign: 'center' }}>
+            <Typography
+              variant="h5"
+              style={{ textAlign: 'center', paddingBottom: '5%' }}
+            >
               Mar 12, 2020
             </Typography>
             <AllSurveyIndicators />
