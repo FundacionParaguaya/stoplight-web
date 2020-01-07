@@ -18,8 +18,7 @@ import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SummaryDonut from '../components/summary/SummaryDonut';
 import SummaryBarChart from '../components/SummaryBarChart';
-import Divider from '../components/Divider';
-import CountDetail from '../components/CountDetail';
+import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 
 const FamilyProfile = ({
   classes,
@@ -79,7 +78,10 @@ const FamilyProfile = ({
           />
           {family.familyMemberDTOList && family.familyMemberDTOList.length > 1 && (
             <div className={classes.iconBadgeNumber}>
-              <Typography variant="h6" style={{ fontSize: 9 }}>
+              <Typography
+                variant="h6"
+                style={{ fontSize: 9, color: '#6A6A6A', fontWeight: 'bold' }}
+              >
                 +{family.familyMemberDTOList.length - 1}
               </Typography>
             </div>
@@ -87,9 +89,7 @@ const FamilyProfile = ({
         </div>
       </Container>
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h4" className={classes.label}>
-          {family ? family.name : ''}
-        </Typography>
+        <Typography variant="h5">{family ? family.name : ''}</Typography>
         <div className={classes.horizontalAlign}>
           <MailIcon className={classes.iconGreen} />
           <Typography variant="subtitle1" className={classes.labelGreen}>
@@ -113,30 +113,39 @@ const FamilyProfile = ({
           </Typography>
         </div>
 
-        {/* Counting Donut */}
-        <div className={classes.sumaryMainContainer}>
-          <Typography variant="h5">
-            {t('views.familyProfile.lifemapNumber')}
-          </Typography>
-          <div className={classes.sumaryContainer}>
-            <SummaryDonut
-              greenIndicatorCount={20}
-              redIndicatorCount={30}
-              yellowIndicatorCount={50}
-              skippedIndicatorCount={3}
-              isAnimationActive={true}
-              countingSection={true}
-              width="60%"
-            />
+        <div className={classes.graphContainer}>
+          {/* Counting Donut */}
+          <div className={classes.donutContainer}>
+            <Typography variant="h5">
+              {t('views.familyProfile.lifemapNumber')}
+            </Typography>
+            <div className={classes.sumaryContainer}>
+              <SummaryDonut
+                greenIndicatorCount={20}
+                redIndicatorCount={30}
+                yellowIndicatorCount={50}
+                skippedIndicatorCount={3}
+                isAnimationActive={true}
+                countingSection={true}
+                width="60%"
+              />
 
-            <SummaryBarChart
-              greenIndicatorCount={20}
-              redIndicatorCount={30}
-              yellowIndicatorCount={3}
-              skippedIndicatorCount={3}
-              isAnimationActive={true}
-              width="40%"
-            />
+              <SummaryBarChart
+                greenIndicatorCount={20}
+                redIndicatorCount={30}
+                yellowIndicatorCount={3}
+                skippedIndicatorCount={3}
+                isAnimationActive={true}
+                width="40%"
+              />
+            </div>
+          </div>
+          {/* Summary */}
+          <div className={classes.lifemapContainer}>
+            <Typography variant="h5" style={{ textAlign: 'center' }}>
+              Mar 12, 2020
+            </Typography>
+            <AllSurveyIndicators />
           </div>
         </div>
       </Container>
@@ -145,14 +154,32 @@ const FamilyProfile = ({
 };
 
 const styles = theme => ({
-  sumaryMainContainer: {
+  donutContainer: {
     padding: `${theme.spacing(1)}px 0`,
     display: 'flex',
     flexDirection: 'column',
-    width: '50%',
+    width: '60%',
     [theme.breakpoints.down('xs')]: {
       width: '100%!important'
     }
+  },
+  lifemapContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '40%',
+    //paddingRight: '15%',
+    paddingLeft: '5%',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%!important'
+    }
+  },
+  graphContainer: {
+    padding: `${theme.spacing(1)}px 0`,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingRight: '10%',
+    paddingLeft: '10%'
   },
   sumaryContainer: {
     display: 'flex',
@@ -224,7 +251,6 @@ const styles = theme => ({
   mainSurveyContainerBoss: {
     backgroundColor: theme.palette.background.paper
   },
-  label: { marginRight: 10, fontSize: 14 },
   iconGreen: { color: '#309E43' },
   iconGray: { color: '#6A6A6A' },
   labelGreen: {
