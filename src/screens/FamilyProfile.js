@@ -120,13 +120,30 @@ const FamilyProfile = ({
           <div className={classes.donutContainer}>
             <Typography variant="h5">
               {t('views.familyProfile.lifemapNumber')}
+              {family.numberOfSnapshots ? ' ' + family.numberOfSnapshots : 0}
             </Typography>
             <div className={classes.sumaryContainer}>
               <SummaryDonut
-                greenIndicatorCount={20}
-                redIndicatorCount={30}
-                yellowIndicatorCount={50}
-                skippedIndicatorCount={3}
+                greenIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countGreenIndicators
+                    : 0
+                }
+                redIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countRedIndicators
+                    : 0
+                }
+                yellowIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countYellowIndicators
+                    : 0
+                }
+                skippedIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countSkippedIndicators
+                    : 0
+                }
                 isAnimationActive={true}
                 countingSection={false}
                 width="35%"
@@ -134,24 +151,48 @@ const FamilyProfile = ({
               <div className={classes.prioritiesAndAchievements}>
                 <CountDetail
                   type="priority"
-                  count={3}
+                  count={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countIndicatorsPriorities
+                      : 0
+                  }
                   label
                   countVariant="h5"
                 />
                 <Divider height={1} />
                 <CountDetail
                   type="achievement"
-                  count={2}
+                  count={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countIndicatorsAchievements
+                      : 0
+                  }
                   label
                   countVariant="h5"
                 />
               </div>
 
               <SummaryBarChart
-                greenIndicatorCount={20}
-                redIndicatorCount={30}
-                yellowIndicatorCount={3}
-                skippedIndicatorCount={3}
+                greenIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countGreenIndicators
+                    : 0
+                }
+                redIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countRedIndicators
+                    : 0
+                }
+                yellowIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countYellowIndicators
+                    : 0
+                }
+                skippedIndicatorCount={
+                  family.snapshotIndicators
+                    ? family.snapshotIndicators.countSkippedIndicators
+                    : 0
+                }
                 isAnimationActive={false}
                 width="40%"
               />
