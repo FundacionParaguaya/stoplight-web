@@ -17,28 +17,46 @@ const indicatorColorByAnswer = indicator => {
   return color;
 };
 
-const AllSurveyIndicators = ({ classes, currentDraft }) => (
-  <div className={classes.summaryIndicatorsBallsContainer}>
-    {currentDraft.indicatorSurveyDataList.map(indicator => {
-      const color = indicatorColorByAnswer(indicator);
-      return (
-        <div key={indicator.key} className={classes.summaryIndicatorContainer}>
-          <IndicatorBall
-            color={color}
-            variant="small"
-            animated={false}
-            priority={currentDraft.priorities.find(
-              prior => prior.indicator === indicator.key
-            )}
-            achievement={currentDraft.achievements.find(
-              prior => prior.indicator === indicator.key
-            )}
-          />
-        </div>
-      );
-    })}
-  </div>
-);
+const AllSurveyIndicators = ({ classes, draftFromRedux, draft }) => {
+  const currentDraft = draft || draftFromRedux;
+  return (
+    <div className={classes.summaryIndicatorsBallsContainer}>
+      {currentDraft.indicatorSurveyDataList ? (
+        currentDraft.indicatorSurveyDataList.map(indicator => {
+          const color = indicatorColorByAnswer(indicator);
+          return (
+            <div
+              key={indicator.key}
+              className={classes.summaryIndicatorContainer}
+            >
+              <IndicatorBall
+                color={color}
+                variant="small"
+                animated={false}
+                priority={
+                  currentDraft.priorities
+                    ? currentDraft.priorities.find(
+                        prior => prior.indicator === indicator.key
+                      )
+                    : null
+                }
+                achievement={
+                  currentDraft.achievements
+                    ? currentDraft.achievements.find(
+                        prior => prior.indicator === indicator.key
+                      )
+                    : null
+                }
+              />
+            </div>
+          );
+        })
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
+};
 
 const styles = theme => ({
   summaryIndicatorContainer: {
@@ -52,14 +70,11 @@ const styles = theme => ({
 });
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
-  currentSurvey,
-  currentDraft
+  surveyyFromRedux: currentSurvey,
+  draftFromRedux: currentDraft
 });
 const mapDispatchToProps = {};
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AllSurveyIndicators)
+  connect(mapStateToProps, mapDispatchToProps)(AllSurveyIndicators)
 );

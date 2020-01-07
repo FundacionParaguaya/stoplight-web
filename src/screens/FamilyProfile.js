@@ -206,7 +206,11 @@ const FamilyProfile = ({
             >
               Mar 12, 2020
             </Typography>
-            <AllSurveyIndicators />
+            <AllSurveyIndicators
+              draft={
+                family.snapshotIndicators ? family.snapshotIndicators : null
+              }
+            />
           </div>
         </div>
       </Container>
