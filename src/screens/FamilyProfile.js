@@ -18,6 +18,8 @@ import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SummaryDonut from '../components/summary/SummaryDonut';
 import SummaryBarChart from '../components/SummaryBarChart';
+import CountDetail from '../components/CountDetail';
+import Divider from '../components/Divider';
 import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 
 const FamilyProfile = ({
@@ -126,16 +128,31 @@ const FamilyProfile = ({
                 yellowIndicatorCount={50}
                 skippedIndicatorCount={3}
                 isAnimationActive={true}
-                countingSection={true}
-                width="60%"
+                countingSection={false}
+                width="35%"
               />
+              <div className={classes.prioritiesAndAchievements}>
+                <CountDetail
+                  type="priority"
+                  count={3}
+                  label
+                  countVariant="h5"
+                />
+                <Divider height={1} />
+                <CountDetail
+                  type="achievement"
+                  count={2}
+                  label
+                  countVariant="h5"
+                />
+              </div>
 
               <SummaryBarChart
                 greenIndicatorCount={20}
                 redIndicatorCount={30}
                 yellowIndicatorCount={3}
                 skippedIndicatorCount={3}
-                isAnimationActive={true}
+                isAnimationActive={false}
                 width="40%"
               />
             </div>
