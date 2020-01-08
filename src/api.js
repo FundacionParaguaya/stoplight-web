@@ -447,7 +447,7 @@ export const getFamily = (familyId, user) =>
       query:
         'query familyById($id: Long) { familyById(id: $id) {familyId name code numberOfSnapshots organization { name } country{country} ' +
         'familyMemberDTOList{firstParticipant email phoneNumber phoneCode} ' +
-        'snapshotIndicators{indicatorSurveyDataList{value key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
+        'snapshotIndicators{indicatorSurveyDataList{value key} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
         id: familyId
       }

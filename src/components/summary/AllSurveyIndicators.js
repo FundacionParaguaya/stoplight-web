@@ -36,14 +36,18 @@ const AllSurveyIndicators = ({ classes, draftFromRedux, draft }) => {
                 priority={
                   currentDraft.priorities
                     ? currentDraft.priorities.find(
-                        prior => prior.indicator === indicator.key
+                        prior =>
+                          prior.indicator === indicator.key ||
+                          prior.key === indicator.key
                       )
                     : null
                 }
                 achievement={
                   currentDraft.achievements
                     ? currentDraft.achievements.find(
-                        prior => prior.indicator === indicator.key
+                        prior =>
+                          prior.indicator === indicator.key ||
+                          prior.key === indicator.key
                       )
                     : null
                 }

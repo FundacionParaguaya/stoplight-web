@@ -58,9 +58,10 @@ const FamilyProfile = ({
               className={classes.chooseLifeMapImage}
             />
             <Typography variant="h4">{family.name}</Typography>
+            {/* Organization Name */}
             <div className={classes.container}>
               <Typography variant="subtitle2" className={classes.label}>
-                {t('views.familyProfile.organization')}:
+                {t('views.familyProfile.organization')}
               </Typography>
               <Typography variant="subtitle1" className={classes.label}>
                 {family.organization ? family.organization.name : ''}
@@ -97,7 +98,7 @@ const FamilyProfile = ({
           <Typography variant="subtitle1" className={classes.labelGreen}>
             {firtsParticipant && firtsParticipant.email
               ? firtsParticipant.email
-              : ''}
+              : '--'}
           </Typography>
         </div>
         <div className={classes.horizontalAlign}>
@@ -105,13 +106,13 @@ const FamilyProfile = ({
           <Typography variant="subtitle1" className={classes.labelGreen}>
             {firtsParticipant && firtsParticipant.phoneNumber
               ? firtsParticipant.phoneNumber
-              : ''}
+              : '--'}
           </Typography>
         </div>
         <div className={classes.horizontalAlign}>
           <LocationOnIcon className={classes.iconGray} />
           <Typography variant="subtitle1" className={classes.label}>
-            {family && family.country ? family.country.country : ''}
+            {family && family.country ? family.country.country : '--'}
           </Typography>
         </div>
 
