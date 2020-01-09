@@ -378,7 +378,8 @@
     },
     "familyProfile": {
       "organization": "Organization: ",
-      "lifemapNumber": "Life Map - Number"
+      "lifemapNumber": "Life Map - Number",
+      "viewLifeMap": "View Life Map in Detail"
     }
   },
   "reports": {

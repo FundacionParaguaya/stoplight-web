@@ -4,6 +4,8 @@ import { withRouter, useParams } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/family.png';
@@ -23,6 +25,7 @@ import Divider from '../components/Divider';
 import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
+import { getPlatform } from '../utils/role-utils';
 
 const FamilyProfile = ({
   classes,
@@ -36,6 +39,10 @@ const FamilyProfile = ({
   const [firtsParticipant, setFirtsParticipant] = useState({});
   let { familyId } = useParams();
   const dateFormat = getDateFormatByLocale(language);
+
+  const goToFamilyPsp = e => {
+    window.location.replace(`${getPlatform(user.env)}/#families/${familyId}`);
+  };
 
   useEffect(() => {
     getFamily(familyId, user).then(response => {
@@ -232,6 +239,12 @@ const FamilyProfile = ({
                 family.snapshotIndicators ? family.snapshotIndicators : null
               }
             />
+
+            <Typography variant="subtitle1" className={classes.labelGreenRight}>
+              <Link href="#" onClick={goToFamilyPsp}>
+                {t('views.familyProfile.viewLifeMap')}
+              </Link>
+            </Typography>
           </div>
         </div>
       </Container>
@@ -344,6 +357,14 @@ const styles = theme => ({
     fontSize: 14,
     color: '#309E43',
     paddingLeft: 10
+  },
+  labelGreenRight: {
+    marginRight: 20,
+    fontSize: 14,
+    color: '#309E43',
+    paddingLeft: 10,
+    paddingTop: 10,
+    textAlign: 'right'
   },
   container: {
     display: 'flex',
