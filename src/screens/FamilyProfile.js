@@ -21,6 +21,8 @@ import SummaryBarChart from '../components/SummaryBarChart';
 import CountDetail from '../components/CountDetail';
 import Divider from '../components/Divider';
 import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
+import { getDateFormatByLocale } from '../utils/date-utils';
+import moment from 'moment';
 
 const FamilyProfile = ({
   classes,
@@ -33,6 +35,7 @@ const FamilyProfile = ({
   const [family, setFamily] = useState({});
   const [firtsParticipant, setFirtsParticipant] = useState({});
   let { familyId } = useParams();
+  const dateFormat = getDateFormatByLocale(language);
 
   useEffect(() => {
     getFamily(familyId, user).then(response => {
@@ -218,7 +221,11 @@ const FamilyProfile = ({
               variant="h5"
               style={{ textAlign: 'center', paddingBottom: '5%' }}
             >
-              Mar 12, 2020
+              {family.snapshotIndicators
+                ? `${moment(family.snapshotIndicators.createdAt).format(
+                    dateFormat
+                  )}`
+                : ''}
             </Typography>
             <AllSurveyIndicators
               draft={
