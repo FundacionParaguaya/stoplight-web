@@ -264,8 +264,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingRight: '10%',
-    paddingLeft: '10%'
+    paddingRight: '12%',
+    paddingLeft: '12%'
   },
   sumaryContainer: {
     display: 'flex',
