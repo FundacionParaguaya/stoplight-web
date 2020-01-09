@@ -95,19 +95,32 @@ const FamilyProfile = ({
         <Typography variant="h5">{family ? family.name : ''}</Typography>
         <div className={classes.horizontalAlign}>
           <MailIcon className={classes.iconGreen} />
-          <Typography variant="subtitle1" className={classes.labelGreen}>
-            {firtsParticipant && firtsParticipant.email
-              ? firtsParticipant.email
-              : '--'}
-          </Typography>
+          {firtsParticipant && firtsParticipant.email ? (
+            <a href={'mailto:' + firtsParticipant.email}>
+              <Typography variant="subtitle1" className={classes.labelGreen}>
+                {firtsParticipant.email}
+              </Typography>
+            </a>
+          ) : (
+            <Typography variant="subtitle1" className={classes.labelGreen}>
+              --
+            </Typography>
+          )}
         </div>
         <div className={classes.horizontalAlign}>
           <PhoneInTalkIcon className={classes.iconGreen} />
-          <Typography variant="subtitle1" className={classes.labelGreen}>
-            {firtsParticipant && firtsParticipant.phoneNumber
-              ? firtsParticipant.phoneNumber
-              : '--'}
-          </Typography>
+
+          {firtsParticipant && firtsParticipant.phoneNumber ? (
+            <a href={'tel:' + firtsParticipant.phoneNumber}>
+              <Typography variant="subtitle1" className={classes.labelGreen}>
+                {firtsParticipant.phoneNumber}
+              </Typography>
+            </a>
+          ) : (
+            <Typography variant="subtitle1" className={classes.labelGreen}>
+              --
+            </Typography>
+          )}
         </div>
         <div className={classes.horizontalAlign}>
           <LocationOnIcon className={classes.iconGray} />
