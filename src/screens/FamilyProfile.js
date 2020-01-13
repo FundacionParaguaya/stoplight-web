@@ -5,13 +5,12 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-
+import Button from '@material-ui/core/Button';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/family.png';
-import BottomSpacer from '../components/BottomSpacer';
 import withLayout from '../components/withLayout';
-import { getFamily } from '../api';
+import { getFamily, getMentors } from '../api';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import familyFace from '../assets/face_icon_large.png';
@@ -26,6 +25,10 @@ import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
 import { getPlatform } from '../utils/role-utils';
+import Select from 'react-select';
+import FacilitatorFilter from '../components/FacilitatorFilter';
+import Grid from '@material-ui/core/Grid';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const FamilyProfile = ({
   classes,
@@ -39,12 +42,42 @@ const FamilyProfile = ({
   const [firtsParticipant, setFirtsParticipant] = useState({});
   let { familyId } = useParams();
   const dateFormat = getDateFormatByLocale(language);
+  const [facilitators, setFacilitators] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedFacilitator, setSelectedFacilitator] = useState({});
 
   const goToFamilyPsp = e => {
     window.location.replace(`${getPlatform(user.env)}/#families/${familyId}`);
   };
 
+  const changeFacilitator = () => {
+    console.log('Change facilitator');
+  };
+
+  const showAdministrationOptions = ({ role }) => {
+    return (
+      role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+      role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_ROOT ||
+      role === ROLES_NAMES.ROLE_PS_TEAM
+    );
+  };
+
+  const onChangeFacilitator = (value, facilitators) => {
+    console.log('Set Facilitator to: ', value);
+    setSelectedFacilitator(value);
+  };
+
+  const top100Films = [
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'The Godfather: Part II', year: 1974 }
+  ];
+
   useEffect(() => {
+    setLoading(true);
+    setFacilitators([]);
+
     getFamily(familyId, user).then(response => {
       let members = response.data.data.familyById.familyMemberDTOList;
       console.log('members', members);
@@ -54,6 +87,13 @@ const FamilyProfile = ({
       console.log('firtsParticipantMap', firtsParticipantMap);
       setFamily(response.data.data.familyById);
       setFirtsParticipant(firtsParticipantMap);
+      console.log('Mentor', response.data.data.familyById.user);
+
+      let mentor = {
+        label: response.data.data.familyById.user.username,
+        value: response.data.data.familyById.user.userId
+      };
+      setSelectedFacilitator(mentor);
     });
   }, []);
 
@@ -248,6 +288,30 @@ const FamilyProfile = ({
           </div>
         </div>
       </Container>
+
+      {/* AssignFacilitator */}
+      {showAdministrationOptions(user) && (
+        <Container className={classes.administratorContainer} variant="fluid">
+          <Typography variant="h5">Administration</Typography>
+
+          <div className={classes.administratorBox}>
+            <Grid item xs={6}>
+              <FacilitatorFilter
+                data={selectedFacilitator}
+                org={[]}
+                isMulti={false}
+                onChange={onChangeFacilitator}
+                label="Assigned Facilitator"
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <Button variant="contained" onClick={changeFacilitator}>
+                Change
+              </Button>
+            </Grid>
+          </div>
+        </Container>
+      )}
     </div>
   );
 };
@@ -288,8 +352,8 @@ const styles = theme => ({
   },
   horizontalAlign: {
     display: 'flex',
-    flexDirection: 'row',
-    padding: `${theme.spacing(0.5)}px 0`
+    flexDirection: 'row'
+    // padding: `${theme.spacing(0.5)}px 0`
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,
@@ -304,6 +368,26 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  administratorContainer: {
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'left',
+    marginTop: '2%',
+    marginBottom: '2%',
+    paddingRight: '12%',
+    paddingLeft: '12%',
+    paddingTop: '2%'
+  },
+  administratorBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    //margin: '0 auto',
+    paddingTop: '3%',
+    paddingBottom: '3%',
+    flexDirection: 'row'
   },
 
   iconBaiconFamilyBorder: {

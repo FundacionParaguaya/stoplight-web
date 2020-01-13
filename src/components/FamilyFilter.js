@@ -158,6 +158,7 @@ const FamilyFilter = ({
             data={facilitatorsData}
             org={organizationsData}
             onChange={onChangeFacilitator}
+            label={t('views.facilitatorFilter.label')}
           />
         </Grid>
       )}

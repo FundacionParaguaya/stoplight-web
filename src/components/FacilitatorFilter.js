@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -53,7 +53,7 @@ const useStyles = makeStyles(() => ({
   selector: { width: '100%' }
 }));
 
-const FacilitatorFilter = ({ user, data, org, onChange }) => {
+const FacilitatorFilter = ({ user, data, org, onChange, isMulti, label }) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -62,11 +62,9 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
     setLoading(true);
     setFacilitators([]);
 
-    let organizations = org.map(function(el) {
-      return el.value;
-    });
-    console.log('organizations', organizations);
-    getMentors(user, organizations)
+    console.log('getMentorsByOrganizations');
+
+    getMentors(user)
       .then(response => {
         const mentors = _.get(
           response,
@@ -79,7 +77,21 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
         setFacilitators(mentors);
       })
       .finally(() => setLoading(false));
-  }, [user, org]);
+  }, [user]);
+
+  const selectedFacilitator = useMemo(
+    () =>
+      console.log('useMemo', data) ||
+      facilitators.filter(mentor => mentor.value === data.value),
+    [data, facilitators]
+  );
+
+  /*useEffect(() => {
+    console.log('selectedFacilitator', data);
+    setSelectedFacilitators(data ? facilitators.filter(mentor => mentor.value === data.userId) : {});
+    console.log('selectedFacilitator to show', selectedFacilitator);
+
+  }, [data,facilitators]);*/
 
   /* const allFacilitatorsOption = {
      label: t('views.facilitatorFilter.allFacilitators'),
@@ -98,12 +110,12 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
-        {t('views.facilitatorFilter.label')}
+        {label}
       </Typography>
 
       <div className={classes.selector}>
         <Select
-          value={data}
+          value={selectedFacilitator}
           onChange={value => onChange(value, facilitators)}
           placeholder=""
           isLoading={loading}
@@ -116,7 +128,7 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
             ClearIndicator: () => <div />
           }}
           closeMenuOnSelect={false}
-          isMulti
+          multiple={isMulti}
           styles={selectStyle}
         />
       </div>
