@@ -386,7 +386,9 @@
       "changeFacilitator": "Cambiar Facilitador",
       "changeFacilitatorConfirm": "¿Está seguro que desea cambiar el facilitador de la familia?",
       "facilitator": "Facilitador Asignado",
-      "administration": "Administración"
+      "administration": "Administración",
+      "families": "Familias",
+      "family": "Familia"
     }
   },
   "reports": {

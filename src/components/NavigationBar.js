@@ -71,8 +71,7 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       minHeight: '70%'
     },
-    padding: 6,
-    paddingLeft: 35
+    paddingTop: '1rem'
   },
 
   textContainer: {
@@ -83,7 +82,8 @@ const styles = theme => ({
   menuLinkText: {
     fontWeight: 400,
     position: 'relative',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    fontSize: 16
   }
 });
 export default withRouter(

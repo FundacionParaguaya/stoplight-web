@@ -31,6 +31,7 @@ import { ROLES_NAMES } from '../utils/role-utils';
 import ConfirmationModal from '../components/ConfirmationModal';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import NavigationBar from '../components/NavigationBar';
 
 const FamilyProfile = ({
   classes,
@@ -49,6 +50,10 @@ const FamilyProfile = ({
   const [loading, setLoading] = useState(true);
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const navigationOptions = [
+    { label: t('views.familyProfile.families'), link: '/families' },
+    { label: t('views.familyProfile.family'), link: '/family' }
+  ];
 
   const goToFamilyPsp = e => {
     window.location.replace(`${getPlatform(user.env)}/#families/${familyId}`);
@@ -138,6 +143,7 @@ const FamilyProfile = ({
   return (
     <div className={classes.mainSurveyContainerBoss}>
       <Container variant="stretch">
+        <NavigationBar options={navigationOptions}></NavigationBar>
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
             <img
@@ -148,9 +154,10 @@ const FamilyProfile = ({
             <Typography variant="h4">{family.name}</Typography>
             {/* Organization Name */}
             <div className={classes.container}>
-              <Typography variant="subtitle2" className={classes.label}>
+              <Typography variant="subtitle1" className={classes.label}>
                 {t('views.familyProfile.organization')}
               </Typography>
+              <spam>&nbsp;</spam>
               <Typography variant="subtitle1" className={classes.label}>
                 {family.organization ? family.organization.name : ''}
               </Typography>
