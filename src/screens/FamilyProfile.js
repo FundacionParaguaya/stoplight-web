@@ -10,7 +10,7 @@ import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/family.png';
 import withLayout from '../components/withLayout';
-import { getFamily, getMentors } from '../api';
+import { getFamily, assignFacilitator } from '../api';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import familyFace from '../assets/face_icon_large.png';
@@ -25,17 +25,20 @@ import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
 import { getPlatform } from '../utils/role-utils';
-import Select from 'react-select';
 import FacilitatorFilter from '../components/FacilitatorFilter';
 import Grid from '@material-ui/core/Grid';
 import { ROLES_NAMES } from '../utils/role-utils';
+import ConfirmationModal from '../components/ConfirmationModal';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const FamilyProfile = ({
   classes,
   user,
   t,
   i18n: { language },
-  enqueueSnackbar
+  enqueueSnackbar,
+  closeSnackbar
 }) => {
   //export class FamilyProfile extends Component {
   const [family, setFamily] = useState({});
@@ -45,6 +48,7 @@ const FamilyProfile = ({
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const goToFamilyPsp = e => {
     window.location.replace(`${getPlatform(user.env)}/#families/${familyId}`);
@@ -52,6 +56,11 @@ const FamilyProfile = ({
 
   const changeFacilitator = () => {
     console.log('Change facilitator');
+    setShowConfirmationModal(true);
+  };
+
+  const handleClose = () => {
+    setShowConfirmationModal(false);
   };
 
   const showAdministrationOptions = ({ role }) => {
@@ -66,6 +75,25 @@ const FamilyProfile = ({
   const onChangeFacilitator = (value, facilitators) => {
     console.log('Set Facilitator to: ', value);
     setSelectedFacilitator(value);
+  };
+
+  const confirmChangeFacilitator = () => {
+    //Call api
+    assignFacilitator(familyId, selectedFacilitator.value, user).then(
+      response => {
+        setShowConfirmationModal(false);
+        enqueueSnackbar('Asinado correctamente', {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      }
+    );
+
+    //set new facilitator to combo
   };
 
   const top100Films = [
@@ -312,6 +340,15 @@ const FamilyProfile = ({
           </div>
         </Container>
       )}
+      <ConfirmationModal
+        title="Cambiar Facilitador"
+        subtitle="Está seguro que desea cambiar el facilitador de la familia?"
+        cancelButtonText={t('general.no')}
+        continueButtonText={t('general.yes')}
+        onClose={handleClose}
+        open={showConfirmationModal}
+        confirmAction={confirmChangeFacilitator}
+      />
     </div>
   );
 };

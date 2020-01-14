@@ -453,3 +453,21 @@ export const getFamily = (familyId, user) =>
       }
     })
   });
+
+export const assignFacilitator = (familyId, mentorId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateMentor($familyId: Long, $mentorId: Long) ' +
+        '{  updateMentor(familyId: $familyId, mentorId: $mentorId) {    familyId    name    user { userId username role    }  }}',
+      variables: {
+        familyId,
+        mentorId
+      }
+    })
+  });
