@@ -55,7 +55,7 @@ const useStyles = makeStyles(() => ({
   selector: { width: '100%', flex: 100 }
 }));
 
-const FacilitatorFilter = ({ user, data, org, onChange, isMulti, label }) => {
+const FacilitatorFilter = ({ user, data, onChange, isMulti, label }) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -83,32 +83,11 @@ const FacilitatorFilter = ({ user, data, org, onChange, isMulti, label }) => {
 
   const selectedFacilitator = useMemo(
     () =>
-      console.log('useMemo', data) ||
+      //console.log('useMemo', data) ||
       facilitators.filter(mentor => mentor.value === data.value),
     [data, facilitators]
   );
 
-  /*useEffect(() => {
-    console.log('selectedFacilitator', data);
-    setSelectedFacilitators(data ? facilitators.filter(mentor => mentor.value === data.userId) : {});
-    console.log('selectedFacilitator to show', selectedFacilitator);
-
-  }, [data,facilitators]);*/
-
-  /* const allFacilitatorsOption = {
-     label: t('views.facilitatorFilter.allFacilitators'),
-     value: 'ALL'
-   };*/
-  /*let facilitatorsToShow =
-    facilitators &&
-    data &&
-    facilitators.length !== data.length &&
-    facilitators.length > 1
-      ? [allFacilitatorsOption, ...facilitators]
-      : [...facilitators];
-  if (data.some(d => d.value === 'ALL')) {
-    facilitatorsToShow = [];
-  }*/
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
@@ -117,7 +96,7 @@ const FacilitatorFilter = ({ user, data, org, onChange, isMulti, label }) => {
 
       <div className={classes.selector}>
         <Select
-          value={selectedFacilitator}
+          value={data}
           onChange={value => onChange(value, facilitators)}
           placeholder=""
           isLoading={loading}
@@ -130,7 +109,7 @@ const FacilitatorFilter = ({ user, data, org, onChange, isMulti, label }) => {
             ClearIndicator: () => <div />
           }}
           closeMenuOnSelect={false}
-          multiple={isMulti}
+          isMulti={isMulti}
           styles={selectStyle}
         />
       </div>

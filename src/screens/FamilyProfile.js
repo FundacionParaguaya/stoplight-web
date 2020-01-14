@@ -338,7 +338,6 @@ const FamilyProfile = ({
             <Grid item xs={6}>
               <FacilitatorFilter
                 data={selectedFacilitator}
-                org={[]}
                 isMulti={false}
                 onChange={onChangeFacilitator}
                 label={t('views.familyProfile.facilitator')}
