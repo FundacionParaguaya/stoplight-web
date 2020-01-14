@@ -24,11 +24,13 @@ const selectStyle = {
     color: 'rgba(28,33,47,0.51)'
   }),
   multiValue: styles => ({ ...styles, color: 'rgba(28,33,47,0.51)' }),
-  option: (styles, { isFocused }) => ({
+  singleValue: styles => ({ ...styles, fontSize: 14 }),
+  option: (styles, { isFocused, isSelected }) => ({
     ...styles,
     backgroundColor: isFocused ? 'hsl(0,0%,90%)' : 'transparent',
     fontSize: 14,
-    fontFamily: 'Poppins'
+    fontFamily: 'Poppins',
+    color: isSelected ? 'green' : styles.color
   }),
   noOptionsMessage: styles => ({
     ...styles,
@@ -49,8 +51,8 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     alignItems: 'center'
   },
-  label: { marginRight: 10, fontSize: 14 },
-  selector: { width: '100%' }
+  label: { marginRight: 10, fontSize: 14, flexGrow: 1 },
+  selector: { width: '100%', flex: 100 }
 }));
 
 const FacilitatorFilter = ({ user, data, org, onChange, isMulti, label }) => {

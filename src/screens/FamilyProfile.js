@@ -344,7 +344,7 @@ const FamilyProfile = ({
                 label={t('views.familyProfile.facilitator')}
               />
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={5} style={{ marginLeft: '2rem' }}>
               <Button variant="contained" onClick={changeFacilitator}>
                 {t('views.familyProfile.changeFacilitator')}
               </Button>
@@ -432,8 +432,6 @@ const styles = theme => ({
   },
   administratorBox: {
     display: 'flex',
-    justifyContent: 'space-between',
-    //margin: '0 auto',
     paddingTop: '3%',
     paddingBottom: '3%',
     flexDirection: 'row'
