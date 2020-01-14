@@ -79,10 +79,10 @@ const FamilyProfile = ({
 
   const confirmChangeFacilitator = () => {
     //Call api
-    assignFacilitator(familyId, selectedFacilitator.value, user).then(
-      response => {
+    assignFacilitator(familyId, selectedFacilitator.value, user)
+      .then(response => {
         setShowConfirmationModal(false);
-        enqueueSnackbar('Asinado correctamente', {
+        enqueueSnackbar(t('views.familyProfile.Mentorsuccess'), {
           variant: 'success',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -90,8 +90,18 @@ const FamilyProfile = ({
             </IconButton>
           )
         });
-      }
-    );
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.familyProfile.mentorError'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      });
 
     //set new facilitator to combo
   };
@@ -320,7 +330,9 @@ const FamilyProfile = ({
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (
         <Container className={classes.administratorContainer} variant="fluid">
-          <Typography variant="h5">Administration</Typography>
+          <Typography variant="h5">
+            {t('views.familyProfile.administration')}
+          </Typography>
 
           <div className={classes.administratorBox}>
             <Grid item xs={6}>
@@ -329,20 +341,20 @@ const FamilyProfile = ({
                 org={[]}
                 isMulti={false}
                 onChange={onChangeFacilitator}
-                label="Assigned Facilitator"
+                label={t('views.familyProfile.facilitator')}
               />
             </Grid>
             <Grid item xs={5}>
               <Button variant="contained" onClick={changeFacilitator}>
-                Change
+                {t('views.familyProfile.changeFacilitator')}
               </Button>
             </Grid>
           </div>
         </Container>
       )}
       <ConfirmationModal
-        title="Cambiar Facilitador"
-        subtitle="Está seguro que desea cambiar el facilitador de la familia?"
+        title={t('views.familyProfile.changeFacilitator')}
+        subtitle={t('views.familyProfile.changeFacilitatorConfirm')}
         cancelButtonText={t('general.no')}
         continueButtonText={t('general.yes')}
         onClose={handleClose}
