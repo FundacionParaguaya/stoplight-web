@@ -32,6 +32,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import NavigationBar from '../components/NavigationBar';
+import FamilyPriorities from '../components/FamilyPriorities';
 
 const FamilyProfile = ({
   classes,
@@ -110,12 +111,6 @@ const FamilyProfile = ({
 
     //set new facilitator to combo
   };
-
-  const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 }
-  ];
 
   useEffect(() => {
     setLoading(true);
@@ -333,6 +328,9 @@ const FamilyProfile = ({
           </div>
         </div>
       </Container>
+
+      {/* Priorities */}
+      <FamilyPriorities></FamilyPriorities>
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (
