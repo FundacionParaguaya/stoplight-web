@@ -44,11 +44,8 @@ const Families = ({
   const setSelectedFacilitator = (selected, allFacilitators) => {
     setResetPagination(true);
     console.log('setSelectedFacilitator', selected);
-    if (selected.some(org => org.value === 'ALL')) {
-      setFacilitators(allFacilitators);
-    } else {
-      setFacilitators(selected);
-    }
+
+    setFacilitators(selected);
   };
 
   const onChangeFamiliesFilter = e => {

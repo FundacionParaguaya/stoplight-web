@@ -380,7 +380,15 @@
     "familyProfile": {
       "organization": "Organización: ",
       "lifemapNumber": "Mapa de Vida - Número",
-      "viewLifeMap": "Ver mapa de vida en detalle"
+      "viewLifeMap": "Ver mapa de vida en detalle",
+      "Mentorsuccess": "Asignado correctamente",
+      "mentorError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar",
+      "changeFacilitator": "Cambiar Facilitador",
+      "changeFacilitatorConfirm": "¿Está seguro que desea cambiar el facilitador de la familia?",
+      "facilitator": "Facilitador Asignado",
+      "administration": "Administración",
+      "families": "Familias",
+      "family": "Familia"
     }
   },
   "reports": {

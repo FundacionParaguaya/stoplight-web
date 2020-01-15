@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,11 +24,13 @@ const selectStyle = {
     color: 'rgba(28,33,47,0.51)'
   }),
   multiValue: styles => ({ ...styles, color: 'rgba(28,33,47,0.51)' }),
-  option: (styles, { isFocused }) => ({
+  singleValue: styles => ({ ...styles, fontSize: 14 }),
+  option: (styles, { isFocused, isSelected }) => ({
     ...styles,
     backgroundColor: isFocused ? 'hsl(0,0%,90%)' : 'transparent',
     fontSize: 14,
-    fontFamily: 'Poppins'
+    fontFamily: 'Poppins',
+    color: isSelected ? 'green' : styles.color
   }),
   noOptionsMessage: styles => ({
     ...styles,
@@ -49,11 +51,11 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     alignItems: 'center'
   },
-  label: { marginRight: 10, fontSize: 14 },
-  selector: { width: '100%' }
+  label: { marginRight: 10, fontSize: 14, flexGrow: 1 },
+  selector: { width: '100%', flex: 100 }
 }));
 
-const FacilitatorFilter = ({ user, data, org, onChange }) => {
+const FacilitatorFilter = ({ user, data, onChange, isMulti, label }) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -62,11 +64,9 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
     setLoading(true);
     setFacilitators([]);
 
-    let organizations = org.map(function(el) {
-      return el.value;
-    });
-    console.log('organizations', organizations);
-    getMentors(user, organizations)
+    console.log('getMentorsByOrganizations');
+
+    getMentors(user)
       .then(response => {
         const mentors = _.get(
           response,
@@ -79,26 +79,19 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
         setFacilitators(mentors);
       })
       .finally(() => setLoading(false));
-  }, [user, org]);
+  }, [user]);
 
-  /* const allFacilitatorsOption = {
-     label: t('views.facilitatorFilter.allFacilitators'),
-     value: 'ALL'
-   };*/
-  /*let facilitatorsToShow =
-    facilitators &&
-    data &&
-    facilitators.length !== data.length &&
-    facilitators.length > 1
-      ? [allFacilitatorsOption, ...facilitators]
-      : [...facilitators];
-  if (data.some(d => d.value === 'ALL')) {
-    facilitatorsToShow = [];
-  }*/
+  const selectedFacilitator = useMemo(
+    () =>
+      //console.log('useMemo', data) ||
+      facilitators.filter(mentor => mentor.value === data.value),
+    [data, facilitators]
+  );
+
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
-        {t('views.facilitatorFilter.label')}
+        {label}
       </Typography>
 
       <div className={classes.selector}>
@@ -116,7 +109,7 @@ const FacilitatorFilter = ({ user, data, org, onChange }) => {
             ClearIndicator: () => <div />
           }}
           closeMenuOnSelect={false}
-          isMulti
+          isMulti={isMulti}
           styles={selectStyle}
         />
       </div>

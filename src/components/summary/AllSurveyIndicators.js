@@ -21,7 +21,7 @@ const AllSurveyIndicators = ({ classes, draftFromRedux, draft }) => {
   const currentDraft = draft || draftFromRedux;
   return (
     <div className={classes.summaryIndicatorsBallsContainer}>
-      {currentDraft.indicatorSurveyDataList ? (
+      {currentDraft && currentDraft.indicatorSurveyDataList ? (
         currentDraft.indicatorSurveyDataList.map(indicator => {
           const color = indicatorColorByAnswer(indicator);
           return (

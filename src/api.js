@@ -445,11 +445,29 @@ export const getFamily = (familyId, user) =>
     },
     data: JSON.stringify({
       query:
-        'query familyById($id: Long) { familyById(id: $id) {familyId name code numberOfSnapshots organization { name } country{country} ' +
+        'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code numberOfSnapshots organization { name } country{country} ' +
         'familyMemberDTOList{firstParticipant email phoneNumber phoneCode} ' +
         'snapshotIndicators{createdAt indicatorSurveyDataList{value key} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
         id: familyId
+      }
+    })
+  });
+
+export const assignFacilitator = (familyId, mentorId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateMentor($familyId: Long, $mentorId: Long) ' +
+        '{  updateMentor(familyId: $familyId, mentorId: $mentorId) {    familyId    name    user { userId username role    }  }}',
+      variables: {
+        familyId,
+        mentorId
       }
     })
   });
