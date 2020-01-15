@@ -157,7 +157,7 @@ const FamilyProfile = ({
               <Typography variant="subtitle1" className={classes.label}>
                 {t('views.familyProfile.organization')}
               </Typography>
-              <spam>&nbsp;</spam>
+              <span>&nbsp;</span>
               <Typography variant="subtitle1" className={classes.label}>
                 {family.organization ? family.organization.name : ''}
               </Typography>
