@@ -32,6 +32,7 @@
     "react-places-autocomplete": "^7.2.1",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
+    "react-sanfona": "^1.4.0",
     "react-scripts": "2.1.8",
     "react-select": "^2.4.3",
     "react-spring": "^8.0.19",
