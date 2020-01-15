@@ -8,9 +8,9 @@ axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 
 // list of environment urls
 export const url = {
-  platform: 'http://localhost:8080',
+  platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
-  testing: 'http://localhost:8080',
+  testing: 'https://testing.backend.povertystoplight.org',
   development: 'http://localhost:8080'
 };
 
