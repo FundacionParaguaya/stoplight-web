@@ -376,6 +376,11 @@
       "noOption": "No quedan facilitadores",
       "noMatchFilters": "No hay resultados para los filtros aplicados",
       "allFacilitators": "Todos los Facilitadores"
+    },
+    "familyProfile": {
+      "organization": "Organización: ",
+      "lifemapNumber": "Mapa de Vida - Número",
+      "viewLifeMap": "Ver mapa de vida en detalle"
     }
   },
   "reports": {

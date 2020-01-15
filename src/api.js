@@ -8,9 +8,9 @@ axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 
 // list of environment urls
 export const url = {
-  platform: 'https://platform.backend.povertystoplight.org',
+  platform: 'http://localhost:8080',
   demo: 'https://demo.backend.povertystoplight.org',
-  testing: 'https://testing.backend.povertystoplight.org',
+  testing: 'http://localhost:8080',
   development: 'http://localhost:8080'
 };
 
@@ -434,4 +434,22 @@ export const deleteFamily = (user, familyId) =>
     headers: {
       Authorization: `Bearer ${user.token}`
     }
+  });
+
+export const getFamily = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query familyById($id: Long) { familyById(id: $id) {familyId name code numberOfSnapshots organization { name } country{country} ' +
+        'familyMemberDTOList{firstParticipant email phoneNumber phoneCode} ' +
+        'snapshotIndicators{createdAt indicatorSurveyDataList{value key} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
+      variables: {
+        id: familyId
+      }
+    })
   });
