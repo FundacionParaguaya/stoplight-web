@@ -44,7 +44,16 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
             return (
               <AccordionItem
                 className={classes.priorityTitle}
-                title={`Item ${item}`}
+                title={
+                  <div className={classes.priorityItemHeader}>
+                    <Typography
+                      className={classes.labelRows}
+                      variant="subtitle1"
+                    >
+                      {`Item ${item}`}
+                    </Typography>
+                  </div>
+                }
                 expanded={item === 1}
               >
                 <div className={classes.priorityContent}>
@@ -60,13 +69,17 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
 };
 
 const styles = theme => ({
+  priorityItemHeader: {
+    display: 'flex',
+    alignItems: 'Center'
+  },
   priorityContent: {},
 
   priorityTitle: {
     paddingRight: '2rem',
     paddingLeft: '2rem',
-    paddingTop: '1rem',
-    paddingBotton: '1rem',
+    paddingTop: '1.5rem',
+    paddingBottom: '1.5rem',
     '&:nth-child(2n - 1)': {
       backgroundColor: '#F3F4F6'
     }
