@@ -6,7 +6,6 @@ import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
-import withLayout from '../components/withLayout';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import iconPriority from '../assets/icon_priority.png';
@@ -37,7 +36,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     justifyContent: 'center',
-    zIndex: 9
+    zIndex: 9,
+    marginTop: '3rem'
     //position: 'relative'
   },
 
@@ -84,8 +84,6 @@ const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(
   withStyles(styles)(
-    connect(mapStateToProps)(
-      withTranslation()(withLayout(withSnackbar(FamilyPriorities)))
-    )
+    connect(mapStateToProps)(withTranslation()(withSnackbar(FamilyPriorities)))
   )
 );
