@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
-import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
 import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import iconPriority from '../assets/icon_priority.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
-import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
   return (
@@ -27,17 +25,19 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h5">Priorities · 5</Typography>
+        <Typography variant="h5">
+          {t('views.familyPriorities.priorities')} · 5
+        </Typography>
       </Container>
 
       <div className={classes.prioritiesContainer}>
         <div className={classes.columnHeaderContainer}>
           <Typography className={classes.labelRows} variant="subtitle1">
-            Indicator
+            {t('views.familyPriorities.indicator')}
           </Typography>
 
           <Typography className={classes.labelRows} variant="subtitle1">
-            Review Date
+            {t('views.familyPriorities.review')}
           </Typography>
         </div>
         <Accordion className={classes.priorityTable}>
@@ -84,7 +84,7 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
                 <div className={classes.priorityContent}>
                   {/* Month*/}
                   <div className={classes.monthInfoContainer}>
-                    {`Months required · ${item}`}
+                    {t('views.familyPriorities.months')} · 6
                   </div>
 
                   <div className={classes.prioritiesDetailContainer}>

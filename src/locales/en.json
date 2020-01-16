@@ -388,6 +388,12 @@
       "administration": "Administration",
       "families": "Households",
       "family": "Family"
+    },
+    "familyPriorities": {
+      "priorities": "Priorities",
+      "indicator": "Indicator",
+      "review": "Review Date",
+      "months": "Months required"
     }
   },
   "reports": {
