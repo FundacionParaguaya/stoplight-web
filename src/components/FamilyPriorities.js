@@ -108,7 +108,8 @@ const styles = theme => ({
     background: '#FFFFFF',
     border: '1px solid #DCDEE3',
     boxSizing: 'border-box',
-    borderRadius: '2px'
+    borderRadius: '2px',
+    marginRight: '2rem'
   },
   expandIcon: { color: '#626262' },
 
@@ -139,7 +140,8 @@ const styles = theme => ({
     borderRadius: '50%',
     backgroundColor: '#E1504D',
     minWidth: 28,
-    minHeight: 28
+    minHeight: 28,
+    marginRight: '1rem'
   },
 
   priorityTitle: {
