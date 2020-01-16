@@ -80,8 +80,43 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
                   </div>
                 }
               >
+                {/* Priority Details*/}
                 <div className={classes.priorityContent}>
-                  {`Eating a Nutritious ${item} content`}
+                  {/* Month*/}
+                  <div className={classes.monthInfoContainer}>
+                    {`Months required · ${item}`}
+                  </div>
+
+                  <div className={classes.prioritiesDetailContainer}>
+                    {/* Why Information*/}
+                    <div>
+                      <Typography className={classes.labelDetailInfo}>
+                        {`Why info ${item} question?`}
+                      </Typography>
+                      <Typography className={classes.labelDetailInfo}>
+                        Lorem ipsum this is a placeholder text. Lorem ipsum
+                        dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua.
+                      </Typography>
+                    </div>
+
+                    {/* Divider*/}
+                    <div className={classes.divider}></div>
+
+                    {/* What Information*/}
+                    <div>
+                      <Typography className={classes.labelDetailInfo}>
+                        {`What will you do to get it?`}
+                      </Typography>
+                      <Typography className={classes.labelDetailInfo}>
+                        Lorem ipsum this is a placeholder text. Lorem ipsum
+                        dolor sit amet, consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua.
+                      </Typography>
+                    </div>
+                  </div>
                 </div>
               </AccordionItem>
             );
@@ -93,6 +128,25 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
 };
 
 const styles = theme => ({
+  prioritiesDetailContainer: {
+    display: 'flex'
+  },
+  divider: {
+    border: '1px solid #DCDEE3',
+    width: 3,
+    marginLeft: 30,
+    marginRight: 30
+  },
+  labelDetailInfo: {
+    fontSize: 16,
+    color: '#1C212F',
+    paddingBottom: '1rem'
+  },
+  monthInfoContainer: {
+    fontSize: 16,
+    color: '#6A6A6A',
+    marginBottom: '2rem'
+  },
   monthContainer: {
     padding: '0.3rem'
   },
@@ -132,7 +186,12 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
-  priorityContent: {},
+  priorityContent: {
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
+    paddingTop: '1.5rem',
+    paddingBottom: '1rem'
+  },
 
   iconStoplight: {
     display: 'inline-block',
@@ -162,15 +221,13 @@ const styles = theme => ({
   labelRows: {
     marginRight: 5,
     marginLeft: 5,
-    fontSize: 16,
-    height: 20,
+    fontSize: 18,
     color: '#6A6A6A'
   },
   labelMonth: {
     marginRight: 5,
     marginLeft: 5,
-    fontSize: 16,
-    height: 20,
+    fontSize: 18,
     color: '#626262',
     fontWeight: 500
   },
