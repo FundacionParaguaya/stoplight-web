@@ -10,7 +10,8 @@ import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import iconPriority from '../assets/icon_priority.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
-
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
   return (
     <div>
@@ -44,20 +45,43 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
             return (
               <AccordionItem
                 className={classes.priorityTitle}
+                expanded={item === 1}
                 title={
                   <div className={classes.priorityItemHeader}>
-                    <Typography
-                      className={classes.labelRows}
-                      variant="subtitle1"
-                    >
-                      {`Item ${item}`}
-                    </Typography>
+                    {/* Indicator Info*/}
+                    <div className={classes.indicatorBasicInfoRight}>
+                      <div className={classes.iconStoplight}> </div>
+                      <Typography
+                        className={classes.labelRows}
+                        variant="subtitle1"
+                      >
+                        {`Eating a Nutritious Diet ${item}`}
+                      </Typography>
+                    </div>
+
+                    {/* Date*/}
+                    <div className={classes.indicatorBasicInfoLeft}>
+                      {/* TODO Conditional question to show expandMore */}
+                      <div className={classes.dateContainer}>
+                        <div className={classes.monthContainer}>
+                          <Typography className={classes.labelMonth}>
+                            Enero 15
+                          </Typography>
+                        </div>
+
+                        <div className={classes.yearContainer}>
+                          <Typography className={classes.labelRows}>
+                            2020
+                          </Typography>
+                        </div>
+                      </div>
+                      <ExpandMore className={classes.expandIcon} />
+                    </div>
                   </div>
                 }
-                expanded={item === 1}
               >
                 <div className={classes.priorityContent}>
-                  {`Item ${item} content`}
+                  {`Eating a Nutritious ${item} content`}
                 </div>
               </AccordionItem>
             );
@@ -69,11 +93,54 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
 };
 
 const styles = theme => ({
+  monthContainer: {
+    padding: '0.3rem'
+  },
+  yearContainer: {
+    background: '#F3F4F6',
+    borderLeft: '1px solid #DCDEE3',
+    boxSizing: 'border-box',
+    borderRadius: '2px',
+    padding: '0.3rem'
+  },
+  dateContainer: {
+    display: 'flex',
+    background: '#FFFFFF',
+    border: '1px solid #DCDEE3',
+    boxSizing: 'border-box',
+    borderRadius: '2px'
+  },
+  expandIcon: { color: '#626262' },
+
   priorityItemHeader: {
     display: 'flex',
     alignItems: 'Center'
   },
+
+  indicatorBasicInfoRight: {
+    flex: '1 1 0%',
+    flexDirection: 'row',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  indicatorBasicInfoLeft: {
+    flex: '1 1 0%',
+    flexDirection: 'row',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+  },
   priorityContent: {},
+
+  iconStoplight: {
+    display: 'inline-block',
+    border: '3px solid #FFFFFF',
+    borderRadius: '50%',
+    backgroundColor: '#E1504D',
+    minWidth: 28,
+    minHeight: 28
+  },
 
   priorityTitle: {
     paddingRight: '2rem',
@@ -87,16 +154,25 @@ const styles = theme => ({
   priorityTable: {
     width: '100%',
     mixBlendMode: 'normal',
-    opacity: '0.5',
+    //opacity: '0.5',
     paddingBotton: '2rem'
   },
   labelRows: {
-    marginRight: 10,
-    marginLeft: 10,
+    marginRight: 5,
+    marginLeft: 5,
     fontSize: 16,
     height: 20,
     color: '#6A6A6A'
   },
+  labelMonth: {
+    marginRight: 5,
+    marginLeft: 5,
+    fontSize: 16,
+    height: 20,
+    color: '#626262',
+    fontWeight: 500
+  },
+
   columnHeaderContainer: {
     height: 37,
     width: '100%',
