@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,7 +10,57 @@ import * as _ from 'lodash';
 import iconPriority from '../assets/icon_priority.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
+import { getPrioritiesByFamily } from '../api';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import { getMonthFormatByLocale } from '../utils/date-utils';
+import moment from 'moment';
+import { COLORS } from '../theme';
+
+const FamilyPriorities = ({
+  classes,
+  familyId,
+  user,
+  t,
+  i18n: { language },
+  enqueueSnackbar,
+  closeSnackbar
+}) => {
+  const [priorities, setPriorities] = useState([]);
+
+  const dateFormat = getMonthFormatByLocale(language);
+
+  const getColor = stopligh => {
+    if (stopligh === 2) {
+      return COLORS.YELLOW;
+    } else {
+      return COLORS.RED;
+    }
+  };
+
+  const loadPriorities = familyId => {
+    //Call api
+
+    getPrioritiesByFamily(user, Number(familyId))
+      .then(response => {
+        setPriorities(response.data.data.prioritiesByFamily);
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.familyPriorities.errorLoading'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      });
+  };
+  useEffect(() => {
+    loadPriorities(familyId);
+  }, [familyId]);
+
   return (
     <div>
       {/* Header */}
@@ -41,86 +91,96 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
           </Typography>
         </div>
         <Accordion className={classes.priorityTable}>
-          {[1, 2, 3, 4, 5].map(item => {
-            return (
-              <AccordionItem
-                className={classes.priorityTitle}
-                expanded={item === 1}
-                title={
-                  <div className={classes.priorityItemHeader}>
-                    {/* Indicator Info*/}
-                    <div className={classes.indicatorBasicInfoRight}>
-                      <div className={classes.iconStoplight}> </div>
-                      <Typography
-                        className={classes.labelRows}
-                        variant="subtitle1"
-                      >
-                        {`Eating a Nutritious Diet ${item}`}
-                      </Typography>
-                    </div>
-
-                    {/* Date*/}
-                    <div className={classes.indicatorBasicInfoLeft}>
-                      {/* TODO Conditional question to show expandMore */}
-                      <div className={classes.dateContainer}>
-                        <div className={classes.monthContainer}>
-                          <Typography className={classes.labelMonth}>
-                            Enero 15
-                          </Typography>
+          {priorities ? (
+            priorities.map(item => {
+              return (
+                <AccordionItem
+                  className={classes.priorityTitle}
+                  title={
+                    <div className={classes.priorityItemHeader}>
+                      {/* Indicator Info*/}
+                      <div className={classes.indicatorBasicInfoRight}>
+                        <div
+                          className={classes.iconStoplight}
+                          style={{ backgroundColor: getColor(item.color) }}
+                        >
+                          {' '}
                         </div>
-
-                        <div className={classes.yearContainer}>
-                          <Typography className={classes.labelRows}>
-                            2020
-                          </Typography>
-                        </div>
+                        <Typography
+                          className={classes.labelRows}
+                          variant="subtitle1"
+                        >
+                          {item.indicator}
+                        </Typography>
                       </div>
-                      <ExpandMore className={classes.expandIcon} />
+
+                      {/* Date*/}
+                      <div className={classes.indicatorBasicInfoLeft}>
+                        {/* TODO Conditional question to show expandMore */}
+                        <div className={classes.dateContainer}>
+                          <div className={classes.monthContainer}>
+                            <Typography className={classes.labelMonth}>
+                              {item.reviewDate
+                                ? `${moment
+                                    .unix(item.reviewDate)
+                                    .format(dateFormat)}`
+                                : ''}
+                            </Typography>
+                          </div>
+
+                          <div className={classes.yearContainer}>
+                            <Typography className={classes.labelRows}>
+                              {item.reviewDate
+                                ? `${moment
+                                    .unix(item.reviewDate)
+                                    .format('YYYY')}`
+                                : ''}
+                            </Typography>
+                          </div>
+                        </div>
+                        <ExpandMore className={classes.expandIcon} />
+                      </div>
+                    </div>
+                  }
+                >
+                  {/* Priority Details*/}
+                  <div className={classes.priorityContent}>
+                    {/* Month*/}
+                    <div className={classes.monthInfoContainer}>
+                      {t('views.familyPriorities.months')} · {item.months}
+                    </div>
+
+                    <div className={classes.prioritiesDetailContainer}>
+                      {/* Why Information*/}
+                      <div className={classes.whyWhatDetailInfo}>
+                        <Typography className={classes.labelDetailInfo}>
+                          {t('views.lifemap.whyDontYouHaveIt')}
+                        </Typography>
+                        <Typography className={classes.labelDetailInfo}>
+                          {item.reason}
+                        </Typography>
+                      </div>
+
+                      {/* Divider*/}
+                      <div className={classes.divider}></div>
+
+                      {/* What Information*/}
+                      <div className={classes.whyWhatDetailInfo}>
+                        <Typography className={classes.labelDetailInfo}>
+                          {t('views.lifemap.whatWillYouDoToGetIt')}
+                        </Typography>
+                        <Typography className={classes.labelDetailInfo}>
+                          {item.action}
+                        </Typography>
+                      </div>
                     </div>
                   </div>
-                }
-              >
-                {/* Priority Details*/}
-                <div className={classes.priorityContent}>
-                  {/* Month*/}
-                  <div className={classes.monthInfoContainer}>
-                    {t('views.familyPriorities.months')} · 6
-                  </div>
-
-                  <div className={classes.prioritiesDetailContainer}>
-                    {/* Why Information*/}
-                    <div>
-                      <Typography className={classes.labelDetailInfo}>
-                        {`Why info ${item} question?`}
-                      </Typography>
-                      <Typography className={classes.labelDetailInfo}>
-                        Lorem ipsum this is a placeholder text. Lorem ipsum
-                        dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua.
-                      </Typography>
-                    </div>
-
-                    {/* Divider*/}
-                    <div className={classes.divider}></div>
-
-                    {/* What Information*/}
-                    <div>
-                      <Typography className={classes.labelDetailInfo}>
-                        {`What will you do to get it?`}
-                      </Typography>
-                      <Typography className={classes.labelDetailInfo}>
-                        Lorem ipsum this is a placeholder text. Lorem ipsum
-                        dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua.
-                      </Typography>
-                    </div>
-                  </div>
-                </div>
-              </AccordionItem>
-            );
-          })}
+                </AccordionItem>
+              );
+            })
+          ) : (
+            <div>Loading</div>
+          )}
         </Accordion>
       </div>
     </div>
@@ -128,10 +188,14 @@ const FamilyPriorities = ({ classes, user, t, i18n: { language } }) => {
 };
 
 const styles = theme => ({
+  whyWhatDetailInfo: {
+    flexGrow: 1
+  },
   prioritiesDetailContainer: {
     display: 'flex'
   },
   divider: {
+    flexGrow: 0,
     border: '1px solid #DCDEE3',
     width: 3,
     marginLeft: 30,
@@ -197,7 +261,7 @@ const styles = theme => ({
     display: 'inline-block',
     border: '3px solid #FFFFFF',
     borderRadius: '50%',
-    backgroundColor: '#E1504D',
+    //backgroundColor: '#E1504D',
     minWidth: 28,
     minHeight: 28,
     marginRight: '1rem'

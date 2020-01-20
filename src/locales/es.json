@@ -394,7 +394,8 @@
       "priorities": "Prioridades",
       "indicator": "Indicador",
       "review": "Fecha de Revisión",
-      "months": "Meses requeridos"
+      "months": "Meses requeridos",
+      "errorLoading": "Error al cargar las prioridades"
     }
   },
   "reports": {

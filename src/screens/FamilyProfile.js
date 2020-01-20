@@ -330,7 +330,8 @@ const FamilyProfile = ({
       </Container>
 
       {/* Priorities */}
-      <FamilyPriorities></FamilyPriorities>
+
+      <FamilyPriorities familyId={familyId}></FamilyPriorities>
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (

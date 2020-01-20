@@ -471,3 +471,19 @@ export const assignFacilitator = (familyId, mentorId, user) =>
       }
     })
   });
+
+export const getPrioritiesByFamily = (user, familyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query prioritiesByFamily($familyId: Long!) { prioritiesByFamily (familyId: $familyId) {color, indicator, reviewDate, reason, action, months} }',
+      variables: {
+        familyId: familyId
+      }
+    })
+  });

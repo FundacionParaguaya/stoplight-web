@@ -393,7 +393,8 @@
       "priorities": "Priorities",
       "indicator": "Indicator",
       "review": "Review Date",
-      "months": "Months required"
+      "months": "Months required",
+      "errorLoading": "Error loading Priorities. Please Try again"
     }
   },
   "reports": {
