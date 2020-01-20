@@ -76,7 +76,8 @@ const FamilyPriorities = ({
 
       <Container className={classes.basicInfoText} variant="fluid">
         <Typography variant="h5">
-          {t('views.familyPriorities.priorities')} · 5
+          {t('views.familyPriorities.priorities')} ·{' '}
+          {priorities ? priorities.length : 0}
         </Typography>
       </Container>
 
