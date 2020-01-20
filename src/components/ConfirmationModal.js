@@ -25,9 +25,6 @@ const ConfirmationModal = props => {
   return (
     <Modal open={props.open} onClose={props.onClose}>
       <div className={classes.confirmationModal}>
-        {variant === VARIANTS.WARNING && (
-          <img src={redExclamation} alt="Red Exclamation" />
-        )}
         <Typography
           className={titleClass}
           variant="h5"

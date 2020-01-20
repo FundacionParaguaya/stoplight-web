@@ -51,6 +51,8 @@ const FamilyProfile = ({
   const [loading, setLoading] = useState(true);
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [disabledFacilitator, setDisabledFacilitator] = useState(true);
+
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
     { label: t('views.familyProfile.profile'), link: '/family' }
@@ -80,10 +82,12 @@ const FamilyProfile = ({
 
   const onChangeFacilitator = (value, facilitators) => {
     console.log('Set Facilitator to: ', value);
+    setDisabledFacilitator(false);
     setSelectedFacilitator(value);
   };
 
   const confirmChangeFacilitator = () => {
+    setDisabledFacilitator(true);
     //Call api
     assignFacilitator(familyId, selectedFacilitator.value, user)
       .then(response => {
@@ -350,7 +354,11 @@ const FamilyProfile = ({
               />
             </Grid>
             <Grid item xs={5} style={{ marginLeft: '2rem' }}>
-              <Button variant="contained" onClick={changeFacilitator}>
+              <Button
+                variant="contained"
+                onClick={changeFacilitator}
+                disabled={disabledFacilitator}
+              >
                 {t('views.familyProfile.changeFacilitator')}
               </Button>
             </Grid>
