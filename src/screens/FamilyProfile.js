@@ -53,7 +53,7 @@ const FamilyProfile = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
-    { label: t('views.familyProfile.family'), link: '/family' }
+    { label: t('views.familyProfile.profile'), link: '/family' }
   ];
 
   const goToFamilyPsp = e => {

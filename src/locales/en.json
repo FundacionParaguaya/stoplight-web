@@ -387,7 +387,8 @@
       "facilitator": "Assigned Facilitator",
       "administration": "Administration",
       "families": "Households",
-      "family": "Family"
+      "family": "Family",
+      "profile": "Profile"
     },
     "familyPriorities": {
       "priorities": "Priorities",
