@@ -396,7 +396,8 @@
       "indicator": "Indicador",
       "review": "Fecha de Revisión",
       "months": "Meses requeridos",
-      "errorLoading": "Error al cargar las prioridades"
+      "errorLoading": "Error al cargar las prioridades",
+      "noPriorities": "Esta familia no ha completado sus prioridades."
     }
   },
   "reports": {

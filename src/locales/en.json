@@ -395,7 +395,8 @@
       "indicator": "Indicator",
       "review": "Review Date",
       "months": "Months required",
-      "errorLoading": "Error loading Priorities. Please Try again"
+      "errorLoading": "Error loading Priorities. Please Try again",
+      "noPriorities": "This family has not selected their priorities."
     }
   },
   "reports": {

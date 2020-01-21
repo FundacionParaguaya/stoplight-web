@@ -80,110 +80,120 @@ const FamilyPriorities = ({
           {priorities ? priorities.length : 0}
         </Typography>
       </Container>
+      {priorities && priorities.length > 0 ? (
+        <div className={classes.prioritiesContainer}>
+          <div className={classes.columnHeaderContainer}>
+            <Typography className={classes.labelRows} variant="subtitle1">
+              {t('views.familyPriorities.indicator')}
+            </Typography>
 
-      <div className={classes.prioritiesContainer}>
-        <div className={classes.columnHeaderContainer}>
-          <Typography className={classes.labelRows} variant="subtitle1">
-            {t('views.familyPriorities.indicator')}
-          </Typography>
+            <Typography className={classes.labelRows} variant="subtitle1">
+              {t('views.familyPriorities.review')}
+            </Typography>
+          </div>
+          <Accordion className={classes.priorityTable}>
+            {priorities ? (
+              priorities.map(item => {
+                return (
+                  <AccordionItem
+                    className={classes.priorityTitle}
+                    title={
+                      <div className={classes.priorityItemHeader}>
+                        {/* Indicator Info*/}
+                        <div className={classes.indicatorBasicInfoRight}>
+                          <div
+                            className={classes.iconStoplight}
+                            style={{ backgroundColor: getColor(item.color) }}
+                          >
+                            {' '}
+                          </div>
+                          <Typography
+                            className={classes.labelRows}
+                            variant="subtitle1"
+                          >
+                            {item.indicator}
+                          </Typography>
+                        </div>
 
-          <Typography className={classes.labelRows} variant="subtitle1">
-            {t('views.familyPriorities.review')}
-          </Typography>
+                        {/* Date*/}
+                        <div className={classes.indicatorBasicInfoLeft}>
+                          {/* TODO Conditional question to show expandMore */}
+                          <div className={classes.dateContainer}>
+                            <div className={classes.monthContainer}>
+                              <Typography className={classes.labelMonth}>
+                                {item.reviewDate
+                                  ? `${moment
+                                      .unix(item.reviewDate)
+                                      .format(dateFormat)}`
+                                  : ''}
+                              </Typography>
+                            </div>
+
+                            <div className={classes.yearContainer}>
+                              <Typography className={classes.labelRows}>
+                                {item.reviewDate
+                                  ? `${moment
+                                      .unix(item.reviewDate)
+                                      .format('YYYY')}`
+                                  : ''}
+                              </Typography>
+                            </div>
+                          </div>
+                          <ExpandMore className={classes.expandIcon} />
+                        </div>
+                      </div>
+                    }
+                  >
+                    {/* Priority Details*/}
+                    <div className={classes.priorityContent}>
+                      {/* Month*/}
+                      <div className={classes.monthInfoContainer}>
+                        {t('views.familyPriorities.months')} · {item.months}
+                      </div>
+
+                      <div className={classes.prioritiesDetailContainer}>
+                        {/* Why Information*/}
+                        <div className={classes.whyWhatDetailInfo}>
+                          <Typography className={classes.labelTitleDetailInfo}>
+                            {t('views.lifemap.whyDontYouHaveIt')}
+                          </Typography>
+                          <Typography className={classes.labelDetailInfo}>
+                            {item.reason}
+                          </Typography>
+                        </div>
+
+                        {/* Divider*/}
+                        <div className={classes.divider}></div>
+
+                        {/* What Information*/}
+                        <div className={classes.whyWhatDetailInfo}>
+                          <Typography className={classes.labelTitleDetailInfo}>
+                            {t('views.lifemap.whatWillYouDoToGetIt')}
+                          </Typography>
+                          <Typography className={classes.labelDetailInfo}>
+                            {item.action}
+                          </Typography>
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionItem>
+                );
+              })
+            ) : (
+              <div>Loading</div>
+            )}
+          </Accordion>
         </div>
-        <Accordion className={classes.priorityTable}>
-          {priorities ? (
-            priorities.map(item => {
-              return (
-                <AccordionItem
-                  className={classes.priorityTitle}
-                  title={
-                    <div className={classes.priorityItemHeader}>
-                      {/* Indicator Info*/}
-                      <div className={classes.indicatorBasicInfoRight}>
-                        <div
-                          className={classes.iconStoplight}
-                          style={{ backgroundColor: getColor(item.color) }}
-                        >
-                          {' '}
-                        </div>
-                        <Typography
-                          className={classes.labelRows}
-                          variant="subtitle1"
-                        >
-                          {item.indicator}
-                        </Typography>
-                      </div>
-
-                      {/* Date*/}
-                      <div className={classes.indicatorBasicInfoLeft}>
-                        {/* TODO Conditional question to show expandMore */}
-                        <div className={classes.dateContainer}>
-                          <div className={classes.monthContainer}>
-                            <Typography className={classes.labelMonth}>
-                              {item.reviewDate
-                                ? `${moment
-                                    .unix(item.reviewDate)
-                                    .format(dateFormat)}`
-                                : ''}
-                            </Typography>
-                          </div>
-
-                          <div className={classes.yearContainer}>
-                            <Typography className={classes.labelRows}>
-                              {item.reviewDate
-                                ? `${moment
-                                    .unix(item.reviewDate)
-                                    .format('YYYY')}`
-                                : ''}
-                            </Typography>
-                          </div>
-                        </div>
-                        <ExpandMore className={classes.expandIcon} />
-                      </div>
-                    </div>
-                  }
-                >
-                  {/* Priority Details*/}
-                  <div className={classes.priorityContent}>
-                    {/* Month*/}
-                    <div className={classes.monthInfoContainer}>
-                      {t('views.familyPriorities.months')} · {item.months}
-                    </div>
-
-                    <div className={classes.prioritiesDetailContainer}>
-                      {/* Why Information*/}
-                      <div className={classes.whyWhatDetailInfo}>
-                        <Typography className={classes.labelDetailInfo}>
-                          {t('views.lifemap.whyDontYouHaveIt')}
-                        </Typography>
-                        <Typography className={classes.labelDetailInfo}>
-                          {item.reason}
-                        </Typography>
-                      </div>
-
-                      {/* Divider*/}
-                      <div className={classes.divider}></div>
-
-                      {/* What Information*/}
-                      <div className={classes.whyWhatDetailInfo}>
-                        <Typography className={classes.labelDetailInfo}>
-                          {t('views.lifemap.whatWillYouDoToGetIt')}
-                        </Typography>
-                        <Typography className={classes.labelDetailInfo}>
-                          {item.action}
-                        </Typography>
-                      </div>
-                    </div>
-                  </div>
-                </AccordionItem>
-              );
-            })
-          ) : (
-            <div>Loading</div>
-          )}
-        </Accordion>
-      </div>
+      ) : (
+        <Container className={classes.basicInfoText} variant="fluid">
+          <Typography
+            variant="h6"
+            style={{ paddingTop: '1rem', paddingBottom: '1rem' }}
+          >
+            {t('views.familyPriorities.noPriorities')}
+          </Typography>
+        </Container>
+      )}
     </div>
   );
 };
@@ -201,6 +211,11 @@ const styles = theme => ({
     width: 3,
     marginLeft: 30,
     marginRight: 30
+  },
+  labelTitleDetailInfo: {
+    fontSize: 16,
+    color: '#6A6A6A',
+    paddingBottom: '1rem'
   },
   labelDetailInfo: {
     fontSize: 16,
