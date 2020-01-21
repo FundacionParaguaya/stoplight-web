@@ -59,7 +59,9 @@ const FamilyProfile = ({
   ];
 
   const goToFamilyPsp = e => {
-    window.location.replace(`${getPlatform(user.env)}/#families/${familyId}`);
+    window.location.replace(
+      `${getPlatform(user.env)}/#families/${familyId}/snapshots`
+    );
   };
 
   const changeFacilitator = () => {
