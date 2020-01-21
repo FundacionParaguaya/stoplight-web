@@ -387,7 +387,16 @@
       "facilitator": "Assigned Facilitator",
       "administration": "Administration",
       "families": "Households",
-      "family": "Family"
+      "family": "Family",
+      "profile": "Profile"
+    },
+    "familyPriorities": {
+      "priorities": "Priorities",
+      "indicator": "Indicator",
+      "review": "Review Date",
+      "months": "Months required",
+      "errorLoading": "Error loading Priorities. Please Try again",
+      "noPriorities": "This family has not selected their priorities."
     }
   },
   "reports": {

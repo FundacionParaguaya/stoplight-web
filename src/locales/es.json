@@ -380,7 +380,7 @@
     "familyProfile": {
       "organization": "Organización: ",
       "lifemapNumber": "Mapa de Vida - Número",
-      "viewLifeMap": "Ver mapa de vida en detalle",
+      "viewLifeMap": "Ver Mapa de Vida en detalle",
       "Mentorsuccess": "Asignado correctamente",
       "mentorError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar",
       "changeFacilitator": "Cambiar Facilitador",
@@ -388,7 +388,16 @@
       "facilitator": "Facilitador Asignado",
       "administration": "Administración",
       "families": "Familias",
-      "family": "Familia"
+      "family": "Familia",
+      "profile": "Perfil"
+    },
+    "familyPriorities": {
+      "priorities": "Prioridades",
+      "indicator": "Indicador",
+      "review": "Fecha de Revisión",
+      "months": "Meses requeridos",
+      "errorLoading": "Error al cargar las prioridades",
+      "noPriorities": "Esta familia no ha completado sus prioridades."
     }
   },
   "reports": {

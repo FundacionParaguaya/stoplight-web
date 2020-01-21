@@ -15,7 +15,7 @@ class NavigationBar extends Component {
   };
 
   render() {
-    const { classes, t } = this.props;
+    const { classes } = this.props;
 
     const options = this.props.options;
 
