@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { withStyles, Modal, Typography, Button } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
-import redExclamation from '../assets/red_exclamation.png';
 import { COLORS } from '../theme';
 
 const DEFAULT_CANCEL_TEXT = 'Cancel';

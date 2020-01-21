@@ -6,7 +6,6 @@ import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Container from '../components/Container';
 import { withSnackbar } from 'notistack';
-import * as _ from 'lodash';
 import iconPriority from '../assets/icon_priority.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';

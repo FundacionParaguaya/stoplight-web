@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,7 +12,6 @@ import chooseLifeMap from '../assets/family.png';
 import withLayout from '../components/withLayout';
 import { getFamily, assignFacilitator } from '../api';
 import { withSnackbar } from 'notistack';
-import * as _ from 'lodash';
 import familyFace from '../assets/face_icon_large.png';
 import MailIcon from '@material-ui/icons/Mail';
 import PhoneInTalkIcon from '@material-ui/icons/PhoneInTalk';
@@ -47,8 +46,6 @@ const FamilyProfile = ({
   const [firtsParticipant, setFirtsParticipant] = useState({});
   let { familyId } = useParams();
   const dateFormat = getDateFormatByLocale(language);
-  const [facilitators, setFacilitators] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
@@ -119,9 +116,6 @@ const FamilyProfile = ({
   };
 
   useEffect(() => {
-    setLoading(true);
-    setFacilitators([]);
-
     getFamily(familyId, user).then(response => {
       let members = response.data.data.familyById.familyMemberDTOList;
       console.log('members', members);
