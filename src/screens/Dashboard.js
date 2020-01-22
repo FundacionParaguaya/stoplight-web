@@ -36,7 +36,7 @@ const LoadingContainer = () => (
   </div>
 );
 
-const Dashboard = ({ classes, user, t, i18n: { language } }) => {
+const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const [activityFeed, setActivityFeed] = useState(null);
   const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
@@ -228,7 +228,12 @@ const Dashboard = ({ classes, user, t, i18n: { language } }) => {
             <Box mt={3} />
             {loadingFeed && <LoadingContainer />}
             {!loadingFeed && (
-              <ActivityFeed data={activityFeed} width="100%" height={300} />
+              <ActivityFeed
+                data={activityFeed}
+                width="100%"
+                height={300}
+                history={history}
+              />
             )}
           </div>
         </Container>
