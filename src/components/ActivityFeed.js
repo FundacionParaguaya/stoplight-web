@@ -11,12 +11,11 @@ const ActivityFeed = ({
   width = '40%',
   height = 200,
   user: { env },
-  t
+  t,
+  history
 }) => {
   const handleClick = (e, familyId) => {
-    window.location.replace(
-      `https://${e}.povertystoplight.org/#families/${familyId}`
-    );
+    history.push(`/family/${familyId}`);
   };
 
   if (!data || data.length <= 0) {
