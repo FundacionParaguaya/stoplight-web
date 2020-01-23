@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Button } from '@material-ui/core';
 import Container from '../components/Container';
 import { withSnackbar } from 'notistack';
 import iconPriority from '../assets/icon_priority.png';
@@ -23,7 +23,8 @@ const FamilyPriorities = ({
   t,
   i18n: { language },
   enqueueSnackbar,
-  closeSnackbar
+  closeSnackbar,
+  history
 }) => {
   const [priorities, setPriorities] = useState([]);
 
@@ -35,6 +36,10 @@ const FamilyPriorities = ({
     } else {
       return COLORS.RED;
     }
+  };
+
+  const handleAddPriority = (e, familyId) => {
+    history.push(`/family/${familyId}`);
   };
 
   const loadPriorities = familyId => {
@@ -193,6 +198,16 @@ const FamilyPriorities = ({
           </Typography>
         </Container>
       )}
+
+      <Container
+        className={classes.basicInfoText}
+        variant="fluid"
+        style={{ paddingBottom: '2rem' }}
+      >
+        <Button variant="contained" onClick={handleAddPriority}>
+          Agregar Prioridad
+        </Button>
+      </Container>
     </div>
   );
 };
