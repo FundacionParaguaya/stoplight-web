@@ -15,84 +15,7 @@ import IndicatorsFilter, {
 import LeaveModal from '../../components/LeaveModal';
 import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';
-
-const getForwardURLForIndicator = indicator => {
-  let forward = 'skipped-indicator';
-  if (indicator.value) {
-    forward = indicator.value === 3 ? 'achievement' : 'priority';
-  }
-  return `${forward}/${indicator.key}`;
-};
-
-const indicatorColorByAnswer = indicator => {
-  let color;
-  if (indicator.value === 3) {
-    color = 'green';
-  } else if (indicator.value === 2) {
-    color = 'yellow';
-  } else if (indicator.value === 1) {
-    color = 'red';
-  } else if (indicator.value === 0) {
-    color = 'skipped';
-  }
-  return color;
-};
-
-let DimensionQuestions = ({
-  classes,
-  questions,
-  priorities,
-  achievements,
-  history
-}) => (
-  <Grid container spacing={2}>
-    {questions.map(indicator => (
-      <Grid
-        item
-        xs={12}
-        md={3}
-        lg={2}
-        key={indicator.key}
-        onClick={() => history.push(getForwardURLForIndicator(indicator))}
-        className={classes.gridItemStyle}
-      >
-        <div className={classes.indicatorBallContainer}>
-          <IndicatorBall
-            color={indicatorColorByAnswer(indicator)}
-            animated={false}
-            priority={priorities.find(
-              prior => prior.indicator === indicator.key
-            )}
-            achievement={achievements.find(
-              prior => prior.indicator === indicator.key
-            )}
-          />
-        </div>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          className={classes.typographyStyle}
-        >
-          {indicator.questionText}
-        </Typography>
-      </Grid>
-    ))}
-  </Grid>
-);
-
-const dimensionQuestionsStyles = theme => ({
-  gridItemStyle: { cursor: 'pointer' },
-  indicatorBallContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  typographyStyle: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(4)
-  }
-});
-DimensionQuestions = withStyles(dimensionQuestionsStyles)(DimensionQuestions);
+import DimensionQuestion from '../../components/summary/DimensionQuestion';
 
 export class Overview extends Component {
   state = {
@@ -264,7 +187,7 @@ export class Overview extends Component {
             onFilterChanged={this.handleFilterChange}
           />
           <div className={classes.questionsContainer}>
-            <DimensionQuestions
+            <DimensionQuestion
               questions={userAnswers.filter(ind => {
                 if (
                   this.state.indicatorFilterValue === FILTERED_BY_OPTIONS.ALL
@@ -324,8 +247,5 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
 const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(Overview))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Overview))
 );

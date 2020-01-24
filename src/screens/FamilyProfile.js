@@ -331,7 +331,10 @@ const FamilyProfile = ({
 
       {/* Priorities */}
 
-      <FamilyPriorities familyId={familyId}></FamilyPriorities>
+      <FamilyPriorities
+        familyId={familyId}
+        questions={family.snapshotIndicators}
+      ></FamilyPriorities>
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (

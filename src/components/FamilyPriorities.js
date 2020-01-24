@@ -19,6 +19,7 @@ import { COLORS } from '../theme';
 const FamilyPriorities = ({
   classes,
   familyId,
+  questions,
   user,
   t,
   i18n: { language },
@@ -39,7 +40,7 @@ const FamilyPriorities = ({
   };
 
   const handleAddPriority = (e, familyId) => {
-    history.push(`/family/${familyId}`);
+    history.push(`/priorities`);
   };
 
   const loadPriorities = familyId => {
