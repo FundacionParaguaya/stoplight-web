@@ -128,6 +128,14 @@ export class Overview extends Component {
     return description;
   };
 
+  pushIndicator = indicator => {
+    let forward = 'skipped-indicator';
+    if (indicator.value) {
+      forward = indicator.value === 3 ? 'achievement' : 'priority';
+    }
+    this.props.history.push(`${forward}/${indicator.key}`);
+  };
+
   render() {
     const {
       t,
@@ -199,6 +207,7 @@ export class Overview extends Component {
               priorities={currentDraft.priorities}
               achievements={currentDraft.achievements}
               history={this.props.history}
+              onClickIndicator={this.pushIndicator}
             />
           </div>
           {!this.state.showFooterPopup && (

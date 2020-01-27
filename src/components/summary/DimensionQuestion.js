@@ -34,7 +34,8 @@ const DimensionQuestion = ({
   questions,
   priorities,
   achievements,
-  history
+  history,
+  onClickIndicator
 }) => (
   <Grid container spacing={2}>
     {questions.map(indicator => (
@@ -44,7 +45,7 @@ const DimensionQuestion = ({
         md={3}
         lg={2}
         key={indicator.key}
-        onClick={() => history.push(getForwardURLForIndicator(indicator))}
+        onClick={() => onClickIndicator(indicator)}
         className={classes.gridItemStyle}
       >
         <div className={classes.indicatorBallContainer}>

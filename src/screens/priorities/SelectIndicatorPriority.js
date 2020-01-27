@@ -1,16 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { updateUser, updateSurvey, updateDraft } from '../../redux/actions';
 import withLayout from '../../components/withLayout';
 import DimensionQuestion from '../../components/summary/DimensionQuestion';
-import { Typography } from '@material-ui/core';
 import Container from '../../components/Container';
 import iconPriority from '../../assets/icon_priority.png';
-
+import { Formik, Form } from 'formik';
+import InputWithFormik from '../../components/InputWithFormik';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
+import { withStyles, Modal, Typography, Button } from '@material-ui/core';
+import * as Yup from 'yup';
+import { constructEstimatedMonthsOptions } from '../../utils/form-utils';
 const styles = theme => ({
+  buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40
+  },
+  confirmationModal: {
+    backgroundColor: theme.palette.background.default,
+    outline: 'none',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    padding: '40px 50px'
+  },
   questionsContainer: {
     padding: '45px',
     paddingBottom: 0
@@ -46,6 +67,9 @@ const styles = theme => ({
     maxWidth: 50,
     maxHeight: 50,
     objectFit: 'contain'
+  },
+  modalTitle: {
+    paddingBottom: '2rem'
   }
 });
 
@@ -55,6 +79,15 @@ const SelectIndicatorPriority = ({
   i18n: { language },
   history
 }) => {
+  const monthsOptions = constructEstimatedMonthsOptions(t);
+  const fieldIsRequired = 'validation.fieldIsRequired';
+
+  const validationSchema = Yup.object().shape({
+    estimatedDate: Yup.string().required(fieldIsRequired)
+  });
+
+  const [open, setOpen] = useState(false);
+
   const questions = [
     {
       value: 1,
@@ -75,6 +108,23 @@ const SelectIndicatorPriority = ({
       key: '3'
     }
   ];
+
+  let { familyId } = useParams();
+
+  // on save priority
+  const savePriority = values => {};
+
+  //on close modal
+  const onClose = () => {};
+
+  const getForwardURLForIndicator = e => {
+    console.log(e);
+    setOpen(true);
+    /*if (e.key && e.key != 3) {
+      history.push(`/priority/${e.key}`);
+    }*/
+  };
+
   return (
     <div>
       <Container className={classes.basicInfo} variant="fluid">
@@ -96,8 +146,58 @@ const SelectIndicatorPriority = ({
           priorities={[]}
           achievements={[]}
           history={history}
+          onClickIndicator={getForwardURLForIndicator}
         />
       </div>
+      <Modal open={open} onClose={onClose}>
+        <div className={classes.confirmationModal}>
+          <Typography
+            className={classes.modalTitle}
+            variant="h5"
+            test-id="modal-title"
+            // color="error"
+          >
+            Agregar Prioridad
+          </Typography>
+          <Formik
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting }) => {
+              savePriority(values);
+              setSubmitting(false);
+            }}
+          >
+            <Form noValidate>
+              <InputWithFormik
+                label={t('views.lifemap.whyDontYouHaveIt')}
+                name="reason"
+              />
+              <InputWithFormik
+                label={t('views.lifemap.whatWillYouDoToGetIt')}
+                name="action"
+              />
+              <AutocompleteWithFormik
+                label={t('views.lifemap.howManyMonthsWillItTake')}
+                name="estimatedDate"
+                rawOptions={monthsOptions}
+                labelKey="label"
+                valueKey="value"
+                required
+                isClearable={false}
+              />
+              <div className={classes.buttonContainerForm}>
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  //disabled={isSubmitting}
+                >
+                  {t('general.save')}
+                </Button>
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      </Modal>
     </div>
   );
 };

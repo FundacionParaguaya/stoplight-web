@@ -39,8 +39,8 @@ const FamilyPriorities = ({
     }
   };
 
-  const handleAddPriority = (e, familyId) => {
-    history.push(`/priorities`);
+  const handleAddPriority = e => {
+    history.push(`/priorities/${familyId}`);
   };
 
   const loadPriorities = familyId => {
