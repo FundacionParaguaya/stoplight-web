@@ -51,8 +51,10 @@ const styles = theme => ({
     padding: '40px 50px'
   },
   questionsContainer: {
-    padding: '45px',
-    paddingBottom: 0
+    paddingTop: '5%',
+    paddingBottom: 0,
+    paddingLeft: '9%',
+    paddingRight: '9%'
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,
@@ -105,11 +107,6 @@ const SelectIndicatorPriority = ({
   const monthsOptions = constructEstimatedMonthsOptions(t);
   const fieldIsRequired = 'validation.fieldIsRequired';
 
-  const navigationOptions = [
-    { label: t('views.familyProfile.families'), link: '/families' },
-    { label: t('views.familyProfile.profile'), link: '/family' }
-  ];
-
   const listPriorities = history.location.state.questions.priorities.map(
     ele => {
       return {
@@ -119,6 +116,12 @@ const SelectIndicatorPriority = ({
   );
   const [priorities, setPriorities] = useState(listPriorities);
   let { familyId } = useParams();
+
+  const navigationOptions = [
+    { label: t('views.familyProfile.families'), link: '/families' },
+    { label: t('views.familyProfile.profile'), link: `/family/${familyId}` },
+    { label: 'Prioridades', link: `/priorities/${familyId}` }
+  ];
 
   const questions = history.location.state.questions.indicatorSurveyDataList
     .filter(e => e.value === 1 || e.value === 2)
@@ -198,8 +201,16 @@ const SelectIndicatorPriority = ({
 
   return (
     <div>
-      <NavigationBar options={navigationOptions}></NavigationBar>
-      <Container className={classes.basicInfo} variant="fluid">
+      <div
+        style={{
+          paddingLeft: '12%',
+          paddingRight: '12%'
+        }}
+      >
+        <NavigationBar options={navigationOptions}></NavigationBar>
+      </div>
+
+      <Container className={classes.basicInfo} variant="stretch">
         <div className={classes.iconPriorityBorder}>
           <img
             src={iconPriority}
@@ -223,7 +234,7 @@ const SelectIndicatorPriority = ({
       </div>
       <Container className={classes.backButton} variant="fluid">
         <Button color="primary" variant="contained" onClick={goToFamilyProfile}>
-          Volver a la Familia
+          Volver al Perfil
         </Button>
       </Container>
 
