@@ -18,6 +18,7 @@ import { withSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import { addPriority } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
+import { CircularProgress } from '@material-ui/core';
 
 const styles = theme => ({
   backButton: {
@@ -106,6 +107,7 @@ const SelectIndicatorPriority = ({
   const [selectedIndicator, setSelectedIndicator] = useState({});
   const monthsOptions = constructEstimatedMonthsOptions(t);
   const fieldIsRequired = 'validation.fieldIsRequired';
+  const [loading, setLoading] = useState(false);
 
   const listPriorities = history.location.state.questions.priorities.map(
     ele => {
@@ -120,7 +122,10 @@ const SelectIndicatorPriority = ({
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
     { label: t('views.familyProfile.profile'), link: `/family/${familyId}` },
-    { label: 'Prioridades', link: `/priorities/${familyId}` }
+    {
+      label: t('views.familyPriorities.priorities'),
+      link: `/priorities/${familyId}`
+    }
   ];
 
   const questions = history.location.state.questions.indicatorSurveyDataList
@@ -152,7 +157,7 @@ const SelectIndicatorPriority = ({
       selectedIndicator.snapshotStoplightId
     )
       .then(response => {
-        enqueueSnackbar('Agregado Correctamente', {
+        enqueueSnackbar(t('views.familyPriorities.prioritySaved'), {
           variant: 'success',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -160,26 +165,26 @@ const SelectIndicatorPriority = ({
             </IconButton>
           )
         });
-        setOpen(false);
+        setLoading(false);
+
         //Update list of priorities
         setPriorities(previous => [
           ...previous,
           { indicator: selectedIndicator.key }
         ]);
+        setOpen(false);
       })
       .catch(e => {
-        console.log(e);
-        enqueueSnackbar(
-          'Ocurrió un error al agregar la prioridad. Favor vuelva a intentarr',
-          {
-            variant: 'error',
-            action: key => (
-              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                <CloseIcon style={{ color: 'white' }} />
-              </IconButton>
-            )
-          }
-        );
+        setLoading(false);
+        setOpen(false);
+        enqueueSnackbar(t('views.familyPriorities.errorSaving'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
       });
   };
 
@@ -189,8 +194,6 @@ const SelectIndicatorPriority = ({
   };
 
   const getForwardURLForIndicator = e => {
-    console.log('open modal for indicator');
-    console.log(e);
     setSelectedIndicator(e);
     setOpen(true);
   };
@@ -221,7 +224,9 @@ const SelectIndicatorPriority = ({
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h5">Seleccione un indicador</Typography>
+        <Typography variant="h5">
+          {t('views.familyPriorities.selectIndicator')}
+        </Typography>
       </Container>
       <div className={classes.questionsContainer}>
         <DimensionQuestion
@@ -234,71 +239,77 @@ const SelectIndicatorPriority = ({
       </div>
       <Container className={classes.backButton} variant="fluid">
         <Button color="primary" variant="contained" onClick={goToFamilyProfile}>
-          Volver al Perfil
+          {t('views.familyPriorities.backToProfile')}
         </Button>
       </Container>
 
       <Modal open={open} onClose={onClose}>
-        <div className={classes.confirmationModal}>
-          <Typography
-            className={classes.modalTitle}
-            variant="h5"
-            test-id="modal-title"
-            // color="error"
-          >
-            Agregar Prioridad
-          </Typography>
+        {loading ? (
+          <div className={classes.confirmationModal}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <div className={classes.confirmationModal}>
+            <Typography
+              className={classes.modalTitle}
+              variant="h5"
+              test-id="modal-title"
+              // color="error"
+            >
+              {t('views.familyPriorities.addPriority')}
+            </Typography>
 
-          <Typography
-            variant="subtitle1"
-            align="center"
-            className={classes.typographyStyle}
-          >
-            {selectedIndicator.questionText} · {selectedIndicator.dimension}
-          </Typography>
+            <Typography
+              variant="subtitle1"
+              align="center"
+              className={classes.typographyStyle}
+            >
+              {selectedIndicator.questionText} · {selectedIndicator.dimension}
+            </Typography>
 
-          <Formik
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              savePriority(values);
-              setSubmitting(false);
-            }}
-          >
-            <Form noValidate>
-              <InputWithFormik
-                label={t('views.lifemap.whyDontYouHaveIt')}
-                name="reason"
-              />
-              <InputWithFormik
-                label={t('views.lifemap.whatWillYouDoToGetIt')}
-                name="action"
-              />
-              <AutocompleteWithFormik
-                label={t('views.lifemap.howManyMonthsWillItTake')}
-                name="estimatedDate"
-                rawOptions={monthsOptions}
-                labelKey="label"
-                valueKey="value"
-                required
-                isClearable={false}
-              />
-              <div className={classes.buttonContainerForm}>
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  //disabled={isSubmitting}
-                >
-                  {t('general.save')}
-                </Button>
+            <Formik
+              validationSchema={validationSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                setLoading(true);
+                savePriority(values);
+              }}
+            >
+              <Form noValidate>
+                <InputWithFormik
+                  label={t('views.lifemap.whyDontYouHaveIt')}
+                  name="reason"
+                />
+                <InputWithFormik
+                  label={t('views.lifemap.whatWillYouDoToGetIt')}
+                  name="action"
+                />
+                <AutocompleteWithFormik
+                  label={t('views.lifemap.howManyMonthsWillItTake')}
+                  name="estimatedDate"
+                  rawOptions={monthsOptions}
+                  labelKey="label"
+                  valueKey="value"
+                  required
+                  isClearable={false}
+                />
+                <div className={classes.buttonContainerForm}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    //disabled={isSubmitting}
+                  >
+                    {t('general.save')}
+                  </Button>
 
-                <Button variant="outlined" onClick={onClose}>
-                  Cancelar
-                </Button>
-              </div>
-            </Form>
-          </Formik>
-        </div>
+                  <Button variant="outlined" onClick={onClose}>
+                    {t('general.cancel')}
+                  </Button>
+                </div>
+              </Form>
+            </Formik>
+          </div>
+        )}
       </Modal>
     </div>
   );

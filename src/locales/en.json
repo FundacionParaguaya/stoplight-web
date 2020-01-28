@@ -396,7 +396,12 @@
       "review": "Review Date",
       "months": "Months required",
       "errorLoading": "Error loading Priorities. Please Try again",
-      "noPriorities": "This family has not selected their priorities."
+      "noPriorities": "This family has not selected their priorities.",
+      "prioritySaved": "Priority Saved",
+      "errorSaving": "Error saving Priority. Please Try again",
+      "selectIndicator": "Select a Indicator",
+      "backToProfile": "Back to Family Profile",
+      "addPriority": "Add Priority"
     }
   },
   "reports": {

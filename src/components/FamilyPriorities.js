@@ -211,7 +211,7 @@ const FamilyPriorities = ({
         style={{ paddingBottom: '2rem' }}
       >
         <Button variant="contained" onClick={handleAddPriority}>
-          Agregar Prioridad
+          {t('views.familyPriorities.addPriority')}
         </Button>
       </Container>
     </div>
