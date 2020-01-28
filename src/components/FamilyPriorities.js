@@ -40,7 +40,12 @@ const FamilyPriorities = ({
   };
 
   const handleAddPriority = e => {
-    history.push(`/priorities/${familyId}`);
+    console.log('Calling Select Indicator');
+    console.log(questions);
+    history.push({
+      pathname: `/priorities/${familyId}`,
+      state: { questions: questions }
+    });
   };
 
   const loadPriorities = familyId => {

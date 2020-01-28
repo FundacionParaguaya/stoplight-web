@@ -17,7 +17,8 @@ const styles = theme => ({
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: 40
+    marginTop: 40,
+    justifyContent: 'space-evenly'
   },
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
@@ -81,14 +82,31 @@ const SelectIndicatorPriority = ({
 }) => {
   const monthsOptions = constructEstimatedMonthsOptions(t);
   const fieldIsRequired = 'validation.fieldIsRequired';
+  console.log('State in Priorities');
+  console.log(history.location.state);
 
+  // const questions = history.location.state ? history.location.state.questions.indicatorSurveyDataList : [];
+
+  const questions = history.location.state.questions.indicatorSurveyDataList.map(
+    ele => {
+      return {
+        value: ele.value,
+        questionText: ele.shortName,
+        dimension: ele.dimension,
+        key: ele.key
+      };
+    }
+  );
+
+  console.log(questions);
   const validationSchema = Yup.object().shape({
     estimatedDate: Yup.string().required(fieldIsRequired)
   });
 
   const [open, setOpen] = useState(false);
 
-  const questions = [
+  //const indicators = questions.indicatorSurveyDataList;
+  /*[
     {
       value: 1,
       questionText: 'Question Text',
@@ -107,7 +125,7 @@ const SelectIndicatorPriority = ({
       dimension: 'Dimension 3',
       key: '3'
     }
-  ];
+  ];*/
 
   let { familyId } = useParams();
 
@@ -115,14 +133,13 @@ const SelectIndicatorPriority = ({
   const savePriority = values => {};
 
   //on close modal
-  const onClose = () => {};
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const getForwardURLForIndicator = e => {
     console.log(e);
     setOpen(true);
-    /*if (e.key && e.key != 3) {
-      history.push(`/priority/${e.key}`);
-    }*/
   };
 
   return (
@@ -141,8 +158,15 @@ const SelectIndicatorPriority = ({
         <Typography variant="h5">Seleccione un indicador</Typography>
       </Container>
       <div className={classes.questionsContainer}>
+        {questions ? (
+          questions.map(item => {
+            return <div> {item.shortname} </div>;
+          })
+        ) : (
+          <div> empty </div>
+        )}
         <DimensionQuestion
-          questions={questions}
+          questions={questions ? questions : []}
           priorities={[]}
           achievements={[]}
           history={history}
@@ -192,6 +216,10 @@ const SelectIndicatorPriority = ({
                   //disabled={isSubmitting}
                 >
                   {t('general.save')}
+                </Button>
+
+                <Button variant="outlined" onClick={onClose}>
+                  Cancelar
                 </Button>
               </div>
             </Form>
