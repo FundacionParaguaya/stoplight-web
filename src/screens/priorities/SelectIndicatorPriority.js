@@ -87,16 +87,16 @@ const SelectIndicatorPriority = ({
 
   // const questions = history.location.state ? history.location.state.questions.indicatorSurveyDataList : [];
 
-  const questions = history.location.state.questions.indicatorSurveyDataList.map(
-    ele => {
+  const questions = history.location.state.questions.indicatorSurveyDataList
+    .filter(e => e.value === 1 || e.value === 2)
+    .map(ele => {
       return {
         value: ele.value,
         questionText: ele.shortName,
         dimension: ele.dimension,
         key: ele.key
       };
-    }
-  );
+    });
 
   console.log(questions);
   const validationSchema = Yup.object().shape({
