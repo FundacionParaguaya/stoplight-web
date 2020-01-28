@@ -13,7 +13,23 @@ import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { withStyles, Modal, Typography, Button } from '@material-ui/core';
 import * as Yup from 'yup';
 import { constructEstimatedMonthsOptions } from '../../utils/form-utils';
+import CloseIcon from '@material-ui/icons/Close';
+import { withSnackbar } from 'notistack';
+import IconButton from '@material-ui/core/IconButton';
+import { addPriority } from '../../api';
+
 const styles = theme => ({
+  backButton: {
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    justifyContent: 'center',
+    zIndex: 9,
+    marginBottom: '3rem'
+  },
+  typographyStyle: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4)
+  },
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'center',
@@ -78,14 +94,25 @@ const SelectIndicatorPriority = ({
   classes,
   t,
   i18n: { language },
-  history
+  history,
+  user,
+  enqueueSnackbar,
+  closeSnackbar
 }) => {
+  const [open, setOpen] = useState(false);
+  const [selectedIndicator, setSelectedIndicator] = useState({});
   const monthsOptions = constructEstimatedMonthsOptions(t);
   const fieldIsRequired = 'validation.fieldIsRequired';
-  console.log('State in Priorities');
-  console.log(history.location.state);
 
-  // const questions = history.location.state ? history.location.state.questions.indicatorSurveyDataList : [];
+  const listPriorities = history.location.state.questions.priorities.map(
+    ele => {
+      return {
+        indicator: ele.key
+      };
+    }
+  );
+  const [priorities, setPriorities] = useState(listPriorities);
+  let { familyId } = useParams();
 
   const questions = history.location.state.questions.indicatorSurveyDataList
     .filter(e => e.value === 1 || e.value === 2)
@@ -94,7 +121,8 @@ const SelectIndicatorPriority = ({
         value: ele.value,
         questionText: ele.shortName,
         dimension: ele.dimension,
-        key: ele.key
+        key: ele.key,
+        snapshotStoplightId: ele.snapshotStoplightId
       };
     });
 
@@ -103,34 +131,48 @@ const SelectIndicatorPriority = ({
     estimatedDate: Yup.string().required(fieldIsRequired)
   });
 
-  const [open, setOpen] = useState(false);
-
-  //const indicators = questions.indicatorSurveyDataList;
-  /*[
-    {
-      value: 1,
-      questionText: 'Question Text',
-      dimension: 'Dimension',
-      key: '1'
-    },
-    {
-      value: 2,
-      questionText: 'Question Text 2',
-      dimension: 'Dimension 2',
-      key: '2'
-    },
-    {
-      value: 3,
-      questionText: 'Question Text 3',
-      dimension: 'Dimension 3',
-      key: '3'
-    }
-  ];*/
-
-  let { familyId } = useParams();
-
   // on save priority
-  const savePriority = values => {};
+  const savePriority = values => {
+    console.log('saving');
+    console.log(values);
+    addPriority(
+      user,
+      values.reason,
+      values.action,
+      values.estimatedDate,
+      selectedIndicator.snapshotStoplightId
+    )
+      .then(response => {
+        enqueueSnackbar('Agregado Correctamente', {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        setOpen(false);
+        //Update list of priorities
+        priorities.push({ indicator: selectedIndicator.key });
+        console.log('New Priorities');
+        console.log(priorities);
+        setPriorities(priorities);
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(
+          'Ocurrió un error al agregar la prioridad. Favor vuelva a intentarr',
+          {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          }
+        );
+      });
+  };
 
   //on close modal
   const onClose = () => {
@@ -138,8 +180,14 @@ const SelectIndicatorPriority = ({
   };
 
   const getForwardURLForIndicator = e => {
+    console.log('open modal for indicator');
     console.log(e);
+    setSelectedIndicator(e);
     setOpen(true);
+  };
+
+  const goToFamilyProfile = e => {
+    history.push(`/family/${familyId}`);
   };
 
   return (
@@ -158,21 +206,20 @@ const SelectIndicatorPriority = ({
         <Typography variant="h5">Seleccione un indicador</Typography>
       </Container>
       <div className={classes.questionsContainer}>
-        {questions ? (
-          questions.map(item => {
-            return <div> {item.shortname} </div>;
-          })
-        ) : (
-          <div> empty </div>
-        )}
         <DimensionQuestion
           questions={questions ? questions : []}
-          priorities={[]}
+          priorities={priorities}
           achievements={[]}
           history={history}
           onClickIndicator={getForwardURLForIndicator}
         />
       </div>
+      <Container className={classes.backButton} variant="fluid">
+        <Button color="primary" variant="contained" onClick={goToFamilyProfile}>
+          Volver a la Familia
+        </Button>
+      </Container>
+
       <Modal open={open} onClose={onClose}>
         <div className={classes.confirmationModal}>
           <Typography
@@ -183,6 +230,15 @@ const SelectIndicatorPriority = ({
           >
             Agregar Prioridad
           </Typography>
+
+          <Typography
+            variant="subtitle1"
+            align="center"
+            className={classes.typographyStyle}
+          >
+            {selectedIndicator.questionText} · {selectedIndicator.dimension}
+          </Typography>
+
           <Formik
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
@@ -239,6 +295,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(withTranslation()(withLayout(SelectIndicatorPriority)))
+    )(withTranslation()(withLayout(withSnackbar(SelectIndicatorPriority))))
   )
 );
