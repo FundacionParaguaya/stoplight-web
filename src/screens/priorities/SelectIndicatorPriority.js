@@ -17,6 +17,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import { addPriority } from '../../api';
+import NavigationBar from '../../components/NavigationBar';
 
 const styles = theme => ({
   backButton: {
@@ -104,6 +105,11 @@ const SelectIndicatorPriority = ({
   const monthsOptions = constructEstimatedMonthsOptions(t);
   const fieldIsRequired = 'validation.fieldIsRequired';
 
+  const navigationOptions = [
+    { label: t('views.familyProfile.families'), link: '/families' },
+    { label: t('views.familyProfile.profile'), link: '/family' }
+  ];
+
   const listPriorities = history.location.state.questions.priorities.map(
     ele => {
       return {
@@ -153,10 +159,10 @@ const SelectIndicatorPriority = ({
         });
         setOpen(false);
         //Update list of priorities
-        priorities.push({ indicator: selectedIndicator.key });
-        console.log('New Priorities');
-        console.log(priorities);
-        setPriorities(priorities);
+        setPriorities(previous => [
+          ...previous,
+          { indicator: selectedIndicator.key }
+        ]);
       })
       .catch(e => {
         console.log(e);
@@ -192,6 +198,7 @@ const SelectIndicatorPriority = ({
 
   return (
     <div>
+      <NavigationBar options={navigationOptions}></NavigationBar>
       <Container className={classes.basicInfo} variant="fluid">
         <div className={classes.iconPriorityBorder}>
           <img
