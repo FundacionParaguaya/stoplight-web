@@ -16,6 +16,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import iconProprity from '../../assets/iconPriority.png';
 import { COLORS } from '../../theme';
+import { constructEstimatedMonthsOptions } from '../../utils/form-utils';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 
@@ -33,26 +34,8 @@ class Priority extends Component {
     question: this.props.currentSurvey.surveyStoplightQuestions.find(
       indicator => indicator.codeName === this.props.match.params.indicator
     ),
-    monthsOptions: Priority.constructEstimatedMonthsOptions(this.props.t)
+    monthsOptions: constructEstimatedMonthsOptions(this.props.t)
   };
-
-  static constructEstimatedMonthsOptions(t) {
-    const MAX_MONTHS = 24;
-    const monthsArray = [];
-
-    Array(MAX_MONTHS)
-      .fill('')
-      .forEach((_val, index) => {
-        const i = index + 1;
-        let label = `${i} ${t('views.priority.months')}`;
-        if (i === 1) {
-          label = `${i} ${t('views.priority.month')}`;
-        }
-        monthsArray.push({ value: i, label });
-      });
-
-    return monthsArray;
-  }
 
   handleImageLoaded = () => {
     this.setState({ imageStatus: 'loaded' });
@@ -342,8 +325,7 @@ const styles = theme => ({
   }
 });
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(Priority))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Priority))
 );
+
+export { Priority };

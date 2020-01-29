@@ -20,6 +20,8 @@ import NonProdWarning from './components/NonProdWarning';
 import './index.css';
 import Intercom from './components/Intercom';
 import FamilyProfile from './screens/FamilyProfile';
+import SelectIndicatorPriority from './screens/priorities/SelectIndicatorPriority';
+import Priority from './screens/lifemap/Priority';
 
 class App extends Component {
   render() {
@@ -48,6 +50,10 @@ class App extends Component {
                               <Route
                                 path="/family/:familyId"
                                 component={FamilyProfile}
+                              />
+                              <Route
+                                path="/priorities/:familyId"
+                                component={SelectIndicatorPriority}
                               />
                               {/* <Route path="/analytics" component={Analytics} /> */}{' '}
                               <Route path="/dashboard" component={Dashboard} />

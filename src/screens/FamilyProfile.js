@@ -52,7 +52,7 @@ const FamilyProfile = ({
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
-    { label: t('views.familyProfile.profile'), link: '/family' }
+    { label: t('views.familyProfile.profile'), link: `/family/${familyId}` }
   ];
 
   const goToFamilyPsp = e => {
@@ -111,8 +111,6 @@ const FamilyProfile = ({
           )
         });
       });
-
-    //set new facilitator to combo
   };
 
   useEffect(() => {
@@ -331,7 +329,10 @@ const FamilyProfile = ({
 
       {/* Priorities */}
 
-      <FamilyPriorities familyId={familyId}></FamilyPriorities>
+      <FamilyPriorities
+        familyId={familyId}
+        questions={family.snapshotIndicators}
+      ></FamilyPriorities>
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (

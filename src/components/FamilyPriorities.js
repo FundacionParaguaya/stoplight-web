@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Button } from '@material-ui/core';
 import Container from '../components/Container';
 import { withSnackbar } from 'notistack';
 import iconPriority from '../assets/icon_priority.png';
@@ -15,15 +15,18 @@ import CloseIcon from '@material-ui/icons/Close';
 import { getMonthFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
 import { COLORS } from '../theme';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const FamilyPriorities = ({
   classes,
   familyId,
+  questions,
   user,
   t,
   i18n: { language },
   enqueueSnackbar,
-  closeSnackbar
+  closeSnackbar,
+  history
 }) => {
   const [priorities, setPriorities] = useState([]);
 
@@ -35,6 +38,22 @@ const FamilyPriorities = ({
     } else {
       return COLORS.RED;
     }
+  };
+
+  const showAdministrationOptions = ({ role }) => {
+    return (
+      role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+    );
+  };
+
+  const handleAddPriority = e => {
+    console.log('Calling Select Indicator');
+    console.log(questions);
+    history.push({
+      pathname: `/priorities/${familyId}`,
+      state: { questions: questions }
+    });
   };
 
   const loadPriorities = familyId => {
@@ -191,6 +210,18 @@ const FamilyPriorities = ({
           >
             {t('views.familyPriorities.noPriorities')}
           </Typography>
+        </Container>
+      )}
+
+      {showAdministrationOptions(user) && (
+        <Container
+          className={classes.basicInfoText}
+          variant="fluid"
+          style={{ paddingBottom: '2rem' }}
+        >
+          <Button variant="contained" onClick={handleAddPriority}>
+            {t('views.familyPriorities.addPriority')}
+          </Button>
         </Container>
       )}
     </div>

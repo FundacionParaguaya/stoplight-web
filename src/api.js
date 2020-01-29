@@ -447,7 +447,7 @@ export const getFamily = (familyId, user) =>
       query:
         'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code numberOfSnapshots organization { name } country{country} ' +
         'familyMemberDTOList{firstParticipant email phoneNumber phoneCode} ' +
-        'snapshotIndicators{createdAt indicatorSurveyDataList{value key} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
+        'snapshotIndicators{ createdAt indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
         id: familyId
       }
@@ -481,9 +481,36 @@ export const getPrioritiesByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesByFamily($familyId: Long!) { prioritiesByFamily (familyId: $familyId) {color, indicator, reviewDate, reason, action, months} }',
+        'query prioritiesByFamily($familyId: Long!) { prioritiesByFamily (familyId: $familyId) {color, indicator, reviewDate, reason, action, months, snapshotStoplightId} }',
       variables: {
         familyId: familyId
+      }
+    })
+  });
+
+export const addPriority = (
+  user,
+  reason,
+  action,
+  months,
+  snapshotStoplightId
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation addPriority($newPriority : PriorityDtoInput) {addPriority(newPriority: $newPriority)  {  indicator, reviewDate, reason, action, indicator, months, snapshotStoplightId } }',
+      variables: {
+        newPriority: {
+          reason: reason,
+          action: action,
+          months: months,
+          snapshotStoplightId: snapshotStoplightId
+        }
       }
     })
   });
