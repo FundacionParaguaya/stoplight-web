@@ -15,6 +15,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { getMonthFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
 import { COLORS } from '../theme';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const FamilyPriorities = ({
   classes,
@@ -37,6 +38,13 @@ const FamilyPriorities = ({
     } else {
       return COLORS.RED;
     }
+  };
+
+  const showAdministrationOptions = ({ role }) => {
+    return (
+      role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+    );
   };
 
   const handleAddPriority = e => {
@@ -205,15 +213,17 @@ const FamilyPriorities = ({
         </Container>
       )}
 
-      <Container
-        className={classes.basicInfoText}
-        variant="fluid"
-        style={{ paddingBottom: '2rem' }}
-      >
-        <Button variant="contained" onClick={handleAddPriority}>
-          {t('views.familyPriorities.addPriority')}
-        </Button>
-      </Container>
+      {showAdministrationOptions(user) && (
+        <Container
+          className={classes.basicInfoText}
+          variant="fluid"
+          style={{ paddingBottom: '2rem' }}
+        >
+          <Button variant="contained" onClick={handleAddPriority}>
+            {t('views.familyPriorities.addPriority')}
+          </Button>
+        </Container>
+      )}
     </div>
   );
 };

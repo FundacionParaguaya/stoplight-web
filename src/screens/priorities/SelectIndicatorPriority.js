@@ -194,8 +194,11 @@ const SelectIndicatorPriority = ({
   };
 
   const getForwardURLForIndicator = e => {
-    setSelectedIndicator(e);
-    setOpen(true);
+    if (!priorities.find(prior => prior.indicator === e.key)) {
+      // you can add a priority
+      setSelectedIndicator(e);
+      setOpen(true);
+    }
   };
 
   const goToFamilyProfile = e => {
