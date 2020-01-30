@@ -28,6 +28,18 @@ export class Begin extends Component {
             src={beginLifemap}
             alt=""
           />
+          {
+            <Button
+              variant="contained"
+              test-id="close"
+              color="primary"
+              onClick={() => this.props.history.push('/lifemap/sign')}
+              style={{ color: 'white' }}
+            >
+              {t('general.close')}
+            </Button>
+          }
+          <br />
           <Button
             variant="contained"
             test-id="continue"
