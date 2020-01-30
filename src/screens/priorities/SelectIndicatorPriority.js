@@ -30,7 +30,11 @@ const styles = theme => ({
   },
   typographyStyle: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16,
+      lineHeight: 1.2
+    }
   },
   buttonContainerForm: {
     display: 'flex',
@@ -91,6 +95,18 @@ const styles = theme => ({
   },
   modalTitle: {
     paddingBottom: '2rem'
+  },
+  extraTitleText: {
+    textAlign: 'center',
+    fontWeight: 400,
+    textTransform: 'uppercase',
+    color: 'rgba(0,0,0,0.5)',
+    marginBottom: 10,
+    lineHeight: '25px',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14,
+      lineHeight: 1.2
+    }
   }
 });
 
@@ -106,7 +122,6 @@ const SelectIndicatorPriority = ({
   const [open, setOpen] = useState(false);
   const [selectedIndicator, setSelectedIndicator] = useState({});
   const monthsOptions = constructEstimatedMonthsOptions(t);
-  const fieldIsRequired = 'validation.fieldIsRequired';
   const [loading, setLoading] = useState(false);
 
   const listPriorities = history.location.state.questions.priorities.map(
@@ -140,9 +155,13 @@ const SelectIndicatorPriority = ({
       };
     });
 
-  console.log(questions);
+  const fieldIsRequired = 'validation.fieldIsRequired';
+
+  //Validation criterias
   const validationSchema = Yup.object().shape({
-    estimatedDate: Yup.string().required(fieldIsRequired)
+    estimatedDate: Yup.string().required(fieldIsRequired),
+    reason: Yup.string().required(fieldIsRequired),
+    action: Yup.string().required(fieldIsRequired)
   });
 
   // on save priority
@@ -253,21 +272,28 @@ const SelectIndicatorPriority = ({
           </div>
         ) : (
           <div className={classes.confirmationModal}>
-            <Typography
-              className={classes.modalTitle}
-              variant="h5"
-              test-id="modal-title"
-              // color="error"
-            >
-              {t('views.familyPriorities.addPriority')}
-            </Typography>
+            {/* <Typography
+                className={classes.modalTitle}
+                variant="h5"
+                test-id="modal-title"
+              >
+                {t('views.familyPriorities.addPriority')}
+              </Typography> */}
 
             <Typography
               variant="subtitle1"
               align="center"
+              className={classes.extraTitleText}
+            >
+              {selectedIndicator.dimension}
+            </Typography>
+            <Typography
+              variant="h4"
+              test-id="title-bar"
+              align="center"
               className={classes.typographyStyle}
             >
-              {selectedIndicator.questionText} · {selectedIndicator.dimension}
+              {selectedIndicator.questionText}
             </Typography>
 
             <Formik
@@ -277,14 +303,16 @@ const SelectIndicatorPriority = ({
                 savePriority(values);
               }}
             >
-              <Form noValidate>
+              <Form>
                 <InputWithFormik
                   label={t('views.lifemap.whyDontYouHaveIt')}
                   name="reason"
+                  required
                 />
                 <InputWithFormik
                   label={t('views.lifemap.whatWillYouDoToGetIt')}
                   name="action"
+                  required
                 />
                 <AutocompleteWithFormik
                   label={t('views.lifemap.howManyMonthsWillItTake')}
