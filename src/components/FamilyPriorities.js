@@ -29,7 +29,6 @@ const FamilyPriorities = ({
   history
 }) => {
   const [priorities, setPriorities] = useState([]);
-
   const dateFormat = getMonthFormatByLocale(language);
 
   const getColor = stopligh => {
