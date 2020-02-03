@@ -15,6 +15,7 @@ import Priority from './lifemap/Priority';
 import Achievement from './lifemap/Achievement';
 import { ProgressBarProvider } from '../components/ProgressBar';
 import LifemapNav from '../components/LifemapNav';
+import SignIn from './lifemap/SignIn';
 
 class Lifemap extends Component {
   render() {
@@ -79,6 +80,7 @@ class Lifemap extends Component {
             path={`${this.props.match.path}/final`}
             component={FinalScreen}
           />
+          <Route path={`${this.props.match.path}/sign`} component={SignIn} />
         </ProgressBarProvider>
       </React.Fragment>
     );

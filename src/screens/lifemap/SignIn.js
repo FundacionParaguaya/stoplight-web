@@ -9,6 +9,7 @@ import iconPriority from '../../assets/icon_priority.png';
 import { withSnackbar } from 'notistack';
 import SignatureCanvas from 'react-signature-canvas';
 import { withStyles, Typography, Button } from '@material-ui/core';
+import TitleBar from '../../components/TitleBar';
 
 const styles = theme => ({
   backButton: {
@@ -24,8 +25,8 @@ const styles = theme => ({
   },
   buttonContainerForm: {
     display: 'flex',
-    justifyContent: 'center',
-    marginTop: 40,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
     justifyContent: 'space-evenly'
   },
   confirmationModal: {
@@ -81,6 +82,12 @@ const styles = theme => ({
   },
   modalTitle: {
     paddingBottom: '2rem'
+  },
+  canvas: {
+    height: '25rem',
+    width: '100%',
+    background: 'rgba(243, 244, 246, 0.558396)',
+    borderRadius: '2px'
   }
 });
 
@@ -88,10 +95,14 @@ const SignIn = ({
   classes,
   t,
   i18n: { language },
+  currentSurvey,
+  currentDraft,
   history,
+  updateSurvey,
   user,
   enqueueSnackbar,
-  closeSnackbar
+  closeSnackbar,
+  updateDraft
 }) => {
   let sigPad = useRef();
   const [signUrl, setSignUrl] = useState({});
@@ -101,14 +112,24 @@ const SignIn = ({
   };
   const onSave = () => {
     console.log('Saving Sign');
-    console.log(sigPad.getTrimmedCanvas().toDataURL('image/png'));
-    setSignUrl({
-      trimmedDataURL: sigPad.getTrimmedCanvas().toDataURL('image/png')
+    let url = sigPad.getTrimmedCanvas().toDataURL('image/png');
+    // console.log(url);
+
+    // If item does not exist create it
+    updateDraft({
+      ...currentDraft,
+      sign: url
     });
+    handleContinue();
+  };
+
+  const handleContinue = () => {
+    history.push('/lifemap/final');
   };
 
   return (
     <div>
+      <TitleBar title={t('views.yourLifeMap')} progressBar />
       <Container className={classes.basicInfo} variant="stretch">
         <div className={classes.iconPriorityBorder}>
           <img
@@ -120,11 +141,11 @@ const SignIn = ({
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h5">Firme aqui</Typography>
+        <Typography variant="h5">Firme aqui su encuesta</Typography>
       </Container>
       <div className={classes.questionsContainer}>
         <SignatureCanvas
-          canvasProps={{ width: 500, height: 200, className: 'sigPad' }}
+          canvasProps={{ className: classes.canvas }}
           ref={ref => {
             sigPad = ref;
           }}
@@ -132,19 +153,22 @@ const SignIn = ({
       </div>
 
       <div className={classes.buttonContainerForm}>
-        <Button color="primary" variant="contained" onClick={onSave}>
-          Guardar
-        </Button>
-
         <Button variant="outlined" onClick={onClear}>
           Limpiar
+        </Button>
+
+        <Button color="primary" variant="contained" onClick={onSave}>
+          Continuar
         </Button>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
+  currentSurvey,
+  currentDraft
+});
 
 const mapDispatchToProps = { updateUser, updateSurvey, updateDraft };
 

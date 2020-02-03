@@ -55,7 +55,6 @@ class App extends Component {
                                 path="/priorities/:familyId"
                                 component={SelectIndicatorPriority}
                               />
-                              <Route path="/sign/" component={SignIn} />
                               {/* <Route path="/analytics" component={Analytics} /> */}{' '}
                               <Route path="/dashboard" component={Dashboard} />
                             </Switch>
