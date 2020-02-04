@@ -17,6 +17,8 @@ import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import skippedLifemap from '../../assets/family.png';
+
 import generateIndicatorsReport, {
   getReportTitle
 } from '../../pdfs/indicators-report';
@@ -184,6 +186,13 @@ export class Final extends Component {
   };
 
   render() {
+    const stoplightSkipped =
+      this.props.currentSurvey.surveyConfig.stoplightOptional &&
+      this.props.currentDraft.indicatorSurveyDataList &&
+      this.props.currentDraft.indicatorSurveyDataList.length === 0;
+
+    console.log('Saltar?');
+    console.log(stoplightSkipped);
     const {
       t,
       classes,
@@ -213,6 +222,7 @@ export class Final extends Component {
           <Typography variant="h5" className={classes.clickSafe}>
             {t('views.final.clickSafe')}
           </Typography>
+
           <Container variant="slim">
             <AllSurveyIndicators />
           </Container>
@@ -222,9 +232,44 @@ export class Final extends Component {
               <CircularProgress size={50} thickness={2} />
             </div>
           )}
+
           <div className={classes.gridContainer}>
-            <Grid container spacing={2} className={classes.buttonContainer}>
-              {primaryParticipant.email && (
+            {!stoplightSkipped ? (
+              <Grid container spacing={2} className={classes.buttonContainer}>
+                {primaryParticipant.email && (
+                  <Grid item xs={12} sm={3}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                      disabled={this.state.loading}
+                      onClick={() => {
+                        this.handleMailClick(primaryParticipant.email);
+                      }}
+                    >
+                      <MailIcon className={classes.leftIcon} />
+                      {t('views.final.email')}
+                    </Button>
+                  </Grid>
+                )}
+
+                {primaryParticipant.phoneNumber && (
+                  <Grid item xs={12} sm={3}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                      disabled={this.state.loading}
+                      onClick={() => {
+                        this.handleWhatsappClick();
+                      }}
+                    >
+                      <WhatsAppIcon className={classes.leftIcon} />
+                      {t('views.final.whatsapp')}
+                    </Button>
+                  </Grid>
+                )}
+
                 <Grid item xs={12} sm={3}>
                   <Button
                     variant="outlined"
@@ -232,16 +277,19 @@ export class Final extends Component {
                     fullWidth
                     disabled={this.state.loading}
                     onClick={() => {
-                      this.handleMailClick(primaryParticipant.email);
+                      const pdf = generateIndicatorsReport(
+                        this.props.currentDraft,
+                        this.props.currentSurvey,
+                        t,
+                        language
+                      );
+                      pdf.print();
                     }}
                   >
-                    <MailIcon className={classes.leftIcon} />
-                    {t('views.final.email')}
+                    <PrintIcon className={classes.leftIcon} />
+                    {t('views.final.print')}
                   </Button>
                 </Grid>
-              )}
-
-              {primaryParticipant.phoneNumber && (
                 <Grid item xs={12} sm={3}>
                   <Button
                     variant="outlined"
@@ -249,56 +297,30 @@ export class Final extends Component {
                     fullWidth
                     disabled={this.state.loading}
                     onClick={() => {
-                      this.handleWhatsappClick();
+                      const pdf = generateIndicatorsReport(
+                        this.props.currentDraft,
+                        this.props.currentSurvey,
+                        t,
+                        language
+                      );
+                      pdf.download(getReportTitle(this.props.currentDraft, t));
                     }}
                   >
-                    <WhatsAppIcon className={classes.leftIcon} />
-                    {t('views.final.whatsapp')}
+                    <DownloadIcon className={classes.leftIcon} />
+                    {t('views.final.download')}
                   </Button>
                 </Grid>
-              )}
+              </Grid>
+            ) : (
+              <Container variant="stretch" className={classes.imageContainer}>
+                <img
+                  className={classes.beginStopLightImage}
+                  src={skippedLifemap}
+                  alt=""
+                />
+              </Container>
+            )}
 
-              <Grid item xs={12} sm={3}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={this.state.loading}
-                  onClick={() => {
-                    const pdf = generateIndicatorsReport(
-                      this.props.currentDraft,
-                      this.props.currentSurvey,
-                      t,
-                      language
-                    );
-                    pdf.print();
-                  }}
-                >
-                  <PrintIcon className={classes.leftIcon} />
-                  {t('views.final.print')}
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={3}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={this.state.loading}
-                  onClick={() => {
-                    const pdf = generateIndicatorsReport(
-                      this.props.currentDraft,
-                      this.props.currentSurvey,
-                      t,
-                      language
-                    );
-                    pdf.download(getReportTitle(this.props.currentDraft, t));
-                  }}
-                >
-                  <DownloadIcon className={classes.leftIcon} />
-                  {t('views.final.download')}
-                </Button>
-              </Grid>
-            </Grid>
             <Grid container spacing={2} className={classes.buttonContainer}>
               <Grid item xs={12} sm={6}>
                 <Button
@@ -371,6 +393,16 @@ const styles = theme => ({
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center'
+  },
+  beginStopLightImage: {
+    marginTop: 40,
+    marginBottom: 80,
+    height: '15rem'
+  },
+  imageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 });
 
