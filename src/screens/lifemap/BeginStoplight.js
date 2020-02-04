@@ -41,48 +41,9 @@ export class Begin extends Component {
     }));
   };
 
-  handleSubmit = () => {
-    this.setState({
-      loading: true
-    });
-
-    const {
-      t,
-      i18n: { language }
-    } = this.props;
-
-    // submit draft to server and wait for response
-    submitDraft(this.props.user, {
-      ...this.props.currentDraft,
-      stoplightSkipped: true
-    })
-      .then(response => {
-        const familyId = response.data.data.addSnapshot.family.familyId;
-        console.log('Family ID');
-        console.log(familyId);
-
-        this.toggleModal(
-          t('general.thankYou'),
-          t('views.final.lifemapSaved'),
-          t('general.gotIt'),
-          'success',
-          this.redirectToSurveys
-        );
-      })
-      .catch(() => {
-        this.toggleModal(
-          t('general.warning'),
-          t('general.saveError'),
-          t('general.gotIt'),
-          'warning',
-          () => this.toggleModal()
-        );
-      })
-      .finally(() =>
-        this.setState({
-          loading: false
-        })
-      );
+  handleSkip = () => {
+    //TODO Check survey config
+    this.props.history.push('/lifemap/sign');
   };
 
   redirectToSurveys = () => {
@@ -158,7 +119,7 @@ export class Begin extends Component {
                   variant="subtitle1"
                   className={classes.labelGreenRight}
                 >
-                  <Link href="#" onClick={this.handleSubmit}>
+                  <Link href="#" onClick={this.handleSkip}>
                     {t('general.closeAndSign')}
                     <ArrowForwardIosIcon style={{ verticalAlign: 'middle' }} />
                   </Link>

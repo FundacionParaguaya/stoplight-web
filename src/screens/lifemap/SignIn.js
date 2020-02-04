@@ -189,6 +189,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(withTranslation()(withLayout(withSnackbar(SignIn))))
+    )(withTranslation()(withSnackbar(SignIn)))
   )
 );
