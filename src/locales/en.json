@@ -11,7 +11,7 @@
     "gotIt": "Got it!",
     "save": "Save",
     "close": "Save & close",
-    "closeAndSign": "Sign & save",
+    "closeAndSign": " Skip Stoplight section",
     "yes": "Yes",
     "no": "No",
     "delete": "Delete",
@@ -30,7 +30,8 @@
     "savePdfError": "Error while trying to save your Life Map pdf for whatsapp",
     "noOptionsToShow": "There are no options available to select",
     "clear": "Clear",
-    "showMore": "Show More"
+    "showMore": "Show More",
+    "continueStoplight": "Continue to Stoplight section"
   },
   "validation": {
     "fieldIsRequired": "This field is required",

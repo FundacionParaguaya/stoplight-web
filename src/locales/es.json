@@ -11,7 +11,7 @@
     "gotIt": "¡Entendido!",
     "save": "Guardar",
     "close": "Guardar & cerrar",
-    "closeAndSign": "Firmar y guardar",
+    "closeAndSign": "Saltar Semáforo",
     "yes": "Sí",
     "no": "No",
     "delete": "Eliminar",
@@ -30,7 +30,8 @@
     "savePdfError": "Error al guardar tu Mapa de Vida en pdf para whatsapp",
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
     "clear": "Limpiar",
-    "showMore": "Mostrar Más"
+    "showMore": "Mostrar Más",
+    "continueStoplight": "Continuar con Semáforo"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",

@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { updateUser, updateSurvey, updateDraft } from '../../redux/actions';
 import withLayout from '../../components/withLayout';
 import Container from '../../components/Container';
-import iconPriority from '../../assets/icon_priority.png';
+import iconPen from '../../assets/pen_icon.png';
 import { withSnackbar } from 'notistack';
 import SignatureCanvas from 'react-signature-canvas';
 import { withStyles, Typography, Button } from '@material-ui/core';
@@ -43,7 +43,7 @@ const styles = theme => ({
     padding: '40px 50px'
   },
   questionsContainer: {
-    paddingTop: '5%',
+    paddingTop: '1%',
     paddingBottom: 0,
     paddingLeft: '9%',
     paddingRight: '9%'
@@ -127,13 +127,25 @@ const SignIn = ({
     history.push('/lifemap/final');
   };
 
+  useEffect(() => {
+    console.log('Drawing Current Sign');
+    //Draw a canvas if it already exists
+    if (currentDraft.sign) {
+      sigPad.fromDataURL(currentDraft.sign, {
+        minWidth: 0.5,
+        maxWidth: 2.5,
+        minDistance: 5
+      });
+    }
+  }, []);
+
   return (
     <div>
       <TitleBar title={t('views.yourLifeMap')} progressBar />
       <Container className={classes.basicInfo} variant="stretch">
         <div className={classes.iconPriorityBorder}>
           <img
-            src={iconPriority}
+            src={iconPen}
             className={classes.iconPriority}
             alt="Priority icon"
           />
@@ -141,7 +153,7 @@ const SignIn = ({
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h5">Firme aqui su encuesta</Typography>
+        <Typography variant="h5">Firme aquí su encuesta</Typography>
       </Container>
       <div className={classes.questionsContainer}>
         <SignatureCanvas

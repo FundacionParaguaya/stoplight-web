@@ -10,6 +10,8 @@ import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
 import { submitDraft } from '../../api';
 import LeaveModal from '../../components/LeaveModal';
+import Link from '@material-ui/core/Link';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 export class Begin extends Component {
   state = {
@@ -128,27 +130,42 @@ export class Begin extends Component {
             src={beginLifemap}
             alt=""
           />
-          {stoplightOptional && (
-            <Button
-              variant="contained"
-              test-id="close"
-              color="primary"
-              onClick={this.handleSubmit}
-              style={{ color: 'white' }}
+
+          <div className={classes.buttonContainerForm}>
+            <div style={{ display: 'flex', flex: 1 }}></div>
+            <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                test-id="close"
+                color="primary"
+                onClick={() => this.props.history.push('/lifemap/stoplight/0')}
+                style={{ color: 'white' }}
+              >
+                {t('general.continueStoplight')}
+              </Button>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'flex-end'
+              }}
             >
-              {t('general.closeAndSign')}
-            </Button>
-          )}
-          <br />
-          <Button
-            variant="contained"
-            test-id="continue"
-            color="primary"
-            onClick={() => this.props.history.push('/lifemap/stoplight/0')}
-            style={{ color: 'white' }}
-          >
-            {t('general.continue')}
-          </Button>
+              {stoplightOptional && (
+                <Typography
+                  variant="subtitle1"
+                  className={classes.labelGreenRight}
+                >
+                  <Link href="#" onClick={this.handleSubmit}>
+                    {t('general.closeAndSign')}
+                    <ArrowForwardIosIcon style={{ verticalAlign: 'middle' }} />
+                  </Link>
+                </Typography>
+              )}
+            </div>
+          </div>
           <BottomSpacer />
         </Container>
       </div>
@@ -162,7 +179,14 @@ const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
   user
 });
 
-const styles = {
+const styles = theme => ({
+  buttonContainerForm: {
+    display: 'flex',
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+    justifyContent: 'center',
+    width: '100%'
+  },
   BeginStopLightContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -178,8 +202,15 @@ const styles = {
     marginBottom: 80,
     position: 'relative',
     left: -10
+  },
+  labelGreenRight: {
+    marginRight: 20,
+    fontSize: 16,
+    color: '#309E43',
+    paddingLeft: '3rem',
+    textAlign: 'right'
   }
-};
+});
 
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Begin))
