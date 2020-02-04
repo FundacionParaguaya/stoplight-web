@@ -8,13 +8,113 @@ import TitleBar from '../../components/TitleBar';
 import beginLifemap from '../../assets/begin_lifemap.png';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
+import { submitDraft } from '../../api';
+import LeaveModal from '../../components/LeaveModal';
 
 export class Begin extends Component {
+  state = {
+    loading: false,
+    openModal: false,
+    modalTitle: '',
+    modalSubtitle: '',
+    modalContinueButtonText: '',
+    modalLeaveAction: null,
+    modalVariant: ''
+  };
+
+  toggleModal = (
+    modalTitle,
+    modalSubtitle,
+    modalContinueButtonText,
+    modalVariant,
+    modalLeaveAction
+  ) => {
+    this.setState(prevState => ({
+      openModal: !prevState.openModal,
+      modalTitle,
+      modalSubtitle,
+      modalContinueButtonText,
+      modalVariant,
+      modalLeaveAction
+    }));
+  };
+
+  handleSubmit = () => {
+    this.setState({
+      loading: true
+    });
+
+    const {
+      t,
+      i18n: { language }
+    } = this.props;
+
+    // submit draft to server and wait for response
+    submitDraft(this.props.user, {
+      ...this.props.currentDraft,
+      stoplightSkipped: true
+    })
+      .then(response => {
+        const familyId = response.data.data.addSnapshot.family.familyId;
+        console.log('Family ID');
+        console.log(familyId);
+
+        this.toggleModal(
+          t('general.thankYou'),
+          t('views.final.lifemapSaved'),
+          t('general.gotIt'),
+          'success',
+          this.redirectToSurveys
+        );
+      })
+      .catch(() => {
+        this.toggleModal(
+          t('general.warning'),
+          t('general.saveError'),
+          t('general.gotIt'),
+          'warning',
+          () => this.toggleModal()
+        );
+      })
+      .finally(() =>
+        this.setState({
+          loading: false
+        })
+      );
+  };
+
+  redirectToSurveys = () => {
+    this.props.history.push(`/surveys?sid=${this.props.user.token}`);
+  };
+
+  toggleLoading = () => {
+    this.setState(prev => ({
+      loading: !prev.loading
+    }));
+  };
+
+  closeModal = e => {
+    if (e) {
+      this.setState({ openModal: false });
+    }
+  };
+
   render() {
     const { classes, t, currentSurvey } = this.props;
     const questions = currentSurvey.surveyStoplightQuestions.length;
+    const stoplightOptional = currentSurvey.surveyConfig.stoplightOptional;
     return (
       <div>
+        <LeaveModal
+          title={this.state.modalTitle}
+          subtitle={this.state.modalSubtitle}
+          continueButtonText={this.state.modalContinueButtonText}
+          singleAction
+          onClose={() => {}}
+          open={this.state.openModal}
+          leaveAction={this.state.modalLeaveAction || (() => {})}
+          variant={this.state.modalVariant}
+        />
         <TitleBar title={t('views.yourLifeMap')} progressBar />
         <Container
           variant="stretch"
@@ -28,6 +128,18 @@ export class Begin extends Component {
             src={beginLifemap}
             alt=""
           />
+          {stoplightOptional && (
+            <Button
+              variant="contained"
+              test-id="close"
+              color="primary"
+              onClick={this.handleSubmit}
+              style={{ color: 'white' }}
+            >
+              {t('general.closeAndSign')}
+            </Button>
+          )}
+          <br />
           <Button
             variant="contained"
             test-id="continue"
@@ -44,7 +156,11 @@ export class Begin extends Component {
   }
 }
 
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
+const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
+  currentSurvey,
+  currentDraft,
+  user
+});
 
 const styles = {
   BeginStopLightContainer: {
