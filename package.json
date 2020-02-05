@@ -24,6 +24,7 @@
     "query-string": "^6.5.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-dropzone": "^10.2.1",
     "react-geocode": "^0.1.2",
     "react-gmaps": "^1.9.0",
     "react-i18next": "^10.6.0",
