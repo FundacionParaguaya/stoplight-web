@@ -51,7 +51,7 @@ export class Begin extends Component {
     if (this.props.currentSurvey.surveyConfig.pictureSupport) {
       //TODO Push to Picture
       console.log('Redirect to pictures view');
-      this.props.history.push('/lifemap/sign');
+      this.props.history.push('/lifemap/upload-pictures');
     } else if (this.props.currentSurvey.surveyConfig.signSupport) {
       this.props.history.push('/lifemap/sign');
     } else {
@@ -123,9 +123,7 @@ export class Begin extends Component {
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={() =>
-                    this.props.history.push('/lifemap/stoplight/0')
-                  }
+                  onClick={this.handleSkip}
                   style={{ color: 'green', width: '20rem' }}
                 >
                   {t('general.closeAndSign')}

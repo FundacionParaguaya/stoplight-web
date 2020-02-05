@@ -57,7 +57,7 @@ export class Overview extends Component {
     } = this.props.currentSurvey.surveyConfig;
     if (pictureSupport) {
       //TODO go to pictures
-      this.props.history.push('/lifemap/sign');
+      this.props.history.push('/lifemap/upload-pictures');
     } else if (signSupport) {
       this.props.history.push('/lifemap/sign');
     } else {
