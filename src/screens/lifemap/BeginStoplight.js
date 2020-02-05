@@ -42,8 +42,15 @@ export class Begin extends Component {
   };
 
   handleSkip = () => {
-    //TODO Check survey config
-    this.props.history.push('/lifemap/sign');
+    if (this.props.currentSurvey.surveyConfig.pictureSupport) {
+      //TODO Push to Picture
+      console.log('Redirect to pictures view');
+      this.props.history.push('/lifemap/sign');
+    } else if (this.props.currentSurvey.surveyConfig.signSupport) {
+      this.props.history.push('/lifemap/sign');
+    } else {
+      this.props.history.push('/lifemap/final');
+    }
   };
 
   redirectToSurveys = () => {

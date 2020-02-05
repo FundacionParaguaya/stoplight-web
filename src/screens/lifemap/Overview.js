@@ -50,16 +50,32 @@ export class Overview extends Component {
     });
   };
 
+  goToNextView = () => {
+    const {
+      signSupport,
+      pictureSupport
+    } = this.props.currentSurvey.surveyConfig;
+    if (pictureSupport) {
+      //TODO go to pictures
+      this.props.history.push('/lifemap/sign');
+    } else if (signSupport) {
+      this.props.history.push('/lifemap/sign');
+    } else {
+      this.props.history.push('/lifemap/final');
+    }
+  };
+
   finishSurvey = () => {
     const { minimumPriorities } = this.props.currentSurvey;
+
     //TODO logic to check sign in config
     if (minimumPriorities === 0) {
-      this.props.history.push('/lifemap/sign');
+      this.goToNextView();
     } else {
       if (minimumPriorities - this.props.currentDraft.priorities.length > 0) {
         this.setState({ openModal: true });
       } else {
-        this.props.history.push('/lifemap/sign');
+        this.goToNextView();
       }
       let priorDiff = 0;
       this.props.currentDraft.indicatorSurveyDataList.forEach(ele => {
@@ -74,7 +90,7 @@ export class Overview extends Component {
           this.props.currentDraft.priorities.length ===
         0
       ) {
-        this.props.history.push('/lifemap/sign');
+        this.goToNextView();
       }
     }
   };
