@@ -21,7 +21,7 @@ import './index.css';
 import Intercom from './components/Intercom';
 import FamilyProfile from './screens/FamilyProfile';
 import SelectIndicatorPriority from './screens/priorities/SelectIndicatorPriority';
-import Priority from './screens/lifemap/Priority';
+import SignIn from './screens/lifemap/SignIn';
 
 class App extends Component {
   render() {
