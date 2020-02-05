@@ -12,6 +12,7 @@ import { submitDraft } from '../../api';
 import LeaveModal from '../../components/LeaveModal';
 import Link from '@material-ui/core/Link';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { updateDraft } from '../../redux/actions';
 
 export class Begin extends Component {
   state = {
@@ -42,6 +43,11 @@ export class Begin extends Component {
   };
 
   handleSkip = () => {
+    // Delete stopligh section
+    this.props.updateDraft({
+      ...this.props.currentDraft,
+      indicatorSurveyDataList: []
+    });
     if (this.props.currentSurvey.surveyConfig.pictureSupport) {
       //TODO Push to Picture
       console.log('Redirect to pictures view');
@@ -180,6 +186,8 @@ const styles = theme => ({
   }
 });
 
+const mapDispatchToProps = { updateDraft };
+
 export default withStyles(styles)(
-  connect(mapStateToProps)(withTranslation()(Begin))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Begin))
 );
