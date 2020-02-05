@@ -17,7 +17,7 @@ import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import skippedLifemap from '../../assets/family.png';
+import skippedLifemap from '../../assets/Family_center.png';
 
 import generateIndicatorsReport, {
   getReportTitle
