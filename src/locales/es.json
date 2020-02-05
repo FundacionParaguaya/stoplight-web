@@ -11,7 +11,7 @@
     "gotIt": "¡Entendido!",
     "save": "Guardar",
     "close": "Guardar & cerrar",
-    "closeAndSign": "Saltar/Finalizar",
+    "closeAndSign": "Guardar encuesta",
     "yes": "Sí",
     "no": "No",
     "delete": "Eliminar",
@@ -31,7 +31,9 @@
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
     "clear": "Limpiar",
     "showMore": "Mostrar Más",
-    "continueStoplight": "Continuar"
+    "continueStoplight": "Continuar",
+    "yourStoplight": "Tu Semáforo",
+    "completeStoplight": "Completar Semáforo"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -175,7 +177,8 @@
       "formWithErrors": "Revise %number errores en el formulario"
     },
     "lifemap": {
-      "thisLifeMapHas": "Este Mapa de Vida tiene %n preguntas",
+      "thisLifeMapHas": "¡Listo! Esta sección del Semáforo contiene %n indicadores",
+      "thisLifeMapHasNoStoplight": "¡Listo! Esta sección del Semáforo contiene %n indicadores. Elige si deseas guardar tu encuesta o completar tu Semáforo.",
       "responseRequired": "*Respuesta requerida",
       "skipThisQuestion": "Omitir esta pregunta",
       "youSkipped": "Has omitido estos indicadores",

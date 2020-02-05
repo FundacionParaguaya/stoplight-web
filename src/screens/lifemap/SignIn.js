@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { updateUser, updateSurvey, updateDraft } from '../../redux/actions';
-import withLayout from '../../components/withLayout';
 import Container from '../../components/Container';
 import iconPen from '../../assets/pen_icon.png';
 import { withSnackbar } from 'notistack';
@@ -105,7 +104,6 @@ const SignIn = ({
   updateDraft
 }) => {
   let sigPad = useRef();
-  const [signUrl, setSignUrl] = useState({});
 
   const onClear = () => {
     sigPad.clear();

@@ -91,13 +91,18 @@ export class Begin extends Component {
           leaveAction={this.state.modalLeaveAction || (() => {})}
           variant={this.state.modalVariant}
         />
-        <TitleBar title={t('general.thankYou')} progressBar />
+        <TitleBar title={t('general.yourStoplight')} progressBar />
         <Container
           variant="stretch"
           className={classes.BeginStopLightContainer}
         >
           <Typography variant="h5" className={classes.StopLightTitleContainer}>
-            {t('views.lifemap.thisLifeMapHas').replace('%n', questions)}
+            {stoplightOptional
+              ? t('views.lifemap.thisLifeMapHasNoStoplight').replace(
+                  '%n',
+                  questions
+                )
+              : t('views.lifemap.thisLifeMapHas').replace('%n', questions)}
           </Typography>
           <img
             className={classes.beginStopLightImage}
@@ -132,7 +137,9 @@ export class Begin extends Component {
                 onClick={() => this.props.history.push('/lifemap/stoplight/0')}
                 style={{ color: 'white', width: '20rem' }}
               >
-                {t('general.continueStoplight')}
+                {stoplightOptional
+                  ? t('general.completeStoplight')
+                  : t('general.continue')}
               </Button>
             </div>
 

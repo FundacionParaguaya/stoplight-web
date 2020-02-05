@@ -11,7 +11,7 @@
     "gotIt": "Got it!",
     "save": "Save",
     "close": "Save & close",
-    "closeAndSign": " Skip/Finish",
+    "closeAndSign": "Save survey",
     "yes": "Yes",
     "no": "No",
     "delete": "Delete",
@@ -31,7 +31,9 @@
     "noOptionsToShow": "There are no options available to select",
     "clear": "Clear",
     "showMore": "Show More",
-    "continueStoplight": "Continue"
+    "continueStoplight": "Continue",
+    "yourStoplight": "Your Stoplight",
+    "completeStoplight": "Finish Stoplight"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -174,7 +176,8 @@
       "formWithErrors": "Review %number form errors"
     },
     "lifemap": {
-      "thisLifeMapHas": "This Life Map has %n questions",
+      "thisLifeMapHas": "¡Thank you! This Stoplight section has %n indicators.",
+      "thisLifeMapHasNoStoplight": "¡Thank you! This Stoplight section has %n indicators. Choose if you wish to save your survey now or finish your Stoplight.",
       "responseRequired": "*Response required",
       "skipThisQuestion": "Skip this question",
       "youSkipped": "You skipped these indicators",
