@@ -91,7 +91,7 @@ export class Begin extends Component {
           leaveAction={this.state.modalLeaveAction || (() => {})}
           variant={this.state.modalVariant}
         />
-        <TitleBar title={t('views.yourLifeMap')} progressBar />
+        <TitleBar title={t('general.thankYou')} progressBar />
         <Container
           variant="stretch"
           className={classes.BeginStopLightContainer}
@@ -106,20 +106,37 @@ export class Begin extends Component {
           />
 
           <div className={classes.buttonContainerForm}>
-            <div style={{ display: 'flex', flex: 1 }}></div>
-            <div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
+            {/* <div style={{ display: 'flex', flex: 1 }}></div> */}
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'space-evenly'
+              }}
+            >
+              {stoplightOptional && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() =>
+                    this.props.history.push('/lifemap/stoplight/0')
+                  }
+                  style={{ color: 'green', width: '20rem' }}
+                >
+                  {t('general.closeAndSign')}
+                </Button>
+              )}
               <Button
                 variant="contained"
-                test-id="close"
                 color="primary"
                 onClick={() => this.props.history.push('/lifemap/stoplight/0')}
-                style={{ color: 'white' }}
+                style={{ color: 'white', width: '20rem' }}
               >
                 {t('general.continueStoplight')}
               </Button>
             </div>
 
-            <div
+            {/* <div
               style={{
                 display: 'flex',
                 flex: 1,
@@ -138,7 +155,7 @@ export class Begin extends Component {
                   </Link>
                 </Typography>
               )}
-            </div>
+            </div> */}
           </div>
           <BottomSpacer />
         </Container>
@@ -158,7 +175,7 @@ const styles = theme => ({
     display: 'flex',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     width: '100%'
   },
   BeginStopLightContainer: {

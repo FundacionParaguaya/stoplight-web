@@ -11,7 +11,7 @@
     "gotIt": "Got it!",
     "save": "Save",
     "close": "Save & close",
-    "closeAndSign": " Skip Stoplight section",
+    "closeAndSign": " Skip/Finish",
     "yes": "Yes",
     "no": "No",
     "delete": "Delete",
@@ -31,7 +31,7 @@
     "noOptionsToShow": "There are no options available to select",
     "clear": "Clear",
     "showMore": "Show More",
-    "continueStoplight": "Continue to Stoplight section"
+    "continueStoplight": "Continue"
   },
   "validation": {
     "fieldIsRequired": "This field is required",

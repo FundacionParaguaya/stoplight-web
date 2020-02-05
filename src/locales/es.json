@@ -11,7 +11,7 @@
     "gotIt": "¡Entendido!",
     "save": "Guardar",
     "close": "Guardar & cerrar",
-    "closeAndSign": "Saltar Semáforo",
+    "closeAndSign": "Saltar/Finalizar",
     "yes": "Sí",
     "no": "No",
     "delete": "Eliminar",
@@ -31,7 +31,7 @@
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
     "clear": "Limpiar",
     "showMore": "Mostrar Más",
-    "continueStoplight": "Continuar con el Semáforo"
+    "continueStoplight": "Continuar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
