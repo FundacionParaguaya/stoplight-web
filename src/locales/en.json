@@ -60,6 +60,11 @@
     "december": "December"
   },
   "views": {
+    "sign": {
+      "signHere": "Sign your survey here",
+      "erase": "Erase",
+      "continue": "Continue"
+    },
     "toolbar": {
       "surveys": "Surveys",
       "analytics": "Analytics",

@@ -60,6 +60,11 @@
     "december": "Diciembre"
   },
   "views": {
+    "sign": {
+      "signHere": "Firme aquí su encuesta",
+      "erase": "Limpiar",
+      "continue": "Continuar"
+    },
     "toolbar": {
       "surveys": "Encuestas",
       "analytics": "Analíticas",
