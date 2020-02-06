@@ -179,8 +179,8 @@
       "formWithErrors": "Review %number form errors"
     },
     "lifemap": {
-      "thisLifeMapHas": "¡Thank you! This Stoplight section has %n indicators.",
-      "thisLifeMapHasNoStoplight": "¡Thank you! This Stoplight section has %n indicators. Choose if you wish to save your survey now or finish your Stoplight.",
+      "thisLifeMapHas": "Thank you! This Stoplight section has %n indicators.",
+      "thisLifeMapHasNoStoplight": "Thank you! This Stoplight section has %n indicators. Choose if you wish to save your survey now or finish your Stoplight.",
       "responseRequired": "*Response required",
       "skipThisQuestion": "Skip this question",
       "youSkipped": "You skipped these indicators",
