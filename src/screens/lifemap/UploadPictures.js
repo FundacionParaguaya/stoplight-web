@@ -31,22 +31,18 @@ const UploadPictures = props => {
 
   const [myFiles, setMyFiles] = useState([]);
 
-  useEffect(myFiles => {
-    myFiles &&
-      props.updateDraft({
-        ...currentDraft,
-        files: myFiles.map(file =>
-          Buffer.from(JSON.stringify(file)).toString('base64')
-        )
-      });
+  useEffect(() => {
+    props.updateDraft({
+      ...currentDraft,
+      pictures: myFiles
+    });
+  }, [myFiles]);
 
-    myFiles &&
-      myFiles.map(file =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file)
-        })
-      );
-  });
+  useEffect(() => {
+    currentDraft.pictures &&
+      currentDraft.pictures.length > 0 &&
+      setMyFiles(currentDraft.pictures);
+  }, []);
 
   const onDrop = acceptedFiles => {
     setError(false);
