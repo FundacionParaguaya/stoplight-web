@@ -388,7 +388,9 @@
       "administration": "Administration",
       "families": "Households",
       "family": "Family",
-      "profile": "Profile"
+      "profile": "Profile",
+      "stoplightNotCompleted": "Stoplight has not been completed",
+      "continueWithStoplight": "Continue with the stoplight"
     },
     "familyPriorities": {
       "priorities": "Priorities",

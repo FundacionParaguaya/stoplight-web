@@ -389,7 +389,9 @@
       "administration": "Administración",
       "families": "Familias",
       "family": "Familia",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "stoplightNotCompleted": "No se ha completado el semáforo",
+      "continueWithStoplight": "Continuar con el semáforo"
     },
     "familyPriorities": {
       "priorities": "Prioridades",
