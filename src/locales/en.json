@@ -125,7 +125,7 @@
     "yourLifeMap": "Your Life Map",
     "yourPictures": "Upload your pictures",
     "uploadFiles": "Click here to add your files or just drag and drop them!",
-    "fileUploadError": "File too big, maximun size it's 10mb. Or invalid extension.",
+    "fileUploadError": "The file is incompatible. Ensure the size is less than 10MB, and the extesion it's right(jpg, png, heic, heif).",
     "primaryParticipant": "Primary participant",
     "familyMembers": "Family members",
     "gendersBirthDates": "Genders & Birth dates",
