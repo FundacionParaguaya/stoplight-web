@@ -20,6 +20,7 @@ import { ROLES_NAMES } from '../utils/role-utils';
 const FamilyPriorities = ({
   classes,
   familyId,
+  stoplightSkipped,
   questions,
   user,
   t,
@@ -212,7 +213,7 @@ const FamilyPriorities = ({
         </Container>
       )}
 
-      {showAdministrationOptions(user) && (
+      {showAdministrationOptions(user) && !stoplightSkipped && (
         <Container
           className={classes.basicInfoText}
           variant="fluid"
