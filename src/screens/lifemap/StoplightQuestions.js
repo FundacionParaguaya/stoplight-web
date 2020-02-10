@@ -264,7 +264,8 @@ class StoplightQuestions extends Component {
       const indicatorSurveyDataList = dataList;
       this.props.updateDraft({
         ...currentDraft,
-        indicatorSurveyDataList
+        indicatorSurveyDataList,
+        stoplightSkipped: false
       });
       this.handleContinue();
     } else {
@@ -277,7 +278,8 @@ class StoplightQuestions extends Component {
             key: codeName,
             value
           }
-        ]
+        ],
+        stoplightSkipped: false
       });
       this.handleContinue();
     }
@@ -412,9 +414,7 @@ class StoplightQuestions extends Component {
             <div className={classes.infoModal}>
               <i
                 onClick={this.handleClose}
-                className={`material-icons ${classes.closeModalIcon} ${
-                  classes.icon
-                }`}
+                className={`material-icons ${classes.closeModalIcon} ${classes.icon}`}
               >
                 close
               </i>
