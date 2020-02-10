@@ -147,6 +147,7 @@ export class PrimaryParticipant extends Component {
     // create draft skeleton
     this.props.updateDraft({
       sign: '',
+      pictures: [],
       draftId: uuid(), // generate unique id based on timestamp
       surveyId: currentSurvey.id,
       surveyVersionId: currentSurvey.surveyVersionId,
