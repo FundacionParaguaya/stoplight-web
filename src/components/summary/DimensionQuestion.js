@@ -2,9 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import IndicatorsFilter, {
-  FILTERED_BY_OPTIONS
-} from '../../components/summary/IndicatorsFilter';
 import IndicatorBall from '../../components/summary/IndicatorBall';
 
 const indicatorColorByAnswer = indicator => {

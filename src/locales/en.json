@@ -11,6 +11,7 @@
     "gotIt": "Got it!",
     "save": "Save",
     "close": "Save & close",
+    "closeAndSign": "Save survey",
     "yes": "Yes",
     "no": "No",
     "delete": "Delete",
@@ -29,7 +30,10 @@
     "savePdfError": "Error while trying to save your Life Map pdf for whatsapp",
     "noOptionsToShow": "There are no options available to select",
     "clear": "Clear",
-    "showMore": "Show More"
+    "showMore": "Show More",
+    "continueStoplight": "Continue",
+    "yourStoplight": "Your Stoplight",
+    "completeStoplight": "Finish Stoplight"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -56,6 +60,11 @@
     "december": "December"
   },
   "views": {
+    "sign": {
+      "signHere": "Sign your survey here",
+      "erase": "Erase",
+      "continue": "Continue"
+    },
     "toolbar": {
       "surveys": "Surveys",
       "analytics": "Analytics",
@@ -114,6 +123,9 @@
     },
     "socioEconomic": "Socio Economic",
     "yourLifeMap": "Your Life Map",
+    "yourPictures": "Upload your pictures",
+    "uploadFiles": "Click here to add your files or just drag and drop them!",
+    "fileUploadError": "The file is incompatible. Ensure the size is less than 10MB, and the extesion it's right(jpg, png, heic, heif).",
     "primaryParticipant": "Primary participant",
     "familyMembers": "Family members",
     "gendersBirthDates": "Genders & Birth dates",
@@ -172,7 +184,8 @@
       "formWithErrors": "Review %number form errors"
     },
     "lifemap": {
-      "thisLifeMapHas": "This Life Map has %n questions",
+      "thisLifeMapHas": "Thank you! This Stoplight section has %n indicators.",
+      "thisLifeMapHasNoStoplight": "Thank you! This Stoplight section has %n indicators. Choose if you wish to save your survey now or finish your Stoplight.",
       "responseRequired": "*Response required",
       "skipThisQuestion": "Skip this question",
       "youSkipped": "You skipped these indicators",

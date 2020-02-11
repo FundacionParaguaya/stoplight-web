@@ -61,6 +61,9 @@ export const buildRouteTree = (currentSurvey, currentTree) => {
   // Begin Stoplight
   newTree = addLeaves(newTree, ['begin-stoplight']);
 
+  // Upload pictures
+  //newTree = addLeaves(newTree, ['upload-pictures']);
+
   // Question Screens
   const questionLeaves = currentSurvey.surveyStoplightQuestions.map(
     (question, index) => `stoplight/${index}`

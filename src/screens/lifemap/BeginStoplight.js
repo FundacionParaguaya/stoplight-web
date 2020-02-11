@@ -8,35 +8,160 @@ import TitleBar from '../../components/TitleBar';
 import beginLifemap from '../../assets/begin_lifemap.png';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
+import { submitDraft } from '../../api';
+import LeaveModal from '../../components/LeaveModal';
+import Link from '@material-ui/core/Link';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import { updateDraft } from '../../redux/actions';
 
 export class Begin extends Component {
+  state = {
+    loading: false,
+    openModal: false,
+    modalTitle: '',
+    modalSubtitle: '',
+    modalContinueButtonText: '',
+    modalLeaveAction: null,
+    modalVariant: ''
+  };
+
+  toggleModal = (
+    modalTitle,
+    modalSubtitle,
+    modalContinueButtonText,
+    modalVariant,
+    modalLeaveAction
+  ) => {
+    this.setState(prevState => ({
+      openModal: !prevState.openModal,
+      modalTitle,
+      modalSubtitle,
+      modalContinueButtonText,
+      modalVariant,
+      modalLeaveAction
+    }));
+  };
+
+  handleSkip = () => {
+    // Delete stopligh section
+    this.props.updateDraft({
+      ...this.props.currentDraft,
+      indicatorSurveyDataList: []
+    });
+    if (this.props.currentSurvey.surveyConfig.pictureSupport) {
+      //TODO Push to Picture
+      console.log('Redirect to pictures view');
+      this.props.history.push('/lifemap/upload-pictures');
+    } else if (this.props.currentSurvey.surveyConfig.signSupport) {
+      this.props.history.push('/lifemap/sign');
+    } else {
+      this.props.history.push('/lifemap/final');
+    }
+  };
+
+  redirectToSurveys = () => {
+    this.props.history.push(`/surveys?sid=${this.props.user.token}`);
+  };
+
+  toggleLoading = () => {
+    this.setState(prev => ({
+      loading: !prev.loading
+    }));
+  };
+
+  closeModal = e => {
+    if (e) {
+      this.setState({ openModal: false });
+    }
+  };
+
   render() {
     const { classes, t, currentSurvey } = this.props;
     const questions = currentSurvey.surveyStoplightQuestions.length;
+    const stoplightOptional = currentSurvey.surveyConfig.stoplightOptional;
     return (
       <div>
-        <TitleBar title={t('views.yourLifeMap')} progressBar />
+        <LeaveModal
+          title={this.state.modalTitle}
+          subtitle={this.state.modalSubtitle}
+          continueButtonText={this.state.modalContinueButtonText}
+          singleAction
+          onClose={() => {}}
+          open={this.state.openModal}
+          leaveAction={this.state.modalLeaveAction || (() => {})}
+          variant={this.state.modalVariant}
+        />
+        <TitleBar title={t('general.yourStoplight')} progressBar />
         <Container
           variant="stretch"
           className={classes.BeginStopLightContainer}
         >
           <Typography variant="h5" className={classes.StopLightTitleContainer}>
-            {t('views.lifemap.thisLifeMapHas').replace('%n', questions)}
+            {stoplightOptional
+              ? t('views.lifemap.thisLifeMapHasNoStoplight').replace(
+                  '%n',
+                  questions
+                )
+              : t('views.lifemap.thisLifeMapHas').replace('%n', questions)}
           </Typography>
           <img
             className={classes.beginStopLightImage}
             src={beginLifemap}
             alt=""
           />
-          <Button
-            variant="contained"
-            test-id="continue"
-            color="primary"
-            onClick={() => this.props.history.push('/lifemap/stoplight/0')}
-            style={{ color: 'white' }}
-          >
-            {t('general.continue')}
-          </Button>
+
+          <div className={classes.buttonContainerForm}>
+            {/* <div style={{ display: 'flex', flex: 1 }}></div> */}
+            <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                justifyContent: 'space-evenly'
+              }}
+            >
+              {stoplightOptional && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={this.handleSkip}
+                  style={{ color: 'green', width: '20rem' }}
+                >
+                  {t('general.closeAndSign')}
+                </Button>
+              )}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => this.props.history.push('/lifemap/stoplight/0')}
+                style={{ color: 'white', width: '20rem' }}
+              >
+                {stoplightOptional
+                  ? t('general.completeStoplight')
+                  : t('general.continue')}
+              </Button>
+            </div>
+
+            {/* <div
+              style={{
+                display: 'flex',
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'flex-end'
+              }}
+            >
+              {stoplightOptional && (
+                <Typography
+                  variant="subtitle1"
+                  className={classes.labelGreenRight}
+                >
+                  <Link href="#" onClick={this.handleSkip}>
+                    {t('general.closeAndSign')}
+                    <ArrowForwardIosIcon style={{ verticalAlign: 'middle' }} />
+                  </Link>
+                </Typography>
+              )}
+            </div> */}
+          </div>
           <BottomSpacer />
         </Container>
       </div>
@@ -44,9 +169,20 @@ export class Begin extends Component {
   }
 }
 
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
+const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
+  currentSurvey,
+  currentDraft,
+  user
+});
 
-const styles = {
+const styles = theme => ({
+  buttonContainerForm: {
+    display: 'flex',
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
+    justifyContent: 'space-evenly',
+    width: '100%'
+  },
   BeginStopLightContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -62,9 +198,18 @@ const styles = {
     marginBottom: 80,
     position: 'relative',
     left: -10
+  },
+  labelGreenRight: {
+    marginRight: 20,
+    fontSize: 16,
+    color: '#309E43',
+    paddingLeft: '3rem',
+    textAlign: 'right'
   }
-};
+});
+
+const mapDispatchToProps = { updateDraft };
 
 export default withStyles(styles)(
-  connect(mapStateToProps)(withTranslation()(Begin))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Begin))
 );
