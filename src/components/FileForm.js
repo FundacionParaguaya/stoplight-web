@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   icon: {
-    fontSize: '15vh'
+    fontSize: '15vh',
+    color: '#309E43'
   },
   img: {
     display: 'block',
@@ -48,14 +49,12 @@ export default function FileForm({
   const classes = useStyles();
 
   const files = acceptedFiles.map(file => (
-    <li key={file.path} className="d-flex justify-content-between">
-      <Typography variant="subtitle1">
-        {file.path} - {(file.size / 1048576).toFixed(2)} MB
-        <IconButton key="clear" onClick={() => removeAll()}>
-          <CloseIcon style={{ color: '#309E43' }} />
-        </IconButton>
-      </Typography>
-    </li>
+    <Typography variant="subtitle1">
+      {file.path} - {(file.size / 1048576).toFixed(2)} MB
+      <IconButton key="clear" onClick={() => removeAll()}>
+        <CloseIcon style={{ color: '#309E43' }} />
+      </IconButton>
+    </Typography>
   ));
 
   return (
