@@ -60,6 +60,11 @@
     "december": "Diciembre"
   },
   "views": {
+    "sign": {
+      "signHere": "Firme aquí su encuesta",
+      "erase": "Limpiar",
+      "continue": "Continuar"
+    },
     "toolbar": {
       "surveys": "Encuestas",
       "analytics": "Analíticas",
@@ -120,7 +125,7 @@
     "yourLifeMap": "Tu Mapa de Vida",
     "yourPictures": "Sube tus imágenes",
     "uploadFiles": "¡Haz clic aquí para agregar tus archivos o arrástralos!",
-    "fileUploadError": "Archivo demasiado grande el maximo es de 10mb. O extension invalida",
+    "fileUploadError": "El archivo es incompatible. Asegura que el tamaño es menor de 10MB, y que la extensión sea la correcta (jpg, png, heic, heif).",
     "primaryParticipant": "Participante de la familia",
     "familyMembers": "Miembros de la familia",
     "gendersBirthDates": "Géneros & fechas de nacimiento",

@@ -104,9 +104,11 @@ const SignIn = ({
   updateDraft
 }) => {
   let sigPad = useRef();
+  const [empty, setEmpty] = useState(true);
 
   const onClear = () => {
     sigPad.clear();
+    setEmpty(true);
   };
   const onSave = () => {
     console.log('Saving Sign');
@@ -129,6 +131,7 @@ const SignIn = ({
     console.log('Drawing Current Sign');
     //Draw a canvas if it already exists
     if (currentDraft.sign) {
+      setEmpty(false);
       sigPad.fromDataURL(currentDraft.sign, {
         minWidth: 0.5,
         maxWidth: 2.5,
@@ -136,6 +139,12 @@ const SignIn = ({
       });
     }
   }, []);
+
+  const allowSumit = () => {
+    if (!sigPad.isEmpty()) {
+      setEmpty(false);
+    }
+  };
 
   return (
     <div>
@@ -151,11 +160,12 @@ const SignIn = ({
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h5">Firme aquí su encuesta</Typography>
+        <Typography variant="h5">{t('views.sign.signHere')}</Typography>
       </Container>
       <div className={classes.questionsContainer}>
         <SignatureCanvas
           canvasProps={{ className: classes.canvas }}
+          onEnd={allowSumit}
           ref={ref => {
             sigPad = ref;
           }}
@@ -164,11 +174,16 @@ const SignIn = ({
 
       <div className={classes.buttonContainerForm}>
         <Button variant="outlined" onClick={onClear}>
-          Limpiar
+          {t('views.sign.erase')}
         </Button>
 
-        <Button color="primary" variant="contained" onClick={onSave}>
-          Continuar
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={onSave}
+          disabled={empty}
+        >
+          {t('views.sign.continue')}
         </Button>
       </div>
     </div>
