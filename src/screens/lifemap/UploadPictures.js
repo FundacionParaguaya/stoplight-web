@@ -55,7 +55,7 @@ const UploadPictures = props => {
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     multiple: true,
-    maxSize: 1048576,
+    maxSize: 10485760,
     onDrop,
     onDropRejected,
     accept: ['.png', '.jpg', '.heic', '.heif']
