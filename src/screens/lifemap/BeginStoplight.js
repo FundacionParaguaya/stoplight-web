@@ -46,7 +46,8 @@ export class Begin extends Component {
     // Delete stopligh section
     this.props.updateDraft({
       ...this.props.currentDraft,
-      indicatorSurveyDataList: []
+      indicatorSurveyDataList: [],
+      stoplightSkipped: true
     });
     if (this.props.currentSurvey.surveyConfig.pictureSupport) {
       //TODO Push to Picture
