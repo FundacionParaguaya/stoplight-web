@@ -57,6 +57,7 @@ const useStyles = makeStyles(theme => ({
 const FamiliesOverviewBlock = ({
   familiesOverview,
   familiesCount,
+  familiesWithStoplightCount,
   peopleCount,
   // menCount,
   // womenCount,
@@ -110,6 +111,14 @@ const FamiliesOverviewBlock = ({
         <Typography className={classes.peopleCountStyle} variant="h6">{`${t(
           'views.familiesOverviewBlock.including'
         )} ${people} ${t('views.familiesOverviewBlock.people')}`}</Typography>
+      )}
+      {withDetail && (
+        <Typography
+          className={classes.peopleCountStyle}
+          variant="h6"
+        >{`${familiesWithStoplightCount} ${t(
+          'views.familiesOverviewBlock.tookSnapshot'
+        )} `}</Typography>
       )}
       {/* <Typography
         className={classes.menWomenCountStyle}

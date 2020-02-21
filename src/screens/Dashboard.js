@@ -247,6 +247,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
             <FamilyOverviewBlock
               familiesCount={economic.familiesCount}
               peopleCount={economic.peopleCount}
+              familiesWithStoplightCount={economic.familiesWithStoplightCount}
               noPadding
               width="30%"
               includeEconomics
