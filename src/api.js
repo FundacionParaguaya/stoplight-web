@@ -501,7 +501,7 @@ export const getPrioritiesByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesByFamily($familyId: Long!) { prioritiesByFamily (familyId: $familyId) {color, indicator, reviewDate, reason, action, months, snapshotStoplightId} }',
+        'query prioritiesByFamily($familyId: Long!) { prioritiesByFamily (familyId: $familyId) {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} }',
       variables: {
         familyId: familyId
       }

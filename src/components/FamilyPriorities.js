@@ -163,9 +163,24 @@ const FamilyPriorities = ({
                   >
                     {/* Priority Details*/}
                     <div className={classes.priorityContent}>
+                      {/* Created At*/}
+                      <div className={classes.createdAtContainer}>
+                        <p style={{ fontWeight: 'bold' }}>
+                          {' '}
+                          {t('views.familyPriorities.updatedAt')}: &nbsp;{' '}
+                        </p>
+                        <p>
+                          {item.updatedAt
+                            ? `${moment
+                                .unix(item.updatedAt)
+                                .format(dateFormat)}`
+                            : ''}
+                        </p>
+                      </div>
                       {/* Month*/}
                       <div className={classes.monthInfoContainer}>
-                        {t('views.familyPriorities.months')} · {item.months}
+                        {t('views.familyPriorities.months')} : &nbsp;{' '}
+                        {item.months}
                       </div>
 
                       <div className={classes.prioritiesDetailContainer}>
@@ -255,6 +270,12 @@ const styles = theme => ({
     fontSize: 16,
     color: '#6A6A6A',
     marginBottom: '2rem'
+  },
+  createdAtContainer: {
+    fontSize: 16,
+    color: '#6A6A6A',
+    display: 'flex',
+    flexDirection: 'row'
   },
   monthContainer: {
     padding: '0.3rem'
