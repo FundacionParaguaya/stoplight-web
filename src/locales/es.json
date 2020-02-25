@@ -308,7 +308,8 @@
       "men": "Hombres",
       "and": "y",
       "women": "Mujeres",
-      "tookSnapshot": "familias con Semáforo"
+      "tookSnapshots": "familias con Semáforo",
+      "tookSnapshot": "familia con Semáforo"
     },
     "saveDraftModal": {
       "lifemapNotComplete": "Tu Mapa de Vida no está completo",

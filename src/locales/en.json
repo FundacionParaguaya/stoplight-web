@@ -307,7 +307,8 @@
       "men": "Men",
       "and": "&",
       "women": "Women",
-      "tookSnapshot": " families with Stoplights"
+      "tookSnapshots": " families with Stoplights",
+      "tookSnapshot": " family with Stoplight"
     },
     "saveDraftModal": {
       "lifemapNotComplete": "Your Life Map is not complete",

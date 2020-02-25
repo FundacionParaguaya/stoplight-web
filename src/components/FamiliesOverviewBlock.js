@@ -86,6 +86,11 @@ const FamiliesOverviewBlock = ({
       ? t('views.familiesOverviewBlock.families')
       : t('views.familiesOverviewBlock.family');
 
+  const defaultFamiliesSnapshots =
+    familiesWithStoplightCount > 1
+      ? t('views.familiesOverviewBlock.tookSnapshots')
+      : t('views.familiesOverviewBlock.tookSnapshot');
+
   const people = familiesOverview ? familiesOverview.peopleCount : peopleCount;
 
   return (
@@ -133,7 +138,7 @@ const FamiliesOverviewBlock = ({
               variant="h6"
               className={classes.familiesLabel}
             >
-              {t('views.familiesOverviewBlock.tookSnapshot')}
+              {defaultFamiliesSnapshots}
             </Typography>
           </Typography>
         </div>
