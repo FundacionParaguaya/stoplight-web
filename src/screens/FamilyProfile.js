@@ -49,6 +49,7 @@ const FamilyProfile = ({
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
+  const [stoplightSkipped, setStoplightSkipped] = useState(false);
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -130,8 +131,13 @@ const FamilyProfile = ({
         value: response.data.data.familyById.user.userId
       };
       setSelectedFacilitator(mentor);
+      setStoplightSkipped(
+        response.data.data.familyById.snapshotIndicators.stoplightSkipped
+      );
     });
   }, []);
+
+  const handleRetakeSurvey = e => {};
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -219,89 +225,94 @@ const FamilyProfile = ({
 
         <div className={classes.graphContainer}>
           {/* Counting Donut */}
-          <div className={classes.donutContainer}>
-            <Typography variant="h5">
-              {t('views.familyProfile.lifemapNumber')}
-              {family.numberOfSnapshots ? ' ' + family.numberOfSnapshots : 0}
-            </Typography>
-            <div className={classes.sumaryContainer}>
-              <SummaryDonut
-                greenIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countGreenIndicators
-                    : 0
-                }
-                redIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countRedIndicators
-                    : 0
-                }
-                yellowIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countYellowIndicators
-                    : 0
-                }
-                skippedIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countSkippedIndicators
-                    : 0
-                }
-                isAnimationActive={true}
-                countingSection={false}
-                width="35%"
-              />
-              <div className={classes.prioritiesAndAchievements}>
-                <CountDetail
-                  type="priority"
-                  count={
+          {!stoplightSkipped && (
+            <div className={classes.donutContainer}>
+              <Typography variant="h5">
+                {t('views.familyProfile.lifemapNumber')}
+                {family.numberOfSnapshots ? ' ' + family.numberOfSnapshots : 0}
+              </Typography>
+              <div className={classes.sumaryContainer}>
+                <SummaryDonut
+                  greenIndicatorCount={
                     family.snapshotIndicators
-                      ? family.snapshotIndicators.countIndicatorsPriorities
+                      ? family.snapshotIndicators.countGreenIndicators
                       : 0
                   }
-                  label
-                  countVariant="h5"
+                  redIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countRedIndicators
+                      : 0
+                  }
+                  yellowIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countYellowIndicators
+                      : 0
+                  }
+                  skippedIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countSkippedIndicators
+                      : 0
+                  }
+                  isAnimationActive={true}
+                  countingSection={false}
+                  width="35%"
                 />
-                <Divider height={1} />
-                <CountDetail
-                  type="achievement"
-                  count={
+                <div className={classes.prioritiesAndAchievements}>
+                  <CountDetail
+                    type="priority"
+                    count={
+                      family.snapshotIndicators
+                        ? family.snapshotIndicators.countIndicatorsPriorities
+                        : 0
+                    }
+                    label
+                    countVariant="h5"
+                  />
+                  <Divider height={1} />
+                  <CountDetail
+                    type="achievement"
+                    count={
+                      family.snapshotIndicators
+                        ? family.snapshotIndicators.countIndicatorsAchievements
+                        : 0
+                    }
+                    label
+                    countVariant="h5"
+                  />
+                </div>
+
+                <SummaryBarChart
+                  greenIndicatorCount={
                     family.snapshotIndicators
-                      ? family.snapshotIndicators.countIndicatorsAchievements
+                      ? family.snapshotIndicators.countGreenIndicators
                       : 0
                   }
-                  label
-                  countVariant="h5"
+                  redIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countRedIndicators
+                      : 0
+                  }
+                  yellowIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countYellowIndicators
+                      : 0
+                  }
+                  skippedIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countSkippedIndicators
+                      : 0
+                  }
+                  isAnimationActive={false}
+                  width="40%"
                 />
               </div>
-
-              <SummaryBarChart
-                greenIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countGreenIndicators
-                    : 0
-                }
-                redIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countRedIndicators
-                    : 0
-                }
-                yellowIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countYellowIndicators
-                    : 0
-                }
-                skippedIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countSkippedIndicators
-                    : 0
-                }
-                isAnimationActive={false}
-                width="40%"
-              />
             </div>
-          </div>
+          )}
           {/* Summary */}
-          <div className={classes.lifemapContainer}>
+          <div
+            className={classes.lifemapContainer}
+            style={{ width: stoplightSkipped ? '80%' : '40%' }}
+          >
             <Typography
               variant="h5"
               style={{ textAlign: 'center', paddingBottom: '5%' }}
@@ -318,19 +329,41 @@ const FamilyProfile = ({
               }
             />
 
-            <Typography variant="subtitle1" className={classes.labelGreenRight}>
-              <Link href="#" onClick={goToFamilyPsp}>
-                {t('views.familyProfile.viewLifeMap')}
-              </Link>
-            </Typography>
+            {!stoplightSkipped && (
+              <Typography
+                variant="subtitle1"
+                className={classes.labelGreenRight}
+              >
+                <Link href="#" onClick={goToFamilyPsp}>
+                  {t('views.familyProfile.viewLifeMap')}
+                </Link>
+              </Typography>
+            )}
           </div>
         </div>
       </Container>
+      <div className={classes.buttonContainer}>
+        <Typography
+          variant="subtitle1"
+          className={classes.label}
+          style={{ color: '#f3f4f6' }}
+        >
+          {t('views.familyProfile.createNewSnapshot')}
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={handleRetakeSurvey}
+          className={classes.button}
+        >
+          {t('views.familyProfile.continueWithStoplight')}
+        </Button>
+      </div>
 
       {/* Priorities */}
 
       <FamilyPriorities
         familyId={familyId}
+        stoplightSkipped={stoplightSkipped}
         questions={family.snapshotIndicators}
       ></FamilyPriorities>
 
@@ -393,6 +426,27 @@ const styles = theme => ({
     paddingLeft: '5%',
     [theme.breakpoints.down('xs')]: {
       width: '100%!important'
+    }
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.primary.dark
+  },
+  button: {
+    ...theme.overrides.MuiButton.contained,
+    width: '20%',
+    minWidth: 350,
+    marginLeft: '20%',
+    margin: 30,
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.primary.dark,
+    '&:hover': {
+      backgroundColor: theme.palette.background.default
     }
   },
   graphContainer: {
