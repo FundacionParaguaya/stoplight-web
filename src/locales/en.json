@@ -392,6 +392,7 @@
     "familyProfile": {
       "organization": "Organization: ",
       "lifemapNumber": "Life Map - Number",
+      "continueWithStoplight": "Take a follow-up survey",
       "viewLifeMap": "View Life Map in Detail",
       "Mentorsuccess": "Assigned correctly",
       "mentorError": "An error occurred while assigning facilitator. Try again",
@@ -401,7 +402,8 @@
       "administration": "Administration",
       "families": "Households",
       "family": "Family",
-      "profile": "Profile"
+      "profile": "Profile",
+      "createNewSnapshot": "Create a new survey for the family!"
     },
     "familyPriorities": {
       "priorities": "Priorities",
