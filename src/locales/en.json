@@ -416,7 +416,8 @@
       "errorSaving": "Error saving Priority. Please Try again",
       "selectIndicator": "Select a Indicator",
       "backToProfile": "Back to Family Profile",
-      "addPriority": "Add Priority"
+      "addPriority": "Add Priority",
+      "updatedAt": "Date of Creation"
     }
   },
   "reports": {
