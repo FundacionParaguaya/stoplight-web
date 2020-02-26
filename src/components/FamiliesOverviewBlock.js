@@ -31,6 +31,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexWrap: 'wrap'
   },
+  familiesStoplightCountStyle: {
+    marginRight: 4,
+    color: '#626262',
+    fontSize: '45px',
+    fontWeight: theme.typography.fontWeightMedium,
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
   familiesLabel: { alignSelf: 'flex-end', marginLeft: 5 },
   peopleCountStyle: { fontSize: '16px' },
   menWomenCountStyle: { color: '#909090', fontSize: '14px' },
@@ -57,6 +65,7 @@ const useStyles = makeStyles(theme => ({
 const FamiliesOverviewBlock = ({
   familiesOverview,
   familiesCount,
+  familiesWithStoplightCount,
   peopleCount,
   // menCount,
   // womenCount,
@@ -76,6 +85,11 @@ const FamiliesOverviewBlock = ({
     families !== 1
       ? t('views.familiesOverviewBlock.families')
       : t('views.familiesOverviewBlock.family');
+
+  const defaultFamiliesSnapshots =
+    familiesWithStoplightCount > 1
+      ? t('views.familiesOverviewBlock.tookSnapshots')
+      : t('views.familiesOverviewBlock.tookSnapshot');
 
   const people = familiesOverview ? familiesOverview.peopleCount : peopleCount;
 
@@ -111,6 +125,31 @@ const FamiliesOverviewBlock = ({
           'views.familiesOverviewBlock.including'
         )} ${people} ${t('views.familiesOverviewBlock.people')}`}</Typography>
       )}
+      {withDetail && (
+        <div className={classes.familyInfoContainer}>
+          <Typography
+            component="p"
+            variant="h5"
+            className={classes.familiesStoplightCountStyle}
+          >
+            {familiesWithStoplightCount}
+            <Typography
+              component="span"
+              variant="h6"
+              className={classes.familiesLabel}
+            >
+              {defaultFamiliesSnapshots}
+            </Typography>
+          </Typography>
+        </div>
+      )}
+      {/* <Typography
+          className={classes.peopleCountStyle}
+          variant="h5"
+        >{`${familiesWithStoplightCount} ${t(
+          'views.familiesOverviewBlock.tookSnapshot'
+        )} `}
+        </Typography> */}
       {/* <Typography
         className={classes.menWomenCountStyle}
         variant="h6"

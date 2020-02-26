@@ -307,7 +307,9 @@
       "people": "personas",
       "men": "Hombres",
       "and": "y",
-      "women": "Mujeres"
+      "women": "Mujeres",
+      "tookSnapshots": "familias con Semáforo",
+      "tookSnapshot": "familia con Semáforo"
     },
     "saveDraftModal": {
       "lifemapNotComplete": "Tu Mapa de Vida no está completo",
