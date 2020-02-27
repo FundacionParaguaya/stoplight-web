@@ -467,7 +467,7 @@ export const getFamily = (familyId, user) =>
       query:
         'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code numberOfSnapshots organization { name } country{country} ' +
         'familyMemberDTOList{firstParticipant email phoneNumber phoneCode} ' +
-        'snapshotIndicators{ createdAt  stoplightSkipped indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
+        'snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
         id: familyId
       }
@@ -531,6 +531,22 @@ export const addPriority = (
           months: months,
           snapshotStoplightId: snapshotStoplightId
         }
+      }
+    })
+  });
+
+export const getLastSnapshot = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getLastSnapshot($familyId: Long!) { getLastSnapshot (familyId: $familyId) {  previousIndicatorSurveyDataList {key value}  family { countFamilyMembers  familyMemberDTOList { firstParticipant firstName  lastName birthCountry  gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }',
+      variables: {
+        familyId: familyId
       }
     })
   });
