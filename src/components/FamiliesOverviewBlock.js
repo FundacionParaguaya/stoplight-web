@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   familiesStoplightCountStyle: {
     marginRight: 4,
     color: '#626262',
-    fontSize: '45px',
+    fontSize: '35px',
     fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
     flexWrap: 'wrap'
@@ -91,6 +91,9 @@ const FamiliesOverviewBlock = ({
       ? t('views.familiesOverviewBlock.tookSnapshots')
       : t('views.familiesOverviewBlock.tookSnapshot');
 
+  const showFamilyStoplightCount =
+    familiesWithStoplightCount === families ? false : true;
+
   const people = familiesOverview ? familiesOverview.peopleCount : peopleCount;
 
   return (
@@ -125,7 +128,7 @@ const FamiliesOverviewBlock = ({
           'views.familiesOverviewBlock.including'
         )} ${people} ${t('views.familiesOverviewBlock.people')}`}</Typography>
       )}
-      {withDetail && (
+      {withDetail && showFamilyStoplightCount && (
         <div className={classes.familyInfoContainer}>
           <Typography
             component="p"
