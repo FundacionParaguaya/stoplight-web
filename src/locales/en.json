@@ -306,7 +306,9 @@
       "people": "people",
       "men": "Men",
       "and": "&",
-      "women": "Women"
+      "women": "Women",
+      "tookSnapshots": " families with Stoplights",
+      "tookSnapshot": " family with Stoplight"
     },
     "saveDraftModal": {
       "lifemapNotComplete": "Your Life Map is not complete",
@@ -416,7 +418,8 @@
       "errorSaving": "Error saving Priority. Please Try again",
       "selectIndicator": "Select a Indicator",
       "backToProfile": "Back to Family Profile",
-      "addPriority": "Add Priority"
+      "addPriority": "Add Priority",
+      "updatedAt": "Date of Creation"
     }
   },
   "reports": {
