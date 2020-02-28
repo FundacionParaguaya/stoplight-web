@@ -11,6 +11,7 @@ import Container from '../components/Container';
 import chooseLifeMap from '../assets/family.png';
 import withLayout from '../components/withLayout';
 import { getFamily, assignFacilitator, getLastSnapshot } from '../api';
+import uuid from 'uuid/v1';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/face_icon_large.png';
 import MailIcon from '@material-ui/icons/Mail';
@@ -160,11 +161,41 @@ const FamilyProfile = ({
           conditionalQuestions,
           elementsWithConditionsOnThem
         });
-        history.push('/lifemap/terms');
         getLastSnapshot(familyId, user).then(response => {
-          // TODO: Transform snapshots keys
-          // updateDraft({...response.data.data.getLastSnapshot})
+          const el = { ...response.data.data.getLastSnapshot };
+          // Mapping keys for family data
+          const familyData = { ...el.family };
+          const previousIndicatorSurveyDataList = {
+            ...el.previousIndicatorSurveyDataList
+          };
+          familyData.familyMembersList = el.family.familyMemberDTOList.map(
+            member => {
+              return {
+                ...member,
+                socioEconomicAnswers: []
+              };
+            }
+          );
+          delete el.family;
+          delete familyData.familyMemberDTOList;
+          const draft = {
+            sign: '',
+            pictures: [],
+            draftId: uuid(), // generate unique id based on timestamp
+            surveyId: family.snapshotIndicators.surveyId,
+            created: Date.now(),
+            economicSurveyDataList: [],
+            indicatorSurveyDataList: [],
+            priorities: [],
+            achievements: [],
+            ...el,
+            familyData,
+            previousIndicatorSurveyDataList,
+            lifemapNavHistory: [{}]
+          };
+          updateDraft({ ...draft });
         });
+        history.push('/lifemap/terms');
       })
       .catch(() => {
         setloadingSurvey(false);
