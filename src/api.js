@@ -258,6 +258,7 @@ const formatPhone = (code, phone) => {
 export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
   delete sanitizedSnapshot.lifemapNavHistory;
+  delete sanitizedSnapshot.previousIndicatorSurveyDataList;
   let { economicSurveyDataList } = snapshot;
   const validEconomicIndicator = ec =>
     (ec.value !== null && ec.value !== undefined && ec.value !== '') ||
@@ -374,8 +375,10 @@ export const getDrafts = user =>
   });
 
 // Saves a draft
-export const saveDraft = (user, draft) =>
-  axios({
+export const saveDraft = (user, draft) => {
+  const sanitizedDraft = { ...draft };
+  delete sanitizedDraft.previousIndicatorSurveyDataList;
+  return axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
@@ -384,9 +387,10 @@ export const saveDraft = (user, draft) =>
     data: JSON.stringify({
       query:
         'mutation addSnapshotDraft($newSnapshot: NewSnapshotDTOInput) {addSnapshotDraft(newSnapshot: $newSnapshot)} ',
-      variables: { newSnapshot: draft }
+      variables: { newSnapshot: sanitizedDraft }
     })
   });
+};
 
 export const deleteDraft = (user, draftId) =>
   axios({
