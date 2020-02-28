@@ -4,7 +4,11 @@ export const NORMALIZED_DIMENSIONS = Object.freeze({
   HOUSING: Symbol('housing'),
   INCOME: Symbol('income'),
   INTERIORITY: Symbol('interiority'),
-  ORGANIZATION: Symbol('organization')
+  ORGANIZATION: Symbol('organization'),
+  EDU_CONDITIONS: Symbol('eduConditions'),
+  EDU_COMMITMENT: Symbol('eduCommitment'),
+  EDU_HEALTH: Symbol('eduHealth'),
+  EDU_DISCIPLINE: Symbol('eduDiscipline')
 });
 
 const EDUCATION_OPTIONS = [
@@ -43,13 +47,37 @@ const ORGANIZATION_OPTIONS = [
   'Organization and Participation'
 ];
 
+const EDU_CONDITIONS_OPTIONS = [
+  'Condiciones para el Aprendizaje',
+  'Conditions for Learning'
+];
+
+const EDU_COMMITMENT_OPTIONS = [
+  'Compromiso y Comunicación',
+  'Commitment and Communication'
+];
+
+const EDU_HEALTH_OPTIONS = [
+  'Salud y Bienestar Familiar',
+  'Health and Family Wellbeing'
+];
+
+const EDU_DISCIPLINE_OPTIONS = [
+  'Disciplina y Afectividad',
+  'Discipline and Affectivity'
+];
+
 const {
   INCOME,
   HEALTH,
   HOUSING,
   EDUCATION,
   ORGANIZATION,
-  INTERIORITY
+  INTERIORITY,
+  EDU_CONDITIONS,
+  EDU_COMMITMENT,
+  EDU_HEALTH,
+  EDU_DISCIPLINE
 } = NORMALIZED_DIMENSIONS;
 
 // TODO: find a better way of doing this
@@ -63,7 +91,11 @@ export const ORDERED_DIMENSIONS = [
   EDUCATION,
   HOUSING,
   HEALTH,
-  INCOME
+  INCOME,
+  EDU_CONDITIONS,
+  EDU_COMMITMENT,
+  EDU_HEALTH,
+  EDU_DISCIPLINE
 ];
 
 export const DIMENSIONS_EN = Object.freeze({
@@ -99,6 +131,15 @@ export const normalizeDimension = d => {
     normalized = NORMALIZED_DIMENSIONS.INTERIORITY;
   } else if (ORGANIZATION_OPTIONS.indexOf(dimension) >= 0) {
     normalized = NORMALIZED_DIMENSIONS.ORGANIZATION;
+  } else if (EDU_CONDITIONS_OPTIONS.indexOf(dimension) >= 0) {
+    normalized = NORMALIZED_DIMENSIONS.EDU_CONDITIONS;
+  } else if (EDU_COMMITMENT_OPTIONS.indexOf(dimension) >= 0) {
+    normalized = NORMALIZED_DIMENSIONS.EDU_COMMITMENT;
+  } else if (EDU_HEALTH_OPTIONS.indexOf(dimension) >= 0) {
+    normalized = NORMALIZED_DIMENSIONS.EDU_HEALTH;
+  } else if (EDU_DISCIPLINE_OPTIONS.indexOf(dimension) >= 0) {
+    normalized = NORMALIZED_DIMENSIONS.EDU_DISCIPLINE;
   }
+
   return normalized;
 };
