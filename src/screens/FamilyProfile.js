@@ -168,6 +168,7 @@ const FamilyProfile = ({
           const previousIndicatorSurveyDataList = {
             ...el.previousIndicatorSurveyDataList
           };
+          familyData.familyId = familyId;
           familyData.familyMembersList = el.family.familyMemberDTOList.map(
             member => {
               return {
