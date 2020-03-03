@@ -61,7 +61,7 @@
   },
   "views": {
     "sign": {
-      "signHere": "Firme aquí su encuesta",
+      "signHere": "Firma",
       "erase": "Limpiar",
       "continue": "Continuar"
     },

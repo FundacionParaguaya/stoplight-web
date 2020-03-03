@@ -61,7 +61,7 @@
   },
   "views": {
     "sign": {
-      "signHere": "Sign your survey here",
+      "signHere": "Signature",
       "erase": "Erase",
       "continue": "Continue"
     },
