@@ -287,6 +287,9 @@ export const submitDraft = (user, snapshot) => {
 
   return Promise.all(
     sanitizedSnapshot.pictures.map(async file => {
+      delete file.url;
+      delete file.key;
+      delete file.fileSize;
       const base64File = await toBase64(file);
       return {
         content: base64File,

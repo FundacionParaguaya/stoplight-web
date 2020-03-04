@@ -61,7 +61,7 @@
   },
   "views": {
     "sign": {
-      "signHere": "Firme aquí su encuesta",
+      "signHere": "Firma",
       "erase": "Limpiar",
       "continue": "Continuar"
     },
@@ -291,7 +291,7 @@
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Descargar",
-      "lifemapSaved": "Tu Mapa de Vida ha sido guardado exitosamente",
+      "lifemapSaved": "Tu encuesta se ha enviado.",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
       "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email. ¡No te olvides de seleccionar Guardar & cerrar!",
       "whatsappSent": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184 después de guardar la encuesta.",

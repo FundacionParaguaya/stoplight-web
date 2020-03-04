@@ -41,12 +41,20 @@ const UploadPictures = props => {
   useEffect(() => {
     currentDraft.pictures &&
       currentDraft.pictures.length > 0 &&
-      setMyFiles(currentDraft.pictures);
+      setMyFiles(
+        currentDraft.pictures.map(file => {
+          delete file.url;
+          return file;
+        })
+      );
   }, []);
 
   const onDrop = acceptedFiles => {
-    setError(false);
+    acceptedFiles[0].url = window.URL.createObjectURL(acceptedFiles[0]);
+    acceptedFiles[0].key = new Date().getTime();
+    acceptedFiles[0].fileSize = acceptedFiles[0].size;
     setMyFiles([...myFiles, ...acceptedFiles]);
+    setError(false);
   };
 
   const onDropRejected = rejectFile => {
@@ -61,8 +69,11 @@ const UploadPictures = props => {
     accept: ['.png', '.jpg', '.heic', '.heif']
   });
 
-  const removeAll = () => {
-    setMyFiles([]);
+  const removeItem = key => {
+    let updatedFiles = myFiles.filter(file => {
+      return file.key !== key;
+    });
+    setMyFiles([...updatedFiles]);
     setError(false);
   };
 
@@ -75,7 +86,7 @@ const UploadPictures = props => {
           acceptedFiles={myFiles}
           getRootProps={getRootProps}
           getInputProps={getInputProps}
-          removeAll={removeAll}
+          removeItem={removeItem}
           t={t}
         />
         {error && (

@@ -3,6 +3,7 @@ import CloseIcon from '@material-ui/icons/Cancel';
 import { Typography, makeStyles } from '@material-ui/core/';
 import IconButton from '@material-ui/core/IconButton';
 import BackupIcon from '@material-ui/icons/Backup';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(theme => ({
   dropzone: {
@@ -43,15 +44,20 @@ export default function FileForm({
   acceptedFiles,
   getRootProps,
   getInputProps,
-  removeAll,
+  removeItem,
   t
 }) {
   const classes = useStyles();
 
   const files = acceptedFiles.map(file => (
-    <Typography variant="subtitle1">
-      {file.path} - {(file.size / 1048576).toFixed(2)} MB
-      <IconButton key="clear" onClick={() => removeAll()}>
+    <Typography variant="subtitle1" key={file.key}>
+      {file.url && (
+        <Link href={file.url} target="_blank">
+          {file.path} - {(file.fileSize / 1048576).toFixed(2)} MB
+        </Link>
+      )}
+      {!file.url && `${file.path} - ${(file.fileSize / 1048576).toFixed(2)} MB`}
+      <IconButton key="clear" onClick={() => removeItem(file.key)}>
         <CloseIcon style={{ color: '#309E43' }} />
       </IconButton>
     </Typography>

@@ -24,6 +24,7 @@ const SaveDraftModal = props => {
     setSavingDraft(true);
     saveDraft(user, {
       ...currentDraft,
+      pictures: undefined,
       lifemapNavHistory: get(currentDraft, 'lifemapNavHistory', []).map(el => ({
         ...el,
         state: el.state ? JSON.stringify(el.state) : ''
