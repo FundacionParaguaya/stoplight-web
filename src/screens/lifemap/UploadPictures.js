@@ -49,12 +49,35 @@ const UploadPictures = props => {
       );
   }, []);
 
+  const toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+
   const onDrop = acceptedFiles => {
-    acceptedFiles[0].url = window.URL.createObjectURL(acceptedFiles[0]);
-    acceptedFiles[0].key = new Date().getTime();
-    acceptedFiles[0].fileSize = acceptedFiles[0].size;
-    setMyFiles([...myFiles, ...acceptedFiles]);
-    setError(false);
+    Promise.all(
+      acceptedFiles.map(async file => {
+        delete file.url;
+        delete file.key;
+        delete file.fileSize;
+        const base64File = await toBase64(file);
+        return {
+          content: base64File,
+          name: file.name,
+          type: file.type
+        };
+      })
+    ).then(pictures => {
+      acceptedFiles[0].url = window.URL.createObjectURL(acceptedFiles[0]);
+      acceptedFiles[0].key = new Date().getTime();
+      acceptedFiles[0].fileSize = acceptedFiles[0].size;
+      acceptedFiles[0].base64 = pictures[0];
+      setMyFiles([...myFiles, ...acceptedFiles]);
+      setError(false);
+    });
   };
 
   const onDropRejected = rejectFile => {
