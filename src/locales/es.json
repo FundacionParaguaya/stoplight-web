@@ -395,6 +395,7 @@
     "familyProfile": {
       "organization": "Organización: ",
       "lifemapNumber": "Mapa de Vida - Número",
+      "continueWithStoplight": "Tomar encuesta de seguimiento",
       "viewLifeMap": "Ver Mapa de Vida en detalle",
       "Mentorsuccess": "Asignado correctamente",
       "mentorError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar",
@@ -404,7 +405,8 @@
       "administration": "Administración",
       "families": "Familias",
       "family": "Familia",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "createNewSnapshot": "¡Crea una nueva encuesta para la familia!"
     },
     "familyPriorities": {
       "priorities": "Prioridades",

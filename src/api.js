@@ -258,6 +258,7 @@ const formatPhone = (code, phone) => {
 export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
   delete sanitizedSnapshot.lifemapNavHistory;
+  delete sanitizedSnapshot.previousIndicatorSurveyDataList;
   let { economicSurveyDataList } = snapshot;
   const validEconomicIndicator = ec =>
     (ec.value !== null && ec.value !== undefined && ec.value !== '') ||
@@ -377,8 +378,10 @@ export const getDrafts = user =>
   });
 
 // Saves a draft
-export const saveDraft = (user, draft) =>
-  axios({
+export const saveDraft = (user, draft) => {
+  const sanitizedDraft = { ...draft };
+  delete sanitizedDraft.previousIndicatorSurveyDataList;
+  return axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
@@ -387,9 +390,10 @@ export const saveDraft = (user, draft) =>
     data: JSON.stringify({
       query:
         'mutation addSnapshotDraft($newSnapshot: NewSnapshotDTOInput) {addSnapshotDraft(newSnapshot: $newSnapshot)} ',
-      variables: { newSnapshot: draft }
+      variables: { newSnapshot: sanitizedDraft }
     })
   });
+};
 
 export const deleteDraft = (user, draftId) =>
   axios({
@@ -470,7 +474,7 @@ export const getFamily = (familyId, user) =>
       query:
         'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code numberOfSnapshots organization { name } country{country} ' +
         'familyMemberDTOList{firstParticipant email phoneNumber phoneCode} ' +
-        'snapshotIndicators{ createdAt indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
+        'snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
         id: familyId
       }
@@ -534,6 +538,22 @@ export const addPriority = (
           months: months,
           snapshotStoplightId: snapshotStoplightId
         }
+      }
+    })
+  });
+
+export const getLastSnapshot = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getLastSnapshot($familyId: Long!) { getLastSnapshot (familyId: $familyId) {  previousIndicatorSurveyDataList {key value}  family { countFamilyMembers  familyMemberDTOList { firstParticipant firstName  lastName birthCountry  gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }',
+      variables: {
+        familyId: familyId
       }
     })
   });

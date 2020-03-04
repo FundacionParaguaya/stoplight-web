@@ -6,11 +6,12 @@ import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
+import { updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/family.png';
 import withLayout from '../components/withLayout';
-import { getFamily, assignFacilitator } from '../api';
+import { getFamily, assignFacilitator, getLastSnapshot } from '../api';
+import uuid from 'uuid/v1';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/face_icon_large.png';
 import MailIcon from '@material-ui/icons/Mail';
@@ -32,6 +33,9 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import NavigationBar from '../components/NavigationBar';
 import FamilyPriorities from '../components/FamilyPriorities';
+import { CONDITION_TYPES } from '../utils/conditional-logic';
+import { getSurveyById } from '../api';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const FamilyProfile = ({
   classes,
@@ -39,7 +43,10 @@ const FamilyProfile = ({
   t,
   i18n: { language },
   enqueueSnackbar,
-  closeSnackbar
+  closeSnackbar,
+  updateSurvey,
+  updateDraft,
+  history
 }) => {
   //export class FamilyProfile extends Component {
   const [family, setFamily] = useState({});
@@ -49,6 +56,8 @@ const FamilyProfile = ({
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
+  const [stoplightSkipped, setStoplightSkipped] = useState(false);
+  const [loadingSurvey, setloadingSurvey] = useState(false);
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -130,8 +139,169 @@ const FamilyProfile = ({
         value: response.data.data.familyById.user.userId
       };
       setSelectedFacilitator(mentor);
+      setStoplightSkipped(
+        response.data.data.familyById.snapshotIndicators.stoplightSkipped
+      );
     });
   }, []);
+
+  const handleRetakeSurvey = e => {
+    setloadingSurvey(true);
+    getSurveyById(user, family.snapshotIndicators.surveyId)
+      .then(response => {
+        const survey = response.data.data.surveyById;
+        const economicScreens = getEconomicScreens(survey);
+        const conditionalQuestions = getConditionalQuestions(survey);
+        const elementsWithConditionsOnThem = getElementsWithConditionsOnThem(
+          conditionalQuestions
+        );
+        updateSurvey({
+          ...survey,
+          economicScreens,
+          conditionalQuestions,
+          elementsWithConditionsOnThem
+        });
+        getLastSnapshot(familyId, user).then(response => {
+          const el = { ...response.data.data.getLastSnapshot };
+          // Mapping keys for family data
+          const familyData = { ...el.family };
+          const previousIndicatorSurveyDataList = {
+            ...el.previousIndicatorSurveyDataList
+          };
+          familyData.familyId = familyId;
+          familyData.familyMembersList = el.family.familyMemberDTOList.map(
+            member => {
+              return {
+                ...member,
+                socioEconomicAnswers: []
+              };
+            }
+          );
+          delete el.family;
+          delete familyData.familyMemberDTOList;
+          const draft = {
+            sign: '',
+            pictures: [],
+            draftId: uuid(), // generate unique id based on timestamp
+            surveyId: family.snapshotIndicators.surveyId,
+            created: Date.now(),
+            economicSurveyDataList: [],
+            indicatorSurveyDataList: [],
+            priorities: [],
+            achievements: [],
+            ...el,
+            familyData,
+            previousIndicatorSurveyDataList,
+            lifemapNavHistory: [{}]
+          };
+          updateDraft({ ...draft });
+        });
+        history.push('/lifemap/terms');
+      })
+      .catch(() => {
+        setloadingSurvey(false);
+      });
+  };
+
+  const getEconomicScreens = survey => {
+    let currentDimension = '';
+    const questionsPerScreen = [];
+    let totalScreens = 0;
+
+    // go trough all questions and separate them by screen
+    survey.surveyEconomicQuestions.forEach(question => {
+      // if the dimention of the questions change, change the page
+      if (question.topic !== currentDimension) {
+        currentDimension = question.topic;
+        totalScreens += 1;
+      }
+
+      // if there is object for n screen create one
+      if (!questionsPerScreen[totalScreens - 1]) {
+        questionsPerScreen[totalScreens - 1] = {
+          forFamilyMember: [],
+          forFamily: []
+        };
+      }
+
+      if (question.forFamilyMember) {
+        questionsPerScreen[totalScreens - 1].forFamilyMember.push(question);
+      } else {
+        questionsPerScreen[totalScreens - 1].forFamily.push(question);
+      }
+    });
+
+    return {
+      questionsPerScreen
+    };
+  };
+
+  const getConditionalQuestions = survey => {
+    const surveyEconomicQuestions = survey.surveyEconomicQuestions || [];
+    const conditionalQuestions = [];
+    surveyEconomicQuestions.forEach(eq => {
+      if (
+        (eq.conditions && eq.conditions.length > 0) ||
+        (eq.conditionGroups && eq.conditionGroups.length > 0)
+      ) {
+        conditionalQuestions.push(eq);
+      } else {
+        // Checking conditional options only if needed
+        const options = eq.options || [];
+        for (const option of options) {
+          if (option.conditions && option.conditions.length > 0) {
+            conditionalQuestions.push(eq);
+            return;
+          }
+        }
+      }
+    });
+    return conditionalQuestions;
+  };
+
+  const getElementsWithConditionsOnThem = conditionalQuestions => {
+    const questionsWithConditionsOnThem = [];
+    const memberKeysWithConditionsOnThem = [];
+
+    const addTargetIfApplies = condition => {
+      // Addind this so it works after changing the key to scope
+      const scope = condition.scope || condition.type;
+      if (
+        scope !== CONDITION_TYPES.FAMILY &&
+        !questionsWithConditionsOnThem.includes(condition.codeName)
+      ) {
+        questionsWithConditionsOnThem.push(condition.codeName);
+      }
+      if (
+        scope === CONDITION_TYPES.FAMILY &&
+        !memberKeysWithConditionsOnThem.includes(condition.codeName)
+      ) {
+        memberKeysWithConditionsOnThem.push(condition.codeName);
+      }
+    };
+
+    conditionalQuestions.forEach(conditionalQuestion => {
+      let conditions = [];
+      const { conditionGroups } = conditionalQuestion;
+      if (conditionGroups && conditionGroups.length > 0) {
+        conditionGroups.forEach(conditionGroup => {
+          conditions = [...conditions, ...conditionGroup.conditions];
+        });
+      } else {
+        ({ conditions = [] } = conditionalQuestion);
+      }
+
+      conditions.forEach(addTargetIfApplies);
+
+      // Checking conditional options only if needed
+      const options = conditionalQuestion.options || [];
+      options.forEach(option => {
+        const { conditions: optionConditions = [] } = option;
+        optionConditions.forEach(addTargetIfApplies);
+      });
+    });
+    return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
+  };
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -161,6 +331,11 @@ const FamilyProfile = ({
 
       {/* Firts Participant Information */}
       <Container className={classes.basicInfo} variant="fluid">
+        {loadingSurvey && (
+          <div className={classes.loadingSurveyContainer}>
+            <CircularProgress />
+          </div>
+        )}
         <div className={classes.iconBaiconFamilyBorder}>
           <img
             src={familyFace}
@@ -219,89 +394,94 @@ const FamilyProfile = ({
 
         <div className={classes.graphContainer}>
           {/* Counting Donut */}
-          <div className={classes.donutContainer}>
-            <Typography variant="h5">
-              {t('views.familyProfile.lifemapNumber')}
-              {family.numberOfSnapshots ? ' ' + family.numberOfSnapshots : 0}
-            </Typography>
-            <div className={classes.sumaryContainer}>
-              <SummaryDonut
-                greenIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countGreenIndicators
-                    : 0
-                }
-                redIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countRedIndicators
-                    : 0
-                }
-                yellowIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countYellowIndicators
-                    : 0
-                }
-                skippedIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countSkippedIndicators
-                    : 0
-                }
-                isAnimationActive={true}
-                countingSection={false}
-                width="35%"
-              />
-              <div className={classes.prioritiesAndAchievements}>
-                <CountDetail
-                  type="priority"
-                  count={
+          {!stoplightSkipped && (
+            <div className={classes.donutContainer}>
+              <Typography variant="h5">
+                {t('views.familyProfile.lifemapNumber')}
+                {family.numberOfSnapshots ? ' ' + family.numberOfSnapshots : 0}
+              </Typography>
+              <div className={classes.sumaryContainer}>
+                <SummaryDonut
+                  greenIndicatorCount={
                     family.snapshotIndicators
-                      ? family.snapshotIndicators.countIndicatorsPriorities
+                      ? family.snapshotIndicators.countGreenIndicators
                       : 0
                   }
-                  label
-                  countVariant="h5"
+                  redIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countRedIndicators
+                      : 0
+                  }
+                  yellowIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countYellowIndicators
+                      : 0
+                  }
+                  skippedIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countSkippedIndicators
+                      : 0
+                  }
+                  isAnimationActive={true}
+                  countingSection={false}
+                  width="35%"
                 />
-                <Divider height={1} />
-                <CountDetail
-                  type="achievement"
-                  count={
+                <div className={classes.prioritiesAndAchievements}>
+                  <CountDetail
+                    type="priority"
+                    count={
+                      family.snapshotIndicators
+                        ? family.snapshotIndicators.countIndicatorsPriorities
+                        : 0
+                    }
+                    label
+                    countVariant="h5"
+                  />
+                  <Divider height={1} />
+                  <CountDetail
+                    type="achievement"
+                    count={
+                      family.snapshotIndicators
+                        ? family.snapshotIndicators.countIndicatorsAchievements
+                        : 0
+                    }
+                    label
+                    countVariant="h5"
+                  />
+                </div>
+
+                <SummaryBarChart
+                  greenIndicatorCount={
                     family.snapshotIndicators
-                      ? family.snapshotIndicators.countIndicatorsAchievements
+                      ? family.snapshotIndicators.countGreenIndicators
                       : 0
                   }
-                  label
-                  countVariant="h5"
+                  redIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countRedIndicators
+                      : 0
+                  }
+                  yellowIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countYellowIndicators
+                      : 0
+                  }
+                  skippedIndicatorCount={
+                    family.snapshotIndicators
+                      ? family.snapshotIndicators.countSkippedIndicators
+                      : 0
+                  }
+                  isAnimationActive={false}
+                  width="40%"
                 />
               </div>
-
-              <SummaryBarChart
-                greenIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countGreenIndicators
-                    : 0
-                }
-                redIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countRedIndicators
-                    : 0
-                }
-                yellowIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countYellowIndicators
-                    : 0
-                }
-                skippedIndicatorCount={
-                  family.snapshotIndicators
-                    ? family.snapshotIndicators.countSkippedIndicators
-                    : 0
-                }
-                isAnimationActive={false}
-                width="40%"
-              />
             </div>
-          </div>
+          )}
           {/* Summary */}
-          <div className={classes.lifemapContainer}>
+          <div
+            className={classes.lifemapContainer}
+            style={{ width: stoplightSkipped ? '80%' : '40%' }}
+          >
             <Typography
               variant="h5"
               style={{ textAlign: 'center', paddingBottom: '5%' }}
@@ -318,19 +498,41 @@ const FamilyProfile = ({
               }
             />
 
-            <Typography variant="subtitle1" className={classes.labelGreenRight}>
-              <Link href="#" onClick={goToFamilyPsp}>
-                {t('views.familyProfile.viewLifeMap')}
-              </Link>
-            </Typography>
+            {!stoplightSkipped && (
+              <Typography
+                variant="subtitle1"
+                className={classes.labelGreenRight}
+              >
+                <Link href="#" onClick={goToFamilyPsp}>
+                  {t('views.familyProfile.viewLifeMap')}
+                </Link>
+              </Typography>
+            )}
           </div>
         </div>
       </Container>
+      <div className={classes.buttonContainer}>
+        <Typography
+          variant="subtitle1"
+          className={classes.label}
+          style={{ color: '#f3f4f6' }}
+        >
+          {t('views.familyProfile.createNewSnapshot')}
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={handleRetakeSurvey}
+          className={classes.button}
+        >
+          {t('views.familyProfile.continueWithStoplight')}
+        </Button>
+      </div>
 
       {/* Priorities */}
 
       <FamilyPriorities
         familyId={familyId}
+        stoplightSkipped={stoplightSkipped}
         questions={family.snapshotIndicators}
       ></FamilyPriorities>
 
@@ -393,6 +595,27 @@ const styles = theme => ({
     paddingLeft: '5%',
     [theme.breakpoints.down('xs')]: {
       width: '100%!important'
+    }
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.primary.dark
+  },
+  button: {
+    ...theme.overrides.MuiButton.contained,
+    width: '20%',
+    minWidth: 350,
+    marginLeft: '20%',
+    margin: 30,
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.primary.dark,
+    '&:hover': {
+      backgroundColor: theme.palette.background.default
     }
   },
   graphContainer: {
@@ -525,12 +748,24 @@ const styles = theme => ({
     position: 'absolute',
     top: 15,
     right: 15
+  },
+  loadingSurveyContainer: {
+    zIndex: 10000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 });
 
 const mapStateToProps = ({ user }) => ({ user });
 
-const mapDispatchToProps = { updateUser, updateSurvey, updateDraft };
+const mapDispatchToProps = { updateSurvey, updateDraft };
 
 export default withRouter(
   withStyles(styles)(
