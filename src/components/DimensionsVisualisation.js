@@ -45,6 +45,14 @@ const getIconForDimension = dimension => {
       return dimensionInteriorityIcon;
     case NORMALIZED_DIMENSIONS.ORGANIZATION:
       return dimensionOrganizationIcon;
+    case NORMALIZED_DIMENSIONS.EDU_CONDITIONS:
+      return dimensionEducationIcon;
+    case NORMALIZED_DIMENSIONS.EDU_COMMITMENT:
+      return dimensionOrganizationIcon;
+    case NORMALIZED_DIMENSIONS.EDU_HEALTH:
+      return dimensionHealthIcon;
+    case NORMALIZED_DIMENSIONS.EDU_DISCIPLINE:
+      return dimensionInteriorityIcon;
     default:
       return null;
   }

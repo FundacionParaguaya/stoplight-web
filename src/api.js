@@ -165,7 +165,7 @@ export const getEconomicOverview = (
     },
     data: JSON.stringify({
       query:
-        'query economicOverview($hub: Long, $organizations: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount} }',
+        'query economicOverview($hub: Long, $organizations: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount familiesWithStoplightCount} }',
       variables: {
         hub,
         organizations,
@@ -504,7 +504,7 @@ export const getPrioritiesByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesByFamily($familyId: Long!) { prioritiesByFamily (familyId: $familyId) {color, indicator, reviewDate, reason, action, months, snapshotStoplightId} }',
+        'query prioritiesByFamily($familyId: Long!) { prioritiesByFamily (familyId: $familyId) {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} }',
       variables: {
         familyId: familyId
       }
