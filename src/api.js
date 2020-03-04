@@ -277,25 +277,9 @@ export const submitDraft = (user, snapshot) => {
     delete member.countFamilyMembers;
   });
 
-  const toBase64 = file =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-
   return Promise.all(
     sanitizedSnapshot.pictures.map(async file => {
-      delete file.url;
-      delete file.key;
-      delete file.fileSize;
-      const base64File = await toBase64(file);
-      return {
-        content: base64File,
-        name: file.name,
-        type: file.type
-      };
+      return file.base64;
     })
   ).then(pictures =>
     axios({
