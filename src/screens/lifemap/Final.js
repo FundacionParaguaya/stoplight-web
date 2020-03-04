@@ -92,7 +92,7 @@ export class Final extends Component {
         this.toggleModal(
           t('general.thankYou'),
           t('views.final.lifemapSaved'),
-          t('general.gotIt'),
+          t('general.ok'),
           'success',
           this.redirectToSurveys
         );
