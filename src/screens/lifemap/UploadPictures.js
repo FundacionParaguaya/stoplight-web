@@ -60,22 +60,24 @@ const UploadPictures = props => {
   const onDrop = acceptedFiles => {
     Promise.all(
       acceptedFiles.map(async file => {
+        const image = {};
+        image.url = window.URL.createObjectURL(file);
         delete file.url;
         delete file.key;
         delete file.fileSize;
         const base64File = await toBase64(file);
-        return {
+        image.key = new Date().getTime();
+        image.path = file.path;
+        image.fileSize = file.size;
+        image.base64 = {
           content: base64File,
           name: file.name,
           type: file.type
         };
+        return image;
       })
     ).then(pictures => {
-      acceptedFiles[0].url = window.URL.createObjectURL(acceptedFiles[0]);
-      acceptedFiles[0].key = new Date().getTime();
-      acceptedFiles[0].fileSize = acceptedFiles[0].size;
-      acceptedFiles[0].base64 = pictures[0];
-      setMyFiles([...myFiles, ...acceptedFiles]);
+      setMyFiles([...myFiles, ...pictures]);
       setError(false);
     });
   };
