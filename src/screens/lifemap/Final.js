@@ -217,10 +217,14 @@ export class Final extends Component {
         <TitleBar title={t('views.final.title')} progressBar />
         <Container variant="stretch">
           <Typography variant="h5" className={classes.subtitle}>
-            {t('views.final.lifemapCompleted')}
+            {stoplightSkipped
+              ? t('views.final.surveyCompleted')
+              : t('views.final.lifemapCompleted')}
           </Typography>
           <Typography variant="h5" className={classes.clickSafe}>
-            {t('views.final.clickSafe')}
+            {stoplightSkipped
+              ? t('views.final.clickSafeWithoutStoplight')
+              : t('views.final.clickSafe')}
           </Typography>
 
           <Container variant="slim">
@@ -332,7 +336,9 @@ export class Final extends Component {
                   disabled={this.state.loading}
                   test-id="close"
                 >
-                  {t('general.close')}
+                  {stoplightSkipped
+                    ? t('general.closeWithoutStoplight')
+                    : t('general.close')}
                 </Button>
               </Grid>
             </Grid>

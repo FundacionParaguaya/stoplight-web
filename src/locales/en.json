@@ -11,6 +11,7 @@
     "gotIt": "Got it!",
     "save": "Save",
     "close": "Save & close",
+    "closeWithoutStoplight": "Finish",
     "closeAndSign": "Save survey",
     "yes": "Yes",
     "no": "No",
@@ -286,12 +287,14 @@
     "final": {
       "title": "Thank you!",
       "lifemapCompleted": "Your Life Map is completed!",
+      "surveyCompleted": "Congratulations! You have completed the survey.",
       "print": "Print",
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Download",
       "lifemapSaved": "Your survey has been sent.",
       "clickSafe": "Now, just click save!",
+      "clickSafeWithoutStoplight": "Now, just click finish!",
       "emailSent": "Your Life Map has been successfully sent via email. Don't forget to click on Save & Close!",
       "whatsappSent": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184 after finishing the survey.",
       "emailError": "Error while trying to send your Life Map via email"
