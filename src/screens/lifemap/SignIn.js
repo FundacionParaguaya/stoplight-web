@@ -42,6 +42,7 @@ const styles = theme => ({
     padding: '40px 50px'
   },
   questionsContainer: {
+    height: '25rem',
     paddingTop: '1%',
     paddingBottom: 0,
     paddingLeft: '9%',
@@ -173,7 +174,10 @@ const SignIn = ({
           <img
             src={currentDraft.sign}
             alt="signImg"
-            style={{ height: '15rem' }}
+            style={{
+              height: currentDraft.sign.height,
+              width: currentDraft.sign.width
+            }}
           />
         ) : (
           <SignatureCanvas
