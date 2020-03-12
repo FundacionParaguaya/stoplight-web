@@ -19,6 +19,7 @@ import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
 import InputWithDep from '../../components/InputWithDep';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
@@ -71,6 +72,8 @@ export class FamilyMembers extends Component {
     this.props.history.push('/lifemap/location');
   };
 
+  addMember = () => {};
+
   syncDraft = (value, index, keyInDraft, keyInFormik, setFieldValue) => {
     setFieldValue(keyInFormik, value);
     this.updateDraft(index + 1, value, keyInDraft);
@@ -88,6 +91,13 @@ export class FamilyMembers extends Component {
     } = this.props;
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
+
+    const emptyMember = {
+      firstName: '',
+      gender: 'F',
+      customGender: '',
+      birthDate: null
+    };
     return (
       <div>
         <TitleBar title={t('views.familyMembers')} progressBar />
@@ -106,7 +116,7 @@ export class FamilyMembers extends Component {
               <Form noValidate>
                 <FieldArray
                   name="members"
-                  render={() => (
+                  render={arrayHelpers => (
                     <React.Fragment>
                       {values.members.map((item, index) => {
                         //It's index + 2  to make it clear that no family member it's  the first participant
@@ -203,9 +213,20 @@ export class FamilyMembers extends Component {
                           </div>
                         );
                       })}
+
+                      <div className={classes.buttonAddForm}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => arrayHelpers.insert(3, emptyMember)}
+                        >
+                          Agregar Miembro
+                        </Button>
+                      </div>
                     </React.Fragment>
                   )}
                 />
+
                 <div className={classes.buttonContainerForm}>
                   <Button
                     type="submit"
@@ -269,6 +290,11 @@ const styles = theme => ({
     marginTop: 40
   },
   buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40
+  },
+  buttonAddForm: {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
