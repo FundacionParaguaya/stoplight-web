@@ -171,14 +171,7 @@ const SignIn = ({
       </Container>
       <div className={classes.questionsContainer}>
         {displaySign ? (
-          <img
-            src={currentDraft.sign}
-            alt="signImg"
-            style={{
-              height: currentDraft.sign.height,
-              width: currentDraft.sign.width
-            }}
-          />
+          <img src={currentDraft.sign} alt="signImg" />
         ) : (
           <SignatureCanvas
             canvasProps={{ className: classes.canvas }}
