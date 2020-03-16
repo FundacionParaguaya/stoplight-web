@@ -511,22 +511,25 @@ const FamilyProfile = ({
           </div>
         </div>
       </Container>
-      <div className={classes.buttonContainer}>
-        <Typography
-          variant="subtitle1"
-          className={classes.label}
-          style={{ color: '#f3f4f6' }}
-        >
-          {t('views.familyProfile.createNewSnapshot')}
-        </Typography>
-        <Button
-          variant="contained"
-          onClick={handleRetakeSurvey}
-          className={classes.button}
-        >
-          {t('views.familyProfile.continueWithStoplight')}
-        </Button>
-      </div>
+      {/* Condition to hide the retake banner */}
+      {false && (
+        <div className={classes.buttonContainer}>
+          <Typography
+            variant="subtitle1"
+            className={classes.label}
+            style={{ color: '#f3f4f6' }}
+          >
+            {t('views.familyProfile.createNewSnapshot')}
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={handleRetakeSurvey}
+            className={classes.button}
+          >
+            {t('views.familyProfile.continueWithStoplight')}
+          </Button>
+        </div>
+      )}
 
       {/* Priorities */}
 
