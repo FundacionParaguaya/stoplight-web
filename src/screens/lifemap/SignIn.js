@@ -42,10 +42,15 @@ const styles = theme => ({
     padding: '40px 50px'
   },
   questionsContainer: {
+    height: '25rem',
     paddingTop: '1%',
     paddingBottom: 0,
     paddingLeft: '9%',
-    paddingRight: '9%'
+    paddingRight: '9%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,
@@ -105,21 +110,27 @@ const SignIn = ({
 }) => {
   let sigPad = useRef();
   const [empty, setEmpty] = useState(true);
+  const [displaySign, setDisplaySign] = useState(false);
 
   const onClear = () => {
-    sigPad.clear();
+    !displaySign && sigPad.clear();
     setEmpty(true);
+    setDisplaySign(false);
   };
   const onSave = () => {
     console.log('Saving Sign');
-    let url = sigPad.getTrimmedCanvas().toDataURL('image/png');
-    // console.log(url);
 
-    // If item does not exist create it
-    updateDraft({
-      ...currentDraft,
-      sign: url
-    });
+    if (!displaySign) {
+      let url = sigPad.getTrimmedCanvas().toDataURL('image/png');
+      // console.log(url);
+
+      // If item does not exist create it
+      updateDraft({
+        ...currentDraft,
+        sign: url
+      });
+    }
+
     handleContinue();
   };
 
@@ -132,11 +143,7 @@ const SignIn = ({
     //Draw a canvas if it already exists
     if (currentDraft.sign) {
       setEmpty(false);
-      sigPad.fromDataURL(currentDraft.sign, {
-        minWidth: 0.5,
-        maxWidth: 2.5,
-        minDistance: 5
-      });
+      setDisplaySign(true);
     }
   }, []);
 
@@ -163,13 +170,17 @@ const SignIn = ({
         <Typography variant="h5">{t('views.sign.signHere')}</Typography>
       </Container>
       <div className={classes.questionsContainer}>
-        <SignatureCanvas
-          canvasProps={{ className: classes.canvas }}
-          onEnd={allowSumit}
-          ref={ref => {
-            sigPad = ref;
-          }}
-        />
+        {displaySign ? (
+          <img src={currentDraft.sign} alt="signImg" />
+        ) : (
+          <SignatureCanvas
+            canvasProps={{ className: classes.canvas }}
+            onEnd={allowSumit}
+            ref={ref => {
+              sigPad = ref;
+            }}
+          />
+        )}
       </div>
 
       <div className={classes.buttonContainerForm}>
