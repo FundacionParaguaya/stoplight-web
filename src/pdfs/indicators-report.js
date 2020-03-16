@@ -14,6 +14,15 @@ import iconAchievement from '../assets/icon_achievement.png';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+pdfMake.fonts = {
+  Freesans: {
+    normal: 'Freesans.ttf',
+    bold: 'Freesans.ttf',
+    italics: 'Freesans.ttf',
+    bolditalics: 'Freesans.ttf'
+  }
+};
+
 const A4 = [595.28, 841.89];
 const DEFAULT_MARGINS = 80;
 const ELEMENTS_PER_ROW = 10;
@@ -453,7 +462,7 @@ const generateIndicatorsReport = (snapshot, survey, t, language) => {
       }
     },
     defaultStyle: {
-      font: 'Roboto'
+      font: 'Freesans'
     },
     info: {
       title: getReportTitle(snapshot, t)
