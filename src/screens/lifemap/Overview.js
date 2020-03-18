@@ -221,10 +221,14 @@ export class Overview extends Component {
                 }
                 return ind.value === this.state.indicatorFilterValue;
               })}
+              previousIndicators={currentDraft.previousIndicatorSurveyDataList}
+              previousPriorities={currentDraft.previousIndicatorPriorities}
+              previousAchivements={currentDraft.previousIndicatorAchivements}
               priorities={currentDraft.priorities}
               achievements={currentDraft.achievements}
               history={this.props.history}
               onClickIndicator={this.pushIndicator}
+              isRetake={currentDraft.isRetake}
             />
           </div>
           {!this.state.showFooterPopup && (
