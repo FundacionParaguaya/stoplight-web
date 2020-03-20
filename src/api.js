@@ -259,6 +259,9 @@ export const submitDraft = (user, snapshot) => {
   const sanitizedSnapshot = { ...snapshot };
   delete sanitizedSnapshot.lifemapNavHistory;
   delete sanitizedSnapshot.previousIndicatorSurveyDataList;
+  delete sanitizedSnapshot.previousIndicatorPriorities;
+  delete sanitizedSnapshot.previousIndicatorAchivements;
+  delete sanitizedSnapshot.isRetake;
   let { economicSurveyDataList } = snapshot;
   const validEconomicIndicator = ec =>
     (ec.value !== null && ec.value !== undefined && ec.value !== '') ||
@@ -365,6 +368,9 @@ export const getDrafts = user =>
 export const saveDraft = (user, draft) => {
   const sanitizedDraft = { ...draft };
   delete sanitizedDraft.previousIndicatorSurveyDataList;
+  delete sanitizedDraft.previousIndicatorPriorities;
+  delete sanitizedDraft.previousIndicatorAchivements;
+  delete sanitizedDraft.isRetake;
   return axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -535,7 +541,7 @@ export const getLastSnapshot = (familyId, user) =>
     },
     data: JSON.stringify({
       query:
-        'query getLastSnapshot($familyId: Long!) { getLastSnapshot (familyId: $familyId) {  previousIndicatorSurveyDataList {key value}  family { countFamilyMembers  familyMemberDTOList { firstParticipant firstName  lastName birthCountry  gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }',
+        'query getLastSnapshot($familyId: Long!) { getLastSnapshot (familyId: $familyId) {  previousIndicatorSurveyDataList {key value} snapshotStoplightPriorities{ indicator} snapshotStoplightAchievements{ indicator} family { countFamilyMembers  familyMemberDTOList { firstParticipant firstName  lastName birthCountry  gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }',
       variables: {
         familyId: familyId
       }
