@@ -109,7 +109,7 @@ const UploadPictures = props => {
       if (file.key === key) deletedSize = file.fileSize;
       return file.key !== key;
     });
-    setMyFiles([...updatedFiles]);
+    updatedFiles ? setMyFiles([...updatedFiles]) : setMyFiles([]);
     setSize(size - deletedSize);
     setError(false);
   };
