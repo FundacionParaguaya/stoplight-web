@@ -126,7 +126,7 @@
     "yourLifeMap": "Tu Mapa de Vida",
     "yourPictures": "Sube tus imágenes",
     "uploadFiles": "¡Haz clic aquí para agregar tus archivos o arrástralos!",
-    "fileUploadError": "El archivo es incompatible. Asegura que el tamaño es menor de 10MB, y que la extensión sea la correcta (jpg, png, heic, heif).",
+    "fileUploadError": "El archivo no es compatible. Asegura que el tamaño sea menor a 10MB, y que la extensión sea la correcta (jpg, png, heic, heif).",
     "primaryParticipant": "Participante de la familia",
     "familyMembers": "Miembros de la familia",
     "gendersBirthDates": "Géneros & fechas de nacimiento",
