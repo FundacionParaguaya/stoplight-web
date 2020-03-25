@@ -280,24 +280,66 @@ export const submitDraft = (user, snapshot) => {
     delete member.countFamilyMembers;
   });
 
-  return Promise.all(
-    sanitizedSnapshot.pictures.map(async file => {
-      return file.base64;
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+      variables: { newSnapshot: { ...sanitizedSnapshot } }
     })
-  ).then(pictures =>
-    axios({
-      method: 'post',
-      url: `${url[user.env]}/graphql`,
-      headers: {
-        Authorization: `Bearer ${user.token}`
-      },
-      data: JSON.stringify({
-        query:
-          'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
-        variables: { newSnapshot: { ...sanitizedSnapshot, pictures } }
-      })
-    })
-  );
+  });
+};
+
+export const submitPictures = (user, snapshot) => {
+  var formData = new FormData();
+
+  const dataURItoBlob = dataURI =>
+    new Promise((resolve, reject) => {
+      // convert base64 to raw binary data held in a string
+      // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+      var byteString = atob(dataURI.split(',')[1]);
+
+      // separate out the mime component
+      var mimeString = dataURI
+        .split(',')[0]
+        .split(':')[1]
+        .split(';')[0];
+
+      // write the bytes of the string to an ArrayBuffer
+      var ab = new ArrayBuffer(byteString.length);
+
+      // create a view into the buffer
+      var ia = new Uint8Array(ab);
+
+      // set the bytes of the buffer to the correct values
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+
+      // write the ArrayBuffer to a blob, and you're done
+      var blob = new Blob([ab], { type: mimeString });
+
+      resolve(blob);
+    });
+
+  snapshot.pictures.forEach(async pic => {
+    const picture = await dataURItoBlob(pic.base64.content);
+    formData.append('pictures', picture);
+  });
+
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/snapshots/files/pictures/upload`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  });
 };
 
 export const checkSessionToken = (token, env) =>
