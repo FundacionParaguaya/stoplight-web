@@ -165,9 +165,17 @@ const FamilyProfile = ({
           const el = { ...response.data.data.getLastSnapshot };
           // Mapping keys for family data
           const familyData = { ...el.family };
-          const previousIndicatorSurveyDataList = {
+          const previousIndicatorSurveyDataList = [
             ...el.previousIndicatorSurveyDataList
-          };
+          ];
+          const previousIndicatorPriorities = [
+            ...el.snapshotStoplightPriorities
+          ];
+          const previousIndicatorAchivements = [
+            ...el.snapshotStoplightAchievements
+          ];
+          delete el.snapshotStoplightPriorities;
+          delete el.snapshotStoplightAchievements;
           familyData.familyId = familyId;
           familyData.familyMembersList = el.family.familyMemberDTOList.map(
             member => {
@@ -192,7 +200,10 @@ const FamilyProfile = ({
             ...el,
             familyData,
             previousIndicatorSurveyDataList,
-            lifemapNavHistory: [{}]
+            previousIndicatorPriorities,
+            previousIndicatorAchivements,
+            lifemapNavHistory: [{}],
+            isRetake: true
           };
           updateDraft({ ...draft });
         });
@@ -512,24 +523,22 @@ const FamilyProfile = ({
         </div>
       </Container>
       {/* Condition to hide the retake banner */}
-      {false && (
-        <div className={classes.buttonContainer}>
-          <Typography
-            variant="subtitle1"
-            className={classes.label}
-            style={{ color: '#f3f4f6' }}
-          >
-            {t('views.familyProfile.createNewSnapshot')}
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={handleRetakeSurvey}
-            className={classes.button}
-          >
-            {t('views.familyProfile.continueWithStoplight')}
-          </Button>
-        </div>
-      )}
+      <div className={classes.buttonContainer}>
+        <Typography
+          variant="subtitle1"
+          className={classes.label}
+          style={{ color: '#f3f4f6' }}
+        >
+          {t('views.familyProfile.createNewSnapshot')}
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={handleRetakeSurvey}
+          className={classes.button}
+        >
+          {t('views.familyProfile.continueWithStoplight')}
+        </Button>
+      </div>
 
       {/* Priorities */}
 
