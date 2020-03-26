@@ -409,7 +409,8 @@
       "families": "Familias",
       "family": "Familia",
       "profile": "Perfil",
-      "createNewSnapshot": "¡Crea una nueva encuesta para la familia!"
+      "createNewSnapshot": "¡Crea una nueva encuesta para la familia!",
+      "stoplight": "Semáforo"
     },
     "familyPriorities": {
       "priorities": "Prioridades",

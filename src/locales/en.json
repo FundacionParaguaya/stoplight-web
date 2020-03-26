@@ -408,7 +408,8 @@
       "families": "Households",
       "family": "Family",
       "profile": "Profile",
-      "createNewSnapshot": "Create a new survey for the family!"
+      "createNewSnapshot": "Create a new survey for the family!",
+      "stoplight": "Stoplight"
     },
     "familyPriorities": {
       "priorities": "Priorities",
