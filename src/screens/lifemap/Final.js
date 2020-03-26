@@ -11,7 +11,12 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import { submitDraft, sendMail, sendLifemapPdf } from '../../api';
+import {
+  submitDraft,
+  sendMail,
+  sendLifemapPdf,
+  submitPictures
+} from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
@@ -65,25 +70,10 @@ export class Final extends Component {
     }));
   };
 
-  handleSubmit = () => {
-    this.setState({
-      loading: true
-    });
-
-    const {
-      t,
-      i18n: { language }
-    } = this.props;
-
-    const pdf = generateIndicatorsReport(
-      this.props.currentDraft,
-      this.props.currentSurvey,
-      t,
-      language
-    );
-
+  handleSnapshotSubmit = (user, currentDraft) => {
+    const { t } = this.props;
     // submit draft to server and wait for response
-    submitDraft(this.props.user, this.props.currentDraft)
+    submitDraft(user, currentDraft)
       .then(response => {
         const familyId = response.data.data.addSnapshot.family.familyId;
         console.log('Family ID');
@@ -113,6 +103,44 @@ export class Final extends Component {
           loading: false
         })
       );
+  };
+
+  handleSubmit = () => {
+    this.setState({
+      loading: true
+    });
+
+    const {
+      t,
+      i18n: { language }
+    } = this.props;
+
+    const pdf = generateIndicatorsReport(
+      this.props.currentDraft,
+      this.props.currentSurvey,
+      t,
+      language
+    );
+
+    const draft = this.props.currentDraft;
+    if (
+      this.props.currentDraft.pictures &&
+      this.props.currentDraft.pictures.length > 0
+    ) {
+      submitPictures(this.props.user, this.props.currentDraft)
+        .then(response => {
+          console.log(response.data);
+          const pictures = response.data;
+          draft.pictures = pictures;
+          this.handleSnapshotSubmit(this.props.user, { ...draft });
+        })
+        .catch(() => {
+          delete draft.pictures;
+          this.handleSnapshotSubmit(this.props.user, { ...draft });
+        });
+    } else {
+      this.handleSnapshotSubmit(this.props.user, this.props.currentDraft);
+    }
   };
 
   redirectToSurveys = () => {

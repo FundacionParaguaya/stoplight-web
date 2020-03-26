@@ -387,7 +387,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     justifyContent: 'center',
-    zIndex: 9,
     marginTop: '3rem'
     //position: 'relative'
   },
