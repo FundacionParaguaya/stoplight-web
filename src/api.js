@@ -589,3 +589,19 @@ export const getLastSnapshot = (familyId, user) =>
       }
     })
   });
+
+export const getSnapshotsByFamily = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getSnapshotsByFamily($familyId: Long!) { familySnapshotsOverview (familyId: $familyId) { snapshots { snapshotDate stoplightSkipped surveyUser familyData {} stoplight {codeName value lifemapName priority achievement } priorities {indicator} achievements {indicator} } } }',
+      variables: {
+        familyId: familyId
+      }
+    })
+  });
