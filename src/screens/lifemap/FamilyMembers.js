@@ -72,7 +72,27 @@ export class FamilyMembers extends Component {
     this.props.history.push('/lifemap/location');
   };
 
-  addMember = () => {};
+  emptyMember = {
+    firstName: '',
+    gender: '',
+    birthDate: null,
+    firstParticipant: false,
+    socioEconomicAnswers: []
+  };
+
+  addMember = () => {
+    console.log('Calling addMember');
+    const names2 = this.props.currentDraft.familyData.familyMembersList;
+    names2.push(this.emptyMember);
+    this.props.updateDraft({
+      ...this.props.currentDraft,
+      familyData: {
+        ...this.props.currentDraft.familyData,
+        //...{ countFamilyMembers: value },
+        familyMembersList: names2
+      }
+    });
+  };
 
   syncDraft = (value, index, keyInDraft, keyInFormik, setFieldValue) => {
     setFieldValue(keyInFormik, value);
@@ -91,13 +111,9 @@ export class FamilyMembers extends Component {
     } = this.props;
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
+    console.log('List of members');
+    console.log(membersList);
 
-    const emptyMember = {
-      firstName: '',
-      gender: 'F',
-      customGender: '',
-      birthDate: null
-    };
     return (
       <div>
         <TitleBar title={t('views.familyMembers')} progressBar />
@@ -218,7 +234,10 @@ export class FamilyMembers extends Component {
                         <Button
                           variant="outlined"
                           color="primary"
-                          onClick={() => arrayHelpers.insert(3, emptyMember)}
+                          onClick={() => {
+                            this.addMember();
+                            arrayHelpers.push(this.emptyMember);
+                          }}
                         >
                           Agregar Miembro
                         </Button>
