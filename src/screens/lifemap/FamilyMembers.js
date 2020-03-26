@@ -20,6 +20,8 @@ import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
 import InputWithDep from '../../components/InputWithDep';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
@@ -94,6 +96,24 @@ export class FamilyMembers extends Component {
     });
   };
 
+  removeMember = indexToRemove => {
+    console.log('Calling removeMember');
+    let members = [];
+    if (this.props.currentDraft.familyData.familyMembersList) {
+      members = this.props.currentDraft.familyData.familyMembersList.filter(
+        (item, index) => index !== indexToRemove
+      );
+    }
+    this.props.updateDraft({
+      ...this.props.currentDraft,
+      familyData: {
+        ...this.props.currentDraft.familyData,
+        //...{ countFamilyMembers: value },
+        familyMembersList: members
+      }
+    });
+  };
+
   syncDraft = (value, index, keyInDraft, keyInFormik, setFieldValue) => {
     setFieldValue(keyInFormik, value);
     this.updateDraft(index + 1, value, keyInDraft);
@@ -138,12 +158,29 @@ export class FamilyMembers extends Component {
                         //It's index + 2  to make it clear that no family member it's  the first participant
                         return (
                           <div key={index} className={classes.familyMemberForm}>
-                            <Typography variant="h6" className={classes.title}>
-                              <i className={`material-icons ${classes.icon}`}>
-                                face
-                              </i>
-                              {t('views.family.familyMember')} {index + 2}
-                            </Typography>
+                            <div className={classes.familyMemberTitle}>
+                              <Typography
+                                variant="h6"
+                                className={classes.title}
+                              >
+                                <i className={`material-icons ${classes.icon}`}>
+                                  face
+                                </i>
+                                {t('views.family.familyMember')} {index + 2}
+                              </Typography>
+                              <IconButton
+                                color="primary"
+                                aria-label="delete member"
+                                component="span"
+                                onClick={() => {
+                                  this.removeMember(index);
+                                  arrayHelpers.remove(index);
+                                }}
+                              >
+                                <HighlightOffIcon />
+                              </IconButton>
+                            </div>
+
                             <InputWithFormik
                               label={t('views.family.firstName')}
                               name={`members[${index}].firstName`}
@@ -231,7 +268,18 @@ export class FamilyMembers extends Component {
                       })}
 
                       <div className={classes.buttonAddForm}>
-                        <Button
+                        <IconButton
+                          color="primary"
+                          aria-label="add member"
+                          component="span"
+                          onClick={() => {
+                            this.addMember();
+                            arrayHelpers.push(this.emptyMember);
+                          }}
+                        >
+                          <AddCircleIcon />
+                        </IconButton>
+                        {/* <Button
                           variant="outlined"
                           color="primary"
                           onClick={() => {
@@ -240,7 +288,7 @@ export class FamilyMembers extends Component {
                           }}
                         >
                           Agregar Miembro
-                        </Button>
+                        </Button> */}
                       </div>
                     </React.Fragment>
                   )}
@@ -304,6 +352,10 @@ const styles = theme => ({
     marginRight: 10,
     fontSize: 30,
     color: theme.palette.grey.main
+  },
+  familyMemberTitle: {
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   familyMemberForm: {
     marginTop: 40
