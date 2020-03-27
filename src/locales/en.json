@@ -399,6 +399,7 @@
       "lifemapNumber": "Life Map - Number",
       "continueWithStoplight": "Take a follow-up survey",
       "viewLifeMap": "View Life Map in Detail",
+      "mentor": "Mentor",
       "Mentorsuccess": "Assigned correctly",
       "mentorError": "An error occurred while assigning facilitator. Try again",
       "changeFacilitator": "Change Facilitator",
@@ -409,7 +410,8 @@
       "family": "Family",
       "profile": "Profile",
       "createNewSnapshot": "Create a new survey for the family!",
-      "stoplight": "Stoplight"
+      "stoplight": "Stoplight",
+      "loadingSnapshots": "Loading stoplights..."
     },
     "familyPriorities": {
       "priorities": "Priorities",
