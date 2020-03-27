@@ -523,7 +523,7 @@ const FamilyProfile = ({
         </div>
       </Container>
       {/* Condition to hide the retake banner */}
-      <div className={classes.buttonContainer}>
+      {/*       <div className={classes.buttonContainer}>
         <Typography
           variant="subtitle1"
           className={classes.label}
@@ -538,7 +538,7 @@ const FamilyProfile = ({
         >
           {t('views.familyProfile.continueWithStoplight')}
         </Button>
-      </div>
+      </div> */}
 
       {/* Priorities */}
 
