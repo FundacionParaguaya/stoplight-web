@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -11,6 +11,8 @@ import PrintIcon from '@material-ui/icons/Print';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import Typography from '@material-ui/core/Typography';
+import Container from './Container';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -28,16 +30,46 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     paddingLeft: 30,
     paddingRight: 30
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center'
+  },
+  headerContainer: {
+    backgroundColor: theme.palette.background.default
   }
 }));
 
-const DetailsOverview = ({ familyId, snapshot, pushIndicator }) => {
+const DetailsOverview = ({
+  familyId,
+  family,
+  mentor,
+  index,
+  snapshot,
+  pushIndicator
+}) => {
   const {
     t,
     i18n: { language }
   } = useTranslation();
   const classes = useStyles();
   const dateFormat = getDateFormatByLocale(language);
+  const [stoplight, setStoplight] = useState([]);
+
+  useEffect(() => {
+    let stoplight = snapshot.stoplight.map(snapshotStoplight => {
+      return {
+        key: snapshotStoplight.codeName,
+        value: snapshotStoplight.value,
+        questionText: snapshotStoplight.shortName
+      };
+    });
+    console.log(mentor);
+    setStoplight(stoplight);
+  }, []);
+  /** Key readapted for  a draft */
 
   /** Props */
   const stoplightSkipped = false;
@@ -45,6 +77,40 @@ const DetailsOverview = ({ familyId, snapshot, pushIndicator }) => {
 
   return (
     <div>
+      <div style={{ margin: 'auto', height: 190 }}>
+        <div
+          style={{
+            margin: 'auto',
+            height: 60,
+            paddingTop: 65,
+            paddingLeft: 35
+          }}
+        >
+          <Typography variant="h5" style={{ width: 200, display: 'flex' }}>
+            {`${t('views.familyProfile.stoplight')} ${index + 1}`}
+          </Typography>
+          <div style={{ width: 200, display: 'flex' }}>
+            <Typography variant="h6" style={{ width: 70 }}>
+              {`${t('views.familyProfile.mentor')}: `}
+            </Typography>
+            <Typography variant="h6" style={{ fontWeight: 600, width: 70 }}>
+              {mentor.label}
+            </Typography>
+          </div>
+        </div>
+      </div>
+      {/* Organization Name */}
+      {/*         <div className={classes.container}>
+          <Typography variant="subtitle1" className={classes.label}>
+            {t('views.familyProfile.organization')}
+          </Typography>
+          <span>&nbsp;</span>
+          <Typography variant="subtitle1" className={classes.label}>
+            {family.organization ? family.organization.name : ''}
+          </Typography>
+
+        </div> */}
+
       <div className={classes.gridContainer}>
         {!stoplightSkipped && (
           <Grid container spacing={2} className={classes.buttonContainer}>
@@ -128,7 +194,7 @@ const DetailsOverview = ({ familyId, snapshot, pushIndicator }) => {
       </div>
       <div className={classes.overviewContainer}>
         <DimensionQuestion
-          questions={snapshot}
+          questions={stoplight}
           previousIndicators={[]}
           previousPriorities={[]}
           previousAchivements={[]}
