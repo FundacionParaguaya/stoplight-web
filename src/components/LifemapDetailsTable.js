@@ -7,33 +7,39 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import { withSnackbar } from 'notistack';
 import MaterialTable from 'material-table';
 import IndicatorBall from './summary/IndicatorBall';
+import { theme } from '../theme';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
     zIndex: 2,
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
     paddingTop: 30,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: '12%',
+    paddingRight: '12%',
     '& $tfoot': {
-      backgroundColor: '#FFF'
+      backgroundColor: theme.palette.background.default
     },
     '& $tfoot > tr': {
       visibility: 'hidden'
     }
   },
   columnHeader: {
-    textAlign: 'left',
+    textAlign: 'center',
     fontWeight: 500,
-    width: 100,
+    width: 150,
     margin: 'auto'
   }
 }));
 
-const LifemapDetailsTable = ({ tableRef, loadData, numberOfRows, isLast }) => {
+const LifemapDetailsTable = ({
+  tableRef,
+  loadData,
+  numberOfRows,
+  snapshots
+}) => {
   const {
     t,
     i18n: { language }
@@ -43,7 +49,9 @@ const LifemapDetailsTable = ({ tableRef, loadData, numberOfRows, isLast }) => {
 
   const indicatorColorByAnswer = indicator => {
     let color;
-    if (indicator.value === 3) {
+    if (!indicator) {
+      color = 'skipped';
+    } else if (indicator.value === 3) {
       color = 'green';
     } else if (indicator.value === 2) {
       color = 'yellow';
@@ -56,55 +64,67 @@ const LifemapDetailsTable = ({ tableRef, loadData, numberOfRows, isLast }) => {
   };
 
   const getColumns = () => {
-    let columns = [
-      {
+    let columns = [];
+    snapshots.map((snapshot, i) => {
+      columns.push({
         title: (
           <Typography variant="h6" className={classes.columnHeader}>
-            {`${t('views.familyProfile.stoplight')} 1 Mar 3, 2019`}
+            <div style={{ fontWeight: 600 }}>
+              {`${t('views.familyProfile.stoplight')} ${i + 1}`}
+            </div>
+            {`${moment
+              .unix(snapshot.snapshotDate)
+              .utc()
+              .format(dateFormat)}`}
           </Typography>
         ),
-        field: 'id',
+        field: `column ${i}`,
         sorting: false,
         grouping: false,
         cellStyle: {
           borderBottom: '0px',
-          borderRight: '1px solid #DCDEE3',
-          width: '15%'
+          borderRight: `1px solid ${theme.palette.grey.quarter}`,
+          width: '20%'
         },
-        render: rowData => (
-          <div style={{ margin: 'auto', width: 24 }}>
-            <IndicatorBall
-              color={indicatorColorByAnswer(rowData)}
-              animated={false}
-              priority={false}
-              achievement={true}
-              variant={'medium'}
-            />
-          </div>
-        )
-      }
-    ];
-    isLast &&
-      columns.push({
-        title: (
-          <Typography variant="h6" style={{ fontSize: 22, fontWeight: 600 }}>
-            {`${t('views.survey.indicators')}`}
-          </Typography>
-        ),
-        field: 'indicators',
-        sorting: false,
-        grouping: false,
-        cellStyle: {
-          borderBottom: '0px'
-        },
-        render: rowData => (
-          <div style={{ textAlign: 'left' }}>
-            <Typography variant="h6" style={{ textAlign: 'left' }}>
-              {rowData.shortName}
-            </Typography>
-          </div>
-        )
+        render: rowData => {
+          let indicator = rowData.values.find(d => d.column === i);
+          indicator = indicator ? indicator : {};
+          return (
+            <div style={{ margin: 'auto', width: 42 }}>
+              <IndicatorBall
+                color={indicatorColorByAnswer(indicator)}
+                animated={false}
+                priority={indicator.priority}
+                achievement={indicator.achievement}
+                variant={'medium'}
+                accentStyle={{ top: -6, right: -8 }}
+              />
+            </div>
+          );
+        }
       });
+    });
+
+    columns.push({
+      title: (
+        <Typography variant="h6" style={{ fontSize: 22, fontWeight: 600 }}>
+          {`${t('views.survey.indicators')}`}
+        </Typography>
+      ),
+      field: 'indicators',
+      sorting: false,
+      grouping: false,
+      cellStyle: {
+        borderBottom: '0px'
+      },
+      render: rowData => (
+        <div style={{ textAlign: 'left' }}>
+          <Typography variant="h6" style={{ textAlign: 'left' }}>
+            {rowData.lifemapName}
+          </Typography>
+        </div>
+      )
+    });
     return columns;
   };
 
@@ -120,19 +140,21 @@ const LifemapDetailsTable = ({ tableRef, loadData, numberOfRows, isLast }) => {
           draggable: false,
           rowStyle: rowData => ({
             backgroundColor:
-              rowData.tableData.id % 2 == 0 ? '#FFF' : 'rgba(243,244,246,0.05)',
+              rowData.tableData.id % 2 === 0
+                ? theme.palette.background.default
+                : theme.palette.grey.light,
             height: 50
           }),
           headerStyle: {
-            backgroundColor: '#F3F4F6',
+            backgroundColor: theme.palette.background.paper,
             height: 70,
-            color: '#626262',
+            color: theme.typography.h4.color,
             fontSize: '14px',
-            borderRight: '1px solid #DCDEE3'
+            borderRight: `1px solid ${theme.palette.grey.quarter}`
           },
           searchFieldStyle: {
-            backgroundColor: '#fff',
-            color: '#626262'
+            backgroundColor: theme.palette.background.default,
+            color: theme.typography.h4.color
           }
         }}
         columns={getColumns()}
@@ -141,7 +163,7 @@ const LifemapDetailsTable = ({ tableRef, loadData, numberOfRows, isLast }) => {
             actions: ''
           },
           body: {
-            emptyDataSourceMessage: t('views.familyList.empty')
+            emptyDataSourceMessage: t('views.familyProfile.loadingSnapshots')
           }
         }}
         data={loadData}

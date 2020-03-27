@@ -13,16 +13,10 @@ import { withSnackbar } from 'notistack';
 import NavigationBar from '../components/NavigationBar';
 import LifemapDetailsTable from '../components/LifemapDetailsTable';
 import DetailsOverview from '../components/DetailsOverview';
+import { getDateFormatByLocale } from '../utils/date-utils';
+import moment from 'moment';
 
-const LifemapDetail = ({
-  classes,
-  user,
-  t,
-  i18n: { language },
-  enqueueSnackbar,
-  closeSnackbar,
-  history
-}) => {
+const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   //export class LifemapDetail extends Component {
   const [family, setFamily] = useState({});
   const [firtsParticipant, setFirtsParticipant] = useState({});
@@ -30,12 +24,14 @@ const LifemapDetail = ({
   let { familyId } = useParams();
   const tableRef = useRef();
   const [value, setValue] = useState(1);
-  const [snapshot, setSnapshot] = useState([]);
+  const [snapshots, setSnapshots] = useState([]);
+  const [numberOfRows, setNumberOfRows] = useState(0);
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
     { label: t('views.familyProfile.profile'), link: `/family/${familyId}` },
     { label: t('general.lifeMaps'), link: `/detail/${familyId}` }
   ];
+  const dateFormat = getDateFormatByLocale(language);
 
   useEffect(() => {
     getFamily(familyId, user).then(response => {
@@ -58,21 +54,33 @@ const LifemapDetail = ({
   }, []);
 
   const loadData = () => {
-    getSnapshotsByFamily(familyId, user).then(response => {
-      console.log(response);
-    });
-    return getFamily(familyId, user).then(response => {
-      setSnapshot(
-        response.data.data.familyById.snapshotIndicators.indicatorSurveyDataList
+    let data = [];
+    return getSnapshotsByFamily(familyId, user).then(response => {
+      setSnapshots(response.data.data.familySnapshotsOverview.snapshots);
+      response.data.data.familySnapshotsOverview.snapshots.map(
+        (snapshot, i) => {
+          snapshot.stoplight.map(ind => {
+            let index = data.findIndex(d => d.codeName === ind.codeName);
+            if (index > -1) {
+              data[index] = {
+                ...data[index],
+                values: [...data[index].values, { column: i, ...ind }]
+              };
+            } else {
+              data.push({
+                codeName: ind.codeName,
+                lifemapName: ind.lifemapName,
+                values: [{ column: i, ...ind }]
+              });
+            }
+          });
+        }
       );
+      setNumberOfRows(data.length);
       return {
-        data:
-          response.data.data.familyById.snapshotIndicators
-            .indicatorSurveyDataList,
+        data: data,
         page: 0,
-        totalCount:
-          response.data.data.familyById.snapshotIndicators
-            .indicatorSurveyDataList.length
+        totalCount: data.length
       };
     });
   };
@@ -81,13 +89,7 @@ const LifemapDetail = ({
     setValue(value);
   };
 
-  const pushIndicator = indicator => {
-    let forward = 'skipped-indicator';
-    if (indicator.value) {
-      forward = indicator.value === 3 ? 'achievement' : 'priority';
-    }
-    //this.props.history.push(`${forward}/${indicator.key}`);
-  };
+  const pushIndicator = indicator => {};
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -125,11 +127,12 @@ const LifemapDetail = ({
         classes={{ root: classes.tabsRoot }}
       >
         <Tab
+          key={0}
           classes={{ root: classes.tabRoot }}
           label={
             <Typography
               variant="h6"
-              style={{ fontSize: 16, fontWeight: 'normal' }}
+              style={{ fontSize: 16, fontWeight: 500, textTransform: 'none' }}
             >
               {t('views.familiesOverviewBlock.overview')}
             </Typography>
@@ -137,29 +140,45 @@ const LifemapDetail = ({
           value={1}
         />
 
-        <Tab
-          classes={{ root: classes.tabRoot }}
-          label={
-            <Typography variant="h6" className={classes.columnHeader}>
-              {`${t('views.familyProfile.stoplight')} 1 Mar 3, 2019`}
-            </Typography>
-          }
-          value={2}
-        />
+        {snapshots.length > 0 &&
+          snapshots.map((snapshot, i) => {
+            let val = i + 2;
+            return (
+              <Tab
+                key={val}
+                classes={{ root: classes.tabRoot }}
+                label={
+                  <Typography variant="h6" className={classes.columnHeader}>
+                    <div style={{ fontWeight: 600 }}>
+                      {`${t('views.familyProfile.stoplight')} ${i + 1}`}
+                    </div>
+                    {`${moment
+                      .unix(snapshot.snapshotDate)
+                      .utc()
+                      .format(dateFormat)}`}
+                  </Typography>
+                }
+                value={val}
+              />
+            );
+          })}
       </Tabs>
 
       {value === 1 && (
         <LifemapDetailsTable
           tableRef={tableRef}
           loadData={loadData}
-          numberOfRows={10}
-          isLast={true}
+          numberOfRows={numberOfRows}
+          snapshots={snapshots}
         />
       )}
       {value !== 1 && (
         <DetailsOverview
           familyId={familyId}
-          snapshot={snapshot}
+          family={family}
+          mentor={mentor}
+          index={value - 2}
+          snapshot={snapshots[value - 2]}
           pushIndicator={pushIndicator}
         />
       )}
@@ -209,15 +228,16 @@ const styles = theme => ({
     alignItems: 'center'
   },
   columnHeader: {
-    textAlign: 'left',
+    textAlign: 'center',
     fontWeight: 500,
-    width: 100,
-    margin: 'auto'
+    width: 150,
+    margin: 'auto',
+    textTransform: 'none'
   },
   tabsRoot: {
-    backgroundColor: '#fff',
-    paddingLeft: 30,
-    paddingRight: 30,
+    backgroundColor: theme.palette.background.default,
+    paddingLeft: '12%',
+    paddingRight: '12%',
     height: 64,
     position: 'relative',
     zIndex: 1,
@@ -228,10 +248,10 @@ const styles = theme => ({
     }
   },
   tabRoot: {
-    color: '#626262',
+    color: theme.typography.h4.color,
     height: 64,
     '&.MuiTab-textColorSecondary.Mui-selected': {
-      color: '#626262'
+      color: theme.typography.h4.color
     }
   }
 });
