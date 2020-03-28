@@ -7,12 +7,10 @@ import DimensionQuestion from './summary/DimensionQuestion';
 import FamilyPriorities from './FamilyPriorities';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import PrintIcon from '@material-ui/icons/Print';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Typography from '@material-ui/core/Typography';
-import Container from './Container';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -27,9 +25,7 @@ const useStyles = makeStyles(theme => ({
   buttonContainer: {
     height: 80,
     display: 'flex',
-    justifyContent: 'center',
-    paddingLeft: 30,
-    paddingRight: 30
+    justifyContent: 'center'
   },
   container: {
     display: 'flex',
@@ -37,8 +33,28 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     alignItems: 'center'
   },
-  headerContainer: {
+  mainContainer: {
+    paddingLeft: '12%',
+    paddingRight: '12%',
     backgroundColor: theme.palette.background.default
+  },
+  headerContainer: {
+    display: 'inline-flex',
+    width: '100%',
+    height: 190
+  },
+  textContainter: {
+    margin: 'auto',
+    height: 60,
+    width: '50%'
+  },
+  labelContainer: {
+    width: '100%',
+    display: 'flex'
+  },
+  mainLabel: {
+    fontWeight: 600,
+    width: 'auto'
   }
 }));
 
@@ -48,7 +64,7 @@ const DetailsOverview = ({
   mentor,
   index,
   snapshot,
-  pushIndicator
+  firstParticipant
 }) => {
   const {
     t,
@@ -57,8 +73,12 @@ const DetailsOverview = ({
   const classes = useStyles();
   const dateFormat = getDateFormatByLocale(language);
   const [stoplight, setStoplight] = useState([]);
+  const [achievements, setAchievements] = useState([]);
+  const [priorities, setPriorities] = useState([]);
 
   useEffect(() => {
+    snapshot.achievements && setAchievements(snapshot.achievements);
+    snapshot.priorities && setPriorities(snapshot.priorities);
     let stoplight = snapshot.stoplight.map(snapshotStoplight => {
       return {
         key: snapshotStoplight.codeName,
@@ -66,148 +86,103 @@ const DetailsOverview = ({
         questionText: snapshotStoplight.shortName
       };
     });
-    console.log(mentor);
     setStoplight(stoplight);
   }, []);
-  /** Key readapted for  a draft */
-
-  /** Props */
-  const stoplightSkipped = false;
-  const primaryParticipant = { name: 'Jorge ' };
 
   return (
-    <div>
-      <div style={{ margin: 'auto', height: 190 }}>
-        <div
-          style={{
-            margin: 'auto',
-            height: 60,
-            paddingTop: 65,
-            paddingLeft: 35
-          }}
-        >
-          <Typography variant="h5" style={{ width: 200, display: 'flex' }}>
+    <div className={classes.mainContainer}>
+      <div className={classes.headerContainer}>
+        <div className={classes.textContainter}>
+          <Typography variant="h5">
             {`${t('views.familyProfile.stoplight')} ${index + 1}`}
           </Typography>
-          <div style={{ width: 200, display: 'flex' }}>
-            <Typography variant="h6" style={{ width: 70 }}>
+          <div
+            className={classes.labelContainer}
+            style={{ justifyContent: 'flex-start' }}
+          >
+            <Typography variant="h6" style={{ width: 'auto' }}>
               {`${t('views.familyProfile.mentor')}: `}
             </Typography>
-            <Typography variant="h6" style={{ fontWeight: 600, width: 70 }}>
+            &nbsp;&nbsp;
+            <Typography variant="h6" className={classes.mainLabel}>
               {mentor.label}
             </Typography>
           </div>
         </div>
+        <div className={classes.textContainter} style={{ textAlign: 'right' }}>
+          <Typography variant="h5">
+            {`${moment
+              .unix(snapshot.snapshotDate)
+              .utc()
+              .format(dateFormat)}`}
+          </Typography>
+          <div
+            className={classes.labelContainer}
+            style={{ justifyContent: 'flex-end' }}
+          >
+            <Typography variant="h6" style={{ width: 'auto' }}>
+              {`${t('views.familyProfile.organization')} `}
+            </Typography>
+            &nbsp;&nbsp;
+            <Typography variant="h6" className={classes.mainLabel}>
+              {family.organization.name}
+            </Typography>
+          </div>
+        </div>
       </div>
-      {/* Organization Name */}
-      {/*         <div className={classes.container}>
-          <Typography variant="subtitle1" className={classes.label}>
-            {t('views.familyProfile.organization')}
-          </Typography>
-          <span>&nbsp;</span>
-          <Typography variant="subtitle1" className={classes.label}>
-            {family.organization ? family.organization.name : ''}
-          </Typography>
-
-        </div> */}
 
       <div className={classes.gridContainer}>
-        {!stoplightSkipped && (
-          <Grid container spacing={2} className={classes.buttonContainer}>
-            {/* primaryParticipant.email */ true && (
-              <Grid item xs={12} sm={3} style={{ margin: 'auto' }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  style={{ margin: 'auto' }}
-                  fullWidth
-                  //disabled={this.state.loading}
-                  onClick={() => {
-                    this.handleMailClick(primaryParticipant.email);
-                  }}
-                >
-                  <MailIcon className={classes.leftIcon} />
-                  {t('views.final.email')}
-                </Button>
-              </Grid>
-            )}
-
-            {/* primaryParticipant.phoneNumber */ true && (
-              <Grid item xs={12} sm={3} style={{ margin: 'auto' }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  //disabled={this.state.loading}
-                  onClick={() => {
-                    /*  this.handleWhatsappClick(); */
-                  }}
-                >
-                  <WhatsAppIcon className={classes.leftIcon} />
-                  {t('views.final.whatsapp')}
-                </Button>
-              </Grid>
-            )}
-
-            <Grid item xs={12} sm={3} style={{ margin: 'auto' }}>
+        <Grid container spacing={4} className={classes.buttonContainer}>
+          {firstParticipant.email && (
+            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
               <Button
                 variant="outlined"
                 color="primary"
+                style={{ margin: 'auto' }}
                 fullWidth
                 //disabled={this.state.loading}
                 onClick={() => {
-                  /*  const pdf = generateIndicatorsReport(
-                    this.props.currentDraft,
-                    this.props.currentSurvey,
-                    t,
-                    language
-                  );
-                  pdf.print(); */
+                  /*  this.handleMailClick(firstParticipant.email); */
                 }}
               >
-                <PrintIcon className={classes.leftIcon} />
-                {t('views.final.print')}
+                <MailIcon className={classes.leftIcon} />
+                {t('views.final.email')}
               </Button>
             </Grid>
-            <Grid item xs={12} sm={3} style={{ margin: 'auto' }}>
-              <Button
-                variant="outlined"
-                color="primary"
-                fullWidth
-                //disabled={this.state.loading}
-                onClick={() => {
-                  /*  const pdf = generateIndicatorsReport(
-                    this.props.currentDraft,
-                    this.props.currentSurvey,
-                    t,
-                    language
-                  );
-                  pdf.download(getReportTitle(this.props.currentDraft, t)); */
-                }}
-              >
-                <DownloadIcon className={classes.leftIcon} />
-                {t('views.final.download')}
-              </Button>
-            </Grid>
+          )}
+          <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              fullWidth
+              //disabled={this.state.loading}
+              onClick={() => {
+                /*  const pdf = generateIndicatorsReport(
+                  this.props.currentDraft,
+                  this.props.currentSurvey,
+                  t,
+                  language
+                );
+                pdf.download(getReportTitle(this.props.currentDraft, t)); */
+              }}
+            >
+              <DownloadIcon className={classes.leftIcon} />
+              {t('views.final.download')}
+            </Button>
           </Grid>
-        )}
+        </Grid>
       </div>
       <div className={classes.overviewContainer}>
         <DimensionQuestion
           questions={stoplight}
-          previousIndicators={[]}
-          previousPriorities={[]}
-          previousAchivements={[]}
-          priorities={[]}
-          achievements={[]}
-          history={[]}
-          onClickIndicator={pushIndicator}
+          priorities={priorities}
+          achievements={achievements}
           isRetake={false}
         />
       </div>
       <FamilyPriorities
         familyId={familyId}
-        stoplightSkipped={stoplightSkipped}
+        stoplightSkipped={true}
         questions={snapshot}
       ></FamilyPriorities>
     </div>
