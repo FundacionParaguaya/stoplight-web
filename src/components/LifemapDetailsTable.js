@@ -65,44 +65,48 @@ const LifemapDetailsTable = ({
 
   const getColumns = () => {
     let columns = [];
+    let count = 0;
     snapshots.map((snapshot, i) => {
-      columns.push({
-        title: (
-          <Typography variant="h6" className={classes.columnHeader}>
-            <div style={{ fontWeight: 600 }}>
-              {`${t('views.familyProfile.stoplight')} ${i + 1}`}
-            </div>
-            {`${moment
-              .unix(snapshot.snapshotDate)
-              .utc()
-              .format(dateFormat)}`}
-          </Typography>
-        ),
-        field: `column ${i}`,
-        sorting: false,
-        grouping: false,
-        cellStyle: {
-          borderBottom: '0px',
-          borderRight: `1px solid ${theme.palette.grey.quarter}`,
-          width: '20%'
-        },
-        render: rowData => {
-          let indicator = rowData.values.find(d => d.column === i);
-          indicator = indicator ? indicator : {};
-          return (
-            <div style={{ margin: 'auto', width: 42 }}>
-              <IndicatorBall
-                color={indicatorColorByAnswer(indicator)}
-                animated={false}
-                priority={indicator.priority}
-                achievement={indicator.achievement}
-                variant={'medium'}
-                accentStyle={{ top: -6, right: -8 }}
-              />
-            </div>
-          );
-        }
-      });
+      if (!snapshot.stoplightSkipped) {
+        count += 1;
+        columns.push({
+          title: (
+            <Typography variant="h6" className={classes.columnHeader}>
+              <div style={{ fontWeight: 600 }}>
+                {`${t('views.familyProfile.stoplight')} ${count}`}
+              </div>
+              {`${moment
+                .unix(snapshot.snapshotDate)
+                .utc()
+                .format(dateFormat)}`}
+            </Typography>
+          ),
+          field: `column ${i}`,
+          sorting: false,
+          grouping: false,
+          cellStyle: {
+            borderBottom: '0px',
+            borderRight: `1px solid ${theme.palette.grey.quarter}`,
+            width: '20%'
+          },
+          render: rowData => {
+            let indicator = rowData.values.find(d => d.column === i);
+            indicator = indicator ? indicator : {};
+            return (
+              <div style={{ margin: 'auto', width: 42 }}>
+                <IndicatorBall
+                  color={indicatorColorByAnswer(indicator)}
+                  animated={false}
+                  priority={indicator.priority}
+                  achievement={indicator.achievement}
+                  variant={'medium'}
+                  accentStyle={{ top: -6, right: -8 }}
+                />
+              </div>
+            );
+          }
+        });
+      }
     });
 
     columns.push({

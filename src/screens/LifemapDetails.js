@@ -19,13 +19,15 @@ import moment from 'moment';
 const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   //export class LifemapDetail extends Component {
   const [family, setFamily] = useState({});
-  const [firtsParticipant, setFirtsParticipant] = useState({});
+  const [firstParticipant, setFirstParticipant] = useState({});
   const [mentor, setMentor] = useState({});
   let { familyId } = useParams();
   const tableRef = useRef();
   const [value, setValue] = useState(1);
   const [snapshots, setSnapshots] = useState([]);
   const [numberOfRows, setNumberOfRows] = useState(0);
+  const [snapshotsWithStoplight, setSnapshotsWithStoplight] = useState(0);
+  let count = 0;
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
     { label: t('views.familyProfile.profile'), link: `/family/${familyId}` },
@@ -42,7 +44,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
       );
 
       setFamily(response.data.data.familyById);
-      setFirtsParticipant(firtsParticipantMap);
+      setFirstParticipant(firtsParticipantMap);
 
       let mentor = {
         label: response.data.data.familyById.user.username,
@@ -57,6 +59,11 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
     let data = [];
     return getSnapshotsByFamily(familyId, user).then(response => {
       setSnapshots(response.data.data.familySnapshotsOverview.snapshots);
+      setSnapshotsWithStoplight(
+        response.data.data.familySnapshotsOverview.snapshots.filter(
+          snapshot => snapshot.stoplightSkipped === false
+        )
+      );
       response.data.data.familySnapshotsOverview.snapshots.map(
         (snapshot, i) => {
           snapshot.stoplight.map(ind => {
@@ -88,8 +95,6 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   const handleChange = (event, value) => {
     setValue(value);
   };
-
-  const pushIndicator = indicator => {};
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -143,24 +148,27 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
         {snapshots.length > 0 &&
           snapshots.map((snapshot, i) => {
             let val = i + 2;
-            return (
-              <Tab
-                key={val}
-                classes={{ root: classes.tabRoot }}
-                label={
-                  <Typography variant="h6" className={classes.columnHeader}>
-                    <div style={{ fontWeight: 600 }}>
-                      {`${t('views.familyProfile.stoplight')} ${i + 1}`}
-                    </div>
-                    {`${moment
-                      .unix(snapshot.snapshotDate)
-                      .utc()
-                      .format(dateFormat)}`}
-                  </Typography>
-                }
-                value={val}
-              />
-            );
+            if (!snapshot.stoplightSkipped) {
+              count += 1;
+              return (
+                <Tab
+                  key={count}
+                  classes={{ root: classes.tabRoot }}
+                  label={
+                    <Typography variant="h6" className={classes.columnHeader}>
+                      <div style={{ fontWeight: 600 }}>
+                        {`${t('views.familyProfile.stoplight')} ${count}`}
+                      </div>
+                      {`${moment
+                        .unix(snapshot.snapshotDate)
+                        .utc()
+                        .format(dateFormat)}`}
+                    </Typography>
+                  }
+                  value={count + 1}
+                />
+              );
+            }
           })}
       </Tabs>
 
@@ -175,11 +183,11 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
       {value !== 1 && (
         <DetailsOverview
           familyId={familyId}
+          firstParticipant={firstParticipant}
           family={family}
           mentor={mentor}
           index={value - 2}
-          snapshot={snapshots[value - 2]}
-          pushIndicator={pushIndicator}
+          snapshot={snapshotsWithStoplight[value - 2]}
         />
       )}
     </div>
