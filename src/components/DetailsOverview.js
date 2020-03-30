@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { withSnackbar } from 'notistack';
@@ -7,16 +8,28 @@ import DimensionQuestion from './summary/DimensionQuestion';
 import FamilyPriorities from './FamilyPriorities';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
+import LeaveModal from './LeaveModal';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
     padding: '25px',
     paddingBottom: 0,
     backgroundColor: theme.palette.background.default
+  },
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: 'auto'
+  },
+  leftIcon: {
+    marginRight: theme.spacing(),
+    fontSize: 20
   },
   gridContainer: {
     height: 80,
@@ -53,8 +66,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex'
   },
   mainLabel: {
-    fontWeight: 600,
-    width: 'auto'
+    width: 'auto',
+    color: theme.palette.grey.middle
   }
 }));
 
@@ -64,7 +77,8 @@ const DetailsOverview = ({
   mentor,
   index,
   snapshot,
-  firstParticipant
+  firstParticipant,
+  user
 }) => {
   const {
     t,
@@ -75,6 +89,14 @@ const DetailsOverview = ({
   const [stoplight, setStoplight] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [priorities, setPriorities] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalSubtitle, setModalSubtitle] = useState('');
+  const [modalContinueButtonText, setModalContinueButtonText] = useState('');
+  const [openModal, setOpenModal] = useState(false);
+  const [modalVariant, setModalVariant] = useState('');
 
   useEffect(() => {
     snapshot.achievements && setAchievements(snapshot.achievements);
@@ -89,8 +111,84 @@ const DetailsOverview = ({
     setStoplight(stoplight);
   }, []);
 
+  const toggleModal = (
+    modalTitle,
+    modalSubtitle,
+    modalContinueButtonText,
+    modalVariant
+  ) => {
+    setModalTitle(modalTitle);
+    setModalSubtitle(modalSubtitle);
+    setModalContinueButtonText(modalContinueButtonText);
+    setModalVariant(modalVariant);
+    setOpenModal(true);
+  };
+
+  const handleWhatsappClick = () => {
+    toggleModal(
+      t('general.thankYou'),
+      t('views.final.whatsappSentOverview'),
+      t('general.gotIt'),
+      'success'
+    );
+  };
+
+  const handleMailClick = () => {
+    setLoading(true);
+    /*    return sendMail(user, language)
+         .then(() => {
+           this.toggleModal(
+             t('general.thankYou'),
+             t('views.final.emailSent'),
+             t('general.gotIt'),
+             'success',
+           );
+           setLoading(false);
+         })
+         .catch(() => {
+           this.toggleModal(
+             t('general.warning'),
+             t('views.final.emailError'),
+             t('general.gotIt'),
+             'warning'
+           );
+           setLoading(false);
+         }); */
+  };
+
+  const handleDownloadClick = () => {
+    setLoading(true);
+    /*    return sendMail(user, language)
+         .then(() => {
+           setLoading(false);
+         })
+         .catch(() => {
+           this.toggleModal(
+             t('general.warning'),
+             t('views.final.emailError'),
+             t('general.gotIt'),
+             'warning'
+           );
+           setLoading(false);
+         }); */
+  };
+
   return (
     <div className={classes.mainContainer}>
+      <LeaveModal
+        title={modalTitle}
+        subtitle={modalSubtitle}
+        continueButtonText={modalContinueButtonText}
+        singleAction
+        onClose={() => {}}
+        open={openModal}
+        leaveAction={e => {
+          if (e) {
+            setOpenModal(false);
+          }
+        }}
+        variant={modalVariant}
+      />
       <div className={classes.headerContainer}>
         <div className={classes.textContainter}>
           <Typography variant="h5">
@@ -100,15 +198,20 @@ const DetailsOverview = ({
             className={classes.labelContainer}
             style={{ justifyContent: 'flex-start' }}
           >
-            <Typography variant="h6" style={{ width: 'auto' }}>
+            <Typography variant="h6" className={classes.mainLabel}>
               {`${t('views.familyProfile.mentor')}: `}
             </Typography>
             &nbsp;&nbsp;
-            <Typography variant="h6" className={classes.mainLabel}>
+            <Typography variant="h6" style={{ width: 'auto' }}>
               {mentor.label}
             </Typography>
           </div>
         </div>
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress size={50} thickness={2} />
+          </div>
+        )}
         <div className={classes.textContainter} style={{ textAlign: 'right' }}>
           <Typography variant="h5">
             {`${moment
@@ -120,11 +223,11 @@ const DetailsOverview = ({
             className={classes.labelContainer}
             style={{ justifyContent: 'flex-end' }}
           >
-            <Typography variant="h6" style={{ width: 'auto' }}>
+            <Typography variant="h6" className={classes.mainLabel}>
               {`${t('views.familyProfile.organization')} `}
             </Typography>
             &nbsp;&nbsp;
-            <Typography variant="h6" className={classes.mainLabel}>
+            <Typography variant="h6" style={{ width: 'auto' }}>
               {family.organization.name}
             </Typography>
           </div>
@@ -140,13 +243,29 @@ const DetailsOverview = ({
                 color="primary"
                 style={{ margin: 'auto' }}
                 fullWidth
-                //disabled={this.state.loading}
+                disabled={loading}
                 onClick={() => {
-                  /*  this.handleMailClick(firstParticipant.email); */
+                  handleMailClick();
                 }}
               >
                 <MailIcon className={classes.leftIcon} />
                 {t('views.final.email')}
+              </Button>
+            </Grid>
+          )}
+          {firstParticipant.phoneNumber && (
+            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  handleWhatsappClick();
+                }}
+              >
+                <WhatsAppIcon className={classes.leftIcon} />
+                {t('views.final.whatsapp')}
               </Button>
             </Grid>
           )}
@@ -155,15 +274,9 @@ const DetailsOverview = ({
               variant="outlined"
               color="primary"
               fullWidth
-              //disabled={this.state.loading}
+              disabled={loading}
               onClick={() => {
-                /*  const pdf = generateIndicatorsReport(
-                  this.props.currentDraft,
-                  this.props.currentSurvey,
-                  t,
-                  language
-                );
-                pdf.download(getReportTitle(this.props.currentDraft, t)); */
+                handleDownloadClick();
               }}
             >
               <DownloadIcon className={classes.leftIcon} />
@@ -189,4 +302,6 @@ const DetailsOverview = ({
   );
 };
 
-export default withSnackbar(DetailsOverview);
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(withSnackbar(DetailsOverview));
