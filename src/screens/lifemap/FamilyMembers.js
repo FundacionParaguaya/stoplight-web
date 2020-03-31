@@ -169,7 +169,7 @@ export class FamilyMembers extends Component {
                                 {t('views.family.familyMember')} {index + 2}
                               </Typography>
                               <IconButton
-                                color="primary"
+                                color="secondary"
                                 aria-label="delete member"
                                 component="span"
                                 onClick={() => {
