@@ -31,6 +31,8 @@ const UploadPictures = props => {
 
   const [myFiles, setMyFiles] = useState([]);
 
+  const [size, setSize] = useState(0);
+
   useEffect(() => {
     props.updateDraft({
       ...currentDraft,
@@ -58,6 +60,7 @@ const UploadPictures = props => {
     });
 
   const onDrop = acceptedFiles => {
+    let dropSize = 0;
     Promise.all(
       acceptedFiles.map(async file => {
         const image = {};
@@ -69,6 +72,7 @@ const UploadPictures = props => {
         image.key = new Date().getTime();
         image.path = file.path;
         image.fileSize = file.size;
+        dropSize += file.size;
         image.base64 = {
           content: base64File,
           name: file.name,
@@ -77,8 +81,13 @@ const UploadPictures = props => {
         return image;
       })
     ).then(pictures => {
-      setMyFiles([...myFiles, ...pictures]);
-      setError(false);
+      if (size + dropSize <= 10485760) {
+        setMyFiles([...myFiles, ...pictures]);
+        setError(false);
+        setSize(size + dropSize);
+      } else {
+        setError(true);
+      }
     });
   };
 
@@ -95,10 +104,13 @@ const UploadPictures = props => {
   });
 
   const removeItem = key => {
+    let deletedSize = 0;
     let updatedFiles = myFiles.filter(file => {
+      if (file.key === key) deletedSize = file.fileSize;
       return file.key !== key;
     });
-    setMyFiles([...updatedFiles]);
+    updatedFiles ? setMyFiles([...updatedFiles]) : setMyFiles([]);
+    setSize(size - deletedSize);
     setError(false);
   };
 

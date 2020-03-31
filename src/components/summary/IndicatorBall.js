@@ -11,6 +11,21 @@ let Accent = ({ classes, variant, achievement, priority }) => (
     {variant === 'small' && (achievement || priority) && (
       <div className={classes.dotAccent} />
     )}
+    {variant === 'medium' && (achievement || priority) && (
+      <div className={classes.mediumAccent}>
+        <img
+          src={achievement ? iconAchievement : iconPriority}
+          style={{
+            width: 24,
+            height: 24,
+            border: '2px solid #FFFFFF',
+            borderRadius: '50%',
+            backgroundColor: '#fff'
+          }}
+          alt=""
+        />
+      </div>
+    )}
     {variant === 'normal' && (achievement || priority) && (
       <div className={classes.priorityOrAchievementAccent}>
         <img
@@ -41,6 +56,11 @@ const accentStyle = () => ({
     top: -5,
     right: -5
   },
+  mediumAccent: {
+    position: 'absolute',
+    top: -5,
+    right: 1
+  },
   priorityOrAchievementAccent: {
     position: 'absolute',
     top: -5,
@@ -50,7 +70,15 @@ const accentStyle = () => ({
 Accent = withStyles(accentStyle)(Accent);
 
 const IndicatorBall = props => {
-  const { classes, variant, color, animated, achievement, priority } = props;
+  const {
+    classes,
+    variant,
+    color,
+    animated,
+    achievement,
+    priority,
+    styles
+  } = props;
   const indicatorClassName = clsx(classes.root, {
     [classes.redIndicator]: color === 'red',
     [classes.yellowIndicator]: color === 'yellow',
@@ -59,7 +87,9 @@ const IndicatorBall = props => {
   });
   const diameter = useMemo(() => {
     let d = 60;
-    if (variant === 'small') {
+    if (variant === 'medium') {
+      d = 42;
+    } else if (variant === 'small') {
       d = 26;
     } else if (variant === 'tiny') {
       d = 12;
@@ -67,7 +97,14 @@ const IndicatorBall = props => {
     return d;
   }, [variant]);
   return (
-    <div style={{ width: diameter, height: diameter, position: 'relative' }}>
+    <div
+      style={{
+        width: diameter,
+        height: diameter,
+        position: 'relative',
+        ...styles
+      }}
+    >
       <Spring
         config={{ tension: 150, friction: 40, precision: 1 }}
         from={{ number: animated ? 0 : diameter }}
@@ -94,7 +131,10 @@ const IndicatorBall = props => {
 
 const styles = () => ({
   root: {
-    borderRadius: '50%'
+    borderRadius: '50%',
+    border: '3px solid #FFFFFF',
+    top: -5,
+    right: -5
   },
   redIndicator: {
     backgroundColor: COLORS.RED

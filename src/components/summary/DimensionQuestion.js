@@ -6,7 +6,9 @@ import IndicatorBall from '../../components/summary/IndicatorBall';
 
 const indicatorColorByAnswer = indicator => {
   let color;
-  if (indicator.value === 3) {
+  if (!indicator) {
+    color = 'skipped';
+  } else if (indicator.value === 3) {
     color = 'green';
   } else if (indicator.value === 2) {
     color = 'yellow';
@@ -29,43 +31,68 @@ const getForwardURLForIndicator = indicator => {
 const DimensionQuestion = ({
   classes,
   questions,
+  previousIndicators,
   priorities,
+  previousPriorities,
   achievements,
+  previousAchivements,
   history,
-  onClickIndicator
+  onClickIndicator,
+  isRetake
 }) => (
   <Grid container spacing={2}>
-    {questions.map(indicator => (
-      <Grid
-        item
-        xs={12}
-        md={3}
-        lg={2}
-        key={indicator.key}
-        onClick={() => onClickIndicator(indicator)}
-        className={classes.gridItemStyle}
-      >
-        <div className={classes.indicatorBallContainer}>
-          <IndicatorBall
-            color={indicatorColorByAnswer(indicator)}
-            animated={false}
-            priority={priorities.find(
-              prior => prior.indicator === indicator.key
-            )}
-            achievement={achievements.find(
-              prior => prior.indicator === indicator.key
-            )}
-          />
-        </div>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          className={classes.typographyStyle}
+    {questions.map(indicator => {
+      let previousIndicator;
+      if (isRetake)
+        previousIndicator = previousIndicators.find(
+          prev => prev.key === indicator.key
+        );
+      return (
+        <Grid
+          item
+          xs={12}
+          md={3}
+          lg={2}
+          key={indicator.key}
+          onClick={() => onClickIndicator(indicator)}
+          className={classes.gridItemStyle}
         >
-          {indicator.questionText}
-        </Typography>
-      </Grid>
-    ))}
+          <div className={classes.indicatorBallContainer}>
+            {isRetake && (
+              <IndicatorBall
+                color={indicatorColorByAnswer(previousIndicator)}
+                animated={false}
+                priority={previousPriorities.find(
+                  prior => prior.indicator === indicator.key
+                )}
+                achievement={previousAchivements.find(
+                  prior => prior.indicator === indicator.key
+                )}
+                variant={'medium'}
+                styles={{ marginRight: -12 }}
+              />
+            )}
+            <IndicatorBall
+              color={indicatorColorByAnswer(indicator)}
+              animated={false}
+              priority={priorities.find(
+                prior => prior.indicator === indicator.key
+              )}
+              achievement={achievements.find(
+                prior => prior.indicator === indicator.key
+              )}
+            />
+          </div>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            className={classes.typographyStyle}
+          >
+            {indicator.questionText}
+          </Typography>
+        </Grid>
+      );
+    })}
   </Grid>
 );
 
