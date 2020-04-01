@@ -182,7 +182,8 @@
       "lifemap": "Life Map",
       "lifeMapCreatedOn": "Life Map draft created on",
       "created": "Created on",
-      "formWithErrors": "Review %number form errors"
+      "formWithErrors": "Review %number form errors",
+      "amountOfMembers": "The amount of members doesn't match, please check the amount indicated."
     },
     "lifemap": {
       "thisLifeMapHas": "Thank you! This Stoplight section has %n indicators.",

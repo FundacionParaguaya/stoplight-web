@@ -45,7 +45,12 @@ const validationSchema = Yup.object().shape({
 
 export class FamilyMembers extends Component {
   updateDraft = (memberIndex, value, property) => {
-    const { currentDraft, currentSurvey } = this.props;
+    const {
+      currentDraft,
+      currentSurvey,
+      enqueueSnackbar,
+      closeSnackbar
+    } = this.props;
     const {
       conditionalQuestions = [],
       elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
@@ -71,9 +76,61 @@ export class FamilyMembers extends Component {
   };
 
   handleContinue = () => {
-    this.props.history.push('/lifemap/location');
+    console.log('handle continue');
+
+    if (this.validateNumberOfMembers()) {
+      this.props.history.push('/lifemap/location');
+    } else {
+      this.props.enqueueSnackbar(this.props.t('views.family.amountOfMembers'), {
+        variant: 'error',
+        action: key => (
+          <IconButton
+            key="dismiss"
+            onClick={() => this.props.closeSnackbar(key)}
+          >
+            <CloseIcon style={{ color: 'white' }} />
+          </IconButton>
+        )
+      });
+    }
   };
 
+  validateNumberOfMembers = () => {
+    console.log(
+      'validating number of members: ',
+      this.props.currentDraft.familyData.countFamilyMembers
+    );
+    console.log(
+      'Number added : ',
+      this.props.currentDraft.familyData.familyMembersList.length
+    );
+
+    const numberOfMembers = this.props.currentDraft.familyData
+      .countFamilyMembers; //No first participant
+    const numberAdded = this.props.currentDraft.familyData.familyMembersList
+      .length;
+    console.log(
+      'validating number of members: ' + numberOfMembers + ' --- ' + numberAdded
+    );
+    if (numberOfMembers === numberAdded) {
+      console.log('Equal number of members added and declared');
+      return true;
+    } else if (numberAdded > numberOfMembers) {
+      console.log('Updating number of members to : ', numberAdded + 1);
+
+      this.props.updateDraft({
+        ...this.props.currentDraft,
+        familyData: {
+          ...this.props.currentDraft.familyData,
+          //...{ countFamilyMembers: value },
+          countFamilyMembers: numberAdded + 1
+        }
+      });
+      return true;
+    } else {
+      return false;
+    }
+  };
   emptyMember = {
     firstName: '',
     gender: '',
@@ -101,7 +158,7 @@ export class FamilyMembers extends Component {
     let members = [];
     if (this.props.currentDraft.familyData.familyMembersList) {
       members = this.props.currentDraft.familyData.familyMembersList.filter(
-        (item, index) => index !== indexToRemove
+        (item, index) => index !== indexToRemove + 1
       );
     }
     this.props.updateDraft({
@@ -279,16 +336,6 @@ export class FamilyMembers extends Component {
                         >
                           <AddCircleIcon />
                         </IconButton>
-                        {/* <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => {
-                            this.addMember();
-                            arrayHelpers.push(this.emptyMember);
-                          }}
-                        >
-                          Agregar Miembro
-                        </Button> */}
                       </div>
                     </React.Fragment>
                   )}
