@@ -292,6 +292,7 @@
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Download",
+      "downloadError": "Error while trying to download your lifemap",
       "lifemapSaved": "Your survey has been sent.",
       "clickSafe": "Now, just click save!",
       "clickSafeWithoutStoplight": "Now, just click finish!",

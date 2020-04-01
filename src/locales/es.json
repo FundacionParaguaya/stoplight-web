@@ -293,6 +293,7 @@
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Descargar",
+      "downloadError": "Error al descargar tu Mapa de Vida",
       "lifemapSaved": "Tu encuesta se ha enviado.",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
       "clickSafeWithoutStoplight": " Ahora solo selecciona finalizar.",
