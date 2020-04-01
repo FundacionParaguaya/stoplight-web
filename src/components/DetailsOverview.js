@@ -15,6 +15,8 @@ import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import LeaveModal from './LeaveModal';
+import { ROLES_NAMES } from '../utils/role-utils';
+import { sendLifemapPdfv2, downloadPdf } from '../api';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -105,7 +107,7 @@ const DetailsOverview = ({
       return {
         key: snapshotStoplight.codeName,
         value: snapshotStoplight.value,
-        questionText: snapshotStoplight.shortName
+        questionText: snapshotStoplight.questionText
       };
     });
     setStoplight(stoplight);
@@ -135,42 +137,69 @@ const DetailsOverview = ({
 
   const handleMailClick = () => {
     setLoading(true);
-    /*    return sendMail(user, language)
-         .then(() => {
-           this.toggleModal(
-             t('general.thankYou'),
-             t('views.final.emailSent'),
-             t('general.gotIt'),
-             'success',
-           );
-           setLoading(false);
-         })
-         .catch(() => {
-           this.toggleModal(
-             t('general.warning'),
-             t('views.final.emailError'),
-             t('general.gotIt'),
-             'warning'
-           );
-           setLoading(false);
-         }); */
+    return sendLifemapPdfv2(snapshot.snapshotId, user, language)
+      .then(() => {
+        toggleModal(
+          t('general.thankYou'),
+          t('views.final.emailSent'),
+          t('general.gotIt'),
+          'success'
+        );
+        setLoading(false);
+      })
+      .catch(() => {
+        toggleModal(
+          t('general.warning'),
+          t('views.final.emailError'),
+          t('general.gotIt'),
+          'warning'
+        );
+        setLoading(false);
+      });
   };
 
   const handleDownloadClick = () => {
     setLoading(true);
-    /*    return sendMail(user, language)
-         .then(() => {
-           setLoading(false);
-         })
-         .catch(() => {
-           this.toggleModal(
-             t('general.warning'),
-             t('views.final.emailError'),
-             t('general.gotIt'),
-             'warning'
-           );
-           setLoading(false);
-         }); */
+    return downloadPdf(snapshot.snapshotId, user, language)
+      .then(response => {
+        setLoading(false);
+        let blob = new Blob([response.data], { type: 'application/pdf' });
+        let url = window.URL.createObjectURL(blob);
+
+        let tempLink = document.createElement('a');
+        tempLink.href = url;
+        tempLink.setAttribute('download', 'Lifemap.pdf');
+        tempLink.click();
+      })
+      .catch(e => {
+        toggleModal(
+          t('general.warning'),
+          t('views.final.downloadError'),
+          t('general.gotIt'),
+          'warning'
+        );
+        setLoading(false);
+      });
+  };
+
+  const showButton = (button, { role }) => {
+    if (button === 'whatsapp' || button === 'email') {
+      return (
+        role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+      );
+    } else if (button === 'download') {
+      return (
+        role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+        role === ROLES_NAMES.ROLE_APP_ADMIN ||
+        role === ROLES_NAMES.ROLE_ROOT ||
+        role === ROLES_NAMES.ROLE_PS_TEAM ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+      );
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -236,7 +265,7 @@ const DetailsOverview = ({
 
       <div className={classes.gridContainer}>
         <Grid container spacing={4} className={classes.buttonContainer}>
-          {firstParticipant.email && (
+          {firstParticipant.email && showButton('email', user) && (
             <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
               <Button
                 variant="outlined"
@@ -253,7 +282,7 @@ const DetailsOverview = ({
               </Button>
             </Grid>
           )}
-          {firstParticipant.phoneNumber && (
+          {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
             <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
               <Button
                 variant="outlined"
@@ -269,20 +298,22 @@ const DetailsOverview = ({
               </Button>
             </Grid>
           )}
-          <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
-            <Button
-              variant="outlined"
-              color="primary"
-              fullWidth
-              disabled={loading}
-              onClick={() => {
-                handleDownloadClick();
-              }}
-            >
-              <DownloadIcon className={classes.leftIcon} />
-              {t('views.final.download')}
-            </Button>
-          </Grid>
+          {showButton('download', user) && (
+            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  handleDownloadClick();
+                }}
+              >
+                <DownloadIcon className={classes.leftIcon} />
+                {t('views.final.download')}
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </div>
       <div className={classes.overviewContainer}>
