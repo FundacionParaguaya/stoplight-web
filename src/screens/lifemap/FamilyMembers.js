@@ -96,15 +96,6 @@ export class FamilyMembers extends Component {
   };
 
   validateNumberOfMembers = () => {
-    console.log(
-      'validating number of members: ',
-      this.props.currentDraft.familyData.countFamilyMembers
-    );
-    console.log(
-      'Number added : ',
-      this.props.currentDraft.familyData.familyMembersList.length
-    );
-
     const numberOfMembers = this.props.currentDraft.familyData
       .countFamilyMembers; //No first participant
     const numberAdded = this.props.currentDraft.familyData.familyMembersList
