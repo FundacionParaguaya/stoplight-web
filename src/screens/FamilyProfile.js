@@ -527,7 +527,7 @@ const FamilyProfile = ({
                 variant="subtitle1"
                 className={classes.labelGreenRight}
               >
-                <Link onClick={goToFamilyDetails}>
+                <Link onClick={goToFamilyDetails} style={{ cursor: 'pointer' }}>
                   {t('views.familyProfile.viewLifeMap')}
                 </Link>
               </Typography>
