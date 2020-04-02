@@ -22,6 +22,7 @@ const FamilyPriorities = ({
   familyId,
   stoplightSkipped,
   questions,
+  prioritiesList,
   user,
   t,
   i18n: { language },
@@ -78,6 +79,10 @@ const FamilyPriorities = ({
   useEffect(() => {
     loadPriorities(familyId);
   }, [familyId]);
+
+  useEffect(() => {
+    setPriorities(prioritiesList);
+  }, [prioritiesList]);
 
   return (
     <div>

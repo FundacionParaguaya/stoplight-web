@@ -547,6 +547,22 @@ export const getPrioritiesByFamily = (user, familyId) =>
     })
   });
 
+export const getPrioritiesBySnapshotId = (user, snapshotId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query prioritiesBySnapshot($snapshotId: Long!) { prioritiesBySnapshot (snapshotId: $snapshotId) {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} }',
+      variables: {
+        snapshotId: snapshotId
+      }
+    })
+  });
+
 export const addPriority = (
   user,
   reason,
