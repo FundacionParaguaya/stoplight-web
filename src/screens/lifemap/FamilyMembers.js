@@ -114,7 +114,7 @@ export class FamilyMembers extends Component {
         familyData: {
           ...this.props.currentDraft.familyData,
           //...{ countFamilyMembers: value },
-          countFamilyMembers: numberAdded + 1
+          countFamilyMembers: numberAdded
         }
       });
       return true;
