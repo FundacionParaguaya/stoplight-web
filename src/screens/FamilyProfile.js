@@ -24,7 +24,6 @@ import Divider from '../components/Divider';
 import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
-import { getPlatform } from '../utils/role-utils';
 import FacilitatorFilter from '../components/FacilitatorFilter';
 import Grid from '@material-ui/core/Grid';
 import { ROLES_NAMES } from '../utils/role-utils';
@@ -58,16 +57,15 @@ const FamilyProfile = ({
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
   const [stoplightSkipped, setStoplightSkipped] = useState(false);
   const [loadingSurvey, setloadingSurvey] = useState(false);
+  const [survey, setSurvey] = useState();
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
     { label: t('views.familyProfile.profile'), link: `/family/${familyId}` }
   ];
 
-  const goToFamilyPsp = e => {
-    window.location.replace(
-      `${getPlatform(user.env)}/#families/${familyId}/snapshots`
-    );
+  const goToFamilyDetails = e => {
+    history.push(`/detail/${familyId}`);
   };
 
   const changeFacilitator = () => {
@@ -142,76 +140,82 @@ const FamilyProfile = ({
       setStoplightSkipped(
         response.data.data.familyById.snapshotIndicators.stoplightSkipped
       );
+      getSurveyById(
+        user,
+        response.data.data.familyById.snapshotIndicators.surveyId
+      )
+        .then(response => {
+          setSurvey(response.data.data.surveyById);
+        })
+        .catch(() => {
+          setloadingSurvey(false);
+        });
     });
   }, []);
 
   const handleRetakeSurvey = e => {
     setloadingSurvey(true);
-    getSurveyById(user, family.snapshotIndicators.surveyId)
+
+    const economicScreens = getEconomicScreens(survey);
+    const conditionalQuestions = getConditionalQuestions(survey);
+    const elementsWithConditionsOnThem = getElementsWithConditionsOnThem(
+      conditionalQuestions
+    );
+    updateSurvey({
+      ...survey,
+      economicScreens,
+      conditionalQuestions,
+      elementsWithConditionsOnThem
+    });
+    getLastSnapshot(familyId, user)
       .then(response => {
-        const survey = response.data.data.surveyById;
-        const economicScreens = getEconomicScreens(survey);
-        const conditionalQuestions = getConditionalQuestions(survey);
-        const elementsWithConditionsOnThem = getElementsWithConditionsOnThem(
-          conditionalQuestions
+        const el = { ...response.data.data.getLastSnapshot };
+        // Mapping keys for family data
+        const familyData = { ...el.family };
+        const previousIndicatorSurveyDataList = [
+          ...el.previousIndicatorSurveyDataList
+        ];
+        const previousIndicatorPriorities = [...el.snapshotStoplightPriorities];
+        const previousIndicatorAchivements = [
+          ...el.snapshotStoplightAchievements
+        ];
+        delete el.snapshotStoplightPriorities;
+        delete el.snapshotStoplightAchievements;
+        familyData.familyId = familyId;
+        familyData.familyMembersList = el.family.familyMemberDTOList.map(
+          member => {
+            return {
+              ...member,
+              socioEconomicAnswers: []
+            };
+          }
         );
-        updateSurvey({
-          ...survey,
-          economicScreens,
-          conditionalQuestions,
-          elementsWithConditionsOnThem
-        });
-        getLastSnapshot(familyId, user).then(response => {
-          const el = { ...response.data.data.getLastSnapshot };
-          // Mapping keys for family data
-          const familyData = { ...el.family };
-          const previousIndicatorSurveyDataList = [
-            ...el.previousIndicatorSurveyDataList
-          ];
-          const previousIndicatorPriorities = [
-            ...el.snapshotStoplightPriorities
-          ];
-          const previousIndicatorAchivements = [
-            ...el.snapshotStoplightAchievements
-          ];
-          delete el.snapshotStoplightPriorities;
-          delete el.snapshotStoplightAchievements;
-          familyData.familyId = familyId;
-          familyData.familyMembersList = el.family.familyMemberDTOList.map(
-            member => {
-              return {
-                ...member,
-                socioEconomicAnswers: []
-              };
-            }
-          );
-          delete el.family;
-          delete familyData.familyMemberDTOList;
-          const draft = {
-            sign: '',
-            pictures: [],
-            draftId: uuid(), // generate unique id based on timestamp
-            surveyId: family.snapshotIndicators.surveyId,
-            created: Date.now(),
-            economicSurveyDataList: [],
-            indicatorSurveyDataList: [],
-            priorities: [],
-            achievements: [],
-            ...el,
-            familyData,
-            previousIndicatorSurveyDataList,
-            previousIndicatorPriorities,
-            previousIndicatorAchivements,
-            lifemapNavHistory: [{}],
-            isRetake: true
-          };
-          updateDraft({ ...draft });
-        });
-        history.push('/lifemap/terms');
+        delete el.family;
+        delete familyData.familyMemberDTOList;
+        const draft = {
+          sign: '',
+          pictures: [],
+          draftId: uuid(), // generate unique id based on timestamp
+          surveyId: family.snapshotIndicators.surveyId,
+          created: Date.now(),
+          economicSurveyDataList: [],
+          indicatorSurveyDataList: [],
+          priorities: [],
+          achievements: [],
+          ...el,
+          familyData,
+          previousIndicatorSurveyDataList,
+          previousIndicatorPriorities,
+          previousIndicatorAchivements,
+          lifemapNavHistory: [],
+          isRetake: true
+        };
+        updateDraft({ ...draft });
       })
       .catch(() => {
         setloadingSurvey(false);
       });
+    history.push('/lifemap/terms');
   };
 
   const getEconomicScreens = survey => {
@@ -312,6 +316,15 @@ const FamilyProfile = ({
       });
     });
     return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
+  };
+
+  const showRetakeButton = user => {
+    return (
+      (user.role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        user.role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+        user.role === ROLES_NAMES.ROLE_SURVEY_TAKER) &&
+      survey
+    );
   };
 
   return (
@@ -514,7 +527,7 @@ const FamilyProfile = ({
                 variant="subtitle1"
                 className={classes.labelGreenRight}
               >
-                <Link href="#" onClick={goToFamilyPsp}>
+                <Link onClick={goToFamilyDetails}>
                   {t('views.familyProfile.viewLifeMap')}
                 </Link>
               </Typography>
@@ -523,22 +536,24 @@ const FamilyProfile = ({
         </div>
       </Container>
       {/* Condition to hide the retake banner */}
-      {/*       <div className={classes.buttonContainer}>
-        <Typography
-          variant="subtitle1"
-          className={classes.label}
-          style={{ color: '#f3f4f6' }}
-        >
-          {t('views.familyProfile.createNewSnapshot')}
-        </Typography>
-        <Button
-          variant="contained"
-          onClick={handleRetakeSurvey}
-          className={classes.button}
-        >
-          {t('views.familyProfile.continueWithStoplight')}
-        </Button>
-      </div> */}
+      {showRetakeButton(user) && (
+        <div className={classes.buttonContainer}>
+          <Typography
+            variant="subtitle1"
+            className={classes.label}
+            style={{ color: '#f3f4f6' }}
+          >
+            {t('views.familyProfile.createNewSnapshot')}
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={handleRetakeSurvey}
+            className={classes.button}
+          >
+            {t('views.familyProfile.continueWithStoplight')}
+          </Button>
+        </div>
+      )}
 
       {/* Priorities */}
 

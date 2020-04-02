@@ -589,3 +589,48 @@ export const getLastSnapshot = (familyId, user) =>
       }
     })
   });
+
+export const getSnapshotsByFamily = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getSnapshotsByFamily($familyId: Long!) { familySnapshotsOverview (familyId: $familyId) { snapshots { snapshotId snapshotDate stoplightSkipped surveyUser  stoplight {codeName value shortName lifemapName priority achievement questionText} priorities {indicator} achievements {indicator} } } }',
+      variables: {
+        familyId: familyId
+      }
+    })
+  });
+
+export const sendLifemapPdfv2 = (snapshotId, user, lang) => {
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/reports/lifemap/email`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
+    },
+    params: {
+      snapshotId: snapshotId
+    }
+  });
+};
+
+export const downloadPdf = (snapshotId, user, lang) => {
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/reports/lifemap/pdf`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
+    },
+    params: {
+      snapshotId: snapshotId
+    },
+    responseType: 'arraybuffer'
+  });
+};

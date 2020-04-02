@@ -293,11 +293,13 @@
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Download",
+      "downloadError": "Error while trying to download your lifemap",
       "lifemapSaved": "Your survey has been sent.",
       "clickSafe": "Now, just click save!",
       "clickSafeWithoutStoplight": "Now, just click finish!",
       "emailSent": "Your Life Map has been successfully sent via email. Don't forget to click on Save & Close!",
       "whatsappSent": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184 after finishing the survey.",
+      "whatsappSentOverview": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184.",
       "emailError": "Error while trying to send your Life Map via email"
     },
     "familiesOverviewBlock": {
@@ -400,6 +402,7 @@
       "lifemapNumber": "Life Map - Number",
       "continueWithStoplight": "Take a follow-up survey",
       "viewLifeMap": "View Life Map in Detail",
+      "mentor": "Mentor",
       "Mentorsuccess": "Assigned correctly",
       "mentorError": "An error occurred while assigning facilitator. Try again",
       "changeFacilitator": "Change Facilitator",
@@ -409,7 +412,9 @@
       "families": "Households",
       "family": "Family",
       "profile": "Profile",
-      "createNewSnapshot": "Create a new survey for the family!"
+      "createNewSnapshot": "Create a new survey for the family!",
+      "stoplight": "Stoplight",
+      "loadingSnapshots": "Loading stoplights..."
     },
     "familyPriorities": {
       "priorities": "Priorities",

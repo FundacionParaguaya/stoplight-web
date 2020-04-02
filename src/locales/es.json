@@ -294,11 +294,13 @@
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Descargar",
+      "downloadError": "Error al descargar tu Mapa de Vida",
       "lifemapSaved": "Tu encuesta se ha enviado.",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
       "clickSafeWithoutStoplight": " Ahora solo selecciona finalizar.",
       "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email. ¡No te olvides de seleccionar Guardar & cerrar!",
       "whatsappSent": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184 después de guardar la encuesta.",
+      "whatsappSentOverview": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184.",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
     "familiesOverviewBlock": {
@@ -401,6 +403,7 @@
       "lifemapNumber": "Mapa de Vida - Número",
       "continueWithStoplight": "Tomar encuesta de seguimiento",
       "viewLifeMap": "Ver Mapa de Vida en detalle",
+      "mentor": "Mentor",
       "Mentorsuccess": "Asignado correctamente",
       "mentorError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar",
       "changeFacilitator": "Cambiar Facilitador",
@@ -410,7 +413,9 @@
       "families": "Familias",
       "family": "Familia",
       "profile": "Perfil",
-      "createNewSnapshot": "¡Crea una nueva encuesta para la familia!"
+      "createNewSnapshot": "¡Crea una nueva encuesta para la familia!",
+      "stoplight": "Semáforo",
+      "loadingSnapshots": "Cargando semáforos..."
     },
     "familyPriorities": {
       "priorities": "Prioridades",
