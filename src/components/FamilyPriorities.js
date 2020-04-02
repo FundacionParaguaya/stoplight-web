@@ -114,6 +114,7 @@ const FamilyPriorities = ({
               priorities.map(item => {
                 return (
                   <AccordionItem
+                    key={item.reviewDate}
                     className={classes.priorityTitle}
                     title={
                       <div className={classes.priorityItemHeader}>

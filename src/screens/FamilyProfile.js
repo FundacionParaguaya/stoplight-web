@@ -24,7 +24,6 @@ import Divider from '../components/Divider';
 import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
-import { getPlatform } from '../utils/role-utils';
 import FacilitatorFilter from '../components/FacilitatorFilter';
 import Grid from '@material-ui/core/Grid';
 import { ROLES_NAMES } from '../utils/role-utils';
@@ -65,10 +64,8 @@ const FamilyProfile = ({
     { label: t('views.familyProfile.profile'), link: `/family/${familyId}` }
   ];
 
-  const goToFamilyPsp = e => {
-    window.location.replace(
-      `${getPlatform(user.env)}/#families/${familyId}/snapshots`
-    );
+  const goToFamilyDetails = e => {
+    history.push(`/detail/${familyId}`);
   };
 
   const changeFacilitator = () => {
@@ -530,7 +527,7 @@ const FamilyProfile = ({
                 variant="subtitle1"
                 className={classes.labelGreenRight}
               >
-                <Link href="#" onClick={goToFamilyPsp}>
+                <Link onClick={goToFamilyDetails}>
                   {t('views.familyProfile.viewLifeMap')}
                 </Link>
               </Typography>

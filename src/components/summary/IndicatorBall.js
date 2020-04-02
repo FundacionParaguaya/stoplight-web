@@ -6,13 +6,13 @@ import iconPriority from '../../assets/icon_priority.png';
 import iconAchievement from '../../assets/icon_achievement.png';
 import { COLORS } from '../../theme';
 
-let Accent = ({ classes, variant, achievement, priority }) => (
+let Accent = ({ classes, variant, achievement, priority, styles }) => (
   <React.Fragment>
     {variant === 'small' && (achievement || priority) && (
       <div className={classes.dotAccent} />
     )}
     {variant === 'medium' && (achievement || priority) && (
-      <div className={classes.mediumAccent}>
+      <div className={classes.mediumAccent} style={styles}>
         <img
           src={achievement ? iconAchievement : iconPriority}
           style={{
@@ -77,7 +77,8 @@ const IndicatorBall = props => {
     animated,
     achievement,
     priority,
-    styles
+    styles,
+    accentStyle
   } = props;
   const indicatorClassName = clsx(classes.root, {
     [classes.redIndicator]: color === 'red',
@@ -121,6 +122,7 @@ const IndicatorBall = props => {
               animated={animated}
               achievement={achievement}
               priority={priority}
+              styles={accentStyle}
             />
           </React.Fragment>
         )}
@@ -154,7 +156,8 @@ IndicatorBall.defaultProps = {
   variant: 'normal',
   animated: true,
   achievement: false,
-  priority: false
+  priority: false,
+  accentStyle: {}
 };
 
 export default withStyles(styles)(IndicatorBall);
