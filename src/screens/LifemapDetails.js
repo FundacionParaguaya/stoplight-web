@@ -147,7 +147,6 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
         {snapshots.length > 0 &&
           snapshots.map((snapshot, i) => {
-            let val = i + 2;
             if (!snapshot.stoplightSkipped) {
               count += 1;
               return (
@@ -156,7 +155,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
                   classes={{ root: classes.tabRoot }}
                   label={
                     <Typography variant="h6" className={classes.columnHeader}>
-                      <div style={{ fontWeight: 600 }}>
+                      <div style={{ fontWeight: 600, marginBottom: -5 }}>
                         {`${t('views.familyProfile.stoplight')} ${count}`}
                       </div>
                       {`${moment
@@ -237,16 +236,15 @@ const styles = theme => ({
   },
   columnHeader: {
     textAlign: 'center',
-    fontWeight: 500,
-    width: 150,
     margin: 'auto',
-    textTransform: 'none'
+    textTransform: 'none',
+    height: 'auto',
+    width: 'auto'
   },
   tabsRoot: {
     backgroundColor: theme.palette.background.default,
     paddingLeft: '12%',
     paddingRight: '12%',
-    height: 64,
     position: 'relative',
     zIndex: 1,
     width: '100%',
@@ -257,9 +255,13 @@ const styles = theme => ({
   },
   tabRoot: {
     color: theme.typography.h4.color,
-    height: 64,
+    height: 'auto',
+    width: 'auto',
     '&.MuiTab-textColorSecondary.Mui-selected': {
       color: theme.typography.h4.color
+    },
+    '&.MuiTab-textColorSecondary.MuiTab-fullWidth': {
+      borderBottom: '1px solid #DCDEE3'
     }
   }
 });
