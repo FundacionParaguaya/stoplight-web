@@ -332,10 +332,9 @@ const DetailsOverview = ({
         />
       </div>
       <FamilyPriorities
-        familyId={familyId}
         stoplightSkipped={true}
         questions={snapshot}
-        prioritiesList={priorities}
+        priorities={priorities}
       ></FamilyPriorities>
     </div>
   );
