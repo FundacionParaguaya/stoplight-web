@@ -107,7 +107,9 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
               alt="Choose Life Map"
               className={classes.chooseLifeMapImage}
             />
-            <Typography variant="h4">{family.name}</Typography>
+            <Typography variant="h4" style={{ zIndex: 1 }}>
+              {family.name}
+            </Typography>
             {/* Organization Name */}
             <div className={classes.container}>
               <Typography variant="subtitle1" className={classes.label}>
@@ -242,6 +244,7 @@ const styles = theme => ({
     width: 'auto'
   },
   tabsRoot: {
+    height: 84,
     backgroundColor: theme.palette.background.default,
     paddingLeft: '12%',
     paddingRight: '12%',
@@ -254,6 +257,9 @@ const styles = theme => ({
     }
   },
   tabRoot: {
+    height: 84,
+    paddingTop: 25,
+    paddingBottom: 13,
     color: theme.typography.h4.color,
     height: 'auto',
     width: 'auto',
@@ -261,7 +267,7 @@ const styles = theme => ({
       color: theme.typography.h4.color
     },
     '&.MuiTab-textColorSecondary.MuiTab-fullWidth': {
-      borderBottom: '1px solid #DCDEE3'
+      borderBottom: `1px solid ${theme.palette.grey.quarter}`
     }
   }
 });

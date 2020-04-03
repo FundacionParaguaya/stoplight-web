@@ -364,7 +364,9 @@ const FamilyProfile = ({
               alt="Choose Life Map"
               className={classes.chooseLifeMapImage}
             />
-            <Typography variant="h4">{family.name}</Typography>
+            <Typography variant="h4" style={{ zIndex: 1 }}>
+              {family.name}
+            </Typography>
             {/* Organization Name */}
             <div className={classes.container}>
               <Typography variant="subtitle1" className={classes.label}>

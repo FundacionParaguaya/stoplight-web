@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    paddingTop: 30,
+    paddingTop: 50,
     paddingLeft: '12%',
     paddingRight: '12%',
     '& $tfoot': {

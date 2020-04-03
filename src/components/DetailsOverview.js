@@ -24,7 +24,7 @@ import {
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
-    padding: '25px',
+    padding: 25,
     paddingBottom: 0,
     backgroundColor: theme.palette.background.default
   },
@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   headerContainer: {
     display: 'inline-flex',
     width: '100%',
-    height: 100
+    height: 150
   },
   textContainter: {
     margin: 'auto',
@@ -326,7 +326,7 @@ const DetailsOverview = ({
       <div className={classes.overviewContainer}>
         <DimensionQuestion
           questions={stoplight}
-          priorities={snapshot.priorities}
+          priorities={priorities}
           achievements={achievements}
           isRetake={false}
         />
