@@ -255,6 +255,15 @@ export class PrimaryParticipant extends Component {
           // familyMembersList: names3
         }
       });
+    } else {
+      //Same number of members and counts
+      this.props.updateDraft({
+        ...currentDraft,
+        familyData: {
+          ...currentDraft.familyData,
+          ...{ countFamilyMembers: value }
+        }
+      });
     }
   };
 
