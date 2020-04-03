@@ -80,7 +80,8 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       minHeight: '70%'
     },
-    paddingTop: '1rem'
+    paddingTop: '1rem',
+    zIndex: 10
   },
 
   textContainer: {

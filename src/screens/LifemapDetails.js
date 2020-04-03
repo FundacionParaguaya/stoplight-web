@@ -244,7 +244,7 @@ const styles = theme => ({
     width: 'auto'
   },
   tabsRoot: {
-    height: 84,
+    minHeight: 84,
     backgroundColor: theme.palette.background.default,
     paddingLeft: '12%',
     paddingRight: '12%',
@@ -257,7 +257,7 @@ const styles = theme => ({
     }
   },
   tabRoot: {
-    height: 84,
+    minHeight: 84,
     paddingTop: 25,
     paddingBottom: 13,
     color: theme.typography.h4.color,
