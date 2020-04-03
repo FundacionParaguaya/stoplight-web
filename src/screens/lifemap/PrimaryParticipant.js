@@ -242,17 +242,26 @@ export class PrimaryParticipant extends Component {
         }
       });
     } else if (currentDraft.familyData.familyMembersList.length > value) {
-      const names3 = currentDraft.familyData.familyMembersList;
+      /*const names3 = currentDraft.familyData.familyMembersList;
       const deleteFrom =
         currentDraft.familyData.familyMembersList.length - value;
-      names3.splice(-deleteFrom, deleteFrom);
+      names3.splice(-deleteFrom, deleteFrom);*/
 
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
           ...currentDraft.familyData,
-          ...{ countFamilyMembers: value },
-          familyMembersList: names3
+          ...{ countFamilyMembers: value }
+          // familyMembersList: names3
+        }
+      });
+    } else {
+      //Same number of members and counts
+      this.props.updateDraft({
+        ...currentDraft,
+        familyData: {
+          ...currentDraft.familyData,
+          ...{ countFamilyMembers: value }
         }
       });
     }

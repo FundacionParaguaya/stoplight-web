@@ -19,6 +19,9 @@ import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { withScroller } from '../../components/Scroller';
 import InputWithDep from '../../components/InputWithDep';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
@@ -42,7 +45,12 @@ const validationSchema = Yup.object().shape({
 
 export class FamilyMembers extends Component {
   updateDraft = (memberIndex, value, property) => {
-    const { currentDraft, currentSurvey } = this.props;
+    const {
+      currentDraft,
+      currentSurvey,
+      enqueueSnackbar,
+      closeSnackbar
+    } = this.props;
     const {
       conditionalQuestions = [],
       elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
@@ -68,7 +76,90 @@ export class FamilyMembers extends Component {
   };
 
   handleContinue = () => {
-    this.props.history.push('/lifemap/location');
+    console.log('handle continue');
+
+    if (this.validateNumberOfMembers()) {
+      this.props.history.push('/lifemap/location');
+    } else {
+      this.props.enqueueSnackbar(this.props.t('views.family.amountOfMembers'), {
+        variant: 'error',
+        action: key => (
+          <IconButton
+            key="dismiss"
+            onClick={() => this.props.closeSnackbar(key)}
+          >
+            <CloseIcon style={{ color: 'white' }} />
+          </IconButton>
+        )
+      });
+    }
+  };
+
+  validateNumberOfMembers = () => {
+    const numberOfMembers = this.props.currentDraft.familyData
+      .countFamilyMembers; //No first participant
+    const numberAdded = this.props.currentDraft.familyData.familyMembersList
+      .length;
+    console.log(
+      'validating number of members: ' + numberOfMembers + ' --- ' + numberAdded
+    );
+    if (numberOfMembers === numberAdded) {
+      console.log('Equal number of members added and declared');
+      return true;
+    } else if (numberAdded > numberOfMembers) {
+      console.log('Updating number of members to : ', numberAdded + 1);
+
+      this.props.updateDraft({
+        ...this.props.currentDraft,
+        familyData: {
+          ...this.props.currentDraft.familyData,
+          //...{ countFamilyMembers: value },
+          countFamilyMembers: numberAdded
+        }
+      });
+      return true;
+    } else {
+      return false;
+    }
+  };
+  emptyMember = {
+    firstName: '',
+    gender: '',
+    birthDate: null,
+    firstParticipant: false,
+    socioEconomicAnswers: []
+  };
+
+  addMember = () => {
+    console.log('Calling addMember');
+    const names2 = this.props.currentDraft.familyData.familyMembersList;
+    names2.push(this.emptyMember);
+    this.props.updateDraft({
+      ...this.props.currentDraft,
+      familyData: {
+        ...this.props.currentDraft.familyData,
+        //...{ countFamilyMembers: value },
+        familyMembersList: names2
+      }
+    });
+  };
+
+  removeMember = indexToRemove => {
+    console.log('Calling removeMember');
+    let members = [];
+    if (this.props.currentDraft.familyData.familyMembersList) {
+      members = this.props.currentDraft.familyData.familyMembersList.filter(
+        (item, index) => index !== indexToRemove + 1
+      );
+    }
+    this.props.updateDraft({
+      ...this.props.currentDraft,
+      familyData: {
+        ...this.props.currentDraft.familyData,
+        //...{ countFamilyMembers: value },
+        familyMembersList: members
+      }
+    });
   };
 
   syncDraft = (value, index, keyInDraft, keyInFormik, setFieldValue) => {
@@ -88,6 +179,9 @@ export class FamilyMembers extends Component {
     } = this.props;
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
+    console.log('List of members');
+    console.log(membersList);
+
     return (
       <div>
         <TitleBar title={t('views.familyMembers')} progressBar />
@@ -106,18 +200,35 @@ export class FamilyMembers extends Component {
               <Form noValidate>
                 <FieldArray
                   name="members"
-                  render={() => (
+                  render={arrayHelpers => (
                     <React.Fragment>
                       {values.members.map((item, index) => {
                         //It's index + 2  to make it clear that no family member it's  the first participant
                         return (
                           <div key={index} className={classes.familyMemberForm}>
-                            <Typography variant="h6" className={classes.title}>
-                              <i className={`material-icons ${classes.icon}`}>
-                                face
-                              </i>
-                              {t('views.family.familyMember')} {index + 2}
-                            </Typography>
+                            <div className={classes.familyMemberTitle}>
+                              <Typography
+                                variant="h6"
+                                className={classes.title}
+                              >
+                                <i className={`material-icons ${classes.icon}`}>
+                                  face
+                                </i>
+                                {t('views.family.familyMember')} {index + 2}
+                              </Typography>
+                              <IconButton
+                                color="secondary"
+                                aria-label="delete member"
+                                component="span"
+                                onClick={() => {
+                                  this.removeMember(index);
+                                  arrayHelpers.remove(index);
+                                }}
+                              >
+                                <HighlightOffIcon />
+                              </IconButton>
+                            </div>
+
                             <InputWithFormik
                               label={t('views.family.firstName')}
                               name={`members[${index}].firstName`}
@@ -203,9 +314,24 @@ export class FamilyMembers extends Component {
                           </div>
                         );
                       })}
+
+                      <div className={classes.buttonAddForm}>
+                        <IconButton
+                          color="primary"
+                          aria-label="add member"
+                          component="span"
+                          onClick={() => {
+                            this.addMember();
+                            arrayHelpers.push(this.emptyMember);
+                          }}
+                        >
+                          <AddCircleIcon />
+                        </IconButton>
+                      </div>
                     </React.Fragment>
                   )}
                 />
+
                 <div className={classes.buttonContainerForm}>
                   <Button
                     type="submit"
@@ -265,10 +391,19 @@ const styles = theme => ({
     fontSize: 30,
     color: theme.palette.grey.main
   },
+  familyMemberTitle: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
   familyMemberForm: {
     marginTop: 40
   },
   buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40
+  },
+  buttonAddForm: {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40

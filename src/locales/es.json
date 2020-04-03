@@ -183,7 +183,8 @@
       "lifemap": "Mapa de Vida",
       "lifeMapCreatedOn": "Borrador del Mapa de Vida creado",
       "created": "Creado",
-      "formWithErrors": "Revise %number errores en el formulario"
+      "formWithErrors": "Revise %number errores en el formulario",
+      "amountOfMembers": "La cantidad de miembros no coincide, favor verifica la cantidad indicada."
     },
     "lifemap": {
       "thisLifeMapHas": "¡Listo! Esta sección del Semáforo contiene %n indicadores",
