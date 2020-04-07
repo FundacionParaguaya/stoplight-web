@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -9,9 +9,6 @@ import { withSnackbar } from 'notistack';
 import iconPriority from '../assets/icon_priority.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import { getPrioritiesByFamily } from '../api';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import { getMonthFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
 import { COLORS } from '../theme';
@@ -22,14 +19,12 @@ const FamilyPriorities = ({
   familyId,
   stoplightSkipped,
   questions,
+  priorities,
   user,
   t,
   i18n: { language },
-  enqueueSnackbar,
-  closeSnackbar,
   history
 }) => {
-  const [priorities, setPriorities] = useState([]);
   const dateFormat = getMonthFormatByLocale(language);
 
   const getColor = stopligh => {
@@ -55,29 +50,6 @@ const FamilyPriorities = ({
       state: { questions: questions }
     });
   };
-
-  const loadPriorities = familyId => {
-    //Call api
-
-    getPrioritiesByFamily(user, Number(familyId))
-      .then(response => {
-        setPriorities(response.data.data.prioritiesByFamily);
-      })
-      .catch(e => {
-        console.log(e);
-        enqueueSnackbar(t('views.familyPriorities.errorLoading'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
-      });
-  };
-  useEffect(() => {
-    loadPriorities(familyId);
-  }, [familyId]);
 
   return (
     <div>

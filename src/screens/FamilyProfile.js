@@ -10,7 +10,12 @@ import { updateSurvey, updateDraft } from '../redux/actions';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/family.png';
 import withLayout from '../components/withLayout';
-import { getFamily, assignFacilitator, getLastSnapshot } from '../api';
+import {
+  getFamily,
+  assignFacilitator,
+  getPrioritiesByFamily,
+  getLastSnapshot
+} from '../api';
 import uuid from 'uuid/v1';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/face_icon_large.png';
@@ -56,6 +61,7 @@ const FamilyProfile = ({
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
   const [stoplightSkipped, setStoplightSkipped] = useState(false);
+  const [priorities, setPriorities] = useState([]);
   const [loadingSurvey, setloadingSurvey] = useState(false);
   const [survey, setSurvey] = useState();
 
@@ -120,6 +126,24 @@ const FamilyProfile = ({
       });
   };
 
+  const loadPriorities = familyId => {
+    getPrioritiesByFamily(user, Number(familyId))
+      .then(response => {
+        setPriorities(response.data.data.prioritiesByFamily);
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.familyPriorities.errorLoading'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      });
+  };
+
   useEffect(() => {
     getFamily(familyId, user).then(response => {
       let members = response.data.data.familyById.familyMemberDTOList;
@@ -151,6 +175,8 @@ const FamilyProfile = ({
           setloadingSurvey(false);
         });
     });
+
+    loadPriorities(familyId);
   }, []);
 
   const handleRetakeSurvey = e => {
@@ -338,7 +364,9 @@ const FamilyProfile = ({
               alt="Choose Life Map"
               className={classes.chooseLifeMapImage}
             />
-            <Typography variant="h4">{family.name}</Typography>
+            <Typography variant="h4" style={{ zIndex: 1 }}>
+              {family.name}
+            </Typography>
             {/* Organization Name */}
             <div className={classes.container}>
               <Typography variant="subtitle1" className={classes.label}>
@@ -527,7 +555,7 @@ const FamilyProfile = ({
                 variant="subtitle1"
                 className={classes.labelGreenRight}
               >
-                <Link onClick={goToFamilyDetails}>
+                <Link onClick={goToFamilyDetails} style={{ cursor: 'pointer' }}>
                   {t('views.familyProfile.viewLifeMap')}
                 </Link>
               </Typography>
@@ -561,6 +589,7 @@ const FamilyProfile = ({
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
         questions={family.snapshotIndicators}
+        priorities={priorities}
       ></FamilyPriorities>
 
       {/* AssignFacilitator */}

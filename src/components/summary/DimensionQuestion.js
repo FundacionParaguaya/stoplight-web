@@ -55,7 +55,7 @@ const DimensionQuestion = ({
           lg={2}
           key={indicator.key}
           onClick={() => onClickIndicator(indicator)}
-          className={classes.gridItemStyle}
+          className={onClickIndicator ? classes.gridItemStyle : ''}
         >
           <div className={classes.indicatorBallContainer}>
             {isRetake && (

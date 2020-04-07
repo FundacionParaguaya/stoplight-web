@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    paddingTop: 30,
+    paddingTop: 50,
     paddingLeft: '12%',
     paddingRight: '12%',
     '& $tfoot': {
@@ -28,8 +28,6 @@ const useStyles = makeStyles(theme => ({
   },
   columnHeader: {
     textAlign: 'center',
-    fontWeight: 500,
-    width: 150,
     margin: 'auto'
   }
 }));
@@ -72,7 +70,7 @@ const LifemapDetailsTable = ({
         columns.push({
           title: (
             <Typography variant="h6" className={classes.columnHeader}>
-              <div style={{ fontWeight: 600 }}>
+              <div style={{ fontWeight: 600, marginBottom: -5 }}>
                 {`${t('views.familyProfile.stoplight')} ${count}`}
               </div>
               {`${moment

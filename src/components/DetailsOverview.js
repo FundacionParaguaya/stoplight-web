@@ -16,11 +16,15 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import LeaveModal from './LeaveModal';
 import { ROLES_NAMES } from '../utils/role-utils';
-import { sendLifemapPdfv2, downloadPdf } from '../api';
+import {
+  getPrioritiesBySnapshotId,
+  sendLifemapPdfv2,
+  downloadPdf
+} from '../api';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
-    padding: '25px',
+    padding: 25,
     paddingBottom: 0,
     backgroundColor: theme.palette.background.default
   },
@@ -56,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   headerContainer: {
     display: 'inline-flex',
     width: '100%',
-    height: 190
+    height: 150
   },
   textContainter: {
     margin: 'auto',
@@ -65,7 +69,8 @@ const useStyles = makeStyles(theme => ({
   },
   labelContainer: {
     width: '100%',
-    display: 'flex'
+    display: 'flex',
+    paddingTop: 6
   },
   mainLabel: {
     width: 'auto',
@@ -102,7 +107,9 @@ const DetailsOverview = ({
 
   useEffect(() => {
     snapshot.achievements && setAchievements(snapshot.achievements);
-    snapshot.priorities && setPriorities(snapshot.priorities);
+    getPrioritiesBySnapshotId(user, snapshot.snapshotId).then(response => {
+      setPriorities(response.data.data.prioritiesBySnapshot);
+    });
     let stoplight = snapshot.stoplight.map(snapshotStoplight => {
       return {
         key: snapshotStoplight.codeName,
@@ -111,7 +118,7 @@ const DetailsOverview = ({
       };
     });
     setStoplight(stoplight);
-  }, []);
+  }, [snapshot.snapshotId]);
 
   const toggleModal = (
     modalTitle,
@@ -325,9 +332,9 @@ const DetailsOverview = ({
         />
       </div>
       <FamilyPriorities
-        familyId={familyId}
         stoplightSkipped={true}
         questions={snapshot}
+        priorities={priorities}
       ></FamilyPriorities>
     </div>
   );
