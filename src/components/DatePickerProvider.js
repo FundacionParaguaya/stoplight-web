@@ -3,6 +3,7 @@ import { withTranslation } from 'react-i18next';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
+import 'moment/locale/pt';
 import 'moment/locale/es';
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
