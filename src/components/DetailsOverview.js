@@ -96,6 +96,7 @@ const DetailsOverview = ({
   const [stoplight, setStoplight] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [priorities, setPriorities] = useState([]);
+  const [prioritiesList, setPrioritiesList] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -106,15 +107,16 @@ const DetailsOverview = ({
   const [modalVariant, setModalVariant] = useState('');
 
   useEffect(() => {
-    snapshot.achievements && setAchievements(snapshot.achievements);
+    setAchievements(snapshot.achievements ? snapshot.achievements : []);
+    setPriorities(snapshot.priorities ? snapshot.priorities : []);
     getPrioritiesBySnapshotId(user, snapshot.snapshotId).then(response => {
-      setPriorities(response.data.data.prioritiesBySnapshot);
+      setPrioritiesList(response.data.data.prioritiesBySnapshot);
     });
     let stoplight = snapshot.stoplight.map(snapshotStoplight => {
       return {
         key: snapshotStoplight.codeName,
         value: snapshotStoplight.value,
-        questionText: snapshotStoplight.questionText
+        questionText: snapshotStoplight.lifemapName
       };
     });
     setStoplight(stoplight);
@@ -334,7 +336,7 @@ const DetailsOverview = ({
       <FamilyPriorities
         stoplightSkipped={true}
         questions={snapshot}
-        priorities={priorities}
+        priorities={prioritiesList}
       ></FamilyPriorities>
     </div>
   );

@@ -615,7 +615,7 @@ export const getSnapshotsByFamily = (familyId, user) =>
     },
     data: JSON.stringify({
       query:
-        'query getSnapshotsByFamily($familyId: Long!) { familySnapshotsOverview (familyId: $familyId) { snapshots { snapshotId snapshotDate stoplightSkipped surveyUser  stoplight {codeName value shortName lifemapName priority achievement questionText} priorities {indicator} achievements {indicator} } } }',
+        'query getSnapshotsByFamily($familyId: Long!) { familySnapshotsOverview (familyId: $familyId) { snapshots { snapshotId snapshotDate stoplightSkipped surveyUser  stoplight {codeName value shortName lifemapName priority achievement } priorities {indicator} achievements {indicator} } } }',
       variables: {
         familyId: familyId
       }
