@@ -84,7 +84,7 @@ export class Final extends Component {
           t('views.final.lifemapSaved'),
           t('general.ok'),
           'success',
-          this.redirectToSurveys
+          this.handleRedirect(familyId, currentDraft.isRetake)
         );
         // Reset ProgressBar Context
         this.context.setRouteTree = {};
@@ -143,8 +143,20 @@ export class Final extends Component {
     }
   };
 
+  handleRedirect = (familyId, isRetake) => {
+    if (isRetake) {
+      this.redirectToFamilyProfile(familyId);
+    } else {
+      this.redirectToSurveys();
+    }
+  };
+
   redirectToSurveys = () => {
     this.props.history.push(`/surveys?sid=${this.props.user.token}`);
+  };
+
+  redirectToFamilyProfile = familyId => {
+    this.props.history.push(`/family/${familyId}`);
   };
 
   toggleLoading = () => {
