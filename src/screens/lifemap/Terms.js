@@ -175,6 +175,7 @@ const styles = {
     display: 'flex',
     alignItems: 'flex-start',
     flexDirection: 'column',
+    textAlign: 'justify',
     paddingTop: theme.shape.padding,
     maxWidth: 660
   },

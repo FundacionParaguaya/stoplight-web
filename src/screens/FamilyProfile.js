@@ -349,7 +349,8 @@ const FamilyProfile = ({
       (user.role === ROLES_NAMES.ROLE_SURVEY_USER ||
         user.role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
         user.role === ROLES_NAMES.ROLE_SURVEY_TAKER) &&
-      survey
+      survey &&
+      family.allowRetake
     );
   };
 
