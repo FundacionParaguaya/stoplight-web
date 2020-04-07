@@ -1,11 +1,13 @@
 const DATE_FORMATS_BY_LANG = {
   es: 'D [de] MMMM, YYYY',
-  en: 'MMMM D, YYYY'
+  en: 'MMMM D, YYYY',
+  pt: 'D [de] MMMM, YYYY'
 };
 
 const MONTH_FORMATS_BY_LANG = {
   es: 'D [de] MMMM',
-  en: 'MMMM D'
+  en: 'MMMM D',
+  pt: 'D [de] MMMM'
 };
 
 const getDateFormatByLocale = lang => {
