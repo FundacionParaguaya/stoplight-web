@@ -19,6 +19,7 @@ import logo from './assets/header_logo.png';
 import i18n from './i18n';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
+import portugueseLogo from './assets/portuguese.png';
 import { ROLES, getPlatform, OLD, ROLE_SURVEY_TAKER } from './utils/role-utils';
 import { logout } from './api';
 
@@ -89,9 +90,7 @@ class Header extends Component {
         <Toolbar className={classes.toolbar} disableGutters={false}>
           {/* Logo to dashboard */}
           <NavLink
-            to={`/${logoURI}?sid=${
-              this.props.user.token
-            }&lang=${language}&env=${this.props.user.env}`}
+            to={`/${logoURI}?sid=${this.props.user.token}&lang=${language}&env=${this.props.user.env}`}
             className={
               path === `/dashboard`
                 ? `${classes.menuLink} ${classes.surveyLink}`
@@ -130,9 +129,7 @@ class Header extends Component {
 
             return (
               <NavLink
-                to={`/${item}?sid=${
-                  this.props.user.token
-                }&lang=${language}&env=${this.props.user.env}`}
+                to={`/${item}?sid=${this.props.user.token}&lang=${language}&env=${this.props.user.env}`}
                 className={
                   path === `/${item}`
                     ? `${classes.menuLink} ${classes.surveyLink}`
@@ -172,7 +169,9 @@ class Header extends Component {
               onClick={this.handleToggle}
             >
               <Typography variant="subtitle1" className={classes.menuLinkText}>
-                {this.state.langaugeMenuMain === 'en' ? 'English' : 'Español'}
+                {this.state.langaugeMenuMain === 'en' && 'English'}
+                {this.state.langaugeMenuMain === 'es' && 'Español'}
+                {this.state.langaugeMenuMain === 'pt' && 'Portuguese'}
               </Typography>
             </Button>
             <div className={classes.verticalDivider} />
@@ -238,6 +237,17 @@ class Header extends Component {
                           alt="eng"
                         />
                         Español
+                      </MenuItem>
+                      <MenuItem
+                        className={classes.menuItem}
+                        onClick={() => this.handleClose('pt')}
+                      >
+                        <img
+                          className={classes.imgLogo}
+                          src={portugueseLogo}
+                          alt="eng"
+                        />
+                        Português
                       </MenuItem>
                     </MenuList>
                   </ClickAwayListener>
@@ -350,8 +360,5 @@ const styles = theme => ({
 const mapStateToProps = ({ user }) => ({ user });
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    {}
-  )(withTranslation()(Header))
+  connect(mapStateToProps, {})(withTranslation()(Header))
 );
