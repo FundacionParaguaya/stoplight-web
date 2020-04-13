@@ -171,7 +171,7 @@ class Header extends Component {
               <Typography variant="subtitle1" className={classes.menuLinkText}>
                 {this.state.langaugeMenuMain === 'en' && 'English'}
                 {this.state.langaugeMenuMain === 'es' && 'Español'}
-                {this.state.langaugeMenuMain === 'pt' && 'Portuguese'}
+                {this.state.langaugeMenuMain === 'pt' && 'Português'}
               </Typography>
             </Button>
             <div className={classes.verticalDivider} />
