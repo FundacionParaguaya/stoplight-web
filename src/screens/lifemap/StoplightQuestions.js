@@ -262,9 +262,19 @@ class StoplightQuestions extends Component {
     // /////////if the question is in the data list then update the question
     if (update) {
       const indicatorSurveyDataList = dataList;
+      let priorities = this.props.currentDraft.priorities;
+      let achievements = this.props.currentDraft.achievements;
+      if (value === 3 || value === 0) {
+        priorities = priorities.filter(p => p.indicator !== codeName);
+      }
+      if (value !== 3 || value === 0) {
+        achievements = achievements.filter(a => a.indicator !== codeName);
+      }
       this.props.updateDraft({
         ...currentDraft,
         indicatorSurveyDataList,
+        priorities,
+        achievements,
         stoplightSkipped: false
       });
       this.handleContinue();
