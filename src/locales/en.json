@@ -10,7 +10,7 @@
     "continue": "Continue",
     "gotIt": "Got it!",
     "save": "Save",
-    "close": "Save & close",
+    "close": "Finish",
     "closeWithoutStoplight": "Finish",
     "closeAndSign": "Save survey",
     "yes": "Yes",
@@ -289,8 +289,8 @@
     },
     "final": {
       "title": "Thank you!",
-      "lifemapCompleted": "Your Life Map is completed!",
-      "surveyCompleted": "Congratulations! You have completed the survey.",
+      "congratulations": "Congratulations!",
+      "surveyCompleted": "You answered all of the questions. Don’t forget to finish your survey!",
       "print": "Print",
       "email": "Email",
       "whatsapp": "Whatsapp",
@@ -299,10 +299,15 @@
       "lifemapSaved": "Your survey has been sent.",
       "clickSafe": "Now, just click save!",
       "clickSafeWithoutStoplight": "Now, just click finish!",
-      "emailSent": "Your Life Map has been successfully sent via email. Don't forget to click on Save & Close!",
-      "whatsappSent": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184 after finishing the survey.",
+      "emailSent": "Your Life Map has been successfully sent via email.",
+      "whatsappSent": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184.",
       "whatsappSentOverview": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184.",
       "emailError": "Error while trying to send your Life Map via email"
+    },
+    "send": {
+      "title": "Send your Life Map",
+      "subtitle": "Great! You finished your survey.",
+      "chooseOption": "If you wish to receive or download your Life Map, click on one of the following options:"
     },
     "familiesOverviewBlock": {
       "economics": "Social Economics",

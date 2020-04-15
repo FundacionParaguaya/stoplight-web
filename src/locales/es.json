@@ -10,7 +10,7 @@
     "continue": "Continuar",
     "gotIt": "¡Entendido!",
     "save": "Guardar",
-    "close": "Guardar & cerrar",
+    "close": "Finalizar",
     "closeWithoutStoplight": "Finalizar",
     "closeAndSign": "Guardar encuesta",
     "yes": "Sí",
@@ -290,8 +290,8 @@
     },
     "final": {
       "title": "¡Gracias!",
-      "lifemapCompleted": "¡Tu Mapa de Vida está completo!",
-      "surveyCompleted": "¡Felicidades! Terminaste la encuesta.",
+      "congratulations": "¡Felicidades!",
+      "surveyCompleted": "Ya respondiste todas las preguntas. ¡No te olvides de finalizar tu encuesta!",
       "print": "Imprimir",
       "email": "Email",
       "whatsapp": "Whatsapp",
@@ -300,10 +300,15 @@
       "lifemapSaved": "Tu encuesta se ha enviado.",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
       "clickSafeWithoutStoplight": " Ahora solo selecciona finalizar.",
-      "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email. ¡No te olvides de seleccionar Guardar & cerrar!",
-      "whatsappSent": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184 después de guardar la encuesta.",
+      "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email.",
+      "whatsappSent": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184.",
       "whatsappSentOverview": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184.",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
+    },
+    "send": {
+      "title": "Envía tu Mapa de Vida",
+      "subtitle": "¡Listo! Ya terminaste tu encuesta.",
+      "chooseOption": "Si quieres recibir o descargar tu Mapa de Vida, selecciona una de las siguientes opciones:"
     },
     "familiesOverviewBlock": {
       "economics": "Socioeconómicos",
