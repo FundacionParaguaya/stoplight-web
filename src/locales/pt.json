@@ -184,6 +184,7 @@
       "lifeMapCreatedOn": "Rascunho do Mapa de Vida criado",
       "created": "Criado",
       "formWithErrors": "Revise %number erros no formulário",
+      "formWithError": "Revise um erro no formulário",
       "amountOfMembers": "O número de membros não corresponde, por favor verifique o número indicado."
     },
     "lifemap": {
