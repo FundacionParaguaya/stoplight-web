@@ -183,6 +183,7 @@
       "lifeMapCreatedOn": "Life Map draft created on",
       "created": "Created on",
       "formWithErrors": "Review %number form errors",
+      "formWithError": "Review 1 form error",
       "amountOfMembers": "The amount of members doesn't match, please check the amount indicated."
     },
     "lifemap": {

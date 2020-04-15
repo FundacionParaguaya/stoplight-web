@@ -346,10 +346,12 @@ export class FamilyMembers extends Component {
                           ).length;
                           if (errorsLength > 0) {
                             enqueueSnackbar(
-                              t('views.family.formWithErrors').replace(
-                                '%number',
-                                errorsLength
-                              ),
+                              errorsLength == 1
+                                ? t('views.family.formWithError')
+                                : t('views.family.formWithErrors').replace(
+                                    '%number',
+                                    errorsLength
+                                  ),
                               {
                                 variant: 'error',
                                 action: key => (
