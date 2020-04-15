@@ -52,7 +52,9 @@ class TopTitleContainer extends Component {
           </div>
         ) : (
           <Container variant="fluid" className={classes.container}>
-            <NavIcons style={{ position: 'absolute' }} />
+            {this.props.showButton && (
+              <NavIcons style={{ position: 'absolute' }} />
+            )}
             <Container className={classes.innerContainer}>
               <img
                 className={classes.barDots}
@@ -97,7 +99,8 @@ TopTitleContainer.propTypes = {
 };
 
 TopTitleContainer.defaultProps = {
-  progressBar: false
+  progressBar: false,
+  showButton: true
 };
 
 const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
