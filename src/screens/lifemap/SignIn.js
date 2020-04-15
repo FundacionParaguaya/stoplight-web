@@ -155,7 +155,7 @@ const SignIn = ({
 
   return (
     <div>
-      <TitleBar title={t('views.yourLifeMap')} progressBar />
+      <TitleBar title={t('views.sign.addSign')} progressBar />
       <Container className={classes.basicInfo} variant="stretch">
         <div className={classes.iconPriorityBorder}>
           <img

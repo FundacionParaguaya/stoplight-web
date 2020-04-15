@@ -62,6 +62,7 @@
   },
   "views": {
     "sign": {
+      "addSign": "Agregar Assinatura",
       "signHere": "Assinatura",
       "erase": "Limpar",
       "continue": "Continuar"
