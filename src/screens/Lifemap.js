@@ -17,6 +17,7 @@ import UploadPictures from './lifemap/UploadPictures';
 import { ProgressBarProvider } from '../components/ProgressBar';
 import LifemapNav from '../components/LifemapNav';
 import SignIn from './lifemap/SignIn';
+import SendLifemap from './lifemap/SendLifemap';
 
 class Lifemap extends Component {
   render() {
@@ -86,6 +87,10 @@ class Lifemap extends Component {
             component={FinalScreen}
           />
           <Route path={`${this.props.match.path}/sign`} component={SignIn} />
+          <Route
+            path={`${this.props.match.path}/send-lifemap`}
+            component={SendLifemap}
+          />
         </ProgressBarProvider>
       </React.Fragment>
     );
