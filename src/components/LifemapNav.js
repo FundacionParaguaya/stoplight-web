@@ -1,11 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { updateDraft as updateDraftAction } from '../redux/actions';
+import { updateNavHistory as updateNavHistoryAction } from '../redux/actions';
 
 const LifemapNavContext = React.createContext([]);
 
-const LifemapNav = ({ location, currentDraft, updateDraft }) => {
+const LifemapNav = ({ location, currentDraft, updateNavHistory }) => {
   const url = location.pathname;
   const { state } = location;
   React.useEffect(() => {
@@ -24,20 +24,19 @@ const LifemapNav = ({ location, currentDraft, updateDraft }) => {
         if (newEntries.length > MAX_LENGTH) {
           newEntries = newEntries.slice(1);
         }
-        updateDraft({
-          ...currentDraft,
+        updateNavHistory({
           lifemapNavHistory: newEntries
         });
       }
     }
-  }, [url, state, currentDraft, updateDraft]);
+  }, [url, state, currentDraft, updateNavHistory]);
   return <div />;
 };
 const mapStateToProps = ({ currentDraft }) => ({
   currentDraft
 });
 
-const mapDispatchToProps = { updateDraft: updateDraftAction };
+const mapDispatchToProps = { updateNavHistory: updateNavHistoryAction };
 
 export default connect(
   mapStateToProps,

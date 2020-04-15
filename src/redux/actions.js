@@ -22,6 +22,14 @@ export const updateDraft = payload => ({
   payload
 });
 
+// Current Draft
+export const UPDATE_NAV_HISTORY = 'UPDATE_NAV_HISTORY';
+
+export const updateNavHistory = payload => ({
+  type: UPDATE_NAV_HISTORY,
+  payload
+});
+
 // Store Hydration
 export const SET_HYDRATED = 'SET_HYDRATED';
 

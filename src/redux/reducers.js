@@ -6,7 +6,8 @@ import {
   UPDATE_DRAFT,
   SET_HYDRATED,
   UPDATE_SNAPSHOTS,
-  UPSERT_SNAPSHOT
+  UPSERT_SNAPSHOT,
+  UPDATE_NAV_HISTORY
 } from './actions';
 
 // User
@@ -36,7 +37,11 @@ export const currentDraft = (state = null, action) => {
   switch (action.type) {
     case UPDATE_DRAFT:
       return action.payload;
-
+    case UPDATE_NAV_HISTORY:
+      return {
+        ...state,
+        ...action.payload
+      };
     default:
       return state;
   }
