@@ -307,7 +307,8 @@
     "send": {
       "title": "Send your Life Map",
       "subtitle": "Great! You finished your survey.",
-      "chooseOption": "If you wish to receive or download your Life Map, click on one of the following options:"
+      "chooseOption": "If you wish to receive or download your Life Map, click on one of the following options:",
+      "goTo": "Return to Home Page"
     },
     "familiesOverviewBlock": {
       "economics": "Social Economics",

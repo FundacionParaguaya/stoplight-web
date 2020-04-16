@@ -307,7 +307,8 @@
     "send": {
       "title": "Envie o seu Mapa de Vida",
       "subtitle": "Pronto! Já terminou a sua pesquisa.",
-      "chooseOption": "Se você gostaria de receber ou baixar seu Mapa de Vida, por favor selecione uma das opções abaixo:"
+      "chooseOption": "Se você gostaria de receber ou baixar seu Mapa de Vida, por favor selecione uma das opções abaixo:",
+      "goTo": "Voltar à página inicial"
     },
     "familiesOverviewBlock": {
       "economics": "Socioeconômicos",
