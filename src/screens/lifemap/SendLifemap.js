@@ -17,6 +17,7 @@ import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import HomeIcon from '@material-ui/icons/Home';
 
 const styles = theme => ({
   subtitle: {
@@ -289,7 +290,8 @@ const SendLifemap = ({
                 disabled={loading}
                 test-id="close"
               >
-                {t('general.ok')}
+                <HomeIcon className={classes.leftIcon} />
+                {t('views.send.goTo')}
               </Button>
             </Grid>
           </Grid>
