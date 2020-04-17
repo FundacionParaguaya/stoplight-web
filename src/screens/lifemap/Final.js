@@ -6,28 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import PrintIcon from '@material-ui/icons/Print';
-import DownloadIcon from '@material-ui/icons/CloudDownload';
-import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import {
-  submitDraft,
-  sendMail,
-  sendLifemapPdf,
-  submitPictures
-} from '../../api';
+import { submitDraft, submitPictures } from '../../api';
 import TitleBar from '../../components/TitleBar';
-import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import skippedLifemap from '../../assets/Family_center.png';
-
-import generateIndicatorsReport, {
-  getReportTitle
-} from '../../pdfs/indicators-report';
-import { upsertSnapshot } from '../../redux/actions';
+import { upsertSnapshot, updateDraft } from '../../redux/actions';
 
 export class Final extends Component {
   state = {
@@ -73,19 +59,18 @@ export class Final extends Component {
   handleSnapshotSubmit = (user, currentDraft) => {
     const { t } = this.props;
     // submit draft to server and wait for response
+    const stoplightSkipped =
+      this.props.currentSurvey.surveyConfig.stoplightOptional &&
+      currentDraft.indicatorSurveyDataList &&
+      currentDraft.indicatorSurveyDataList.length === 0;
     submitDraft(user, currentDraft)
       .then(response => {
-        const familyId = response.data.data.addSnapshot.family.familyId;
-        console.log('Family ID');
-        console.log(familyId);
+        const snapshotId = response.data.data.addSnapshot.snapshotId;
+        this.props.updateDraft({ ...currentDraft, snapshotId });
 
-        this.toggleModal(
-          t('general.thankYou'),
-          t('views.final.lifemapSaved'),
-          t('general.ok'),
-          'success',
-          this.handleRedirect(familyId, currentDraft.isRetake)
-        );
+        const familyId = response.data.data.addSnapshot.family.familyId;
+        this.handleRedirect(familyId, currentDraft.isRetake, stoplightSkipped);
+
         // Reset ProgressBar Context
         this.context.setRouteTree = {};
       })
@@ -97,30 +82,13 @@ export class Final extends Component {
           'warning',
           () => this.toggleModal()
         );
-      })
-      .finally(() =>
-        this.setState({
-          loading: false
-        })
-      );
+      });
   };
 
   handleSubmit = () => {
     this.setState({
       loading: true
     });
-
-    const {
-      t,
-      i18n: { language }
-    } = this.props;
-
-    const pdf = generateIndicatorsReport(
-      this.props.currentDraft,
-      this.props.currentSurvey,
-      t,
-      language
-    );
 
     const draft = this.props.currentDraft;
     if (
@@ -143,12 +111,20 @@ export class Final extends Component {
     }
   };
 
-  handleRedirect = (familyId, isRetake) => {
-    if (isRetake) {
-      this.redirectToFamilyProfile(familyId);
+  handleRedirect = (familyId, isRetake, stoplightSkipped) => {
+    if (!stoplightSkipped) {
+      this.redirectToSendLifeMap();
     } else {
-      this.redirectToSurveys();
+      if (isRetake) {
+        this.redirectToFamilyProfile(familyId);
+      } else {
+        this.redirectToSurveys();
+      }
     }
+  };
+
+  redirectToSendLifeMap = () => {
+    this.props.history.push('send-lifemap');
   };
 
   redirectToSurveys = () => {
@@ -159,71 +135,11 @@ export class Final extends Component {
     this.props.history.push(`/family/${familyId}`);
   };
 
-  toggleLoading = () => {
-    this.setState(prev => ({
-      loading: !prev.loading
-    }));
-  };
-
-  handleWhatsappClick = () => {
-    const { t } = this.props;
-
-    this.toggleModal(
-      t('general.thankYou'),
-      t('views.final.whatsappSent'),
-      t('general.gotIt'),
-      'success',
-      this.closeModal
-    );
-  };
-
-  handleMailClick = email => {
-    const {
-      t,
-      i18n: { language }
-    } = this.props;
-
-    const pdf = generateIndicatorsReport(
-      this.props.currentDraft,
-      this.props.currentSurvey,
-      t,
-      language
-    );
-
-    this.toggleLoading();
-    pdf.getBlob(blob => {
-      const document = new File([blob], 'lifemap.pdf', {
-        type: 'application/pdf'
-      });
-      return sendMail(document, email, this.props.user, language)
-        .then(() => {
-          this.toggleModal(
-            t('general.thankYou'),
-            t('views.final.emailSent'),
-            t('general.gotIt'),
-            'success',
-            this.closeModal
-          );
-          this.toggleLoading();
-        })
-        .catch(() => {
-          this.toggleModal(
-            t('general.warning'),
-            t('views.final.emailError'),
-            t('general.gotIt'),
-            'warning',
-            this.closeModal
-          );
-          this.toggleLoading();
-        });
+  componentDidMount() {
+    this.setState({
+      loading: false
     });
-  };
-
-  closeModal = e => {
-    if (e) {
-      this.setState({ openModal: false });
-    }
-  };
+  }
 
   render() {
     const stoplightSkipped =
@@ -233,14 +149,8 @@ export class Final extends Component {
 
     console.log('Saltar?');
     console.log(stoplightSkipped);
-    const {
-      t,
-      classes,
-      i18n: { language }
-    } = this.props;
+    const { t, classes } = this.props;
     const { error } = this.state;
-    const primaryParticipant = this.props.currentDraft.familyData
-      .familyMembersList[0];
 
     return (
       <div>
@@ -257,19 +167,11 @@ export class Final extends Component {
         <TitleBar title={t('views.final.title')} progressBar />
         <Container variant="stretch">
           <Typography variant="h5" className={classes.subtitle}>
-            {stoplightSkipped
-              ? t('views.final.surveyCompleted')
-              : t('views.final.lifemapCompleted')}
+            {t('views.final.congratulations')}
           </Typography>
-          <Typography variant="h5" className={classes.clickSafe}>
-            {stoplightSkipped
-              ? t('views.final.clickSafeWithoutStoplight')
-              : t('views.final.clickSafe')}
+          <Typography variant="h5" className={classes.surveyCompleted}>
+            {t('views.final.surveyCompleted')}
           </Typography>
-
-          <Container variant="slim">
-            <AllSurveyIndicators />
-          </Container>
           {error && <Typography color="error">{error}</Typography>}
           {this.state.loading && (
             <div className={classes.loadingContainer}>
@@ -278,92 +180,13 @@ export class Final extends Component {
           )}
 
           <div className={classes.gridContainer}>
-            {!stoplightSkipped ? (
-              <Grid container spacing={2} className={classes.buttonContainer}>
-                {primaryParticipant.email && (
-                  <Grid item xs={12} sm={3}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      fullWidth
-                      disabled={this.state.loading}
-                      onClick={() => {
-                        this.handleMailClick(primaryParticipant.email);
-                      }}
-                    >
-                      <MailIcon className={classes.leftIcon} />
-                      {t('views.final.email')}
-                    </Button>
-                  </Grid>
-                )}
-
-                {primaryParticipant.phoneNumber && (
-                  <Grid item xs={12} sm={3}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      fullWidth
-                      disabled={this.state.loading}
-                      onClick={() => {
-                        this.handleWhatsappClick();
-                      }}
-                    >
-                      <WhatsAppIcon className={classes.leftIcon} />
-                      {t('views.final.whatsapp')}
-                    </Button>
-                  </Grid>
-                )}
-
-                <Grid item xs={12} sm={3}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    fullWidth
-                    disabled={this.state.loading}
-                    onClick={() => {
-                      const pdf = generateIndicatorsReport(
-                        this.props.currentDraft,
-                        this.props.currentSurvey,
-                        t,
-                        language
-                      );
-                      pdf.print();
-                    }}
-                  >
-                    <PrintIcon className={classes.leftIcon} />
-                    {t('views.final.print')}
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    fullWidth
-                    disabled={this.state.loading}
-                    onClick={() => {
-                      const pdf = generateIndicatorsReport(
-                        this.props.currentDraft,
-                        this.props.currentSurvey,
-                        t,
-                        language
-                      );
-                      pdf.download(getReportTitle(this.props.currentDraft, t));
-                    }}
-                  >
-                    <DownloadIcon className={classes.leftIcon} />
-                    {t('views.final.download')}
-                  </Button>
-                </Grid>
-              </Grid>
-            ) : (
-              <Container variant="stretch" className={classes.imageContainer}>
-                <img
-                  className={classes.beginStopLightImage}
-                  src={skippedLifemap}
-                  alt=""
-                />
-              </Container>
-            )}
+            <Container variant="stretch" className={classes.imageContainer}>
+              <img
+                className={classes.beginStopLightImage}
+                src={skippedLifemap}
+                alt=""
+              />
+            </Container>
 
             <Grid container spacing={2} className={classes.buttonContainer}>
               <Grid item xs={12} sm={6}>
@@ -373,12 +196,12 @@ export class Final extends Component {
                   onClick={this.handleSubmit}
                   fullWidth
                   className={classes.saveButtonStyle}
-                  disabled={this.state.loading}
+                  disabled={
+                    this.state.loading || !!this.props.currentDraft.snapshotId
+                  }
                   test-id="close"
                 >
-                  {stoplightSkipped
-                    ? t('general.closeWithoutStoplight')
-                    : t('general.close')}
+                  {t('general.close')}
                 </Button>
               </Grid>
             </Grid>
@@ -397,17 +220,21 @@ const mapStateToProps = ({ currentDraft, currentSurvey, user }) => ({
   currentSurvey,
   user
 });
-const mapDispatchToProps = { upsertSnapshot };
+const mapDispatchToProps = { upsertSnapshot, updateDraft };
 
 const styles = theme => ({
   subtitle: {
     display: 'flex',
     justifyContent: 'center',
+    textAlign: 'center',
     marginTop: theme.spacing(6)
   },
-  clickSafe: {
+  surveyCompleted: {
     display: 'flex',
     justifyContent: 'center',
+    textAlign: 'center',
+    width: '55%',
+    margin: 'auto',
     marginTop: theme.spacing()
   },
   saveButtonContainer: {

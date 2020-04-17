@@ -10,7 +10,7 @@
     "continue": "Continuar",
     "gotIt": "Entendido!",
     "save": "Salvar",
-    "close": "Salvar & fechar",
+    "close": "Finalizar",
     "closeWithoutStoplight": "Finalizar",
     "closeAndSign": "Salvar pesquisa",
     "yes": "Sim",
@@ -290,8 +290,8 @@
     },
     "final": {
       "title": "Obrigada!",
-      "lifemapCompleted": "Seu Mapa de Vida está completo!",
-      "surveyCompleted": "Parabéns! Você terminou a pesquisa.",
+      "congratulations": "Parabéns!",
+      "surveyCompleted": "Você respondeu a todas as perguntas. Não se esqueça de terminar a sua pesquisa!",
       "print": "Imprimir",
       "email": "Email",
       "whatsapp": "Whatsapp",
@@ -300,9 +300,15 @@
       "clickSafe": "Agora, simplesmente clique em salvar!",
       "clickSafeWithoutStoplight": "Agora é só selecionar terminar.",
       "emailSent": "Seu Mapa de Vida foi enviado exitosamente via email. Não esqueça de selecionar Salvar & fechar!",
-      "whatsappSent": "Para receber seu Mapa de Vida no whatsapp, por favor envie \"Olá\" para o número: +5521933007184 após salvar a pesquisa.",
+      "whatsappSent": "Para receber seu Mapa de Vida no whatsapp, por favor envie \"Olá\" para o número: +5521933007184.",
       "whatsappSentOverview": "Para receber o seu Mapa de Vida no whatsapp, envie \"Olá\" para o número: +5521933007184.",
       "emailError": "Error ao enviar seu Mapa de Vida via email"
+    },
+    "send": {
+      "title": "Envie o seu Mapa de Vida",
+      "subtitle": "Pronto! Já terminou a sua pesquisa.",
+      "chooseOption": "Se você gostaria de receber ou baixar seu Mapa de Vida, por favor selecione uma das opções abaixo:",
+      "goTo": "Voltar à página inicial"
     },
     "familiesOverviewBlock": {
       "economics": "Socioeconômicos",

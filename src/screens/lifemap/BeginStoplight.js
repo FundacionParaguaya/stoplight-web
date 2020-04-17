@@ -8,10 +8,7 @@ import TitleBar from '../../components/TitleBar';
 import beginLifemap from '../../assets/begin_lifemap.png';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
-import { submitDraft } from '../../api';
 import LeaveModal from '../../components/LeaveModal';
-import Link from '@material-ui/core/Link';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { updateDraft } from '../../redux/actions';
 
 export class Begin extends Component {
@@ -23,23 +20,6 @@ export class Begin extends Component {
     modalContinueButtonText: '',
     modalLeaveAction: null,
     modalVariant: ''
-  };
-
-  toggleModal = (
-    modalTitle,
-    modalSubtitle,
-    modalContinueButtonText,
-    modalVariant,
-    modalLeaveAction
-  ) => {
-    this.setState(prevState => ({
-      openModal: !prevState.openModal,
-      modalTitle,
-      modalSubtitle,
-      modalContinueButtonText,
-      modalVariant,
-      modalLeaveAction
-    }));
   };
 
   handleSkip = () => {
@@ -57,22 +37,6 @@ export class Begin extends Component {
       this.props.history.push('/lifemap/sign');
     } else {
       this.props.history.push('/lifemap/final');
-    }
-  };
-
-  redirectToSurveys = () => {
-    this.props.history.push(`/surveys?sid=${this.props.user.token}`);
-  };
-
-  toggleLoading = () => {
-    this.setState(prev => ({
-      loading: !prev.loading
-    }));
-  };
-
-  closeModal = e => {
-    if (e) {
-      this.setState({ openModal: false });
     }
   };
 
@@ -141,27 +105,6 @@ export class Begin extends Component {
                   : t('general.continue')}
               </Button>
             </div>
-
-            {/* <div
-              style={{
-                display: 'flex',
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'flex-end'
-              }}
-            >
-              {stoplightOptional && (
-                <Typography
-                  variant="subtitle1"
-                  className={classes.labelGreenRight}
-                >
-                  <Link href="#" onClick={this.handleSkip}>
-                    {t('general.closeAndSign')}
-                    <ArrowForwardIosIcon style={{ verticalAlign: 'middle' }} />
-                  </Link>
-                </Typography>
-              )}
-            </div> */}
           </div>
           <BottomSpacer />
         </Container>

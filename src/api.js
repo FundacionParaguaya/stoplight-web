@@ -262,6 +262,7 @@ export const submitDraft = (user, snapshot) => {
   delete sanitizedSnapshot.previousIndicatorPriorities;
   delete sanitizedSnapshot.previousIndicatorAchivements;
   delete sanitizedSnapshot.isRetake;
+  delete sanitizedSnapshot.snapshotId;
   let { economicSurveyDataList } = snapshot;
   const validEconomicIndicator = ec =>
     (ec.value !== null && ec.value !== undefined && ec.value !== '') ||
@@ -288,7 +289,7 @@ export const submitDraft = (user, snapshot) => {
     },
     data: JSON.stringify({
       query:
-        'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+        'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
       variables: { newSnapshot: { ...sanitizedSnapshot } }
     })
   });
@@ -413,6 +414,7 @@ export const saveDraft = (user, draft) => {
   delete sanitizedDraft.previousIndicatorPriorities;
   delete sanitizedDraft.previousIndicatorAchivements;
   delete sanitizedDraft.isRetake;
+  delete sanitizedDraft.snapshotId;
   return axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
