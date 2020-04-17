@@ -16,7 +16,6 @@ import {
   getPrioritiesByFamily,
   getLastSnapshot
 } from '../api';
-import uuid from 'uuid/v1';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/face_icon_large.png';
 import MailIcon from '@material-ui/icons/Mail';
@@ -37,7 +36,12 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import NavigationBar from '../components/NavigationBar';
 import FamilyPriorities from '../components/FamilyPriorities';
-import { CONDITION_TYPES } from '../utils/conditional-logic';
+import {
+  getEconomicScreens,
+  getConditionalQuestions,
+  getElementsWithConditionsOnThem,
+  snapshotToDraft
+} from '../utils/survey-utils';
 import { getSurveyById } from '../api';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -62,7 +66,7 @@ const FamilyProfile = ({
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
   const [stoplightSkipped, setStoplightSkipped] = useState(false);
   const [priorities, setPriorities] = useState([]);
-  const [loadingSurvey, setloadingSurvey] = useState(false);
+  const [loadingSurvey, setLoadingSurvey] = useState(true);
   const [survey, setSurvey] = useState();
 
   const navigationOptions = [
@@ -75,7 +79,6 @@ const FamilyProfile = ({
   };
 
   const changeFacilitator = () => {
-    console.log('Change facilitator');
     setShowConfirmationModal(true);
   };
 
@@ -93,7 +96,6 @@ const FamilyProfile = ({
   };
 
   const onChangeFacilitator = (value, facilitators) => {
-    console.log('Set Facilitator to: ', value);
     setDisabledFacilitator(false);
     setSelectedFacilitator(value);
   };
@@ -126,35 +128,15 @@ const FamilyProfile = ({
       });
   };
 
-  const loadPriorities = familyId => {
-    getPrioritiesByFamily(user, Number(familyId))
-      .then(response => {
-        setPriorities(response.data.data.prioritiesByFamily);
-      })
-      .catch(e => {
-        console.log(e);
-        enqueueSnackbar(t('views.familyPriorities.errorLoading'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
-      });
-  };
-
-  useEffect(() => {
+  const loadFamilies = (familyId, user) => {
     getFamily(familyId, user).then(response => {
       let members = response.data.data.familyById.familyMemberDTOList;
-      console.log('members', members);
       let firtsParticipantMap = members.find(
         element => element.firstParticipant === true
       );
-      console.log('firtsParticipantMap', firtsParticipantMap);
+
       setFamily(response.data.data.familyById);
       setFirtsParticipant(firtsParticipantMap);
-      console.log('Mentor', response.data.data.familyById.user);
 
       let mentor = {
         label: response.data.data.familyById.user.username,
@@ -172,15 +154,38 @@ const FamilyProfile = ({
           setSurvey(response.data.data.surveyById);
         })
         .catch(() => {
-          setloadingSurvey(false);
+          setLoadingSurvey(false);
         });
     });
+  };
 
+  const loadPriorities = familyId => {
+    getPrioritiesByFamily(user, Number(familyId))
+      .then(async response => {
+        setPriorities(response.data.data.prioritiesByFamily);
+        setLoadingSurvey(false);
+      })
+      .catch(e => {
+        console.log(e);
+        setLoadingSurvey(false);
+        enqueueSnackbar(t('views.familyPriorities.errorLoading'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      });
+  };
+
+  useEffect(() => {
+    loadFamilies(familyId, user);
     loadPriorities(familyId);
   }, []);
 
   const handleRetakeSurvey = e => {
-    setloadingSurvey(true);
+    setLoadingSurvey(true);
 
     const economicScreens = getEconomicScreens(survey);
     const conditionalQuestions = getConditionalQuestions(survey);
@@ -193,155 +198,17 @@ const FamilyProfile = ({
       conditionalQuestions,
       elementsWithConditionsOnThem
     });
+
     getLastSnapshot(familyId, user)
       .then(response => {
-        const el = { ...response.data.data.getLastSnapshot };
-        // Mapping keys for family data
-        const familyData = { ...el.family };
-        const previousIndicatorSurveyDataList = [
-          ...el.previousIndicatorSurveyDataList
-        ];
-        const previousIndicatorPriorities = [...el.snapshotStoplightPriorities];
-        const previousIndicatorAchivements = [
-          ...el.snapshotStoplightAchievements
-        ];
-        delete el.snapshotStoplightPriorities;
-        delete el.snapshotStoplightAchievements;
-        familyData.familyId = familyId;
-        familyData.familyMembersList = el.family.familyMemberDTOList.map(
-          member => {
-            return {
-              ...member,
-              socioEconomicAnswers: []
-            };
-          }
-        );
-        delete el.family;
-        delete familyData.familyMemberDTOList;
-        const draft = {
-          sign: '',
-          pictures: [],
-          draftId: uuid(), // generate unique id based on timestamp
-          surveyId: family.snapshotIndicators.surveyId,
-          created: Date.now(),
-          economicSurveyDataList: [],
-          indicatorSurveyDataList: [],
-          priorities: [],
-          achievements: [],
-          ...el,
-          familyData,
-          previousIndicatorSurveyDataList,
-          previousIndicatorPriorities,
-          previousIndicatorAchivements,
-          lifemapNavHistory: [],
-          isRetake: true
-        };
+        const draft = snapshotToDraft(response, family, familyId);
         updateDraft({ ...draft });
       })
       .catch(() => {
-        setloadingSurvey(false);
+        setLoadingSurvey(false);
       });
+    setLoadingSurvey(false);
     history.push('/lifemap/terms');
-  };
-
-  const getEconomicScreens = survey => {
-    let currentDimension = '';
-    const questionsPerScreen = [];
-    let totalScreens = 0;
-
-    // go trough all questions and separate them by screen
-    survey.surveyEconomicQuestions.forEach(question => {
-      // if the dimention of the questions change, change the page
-      if (question.topic !== currentDimension) {
-        currentDimension = question.topic;
-        totalScreens += 1;
-      }
-
-      // if there is object for n screen create one
-      if (!questionsPerScreen[totalScreens - 1]) {
-        questionsPerScreen[totalScreens - 1] = {
-          forFamilyMember: [],
-          forFamily: []
-        };
-      }
-
-      if (question.forFamilyMember) {
-        questionsPerScreen[totalScreens - 1].forFamilyMember.push(question);
-      } else {
-        questionsPerScreen[totalScreens - 1].forFamily.push(question);
-      }
-    });
-
-    return {
-      questionsPerScreen
-    };
-  };
-
-  const getConditionalQuestions = survey => {
-    const surveyEconomicQuestions = survey.surveyEconomicQuestions || [];
-    const conditionalQuestions = [];
-    surveyEconomicQuestions.forEach(eq => {
-      if (
-        (eq.conditions && eq.conditions.length > 0) ||
-        (eq.conditionGroups && eq.conditionGroups.length > 0)
-      ) {
-        conditionalQuestions.push(eq);
-      } else {
-        // Checking conditional options only if needed
-        const options = eq.options || [];
-        for (const option of options) {
-          if (option.conditions && option.conditions.length > 0) {
-            conditionalQuestions.push(eq);
-            return;
-          }
-        }
-      }
-    });
-    return conditionalQuestions;
-  };
-
-  const getElementsWithConditionsOnThem = conditionalQuestions => {
-    const questionsWithConditionsOnThem = [];
-    const memberKeysWithConditionsOnThem = [];
-
-    const addTargetIfApplies = condition => {
-      // Addind this so it works after changing the key to scope
-      const scope = condition.scope || condition.type;
-      if (
-        scope !== CONDITION_TYPES.FAMILY &&
-        !questionsWithConditionsOnThem.includes(condition.codeName)
-      ) {
-        questionsWithConditionsOnThem.push(condition.codeName);
-      }
-      if (
-        scope === CONDITION_TYPES.FAMILY &&
-        !memberKeysWithConditionsOnThem.includes(condition.codeName)
-      ) {
-        memberKeysWithConditionsOnThem.push(condition.codeName);
-      }
-    };
-
-    conditionalQuestions.forEach(conditionalQuestion => {
-      let conditions = [];
-      const { conditionGroups } = conditionalQuestion;
-      if (conditionGroups && conditionGroups.length > 0) {
-        conditionGroups.forEach(conditionGroup => {
-          conditions = [...conditions, ...conditionGroup.conditions];
-        });
-      } else {
-        ({ conditions = [] } = conditionalQuestion);
-      }
-
-      conditions.forEach(addTargetIfApplies);
-
-      // Checking conditional options only if needed
-      const options = conditionalQuestion.options || [];
-      options.forEach(option => {
-        const { conditions: optionConditions = [] } = option;
-        optionConditions.forEach(addTargetIfApplies);
-      });
-    });
-    return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
   };
 
   const showRetakeButton = user => {
@@ -397,10 +264,7 @@ const FamilyProfile = ({
           />
           {family.familyMemberDTOList && family.familyMemberDTOList.length > 1 && (
             <div className={classes.iconBadgeNumber}>
-              <Typography
-                variant="h6"
-                style={{ fontSize: 9, color: '#6A6A6A', fontWeight: 'bold' }}
-              >
+              <Typography variant="h6" className={classes.badgeNumber}>
                 +{family.familyMemberDTOList.length - 1}
               </Typography>
             </div>
@@ -567,11 +431,7 @@ const FamilyProfile = ({
       {/* Condition to hide the retake banner */}
       {showRetakeButton(user) && (
         <div className={classes.buttonContainer}>
-          <Typography
-            variant="subtitle1"
-            className={classes.label}
-            style={{ color: '#f3f4f6' }}
-          >
+          <Typography variant="subtitle1" className={classes.retakeButton}>
             {t('views.familyProfile.createNewSnapshot')}
           </Typography>
           <Button
@@ -648,7 +508,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '40%',
-    //paddingRight: '15%',
     paddingLeft: '5%',
     [theme.breakpoints.down('xs')]: {
       width: '100%!important'
@@ -692,14 +551,12 @@ const styles = theme => ({
   horizontalAlign: {
     display: 'flex',
     flexDirection: 'row'
-    // padding: `${theme.spacing(0.5)}px 0`
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     justifyContent: 'center',
     zIndex: 9
-    //position: 'relative'
   },
   basicInfoText: {
     backgroundColor: theme.palette.background.default,
@@ -728,9 +585,9 @@ const styles = theme => ({
   },
 
   iconBaiconFamilyBorder: {
-    border: '2px solid #FFFFFF',
+    border: `2px solid ${theme.palette.background.default}`,
     borderRadius: '50%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.palette.background.default,
     minWidth: 90,
     minHeight: 90,
     display: 'flex',
@@ -771,18 +628,18 @@ const styles = theme => ({
   mainSurveyContainerBoss: {
     backgroundColor: theme.palette.background.paper
   },
-  iconGreen: { color: '#309E43' },
-  iconGray: { color: '#6A6A6A' },
+  iconGreen: { color: theme.palette.primary.main },
+  iconGray: { color: theme.palette.grey.middle },
   labelGreen: {
     marginRight: 10,
     fontSize: 14,
-    color: '#309E43',
+    color: theme.palette.primary.main,
     paddingLeft: 10
   },
   labelGreenRight: {
     marginRight: 20,
     fontSize: 14,
-    color: '#309E43',
+    color: theme.palette.primary.main,
     paddingLeft: 10,
     paddingTop: 10,
     textAlign: 'right'
@@ -794,9 +651,9 @@ const styles = theme => ({
     alignItems: 'center'
   },
   iconBadgeNumber: {
-    border: '2px solid #FFFFFF',
+    border: `2px solid ${theme.palette.background.default}`,
     borderRadius: '50%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -806,17 +663,26 @@ const styles = theme => ({
     top: 15,
     right: 15
   },
+  badgeNumber: {
+    fontSize: 9,
+    color: theme.palette.grey.middle,
+    fontWeight: 'bold'
+  },
   loadingSurveyContainer: {
     zIndex: 10000,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'fixed',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: theme.palette.text.light,
     right: 0,
     bottom: 0,
     top: 0,
     left: 0
+  },
+  retakeButton: {
+    ...theme.overrides.label,
+    color: theme.palette.background.paper
   }
 });
 
