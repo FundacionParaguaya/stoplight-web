@@ -290,7 +290,9 @@ export class PrimaryParticipant extends Component {
         this.props.currentDraft.familyData.countFamilyMembers
       );
       if (
-        !this.props.currentDraft.familyData.familyMembersList[0].birthCountry
+        !this.props.currentDraft.familyData.familyMembersList.find(
+          e => e.firstParticipant == true
+        ).birthCountry
       ) {
         const { currentDraft } = this.props;
         // update only the first item of familyMembersList
@@ -302,7 +304,9 @@ export class PrimaryParticipant extends Component {
             familyMembersList: [
               ...currentDraft.familyData.familyMembersList.slice(0, 0),
               {
-                ...currentDraft.familyData.familyMembersList[0],
+                ...currentDraft.familyData.familyMembersList.find(
+                  e => e.firstParticipant == true
+                ),
                 ...{
                   birthCountry: this.props.currentSurvey.surveyConfig
                     .surveyLocation.country
@@ -313,7 +317,11 @@ export class PrimaryParticipant extends Component {
           }
         });
       }
-      if (!this.props.currentDraft.familyData.familyMembersList[0].phoneCode) {
+      if (
+        !this.props.currentDraft.familyData.familyMembersList.find(
+          e => e.firstParticipant == true
+        ).phoneCode
+      ) {
         const { currentDraft } = this.props;
         // update only the first item of familyMembersList
         //  which is the primary participant
@@ -324,7 +332,9 @@ export class PrimaryParticipant extends Component {
             familyMembersList: [
               ...currentDraft.familyData.familyMembersList.slice(0, 0),
               {
-                ...currentDraft.familyData.familyMembersList[0],
+                ...currentDraft.familyData.familyMembersList.find(
+                  e => e.firstParticipant == true
+                ),
                 ...{
                   phoneCode: phoneCodes.find(
                     e =>
@@ -373,7 +383,9 @@ export class PrimaryParticipant extends Component {
     }
 
     const participant = currentDraft
-      ? currentDraft.familyData.familyMembersList[0]
+      ? currentDraft.familyData.familyMembersList.find(
+          e => e.firstParticipant == true
+        )
       : {};
     const defaultEditingObject = {
       firstName: '',
