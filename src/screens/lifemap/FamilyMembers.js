@@ -47,14 +47,17 @@ const validationSchema = Yup.object().shape({
 export class FamilyMembers extends Component {
   constructor(props) {
     super(props);
-    const originalCountValue = props.location.state.oldCountFamilyMembers
-      ? this.props.location.state.oldCountFamilyMembers
-      : 1;
+    const originalCountValue = props.location.state.oldCountFamilyMembers;
     const newCountValue = props.currentDraft.familyData.countFamilyMembers;
     //show or hide modal to indicate that we should remove one member
+
+    console.log(
+      'originalCountValue -- newCountValue',
+      originalCountValue + '---' + newCountValue
+    );
     this.state = {
-      showModal: newCountValue < originalCountValue,
-      decreaseMembers: newCountValue < originalCountValue
+      showModal: originalCountValue && newCountValue < originalCountValue,
+      decreaseMembers: originalCountValue && newCountValue < originalCountValue
     };
   }
 
@@ -116,7 +119,7 @@ export class FamilyMembers extends Component {
 
   validateNumberOfMembers = () => {
     const numberOfMembers = this.props.currentDraft.familyData
-      .countFamilyMembers; //No first participant
+      .countFamilyMembers; //including first participant
     const numberAdded = this.props.currentDraft.familyData.familyMembersList
       .length;
     const decreaseMembers = this.state.decreaseMembers;
