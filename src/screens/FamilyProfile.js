@@ -161,9 +161,8 @@ const FamilyProfile = ({
 
   const loadPriorities = familyId => {
     getPrioritiesByFamily(user, Number(familyId))
-      .then(async response => {
+      .then(response => {
         setPriorities(response.data.data.prioritiesByFamily);
-        setLoadingSurvey(false);
       })
       .catch(e => {
         console.log(e);
@@ -183,6 +182,10 @@ const FamilyProfile = ({
     loadFamilies(familyId, user);
     loadPriorities(familyId);
   }, []);
+
+  useEffect(() => {
+    !!family.name && setLoadingSurvey(false);
+  }, [family]);
 
   const handleRetakeSurvey = e => {
     setLoadingSurvey(true);
