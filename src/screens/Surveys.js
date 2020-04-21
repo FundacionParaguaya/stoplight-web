@@ -13,7 +13,7 @@ import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import BottomSpacer from '../components/BottomSpacer';
 import { getDateFormatByLocale } from '../utils/date-utils';
-import { CONDITION_TYPES } from '../utils/conditional-logic';
+import { ROLES_NAMES } from '../utils/role-utils';
 import withLayout from '../components/withLayout';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,7 +24,6 @@ export class Surveys extends Component {
   getSurveys(user) {
     getSurveysByUser(user || this.props.user)
       .then(response => {
-        console.log('response', response.data);
         this.setState({
           surveys: response.data
         });
@@ -40,6 +39,21 @@ export class Surveys extends Component {
     // Clear current draft from store
 
     this.getSurveys();
+  }
+
+  showHubs() {
+    return this.props.user.role === ROLES_NAMES.ROLE_ROOT;
+  }
+
+  showOrganizations() {
+    return this.props.user.role === ROLES_NAMES.ROLE_HUB_ADMIN;
+  }
+
+  showAssignButton() {
+    return (
+      this.props.user.role === ROLES_NAMES.ROLE_ROOT ||
+      this.props.user.role === ROLES_NAMES.ROLE_HUB_ADMIN
+    );
   }
 
   render() {
@@ -83,38 +97,59 @@ export class Surveys extends Component {
                         >
                           {survey.title}
                         </Typography>
-                        <IconButton
-                          color="primary"
-                          aria-label="Assign Survey to Hub"
-                          component="span"
-                          onClick={() => {
-                            //TODO
-                          }}
-                        >
-                          <MoreVertIcon />
-                        </IconButton>
+                        {this.showAssignButton() && (
+                          <IconButton
+                            color="primary"
+                            aria-label="Assign Survey to Hub"
+                            component="span"
+                            onClick={() => {
+                              //TODO
+                            }}
+                          >
+                            <MoreVertIcon />
+                          </IconButton>
+                        )}
                       </div>
-                      {/*  <Typography className={classes.paragraphSurvey}>
-                        {survey.description.slice(0, 58)}
-                        {survey.description.length > 58 && '...'}
-                      </Typography> */}
+                      <div style={{ marginBottom: 7 }}>
+                        {this.showHubs() &&
+                          survey.applications.map(hub => {
+                            return (
+                              <Typography
+                                key={hub.id}
+                                variant="caption"
+                                className={classes.tag}
+                              >
+                                {hub.name}
+                              </Typography>
+                            );
+                          })}
+                        {this.showOrganizations() &&
+                          survey.organization.map(org => {
+                            return (
+                              <Typography
+                                key={org.id}
+                                variant="caption"
+                                className={classes.tag}
+                              >
+                                {org.name}
+                              </Typography>
+                            );
+                          })}
+                      </div>
 
-                      <Typography className={classes.contains}>
+                      <Typography>
                         {t('views.survey.contains')}
                         {': '}
-                        <span style={{ color: '#1C212F' }}>
-                          {survey.indicatorsCount} indicators
+                        <span className={classes.subtitle}>
+                          {survey.indicatorsCount}{' '}
+                          {t('views.survey.indicators')}
                         </span>
                       </Typography>
 
                       <Typography className={classes.createdOn}>
                         {t('views.survey.createdOn')}
                         {': '}
-                        <span
-                          style={{
-                            color: '#1C212F'
-                          }}
-                        >
+                        <span className={classes.subtitle}>
                           {moment(survey.createdAt).format(dateFormat)}
                         </span>
                       </Typography>
@@ -133,20 +168,34 @@ export class Surveys extends Component {
 
 const styles = theme => ({
   surveyTitle: {
-    color: '#309E43',
+    color: theme.palette.primary.dark,
     fontSize: '18px',
     marginRight: 'auto',
-    marginBottom: '15px!important',
+    marginBottom: 7,
     fontWeight: theme.typography.fontWeightMedium
   },
   surveyTitleContainer: {
+    height: '75%',
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    borderBottomWidth: 2,
+    borderBottomColor: theme.palette.grey.quarter,
+    '&:hover': {
+      borderBottomColor: theme.palette.primary.dark
+    }
   },
   subtitle: {
-    fontWeight: 400
+    color: theme.palette.text.primary
   },
+  tag: {
+    backgroundColor: theme.palette.grey.quarter,
+    color: theme.palette.grey.main,
+    padding: 3,
+    marginBottom: 8,
+    marginRight: 8
+  },
+
   chooseLifeMapImage: {
     display: 'block',
     height: 240,
@@ -171,7 +220,7 @@ const styles = theme => ({
   },
 
   mainSurveyContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
     flexDirection: 'column',
     paddingTop: 10,
@@ -182,7 +231,7 @@ const styles = theme => ({
 
     '& $p': {
       fontSize: '14px',
-      color: '#6A6A6A',
+      color: theme.palette.grey.middle,
       marginBottom: 7
     },
     '& $p:last-child': {
