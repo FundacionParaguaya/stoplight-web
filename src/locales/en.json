@@ -185,7 +185,8 @@
       "created": "Created on",
       "formWithErrors": "Review %number form errors",
       "formWithError": "Review 1 form error",
-      "amountOfMembers": "The amount of members doesn't match, please check the amount indicated."
+      "amountOfMembers": "The amount of members doesn't match, please check the amount indicated.",
+      "decreasingMembers": "Remove the member who no longer belongs in the household."
     },
     "lifemap": {
       "thisLifeMapHas": "Thank you! This Stoplight section has %n indicators.",

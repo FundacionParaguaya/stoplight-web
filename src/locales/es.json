@@ -186,7 +186,8 @@
       "created": "Creado",
       "formWithErrors": "Revise %number errores en el formulario",
       "formWithError": "Revise un error en el formulario",
-      "amountOfMembers": "La cantidad de miembros no coincide, favor verifica la cantidad indicada."
+      "amountOfMembers": "La cantidad de miembros no coincide, favor verifica la cantidad indicada.",
+      "decreasingMembers": "Elimina el miembro que ya no pertenece al hogar."
     },
     "lifemap": {
       "thisLifeMapHas": "¡Listo! Esta sección del Semáforo contiene %n indicadores",
