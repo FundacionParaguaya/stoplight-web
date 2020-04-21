@@ -126,7 +126,6 @@ export class FamilyMembers extends Component {
     const numberAdded = this.props.currentDraft.familyData.familyMembersList
       .length;
     const decreaseMembers = this.state.decreaseMembers;
-
     console.log(
       'validating number of members: ' +
         numberOfMembers +
@@ -138,7 +137,7 @@ export class FamilyMembers extends Component {
     if (numberOfMembers === numberAdded) {
       console.log('Equal number of members added and declared');
       return true;
-    } else if (numberAdded > numberOfMembers && !decreaseMembers) {
+    } else if (!decreaseMembers) {
       console.log('Updating number of members to : ', numberAdded + 1);
 
       this.props.updateDraft({
