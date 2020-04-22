@@ -110,7 +110,10 @@
       "surveys": "Surveys",
       "indicators": "Indicators",
       "createSurvey": "Begin Stoplight survey",
-      "specifyOther": "Specify other"
+      "specifyOther": "Specify other",
+      "hubs": "Hubs",
+      "orgs": "Organizations",
+      "assignSurvey": "Assign survey"
     },
     "analytics": {
       "title": "Analytics",

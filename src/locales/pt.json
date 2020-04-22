@@ -110,7 +110,10 @@
       "surveys": "Pesquisas",
       "indicators": "Indicadores",
       "createSurvey": "Realize seu Semáforo",
-      "specifyOther": "Especifique outro"
+      "specifyOther": "Especifique outro",
+      "hubs": "Hubs",
+      "organizations": "Organizações",
+      "assignSurvey": "Atribuir pesquisa"
     },
     "analytics": {
       "title": "Analíticas",
