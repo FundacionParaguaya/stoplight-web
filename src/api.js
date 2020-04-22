@@ -660,3 +660,21 @@ export const downloadPdf = (snapshotId, user, lang) => {
     responseType: 'arraybuffer'
   });
 };
+
+export const assignOrganizations = (
+  user,
+  organizations,
+  applications,
+  surveyId
+) =>
+  axios({
+    method: 'put',
+    url: `${url[user.env]}/api/v1/surveys/${surveyId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: {
+      applications,
+      organizations
+    }
+  });
