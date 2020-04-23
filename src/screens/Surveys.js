@@ -79,9 +79,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
       <Container>
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
-            <Typography variant="h4">
-              {t('views.survey.chooseSurvey')}
-            </Typography>
+            <Typography variant="h4">{t('views.survey.surveys')}</Typography>
           </div>
           <img
             src={chooseLifeMap}
@@ -95,10 +93,10 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
               <CircularProgress size={50} thickness={2} />
             </div>
           )}
-          <Grid container spacing={2}>
+          <Grid container spacing={2} style={{ width: 'calc(100% + 280px)' }}>
             {surveys.map(survey => {
               return (
-                <Grid item key={survey.id} xs={12} sm={12} md={4}>
+                <Grid item key={survey.id} xs={12} sm={4} md={4}>
                   <div className={classes.mainSurveyContainer}>
                     <div className={classes.surveyTitleContainer}>
                       <Typography variant="h6" className={classes.surveyTitle}>

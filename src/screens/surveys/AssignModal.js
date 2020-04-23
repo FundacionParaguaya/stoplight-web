@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import Select from 'react-select';
 import * as _ from 'lodash';
+import { withSnackbar } from 'notistack';
 import { getHubs, getOrganizationsByHub, assignOrganizations } from '../../api';
 import { CircularProgress } from '@material-ui/core';
 
@@ -73,7 +74,7 @@ const styles = theme => ({
     padding: 40,
     width: '37%',
     minWidth: 375,
-    height: '33%'
+    minHeight: '33%'
   },
   closeIcon: {
     position: 'absolute',
@@ -101,13 +102,16 @@ const AssignModal = ({
   survey,
   open,
   toggleModal,
-  updateSurveys
+  updateSurveys,
+  enqueueSnackbar,
+  closeSnackbar
 }) => {
   const [loading, setLoading] = useState(false);
   const [organizations, setOrganizations] = useState([]);
   const [applications, setApplications] = useState([]);
   const [hubs, setHubs] = useState([]);
   const [orgs, setOrgs] = useState([]);
+  const [optionsLoading, setOptionsLoading] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -117,6 +121,7 @@ const AssignModal = ({
 
   useEffect(() => {
     if (!!survey.title) {
+      setOptionsLoading(true);
       let surveyHubs = survey.applications.map(application => ({
         label: application.name,
         value: application.id
@@ -136,7 +141,7 @@ const AssignModal = ({
         );
         setHubs(hubsFromAPI);
       });
-      let hub = { value: 1 };
+      let hub = user.hub;
       getOrganizationsByHub(user, hub && hub.value ? hub.value : null)
         .then(response => {
           const orgs = _.get(response, 'data.data.organizations', []).map(
@@ -148,8 +153,9 @@ const AssignModal = ({
           setOrgs(orgs);
         })
         .finally(() => setLoading(false));
+      setOptionsLoading(false);
     }
-  }, [survey]);
+  }, [survey.id]);
 
   const showHubs = () => {
     return user.role === ROLES_NAMES.ROLE_ROOT;
@@ -168,16 +174,33 @@ const AssignModal = ({
       return String(application.value);
     });
     setLoading(true);
-    assignOrganizations(
-      user,
-      newSurveyOrganizations,
-      newSurveyHubs,
-      survey.id
-    ).finally(() => {
-      updateSurveys(survey.id, applications, organizations);
-      setLoading(false);
-      toggleModal();
-    });
+    assignOrganizations(user, newSurveyOrganizations, newSurveyHubs, survey.id)
+      .then(() => {
+        updateSurveys(survey.id, applications, organizations);
+        enqueueSnackbar(t('views.survey.assignSurvey.surveyAssigned'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        setLoading(false);
+      })
+      .catch(() => {
+        enqueueSnackbar(t('views.survey.assignSurveys.surveyAssignError'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+        toggleModal();
+      });
   };
 
   return (
@@ -197,7 +220,7 @@ const AssignModal = ({
               <CloseIcon style={{ color: 'green' }} />
             </IconButton>
             <Typography style={{ marginBottom: 30 }} variant="h5">
-              {t('views.survey.assignSurvey')}
+              {t('views.survey.assignSurvey.assignSurvey')}
             </Typography>
             <Typography variant="h6" className={classes.surveyTitle}>
               {survey.title}
@@ -205,14 +228,14 @@ const AssignModal = ({
             {showHubs() && (
               <div className={classes.container}>
                 <Typography variant="subtitle1" className={classes.label}>
-                  {t('views.survey.hubs')}
+                  {t('views.survey.assignSurvey.hubs')}
                 </Typography>
                 <div className={classes.selector}>
                   <Select
                     value={applications}
                     onChange={value => setApplications(value)}
                     placeholder=""
-                    isLoading={loading}
+                    isLoading={optionsLoading}
                     loadingMessage={() => t('views.hubsFilter.loading')}
                     noOptionsMessage={() => t('views.hubsFilter.noOption')}
                     options={hubs}
@@ -223,6 +246,7 @@ const AssignModal = ({
                     isClearable
                     isMulti
                     hideSelectedOptions
+                    loading={optionsLoading}
                     styles={selectStyle}
                   />
                 </div>
@@ -232,7 +256,7 @@ const AssignModal = ({
             {showOrganizations() && (
               <div className={classes.container}>
                 <Typography variant="subtitle1" className={classes.label}>
-                  {t('views.organizationsFilter.label')}
+                  {t('views.survey.assignSurvey.orgs')}
                 </Typography>
 
                 <div className={classes.selector}>
@@ -240,7 +264,7 @@ const AssignModal = ({
                     value={organizations}
                     onChange={value => setOrganizations(value)}
                     placeholder=""
-                    isLoading={loading}
+                    isLoading={optionsLoading}
                     loadingMessage={() =>
                       t('views.organizationsFilter.loading')
                     }
@@ -264,6 +288,7 @@ const AssignModal = ({
             <Button
               variant="contained"
               color="primary"
+              style={{ marginTop: 5 }}
               onClick={() => handleSubmit()}
             >
               {t('general.ok')}
@@ -278,5 +303,7 @@ const AssignModal = ({
 const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(
-  withStyles(styles)(connect(mapStateToProps)(withTranslation()(AssignModal)))
+  withStyles(styles)(
+    connect(mapStateToProps)(withTranslation()(withSnackbar(AssignModal)))
+  )
 );
