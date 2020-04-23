@@ -115,7 +115,8 @@ export class PrimaryParticipant extends Component {
     super(props);
     this.state = {
       householdSizeArray: PrimaryParticipant.constructHouseholdArray(props),
-      validationSpec: {}
+      validationSpec: {},
+      oldCountFamilyMembers: 1
     };
   }
 
@@ -175,10 +176,18 @@ export class PrimaryParticipant extends Component {
   handleContinue = () => {
     const { currentDraft } = this.props;
     const { countFamilyMembers } = currentDraft.familyData;
-    if (countFamilyMembers === 1 || countFamilyMembers === -1) {
+    const members = currentDraft.familyData.familyMembersList.length;
+
+    if (
+      (countFamilyMembers === 1 || countFamilyMembers === -1) &&
+      members === 1
+    ) {
       this.props.history.push('/lifemap/location');
     } else {
-      this.props.history.push('/lifemap/family-members');
+      this.props.history.push({
+        pathname: '/lifemap/family-members',
+        state: { oldCountFamilyMembers: this.state.oldCountFamilyMembers }
+      });
     }
   };
 
@@ -208,14 +217,14 @@ export class PrimaryParticipant extends Component {
 
     // Covering the case where user does not want to specify
     if (value === 1 || value === -1) {
-      const name = currentDraft.familyData.familyMembersList;
-      name.splice(1);
+      //const name = currentDraft.familyData.familyMembersList;
+      //name.splice(1);
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
           ...currentDraft.familyData,
-          ...{ countFamilyMembers: value },
-          familyMembersList: name
+          ...{ countFamilyMembers: value }
+          // familyMembersList: name
         }
       });
     } else if (currentDraft.familyData.familyMembersList.length < value) {
@@ -267,6 +276,9 @@ export class PrimaryParticipant extends Component {
     }
   };
 
+  setOriginalMemberCount(originalValue) {
+    this.setState({ oldCountFamilyMembers: originalValue });
+  }
   componentDidMount = async () => {
     // if there is no current draft in the store create a new one
 
@@ -274,8 +286,13 @@ export class PrimaryParticipant extends Component {
       await this.createNewDraft();
     }
     if (this.props.currentDraft) {
+      this.setOriginalMemberCount(
+        this.props.currentDraft.familyData.countFamilyMembers
+      );
       if (
-        !this.props.currentDraft.familyData.familyMembersList[0].birthCountry
+        !this.props.currentDraft.familyData.familyMembersList.find(
+          e => e.firstParticipant == true
+        ).birthCountry
       ) {
         const { currentDraft } = this.props;
         // update only the first item of familyMembersList
@@ -287,7 +304,9 @@ export class PrimaryParticipant extends Component {
             familyMembersList: [
               ...currentDraft.familyData.familyMembersList.slice(0, 0),
               {
-                ...currentDraft.familyData.familyMembersList[0],
+                ...currentDraft.familyData.familyMembersList.find(
+                  e => e.firstParticipant == true
+                ),
                 ...{
                   birthCountry: this.props.currentSurvey.surveyConfig
                     .surveyLocation.country
@@ -298,7 +317,11 @@ export class PrimaryParticipant extends Component {
           }
         });
       }
-      if (!this.props.currentDraft.familyData.familyMembersList[0].phoneCode) {
+      if (
+        !this.props.currentDraft.familyData.familyMembersList.find(
+          e => e.firstParticipant == true
+        ).phoneCode
+      ) {
         const { currentDraft } = this.props;
         // update only the first item of familyMembersList
         //  which is the primary participant
@@ -309,7 +332,9 @@ export class PrimaryParticipant extends Component {
             familyMembersList: [
               ...currentDraft.familyData.familyMembersList.slice(0, 0),
               {
-                ...currentDraft.familyData.familyMembersList[0],
+                ...currentDraft.familyData.familyMembersList.find(
+                  e => e.firstParticipant == true
+                ),
                 ...{
                   phoneCode: phoneCodes.find(
                     e =>
@@ -358,7 +383,9 @@ export class PrimaryParticipant extends Component {
     }
 
     const participant = currentDraft
-      ? currentDraft.familyData.familyMembersList[0]
+      ? currentDraft.familyData.familyMembersList.find(
+          e => e.firstParticipant == true
+        )
       : {};
     const defaultEditingObject = {
       firstName: '',
@@ -577,7 +604,10 @@ export class PrimaryParticipant extends Component {
                         'countFamilyMembers',
                         setFieldValue
                       );
-                      this.updateFamilyMembersCount(null, e ? e.value : 1);
+                      this.updateFamilyMembersCount(
+                        setFieldValue,
+                        e ? e.value : 1
+                      );
                     }}
                   />
                   <InputWithFormik

@@ -21,6 +21,7 @@ import { withScroller } from '../../components/Scroller';
 import InputWithDep from '../../components/InputWithDep';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import LeaveModal from '../../components/LeaveModal';
 
 import {
   getDraftWithUpdatedMember,
@@ -44,6 +45,30 @@ const validationSchema = Yup.object().shape({
 });
 
 export class FamilyMembers extends Component {
+  constructor(props) {
+    super(props);
+    const originalCountValue = props.location.state
+      ? props.location.state.oldCountFamilyMembers
+      : null;
+    const newCountValue = props.currentDraft.familyData.countFamilyMembers;
+    //show or hide modal to indicate that we should remove one member
+
+    props.history.replace({
+      ...props.history.location.state,
+      oldCountFamilyMembers: null
+    });
+
+    this.state = {
+      showModal: originalCountValue && newCountValue < originalCountValue,
+      decreaseMembers: originalCountValue && newCountValue < originalCountValue
+    };
+  }
+
+  closeModal = () => {
+    console.log('Close Modal');
+    this.setState({ showModal: false });
+  };
+
   updateDraft = (memberIndex, value, property) => {
     const {
       currentDraft,
@@ -97,16 +122,22 @@ export class FamilyMembers extends Component {
 
   validateNumberOfMembers = () => {
     const numberOfMembers = this.props.currentDraft.familyData
-      .countFamilyMembers; //No first participant
+      .countFamilyMembers; //including first participant
     const numberAdded = this.props.currentDraft.familyData.familyMembersList
       .length;
+    const decreaseMembers = this.state.decreaseMembers;
     console.log(
-      'validating number of members: ' + numberOfMembers + ' --- ' + numberAdded
+      'validating number of members: ' +
+        numberOfMembers +
+        ' --- ' +
+        numberAdded +
+        '---' +
+        decreaseMembers
     );
     if (numberOfMembers === numberAdded) {
       console.log('Equal number of members added and declared');
       return true;
-    } else if (numberAdded > numberOfMembers) {
+    } else if (!decreaseMembers) {
       console.log('Updating number of members to : ', numberAdded + 1);
 
       this.props.updateDraft({
@@ -179,11 +210,26 @@ export class FamilyMembers extends Component {
     } = this.props;
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
+
     console.log('List of members');
     console.log(membersList);
 
     return (
       <div>
+        <LeaveModal
+          title={t('views.family.decreasingMembers')}
+          //subtitle={this.state.modalSubtitle}
+          continueButtonText="Ok"
+          singleAction
+          onClose={() => {
+            this.closeModal();
+          }}
+          open={this.state.showModal}
+          leaveAction={() => {
+            this.closeModal();
+          }}
+          variant={'success'}
+        />
         <TitleBar title={t('views.familyMembers')} progressBar />
         <Container variant="slim">
           <Formik

@@ -331,9 +331,7 @@ export class Economics extends Component {
     // applied
     if (questionsWithConditionsOnThem.includes(question.codeName)) {
       console.log(
-        `Will evaluate cascading after updating ${
-          question.codeName
-        } on member ${memberIndex}`
+        `Will evaluate cascading after updating ${question.codeName} on member ${memberIndex}`
       );
       currentDraft = getDraftWithUpdatedQuestionsCascading(
         currentDraft,
@@ -652,9 +650,7 @@ export class Economics extends Component {
                                           >
                                             <AutocompleteWithFormik
                                               label={question.questionText}
-                                              name={`forFamilyMember.[${index}].[${
-                                                question.codeName
-                                              }]`}
+                                              name={`forFamilyMember.[${index}].[${question.codeName}]`}
                                               rawOptions={getConditionalOptions(
                                                 question,
                                                 currentDraft,
@@ -724,9 +720,7 @@ export class Economics extends Component {
                                           >
                                             <RadioWithFormik
                                               label={question.questionText}
-                                              name={`forFamilyMember.[${index}].[${
-                                                question.codeName
-                                              }]`}
+                                              name={`forFamilyMember.[${index}].[${question.codeName}]`}
                                               rawOptions={getConditionalOptions(
                                                 question,
                                                 currentDraft,
@@ -791,9 +785,7 @@ export class Economics extends Component {
                                           <CheckboxWithFormik
                                             key={question.codeName}
                                             label={question.questionText}
-                                            name={`forFamilyMember.[${index}].[${
-                                              question.codeName
-                                            }]`}
+                                            name={`forFamilyMember.[${index}].[${question.codeName}]`}
                                             rawOptions={getConditionalOptions(
                                               question,
                                               currentDraft,
@@ -820,9 +812,7 @@ export class Economics extends Component {
                                               ? 'text'
                                               : question.answerType
                                           }
-                                          name={`forFamilyMember.[${index}].[${
-                                            question.codeName
-                                          }]`}
+                                          name={`forFamilyMember.[${index}].[${question.codeName}]`}
                                           required={question.required}
                                           onChange={e =>
                                             this.updateEconomicAnswerCascading(
@@ -869,10 +859,12 @@ export class Economics extends Component {
                               forFamilyErrorsCount + forFamilyMemberErrorsCount;
                             if (errorsLength > 0) {
                               enqueueSnackbar(
-                                t('views.family.formWithErrors').replace(
-                                  '%number',
-                                  errorsLength
-                                ),
+                                errorsLength == 1
+                                  ? t('views.family.formWithError')
+                                  : t('views.family.formWithErrors').replace(
+                                      '%number',
+                                      errorsLength
+                                    ),
                                 {
                                   variant: 'error',
                                   action: key => (

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { updateDraft } from '../../redux/actions';
 import { withSnackbar } from 'notistack';
 import BottomSpacer from '../../components/BottomSpacer';
-import { Typography, makeStyles } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import FileForm from '../../components/FileForm';
 import Container from '../../components/Container';
 import TitleBar from '../../components/TitleBar';
@@ -95,7 +95,7 @@ const UploadPictures = props => {
     setError(true);
   };
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     maxSize: 10485760,
     onDrop,
