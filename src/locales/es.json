@@ -69,6 +69,7 @@
     },
     "toolbar": {
       "surveys": "Encuestas",
+      "surveysList": "Encuestas",
       "analytics": "Analíticas",
       "households": "Familias",
       "hubs": "Hubs",
@@ -111,9 +112,13 @@
       "indicators": "Indicadores",
       "createSurvey": "Toma tu Semáforo",
       "specifyOther": "Especifica otro",
-      "hubs": "Hubs",
-      "organizations": "Organizaciones",
-      "assignSurvey": "Asignar encuesta"
+      "assignSurvey": {
+        "hubs": "Hubs",
+        "organizations": "Organizaciones",
+        "assignSurvey": "Asignar encuesta",
+        "surveyAssigned": "Guardado correctamente",
+        "surveyAssignError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar"
+      }
     },
     "analytics": {
       "title": "Analíticas",

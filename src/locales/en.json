@@ -69,6 +69,7 @@
     },
     "toolbar": {
       "surveys": "Surveys",
+      "surveysList": "Surveys",
       "analytics": "Analytics",
       "households": "Households",
       "hubs": "Hubs",
@@ -111,9 +112,13 @@
       "indicators": "Indicators",
       "createSurvey": "Begin Stoplight survey",
       "specifyOther": "Specify other",
-      "hubs": "Hubs",
-      "orgs": "Organizations",
-      "assignSurvey": "Assign survey"
+      "assignSurvey": {
+        "hubs": "Hubs",
+        "orgs": "Organizations",
+        "assignSurvey": "Assign survey",
+        "surveyAssigned": "Saved correctly",
+        "surveyAssignError": "An error occurred while assigning survey. Try again"
+      }
     },
     "analytics": {
       "title": "Analytics",

@@ -69,6 +69,7 @@
     },
     "toolbar": {
       "surveys": "Pesquisas",
+      "surveysList": "Pesquisas",
       "analytics": "Analíticas",
       "households": "Famílias",
       "hubs": "Hubs",
@@ -111,9 +112,13 @@
       "indicators": "Indicadores",
       "createSurvey": "Realize seu Semáforo",
       "specifyOther": "Especifique outro",
-      "hubs": "Hubs",
-      "organizations": "Organizações",
-      "assignSurvey": "Atribuir pesquisa"
+      "assignSurvey": {
+        "hubs": "Hubs",
+        "organizations": "Organizações",
+        "assignSurvey": "Atribuir pesquisa",
+        "surveyAssigned": "Registado correctamente",
+        "errorSaving": "Ocorreu um erro ao atribuir a pesquisa. Por favor, tente novamente."
+      }
     },
     "analytics": {
       "title": "Analíticas",
