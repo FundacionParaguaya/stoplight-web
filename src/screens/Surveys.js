@@ -93,7 +93,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
               <CircularProgress size={50} thickness={2} />
             </div>
           )}
-          <Grid container spacing={2} style={{ width: 'calc(100% + 280px)' }}>
+          <Grid container spacing={2}>
             {surveys.map(survey => {
               return (
                 <Grid item key={survey.id} xs={12} sm={4} md={4}>
@@ -116,7 +116,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                         </IconButton>
                       )}
                     </div>
-                    <div style={{ marginBottom: 7 }}>
+                    <div className={classes.tagsContainer}>
                       {showHubs() &&
                         survey.applications.map(hub => {
                           return (
@@ -192,12 +192,20 @@ const styles = theme => ({
   subtitle: {
     color: theme.palette.text.primary
   },
+  tagsContainer: {
+    marginBottom: 7,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
   tag: {
     backgroundColor: theme.palette.grey.quarter,
     color: theme.palette.grey.main,
     padding: 3,
     marginBottom: 8,
-    marginRight: 8
+    marginRight: 8,
+    width: 'fit-content',
+    height: 'fit-content'
   },
 
   chooseLifeMapImage: {
