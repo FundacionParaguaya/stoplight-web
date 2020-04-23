@@ -122,7 +122,8 @@ const Authenticator = props => {
           token: sessionId,
           refreshToken,
           env: environment,
-          role: response.data.role
+          role: response.data.role,
+          hub: response.data.application
         });
         setLoggedIn(true);
         setAuthVerified(true);
@@ -132,7 +133,8 @@ const Authenticator = props => {
           username: null,
           token: null,
           env: null,
-          role: null
+          role: null,
+          hub: null
         });
         setLoggedIn(false);
         setAuthVerified(true);
@@ -161,8 +163,5 @@ const mapStateToProps = ({ user, _persist }) => ({ user, _persist });
 const mapDispatchToProps = { updateUser };
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Authenticator)
+  connect(mapStateToProps, mapDispatchToProps)(Authenticator)
 );

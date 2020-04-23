@@ -46,7 +46,7 @@ class App extends Component {
                             <Switch>
                               <Route path="/surveys" component={Surveys} />
                               <Route
-                                path="/surveys-list"
+                                path="/surveysList"
                                 component={SurveyList}
                               />
                               <Route path="/lifemap" component={Lifemap} />
