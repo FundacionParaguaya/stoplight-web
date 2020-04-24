@@ -81,7 +81,12 @@ export class Terms extends Component {
   };
 
   leaveSurvey = () => {
-    this.props.history.push('/surveys');
+    if (this.props.currentDraft && this.props.currentDraft.isRetake) {
+      const familyId = this.props.currentDraft.familyData.familyId;
+      this.props.history.push(`/family/${familyId}`);
+    } else {
+      this.props.history.push('/surveys');
+    }
   };
 
   render() {
@@ -189,7 +194,10 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({ currentSurvey }) => ({ currentSurvey });
+const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
+  currentSurvey,
+  currentDraft
+});
 export default withStyles(styles)(
   connect(mapStateToProps)(withTranslation()(Terms))
 );
