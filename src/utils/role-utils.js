@@ -7,14 +7,14 @@ export const ROLES = {
   ROLE_ROOT: [
     { item: 'reports', platform: OLD },
     { item: 'hubs', platform: OLD },
-    { item: 'surveys', platform: OLD },
+    { item: 'surveysList', platform: NEW },
     { item: 'users', platform: OLD },
     { item: 'families', platform: NEW },
     { item: 'map', platform: OLD }
   ],
   ROLE_HUB_ADMIN: [
     { item: 'reports', platform: OLD },
-    { item: 'surveys', platform: OLD },
+    { item: 'surveysList', platform: NEW },
     { item: 'organizations', platform: OLD },
     { item: 'users', platform: OLD },
     { item: 'families', platform: NEW },
@@ -24,12 +24,12 @@ export const ROLES = {
     { item: 'reports', platform: OLD },
     { item: 'hubs', platform: OLD },
     { item: 'users', platform: OLD },
-    { item: 'surveys', platform: OLD },
+    { item: 'surveysList', platform: NEW },
     { item: 'map', platform: OLD }
   ],
   ROLE_APP_ADMIN: [
     { item: 'reports', platform: OLD },
-    { item: 'surveys', platform: OLD },
+    { item: 'surveysList', platform: NEW },
     { item: 'users', platform: OLD },
     { item: 'families', platform: NEW },
     { item: 'map', platform: OLD }

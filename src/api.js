@@ -96,6 +96,16 @@ export const getSurveys = user =>
     })
   });
 
+// get a list of surveys available to the authorized used
+export const getSurveysByUser = user =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/surveys/info`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
 export const getSurveysDefinition = user =>
   axios({
     method: 'post',
@@ -652,3 +662,21 @@ export const downloadPdf = (snapshotId, user, lang) => {
     responseType: 'arraybuffer'
   });
 };
+
+export const assignOrganizations = (
+  user,
+  organizations,
+  applications,
+  surveyId
+) =>
+  axios({
+    method: 'put',
+    url: `${url[user.env]}/api/v1/surveys/${surveyId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: {
+      applications,
+      organizations
+    }
+  });
