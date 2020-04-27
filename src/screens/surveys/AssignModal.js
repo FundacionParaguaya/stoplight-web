@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 import { withSnackbar } from 'notistack';
 import { getHubs, getOrganizationsByHub, assignOrganizations } from '../../api';
 import { CircularProgress } from '@material-ui/core';
+import { setServers } from 'dns';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -114,24 +115,9 @@ const AssignModal = ({
   const [optionsLoading, setOptionsLoading] = useState(false);
 
   useEffect(() => {
-    return () => {
-      updateSurveys(survey.id, applications, organizations);
-    };
-  }, []);
-
-  useEffect(() => {
     if (!!survey.title) {
       setOptionsLoading(true);
-      let surveyHubs = survey.applications.map(application => ({
-        label: application.name,
-        value: application.id
-      }));
-      setApplications(surveyHubs);
-      let surveyOrgs = survey.organizations.map(organization => ({
-        label: organization.name,
-        value: organization.id
-      }));
-      setOrganizations(surveyOrgs);
+      setInitialValues();
       getHubs(user).then(response => {
         const hubsFromAPI = _.get(response, 'data.data.hubsByUser', []).map(
           hub => ({
@@ -156,6 +142,19 @@ const AssignModal = ({
       setOptionsLoading(false);
     }
   }, [survey.id]);
+
+  const setInitialValues = () => {
+    let surveyHubs = survey.applications.map(application => ({
+      label: application.name,
+      value: application.id
+    }));
+    setApplications(surveyHubs);
+    let surveyOrgs = survey.organizations.map(organization => ({
+      label: organization.name,
+      value: organization.id
+    }));
+    setOrganizations(surveyOrgs);
+  };
 
   const showHubs = () => {
     return user.role === ROLES_NAMES.ROLE_ROOT;
@@ -188,7 +187,7 @@ const AssignModal = ({
         setLoading(false);
       })
       .catch(() => {
-        enqueueSnackbar(t('views.survey.assignSurveys.surveyAssignError'), {
+        enqueueSnackbar(t('views.survey.assignSurvey.surveyAssignError'), {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -203,9 +202,14 @@ const AssignModal = ({
       });
   };
 
+  const handleClosing = () => {
+    setInitialValues();
+    toggleModal();
+  };
+
   return (
     <React.Fragment>
-      <Modal open={open} onClose={() => toggleModal()}>
+      <Modal open={open} onClose={() => handleClosing()}>
         {loading ? (
           <div className={classes.confirmationModal}>
             <CircularProgress />
@@ -215,7 +219,7 @@ const AssignModal = ({
             <IconButton
               className={classes.closeIcon}
               key="dismiss"
-              onClick={() => toggleModal()}
+              onClick={() => handleClosing()}
             >
               <CloseIcon style={{ color: 'green' }} />
             </IconButton>
@@ -241,9 +245,9 @@ const AssignModal = ({
                     options={hubs}
                     components={{
                       DropdownIndicator: () => <div />,
-                      IndicatorSeparator: () => <div />
+                      IndicatorSeparator: () => <div />,
+                      ClearIndicator: () => <div />
                     }}
-                    isClearable
                     isMulti
                     hideSelectedOptions
                     loading={optionsLoading}
@@ -291,7 +295,7 @@ const AssignModal = ({
               style={{ marginTop: 5 }}
               onClick={() => handleSubmit()}
             >
-              {t('general.ok')}
+              {t('general.save')}
             </Button>
           </div>
         )}
