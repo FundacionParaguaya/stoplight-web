@@ -311,7 +311,7 @@
       "clickSafeWithoutStoplight": " Ahora solo selecciona finalizar.",
       "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email.",
       "whatsappSent": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184.",
-      "whatsappSentOverview": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184.",
+      "whatsappSentOverview": "¡Te llegará un mensaje al Whatsapp! Si quieres recibir tu Mapa de Vida, responde al mensaje con \"Si\".",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
     "send": {
