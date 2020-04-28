@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import DateRangeFilters from './DateRangeFilter';
 import OrganizationsFilter from './OrganizationsFilter';
 import HubsFilter from './HubsFilter';
+import SurveysFilter from './SurveysFilter';
 import { ROLES_NAMES } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
@@ -25,8 +26,10 @@ const showHubFilters = ({ role }) =>
   role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
 const DashboardFilters = ({
+  surveyData,
   hubData,
   onChangeHub,
+  onChangeSurvey,
   organizationsData,
   onChangeOrganization,
   from,
@@ -42,15 +45,6 @@ const DashboardFilters = ({
       <Grid className={classes.innerContainer} container spacing={1}>
         {showHubFilters(user) && (
           <React.Fragment>
-            <Grid item md={6} sm={6} xs={12} />
-            <Grid item md={6} sm={6} xs={12}>
-              <DateRangeFilters
-                from={from}
-                to={to}
-                setFrom={onFromDateChanged}
-                setTo={onToDateChanged}
-              />
-            </Grid>
             <Grid item md={4} sm={4} xs={12}>
               <HubsFilter data={hubData} onChange={onChangeHub} />
             </Grid>
@@ -59,6 +53,18 @@ const DashboardFilters = ({
                 data={organizationsData}
                 onChange={onChangeOrganization}
                 hub={hubData}
+              />
+            </Grid>
+
+            <Grid item md={6} sm={6} xs={12}>
+              <SurveysFilter data={surveyData} onChange={onChangeSurvey} />
+            </Grid>
+            <Grid item md={6} sm={6} xs={12}>
+              <DateRangeFilters
+                from={from}
+                to={to}
+                setFrom={onFromDateChanged}
+                setTo={onToDateChanged}
               />
             </Grid>
           </React.Fragment>
@@ -71,6 +77,9 @@ const DashboardFilters = ({
                 onChange={onChangeOrganization}
                 hub={hubData}
               />
+            </Grid>
+            <Grid item md={6} sm={6} xs={12}>
+              <SurveysFilter data={surveyData} onChange={onChangeSurvey} />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
               <DateRangeFilters

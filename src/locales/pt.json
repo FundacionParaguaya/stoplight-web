@@ -374,6 +374,12 @@
       "noOption": "Não há hubs",
       "noMatchFilters": "Não há resultados para os filtros aplicados"
     },
+    "surveysFilter": {
+      "label": "Pesquisa",
+      "loading": "Carregando...",
+      "noOption": "Não há Pesquisas",
+      "noMatchFilters": "Não há resultados para os filtros aplicados"
+    },
     "dateRangeFilter": {
       "from": "Desde",
       "to": "Até"
