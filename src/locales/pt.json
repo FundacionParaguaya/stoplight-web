@@ -431,13 +431,7 @@
       "profile": "Perfil",
       "createNewSnapshot": "Crie um nova pesquisa às famílias!",
       "stoplight": "Semáforo",
-      "loadingSnapshots": "Carregando semáforos...",
-      "familyNoteSuccess": "Nota de família enviada corretamente",
-      "familyNoteError": "Não foi possível enviar o bilhete da família",
-      "by": "por",
-      "Notes": "Anotações",
-      "EmptyNotesList": "Nenhuma anotação de família",
-      "NotePlaceHolder": "Escreva sua nota de família"
+      "loadingSnapshots": "Carregando semáforos..."
     },
     "familyNotes": {
       "familyNoteSuccess": "Nota de família enviada corretamente",
