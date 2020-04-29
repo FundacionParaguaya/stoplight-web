@@ -433,6 +433,14 @@
       "stoplight": "Stoplight",
       "loadingSnapshots": "Loading stoplights..."
     },
+    "familyNotes": {
+      "familyNoteSuccess": "Family note sent correctly",
+      "familyNoteError": "Could not send family note",
+      "by": "by",
+      "Notes": "Notes",
+      "EmptyNotesList": "No family notes",
+      "NotePlaceHolder": "Write your family note"
+    },
     "familyPriorities": {
       "priorities": "Priorities",
       "indicator": "Indicator",

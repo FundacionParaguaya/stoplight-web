@@ -14,7 +14,9 @@ import {
   getFamily,
   assignFacilitator,
   getPrioritiesByFamily,
-  getLastSnapshot
+  getLastSnapshot,
+  getFamilyNotes,
+  saveFamilyNote
 } from '../api';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/face_icon_large.png';
@@ -24,6 +26,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SummaryDonut from '../components/summary/SummaryDonut';
 import SummaryBarChart from '../components/SummaryBarChart';
 import CountDetail from '../components/CountDetail';
+import FamilyNotes from '../components/FamilyNotes';
 import Divider from '../components/Divider';
 import AllSurveyIndicators from '../components/summary/AllSurveyIndicators';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -68,6 +71,8 @@ const FamilyProfile = ({
   const [priorities, setPriorities] = useState([]);
   const [loadingSurvey, setLoadingSurvey] = useState(true);
   const [survey, setSurvey] = useState();
+  const [familyNotes, setFamilyNotes] = useState([]);
+  const [familyNote, setFamilyNote] = useState('');
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -92,6 +97,14 @@ const FamilyProfile = ({
       role === ROLES_NAMES.ROLE_APP_ADMIN ||
       role === ROLES_NAMES.ROLE_ROOT ||
       role === ROLES_NAMES.ROLE_PS_TEAM
+    );
+  };
+
+  const showSaveNoteOption = ({ role }) => {
+    return (
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_APP_ADMIN
     );
   };
 
@@ -178,9 +191,42 @@ const FamilyProfile = ({
       });
   };
 
+  const loadFamilyNotes = (familyId, user) => {
+    getFamilyNotes(familyId, user).then(response => {
+      let notes = response.data.data.notesByFamily;
+      setFamilyNotes(notes);
+    });
+  };
+
+  const handleSubmitNote = () => {
+    saveFamilyNote(familyId, familyNote, user)
+      .then(response => {
+        enqueueSnackbar(t('views.familyProfile.familyNoteSuccess'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        loadFamilyNotes(familyId, user);
+      })
+      .catch(e => {
+        enqueueSnackbar(t('views.familyProfile.mentorError'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      });
+  };
+
   useEffect(() => {
     loadFamilies(familyId, user);
     loadPriorities(familyId);
+    loadFamilyNotes(familyId, user);
   }, []);
 
   useEffect(() => {
@@ -447,6 +493,16 @@ const FamilyProfile = ({
         </div>
       )}
 
+      {/* Notes */}
+
+      <FamilyNotes
+        familyId={familyId}
+        notes={familyNotes}
+        note={familyNote}
+        showCreateNote={user => showSaveNoteOption(user)}
+        handleSaveNote={handleSubmitNote}
+        handleInput={event => setFamilyNote(event.target.value)}
+      />
       {/* Priorities */}
 
       <FamilyPriorities

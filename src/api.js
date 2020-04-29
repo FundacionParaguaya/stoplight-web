@@ -254,6 +254,36 @@ export const getDimensionIndicators = (
     })
   });
 
+export const getFamilyNotes = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query { notesByFamily (familyId: ${familyId}) { familyId, note, noteDate, noteUser } }`
+    })
+  });
+
+export const saveFamilyNote = (familyId, familyNote, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `mutation saveFamilyNote($familyNote: FamilyNoteDtoInput) {saveFamilyNote(familyNote: $familyNote) { note } }`,
+      variables: {
+        familyNote: {
+          note: familyNote,
+          familyId: familyId
+        }
+      }
+    })
+  });
+
 const formatPhone = (code, phone) => {
   const phoneUtil = PhoneNumberUtil.getInstance();
   if (phone && phone.length > 0) {
