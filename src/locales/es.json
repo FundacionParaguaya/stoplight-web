@@ -447,6 +447,33 @@
       "backToProfile": "Volver a Perfil de la Familia",
       "addPriority": "Agregar Prioridad",
       "updatedAt": "Fecha de Creación"
+    },
+    "hub": {
+      "search": "Buscar",
+      "searchHub": "por nombre",
+      "addAHub": "Agregar un Hub",
+      "editButton": "EDITAR",
+      "deleteButton": "ELIMINAR",
+      "form": {
+        "addTitle": "Agregar un Hub",
+        "editTitle": "Editar Hub",
+        "name": "Nombre hub",
+        "description": "Descripción",
+        "language": "Languaje",
+        "logoUpload": "Click para subir un logo",
+        "changeLogo": "Click aquí para cambiar el logo",
+        "save": {
+          "success": "Hub guardado exitosamente",
+          "failed": "El Hub ya existe"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirmar Eliminado",
+        "confirmText": "¿Está seguro que desea eliminar este Hub?",
+        "cannotUndo": "Esto no se puede deshacer.",
+        "success": "El Hub ha sido eliminado",
+        "failed": "El Hub no pudo ser elimiando"
+      }
     }
   },
   "reports": {
