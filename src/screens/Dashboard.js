@@ -44,6 +44,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const [economic, setEconomic] = useState(null);
   const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedHub, setSelectedHub] = useState(null);
+  const [selectedSurveys, setSelectedSurveys] = useState([]);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [chart, setChart] = useState(null);
@@ -70,6 +71,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
     setSelectedOrganizations([]);
+    setSelectedSurveys([]);
   }, [selectedHub]);
 
   useEffect(() => {
@@ -89,11 +91,14 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
     );
+
+    const sanitizedSurveys = (selectedSurveys || []).map(o => o.value);
     const hubId = selectedHub && selectedHub.value ? selectedHub.value : null;
     getDimensionIndicators(
       user,
       hubId,
       (selectedOrganizations || []).map(o => o.value),
+      sanitizedSurveys,
       fromDate,
       toDate,
       lang
@@ -127,6 +132,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       fromDate,
       toDate,
       sanitizedOrganizations,
+      sanitizedSurveys,
       lang
     )
       .then(data => {
@@ -141,6 +147,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       fromDate,
       toDate,
       sanitizedOrganizations,
+      sanitizedSurveys,
       lang
     )
       .then(data => {
@@ -155,6 +162,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       fromDate,
       toDate,
       sanitizedOrganizations,
+      sanitizedSurveys,
       lang
     )
       .then(data => {
@@ -177,7 +185,15 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         }
       })
       .finally(() => setLoadingChart(false));
-  }, [user, selectedHub, selectedOrganizations, fromDate, toDate, lang]);
+  }, [
+    user,
+    selectedHub,
+    selectedOrganizations,
+    selectedSurveys,
+    fromDate,
+    toDate,
+    lang
+  ]);
 
   return (
     <Container variant="fluid" className={classes.greyBackground}>
@@ -196,8 +212,10 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
           <DashboardFilters
             organizationsData={selectedOrganizations}
             onChangeOrganization={setSelectedOrganizations}
+            surveyData={selectedSurveys}
             hubData={selectedHub}
             onChangeHub={setSelectedHub}
+            onChangeSurvey={setSelectedSurveys}
             from={fromDate}
             to={toDate}
             onFromDateChanged={setFromDate}
