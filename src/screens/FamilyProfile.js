@@ -502,6 +502,15 @@ const FamilyProfile = ({
         </div>
       )}
 
+      {/* Priorities */}
+
+      <FamilyPriorities
+        familyId={familyId}
+        stoplightSkipped={stoplightSkipped}
+        questions={family.snapshotIndicators}
+        priorities={priorities}
+      ></FamilyPriorities>
+
       {/* Notes */}
 
       <FamilyNotes
@@ -513,14 +522,6 @@ const FamilyProfile = ({
         handleInput={event => setFamilyNote(event.target.value)}
         loading={loading}
       />
-      {/* Priorities */}
-
-      <FamilyPriorities
-        familyId={familyId}
-        stoplightSkipped={stoplightSkipped}
-        questions={family.snapshotIndicators}
-        priorities={priorities}
-      ></FamilyPriorities>
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (
