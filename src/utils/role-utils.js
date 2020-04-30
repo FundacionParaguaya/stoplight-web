@@ -6,7 +6,7 @@ export const OLD = 'old';
 export const ROLES = {
   ROLE_ROOT: [
     { item: 'reports', platform: OLD },
-    { item: 'hubs', platform: OLD },
+    { item: 'hubs', platform: NEW },
     { item: 'surveysList', platform: NEW },
     { item: 'users', platform: OLD },
     { item: 'families', platform: NEW },
@@ -22,7 +22,7 @@ export const ROLES = {
   ],
   ROLE_PS_TEAM: [
     { item: 'reports', platform: OLD },
-    { item: 'hubs', platform: OLD },
+    { item: 'hubs', platform: NEW },
     { item: 'users', platform: OLD },
     { item: 'surveysList', platform: NEW },
     { item: 'map', platform: OLD }
