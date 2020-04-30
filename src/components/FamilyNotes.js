@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from '@material-ui/core/Card';
 import Container from '../components/Container';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +22,7 @@ const FamilyNotes = ({
   handleInput,
   note,
   user,
+  loading,
   t,
   i18n: { language }
 }) => {
@@ -65,19 +67,28 @@ const FamilyNotes = ({
             {t('views.familyNotes.EmptyNotesList')}
           </Typography>
         )}
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress size={50} thickness={2} />
+          </div>
+        )}
 
         {showCreateNote(user) && (
           <Fragment>
             <OutlinedInput
-              className={classes.outlinedInput}
+              classes={{
+                root: classes.outlinedInputContainer,
+                input: classes.outlinedInput
+              }}
               placeholder={t('views.familyNotes.NotePlaceHolder')}
               multiline="true"
               value={note}
               inputProps={{ maxLength: '350' }}
               onChange={handleInput}
+              margin="dense"
             />
             <Button
-              disabled={note.length === 0}
+              disabled={note.length === 0 || loading}
               onClick={handleSaveNote}
               className={classes.buttonContained}
               variant="contained"
@@ -130,13 +141,17 @@ const styles = theme => ({
   },
   noteMsg: {
     fontSize: 16,
-    color: '#6A6A6A'
+    color: '#6A6A6A',
+    padding: '0.5rem 0'
   },
-  outlinedInput: {
+  outlinedInputContainer: {
     marginTop: '1rem',
     marginBottom: '1rem',
     width: '60%',
     alignSelf: 'flex-end'
+  },
+  outlinedInput: {
+    padding: '1.5rem 1rem !important'
   },
   buttonContained: {
     marginTop: 5,
@@ -146,6 +161,11 @@ const styles = theme => ({
   emptyList: {
     marginBottom: 36,
     color: theme.palette.primary.main
+  },
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: theme.spacing(3)
   }
 });
 

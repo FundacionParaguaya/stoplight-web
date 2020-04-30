@@ -431,11 +431,11 @@
       "profile": "Profile",
       "createNewSnapshot": "Create a new survey for the family!",
       "stoplight": "Stoplight",
-      "loadingSnapshots": "Loading stoplights..."
+      "loadingSnapshots": "Loading stoplights...",
+      "familyNoteSuccess": "Family note sent correctly",
+      "familyNoteError": "Could not send family note"
     },
     "familyNotes": {
-      "familyNoteSuccess": "Family note sent correctly",
-      "familyNoteError": "Could not send family note",
       "by": "by",
       "Notes": "Notes",
       "EmptyNotesList": "No family notes",

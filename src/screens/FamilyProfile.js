@@ -73,6 +73,7 @@ const FamilyProfile = ({
   const [survey, setSurvey] = useState();
   const [familyNotes, setFamilyNotes] = useState([]);
   const [familyNote, setFamilyNote] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -192,15 +193,22 @@ const FamilyProfile = ({
   };
 
   const loadFamilyNotes = (familyId, user) => {
-    getFamilyNotes(familyId, user).then(response => {
-      let notes = response.data.data.notesByFamily;
-      setFamilyNotes(notes);
-    });
+    getFamilyNotes(familyId, user)
+      .then(response => {
+        let notes = response.data.data.notesByFamily;
+        setLoading(false);
+        setFamilyNotes(notes);
+      })
+      .catch(e => {
+        setLoading(false);
+      });
   };
 
   const handleSubmitNote = () => {
+    setLoading(true);
     saveFamilyNote(familyId, familyNote, user)
-      .then(response => {
+      .then(() => {
+        setFamilyNote('');
         enqueueSnackbar(t('views.familyProfile.familyNoteSuccess'), {
           variant: 'success',
           action: key => (
@@ -212,6 +220,7 @@ const FamilyProfile = ({
         loadFamilyNotes(familyId, user);
       })
       .catch(e => {
+        setLoading(false);
         enqueueSnackbar(t('views.familyProfile.mentorError'), {
           variant: 'error',
           action: key => (
@@ -502,6 +511,7 @@ const FamilyProfile = ({
         showCreateNote={user => showSaveNoteOption(user)}
         handleSaveNote={handleSubmitNote}
         handleInput={event => setFamilyNote(event.target.value)}
+        loading={loading}
       />
       {/* Priorities */}
 
