@@ -310,7 +310,7 @@
       "clickSafeWithoutStoplight": "Now, just click finish!",
       "emailSent": "Your Life Map has been successfully sent via email.",
       "whatsappSent": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184.",
-      "whatsappSentOverview": "To receive your Life Map to whatsapp, send \"Hello\" to this number: +5521933007184.",
+      "whatsappSentOverview": "You will get a message in your Whatsapp! If you want to receive your Life Map, please answer back with \"Yes\".",
       "emailError": "Error while trying to send your Life Map via email"
     },
     "send": {
