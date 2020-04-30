@@ -44,12 +44,17 @@ const FamilyNotes = ({
         <Typography variant="h5" align="center" style={{ marginBottom: 36 }}>
           {t('views.familyNotes.Notes')}
         </Typography>
-        {notes.map(familyNote => (
-          <Card className={classes.note}>
+        {notes.map((familyNote, index) => (
+          <Card key={index} className={classes.note}>
             <Typography className={classes.noteMsg} variant="h6" align="left">
               {familyNote.note}
             </Typography>
-            <Typography className={classes.noteMsg} variant="h6" align="right">
+            <Typography
+              component={'span'}
+              className={classes.noteMsg}
+              variant="h6"
+              align="right"
+            >
               {t('views.familyNotes.by')}{' '}
               <Typography
                 style={{ fontWeight: 600 }}
@@ -81,7 +86,7 @@ const FamilyNotes = ({
                 input: classes.outlinedInput
               }}
               placeholder={t('views.familyNotes.NotePlaceHolder')}
-              multiline="true"
+              multiline={true}
               value={note}
               inputProps={{ maxLength: '350' }}
               onChange={handleInput}

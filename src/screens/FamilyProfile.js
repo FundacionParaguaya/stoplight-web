@@ -221,7 +221,7 @@ const FamilyProfile = ({
       })
       .catch(e => {
         setLoading(false);
-        enqueueSnackbar(t('views.familyProfile.mentorError'), {
+        enqueueSnackbar(t('views.familyProfile.familyNoteError'), {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
