@@ -49,17 +49,13 @@ const FamilyNotes = ({
             <Typography className={classes.noteMsg} variant="h6" align="left">
               {familyNote.note}
             </Typography>
-            <Typography
-              component={'span'}
-              className={classes.noteMsg}
-              variant="h6"
-              align="right"
-            >
+            <Typography className={classes.noteMsg} variant="h6" align="right">
               {t('views.familyNotes.by')}{' '}
               <Typography
                 style={{ fontWeight: 600 }}
                 display="inline"
                 variant="h6"
+                component={'span'}
               >
                 {familyNote.noteUser}
               </Typography>{' '}
