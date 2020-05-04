@@ -19,10 +19,6 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
     totalPages: 1,
     prevPage: 0
   });
-  /* 
-	showOrganizations = () => {
-		
-	} */
 
   const loadOrganizations = overwrite => {
     let page = overwrite ? 1 : paginationData.page;
