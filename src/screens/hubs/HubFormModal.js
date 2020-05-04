@@ -17,7 +17,7 @@ import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import * as Yup from 'yup';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { useDropzone } from 'react-dropzone';
-import { toBase64 } from '../../utils/files-utils';
+import { MB_SIZE, toBase64 } from '../../utils/files-utils';
 import { addOrUpdateHub } from '../../api';
 
 const useStyles = makeStyles(theme => ({
@@ -102,7 +102,13 @@ const DeleteFamilyModal = ({
 
   //Validation criterias
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required(fieldIsRequired)
+    name: Yup.string()
+      .required(fieldIsRequired)
+      .max(50, t('views.hub.form.nameLengthExceeded')),
+    description: Yup.string()
+      .required(fieldIsRequired)
+      .max(256, t('views.hub.form.descriptionLengthExceeded')),
+    language: Yup.string().required(fieldIsRequired)
   });
 
   const onDrop = async acceptedFiles => {
@@ -117,7 +123,7 @@ const DeleteFamilyModal = ({
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
-    maxSize: 10485760,
+    maxSize: 10 * MB_SIZE,
     onDrop,
     onDropRejected,
     accept: ['.png', '.jpg', '.heic', '.heif']
@@ -183,7 +189,10 @@ const DeleteFamilyModal = ({
           </IconButton>
           <Formik
             initialValues={{
-              ...hub
+              id: (!!hub.id && hub.id) || '',
+              name: (!!hub.name && hub.name) || '',
+              description: (!!hub.description && hub.description) || '',
+              language: (!!hub.language && hub.language) || ''
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -200,14 +209,16 @@ const DeleteFamilyModal = ({
               <InputWithFormik
                 label={t('views.hub.form.description')}
                 name="description"
+                required
               />
               <AutocompleteWithFormik
                 label={t('views.hub.form.language')}
-                name="langague"
+                name="language"
                 rawOptions={langagueOptions}
                 labelKey="label"
                 valueKey="value"
                 isClearable={false}
+                required
               />
               <div style={{ position: 'relative' }}>
                 <div {...getRootProps({ className: classes.dropzone })}>

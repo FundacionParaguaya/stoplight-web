@@ -149,6 +149,7 @@ const Hubs = ({ classes, t, user }) => {
     let page = overwrite ? 1 : paginationData.page;
 
     if (page !== paginationData.prevPage || overwrite) {
+      setLoading(true);
       getHubsPaginated(user, page, filter)
         .then(response => {
           let newHubs = [];
