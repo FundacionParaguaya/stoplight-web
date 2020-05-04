@@ -452,6 +452,11 @@
       "backToProfile": "Back to Family Profile",
       "addPriority": "Add Priority",
       "updatedAt": "Date of Creation"
+    },
+    "organization": {
+      "addOrganization": "Add a organization",
+      "editButton": "EDIT",
+      "deleteButton": "DELETE"
     }
   },
   "reports": {

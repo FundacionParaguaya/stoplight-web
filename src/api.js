@@ -393,6 +393,17 @@ export const getOrganizations = user =>
     }
   });
 
+export const getOrganizationsPaginated = (user, page) => {
+  let queryString = `page=${page}`;
+  return axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/organizations/?${queryString}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
 export const getHubs = user =>
   // axios({
   //   method: 'get',

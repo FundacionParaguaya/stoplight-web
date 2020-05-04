@@ -453,6 +453,11 @@
       "backToProfile": "Volver a Perfil de la Familia",
       "addPriority": "Agregar Prioridad",
       "updatedAt": "Fecha de Creación"
+    },
+    "organization": {
+      "addOrganization": "Agregar organización",
+      "editButton": "EDITAR",
+      "deleteButton": "BORRAR"
     }
   },
   "reports": {
