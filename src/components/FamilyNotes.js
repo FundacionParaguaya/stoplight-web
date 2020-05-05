@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import { getMonthFormatByLocale } from '../utils/date-utils';
+import { getDateFormatByLocale } from '../utils/date-utils';
 import Button from '@material-ui/core/Button';
 import { withSnackbar } from 'notistack';
 
@@ -26,7 +26,7 @@ const FamilyNotes = ({
   t,
   i18n: { language }
 }) => {
-  const dateFormat = getMonthFormatByLocale(language);
+  const dateFormat = getDateFormatByLocale(language);
 
   return (
     <Fragment>
@@ -45,7 +45,15 @@ const FamilyNotes = ({
           {t('views.familyNotes.Notes')}
         </Typography>
         {notes.map((familyNote, index) => (
-          <Card key={index} className={classes.note}>
+          <Card
+            key={index}
+            className={classes.note}
+            style={
+              user.username.toLowerCase() == familyNote.noteUser.toLowerCase()
+                ? { alignSelf: 'flex-end' }
+                : { alignSelf: 'flex-start' }
+            }
+          >
             <Typography className={classes.noteMsg} variant="h6" align="left">
               {familyNote.note}
             </Typography>
