@@ -374,6 +374,12 @@
       "noOption": "Não há hubs",
       "noMatchFilters": "Não há resultados para os filtros aplicados"
     },
+    "surveysFilter": {
+      "label": "Pesquisa",
+      "loading": "Carregando...",
+      "noOption": "Não há Pesquisas",
+      "noMatchFilters": "Não há resultados para os filtros aplicados"
+    },
     "dateRangeFilter": {
       "from": "Desde",
       "to": "Até"
@@ -431,7 +437,15 @@
       "profile": "Perfil",
       "createNewSnapshot": "Crie um nova pesquisa às famílias!",
       "stoplight": "Semáforo",
-      "loadingSnapshots": "Carregando semáforos..."
+      "loadingSnapshots": "Carregando semáforos...",
+      "familyNoteSuccess": "Nota de família enviada corretamente",
+      "familyNoteError": "Não foi possível enviar o bilhete da família"
+    },
+    "familyNotes": {
+      "by": "por",
+      "Notes": "Anotações",
+      "EmptyNotesList": "Nenhuma anotação de família",
+      "NotePlaceHolder": "Escreva sua nota de família"
     },
     "familyPriorities": {
       "priorities": "Prioridades",
