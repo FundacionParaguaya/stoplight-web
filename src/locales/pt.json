@@ -460,6 +460,36 @@
       "backToProfile": "Regressar ao Perfil da Família",
       "addPriority": "Adicionar Prioridade",
       "updatedAt": "Data de Criação"
+    },
+    "hub": {
+      "search": "Buscar",
+      "searchHub": "por nome",
+      "addAHub": "Adicionar um Hub",
+      "editButton": "EDITAR",
+      "deleteButton": "ELIMINAR",
+      "form": {
+        "addTitle": "Adicionar um Hub",
+        "editTitle": "Editar Hub",
+        "name": "Nome hub",
+        "nameLengthExceeded": "O nome de hub deve ter no máximo 50 caracteres",
+        "description": "Descrição",
+        "descriptionLengthExceeded": "Descrição deve ter no máximo 256 caracteres",
+        "language": "Linguagem",
+        "logoUpload": "Clique para subir uma logo",
+        "changeLogo": "Clique aqui para alterar o logotipo",
+        "fileUploadError": "*Você atingiu o limite de 10MB! Escolha outra imagem.",
+        "save": {
+          "success": "Hub salvo com sucesso",
+          "failed": "O Hub já existe"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirmar Eliminado",
+        "confirmText": "Tem certeza que deseja eliminar este Hub?",
+        "cannotUndo": "Não é possível desfazer essa ação!",
+        "success": "O Hub foi eliminado",
+        "failed": "O Hub não pode ser eliminado"
+      }
     }
   },
   "reports": {
