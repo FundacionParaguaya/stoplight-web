@@ -438,7 +438,15 @@
       "profile": "Perfil",
       "createNewSnapshot": "¡Crea una nueva encuesta para la familia!",
       "stoplight": "Semáforo",
-      "loadingSnapshots": "Cargando semáforos..."
+      "loadingSnapshots": "Cargando semáforos...",
+      "familyNoteSuccess": "Nota de familia enviada correctamente",
+      "familyNoteError": "No se pudo enviar la nota familiar"
+    },
+    "familyNotes": {
+      "by": "por",
+      "Notes": "Notas",
+      "EmptyNotesList": "No hay notas de familia",
+      "NotePlaceHolder": "Escribe tu nota de familia"
     },
     "familyPriorities": {
       "priorities": "Prioridades",
