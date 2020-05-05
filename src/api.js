@@ -1,6 +1,7 @@
 import axios from 'axios';
 import store from './redux';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import CallingCodes from './screens/lifemap/CallingCodes';
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -293,10 +294,20 @@ export const saveFamilyNote = (familyId, familyNote, user) =>
     })
   });
 
-const formatPhone = (code, phone) => {
+const formatPhone = (code, phone, surveyLocation) => {
   const phoneUtil = PhoneNumberUtil.getInstance();
   if (phone && phone.length > 0) {
-    const international = '+' + code + ' ' + phone;
+    let international = '';
+    if (code) {
+      international = '+' + code + ' ' + phone;
+    } else {
+      console.log(
+        'Phone code is null, set default value for country: ',
+        surveyLocation.country
+      );
+      code = CallingCodes.find(e => e.code === surveyLocation.country).value;
+      international = '+' + code + ' ' + phone;
+    }
     let phoneNumber = phoneUtil.parse(international, code);
     console.log('Saving number as: ' + phoneNumber.getNationalNumber());
     phone = phoneNumber.getNationalNumber();
@@ -304,7 +315,7 @@ const formatPhone = (code, phone) => {
   return phone;
 };
 // submit a new snapshot/lifemap/draft
-export const submitDraft = (user, snapshot) => {
+export const submitDraft = (user, snapshot, surveyLocation) => {
   const sanitizedSnapshot = { ...snapshot };
   delete sanitizedSnapshot.lifemapNavHistory;
   delete sanitizedSnapshot.previousIndicatorSurveyDataList;
@@ -322,7 +333,11 @@ export const submitDraft = (user, snapshot) => {
   sanitizedSnapshot.economicSurveyDataList = economicSurveyDataList;
   sanitizedSnapshot.familyData.familyMembersList.forEach(member => {
     let { socioEconomicAnswers = [] } = member;
-    member.phoneNumber = formatPhone(member.phoneCode, member.phoneNumber);
+    member.phoneNumber = formatPhone(
+      member.phoneCode,
+      member.phoneNumber,
+      surveyLocation
+    );
     socioEconomicAnswers = socioEconomicAnswers.filter(validEconomicIndicator);
     // eslint-disable-next-line no-param-reassign
     member.socioEconomicAnswers = socioEconomicAnswers;

@@ -63,7 +63,11 @@ export class Final extends Component {
       this.props.currentSurvey.surveyConfig.stoplightOptional &&
       currentDraft.indicatorSurveyDataList &&
       currentDraft.indicatorSurveyDataList.length === 0;
-    submitDraft(user, currentDraft)
+    submitDraft(
+      user,
+      currentDraft,
+      this.props.currentSurvey.surveyConfig.surveyLocation
+    )
       .then(response => {
         const snapshotId = response.data.data.addSnapshot.snapshotId;
         this.props.updateDraft({ ...currentDraft, snapshotId });
