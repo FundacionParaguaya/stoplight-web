@@ -457,7 +457,9 @@
     "organization": {
       "addOrganization": "Agregar organización",
       "editButton": "EDITAR",
-      "deleteButton": "BORRAR"
+      "deleteButton": "BORRAR",
+      "search": "Buscar",
+      "searchOrganization": "por nombre"
     }
   },
   "reports": {

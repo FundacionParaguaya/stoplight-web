@@ -10,10 +10,12 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import BottomSpacer from '../components/BottomSpacer';
 import Container from '../components/Container';
+import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
 
 const Organizations = ({ classes, t, user, i18n: { language } }) => {
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('');
   const [paginationData, setPaginationData] = useState({
     page: 1,
     totalPages: 1,
@@ -25,7 +27,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
 
     if (page !== paginationData.prevPage || overwrite) {
       setLoading(true);
-      getOrganizationsPaginated(user, page)
+      getOrganizationsPaginated(user, page, filter)
         .then(response => {
           let newOrgs = [];
           let totalPages = response.data.totalPages;
@@ -55,6 +57,12 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
       });
   };
 
+  const onChangeOrganizationFilter = e => {
+    if (e.key === 'Enter') {
+      setFilter(e.target.value);
+    }
+  };
+
   useEffect(() => {
     loadOrganizations(false);
   }, []);
@@ -62,6 +70,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
   useEffect(() => {
     !loading && loadOrganizations(false);
   }, [paginationData.page]);
+
+  useEffect(() => {
+    !loading && loadOrganizations(true);
+  }, [filter]);
 
   return (
     <div className={classes.mainOrganizationContainerBoss}>
@@ -73,7 +85,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
             </Typography>
           </div>
         </div>
-        <Container variant="fluid" className={classes.searchContariner}>
+        <Container variant="fluid" className={classes.searchContainer}>
+          <OrganizationSearchFilter
+            onChangeOrganizationFilter={onChangeOrganizationFilter}
+          />
           <Button variant="contained" onClick={() => {}}>
             {t('views.organization.addOrganization')}
           </Button>
@@ -157,7 +172,7 @@ const styles = theme => ({
     marginBottom: 7,
     fontWeight: theme.typography.fontWeightMedium
   },
-  searchContariner: {
+  searchContainer: {
     display: 'flex',
     paddingTop: 20,
     paddingBottom: 40,
@@ -184,7 +199,8 @@ const styles = theme => ({
     height: 180
   },
   mainOrganizationContainerBoss: {
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    height: '90vh'
   },
   mainOrganizationContainer: {
     backgroundColor: theme.palette.background.default,

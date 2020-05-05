@@ -393,8 +393,9 @@ export const getOrganizations = user =>
     }
   });
 
-export const getOrganizationsPaginated = (user, page) => {
+export const getOrganizationsPaginated = (user, page, filter) => {
   let queryString = `page=${page}`;
+  if (filter) queryString = `filter=${filter}&${queryString}`;
   return axios({
     method: 'get',
     url: `${url[user.env]}/api/v1/organizations/?${queryString}`,
