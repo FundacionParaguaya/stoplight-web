@@ -111,7 +111,7 @@ const DeleteFamilyModal = ({
     language: Yup.string().required(fieldIsRequired)
   });
 
-  const onDrop = async acceptedFiles => {
+  const onDropAccepted = async acceptedFiles => {
     setError(false);
     const base64File = await toBase64(acceptedFiles[0]);
     setFile(base64File);
@@ -124,7 +124,7 @@ const DeleteFamilyModal = ({
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     maxSize: 10 * MB_SIZE,
-    onDrop,
+    onDropAccepted,
     onDropRejected,
     accept: ['.png', '.jpg', '.heic', '.heif']
   });
@@ -241,7 +241,7 @@ const DeleteFamilyModal = ({
 
               {error && (
                 <Typography color="error">
-                  {t('views.fileUploadError')}
+                  {t('views.hub.form.fileUploadError')}
                 </Typography>
               )}
               <div className={classes.buttonContainerForm}>

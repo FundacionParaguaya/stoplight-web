@@ -463,6 +463,7 @@
         "language": "Language",
         "logoUpload": "Click to upload a logo",
         "changeLogo": "Click here to change logo",
+        "fileUploadError": "You reached the 10MB limit! Choose another image",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
