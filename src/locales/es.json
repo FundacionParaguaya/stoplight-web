@@ -467,7 +467,14 @@
       "editButton": "EDITAR",
       "deleteButton": "BORRAR",
       "search": "Buscar",
-      "searchOrganization": "por nombre"
+      "searchOrganization": "por nombre",
+      "delete": {
+        "confirmTitle": "Confirmar la eliminación",
+        "confirmText": "¿Estás seguro de que deseas eliminar esta organización?",
+        "cannotUndo": "¡No puedes deshacer esta acción!",
+        "success": "La organización ha sido eliminada",
+        "failed": "No se pudo eliminar la organización."
+      }
     }
   },
   "reports": {

@@ -435,6 +435,16 @@ export const getOrganizationsPaginated = (user, page, filter) => {
   });
 };
 
+export const deleteOrganization = (user, organizationId) => {
+  return axios({
+    method: 'delete',
+    url: `${url[user.env]}/api/v1/organizations/${organizationId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
 export const getHubs = user =>
   // axios({
   //   method: 'get',

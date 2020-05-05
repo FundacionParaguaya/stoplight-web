@@ -11,11 +11,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import BottomSpacer from '../components/BottomSpacer';
 import Container from '../components/Container';
 import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
+import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 
 const Organizations = ({ classes, t, user, i18n: { language } }) => {
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
+  const [selectedOrganization, setSelectedOrganization] = useState({});
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [paginationData, setPaginationData] = useState({
     page: 1,
     totalPages: 1,
@@ -62,6 +65,9 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
       setFilter(e.target.value);
     }
   };
+  const toggleDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
 
   useEffect(() => {
     loadOrganizations(false);
@@ -78,6 +84,11 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
   return (
     <div className={classes.mainOrganizationContainerBoss}>
       <Container>
+        <DeleteOrganizationModal
+          organization={selectedOrganization}
+          open={openDeleteModal}
+          onClose={toggleDeleteModal}
+        />
         <div className={classes.titleContainer}>
           <div className={classes.hubTopTitle}>
             <Typography variant="h4">
@@ -127,7 +138,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                         aria-label="Delete organization"
                         className={classes.button}
                         component="span"
-                        onClick={() => {}}
+                        onClick={() => {
+                          setSelectedOrganization(organization);
+                          toggleDeleteModal();
+                        }}
                       >
                         {t('views.organization.deleteButton')}
                       </Button>

@@ -466,7 +466,14 @@
       "editButton": "EDITAR",
       "deleteButton": "EXCLUIR",
       "search": "Procurar",
-      "searchOrganization": "pelo nome"
+      "searchOrganization": "pelo nome",
+      "delete": {
+        "confirmTitle": "Confirmar exclusão",
+        "confirmText": "Tem certeza de que deseja excluir esta organização?",
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "success": "A organização foi excluída",
+        "failed": "Não foi possível excluir a organização"
+      }
     }
   },
   "reports": {
