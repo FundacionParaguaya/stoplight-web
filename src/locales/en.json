@@ -437,7 +437,15 @@
       "profile": "Profile",
       "createNewSnapshot": "Create a new survey for the family!",
       "stoplight": "Stoplight",
-      "loadingSnapshots": "Loading stoplights..."
+      "loadingSnapshots": "Loading stoplights...",
+      "familyNoteSuccess": "Family note sent correctly",
+      "familyNoteError": "Could not send family note"
+    },
+    "familyNotes": {
+      "by": "by",
+      "Notes": "Notes",
+      "EmptyNotesList": "No family notes",
+      "NotePlaceHolder": "Write your family note"
     },
     "familyPriorities": {
       "priorities": "Priorities",
