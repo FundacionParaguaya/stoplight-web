@@ -45,6 +45,16 @@ const DashboardFilters = ({
       <Grid className={classes.innerContainer} container spacing={1}>
         {showHubFilters(user) && (
           <React.Fragment>
+            <Grid item md={4} sm={4} xs={12}>
+              <HubsFilter data={hubData} onChange={onChangeHub} />
+            </Grid>
+            <Grid item md={8} sm={8} xs={12}>
+              <OrganizationsFilter
+                data={organizationsData}
+                onChange={onChangeOrganization}
+                hub={hubData}
+              />
+            </Grid>
             <Grid item md={6} sm={6} xs={12}>
               <SurveysFilter data={surveyData} onChange={onChangeSurvey} />
             </Grid>
@@ -54,17 +64,6 @@ const DashboardFilters = ({
                 to={to}
                 setFrom={onFromDateChanged}
                 setTo={onToDateChanged}
-              />
-            </Grid>
-
-            <Grid item md={4} sm={4} xs={12}>
-              <HubsFilter data={hubData} onChange={onChangeHub} />
-            </Grid>
-            <Grid item md={8} sm={8} xs={12}>
-              <OrganizationsFilter
-                data={organizationsData}
-                onChange={onChangeOrganization}
-                hub={hubData}
               />
             </Grid>
           </React.Fragment>
