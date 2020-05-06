@@ -475,6 +475,36 @@
         "success": "La organización ha sido eliminada",
         "failed": "No se pudo eliminar la organización."
       }
+    },
+    "hub": {
+      "search": "Buscar",
+      "searchHub": "por nombre",
+      "addAHub": "Agregar un Hub",
+      "editButton": "EDITAR",
+      "deleteButton": "ELIMINAR",
+      "form": {
+        "addTitle": "Agregar un Hub",
+        "editTitle": "Editar Hub",
+        "name": "Nombre hub",
+        "nameLengthExceeded": "El nombre de hub debe tener como máximo 50 caracteres",
+        "description": "Descripción",
+        "descriptionLengthExceeded": "La descripción debe tener como máximo 256 caracteres",
+        "language": "Languaje",
+        "logoUpload": "Click para subir un logo",
+        "changeLogo": "Click aquí para cambiar el logo",
+        "fileUploadError": "¡Alcanzaste el límite de 10MB! Elige otra imagen.",
+        "save": {
+          "success": "Hub guardado exitosamente",
+          "failed": "El Hub ya existe"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirmar Eliminado",
+        "confirmText": "¿Está seguro que desea eliminar este Hub?",
+        "cannotUndo": "Esto no se puede deshacer.",
+        "success": "El Hub ha sido eliminado",
+        "failed": "El Hub no pudo ser elimiando"
+      }
     }
   },
   "reports": {

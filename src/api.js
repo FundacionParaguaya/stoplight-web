@@ -446,13 +446,6 @@ export const deleteOrganization = (user, organizationId) => {
 };
 
 export const getHubs = user =>
-  // axios({
-  //   method: 'get',
-  //   url: `${url[user.env]}/api/v1/applications?page=1`,
-  //   headers: {
-  //     Authorization: `Bearer ${user.token}`
-  //   }
-  // });
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -460,8 +453,52 @@ export const getHubs = user =>
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query: 'query { hubsByUser {id, name, code, description} }'
+      query:
+        'query { hubsByUser {id, name, code, description, information, logoUrl } }'
     })
+  });
+
+export const getHubsPaginated = (user, page, filter) => {
+  let queryString = `page=${page}`;
+  if (filter) queryString = `filter=${filter}&${queryString}`;
+  return axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/applications?${queryString}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
+export const addOrUpdateHub = (user, hub) => {
+  if (!hub.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/api/v1/applications`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: hub
+    });
+  } else {
+    return axios({
+      method: 'put',
+      url: `${url[user.env]}/api/v1/applications/${hub.id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: hub
+    });
+  }
+};
+
+export const deleteHub = (user, hubId) =>
+  axios({
+    method: 'delete',
+    url: `${url[user.env]}/api/v1/applications/${hubId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
   });
 
 // get the user's draft list
