@@ -739,6 +739,25 @@ export const downloadPdf = (snapshotId, user, lang) => {
   });
 };
 
+export const sendWhatsappMessage = (snapshotId, user) => {
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation lifemapWhatsappNotification($notificationParameters: NotificationParametersInput) { lifemapWhatsappNotification(notificationParameters: $notificationParameters){status} }',
+      variables: {
+        notificationParameters: {
+          snapshotId: snapshotId
+        }
+      }
+    })
+  });
+};
+
 export const assignOrganizations = (
   user,
   organizations,
