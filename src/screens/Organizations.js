@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import BottomSpacer from '../components/BottomSpacer';
 import Container from '../components/Container';
 import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
+import organizationBanner from '../assets/hub.png';
 
 const Organizations = ({ classes, t, user, i18n: { language } }) => {
   const [organizations, setOrganizations] = useState([]);
@@ -23,10 +24,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
   });
 
   const loadOrganizations = overwrite => {
+    setLoading(true);
     let page = overwrite ? 1 : paginationData.page;
 
     if (page !== paginationData.prevPage || overwrite) {
-      setLoading(true);
       getOrganizationsPaginated(user, page, filter)
         .then(response => {
           let newOrgs = [];
@@ -79,11 +80,16 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
     <div className={classes.mainOrganizationContainerBoss}>
       <Container>
         <div className={classes.titleContainer}>
-          <div className={classes.hubTopTitle}>
+          <div className={classes.organizationTopTitle}>
             <Typography variant="h4">
               {t('views.toolbar.organizations')}
             </Typography>
           </div>
+          <img
+            src={organizationBanner}
+            alt="Organization Banner"
+            className={classes.organizationImage}
+          />
         </div>
         <Container variant="fluid" className={classes.searchContainer}>
           <OrganizationSearchFilter
@@ -94,6 +100,11 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
           </Button>
         </Container>
         <div className={classes.listContainer}>
+          {loading && (
+            <div className={classes.spinnerWrapper}>
+              <CircularProgress size={50} thickness={2} />
+            </div>
+          )}
           <Grid container spacing={2}>
             {organizations.map(organization => {
               return (
@@ -137,11 +148,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
               );
             })}
           </Grid>
-          {loading && (
-            <div className={classes.spinnerWrapper}>
-              <CircularProgress size={50} thickness={2} />
-            </div>
-          )}
+
           {paginationData.page < paginationData.totalPages && (
             <div className={classes.showMoreButtonContainer}>
               <Button
@@ -172,6 +179,13 @@ const styles = theme => ({
     marginBottom: 7,
     fontWeight: theme.typography.fontWeightMedium
   },
+  organizationImage: {
+    display: 'block',
+    height: 180,
+    right: 30,
+    position: 'absolute',
+    objectFit: 'cover'
+  },
   searchContainer: {
     display: 'flex',
     paddingTop: 20,
@@ -183,8 +197,8 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    paddingLeft: 16,
-    paddingRight: 16
+    paddingLeft: 17,
+    paddingRight: 17
   },
   titleContainer: {
     display: 'flex',
@@ -200,12 +214,14 @@ const styles = theme => ({
   },
   mainOrganizationContainerBoss: {
     backgroundColor: theme.palette.background.paper,
-    height: '90vh'
+    height: '100%',
+    minHeight: '90vh'
   },
   mainOrganizationContainer: {
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-between',
     paddingTop: 15,
     height: '100%',
     '& $p': {
@@ -234,8 +250,7 @@ const styles = theme => ({
   buttonsContainer: {
     position: 'relative',
     display: 'flex',
-    height: 50,
-    paddingLeft: 5
+    height: 50
   },
   addButton: {
     color: theme.palette.background.default,
