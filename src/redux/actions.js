@@ -22,6 +22,19 @@ export const updateDraft = payload => ({
   payload
 });
 
+export const UPDATE_PHONE_CODE = 'UPDATE_PHONE_CODE';
+
+export const updatePhoneCode = payload => ({
+  type: UPDATE_PHONE_CODE,
+  payload
+});
+
+export const UPDATE_BIRTH_COUNTRY = 'UPDATE_BIRTH_COUNTRY';
+
+export const updateBirthCountry = payload => ({
+  type: UPDATE_BIRTH_COUNTRY,
+  payload
+});
 // Current Draft
 export const UPDATE_NAV_HISTORY = 'UPDATE_NAV_HISTORY';
 
