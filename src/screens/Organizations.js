@@ -78,7 +78,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
 
   return (
     <div className={classes.mainOrganizationContainerBoss}>
-      <Container>
+      <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.organizationTopTitle}>
             <Typography variant="h4">
@@ -95,7 +95,11 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
           <OrganizationSearchFilter
             onChangeOrganizationFilter={onChangeOrganizationFilter}
           />
-          <Button variant="contained" onClick={() => {}}>
+          <Button
+            variant="contained"
+            className={classes.addOrganization}
+            onClick={() => {}}
+          >
             {t('views.organization.addOrganization')}
           </Button>
         </Container>
@@ -127,8 +131,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                       <Button
                         color="default"
                         aria-label="Edit organization"
-                        component="span"
-                        className={classes.button}
+                        classes={{
+                          root: classes.button,
+                          label: classes.buttonLabel
+                        }}
                         onClick={() => {}}
                       >
                         {t('views.organization.editButton')}
@@ -136,8 +142,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                       <Button
                         color="default"
                         aria-label="Delete organization"
-                        className={classes.button}
-                        component="span"
+                        classes={{
+                          root: classes.button,
+                          label: classes.buttonLabel
+                        }}
                         onClick={() => {}}
                       >
                         {t('views.organization.deleteButton')}
@@ -181,10 +189,15 @@ const styles = theme => ({
   },
   organizationImage: {
     display: 'block',
-    height: 180,
-    right: 30,
+    height: 240,
+    right: 70,
     position: 'absolute',
-    objectFit: 'cover'
+    top: -10,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   searchContainer: {
     display: 'flex',
@@ -203,8 +216,7 @@ const styles = theme => ({
   titleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    position: 'relative',
-    paddingTop: 25
+    position: 'relative'
   },
   organizationTopTitle: {
     display: 'flex',
@@ -231,6 +243,15 @@ const styles = theme => ({
     },
     '& $p:last-child': {
       marginBottom: 0
+    },
+    '&:hover': {
+      boxShadow: `-1px 10px 29px 0px ${theme.palette.grey.middle}`
+    }
+  },
+  addOrganization: {
+    textDecoration: 'none',
+    '&:hover': {
+      boxShadow: `-1px 10px 29px 0px ${theme.palette.grey.middle}`
     }
   },
   descriptionContainer: {
@@ -250,7 +271,8 @@ const styles = theme => ({
   buttonsContainer: {
     position: 'relative',
     display: 'flex',
-    height: 50
+    height: 50,
+    paddingLeft: 17
   },
   addButton: {
     color: theme.palette.background.default,
@@ -260,11 +282,18 @@ const styles = theme => ({
     right: 24
   },
   button: {
-    borderRadius: '0%',
+    borderRadius: 100,
     fontSize: 14,
     padding: 0,
-    textDecoration: 'none'
+    textDecoration: 'none',
+    marginRight: 10,
+    justifyContent: 'flex-start',
+    '&:hover': {
+      textDecoration: 'none',
+      backgroundColor: theme.palette.background.paper
+    }
   },
+
   goNextButton: {
     position: 'absolute',
     top: 4,
@@ -276,7 +305,10 @@ const styles = theme => ({
     display: 'flex'
   },
   showMoreButton: {
-    margin: 'auto'
+    margin: 'auto',
+    '&:hover': {
+      boxShadow: `-1px 5px 14px 0px ${theme.palette.grey.middle}`
+    }
   }
 });
 const mapStateToProps = ({ user }) => ({ user });
