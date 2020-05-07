@@ -92,6 +92,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
       <Container variant="stretch">
         <OrganizationFormModal
           organization={selectedOrganization}
+          subOrganizations={organizations}
           open={openFormModal}
           toggleModal={toggleFormModal}
         />

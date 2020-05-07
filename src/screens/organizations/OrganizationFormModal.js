@@ -127,6 +127,7 @@ const OrganizationFormModal = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [optionsLoading, setOptionsLoading] = useState(false);
+  const [organizations, setOrganizations] = useState({});
 
   const langagueOptions = [
     { label: 'English', value: 'en_US' },
