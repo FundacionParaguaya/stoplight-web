@@ -269,7 +269,8 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     height: 50,
-    marginLeft: 0
+    padding: '5px 5px',
+    paddingRight: 17
   },
   addButton: {
     color: theme.palette.background.default,
@@ -279,16 +280,17 @@ const styles = theme => ({
     right: 24
   },
   button: {
-    borderRadius: 0,
+    borderRadius: '0%',
     fontSize: 14,
-    padding: '0 17px 0 17px',
-
-    textDecoration: 'none',
-    marginRight: 10,
+    padding: 0,
+    paddingLeft: 10,
+    paddingRight: 5,
+    marginRight: 5,
     justifyContent: 'flex-start',
+    textDecoration: 'none',
     '&:hover': {
-      textDecoration: 'none',
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: theme.palette.background.paper,
+      textDecoration: 'none'
     }
   },
 
