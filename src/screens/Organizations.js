@@ -266,7 +266,7 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     height: 50,
-    marginLeft: 10
+    marginLeft: 0
   },
   addButton: {
     color: theme.palette.background.default,
@@ -276,9 +276,9 @@ const styles = theme => ({
     right: 24
   },
   button: {
-    borderRadius: 15,
+    borderRadius: 0,
     fontSize: 14,
-    padding: '0 7px 0 7px',
+    padding: '0 17px 0 17px',
 
     textDecoration: 'none',
     marginRight: 10,

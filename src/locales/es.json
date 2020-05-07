@@ -465,7 +465,7 @@
     "organization": {
       "addOrganization": "Agregar organización",
       "editButton": "EDITAR",
-      "deleteButton": "BORRAR",
+      "deleteButton": "ELIMINAR",
       "search": "Buscar",
       "searchOrganization": "por nombre"
     },
