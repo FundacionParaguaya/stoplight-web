@@ -22,7 +22,7 @@ import { addOrUpdateHub } from '../../api';
 
 const useStyles = makeStyles(theme => ({
   typographyStyle: {
-    marginBottom: 20
+    marginBottom: 15
   },
   buttonContainerForm: {
     display: 'flex',
@@ -40,8 +40,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-around',
     flexDirection: 'column',
-    padding: '40px 50px',
-    maxHeight: 700
+    padding: '40px 50px'
   },
   closeIcon: {
     position: 'absolute',
@@ -49,14 +48,18 @@ const useStyles = makeStyles(theme => ({
     right: 5,
     marginBottom: 15
   },
+  input: {
+    marginBottom: 5,
+    marginTop: 5
+  },
   dropzone: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
     paddingTop: 70,
-    paddingBottom: 15,
+    paddingBottom: 10,
     borderWidth: 4,
     borderRadius: 2,
     borderColor: theme.palette.grey.quarter,
@@ -68,7 +71,6 @@ const useStyles = makeStyles(theme => ({
   img: {
     position: 'absolute',
     width: '40%',
-    height: '70%',
     top: '10%',
     left: '30%',
     backgroundColor: theme.palette.background.default
@@ -206,11 +208,13 @@ const DeleteFamilyModal = ({
                 label={t('views.hub.form.name')}
                 name="name"
                 required
+                className={classes.input}
               />
               <InputWithFormik
                 label={t('views.hub.form.description')}
                 name="description"
                 required
+                className={classes.input}
               />
               <AutocompleteWithFormik
                 label={t('views.hub.form.language')}
@@ -220,6 +224,7 @@ const DeleteFamilyModal = ({
                 valueKey="value"
                 isClearable={false}
                 required
+                className={classes.input}
               />
               <div style={{ position: 'relative' }}>
                 <div {...getRootProps({ className: classes.dropzone })}>
