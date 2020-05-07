@@ -462,6 +462,13 @@
       "addPriority": "Agregar Prioridad",
       "updatedAt": "Fecha de Creación"
     },
+    "organization": {
+      "addOrganization": "Agregar organización",
+      "editButton": "EDITAR",
+      "deleteButton": "ELIMINAR",
+      "search": "Buscar",
+      "searchOrganization": "por nombre"
+    },
     "hub": {
       "search": "Buscar",
       "searchHub": "por nombre",
