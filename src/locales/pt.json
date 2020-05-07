@@ -309,8 +309,8 @@
       "clickSafe": "Agora, simplesmente clique em salvar!",
       "clickSafeWithoutStoplight": "Agora é só selecionar terminar.",
       "emailSent": "Seu Mapa de Vida foi enviado exitosamente via email. Não esqueça de selecionar Salvar & fechar!",
-      "whatsappSent": "Para receber seu Mapa de Vida no whatsapp, por favor envie \"Olá\" para o número: +5521933007184.",
-      "whatsappSentOverview": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mensagem com \"Sim\".",
+      "whatsappSent": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mensagem com \"Sim\".",
+      "whatsappSentOverview": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mendsagem com \"Sim\".",
       "emailError": "Error ao enviar seu Mapa de Vida via email"
     },
     "send": {
