@@ -29,18 +29,22 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-evenly',
     marginTop: 30
   },
-  confirmationModal: {
-    backgroundColor: theme.palette.background.default,
-    outline: 'none',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+  modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center'
+  },
+  confirmationModal: {
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    alignItems: 'center',
     flexDirection: 'column',
-    padding: '40px 50px'
+    padding: '40px 50px',
+    maxHeight: '95vh',
+    width: '500px',
+    overflowY: 'auto',
+    position: 'relative',
+    outline: 'none'
   },
   closeIcon: {
     position: 'absolute',
@@ -166,7 +170,13 @@ const DeleteFamilyModal = ({
     toggleModal();
   };
   return (
-    <Modal open={open} onClose={() => onClose()}>
+    <Modal
+      disableEnforceFocus
+      disableAutoFocus
+      className={classes.modal}
+      open={open}
+      onClose={() => onClose()}
+    >
       {loading ? (
         <div className={classes.confirmationModal}>
           <CircularProgress />
