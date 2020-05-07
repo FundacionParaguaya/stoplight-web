@@ -310,7 +310,7 @@
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
       "clickSafeWithoutStoplight": " Ahora solo selecciona finalizar.",
       "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email.",
-      "whatsappSent": "Para recibir tu Mapa de Vida al whatsapp, envía \"Hola\" al número: +5521933007184.",
+      "whatsappSent": "¡Te llegará un mensaje al Whatsapp! Si quieres recibir tu Mapa de Vida, responde al mensaje con \"Si\".",
       "whatsappSentOverview": "¡Te llegará un mensaje al Whatsapp! Si quieres recibir tu Mapa de Vida, responde al mensaje con \"Si\".",
       "emailError": "Error al enviar tu Mapa de Vida vía email"
     },
@@ -465,7 +465,7 @@
     "organization": {
       "addOrganization": "Agregar organización",
       "editButton": "EDITAR",
-      "deleteButton": "BORRAR",
+      "deleteButton": "ELIMINAR",
       "search": "Buscar",
       "searchOrganization": "por nombre",
       "delete": {
@@ -503,7 +503,7 @@
         "confirmText": "¿Está seguro que desea eliminar este Hub?",
         "cannotUndo": "Esto no se puede deshacer.",
         "success": "El Hub ha sido eliminado",
-        "failed": "El Hub no pudo ser elimiando"
+        "failed": "El Hub no se puede eliminar porque tiene encuestas y usuarios asociados."
       }
     }
   },

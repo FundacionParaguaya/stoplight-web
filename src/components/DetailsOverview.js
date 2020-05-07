@@ -19,7 +19,8 @@ import { ROLES_NAMES } from '../utils/role-utils';
 import {
   getPrioritiesBySnapshotId,
   sendLifemapPdfv2,
-  downloadPdf
+  downloadPdf,
+  sendWhatsappMessage
 } from '../api';
 
 const useStyles = makeStyles(theme => ({
@@ -136,6 +137,7 @@ const DetailsOverview = ({
   };
 
   const handleWhatsappClick = () => {
+    sendWhatsappMessage(snapshot.snapshotId, user);
     toggleModal(
       t('general.thankYou'),
       t('views.final.whatsappSentOverview'),

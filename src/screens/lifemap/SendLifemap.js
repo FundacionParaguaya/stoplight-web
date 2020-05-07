@@ -12,7 +12,7 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import { sendLifemapPdfv2, downloadPdf } from '../../api';
+import { sendLifemapPdfv2, downloadPdf, sendWhatsappMessage } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
@@ -108,6 +108,7 @@ const SendLifemap = ({
   };
 
   const handleWhatsappClick = () => {
+    sendWhatsappMessage(currentDraft.snapshotId, user);
     setModalData({
       modalTitle: t('general.thankYou'),
       modalSubtitle: t('views.final.whatsappSent'),

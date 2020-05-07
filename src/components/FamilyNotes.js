@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import Container from '../components/Container';
 import Typography from '@material-ui/core/Typography';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import iconPriority from '../assets/icon_priority.png';
+import iconNotes from '../assets/pen_icon.png';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
@@ -33,7 +33,7 @@ const FamilyNotes = ({
       <Container className={classes.basicInfo} variant="fluid">
         <div className={classes.iconBaiconFamilyBorder}>
           <img
-            src={iconPriority}
+            src={iconNotes}
             className={classes.iconFamily}
             alt="Family Notes"
           />

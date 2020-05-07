@@ -84,7 +84,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
 
   return (
     <div className={classes.mainOrganizationContainerBoss}>
-      <Container>
+      <Container variant="stretch">
         <DeleteOrganizationModal
           organization={selectedOrganization}
           open={openDeleteModal}
@@ -106,7 +106,11 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
           <OrganizationSearchFilter
             onChangeOrganizationFilter={onChangeOrganizationFilter}
           />
-          <Button variant="contained" onClick={() => {}}>
+          <Button
+            variant="contained"
+            className={classes.addOrganization}
+            onClick={() => {}}
+          >
             {t('views.organization.addOrganization')}
           </Button>
         </Container>
@@ -130,16 +134,20 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                       </Typography>
                     </div>
                     <div className={classes.descriptionContainer}>
-                      <Typography noWrap={true} variant="body2">
-                        {organization.description}
+                      <Typography noWrap={false} variant="body2">
+                        {organization.description.length >= 80
+                          ? organization.description.slice(0, 80) + '...'
+                          : organization.description}
                       </Typography>
                     </div>
                     <div className={classes.buttonsContainer}>
                       <Button
                         color="default"
                         aria-label="Edit organization"
-                        component="span"
-                        className={classes.button}
+                        classes={{
+                          root: classes.button,
+                          label: classes.buttonLabel
+                        }}
                         onClick={() => {}}
                       >
                         {t('views.organization.editButton')}
@@ -147,8 +155,11 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                       <Button
                         color="default"
                         aria-label="Delete organization"
-                        className={classes.button}
                         component="span"
+                        classes={{
+                          root: classes.button,
+                          label: classes.buttonLabel
+                        }}
                         onClick={() => {
                           setSelectedOrganization(organization);
                           toggleDeleteModal();
@@ -188,6 +199,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
 const styles = theme => ({
   organizationTitle: {
     color: theme.palette.primary.dark,
+    lineHeight: 1.2,
     fontSize: '18px',
     marginRight: 'auto',
     marginBottom: 7,
@@ -195,10 +207,15 @@ const styles = theme => ({
   },
   organizationImage: {
     display: 'block',
-    height: 180,
-    right: 30,
+    height: 240,
+    right: 70,
     position: 'absolute',
-    objectFit: 'cover'
+    top: -10,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   searchContainer: {
     display: 'flex',
@@ -217,14 +234,13 @@ const styles = theme => ({
   titleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    position: 'relative',
-    paddingTop: 25
+    position: 'relative'
   },
   organizationTopTitle: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 180
+    height: 220
   },
   mainOrganizationContainerBoss: {
     backgroundColor: theme.palette.background.paper,
@@ -247,6 +263,9 @@ const styles = theme => ({
       marginBottom: 0
     }
   },
+  addOrganization: {
+    textDecoration: 'none'
+  },
   descriptionContainer: {
     height: 80,
     padding: 16
@@ -264,7 +283,9 @@ const styles = theme => ({
   buttonsContainer: {
     position: 'relative',
     display: 'flex',
-    height: 50
+    height: 50,
+    padding: '5px 5px',
+    paddingRight: 17
   },
   addButton: {
     color: theme.palette.background.default,
@@ -277,8 +298,17 @@ const styles = theme => ({
     borderRadius: '0%',
     fontSize: 14,
     padding: 0,
-    textDecoration: 'none'
+    paddingLeft: 10,
+    paddingRight: 5,
+    marginRight: 5,
+    justifyContent: 'flex-start',
+    textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper,
+      textDecoration: 'none'
+    }
   },
+
   goNextButton: {
     position: 'absolute',
     top: 4,

@@ -40,7 +40,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-around',
     flexDirection: 'column',
-    padding: '40px 50px'
+    padding: '40px 50px',
+    maxHeight: 700
   },
   closeIcon: {
     position: 'absolute',

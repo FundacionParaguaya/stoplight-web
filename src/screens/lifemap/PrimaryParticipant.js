@@ -17,7 +17,11 @@ import countries from 'localized-countries';
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import DatePickerWithFormik from '../../components/DatePickerWithFormik';
-import { updateDraft } from '../../redux/actions';
+import {
+  updateDraft,
+  updatePhoneCode,
+  updateBirthCountry
+} from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
@@ -289,64 +293,28 @@ export class PrimaryParticipant extends Component {
       this.setOriginalMemberCount(
         this.props.currentDraft.familyData.countFamilyMembers
       );
-      if (
-        !this.props.currentDraft.familyData.familyMembersList.find(
-          e => e.firstParticipant == true
-        ).birthCountry
-      ) {
-        const { currentDraft } = this.props;
+
+      const firstParticipant = this.props.currentDraft.familyData.familyMembersList.find(
+        e => e.firstParticipant == true
+      );
+
+      if (!firstParticipant.birthCountry) {
         // update only the first item of familyMembersList
         //  which is the primary participant
-        this.props.updateDraft({
-          ...currentDraft,
-          familyData: {
-            ...currentDraft.familyData,
-            familyMembersList: [
-              ...currentDraft.familyData.familyMembersList.slice(0, 0),
-              {
-                ...currentDraft.familyData.familyMembersList.find(
-                  e => e.firstParticipant == true
-                ),
-                ...{
-                  birthCountry: this.props.currentSurvey.surveyConfig
-                    .surveyLocation.country
-                }
-              },
-              ...currentDraft.familyData.familyMembersList.slice(1)
-            ]
-          }
+        this.props.updateBirthCountry({
+          birthCountry: this.props.currentSurvey.surveyConfig.surveyLocation
+            .country
         });
       }
-      if (
-        !this.props.currentDraft.familyData.familyMembersList.find(
-          e => e.firstParticipant == true
-        ).phoneCode
-      ) {
-        const { currentDraft } = this.props;
+      if (!firstParticipant.phoneCode) {
         // update only the first item of familyMembersList
         //  which is the primary participant
-        this.props.updateDraft({
-          ...currentDraft,
-          familyData: {
-            ...currentDraft.familyData,
-            familyMembersList: [
-              ...currentDraft.familyData.familyMembersList.slice(0, 0),
-              {
-                ...currentDraft.familyData.familyMembersList.find(
-                  e => e.firstParticipant == true
-                ),
-                ...{
-                  phoneCode: phoneCodes.find(
-                    e =>
-                      e.code ==
-                      this.props.currentSurvey.surveyConfig.surveyLocation
-                        .country
-                  ).value
-                }
-              },
-              ...currentDraft.familyData.familyMembersList.slice(1)
-            ]
-          }
+        this.props.updatePhoneCode({
+          phoneCode: phoneCodes.find(
+            e =>
+              e.code ==
+              this.props.currentSurvey.surveyConfig.surveyLocation.country
+          ).value
         });
       }
     }
@@ -713,7 +681,7 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentDraft
 });
 
-const mapDispatchToProps = { updateDraft };
+const mapDispatchToProps = { updateDraft, updatePhoneCode, updateBirthCountry };
 
 export default connect(
   mapStateToProps,
