@@ -17,6 +17,7 @@ import HubsSearchFilter from './hubs/HubSearchFilter';
 import DeleteHubModal from './hubs/DeleteHubModal';
 import HubFormModal from './hubs/HubFormModal';
 import hubBanner from '../assets/hub.png';
+import { getPlatform } from '../utils/role-utils';
 
 const styles = theme => ({
   hubTitle: {
@@ -24,14 +25,20 @@ const styles = theme => ({
     fontSize: '18px',
     marginRight: 'auto',
     marginBottom: 7,
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
+    lineHeight: 1.2
   },
   hubImage: {
     display: 'block',
-    height: 180,
-    right: 30,
+    height: 240,
+    right: 70,
     position: 'absolute',
-    objectFit: 'cover'
+    top: -10,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   searchContariner: {
     display: 'flex',
@@ -101,6 +108,7 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     height: 50,
+    padding: '5px 5px',
     paddingRight: 17
   },
   addButton: {
@@ -114,12 +122,21 @@ const styles = theme => ({
     borderRadius: '0%',
     fontSize: 14,
     padding: 0,
-    textDecoration: 'none'
+    paddingLeft: 10,
+    paddingRight: 5,
+    marginRight: 5,
+    justifyContent: 'flex-start',
+    textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper,
+      textDecoration: 'none'
+    }
   },
   goNextButton: {
     position: 'absolute',
-    top: 4,
-    right: 0
+    top: 6,
+    right: 0,
+    marginRight: 4
   },
   showMoreButtonContainer: {
     width: '100%',
@@ -131,7 +148,7 @@ const styles = theme => ({
   }
 });
 
-const Hubs = ({ classes, t, user }) => {
+const Hubs = ({ classes, t, user, history }) => {
   const [loading, setLoading] = useState(true);
   const [hubs, setHubs] = useState([]);
   const [paginationData, setPaginationData] = useState({
@@ -210,9 +227,15 @@ const Hubs = ({ classes, t, user }) => {
       });
   };
 
+  const handleGoNext = hub => {
+    window.location.replace(
+      `${getPlatform(user.env)}/#hubs/organizations/${hub.id}`
+    );
+  };
+
   return (
     <div className={classes.mainHubContainerBoss}>
-      <Container>
+      <Container variant="stretch">
         <HubFormModal
           hub={selectedHub}
           open={openFormModal}
@@ -280,7 +303,7 @@ const Hubs = ({ classes, t, user }) => {
                           toggleFormModal();
                         }}
                       >
-                        {t('views.hub.editButton')}
+                        {t('views.hub.editButton').padEnd(5)}
                       </Button>
                       <Button
                         color="default"
@@ -300,7 +323,7 @@ const Hubs = ({ classes, t, user }) => {
                         component="span"
                         className={classes.goNextButton}
                         onClick={() => {
-                          /** TODO: add redirect to a new survey */
+                          handleGoNext(hub);
                         }}
                       >
                         <NavigateNextIcon />

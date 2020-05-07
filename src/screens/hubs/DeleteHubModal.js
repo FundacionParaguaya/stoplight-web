@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DeleteFamilyModal = ({
+const DeleteHubModal = ({
   open,
   onClose,
   user,
@@ -155,4 +155,4 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(withSnackbar(DeleteFamilyModal));
+export default connect(mapStateToProps)(withSnackbar(DeleteHubModal));
