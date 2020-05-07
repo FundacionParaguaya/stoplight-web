@@ -123,8 +123,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                       </Typography>
                     </div>
                     <div className={classes.descriptionContainer}>
-                      <Typography noWrap={true} variant="body2">
-                        {organization.description}
+                      <Typography noWrap={false} variant="body2">
+                        {organization.description.length >= 80
+                          ? organization.description.slice(0, 80) + '...'
+                          : organization.description}
                       </Typography>
                     </div>
                     <div className={classes.buttonsContainer}>
