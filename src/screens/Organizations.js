@@ -13,12 +13,14 @@ import Container from '../components/Container';
 import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
 import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
+import OrganizationFormModal from './organizations/OrganizationFormModal';
 
 const Organizations = ({ classes, t, user, i18n: { language } }) => {
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [selectedOrganization, setSelectedOrganization] = useState({});
+  const [openFormModal, setOpenFormModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [paginationData, setPaginationData] = useState({
     page: 1,
@@ -69,6 +71,9 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
   const toggleDeleteModal = () => {
     setOpenDeleteModal(!openDeleteModal);
   };
+  const toggleFormModal = () => {
+    setOpenFormModal(!openFormModal);
+  };
 
   useEffect(() => {
     loadOrganizations(false);
@@ -85,6 +90,11 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
   return (
     <div className={classes.mainOrganizationContainerBoss}>
       <Container variant="stretch">
+        <OrganizationFormModal
+          organization={selectedOrganization}
+          open={openFormModal}
+          toggleModal={toggleFormModal}
+        />
         <DeleteOrganizationModal
           organization={selectedOrganization}
           open={openDeleteModal}
@@ -109,7 +119,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
           <Button
             variant="contained"
             className={classes.addOrganization}
-            onClick={() => {}}
+            onClick={() => {
+              setSelectedOrganization({});
+              toggleFormModal();
+            }}
           >
             {t('views.organization.addOrganization')}
           </Button>
@@ -148,7 +161,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                           root: classes.button,
                           label: classes.buttonLabel
                         }}
-                        onClick={() => {}}
+                        onClick={() => {
+                          setSelectedOrganization(organization);
+                          toggleFormModal();
+                        }}
                       >
                         {t('views.organization.editButton')}
                       </Button>
