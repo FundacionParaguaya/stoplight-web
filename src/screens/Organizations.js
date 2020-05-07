@@ -222,7 +222,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 180
+    height: 220
   },
   mainOrganizationContainerBoss: {
     backgroundColor: theme.palette.background.paper,
@@ -243,16 +243,10 @@ const styles = theme => ({
     },
     '& $p:last-child': {
       marginBottom: 0
-    },
-    '&:hover': {
-      boxShadow: `-1px 10px 29px 0px ${theme.palette.grey.middle}`
     }
   },
   addOrganization: {
-    textDecoration: 'none',
-    '&:hover': {
-      boxShadow: `-1px 10px 29px 0px ${theme.palette.grey.middle}`
-    }
+    textDecoration: 'none'
   },
   descriptionContainer: {
     height: 80,
@@ -272,7 +266,7 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     height: 50,
-    paddingLeft: 17
+    marginLeft: 10
   },
   addButton: {
     color: theme.palette.background.default,
@@ -282,9 +276,10 @@ const styles = theme => ({
     right: 24
   },
   button: {
-    borderRadius: 100,
+    borderRadius: 15,
     fontSize: 14,
-    padding: 0,
+    padding: '0 7px 0 7px',
+
     textDecoration: 'none',
     marginRight: 10,
     justifyContent: 'flex-start',
@@ -305,10 +300,7 @@ const styles = theme => ({
     display: 'flex'
   },
   showMoreButton: {
-    margin: 'auto',
-    '&:hover': {
-      boxShadow: `-1px 5px 14px 0px ${theme.palette.grey.middle}`
-    }
+    margin: 'auto'
   }
 });
 const mapStateToProps = ({ user }) => ({ user });
