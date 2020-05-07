@@ -7,7 +7,9 @@ import {
   SET_HYDRATED,
   UPDATE_SNAPSHOTS,
   UPSERT_SNAPSHOT,
-  UPDATE_NAV_HISTORY
+  UPDATE_NAV_HISTORY,
+  UPDATE_PHONE_CODE,
+  UPDATE_BIRTH_COUNTRY
 } from './actions';
 
 // User
@@ -42,6 +44,56 @@ export const currentDraft = (state = null, action) => {
         ...state,
         ...action.payload
       };
+    case UPDATE_PHONE_CODE:
+      console.log('Updating phone code value: ', action.payload.phoneCode);
+      const indexPrimaryParticipant = state.familyData.familyMembersList.findIndex(
+        e => e.firstParticipant === true
+      );
+      console.log(
+        'first participant is: ',
+        state.familyData.familyMembersList[indexPrimaryParticipant]
+      );
+
+      return {
+        ...state,
+        familyData: {
+          ...state.familyData,
+          familyMembersList: [
+            ...state.familyData.familyMembersList.slice(
+              0,
+              indexPrimaryParticipant
+            ),
+            {
+              ...state.familyData.familyMembersList[indexPrimaryParticipant],
+              phoneCode: action.payload.phoneCode
+            },
+            ...state.familyData.familyMembersList.slice(
+              indexPrimaryParticipant + 1
+            )
+          ]
+        }
+      };
+    case UPDATE_BIRTH_COUNTRY:
+      console.log('Updating birth country', action.payload.birthCountry);
+      const index = state.familyData.familyMembersList.findIndex(
+        e => e.firstParticipant === true
+      );
+
+      return {
+        ...state,
+        familyData: {
+          ...state.familyData,
+          familyMembersList: [
+            ...state.familyData.familyMembersList.slice(0, index),
+            {
+              ...state.familyData.familyMembersList[index],
+              birthCountry: action.payload.birthCountry
+            },
+            ...state.familyData.familyMembersList.slice(index + 1)
+          ]
+        }
+      };
+
     default:
       return state;
   }
