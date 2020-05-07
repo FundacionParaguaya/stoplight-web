@@ -184,6 +184,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
 const styles = theme => ({
   organizationTitle: {
     color: theme.palette.primary.dark,
+    lineHeight: 1.2,
     fontSize: '18px',
     marginRight: 'auto',
     marginBottom: 7,
