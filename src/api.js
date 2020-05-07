@@ -458,8 +458,7 @@ export const getHubs = user =>
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query:
-        'query { hubsByUser {id, name, code, description, information, logoUrl } }'
+      query: 'query { hubsByUser {id, name, description, logoUrl } }'
     })
   });
 

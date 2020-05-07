@@ -496,7 +496,7 @@
         "confirmText": "¿Está seguro que desea eliminar este Hub?",
         "cannotUndo": "Esto no se puede deshacer.",
         "success": "El Hub ha sido eliminado",
-        "failed": "El Hub no pudo ser elimiando"
+        "failed": "El Hub no se puede eliminar porque tiene encuestas y usuarios asociados."
       }
     }
   },
