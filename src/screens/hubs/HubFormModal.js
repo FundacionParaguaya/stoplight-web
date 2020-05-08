@@ -22,26 +22,29 @@ import { addOrUpdateHub } from '../../api';
 
 const useStyles = makeStyles(theme => ({
   typographyStyle: {
-    marginBottom: 20
+    marginBottom: 15
   },
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'space-evenly',
     marginTop: 30
   },
-  confirmationModal: {
-    backgroundColor: theme.palette.background.default,
-    outline: 'none',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+  modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center'
+  },
+  confirmationModal: {
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: 700
+    maxHeight: '95vh',
+    width: '500px',
+    overflowY: 'auto',
+    position: 'relative',
+    outline: 'none'
   },
   closeIcon: {
     position: 'absolute',
@@ -49,14 +52,18 @@ const useStyles = makeStyles(theme => ({
     right: 5,
     marginBottom: 15
   },
+  input: {
+    marginBottom: 5,
+    marginTop: 5
+  },
   dropzone: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
     paddingTop: 70,
-    paddingBottom: 15,
+    paddingBottom: 10,
     borderWidth: 4,
     borderRadius: 2,
     borderColor: theme.palette.grey.quarter,
@@ -68,7 +75,6 @@ const useStyles = makeStyles(theme => ({
   img: {
     position: 'absolute',
     width: '40%',
-    height: '70%',
     top: '10%',
     left: '30%',
     backgroundColor: theme.palette.background.default
@@ -164,7 +170,13 @@ const DeleteFamilyModal = ({
     toggleModal();
   };
   return (
-    <Modal open={open} onClose={() => onClose()}>
+    <Modal
+      disableEnforceFocus
+      disableAutoFocus
+      className={classes.modal}
+      open={open}
+      onClose={() => onClose()}
+    >
       {loading ? (
         <div className={classes.confirmationModal}>
           <CircularProgress />
@@ -206,11 +218,13 @@ const DeleteFamilyModal = ({
                 label={t('views.hub.form.name')}
                 name="name"
                 required
+                className={classes.input}
               />
               <InputWithFormik
                 label={t('views.hub.form.description')}
                 name="description"
                 required
+                className={classes.input}
               />
               <AutocompleteWithFormik
                 label={t('views.hub.form.language')}
@@ -220,6 +234,7 @@ const DeleteFamilyModal = ({
                 valueKey="value"
                 isClearable={false}
                 required
+                className={classes.input}
               />
               <div style={{ position: 'relative' }}>
                 <div {...getRootProps({ className: classes.dropzone })}>
