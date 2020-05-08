@@ -474,6 +474,19 @@
         "cannotUndo": "¡No puedes deshacer esta acción!",
         "success": "La organización ha sido eliminada",
         "failed": "No se pudo eliminar la organización."
+      },
+      "form": {
+        "addTitle": "Agregar Organización",
+        "editTitle": "Editar Organización",
+        "name": "Nombre de Organización",
+        "nameLengthExceeded": "El nombre debe tener un máximo de 50 caracteres",
+        "description": "Descripción",
+        "descriptionLengthExceeded": "La descripción debe tener como máximo 256 caracteres",
+        "save": {
+          "success": "Organizción guardada correctamente",
+          "failed": "La organización ya existe"
+        },
+        "email": "Email del Lifemap"
       }
     },
     "hub": {

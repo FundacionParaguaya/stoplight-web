@@ -478,17 +478,14 @@
         "addTitle": "Add a Organization",
         "editTitle": "Edit Organization",
         "name": "Organization name",
-        "nameLengthExceeded": "Hub name must have a maximum of 50 characters",
+        "nameLengthExceeded": "Organization name must have a maximum of 50 characters",
         "description": "Description",
         "descriptionLengthExceeded": "Description must have a maximum of 256 characters",
-        "language": "Language",
-        "logoUpload": "Click to upload a logo",
-        "changeLogo": "Click here to change logo",
-        "fileUploadError": "You reached the 10MB limit! Choose another image",
         "save": {
-          "success": "Hub saved successfully",
-          "failed": "Hub already exist"
-        }
+          "success": "Organization saved successfully",
+          "failed": "Organization already exist"
+        },
+        "email": "Email to send Lifemap"
       }
     },
     "hub": {

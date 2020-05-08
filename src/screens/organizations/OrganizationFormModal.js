@@ -54,6 +54,11 @@ const selectStyle = {
 };
 
 const useStyles = makeStyles(theme => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   typographyStyle: {
     marginBottom: 20
   },
@@ -62,20 +67,20 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-evenly',
     marginTop: 30
   },
+
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
-    outline: 'none',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: 700
+    maxHeight: '95vh',
+    width: '500px',
+    overflowY: 'auto',
+    position: 'relative',
+    outline: 'none'
   },
+
   closeIcon: {
     position: 'absolute',
     top: 5,
@@ -180,7 +185,13 @@ const OrganizationFormModal = ({
     toggleModal();
   };
   return (
-    <Modal open={open} onClose={() => onClose()}>
+    <Modal
+      disableEnforceFocus
+      disableAutoFocus
+      className={classes.modal}
+      open={open}
+      onClose={() => onClose()}
+    >
       {loading ? (
         <div className={classes.confirmationModal}>
           <CircularProgress />
@@ -229,13 +240,9 @@ const OrganizationFormModal = ({
                 name="description"
                 required
               />
-              <AutocompleteWithFormik
-                label={t('views.organization.form.language')}
-                name="language"
-                rawOptions={langagueOptions}
-                labelKey="label"
-                valueKey="value"
-                isClearable={false}
+              <InputWithFormik
+                label={t('views.organization.form.email')}
+                name="email"
                 required
               />
               <div className={classes.container}>
@@ -255,7 +262,7 @@ const OrganizationFormModal = ({
                     noOptionsMessage={() =>
                       t('views.organizationsFilter.noOption')
                     }
-                    options={orgs}
+                    options={[]}
                     components={{
                       DropdownIndicator: () => <div />,
                       IndicatorSeparator: () => <div />,

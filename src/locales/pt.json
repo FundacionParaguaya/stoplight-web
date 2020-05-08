@@ -467,12 +467,26 @@
       "deleteButton": "EXCLUIR",
       "search": "Procurar",
       "searchOrganization": "pelo nome",
+      "email": "Email para enviar Lifemap",
       "delete": {
         "confirmTitle": "Confirmar exclusão",
         "confirmText": "Tem certeza de que deseja excluir esta organização?",
         "cannotUndo": "Você não pode desfazer esta ação!",
         "success": "A organização foi excluída",
         "failed": "Não foi possível excluir a organização"
+      },
+      "form": {
+        "addTitle": "Adicionar Organização",
+        "editTitle": "Editar Organização",
+        "name": "Nome Organização",
+        "nameLengthExceeded": "O nome de Organização deve ter no máximo 50 caracteres",
+        "description": "Descrição",
+        "descriptionLengthExceeded": "Descrição deve ter no máximo 256 caracteres",
+        "save": {
+          "success": "Organização salvo com sucesso",
+          "failed": "Organização já existe"
+        },
+        "email": "Email para enviar el Lifemap"
       }
     },
     "hub": {
