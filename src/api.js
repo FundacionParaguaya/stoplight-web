@@ -425,7 +425,7 @@ export const getOrganizationsByHub = (user, hub) =>
     },
 
     data: JSON.stringify({
-      query: `query { organizations (hub:${hub}) {id, name,code} }`
+      query: `query { organizations (hub:${hub}) {id, name} }`
     })
   });
 
@@ -811,3 +811,25 @@ export const assignOrganizations = (
       organizations
     }
   });
+
+export const addOrUpdateOrg = (user, org) => {
+  if (!org.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/api/v1/organizations`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: org
+    });
+  } else {
+    return axios({
+      method: 'put',
+      url: `${url[user.env]}/api/v1/organizations/${org.id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: org
+    });
+  }
+};

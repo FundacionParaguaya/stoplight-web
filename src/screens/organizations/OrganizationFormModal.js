@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   Typography,
@@ -13,10 +13,11 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import InputWithFormik from '../../components/InputWithFormik';
-import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import * as Yup from 'yup';
-import { addOrUpdateHub } from '../../api';
+import { addOrUpdateOrg } from '../../api';
 import Select from 'react-select';
+import { getOrganizationsByHub } from '../../api.js';
+import * as _ from 'lodash';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -67,6 +68,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-evenly',
     marginTop: 30
   },
+  label: {
+    paddingTop: '1rem',
+    paddingBottom: '0.5rem'
+  },
 
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
@@ -87,30 +92,7 @@ const useStyles = makeStyles(theme => ({
     right: 5,
     marginBottom: 15
   },
-  dropzone: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 10,
-    paddingTop: 70,
-    paddingBottom: 15,
-    borderWidth: 4,
-    borderRadius: 2,
-    borderColor: theme.palette.grey.quarter,
-    borderStyle: 'dashed',
-    backgroundColor: theme.palette.grey.light,
-    outline: 'none',
-    width: '100%'
-  },
-  img: {
-    position: 'absolute',
-    width: '40%',
-    height: '70%',
-    top: '10%',
-    left: '30%',
-    backgroundColor: theme.palette.background.default
-  },
+
   icon: {
     fontSize: '8vh',
     color: theme.palette.grey.quarter
@@ -123,8 +105,7 @@ const OrganizationFormModal = ({
   user,
   organization,
   enqueueSnackbar,
-  closeSnackbar,
-  suborganizations
+  closeSnackbar
 }) => {
   const isCreate = !organization.id;
   const classes = useStyles();
@@ -133,12 +114,8 @@ const OrganizationFormModal = ({
   const [error, setError] = useState(false);
   const [optionsLoading, setOptionsLoading] = useState(false);
   const [organizations, setOrganizations] = useState({});
+  const [subOrganizations, setSubOrganizations] = useState([]);
 
-  const langagueOptions = [
-    { label: 'English', value: 'en_US' },
-    { label: 'Español', value: 'es_PY' },
-    { label: 'Português', value: 'pt_BR' }
-  ];
   const fieldIsRequired = 'validation.fieldIsRequired';
 
   //Validation criterias
@@ -148,13 +125,36 @@ const OrganizationFormModal = ({
       .max(50, t('views.organization.form.nameLengthExceeded')),
     description: Yup.string()
       .required(fieldIsRequired)
-      .max(256, t('views.organization.form.descriptionLengthExceeded')),
-    language: Yup.string().required(fieldIsRequired)
+      .max(256, t('views.organization.form.descriptionLengthExceeded'))
   });
 
-  const onSubmit = values => {
+  //Effect to load sub-organizations
+  useEffect(() => {
     setLoading(true);
-    addOrUpdateHub(user, { ...values })
+    setOrganizations([]);
+    getOrganizationsByHub(user, null)
+      .then(response => {
+        const orgs = _.get(response, 'data.data.organizations', []).map(
+          org => ({
+            label: org.name,
+            value: org.id
+          })
+        );
+        setOrganizations(orgs);
+      })
+      .finally(() => setLoading(false));
+  }, [user]);
+
+  const onSubmit = values => {
+    console.log('calling on submit');
+    console.log(user);
+    setLoading(true);
+    const orgs = subOrganizations.map(m => ({ id: m.value }));
+    addOrUpdateOrg(user, {
+      ...values,
+      subOrganizations: orgs,
+      application: user.hub
+    })
       .then(() => {
         setLoading(false);
         onClose({ deleteModalOpen: false });
@@ -217,11 +217,10 @@ const OrganizationFormModal = ({
           </IconButton>
           <Formik
             initialValues={{
-              id: (!!organization.id && organization.id) || '',
+              id: (!!organization.id && organization.id) || null,
               name: (!!organization.name && organization.name) || '',
               description:
-                (!!organization.description && organization.description) || '',
-              language: (!!organization.language && organization.language) || ''
+                (!!organization.description && organization.description) || ''
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -242,8 +241,7 @@ const OrganizationFormModal = ({
               />
               <InputWithFormik
                 label={t('views.organization.form.email')}
-                name="email"
-                required
+                name="supportEmail"
               />
               <div className={classes.container}>
                 <Typography variant="subtitle1" className={classes.label}>
@@ -252,8 +250,8 @@ const OrganizationFormModal = ({
 
                 <div className={classes.selector}>
                   <Select
-                    value={suborganizations}
-                    onChange={value => setOrganizations(value)}
+                    value={subOrganizations}
+                    onChange={value => setSubOrganizations(value)}
                     placeholder=""
                     isLoading={optionsLoading}
                     loadingMessage={() =>
@@ -262,19 +260,20 @@ const OrganizationFormModal = ({
                     noOptionsMessage={() =>
                       t('views.organizationsFilter.noOption')
                     }
-                    options={[]}
+                    options={organizations}
                     components={{
                       DropdownIndicator: () => <div />,
                       IndicatorSeparator: () => <div />,
                       ClearIndicator: () => <div />
                     }}
-                    closeMenuOnSelect={false}
                     isMulti
+                    hideSelectedOptions
+                    loading={optionsLoading}
                     styles={selectStyle}
                   />
                 </div>
               </div>
-              )}
+
               {error && (
                 <Typography color="error">
                   {t('views.hub.form.fileUploadError')}
