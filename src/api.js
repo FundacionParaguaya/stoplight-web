@@ -439,14 +439,34 @@ export const getOrganizations = user =>
   });
 
 export const getOrganizationsPaginated = (user, page, filter, hubId) => {
-  let queryString = `page=${page}`;
   if (hubId) {
-    queryString += `&applicationId=${hubId}`;
+    return getOrganizationsPaginatedByHub(user, page, filter, hubId);
+  } else {
+    return getOrganizationsPaginatedByUser(user, page, filter);
   }
+};
+
+export const getOrganizationsPaginatedByUser = (user, page, filter) => {
+  let queryString = `page=${page}`;
+
   if (filter) queryString = `filter=${filter}&${queryString}`;
   return axios({
     method: 'get',
     url: `${url[user.env]}/api/v1/organizations/?${queryString}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
+export const getOrganizationsPaginatedByHub = (user, page, filter, hubId) => {
+  let queryString = `page=${page}`;
+  queryString += `&applicationId=${hubId}`;
+
+  if (filter) queryString = `filter=${filter}&${queryString}`;
+  return axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/organizations/application?${queryString}`,
     headers: {
       Authorization: `Bearer ${user.token}`
     }

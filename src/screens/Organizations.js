@@ -16,6 +16,8 @@ import organizationBanner from '../assets/hub.png';
 import OrganizationFormModal from './organizations/OrganizationFormModal';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
+  const hubId = history.location.state ? history.location.state.hubId : null;
+  const readOnly = hubId ? true : false;
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
@@ -31,7 +33,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const loadOrganizations = overwrite => {
     setLoading(true);
     let page = overwrite ? 1 : paginationData.page;
-    let hubId = history.location.state ? history.location.state.hubId : null;
 
     if (page !== paginationData.prevPage || overwrite) {
       getOrganizationsPaginated(user, page, filter, hubId)
@@ -125,16 +126,18 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
           <OrganizationSearchFilter
             onChangeOrganizationFilter={onChangeOrganizationFilter}
           />
-          <Button
-            variant="contained"
-            className={classes.addOrganization}
-            onClick={() => {
-              setSelectedOrganization({});
-              toggleFormModal();
-            }}
-          >
-            {t('views.organization.addOrganization')}
-          </Button>
+          {!readOnly && (
+            <Button
+              variant="contained"
+              className={classes.addOrganization}
+              onClick={() => {
+                setSelectedOrganization({});
+                toggleFormModal();
+              }}
+            >
+              {t('views.organization.addOrganization')}
+            </Button>
+          )}
         </Container>
         <div className={classes.listContainer}>
           {loading && (
@@ -162,37 +165,40 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                           : organization.description}
                       </Typography>
                     </div>
-                    <div className={classes.buttonsContainer}>
-                      <Button
-                        color="default"
-                        aria-label="Edit organization"
-                        classes={{
-                          root: classes.button,
-                          label: classes.buttonLabel
-                        }}
-                        onClick={() => {
-                          setSelectedOrganization(organization);
-                          toggleFormModal();
-                        }}
-                      >
-                        {t('views.organization.editButton')}
-                      </Button>
-                      <Button
-                        color="default"
-                        aria-label="Delete organization"
-                        component="span"
-                        classes={{
-                          root: classes.button,
-                          label: classes.buttonLabel
-                        }}
-                        onClick={() => {
-                          setSelectedOrganization(organization);
-                          toggleDeleteModal();
-                        }}
-                      >
-                        {t('views.organization.deleteButton')}
-                      </Button>
-                    </div>
+
+                    {!readOnly && (
+                      <div className={classes.buttonsContainer}>
+                        <Button
+                          color="default"
+                          aria-label="Edit organization"
+                          classes={{
+                            root: classes.button,
+                            label: classes.buttonLabel
+                          }}
+                          onClick={() => {
+                            setSelectedOrganization(organization);
+                            toggleFormModal();
+                          }}
+                        >
+                          {t('views.organization.editButton')}
+                        </Button>
+                        <Button
+                          color="default"
+                          aria-label="Delete organization"
+                          component="span"
+                          classes={{
+                            root: classes.button,
+                            label: classes.buttonLabel
+                          }}
+                          onClick={() => {
+                            setSelectedOrganization(organization);
+                            toggleDeleteModal();
+                          }}
+                        >
+                          {t('views.organization.deleteButton')}
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </Grid>
               );
