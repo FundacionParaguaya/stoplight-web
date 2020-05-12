@@ -118,6 +118,7 @@ const OrganizationFormModal = ({
   const [subOrganizations, setSubOrganizations] = useState([]);
   const [organization, setOrganization] = useState({});
   const fieldIsRequired = 'validation.fieldIsRequired';
+  const validEmailAddress = 'validation.validEmailAddress';
 
   //Validation criterias
   const validationSchema = Yup.object().shape({
@@ -126,7 +127,8 @@ const OrganizationFormModal = ({
       .max(50, t('views.organization.form.nameLengthExceeded')),
     description: Yup.string()
       .required(fieldIsRequired)
-      .max(256, t('views.organization.form.descriptionLengthExceeded'))
+      .max(140, t('views.organization.form.descriptionLengthExceeded')),
+    supportEmail: Yup.string().email(validEmailAddress)
   });
 
   //Effect to load organization info
@@ -143,7 +145,6 @@ const OrganizationFormModal = ({
         })
         .catch(e => {
           console.log(e);
-          //TODO
           enqueueSnackbar(t('views.organization.form.get.failed'), {
             variant: 'error',
             action: key => (
@@ -277,7 +278,6 @@ const OrganizationFormModal = ({
               <InputWithFormik
                 label={t('views.organization.form.description')}
                 name="description"
-                required
               />
               <InputWithFormik
                 label={t('views.organization.form.email')}

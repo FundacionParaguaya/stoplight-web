@@ -438,8 +438,11 @@ export const getOrganizations = user =>
     }
   });
 
-export const getOrganizationsPaginated = (user, page, filter) => {
+export const getOrganizationsPaginated = (user, page, filter, hubId) => {
   let queryString = `page=${page}`;
+  if (hubId) {
+    queryString += `&applicationId=${hubId}`;
+  }
   if (filter) queryString = `filter=${filter}&${queryString}`;
   return axios({
     method: 'get',

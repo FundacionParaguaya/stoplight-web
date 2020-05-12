@@ -15,7 +15,7 @@ import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
 import OrganizationFormModal from './organizations/OrganizationFormModal';
 
-const Organizations = ({ classes, t, user, i18n: { language } }) => {
+const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
@@ -31,9 +31,10 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
   const loadOrganizations = overwrite => {
     setLoading(true);
     let page = overwrite ? 1 : paginationData.page;
+    let hubId = history.location.state ? history.location.state.hubId : null;
 
     if (page !== paginationData.prevPage || overwrite) {
-      getOrganizationsPaginated(user, page, filter)
+      getOrganizationsPaginated(user, page, filter, hubId)
         .then(response => {
           let newOrgs = [];
           let totalPages = response.data.totalPages;

@@ -480,7 +480,7 @@
         "name": "Organization name",
         "nameLengthExceeded": "Organization name must have a maximum of 50 characters",
         "description": "Description",
-        "descriptionLengthExceeded": "Description must have a maximum of 256 characters",
+        "descriptionLengthExceeded": "Description must have a maximum of 140 characters",
         "save": {
           "success": "Organization saved successfully",
           "failed": "Organization already exist"
