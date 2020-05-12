@@ -105,7 +105,8 @@ const OrganizationFormModal = ({
   user,
   organization,
   enqueueSnackbar,
-  closeSnackbar
+  closeSnackbar,
+  afterSubmit
 }) => {
   const isCreate = !organization.id;
   const classes = useStyles();
@@ -158,6 +159,7 @@ const OrganizationFormModal = ({
       .then(() => {
         setLoading(false);
         onClose({ deleteModalOpen: false });
+        afterSubmit();
         enqueueSnackbar(t('views.organization.form.save.success'), {
           variant: 'success',
           action: key => (

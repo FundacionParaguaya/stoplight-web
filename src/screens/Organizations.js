@@ -75,6 +75,11 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
     setOpenFormModal(!openFormModal);
   };
 
+  const reloadPage = () => {
+    console.log('Calling Reload Pagee');
+    loadOrganizations(true);
+  };
+
   useEffect(() => {
     loadOrganizations(false);
   }, []);
@@ -95,6 +100,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
           subOrganizations={organizations}
           open={openFormModal}
           toggleModal={toggleFormModal}
+          afterSubmit={reloadPage}
         />
         <DeleteOrganizationModal
           organization={selectedOrganization}
