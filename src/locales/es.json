@@ -486,6 +486,9 @@
           "success": "Organizción guardada correctamente",
           "failed": "La organización ya existe"
         },
+        "get": {
+          "failed": "Error al cargar Organización. Intente otra vez"
+        },
         "email": "Email del Lifemap"
       }
     },

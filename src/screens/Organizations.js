@@ -96,7 +96,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
     <div className={classes.mainOrganizationContainerBoss}>
       <Container variant="stretch">
         <OrganizationFormModal
-          organization={selectedOrganization}
+          org={selectedOrganization}
           subOrganizations={organizations}
           open={openFormModal}
           toggleModal={toggleFormModal}
@@ -160,7 +160,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                           : organization.description}
                       </Typography>
                     </div>
-                    {/*  <div className={classes.buttonsContainer}>
+                    <div className={classes.buttonsContainer}>
                       <Button
                         color="default"
                         aria-label="Edit organization"
@@ -190,7 +190,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                       >
                         {t('views.organization.deleteButton')}
                       </Button>
-                    </div> */}
+                    </div>
                   </div>
                 </Grid>
               );

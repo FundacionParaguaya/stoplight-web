@@ -16,7 +16,7 @@ import InputWithFormik from '../../components/InputWithFormik';
 import * as Yup from 'yup';
 import { addOrUpdateOrg } from '../../api';
 import Select from 'react-select';
-import { getOrganizationsByHub } from '../../api.js';
+import { getOrganizationsByHub, getOrganization } from '../../api.js';
 import * as _ from 'lodash';
 
 const selectStyle = {
@@ -103,12 +103,12 @@ const OrganizationFormModal = ({
   open,
   toggleModal,
   user,
-  organization,
+  org,
   enqueueSnackbar,
   closeSnackbar,
   afterSubmit
 }) => {
-  const isCreate = !organization.id;
+  const isCreate = !org.id;
   const classes = useStyles();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -116,7 +116,7 @@ const OrganizationFormModal = ({
   const [optionsLoading, setOptionsLoading] = useState(false);
   const [organizations, setOrganizations] = useState({});
   const [subOrganizations, setSubOrganizations] = useState([]);
-
+  const [organization, setOrganization] = useState({});
   const fieldIsRequired = 'validation.fieldIsRequired';
 
   //Validation criterias
@@ -128,6 +128,33 @@ const OrganizationFormModal = ({
       .required(fieldIsRequired)
       .max(256, t('views.organization.form.descriptionLengthExceeded'))
   });
+
+  //Effect to load organization info
+  useEffect(() => {
+    if (org.id && open) {
+      getOrganization(user, org.id)
+        .then(response => {
+          setOrganization(response.data);
+          const subOrgs = response.data.subOrganizations.map(org => ({
+            label: org.name,
+            value: org.id
+          }));
+          setSubOrganizations(subOrgs);
+        })
+        .catch(e => {
+          console.log(e);
+          //TODO
+          enqueueSnackbar(t('views.organization.form.get.failed'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+        });
+    }
+  }, [open]);
 
   //Effect to load sub-organizations
   useEffect(() => {
@@ -160,6 +187,7 @@ const OrganizationFormModal = ({
         setLoading(false);
         onClose({ deleteModalOpen: false });
         setSubOrganizations([]);
+        setOrganization({});
         afterSubmit();
         enqueueSnackbar(t('views.organization.form.save.success'), {
           variant: 'success',
@@ -173,6 +201,7 @@ const OrganizationFormModal = ({
       .catch(e => {
         console.log(e);
         setSubOrganizations([]);
+        setOrganization({});
         enqueueSnackbar(t('views.organization.form.save.failed'), {
           variant: 'error',
           action: key => (
@@ -224,8 +253,11 @@ const OrganizationFormModal = ({
               id: (!!organization.id && organization.id) || null,
               name: (!!organization.name && organization.name) || '',
               description:
-                (!!organization.description && organization.description) || ''
+                (!!organization.description && organization.description) || '',
+              supportEmail:
+                (!!organization.supportEmail && organization.supportEmail) || ''
             }}
+            enableReinitialize
             validationSchema={validationSchema}
             onSubmit={values => {
               setLoading(true);

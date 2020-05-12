@@ -460,6 +460,16 @@ export const deleteOrganization = (user, organizationId) => {
   });
 };
 
+export const getOrganization = (user, organizationId) => {
+  return axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/organizations/${organizationId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
 export const getHubs = user =>
   axios({
     method: 'post',
