@@ -159,6 +159,7 @@ const OrganizationFormModal = ({
       .then(() => {
         setLoading(false);
         onClose({ deleteModalOpen: false });
+        setSubOrganizations([]);
         afterSubmit();
         enqueueSnackbar(t('views.organization.form.save.success'), {
           variant: 'success',
@@ -171,6 +172,7 @@ const OrganizationFormModal = ({
       })
       .catch(e => {
         console.log(e);
+        setSubOrganizations([]);
         enqueueSnackbar(t('views.organization.form.save.failed'), {
           variant: 'error',
           action: key => (
