@@ -153,6 +153,10 @@ const OrganizationFormModal = ({
             )
           });
         });
+    } else {
+      //Clear form info
+      setSubOrganizations([]);
+      setOrganization({});
     }
   }, [open]);
 
