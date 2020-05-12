@@ -106,6 +106,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
           organization={selectedOrganization}
           open={openDeleteModal}
           onClose={toggleDeleteModal}
+          afterSubmit={reloadPage}
         />
         <div className={classes.titleContainer}>
           <div className={classes.organizationTopTitle}>

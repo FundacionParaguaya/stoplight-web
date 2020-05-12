@@ -74,7 +74,8 @@ const DeleteOrganizationModal = ({
   user,
   organization,
   enqueueSnackbar,
-  closeSnackbar
+  closeSnackbar,
+  afterSubmit
 }) => {
   const classes = useStyles();
   const [deletingOrganization, setDeletingOrganization] = useState(false);
@@ -86,6 +87,7 @@ const DeleteOrganizationModal = ({
       .then(() => {
         setDeletingOrganization(false);
         onClose({ deleteModalOpen: false });
+        afterSubmit();
         enqueueSnackbar(t('views.organization.delete.success'), {
           variant: 'success',
           action: key => (
