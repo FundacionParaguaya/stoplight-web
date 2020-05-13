@@ -227,9 +227,14 @@ const Hubs = ({ classes, t, user, history }) => {
   };
 
   const handleGoNext = hub => {
-    window.location.replace(
+    history.push({
+      pathname: `/organizations`,
+      state: { hubId: hub.id }
+    });
+
+    /*  window.location.replace(
       `${getPlatform(user.env)}/#hubs/organizations/${hub.id}`
-    );
+    ); */
   };
 
   return (

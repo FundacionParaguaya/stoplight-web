@@ -425,7 +425,7 @@ export const getOrganizationsByHub = (user, hub) =>
     },
 
     data: JSON.stringify({
-      query: `query { organizations (hub:${hub}) {id, name,code} }`
+      query: `query { organizations (hub:${hub}) {id, name} }`
     })
   });
 
@@ -438,12 +438,55 @@ export const getOrganizations = user =>
     }
   });
 
-export const getOrganizationsPaginated = (user, page, filter) => {
+export const getOrganizationsPaginated = (user, page, filter, hubId) => {
+  if (hubId) {
+    return getOrganizationsPaginatedByHub(user, page, filter, hubId);
+  } else {
+    return getOrganizationsPaginatedByUser(user, page, filter);
+  }
+};
+
+export const getOrganizationsPaginatedByUser = (user, page, filter) => {
   let queryString = `page=${page}`;
+
   if (filter) queryString = `filter=${filter}&${queryString}`;
   return axios({
     method: 'get',
     url: `${url[user.env]}/api/v1/organizations/?${queryString}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
+export const getOrganizationsPaginatedByHub = (user, page, filter, hubId) => {
+  let queryString = `page=${page}`;
+  queryString += `&applicationId=${hubId}`;
+
+  if (filter) queryString = `filter=${filter}&${queryString}`;
+  return axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/organizations/application?${queryString}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
+export const deleteOrganization = (user, organizationId) => {
+  return axios({
+    method: 'delete',
+    url: `${url[user.env]}/api/v1/organizations/${organizationId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+};
+
+export const getOrganization = (user, organizationId) => {
+  return axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/organizations/${organizationId}`,
     headers: {
       Authorization: `Bearer ${user.token}`
     }
@@ -801,3 +844,25 @@ export const assignOrganizations = (
       organizations
     }
   });
+
+export const addOrUpdateOrg = (user, org) => {
+  if (!org.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/api/v1/organizations`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: org
+    });
+  } else {
+    return axios({
+      method: 'put',
+      url: `${url[user.env]}/api/v1/organizations/${org.id}`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: org
+    });
+  }
+};

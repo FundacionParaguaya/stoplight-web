@@ -11,12 +11,21 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import BottomSpacer from '../components/BottomSpacer';
 import Container from '../components/Container';
 import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
+import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
+import OrganizationFormModal from './organizations/OrganizationFormModal';
+import { ROLES_NAMES } from '../utils/role-utils';
+import clsx from 'clsx';
 
-const Organizations = ({ classes, t, user, i18n: { language } }) => {
+const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
+  const hubId = history.location.state ? history.location.state.hubId : null;
+  const readOnly = user.role != ROLES_NAMES.ROLE_HUB_ADMIN ? true : false;
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
+  const [selectedOrganization, setSelectedOrganization] = useState({});
+  const [openFormModal, setOpenFormModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [paginationData, setPaginationData] = useState({
     page: 1,
     totalPages: 1,
@@ -28,7 +37,7 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
     let page = overwrite ? 1 : paginationData.page;
 
     if (page !== paginationData.prevPage || overwrite) {
-      getOrganizationsPaginated(user, page, filter)
+      getOrganizationsPaginated(user, page, filter, hubId)
         .then(response => {
           let newOrgs = [];
           let totalPages = response.data.totalPages;
@@ -63,6 +72,17 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
       setFilter(e.target.value);
     }
   };
+  const toggleDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
+  const toggleFormModal = () => {
+    setOpenFormModal(!openFormModal);
+  };
+
+  const reloadPage = () => {
+    console.log('Calling Reload Pagee');
+    loadOrganizations(true);
+  };
 
   useEffect(() => {
     loadOrganizations(false);
@@ -79,6 +99,19 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
   return (
     <div className={classes.mainOrganizationContainerBoss}>
       <Container variant="stretch">
+        <OrganizationFormModal
+          org={selectedOrganization}
+          subOrganizations={organizations}
+          open={openFormModal}
+          toggleModal={toggleFormModal}
+          afterSubmit={reloadPage}
+        />
+        <DeleteOrganizationModal
+          organization={selectedOrganization}
+          open={openDeleteModal}
+          onClose={toggleDeleteModal}
+          afterSubmit={reloadPage}
+        />
         <div className={classes.titleContainer}>
           <div className={classes.organizationTopTitle}>
             <Typography variant="h4">
@@ -95,13 +128,18 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
           <OrganizationSearchFilter
             onChangeOrganizationFilter={onChangeOrganizationFilter}
           />
-          <Button
-            variant="contained"
-            className={classes.addOrganization}
-            onClick={() => {}}
-          >
-            {t('views.organization.addOrganization')}
-          </Button>
+          {!readOnly && (
+            <Button
+              variant="contained"
+              className={classes.addOrganization}
+              onClick={() => {
+                setSelectedOrganization({});
+                toggleFormModal();
+              }}
+            >
+              {t('views.organization.addOrganization')}
+            </Button>
+          )}
         </Container>
         <div className={classes.listContainer}>
           {loading && (
@@ -113,7 +151,12 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
             {organizations.map(organization => {
               return (
                 <Grid item key={organization.id} xs={12} sm={4} md={3} xl={2}>
-                  <div className={classes.mainOrganizationContainer}>
+                  <div
+                    className={clsx(
+                      classes.mainOrganizationContainer,
+                      readOnly && classes.paddingBottomCard
+                    )}
+                  >
                     <div className={classes.organizationTitleContainer}>
                       <Typography
                         variant="h6"
@@ -129,30 +172,40 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
                           : organization.description}
                       </Typography>
                     </div>
-                    <div className={classes.buttonsContainer}>
-                      <Button
-                        color="default"
-                        aria-label="Edit organization"
-                        classes={{
-                          root: classes.button,
-                          label: classes.buttonLabel
-                        }}
-                        onClick={() => {}}
-                      >
-                        {t('views.organization.editButton')}
-                      </Button>
-                      <Button
-                        color="default"
-                        aria-label="Delete organization"
-                        classes={{
-                          root: classes.button,
-                          label: classes.buttonLabel
-                        }}
-                        onClick={() => {}}
-                      >
-                        {t('views.organization.deleteButton')}
-                      </Button>
-                    </div>
+
+                    {!readOnly && (
+                      <div className={classes.buttonsContainer}>
+                        <Button
+                          color="default"
+                          aria-label="Edit organization"
+                          classes={{
+                            root: classes.button,
+                            label: classes.buttonLabel
+                          }}
+                          onClick={() => {
+                            setSelectedOrganization(organization);
+                            toggleFormModal();
+                          }}
+                        >
+                          {t('views.organization.editButton')}
+                        </Button>
+                        <Button
+                          color="default"
+                          aria-label="Delete organization"
+                          component="span"
+                          classes={{
+                            root: classes.button,
+                            label: classes.buttonLabel
+                          }}
+                          onClick={() => {
+                            setSelectedOrganization(organization);
+                            toggleDeleteModal();
+                          }}
+                        >
+                          {t('views.organization.deleteButton')}
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </Grid>
               );
@@ -182,6 +235,9 @@ const Organizations = ({ classes, t, user, i18n: { language } }) => {
 };
 
 const styles = theme => ({
+  paddingBottomCard: {
+    paddingBottom: '1rem'
+  },
   organizationTitle: {
     color: theme.palette.primary.dark,
     lineHeight: 1.2,
@@ -237,7 +293,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    paddingTop: 15,
+    paddingTop: '1rem',
     height: '100%',
     '& $p': {
       fontSize: '14px',
@@ -269,7 +325,8 @@ const styles = theme => ({
     position: 'relative',
     display: 'flex',
     height: 50,
-    marginLeft: 0
+    padding: '5px 5px',
+    paddingRight: 17
   },
   addButton: {
     color: theme.palette.background.default,
@@ -279,16 +336,15 @@ const styles = theme => ({
     right: 24
   },
   button: {
-    borderRadius: 0,
+    borderRadius: '0%',
     fontSize: 14,
-    padding: '0 17px 0 17px',
-
+    padding: 0,
+    marginRight: 5,
+    justifyContent: 'center',
     textDecoration: 'none',
-    marginRight: 10,
-    justifyContent: 'flex-start',
     '&:hover': {
-      textDecoration: 'none',
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: theme.palette.background.paper,
+      textDecoration: 'none'
     }
   },
 
