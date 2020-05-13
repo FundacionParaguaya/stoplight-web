@@ -339,10 +339,8 @@ const styles = theme => ({
     borderRadius: '0%',
     fontSize: 14,
     padding: 0,
-    paddingLeft: 10,
-    paddingRight: 5,
     marginRight: 5,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     textDecoration: 'none',
     '&:hover': {
       backgroundColor: theme.palette.background.paper,
