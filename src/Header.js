@@ -20,7 +20,13 @@ import i18n from './i18n';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
 import portugueseLogo from './assets/portuguese.png';
-import { ROLES, getPlatform, OLD, ROLE_SURVEY_TAKER } from './utils/role-utils';
+import {
+  ROLES,
+  getPlatform,
+  OLD,
+  NEW,
+  ROLE_SURVEY_TAKER
+} from './utils/role-utils';
 import { logout } from './api';
 
 class Header extends Component {
@@ -125,26 +131,26 @@ class Header extends Component {
                   </Typography>
                 </a>
               );
-            }
-
-            return (
-              <NavLink
-                to={`/${item}?sid=${this.props.user.token}&lang=${language}&env=${this.props.user.env}`}
-                className={
-                  path === `/${item}`
-                    ? `${classes.menuLink} ${classes.surveyLink}`
-                    : classes.menuLink
-                }
-                key={item}
-              >
-                <Typography
-                  variant="subtitle1"
-                  className={classes.menuLinkText}
+            } else if (platform === NEW) {
+              return (
+                <NavLink
+                  to={`/${item}?sid=${this.props.user.token}&lang=${language}&env=${this.props.user.env}`}
+                  className={
+                    path === `/${item}`
+                      ? `${classes.menuLink} ${classes.surveyLink}`
+                      : classes.menuLink
+                  }
+                  key={item}
                 >
-                  {t(`views.toolbar.${item}`)}
-                </Typography>
-              </NavLink>
-            );
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.menuLinkText}
+                  >
+                    {t(`views.toolbar.${item}`)}
+                  </Typography>
+                </NavLink>
+              );
+            }
           })}
 
           {/* Extra Buttons */}
