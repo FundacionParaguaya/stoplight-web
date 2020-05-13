@@ -109,6 +109,7 @@ const styles = theme => ({
     display: 'flex',
     height: 50,
     padding: '5px 5px',
+    paddingLeft: 10,
     paddingRight: 17
   },
   addButton: {
@@ -122,10 +123,8 @@ const styles = theme => ({
     borderRadius: '0%',
     fontSize: 14,
     padding: 0,
-    paddingLeft: 11,
-    paddingRight: 5,
     marginRight: 5,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     textDecoration: 'none',
     '&:hover': {
       backgroundColor: theme.palette.background.paper,
