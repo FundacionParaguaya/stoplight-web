@@ -125,9 +125,10 @@ const OrganizationFormModal = ({
     name: Yup.string()
       .required(fieldIsRequired)
       .max(50, t('views.organization.form.nameLengthExceeded')),
-    description: Yup.string()
-      .required(fieldIsRequired)
-      .max(140, t('views.organization.form.descriptionLengthExceeded')),
+    description: Yup.string().max(
+      140,
+      t('views.organization.form.descriptionLengthExceeded')
+    ),
     supportEmail: Yup.string().email(validEmailAddress)
   });
 
@@ -163,20 +164,23 @@ const OrganizationFormModal = ({
 
   //Effect to load sub-organizations
   useEffect(() => {
-    setLoading(true);
-    setOrganizations([]);
-    getOrganizationsByHub(user, null)
-      .then(response => {
-        const orgs = _.get(response, 'data.data.organizations', []).map(
-          org => ({
-            label: org.name,
-            value: org.id
-          })
-        );
-        setOrganizations(orgs);
-      })
-      .finally(() => setLoading(false));
-  }, [user]);
+    if (open) {
+      console.log('--LLamada a load orgs by hub--');
+      setLoading(true);
+      setOrganizations([]);
+      getOrganizationsByHub(user, null)
+        .then(response => {
+          const orgs = _.get(response, 'data.data.organizations', []).map(
+            org => ({
+              label: org.name,
+              value: org.id
+            })
+          );
+          setOrganizations(orgs);
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [open]);
 
   const onSubmit = values => {
     console.log('calling on submit');
@@ -269,7 +273,7 @@ const OrganizationFormModal = ({
               onSubmit(values);
             }}
           >
-            <Form>
+            <Form noValidate>
               <InputWithFormik
                 label={t('views.organization.form.name')}
                 name="name"
