@@ -175,8 +175,8 @@ const styles = theme => ({
     color: theme.palette.primary.dark,
     fontSize: '18px',
     marginRight: 'auto',
-    marginBottom: 7,
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
+    lineHeight: 1.2
   },
   surveyTitleContainer: {
     height: '75%',
@@ -184,6 +184,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     borderBottomWidth: 2,
+    marginBottom: 8,
     borderBottomColor: theme.palette.grey.quarter,
     '&:hover': {
       borderBottomColor: theme.palette.primary.dark
@@ -202,7 +203,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.grey.quarter,
     color: theme.palette.grey.main,
     padding: 3,
-    marginBottom: 8,
     marginRight: 8,
     width: 'fit-content',
     height: 'fit-content'
