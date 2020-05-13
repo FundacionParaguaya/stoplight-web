@@ -14,10 +14,12 @@ import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
 import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
 import OrganizationFormModal from './organizations/OrganizationFormModal';
+import { ROLES_NAMES } from '../utils/role-utils';
+import clsx from 'clsx';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
-  const readOnly = hubId ? true : false;
+  const readOnly = user.role != ROLES_NAMES.ROLE_HUB_ADMIN ? true : false;
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
@@ -149,7 +151,12 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
             {organizations.map(organization => {
               return (
                 <Grid item key={organization.id} xs={12} sm={4} md={3} xl={2}>
-                  <div className={classes.mainOrganizationContainer}>
+                  <div
+                    className={clsx(
+                      classes.mainOrganizationContainer,
+                      readOnly && classes.paddingBottomCard
+                    )}
+                  >
                     <div className={classes.organizationTitleContainer}>
                       <Typography
                         variant="h6"
@@ -228,6 +235,9 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
 };
 
 const styles = theme => ({
+  paddingBottomCard: {
+    paddingBottom: '1rem'
+  },
   organizationTitle: {
     color: theme.palette.primary.dark,
     lineHeight: 1.2,
@@ -283,7 +293,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    paddingTop: 15,
+    paddingTop: '1rem',
     height: '100%',
     '& $p': {
       fontSize: '14px',
