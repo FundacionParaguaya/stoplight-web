@@ -76,7 +76,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
         toggleModal={toggleModal}
         updateSurveys={updateSurveys}
       />
-      <Container>
+      <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
             <Typography variant="h4">{t('views.survey.surveys')}</Typography>
@@ -211,9 +211,14 @@ const styles = theme => ({
   chooseLifeMapImage: {
     display: 'block',
     height: 240,
-    right: 30,
+    right: 72,
     position: 'absolute',
-    top: 20
+    top: -12,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   titleContainer: {
     display: 'flex',
