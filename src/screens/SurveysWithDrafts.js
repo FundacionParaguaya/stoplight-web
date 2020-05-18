@@ -75,6 +75,12 @@ const useSurveysListStyle = makeStyles(theme => ({
   }
 }));
 
+const LoadingContainer = () => (
+  <div style={{ height: 160, margin: 'auto', display: 'flex' }}>
+    <CircularProgress style={{ margin: 'auto' }} />
+  </div>
+);
+
 const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
   const classes = useSurveysListStyle();
   const { t } = useTranslation();
@@ -91,9 +97,7 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
       <Typography variant="h5">{t('views.survey.surveys')}</Typography>
       <List
         dense
-        className={`${
-          classes.listStyle
-        } visible-scrollbar visible-scrollbar-thumb`}
+        className={`${classes.listStyle} visible-scrollbar visible-scrollbar-thumb`}
       >
         {surveys.map((survey, index) => (
           <React.Fragment key={survey.id}>
@@ -151,18 +155,18 @@ class Surveys extends Component {
     Promise.all([
       getSurveysDefinition(user || this.props.user),
       getEconomicOverview(user || this.props.user)
-    ])
-      .then(response => {
-        this.setState({
+    ]).then(response => {
+      this.setState(
+        {
           surveys: response[0].data.data.surveysDefinitionByUser,
           familiesOverview: response[1].data.data.economicOverview
-        });
-      })
-      .finally(() =>
-        this.setState({
-          loading: false
-        })
+        },
+        () =>
+          this.setState({
+            loading: false
+          })
       );
+    });
   }
 
   getEconomicScreens(survey) {
@@ -423,11 +427,15 @@ class Surveys extends Component {
                     </Grid>
                   )}
                   <Grid item sm={isSurveyTaker ? 12 : 8} xs={12}>
-                    <SurveysList
-                      surveys={this.state.surveys}
-                      heightRef={this.heightSurveysRef}
-                      handleSurveyClick={this.handleClickOnSurvey}
-                    />
+                    {this.state.loading ? (
+                      <LoadingContainer />
+                    ) : (
+                      <SurveysList
+                        surveys={this.state.surveys}
+                        heightRef={this.heightSurveysRef}
+                        handleSurveyClick={this.handleClickOnSurvey}
+                      />
+                    )}
                   </Grid>
                 </>
               )}
