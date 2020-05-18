@@ -76,7 +76,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
         toggleModal={toggleModal}
         updateSurveys={updateSurveys}
       />
-      <Container>
+      <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
             <Typography variant="h4">{t('views.survey.surveys')}</Typography>
@@ -175,8 +175,8 @@ const styles = theme => ({
     color: theme.palette.primary.dark,
     fontSize: '18px',
     marginRight: 'auto',
-    marginBottom: 7,
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
+    lineHeight: 1.2
   },
   surveyTitleContainer: {
     height: '75%',
@@ -184,6 +184,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     borderBottomWidth: 2,
+    marginBottom: 8,
     borderBottomColor: theme.palette.grey.quarter,
     '&:hover': {
       borderBottomColor: theme.palette.primary.dark
@@ -202,7 +203,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.grey.quarter,
     color: theme.palette.grey.main,
     padding: 3,
-    marginBottom: 8,
     marginRight: 8,
     width: 'fit-content',
     height: 'fit-content'
@@ -211,9 +211,14 @@ const styles = theme => ({
   chooseLifeMapImage: {
     display: 'block',
     height: 240,
-    right: 30,
+    right: 72,
     position: 'absolute',
-    top: 20
+    top: -12,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   titleContainer: {
     display: 'flex',
