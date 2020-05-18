@@ -70,7 +70,8 @@ const useStyles = makeStyles(theme => ({
 
 const DeleteHubModal = ({
   open,
-  onClose,
+  toggleModal,
+  afterSubmit,
   user,
   hub,
   enqueueSnackbar,
@@ -109,8 +110,13 @@ const DeleteHubModal = ({
         onClose();
       });
   };
+
+  const onClose = () => {
+    afterSubmit();
+    toggleModal();
+  };
   return (
-    <Modal open={open} onClose={() => onClose()}>
+    <Modal open={open} onClose={() => toggleModal()}>
       <div className={classes.mainContainer}>
         <img src={face} className={classes.icon} alt="Warning icon" />
         <Typography className={classes.title} variant="h5">
@@ -140,7 +146,7 @@ const DeleteHubModal = ({
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => onClose()}
+            onClick={() => toggleModal()}
             disabled={deletingHub}
           >
             {t('general.no')}
