@@ -64,9 +64,9 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
           snapshot => snapshot.stoplightSkipped === false
         )
       );
-      response.data.data.familySnapshotsOverview.snapshots.map(
+      response.data.data.familySnapshotsOverview.snapshots.forEach(
         (snapshot, i) => {
-          snapshot.stoplight.map(ind => {
+          snapshot.stoplight.forEach(ind => {
             let index = data.findIndex(d => d.codeName === ind.codeName);
             if (index > -1) {
               data[index] = {
@@ -148,7 +148,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
         />
 
         {snapshots.length > 0 &&
-          snapshots.map((snapshot, i) => {
+          snapshots.forEach((snapshot, i) => {
             if (!snapshot.stoplightSkipped) {
               count += 1;
               return (

@@ -43,7 +43,6 @@ const styles = theme => ({
   },
   buttonContainerForm: {
     display: 'flex',
-    justifyContent: 'center',
     marginTop: 40,
     justifyContent: 'space-evenly'
   },

@@ -55,7 +55,7 @@ function MenuLink({ label, to, activeOnlyWhenExact, first, optionClass }) {
           {label}
         </Link>
       ) : (
-        <a
+        <p
           style={{
             color: COLORS.TEXT_LIGHTGREY,
             fontSize: '16px',
@@ -64,7 +64,7 @@ function MenuLink({ label, to, activeOnlyWhenExact, first, optionClass }) {
           className={optionClass}
         >
           {label}
-        </a>
+        </p>
       )}
     </div>
   );

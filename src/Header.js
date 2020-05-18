@@ -150,6 +150,8 @@ class Header extends Component {
                   </Typography>
                 </NavLink>
               );
+            } else {
+              return <p></p>;
             }
           })}
 

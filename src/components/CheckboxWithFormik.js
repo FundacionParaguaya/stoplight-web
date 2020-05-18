@@ -13,7 +13,6 @@ import { connect } from 'formik';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { pathHasError, getErrorLabelForPath } from '../utils/form-utils';
-import { width } from '@material-ui/system';
 
 const removeByIndex = (array, index) => {
   const prior = array.slice(0, index);

@@ -112,8 +112,6 @@ const OrganizationFormModal = ({
   const classes = useStyles();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [optionsLoading, setOptionsLoading] = useState(false);
   const [organizations, setOrganizations] = useState({});
   const [subOrganizations, setSubOrganizations] = useState([]);
   const [organization, setOrganization] = useState({});
@@ -297,7 +295,7 @@ const OrganizationFormModal = ({
                     value={subOrganizations}
                     onChange={value => setSubOrganizations(value)}
                     placeholder=""
-                    isLoading={optionsLoading}
+                    isLoading={false}
                     loadingMessage={() =>
                       t('views.organizationsFilter.loading')
                     }
@@ -312,17 +310,12 @@ const OrganizationFormModal = ({
                     }}
                     isMulti
                     hideSelectedOptions
-                    loading={optionsLoading}
+                    loading={false}
                     styles={selectStyle}
                   />
                 </div>
               </div>
 
-              {error && (
-                <Typography color="error">
-                  {t('views.hub.form.fileUploadError')}
-                </Typography>
-              )}
               <div className={classes.buttonContainerForm}>
                 <Button type="submit" color="primary" variant="contained">
                   {t('general.save')}
