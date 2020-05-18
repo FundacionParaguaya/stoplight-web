@@ -36,6 +36,11 @@ const styles = theme => ({
       lineHeight: 1.2
     }
   },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'center',
@@ -44,16 +49,15 @@ const styles = theme => ({
   },
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
-    outline: 'none',
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
     flexDirection: 'column',
-    padding: '40px 50px'
+    padding: '40px 50px',
+    maxHeight: '95vh',
+    width: '500px',
+    overflowY: 'auto',
+    position: 'relative',
+    outline: 'none'
   },
   questionsContainer: {
     paddingTop: '5%',
@@ -265,7 +269,7 @@ const SelectIndicatorPriority = ({
         </Button>
       </Container>
 
-      <Modal open={open} onClose={onClose}>
+      <Modal open={open} onClose={onClose} className={classes.modal}>
         {loading ? (
           <div className={classes.confirmationModal}>
             <CircularProgress />

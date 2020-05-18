@@ -676,7 +676,7 @@ const styles = theme => ({
     height: 240,
     right: 30,
     position: 'absolute',
-    top: -10,
+    top: -51,
     zIndex: 0,
     objectFit: 'cover',
     [theme.breakpoints.down('xs')]: {
