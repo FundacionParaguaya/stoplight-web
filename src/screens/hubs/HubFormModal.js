@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import {
   Modal,
   Typography,
+  withStyles,
   Button,
   CircularProgress,
-  IconButton
+  IconButton,
+  Checkbox
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
@@ -21,9 +23,6 @@ import { MB_SIZE, toBase64 } from '../../utils/files-utils';
 import { addOrUpdateHub } from '../../api';
 
 const useStyles = makeStyles(theme => ({
-  typographyStyle: {
-    marginBottom: 15
-  },
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -53,8 +52,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 15
   },
   input: {
-    marginBottom: 5,
-    marginTop: 5
+    marginBottom: 10,
+    marginTop: 10
   },
   dropzone: {
     flex: 1,
@@ -82,12 +81,19 @@ const useStyles = makeStyles(theme => ({
   icon: {
     fontSize: '8vh',
     color: theme.palette.grey.quarter
+  },
+  allowRetake: {
+    fontWeight: 400,
+    padding: 11,
+    paddingLeft: 14,
+    font: 'Roboto'
   }
 }));
 
-const DeleteFamilyModal = ({
+const HubFormModal = ({
   open,
   toggleModal,
+  afterSubmit,
   user,
   hub,
   enqueueSnackbar,
@@ -105,7 +111,21 @@ const DeleteFamilyModal = ({
     { label: 'Español', value: 'es_PY' },
     { label: 'Português', value: 'pt_BR' }
   ];
+
+  const partnerTypeOptions = [
+    { label: 'Hub', value: 'HUB' },
+    { label: 'Special Project', value: 'SPECIAL_PROJECT' }
+  ];
   const fieldIsRequired = 'validation.fieldIsRequired';
+
+  const GreenCheckbox = withStyles(theme => ({
+    root: {
+      color: theme.palette.grey.main
+    },
+    checked: {
+      color: theme.palette.primary.main
+    }
+  }))(props => <Checkbox color={'default'} {...props} />);
 
   //Validation criterias
   const validationSchema = Yup.object().shape({
@@ -115,7 +135,8 @@ const DeleteFamilyModal = ({
     description: Yup.string()
       .required(fieldIsRequired)
       .max(256, t('views.hub.form.descriptionLengthExceeded')),
-    language: Yup.string().required(fieldIsRequired)
+    language: Yup.string().required(fieldIsRequired),
+    partnerType: Yup.string().required(fieldIsRequired)
   });
 
   const onDropAccepted = async acceptedFiles => {
@@ -137,11 +158,14 @@ const DeleteFamilyModal = ({
   });
 
   const onSubmit = values => {
-    setLoading(true);
+    if (values.allowRetake) {
+      delete values.allowRetake;
+      values.labels = ['allowRetake'];
+    }
     addOrUpdateHub(user, { ...values, file })
       .then(() => {
         setLoading(false);
-        onClose({ deleteModalOpen: false });
+        onClose(true);
         enqueueSnackbar(t('views.hub.form.save.success'), {
           variant: 'success',
           action: key => (
@@ -162,11 +186,12 @@ const DeleteFamilyModal = ({
           )
         });
         setLoading(false);
-        onClose();
+        onClose(true);
       });
   };
-  const onClose = () => {
+  const onClose = submitted => {
     setFile('');
+    submitted && afterSubmit();
     toggleModal();
   };
   return (
@@ -175,7 +200,7 @@ const DeleteFamilyModal = ({
       disableAutoFocus
       className={classes.modal}
       open={open}
-      onClose={() => onClose()}
+      onClose={() => onClose(false)}
     >
       {loading ? (
         <div className={classes.confirmationModal}>
@@ -183,12 +208,7 @@ const DeleteFamilyModal = ({
         </div>
       ) : (
         <div className={classes.confirmationModal}>
-          <Typography
-            variant="h4"
-            test-id="title-bar"
-            align="center"
-            className={classes.typographyStyle}
-          >
+          <Typography variant="h5" test-id="title-bar" align="center">
             {isCreate
               ? t('views.hub.form.addTitle')
               : t('views.hub.form.editTitle')}
@@ -196,7 +216,7 @@ const DeleteFamilyModal = ({
           <IconButton
             className={classes.closeIcon}
             key="dismiss"
-            onClick={() => onClose()}
+            onClick={() => onClose(false)}
           >
             <CloseIcon style={{ color: 'green' }} />
           </IconButton>
@@ -205,7 +225,9 @@ const DeleteFamilyModal = ({
               id: (!!hub.id && hub.id) || '',
               name: (!!hub.name && hub.name) || '',
               description: (!!hub.description && hub.description) || '',
-              language: (!!hub.language && hub.language) || ''
+              language: (!!hub.language && hub.language) || '',
+              partnerType: (!!hub.partnerType && hub.partnerType) || '',
+              allowRetake: !!hub.labels
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -213,59 +235,85 @@ const DeleteFamilyModal = ({
               onSubmit(values);
             }}
           >
-            <Form>
-              <InputWithFormik
-                label={t('views.hub.form.name')}
-                name="name"
-                required
-                className={classes.input}
-              />
-              <InputWithFormik
-                label={t('views.hub.form.description')}
-                name="description"
-                required
-                className={classes.input}
-              />
-              <AutocompleteWithFormik
-                label={t('views.hub.form.language')}
-                name="language"
-                rawOptions={langagueOptions}
-                labelKey="label"
-                valueKey="value"
-                isClearable={false}
-                required
-                className={classes.input}
-              />
-              <div style={{ position: 'relative' }}>
-                <div {...getRootProps({ className: classes.dropzone })}>
-                  <input {...getInputProps()} />
-                  <AddAPhoto className={classes.icon} />
-                  <Typography style={{ paddingTop: 55 }} variant="subtitle1">
-                    {!isCreate && !!hub.logoUrl
-                      ? t('views.hub.form.changeLogo')
-                      : t('views.hub.form.logoUpload')}{' '}
+            {({ setFieldValue, values }) => (
+              <Form noValidate>
+                <InputWithFormik
+                  label={t('views.hub.form.name')}
+                  name="name"
+                  required
+                  className={classes.input}
+                />
+                <InputWithFormik
+                  label={t('views.hub.form.description')}
+                  name="description"
+                  required
+                  className={classes.input}
+                />
+                <AutocompleteWithFormik
+                  label={t('views.hub.form.language')}
+                  name="language"
+                  rawOptions={langagueOptions}
+                  labelKey="label"
+                  valueKey="value"
+                  isClearable={false}
+                  required
+                />
+                <AutocompleteWithFormik
+                  label={t('views.hub.form.partnerType')}
+                  name="partnerType"
+                  rawOptions={partnerTypeOptions}
+                  labelKey="label"
+                  valueKey="value"
+                  isClearable={false}
+                  required
+                />
+                <div style={{ display: 'flex' }}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.allowRetake}
+                  >
+                    {t('views.hub.form.allowRetake')}
                   </Typography>
-                </div>
-                {(!!file || !!hub.logoUrl) && (
-                  <img
-                    src={file ? file : hub.logoUrl}
-                    alt="Choose Life Map"
-                    className={classes.img}
+                  <GreenCheckbox
+                    name={'allowRetake'}
+                    value={'allowRetake'}
+                    onChange={e => {
+                      setFieldValue('allowRetake', !values.allowRetake);
+                    }}
+                    checked={values.allowRetake}
                   />
-                )}
-              </div>
+                </div>
+                <div style={{ position: 'relative', marginBottom: 10 }}>
+                  <div {...getRootProps({ className: classes.dropzone })}>
+                    <input {...getInputProps()} />
+                    <AddAPhoto className={classes.icon} />
+                    <Typography style={{ paddingTop: 55 }} variant="subtitle1">
+                      {!isCreate && !!hub.logoUrl
+                        ? t('views.hub.form.changeLogo')
+                        : t('views.hub.form.logoUpload')}{' '}
+                    </Typography>
+                  </div>
+                  {(!!file || !!hub.logoUrl) && (
+                    <img
+                      src={file ? file : hub.logoUrl}
+                      alt="Choose Life Map"
+                      className={classes.img}
+                    />
+                  )}
+                </div>
 
-              {error && (
-                <Typography color="error">
-                  {t('views.hub.form.fileUploadError')}
-                </Typography>
-              )}
-              <div className={classes.buttonContainerForm}>
-                <Button type="submit" color="primary" variant="contained">
-                  {t('general.save')}
-                </Button>
-              </div>
-            </Form>
+                {error && (
+                  <Typography color="error">
+                    {t('views.hub.form.fileUploadError')}
+                  </Typography>
+                )}
+                <div className={classes.buttonContainerForm}>
+                  <Button type="submit" color="primary" variant="contained">
+                    {t('general.save')}
+                  </Button>
+                </div>
+              </Form>
+            )}
           </Formik>
         </div>
       )}
@@ -277,4 +325,4 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(withSnackbar(DeleteFamilyModal));
+export default connect(mapStateToProps)(withSnackbar(HubFormModal));
