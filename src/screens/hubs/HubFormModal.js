@@ -82,6 +82,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: '8vh',
     color: theme.palette.grey.quarter
   },
+  allowRetakeContainer: {
+    display: 'flex',
+    marginBottom: '1rem',
+    marginTop: '1rem'
+  },
   allowRetake: {
     fontWeight: 400,
     padding: 11,
@@ -267,7 +272,7 @@ const HubFormModal = ({
                   isClearable={false}
                   required
                 />
-                <div style={{ display: 'flex' }}>
+                <div className={classes.allowRetakeContainer}>
                   <Typography
                     variant="subtitle1"
                     className={classes.allowRetake}
