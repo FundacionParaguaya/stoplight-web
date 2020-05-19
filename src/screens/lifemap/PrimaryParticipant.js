@@ -295,7 +295,7 @@ export class PrimaryParticipant extends Component {
       );
 
       const firstParticipant = this.props.currentDraft.familyData.familyMembersList.find(
-        e => e.firstParticipant == true
+        e => e.firstParticipant === true
       );
 
       if (!firstParticipant.birthCountry) {
@@ -312,7 +312,7 @@ export class PrimaryParticipant extends Component {
         this.props.updatePhoneCode({
           phoneCode: phoneCodes.find(
             e =>
-              e.code ==
+              e.code ===
               this.props.currentSurvey.surveyConfig.surveyLocation.country
           ).value
         });
@@ -352,7 +352,7 @@ export class PrimaryParticipant extends Component {
 
     const participant = currentDraft
       ? currentDraft.familyData.familyMembersList.find(
-          e => e.firstParticipant == true
+          e => e.firstParticipant === true
         )
       : {};
     const defaultEditingObject = {
@@ -378,7 +378,7 @@ export class PrimaryParticipant extends Component {
       phoneNumber: '',
       phoneCode: phoneCodes.find(
         e =>
-          e.code ==
+          e.code ===
           _.get(currentSurvey, 'surveyConfig.surveyLocation.country', '')
       ).value
     };
@@ -625,7 +625,7 @@ export class PrimaryParticipant extends Component {
                             .length;
                           if (errorsLength > 0) {
                             enqueueSnackbar(
-                              errorsLength == 1
+                              errorsLength === 1
                                 ? t('views.family.formWithError')
                                 : t('views.family.formWithErrors').replace(
                                     '%number',

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -81,12 +81,12 @@ const FacilitatorFilter = ({ user, data, onChange, isMulti, label }) => {
       .finally(() => setLoading(false));
   }, [user]);
 
-  const selectedFacilitator = useMemo(
+  /*  const selectedFacilitator = useMemo(
     () =>
       //console.log('useMemo', data) ||
       facilitators.filter(mentor => mentor.value === data.value),
     [data, facilitators]
-  );
+  ); */
 
   return (
     <div className={classes.container}>

@@ -19,7 +19,7 @@ import clsx from 'clsx';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
-  const readOnly = user.role != ROLES_NAMES.ROLE_HUB_ADMIN ? true : false;
+  const readOnly = user.role !== ROLES_NAMES.ROLE_HUB_ADMIN ? true : false;
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');

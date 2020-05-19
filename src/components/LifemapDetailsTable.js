@@ -64,7 +64,7 @@ const LifemapDetailsTable = ({
   const getColumns = () => {
     let columns = [];
     let count = 0;
-    snapshots.map((snapshot, i) => {
+    snapshots.forEach((snapshot, i) => {
       if (!snapshot.stoplightSkipped) {
         count += 1;
         columns.push({

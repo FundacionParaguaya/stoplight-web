@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
 import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import Container from '../../components/Container';
-import IndicatorBall from '../../components/summary/IndicatorBall';
 import IndicatorsFilter, {
   FILTERED_BY_OPTIONS
 } from '../../components/summary/IndicatorsFilter';

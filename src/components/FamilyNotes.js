@@ -49,7 +49,7 @@ const FamilyNotes = ({
             key={index}
             className={classes.note}
             style={
-              user.username.toLowerCase() == familyNote.noteUser.toLowerCase()
+              user.username.toLowerCase() === familyNote.noteUser.toLowerCase()
                 ? { alignSelf: 'flex-end' }
                 : { alignSelf: 'flex-start' }
             }

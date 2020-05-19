@@ -70,12 +70,7 @@ export class FamilyMembers extends Component {
   };
 
   updateDraft = (memberIndex, value, property) => {
-    const {
-      currentDraft,
-      currentSurvey,
-      enqueueSnackbar,
-      closeSnackbar
-    } = this.props;
+    const { currentDraft, currentSurvey } = this.props;
     const {
       conditionalQuestions = [],
       elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
@@ -392,7 +387,7 @@ export class FamilyMembers extends Component {
                           ).length;
                           if (errorsLength > 0) {
                             enqueueSnackbar(
-                              errorsLength == 1
+                              errorsLength === 1
                                 ? t('views.family.formWithError')
                                 : t('views.family.formWithErrors').replace(
                                     '%number',
