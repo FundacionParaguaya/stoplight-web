@@ -508,6 +508,8 @@
         "logoUpload": "Click to upload a logo",
         "changeLogo": "Click here to change logo",
         "fileUploadError": "You reached the 10MB limit! Choose another image",
+        "partnerType": "Type of Partner",
+        "allowRetake": "Retaking feature:",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
