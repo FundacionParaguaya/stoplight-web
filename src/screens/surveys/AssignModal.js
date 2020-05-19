@@ -16,7 +16,6 @@ import * as _ from 'lodash';
 import { withSnackbar } from 'notistack';
 import { getHubs, getOrganizationsByHub, assignOrganizations } from '../../api';
 import { CircularProgress } from '@material-ui/core';
-import { setServers } from 'dns';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({

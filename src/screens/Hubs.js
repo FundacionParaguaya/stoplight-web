@@ -17,7 +17,6 @@ import HubsSearchFilter from './hubs/HubSearchFilter';
 import DeleteHubModal from './hubs/DeleteHubModal';
 import HubFormModal from './hubs/HubFormModal';
 import hubBanner from '../assets/hub.png';
-import { getPlatform } from '../utils/role-utils';
 
 const styles = theme => ({
   hubTitle: {

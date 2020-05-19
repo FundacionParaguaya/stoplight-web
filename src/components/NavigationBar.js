@@ -48,23 +48,29 @@ function MenuLink({ label, to, activeOnlyWhenExact, first, optionClass }) {
   });
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex'
+      }}
+    >
       {!first && <span>&nbsp; > &nbsp;</span>}
       {!match ? (
         <Link to={to} style={{ color: COLORS.GREEN }} className={optionClass}>
           {label}
         </Link>
       ) : (
-        <a
+        <p
           style={{
             color: COLORS.TEXT_LIGHTGREY,
             fontSize: '16px',
-            fontWeight: 400
+            fontWeight: 400,
+            marginBlockStart: '0px',
+            marginBlockEnd: '0px'
           }}
           className={optionClass}
         >
           {label}
-        </a>
+        </p>
       )}
     </div>
   );

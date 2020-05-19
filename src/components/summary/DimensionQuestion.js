@@ -20,13 +20,13 @@ const indicatorColorByAnswer = indicator => {
   return color;
 };
 
-const getForwardURLForIndicator = indicator => {
+/* const getForwardURLForIndicator = indicator => {
   let forward = 'skipped-indicator';
   if (indicator.value) {
     forward = indicator.value === 3 ? 'achievement' : 'priority';
   }
   return `${forward}/${indicator.key}`;
-};
+}; */
 
 const DimensionQuestion = ({
   classes,

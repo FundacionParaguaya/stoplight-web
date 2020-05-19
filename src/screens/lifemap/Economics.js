@@ -859,7 +859,7 @@ export class Economics extends Component {
                               forFamilyErrorsCount + forFamilyMemberErrorsCount;
                             if (errorsLength > 0) {
                               enqueueSnackbar(
-                                errorsLength == 1
+                                errorsLength === 1
                                   ? t('views.family.formWithError')
                                   : t('views.family.formWithErrors').replace(
                                       '%number',
