@@ -130,7 +130,10 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
           <img
             src={organizationBanner}
             alt="Organization Banner"
-            className={classes.organizationImage}
+            className={clsx(
+              classes.organizationImage,
+              readOnly && classes.organizationImageTop
+            )}
           />
         </div>
         <Container variant="fluid" className={classes.searchContainer}>
@@ -267,6 +270,10 @@ const styles = theme => ({
       display: 'none'
     }
   },
+  organizationImageTop: {
+    top: -51
+  },
+
   searchContainer: {
     display: 'flex',
     paddingTop: 20,
