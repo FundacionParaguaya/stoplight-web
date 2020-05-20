@@ -197,10 +197,6 @@ const Hubs = ({ classes, t, user, history }) => {
 
   useEffect(() => {
     !openDeleteModal && !openFormModal && !loading && loadHubs(true);
-  }, [openDeleteModal, openFormModal]);
-
-  useEffect(() => {
-    !openDeleteModal && !openFormModal && !loading && loadHubs(true);
   }, [filter]);
 
   const toggleDeleteModal = () => {
@@ -225,6 +221,10 @@ const Hubs = ({ classes, t, user, history }) => {
       });
   };
 
+  const reloadPage = () => {
+    loadHubs(true);
+  };
+
   const handleGoNext = hub => {
     history.push({
       pathname: `/organizations`,
@@ -242,12 +242,14 @@ const Hubs = ({ classes, t, user, history }) => {
         <HubFormModal
           hub={selectedHub}
           open={openFormModal}
+          afterSubmit={reloadPage}
           toggleModal={toggleFormModal}
         />
         <DeleteHubModal
           hub={selectedHub}
           open={openDeleteModal}
-          onClose={toggleDeleteModal}
+          afterSubmit={reloadPage}
+          toggleModal={toggleDeleteModal}
         />
         <div className={classes.titleContainer}>
           <div className={classes.hubTopTitle}>

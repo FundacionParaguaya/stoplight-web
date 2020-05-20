@@ -509,6 +509,8 @@
         "logoUpload": "Clique para subir uma logo",
         "changeLogo": "Clique aqui para alterar o logotipo",
         "fileUploadError": "*Você atingiu o limite de 10MB! Escolha outra imagem.",
+        "partnerType": "Tipo de Sócio",
+        "allowRetake": "Funcionalidade de seguimento:",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"
