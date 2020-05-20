@@ -287,7 +287,7 @@ const OrganizationFormModal = ({
               />
               <div className={classes.container}>
                 <Typography variant="subtitle1" className={classes.label}>
-                  {t('views.survey.assignSurvey.orgs')}
+                  {t('views.organization.form.subOrg')}
                 </Typography>
 
                 <div className={classes.selector}>

@@ -15,6 +15,7 @@ import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
 import OrganizationFormModal from './organizations/OrganizationFormModal';
 import { ROLES_NAMES } from '../utils/role-utils';
+import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
@@ -96,9 +97,17 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
     !loading && loadOrganizations(true);
   }, [filter]);
 
+  const navigationOptions = [
+    { label: t('views.toolbar.hubs'), link: '/hubs' },
+    { label: t('views.toolbar.organizations'), link: '/organizations' }
+  ];
+
   return (
     <div className={classes.mainOrganizationContainerBoss}>
       <Container variant="stretch">
+        {readOnly && (
+          <NavigationBar options={navigationOptions}></NavigationBar>
+        )}
         <OrganizationFormModal
           org={selectedOrganization}
           subOrganizations={organizations}

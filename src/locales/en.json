@@ -462,7 +462,7 @@
       "updatedAt": "Date of Creation"
     },
     "organization": {
-      "addOrganization": "Add a organization",
+      "addOrganization": "Add an organization",
       "editButton": "EDIT",
       "deleteButton": "DELETE",
       "search": "Search",
@@ -488,7 +488,8 @@
         "get": {
           "failed": "Error loading Organization info. Please try again"
         },
-        "email": "Email to send Lifemap"
+        "email": "Email to send Lifemap",
+        "subOrg": "Sub-organizations"
       }
     },
     "hub": {

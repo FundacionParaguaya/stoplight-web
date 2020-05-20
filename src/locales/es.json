@@ -483,13 +483,14 @@
         "description": "Descripción",
         "descriptionLengthExceeded": "La descripción debe tener como máximo 140 caracteres",
         "save": {
-          "success": "Organizción guardada correctamente",
+          "success": "Organización guardada correctamente",
           "failed": "La organización ya existe"
         },
         "get": {
           "failed": "Error al cargar Organización. Intente otra vez"
         },
-        "email": "Email del Lifemap"
+        "email": "Email del Lifemap",
+        "subOrg": "Sub-organizaciones"
       }
     },
     "hub": {
