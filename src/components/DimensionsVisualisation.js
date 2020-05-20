@@ -53,6 +53,22 @@ const getIconForDimension = dimension => {
       return dimensionHealthIcon;
     case NORMALIZED_DIMENSIONS.EDU_DISCIPLINE:
       return dimensionInteriorityIcon;
+    case NORMALIZED_DIMENSIONS.EDU_INFRAESTRUCTURE:
+      return dimensionHousingIcon;
+    case NORMALIZED_DIMENSIONS.EDU_SAFETY:
+      return dimensionOrganizationIcon;
+    case NORMALIZED_DIMENSIONS.EDU_INTERIORITY:
+      return dimensionInteriorityIcon;
+    case NORMALIZED_DIMENSIONS.EDU_PEDAGOGICAL_PRACTICES:
+      return dimensionEducationIcon;
+    case NORMALIZED_DIMENSIONS.EDU_ETHICS:
+      return dimensionOrganizationIcon;
+    case NORMALIZED_DIMENSIONS.EDU_RESOURCES:
+      return dimensionHousingIcon;
+    case NORMALIZED_DIMENSIONS.EDU_LEARNING_PRACTICES:
+      return dimensionEducationIcon;
+    case NORMALIZED_DIMENSIONS.EDU_EDUCATIONAL_TOOLS:
+      return dimensionIncomeIcon;
     default:
       return null;
   }
