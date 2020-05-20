@@ -37,7 +37,8 @@ export const ROLES = {
     { item: 'hubs', platform: NEW },
     { item: 'users', platform: OLD },
     { item: 'surveysList', platform: NEW },
-    { item: 'map', platform: OLD }
+    { item: 'map', platform: OLD },
+    { item: 'organizations', platform: ACCESS }
   ],
   ROLE_APP_ADMIN: [
     // Org admin user
