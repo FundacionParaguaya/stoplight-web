@@ -22,7 +22,7 @@ const pageNotFoundStyles = makeStyles(theme => ({
   },
   img: {
     maxWidth: '80%',
-    maxHeight: 800,
+    maxHeight: '70vh',
     margin: 'auto'
   },
   textContainer: {
