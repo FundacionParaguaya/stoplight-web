@@ -489,7 +489,8 @@
         "get": {
           "failed": "Falha no carregamento da organização. Tente novamente"
         },
-        "email": "Email para enviar el Lifemap"
+        "email": "Email para enviar el Lifemap",
+        "subOrg": "Sub-organização"
       }
     },
     "hub": {
