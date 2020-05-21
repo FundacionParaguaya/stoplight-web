@@ -74,6 +74,11 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     setSelectedSurveys([]);
   }, [selectedHub]);
 
+  // Clearing survey filter
+  useEffect(() => {
+    setSelectedSurveys([]);
+  }, [selectedOrganizations]);
+
   useEffect(() => {
     getFamilies(user, lang)
       .then(data => {
@@ -111,7 +116,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
             indicatorsArray = [...indicatorsArray, ...ind];
           }
         });
-        console.log(indicatorsArray);
         setIndicators(indicatorsArray);
 
         // We sort the array against a static ORDERED_DIMENSIONS order

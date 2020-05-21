@@ -56,7 +56,12 @@ const DashboardFilters = ({
               />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
-              <SurveysFilter data={surveyData} onChange={onChangeSurvey} />
+              <SurveysFilter
+                data={surveyData}
+                onChange={onChangeSurvey}
+                hub={hubData}
+                organizations={organizationsData}
+              />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
               <DateRangeFilters
@@ -78,7 +83,12 @@ const DashboardFilters = ({
               />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
-              <SurveysFilter data={surveyData} onChange={onChangeSurvey} />
+              <SurveysFilter
+                data={surveyData}
+                onChange={onChangeSurvey}
+                hub={hubData}
+                organizations={organizationsData}
+              />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
               <DateRangeFilters
