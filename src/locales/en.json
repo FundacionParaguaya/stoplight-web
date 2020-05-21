@@ -522,6 +522,11 @@
         "success": "The Hub has been deleted",
         "failed": "The Hub cannot be deleted because it has associated data"
       }
+    },
+    "404": {
+      "missing": "Something’s missing!",
+      "pageNotFound": "This page is missing or could not be found.",
+      "toHomePage": "Return to Home Page"
     }
   },
   "reports": {
