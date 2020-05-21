@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
 import { checkAccess } from '../utils/role-utils';
 import Surveys from '../screens/SurveysWithDrafts';
 import SurveyList from '../screens/Surveys';
@@ -14,25 +12,9 @@ import LifemapDetails from '../screens/LifemapDetails';
 import SelectIndicatorPriority from '../screens/priorities/SelectIndicatorPriority';
 import Families from '../screens/Families';
 import Dashboard from '../screens/Dashboard';
+import PageNotFound from '../screens/PageNotFound';
 
 const Routes = ({ user }) => {
-  const pageNotFoundStyles = makeStyles(() => ({
-    container: {
-      display: 'flex',
-      height: '100vh',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }
-  }));
-
-  const classes = pageNotFoundStyles();
-
-  let PageNotFound = () => (
-    <div className={classes.container}> 404 - Page not found </div>
-  );
-
-  PageNotFound = withStyles(pageNotFoundStyles)(PageNotFound);
-
   return (
     <Switch>
       {checkAccess(user, 'surveys') && (
@@ -66,7 +48,7 @@ const Routes = ({ user }) => {
       {checkAccess(user, 'dashboard') && (
         <Route path="/dashboard" component={Dashboard} />
       )}
-      <Route component={PageNotFound} />
+      <Route render={() => <PageNotFound user={user} />} />
     </Switch>
   );
 };

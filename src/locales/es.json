@@ -524,6 +524,11 @@
         "success": "El Hub ha sido eliminado",
         "failed": "El Hub no se puede eliminar porque tiene datos asociados"
       }
+    },
+    "404": {
+      "missing": "¡Algo está perdido!",
+      "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
+      "toHomePage": "Volver a la Página de Inicio"
     }
   },
   "reports": {
