@@ -53,7 +53,7 @@ const pageNotFoundStyles = makeStyles(theme => ({
   }
 }));
 
-const PageNotFound = user => {
+const PageNotFound = ({ user }) => {
   const { t } = useTranslation();
 
   const classes = pageNotFoundStyles();
