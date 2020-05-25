@@ -10,23 +10,25 @@ import { ROLES_NAMES } from '../utils/role-utils';
 const pageNotFoundStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
-    height: '100%',
-    paddingTop: '5rem',
-    paddingBottom: '5rem',
+    height: '100vh',
+    width: '90vw',
+    margin: 'auto',
+    paddingTop: '3rem',
+    paddingBottom: '3rem',
     alignItems: 'center',
     justifyContent: 'center'
   },
   imageContainer: {
     display: 'flex',
-    width: '50%'
+    marginRight: '3rem'
   },
   img: {
     maxWidth: '80%',
-    maxHeight: '70vh',
+    maxHeight: '80vh',
     margin: 'auto'
   },
   textContainer: {
-    width: '50%',
+    width: 'fit-content',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'left',
@@ -51,7 +53,7 @@ const pageNotFoundStyles = makeStyles(theme => ({
   }
 }));
 
-const PageNotFound = user => {
+const PageNotFound = ({ user }) => {
   const { t } = useTranslation();
 
   const classes = pageNotFoundStyles();
