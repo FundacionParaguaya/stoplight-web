@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
-import { getSurveysByUser } from '../api';
+import { surveysByUserPaginated } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import BottomSpacer from '../components/BottomSpacer';
@@ -24,20 +24,51 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
   const [loading, setLoading] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState({});
-
+  const [paginationData, setPaginationData] = useState({
+    page: 1,
+    totalPages: 1,
+    prevPage: 0
+  });
   const dateFormat = getDateFormatByLocale(language);
 
   const getSurveys = () => {
-    getSurveysByUser(user)
+    let page = paginationData.page;
+
+    surveysByUserPaginated(user, page)
+      .then(response => {
+        if (page !== paginationData.prevPage) {
+          setSurveys([
+            ...surveys,
+            ...response.data.data.surveysByUserPaginated.content
+          ]);
+        }
+        setPaginationData({
+          page: page,
+          totalPages: response.data.data.surveysByUserPaginated.totalPages,
+          prevPage: page
+        });
+      })
+      .finally(() => setLoading(false));
+
+    /* getSurveysByUser(user)
       .then(response => {
         setSurveys(response.data);
       })
       .finally(() => setLoading(false));
+      */
   };
 
   useEffect(() => {
     getSurveys();
-  }, []);
+  }, [paginationData.page]);
+
+  const nextPage = () => {
+    if (paginationData.page + 1 <= paginationData.totalPages)
+      setPaginationData({
+        page: paginationData.page + 1,
+        totalPages: paginationData.totalPages
+      });
+  };
 
   const showHubs = () => {
     return user.role === ROLES_NAMES.ROLE_ROOT;
@@ -163,6 +194,22 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
               );
             })}
           </Grid>
+          {paginationData.page < paginationData.totalPages && (
+            <div className={classes.showMoreButtonContainer}>
+              <Button
+                variant="contained"
+                aria-label="Show more"
+                className={classes.showMoreButton}
+                component="span"
+                onClick={() => {
+                  setLoading(true);
+                  nextPage();
+                }}
+              >
+                {t('general.showMore')}
+              </Button>
+            </div>
+          )}
         </div>
       </Container>
       <BottomSpacer />
@@ -171,6 +218,14 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
 };
 
 const styles = theme => ({
+  showMoreButtonContainer: {
+    width: '100%',
+    marginTop: 30,
+    display: 'flex'
+  },
+  showMoreButton: {
+    margin: 'auto'
+  },
   surveyTitle: {
     color: theme.palette.primary.dark,
     fontSize: '18px',
