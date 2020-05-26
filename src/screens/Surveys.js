@@ -233,7 +233,8 @@ const styles = theme => ({
     zIndex: 1
   },
   mainSurveyContainerBoss: {
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    height: '100%'
   },
 
   mainSurveyContainer: {
