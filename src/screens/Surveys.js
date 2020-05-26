@@ -25,7 +25,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState({});
   const [paginationData, setPaginationData] = useState({
-    page: 1,
+    page: 0,
     totalPages: 1,
     prevPage: 0
   });
@@ -36,12 +36,11 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
 
     surveysByUserPaginated(user, page)
       .then(response => {
-        if (page !== paginationData.prevPage) {
-          setSurveys([
-            ...surveys,
-            ...response.data.data.surveysByUserPaginated.content
-          ]);
-        }
+        setSurveys([
+          ...surveys,
+          ...response.data.data.surveysByUserPaginated.content
+        ]);
+
         setPaginationData({
           page: page,
           totalPages: response.data.data.surveysByUserPaginated.totalPages,
@@ -194,7 +193,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
               );
             })}
           </Grid>
-          {paginationData.page < paginationData.totalPages && (
+          {paginationData.page + 1 < paginationData.totalPages && (
             <div className={classes.showMoreButtonContainer}>
               <Button
                 variant="contained"
