@@ -81,7 +81,8 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
   const showAssignButton = () => {
     return (
       user.role === ROLES_NAMES.ROLE_ROOT ||
-      user.role === ROLES_NAMES.ROLE_HUB_ADMIN
+      user.role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+      user.role === ROLES_NAMES.ROLE_PS_TEAM
     );
   };
 
