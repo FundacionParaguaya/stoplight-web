@@ -489,7 +489,17 @@
           "failed": "Error loading Organization info. Please try again"
         },
         "email": "Email to send Lifemap",
-        "subOrg": "Sub-organizations"
+        "typeOfOrganization": "Type of Organization",
+        "subOrg": "Sub-organizations",
+        "organizationType": {
+          "ngo": "NGO",
+          "government": "Government",
+          "academia": "Academia/Research Institution",
+          "company": "Company",
+          "social": "Social Enterprise",
+          "microfinance": "Microfinance",
+          "other": "Other"
+        }
       }
     },
     "hub": {

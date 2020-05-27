@@ -18,6 +18,7 @@ import { addOrUpdateOrg } from '../../api';
 import Select from 'react-select';
 import { getOrganizationsByHub, getOrganization } from '../../api.js';
 import * as _ from 'lodash';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -117,6 +118,35 @@ const OrganizationFormModal = ({
   const [organization, setOrganization] = useState({});
   const fieldIsRequired = 'validation.fieldIsRequired';
   const validEmailAddress = 'validation.validEmailAddress';
+
+  const organizationTypeOptions = [
+    { label: t('views.organization.form.organizationType.ngo'), value: 'NGO' },
+    {
+      label: t('views.organization.form.organizationType.government'),
+      value: 'GOVERNMENT'
+    },
+    {
+      label: t('views.organization.form.organizationType.social'),
+      value: 'SOCIAL_ENTERPRISE'
+    },
+
+    {
+      label: t('views.organization.form.organizationType.academia'),
+      value: 'ACADEMIA'
+    },
+    {
+      label: t('views.organization.form.organizationType.company'),
+      value: 'COMPANY'
+    },
+    {
+      label: t('views.organization.form.organizationType.microfinance'),
+      value: 'MICROFINANCE'
+    },
+    {
+      label: t('views.organization.form.organizationType.other'),
+      value: 'OTHER'
+    }
+  ];
 
   //Validation criterias
   const validationSchema = Yup.object().shape({
@@ -262,7 +292,12 @@ const OrganizationFormModal = ({
               description:
                 (!!organization.description && organization.description) || '',
               supportEmail:
-                (!!organization.supportEmail && organization.supportEmail) || ''
+                (!!organization.supportEmail && organization.supportEmail) ||
+                '',
+              organizationType:
+                (!!organization.organizationType &&
+                  organization.organizationType) ||
+                ''
             }}
             enableReinitialize
             validationSchema={validationSchema}
@@ -284,6 +319,14 @@ const OrganizationFormModal = ({
               <InputWithFormik
                 label={t('views.organization.form.email')}
                 name="supportEmail"
+              />
+              <AutocompleteWithFormik
+                label={t('views.organization.form.typeOfOrganization')}
+                name="organizationType"
+                rawOptions={organizationTypeOptions}
+                labelKey="label"
+                valueKey="value"
+                isClearable={false}
               />
               <div className={classes.container}>
                 <Typography variant="subtitle1" className={classes.label}>

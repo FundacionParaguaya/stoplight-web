@@ -490,7 +490,17 @@
           "failed": "Error al cargar Organización. Intente otra vez"
         },
         "email": "Email del Lifemap",
-        "subOrg": "Sub-organizaciones"
+        "subOrg": "Sub-organizaciones",
+        "typeOfOrganization": "Tipo de Organización",
+        "organizationType": {
+          "ngo": "ONG",
+          "government": "Gobierno",
+          "academia": "Institución Académica y de Investigación",
+          "company": "Empresa social",
+          "social": "Social Enterprise",
+          "microfinance": "Microfinanza",
+          "other": "Otro"
+        }
       }
     },
     "hub": {
