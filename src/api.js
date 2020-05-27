@@ -107,6 +107,24 @@ export const getSurveysByUser = user =>
     }
   });
 
+export const surveysByUserPaginated = (user, page) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query surveysByUserPaginated($page: Int, $sortBy: String, $sortDirection: String) { surveysByUserPaginated(page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {id,title, indicatorsCount, createdAt, organizations{id,name}, applications{id,name}} totalPages totalElements }}',
+      variables: {
+        page: page,
+        sortBy: '',
+        sortDirection: ''
+      }
+    })
+  });
+
 export const getSurveysDefinition = user =>
   axios({
     method: 'post',
