@@ -152,7 +152,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                     </div>
                     <div className={classes.tagsContainer}>
                       {showHubs() &&
-                        survey.applications.map(hub => {
+                        survey.applications.slice(0, 3).map(hub => {
                           return (
                             <Typography
                               key={hub.id ? hub.id : hub.value}
@@ -163,8 +163,13 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                             </Typography>
                           );
                         })}
+                      {showHubs() && survey.applications.length > 3 && (
+                        <Typography variant="caption" className={classes.tag}>
+                          ...
+                        </Typography>
+                      )}
                       {showOrganizations() &&
-                        survey.organizations.map(org => {
+                        survey.organizations.slice(0, 3).map(org => {
                           return (
                             <Typography
                               key={org.id ? org.id : org.value}
@@ -175,6 +180,11 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                             </Typography>
                           );
                         })}
+                      {showOrganizations() && survey.organizations.length > 3 && (
+                        <Typography variant="caption" className={classes.tag}>
+                          ...
+                        </Typography>
+                      )}
                     </div>
 
                     <Typography>
@@ -261,6 +271,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.grey.quarter,
     color: theme.palette.grey.main,
     padding: 3,
+    marginBottom: 8,
     marginRight: 8,
     width: 'fit-content',
     height: 'fit-content'
