@@ -500,6 +500,25 @@
           "social": "Empresa Social",
           "microfinance": "Microfinanças",
           "other": "Outros"
+        },
+        "areaOfExpertise": "Área (selecione a área principal da organização)",
+        "areaOfExpertiseOptions": {
+          "agriculture": "Agricultura",
+          "commerce": "Comércio",
+          "construction": "Construção",
+          "education": "Educação",
+          "finance": "Finanças",
+          "health": "Saúde",
+          "socialDevelopment": "Gestão Social",
+          "technology": "Tecnologia",
+          "other": "Outros"
+        },
+        "finalUserType": "Usuário final (quem fará a pesquisa)",
+        "finalUserTypeOptions": {
+          "clients": "Clientes",
+          "companyEmployees": "Colaboradores da empresa",
+          "programBeneficiaries": "Beneficiários do programa",
+          "other": "Outros"
         }
       }
     },

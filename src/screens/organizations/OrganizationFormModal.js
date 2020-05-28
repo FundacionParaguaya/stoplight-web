@@ -148,6 +148,69 @@ const OrganizationFormModal = ({
     }
   ];
 
+  const areaOfExpertiseOptions = [
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.agriculture'),
+      value: 'AGRICULTURE'
+    },
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.commerce'),
+      value: 'COMMERCE'
+    },
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.construction'),
+      value: 'CONSTRUCTION'
+    },
+
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.education'),
+      value: 'EDUCATION'
+    },
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.finance'),
+      value: 'FINANCE'
+    },
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.health'),
+      value: 'HEALT'
+    },
+    {
+      label: t(
+        'views.organization.form.areaOfExpertiseOptions.socialDevelopment'
+      ),
+      value: 'SOCIAL_DEVELOPMENT'
+    },
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.technology'),
+      value: 'TECHNOLOGY'
+    },
+    {
+      label: t('views.organization.form.areaOfExpertiseOptions.other'),
+      value: 'OTHER'
+    }
+  ];
+
+  const finalUserTypeOptions = [
+    {
+      label: t('views.organization.form.finalUserTypeOptions.clients'),
+      value: 'CLIENTS'
+    },
+    {
+      label: t('views.organization.form.finalUserTypeOptions.companyEmployees'),
+      value: 'COMPANY_EMPLOYEES'
+    },
+    {
+      label: t(
+        'views.organization.form.finalUserTypeOptions.programBeneficiaries'
+      ),
+      value: 'PROGRAM_BENEFICIARIES'
+    },
+    {
+      label: t('views.organization.form.finalUserTypeOptions.other'),
+      value: 'OTHER'
+    }
+  ];
+
   //Validation criterias
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -297,6 +360,13 @@ const OrganizationFormModal = ({
               organizationType:
                 (!!organization.organizationType &&
                   organization.organizationType) ||
+                '',
+              areaOfExpertise:
+                (!!organization.areaOfExpertise &&
+                  organization.areaOfExpertise) ||
+                '',
+              finalUserType:
+                (!!organization.finalUserType && organization.finalUserType) ||
                 ''
             }}
             enableReinitialize
@@ -328,6 +398,25 @@ const OrganizationFormModal = ({
                 valueKey="value"
                 isClearable={false}
               />
+
+              <AutocompleteWithFormik
+                label={t('views.organization.form.areaOfExpertise')}
+                name="areaOfExpertise"
+                rawOptions={areaOfExpertiseOptions}
+                labelKey="label"
+                valueKey="value"
+                isClearable={false}
+              />
+
+              <AutocompleteWithFormik
+                label={t('views.organization.form.finalUserType')}
+                name="finalUserType"
+                rawOptions={finalUserTypeOptions}
+                labelKey="label"
+                valueKey="value"
+                isClearable={false}
+              />
+
               <div className={classes.container}>
                 <Typography variant="subtitle1" className={classes.label}>
                   {t('views.organization.form.subOrg')}
