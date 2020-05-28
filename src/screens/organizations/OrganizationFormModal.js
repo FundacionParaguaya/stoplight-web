@@ -360,14 +360,14 @@ const OrganizationFormModal = ({
               organizationType:
                 (!!organization.organizationType &&
                   organization.organizationType) ||
-                '',
+                null,
               areaOfExpertise:
                 (!!organization.areaOfExpertise &&
                   organization.areaOfExpertise) ||
-                '',
+                null,
               finalUserType:
                 (!!organization.finalUserType && organization.finalUserType) ||
-                ''
+                null
             }}
             enableReinitialize
             validationSchema={validationSchema}
