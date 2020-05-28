@@ -156,7 +156,10 @@ const AssignModal = ({
   };
 
   const showHubs = () => {
-    return user.role === ROLES_NAMES.ROLE_ROOT;
+    return (
+      user.role === ROLES_NAMES.ROLE_ROOT ||
+      user.role === ROLES_NAMES.ROLE_PS_TEAM
+    );
   };
 
   const showOrganizations = () => {
