@@ -151,7 +151,7 @@ class Header extends Component {
                 </NavLink>
               );
             } else {
-              return <p></p>;
+              return '';
             }
           })}
 
