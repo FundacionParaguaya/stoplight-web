@@ -148,7 +148,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
         />
 
         {snapshots.length > 0 &&
-          snapshots.forEach((snapshot, i) => {
+          snapshots.map((snapshot, i) => {
             if (!snapshot.stoplightSkipped) {
               count += 1;
               return (
@@ -170,6 +170,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
                 />
               );
             }
+            return '';
           })}
       </Tabs>
 
