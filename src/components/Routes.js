@@ -12,6 +12,7 @@ import LifemapDetails from '../screens/LifemapDetails';
 import SelectIndicatorPriority from '../screens/priorities/SelectIndicatorPriority';
 import Families from '../screens/Families';
 import Dashboard from '../screens/Dashboard';
+import Users from '../screens/Users';
 import PageNotFound from '../screens/PageNotFound';
 
 const Routes = ({ user }) => {
@@ -48,6 +49,7 @@ const Routes = ({ user }) => {
       {checkAccess(user, 'dashboard') && (
         <Route path="/dashboard" component={Dashboard} />
       )}
+      {checkAccess(user, 'users') && <Route path="/users" component={Users} />}
       <Route render={() => <PageNotFound user={user} />} />
     </Switch>
   );

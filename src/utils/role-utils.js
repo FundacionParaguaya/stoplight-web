@@ -14,7 +14,7 @@ export const ROLES = {
     { item: 'hubs', platform: NEW },
     { item: 'organizations', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
-    { item: 'users', platform: OLD },
+    { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: OLD }
@@ -25,7 +25,7 @@ export const ROLES = {
     { item: 'reports', platform: OLD },
     { item: 'surveysList', platform: NEW },
     { item: 'organizations', platform: NEW },
-    { item: 'users', platform: OLD },
+    { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: OLD }
@@ -35,7 +35,7 @@ export const ROLES = {
     { item: 'dashboard', platform: ACCESS },
     { item: 'reports', platform: OLD },
     { item: 'hubs', platform: NEW },
-    { item: 'users', platform: OLD },
+    { item: 'users', platform: NEW },
     { item: 'surveysList', platform: NEW },
     { item: 'map', platform: OLD },
     { item: 'organizations', platform: ACCESS }
@@ -45,7 +45,7 @@ export const ROLES = {
     { item: 'dashboard', platform: ACCESS },
     { item: 'reports', platform: OLD },
     { item: 'surveysList', platform: NEW },
-    { item: 'users', platform: OLD },
+    { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: OLD }
