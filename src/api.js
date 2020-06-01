@@ -884,3 +884,104 @@ export const addOrUpdateOrg = (user, org) => {
     });
   }
 };
+
+export const getUserById = (user, userId) => {
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query retrieveUser ($userId: Long) { retrieveUser (userId: $userId) {id, username, name, email, organizationName, hubName, role, active  } }',
+      variables: {
+        userId
+      }
+    })
+  });
+};
+
+export const getUsersPaginated = (
+  user,
+  page,
+  filter,
+  organizations,
+  hubs,
+  sortBy,
+  sortDirection
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query searchUsers($page: Int, $filter: String, $organizations: [Long], $hubs: [Long],  $sortBy: String, $sortDirection: String) { searchUsers (page: $page, filter: $filter, organizations: $organizations, hubs: $hubs, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, username, name, email, role, hubName, organizationName, active}, totalElements } }',
+      variables: {
+        page,
+        filter,
+        organizations,
+        hubs,
+        sortBy,
+        sortDirection
+      }
+    })
+  });
+
+export const addOrUpdateUser = (user, values) => {
+  if (!values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createUser($user: UserModelInput) {createUser(user: $user){username} }`,
+        variables: {
+          user: values
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateUser($user: UserModelInput) {updateUser(user: $user){username} }`,
+        variables: {
+          user: {
+            id: values.id,
+            name: values.name,
+            email: values.email,
+            active: values.active
+          }
+        }
+      })
+    });
+  }
+};
+
+export const deleteUser = (user, userId) =>
+  axios({
+    method: 'delete',
+    url: `${url[user.env]}/api/v1/users/${userId}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
+
+export const checkUserName = (user, username) =>
+  axios({
+    method: 'get',
+    url: `${url[user.env]}/api/v1/users/check-username?username=${username}`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  });
