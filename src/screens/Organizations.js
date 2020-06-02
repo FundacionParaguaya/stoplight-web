@@ -325,8 +325,9 @@ const styles = theme => ({
   },
   descriptionContainer: {
     height: 80,
-    padding: '0 16px 16px 16px',
-    marginTop: 32
+    padding: '0 16px',
+    marginTop: 16,
+    marginBottom: 16
   },
 
   spinnerWrapper: {
