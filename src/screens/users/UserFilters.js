@@ -60,19 +60,6 @@ const UserFilters = ({
                 hub={hubData}
               />
             </Grid>
-            <Grid item md={8} sm={8} xs={12}>
-              <UserSearchFilter onChangeUserFilter={onChangeUserFilter} />
-            </Grid>
-            <Grid item md={4} sm={4} xs={12} className={classes.gridAlignRight}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  toggleFormModal({});
-                }}
-              >
-                {t('views.user.addUser')}
-              </Button>
-            </Grid>
           </React.Fragment>
         )}
         {showOnlyOrganizationsFilter(user) && (
@@ -84,21 +71,21 @@ const UserFilters = ({
                 hub={hubData}
               />
             </Grid>
-            <Grid item md={6} sm={6} xs={12}>
-              <UserSearchFilter onChangeUserFilter={onChangeUserFilter} />
-            </Grid>
-            <Grid item md={6} sm={6} xs={12} className={classes.gridAlignRight}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  toggleFormModal({});
-                }}
-              >
-                {t('views.user.addUser')}
-              </Button>
-            </Grid>
           </React.Fragment>
         )}
+        <Grid item md={8} sm={8} xs={12}>
+          <UserSearchFilter onChangeUserFilter={onChangeUserFilter} />
+        </Grid>
+        <Grid item md={4} sm={4} xs={12} className={classes.gridAlignRight}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              toggleFormModal({});
+            }}
+          >
+            {t('views.user.addUser')}
+          </Button>
+        </Grid>
       </Grid>
     </div>
   );

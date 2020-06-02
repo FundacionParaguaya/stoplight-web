@@ -126,7 +126,11 @@ const UserFormModal = ({
       ),
 
     email: Yup.string()
-      .email()
+      // eslint-disable-next-line
+      .matches(
+        /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
+        t('views.user.form.emailNotValid')
+      )
       .required(fieldIsRequired),
     name: Yup.string().required(fieldIsRequired),
     password: Yup.string().when('other', (other, schema) =>
@@ -235,6 +239,7 @@ const UserFormModal = ({
   const onClose = submitted => {
     submitted && afterSubmit();
     toggleModal();
+    setUserToEdit({});
   };
 
   const showHubName = ({ role }) =>
@@ -343,22 +348,24 @@ const UserFormModal = ({
                   />
                 )}
                 {isEdit ? (
-                  <InputWithFormik
-                    label={
-                      showHubName(user)
-                        ? t('views.hubsFilter.label')
-                        : t('views.organizationsFilter.label')
-                    }
-                    name="hub"
-                    value={
-                      showHubName(user)
-                        ? !!userToEdit && userToEdit.hubName
-                        : !!userToEdit && userToEdit.organizationName
-                    }
-                    required
-                    className={classes.input}
-                    disabled={true}
-                  />
+                  !showHubName(userToEdit) && (
+                    <InputWithFormik
+                      label={
+                        showHubName(user)
+                          ? t('views.hubsFilter.label')
+                          : t('views.organizationsFilter.label')
+                      }
+                      name="hub"
+                      value={
+                        showHubName(user)
+                          ? !!userToEdit && userToEdit.hubName
+                          : !!userToEdit && userToEdit.organizationName
+                      }
+                      required
+                      className={classes.input}
+                      disabled={true}
+                    />
+                  )
                 ) : (
                   <UserOrgSelector
                     applicationValue={values.hub}
