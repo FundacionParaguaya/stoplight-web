@@ -584,6 +584,7 @@
         "email": "E-mail",
         "emailNotValid": "O e-mail não é válido",
         "password": "Senha",
+        "passwordTooShort": "Senha muito curta: use pelo menos 5 caracteres",
         "confirmPassword": "Confirmar senha",
         "passwordConfirmFailed": "A confirmação de senha falhou",
         "selectHub": "Selecione o Hub",

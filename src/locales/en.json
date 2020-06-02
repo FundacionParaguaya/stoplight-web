@@ -583,6 +583,7 @@
         "email": "Email",
         "emailNotValid": "The email is not valid",
         "password": "Password",
+        "passwordTooShort": "Password too short use at least 5 characters",
         "confirmPassword": "Confirm password",
         "passwordConfirmFailed": "Password confirmation failed",
         "selectHub": "Select Hub",
