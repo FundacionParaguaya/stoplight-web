@@ -210,7 +210,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
           <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
         </div>
         <Typography variant="h4">
-          {t('views.dashboard.welcome').replace('$n', user.username)}
+          {t('views.dashboard.welcome').replace('$n', user.name)}
         </Typography>
         {!isMentor && (
           <DashboardFilters
