@@ -554,6 +554,54 @@
         "failed": "El Hub no se puede eliminar porque tiene datos asociados"
       }
     },
+    "user": {
+      "search": "Buscar",
+      "searchUser": " por nombre, email, username",
+      "addUser": "Agregar un usuario",
+      "userList": {
+        "rows": "Usuarios encontrados",
+        "singleRow": "Usuario encontrado",
+        "username": "Nombre de usuario",
+        "name": "Nombre",
+        "email": "Email",
+        "organization": "Organización",
+        "hub": "Hub",
+        "role": "Rol",
+        "edit": "Editar usuario",
+        "delete": "Eliminar usuario",
+        "search": "Buscar",
+        "empty": "Sin Usuarios que mostrar"
+      },
+      "form": {
+        "addTitle": "Agregar usuario",
+        "editTitle": "Editar usuario",
+        "role": "Rol",
+        "active": "Activo",
+        "name": "Nombre",
+        "username": "Nombre de usuario",
+        "usernameInvalid": "El nombre de usuario no es válido",
+        "usernameUsed": "Nombre de usuario no disponible",
+        "email": "Email",
+        "emailNotValid": "El correo electrónico no es válido",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "passwordConfirmFailed": "La confirmación de contraseña ha fallado",
+        "selectHub": "Seleccciona el Hub",
+        "selectOrganization": "Selecciona la Organización",
+        "selectRole": "Selecciona el Rol",
+        "save": {
+          "success": "Usuario guardado exitosamente",
+          "failed": "No es posible guardar usuario"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirmación de Eliminación",
+        "confirmText": "¿Está seguro que desea eliminar este usuario?",
+        "cannotUndo": "Esto no se puede deshacer.",
+        "success": "El usuario fue eliminado",
+        "failed": "El usuario no pudo ser eliminado por que cuenta con datos asociados"
+      }
+    },
     "404": {
       "missing": "¡Algo está perdido!",
       "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
@@ -580,5 +628,14 @@
       "roadmap": "¿Quién o qué te motivó a alcanzarlo?",
       "action": "¿Qué hiciste para conseguirlo?"
     }
+  },
+  "role": {
+    "ROLE_APP_ADMIN": "Organización Admin",
+    "ROLE_ROOT": "Admin",
+    "ROLE_PS_TEAM": "Team",
+    "ROLE_SURVEY_USER_ADMIN": "Facilitador Admin",
+    "ROLE_SURVEY_USER": "Facilitador",
+    "ROLE_HUB_ADMIN": "Hub Admin",
+    "ROLE_SURVEY_TAKER": "Encuestador"
   }
 }

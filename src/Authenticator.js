@@ -123,7 +123,8 @@ const Authenticator = props => {
           refreshToken,
           env: environment,
           role: response.data.role,
-          hub: response.data.application
+          hub: response.data.application,
+          name: response.data.name
         });
         setLoggedIn(true);
         setAuthVerified(true);
