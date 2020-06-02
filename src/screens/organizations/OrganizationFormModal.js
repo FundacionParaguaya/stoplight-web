@@ -223,9 +223,9 @@ const OrganizationFormModal = ({
     supportEmail: Yup.string().email(validEmailAddress)
   });
 
-  //Effect to load organization info
   useEffect(() => {
     if (org.id && open) {
+      setLoading(true);
       getOrganization(user, org.id)
         .then(response => {
           setOrganization(response.data);
@@ -234,9 +234,36 @@ const OrganizationFormModal = ({
             value: org.id
           }));
           setSubOrganizations(subOrgs);
+          setOrganizations([]);
+          getOrganizationsByHub(user, null)
+            .then(response => {
+              const orgs = _.get(response, 'data.data.organizations', []).map(
+                org => ({
+                  label: org.name,
+                  value: org.id
+                })
+              );
+              setOrganizations(orgs);
+            })
+            .catch(e => {
+              console.log(e);
+              onClose();
+              enqueueSnackbar(t('views.organization.form.get.failed'), {
+                variant: 'error',
+                action: key => (
+                  <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                    <CloseIcon style={{ color: 'white' }} />
+                  </IconButton>
+                )
+              });
+            })
+            .finally(() => setLoading(false));
         })
         .catch(e => {
           console.log(e);
+          onClose();
+          setLoading(false);
+
           enqueueSnackbar(t('views.organization.form.get.failed'), {
             variant: 'error',
             action: key => (
@@ -250,26 +277,6 @@ const OrganizationFormModal = ({
       //Clear form info
       setSubOrganizations([]);
       setOrganization({});
-    }
-  }, [open]);
-
-  //Effect to load sub-organizations
-  useEffect(() => {
-    if (open) {
-      console.log('--LLamada a load orgs by hub--');
-      setLoading(true);
-      setOrganizations([]);
-      getOrganizationsByHub(user, null)
-        .then(response => {
-          const orgs = _.get(response, 'data.data.organizations', []).map(
-            org => ({
-              label: org.name,
-              value: org.id
-            })
-          );
-          setOrganizations(orgs);
-        })
-        .finally(() => setLoading(false));
     }
   }, [open]);
 
