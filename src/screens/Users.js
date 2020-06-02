@@ -62,11 +62,12 @@ const Users = ({ classes, t, user }) => {
   const [resetPagination, setResetPagination] = useState(false);
   const [totalRows, setTotalRow] = useState(0);
   const [openFormModal, setOpenFormModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (
       tableRef.current &&
-      tableRef.current.state.width !== 0 &&
+      !tableRef.current.props.isLoading &&
       tableRef.current.onQueryChange
     ) {
       setResetPagination(true);
@@ -75,6 +76,7 @@ const Users = ({ classes, t, user }) => {
   }, [filter, orgs, hub]);
 
   const loadUsers = query => {
+    setLoading(true);
     let page = query ? query.page : 0;
     const orderDirection = query ? query.orderDirection : '';
     const sortBy = query && query.orderBy ? query.orderBy.field : '';
@@ -100,15 +102,17 @@ const Users = ({ classes, t, user }) => {
       hubs.map(h => h.value),
       sortBy,
       orderDirection
-    ).then(response => {
-      setUsers(response.data.data.searchUsers.content);
-      setTotalRow(response.data.data.searchUsers.totalElements);
-      return {
-        data: response.data.data.searchUsers.content,
-        page: page,
-        totalCount: response.data.data.searchUsers.totalElements
-      };
-    });
+    )
+      .then(response => {
+        setUsers(response.data.data.searchUsers.content);
+        setTotalRow(response.data.data.searchUsers.totalElements);
+        return {
+          data: response.data.data.searchUsers.content,
+          page: page,
+          totalCount: response.data.data.searchUsers.totalElements
+        };
+      })
+      .finally(() => setLoading(false));
   };
 
   const onChangeUserFilter = e => {
@@ -171,6 +175,7 @@ const Users = ({ classes, t, user }) => {
           }}
         >
           <UsersTable
+            loading={loading}
             tableRef={tableRef}
             setUsers={setUsers}
             users={users}

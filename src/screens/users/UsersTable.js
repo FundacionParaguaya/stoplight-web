@@ -103,7 +103,8 @@ const UsersTable = ({
   loadUsers,
   tableRef,
   numberOfRows,
-  toggleFormModal
+  toggleFormModal,
+  loading
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -171,6 +172,7 @@ const UsersTable = ({
         </Typography>
       </div>
       <MaterialTable
+        isLoading={loading}
         tableRef={tableRef}
         options={{
           search: false,
