@@ -134,9 +134,11 @@ const UserFormModal = ({
       )
       .required(fieldIsRequired),
     name: Yup.string().required(fieldIsRequired),
-    password: Yup.string().when('other', (other, schema) =>
-      isEdit ? schema : schema.required(fieldIsRequired)
-    ),
+    password: Yup.string()
+      .min(5, t('views.user.form.passwordTooShort'))
+      .when('other', (other, schema) =>
+        isEdit ? schema : schema.required(fieldIsRequired)
+      ),
     confirmPassword: Yup.string().when('password', (password, schema) =>
       password
         ? schema
@@ -153,9 +155,7 @@ const UserFormModal = ({
       showHubName(user) && !isEdit ? schema.required(fieldIsRequired) : schema
     ),
     organization: Yup.mixed().when('other', (other, schema) =>
-      !showHubName(user) && !isEdit
-        ? schema.string().required(fieldIsRequired)
-        : schema
+      !showHubName(user) && !isEdit ? schema.required(fieldIsRequired) : schema
     )
   });
 
