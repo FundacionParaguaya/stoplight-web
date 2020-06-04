@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import FacilitatorFilter from './FacilitatorFilter';
+import HubsFilter from './HubsFilter';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -85,6 +86,10 @@ const showOrgFilters = ({ role }) => {
   );
 };
 
+const showHubFilters = ({ role }) => {
+  return role === ROLES_NAMES.ROLE_ROOT;
+};
+
 const showFalicitatorFilters = ({ role }) => {
   return role === ROLES_NAMES.ROLE_APP_ADMIN;
 };
@@ -92,6 +97,8 @@ const showFalicitatorFilters = ({ role }) => {
 const FamilyFilter = ({
   organizationsData,
   onChangeOrganization,
+  hubData,
+  onChangeHub,
   familiesFilter,
   onChangeFamiliesFilter,
   user,
@@ -115,11 +122,19 @@ const FamilyFilter = ({
         className={classes.container}
         alignItems="center"
       >
+        {showHubFilters(user) && (
+          <Grid item md={12} sm={4} xs={12}>
+            <Grid item md={6} sm={4} xs={12}>
+              <HubsFilter data={hubData} onChange={onChangeHub} />
+            </Grid>
+          </Grid>
+        )}
         {showOrgFilters(user) && (
           <Grid item md={6} sm={4} xs={12}>
             <OrganizationsFilter
               data={organizationsData}
               onChange={onChangeOrganization}
+              hub={hubData}
             />
           </Grid>
         )}
