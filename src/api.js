@@ -623,7 +623,8 @@ export const getFamiliesList = (
   sortDirection,
   name,
   organizations,
-  facilitators
+  facilitators,
+  hub
 ) =>
   axios({
     method: 'post',
@@ -633,10 +634,11 @@ export const getFamiliesList = (
     },
     data: JSON.stringify({
       query:
-        'query families($facilitators: [Long], $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String) ' +
-        '{ families(facilitators:$facilitators, organizations: $organizations, name:$name, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
+        'query families($facilitators: [Long], $hub: Long, $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String) ' +
+        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
       variables: {
         facilitators,
+        hub,
         organizations,
         name,
         page,

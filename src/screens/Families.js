@@ -25,6 +25,7 @@ const Families = ({
   //export class Families extends Component {
   const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedFacilitators, setFacilitators] = useState([]);
+  const [selectedHub, setSelectedHub] = useState([]);
   const [selectedFamilyFilter, setFamilyFilter] = useState(null);
   const tableRef = useRef();
   const [height] = React.useState('unset');
@@ -62,6 +63,7 @@ const Families = ({
   };
 
   const loadFamilies = query => {
+    const hubId = selectedHub && selectedHub.value ? selectedHub.value : null;
     const sanitizedOrganizations = selectedOrganizations.map(
       ({ value }) => value
     );
@@ -89,7 +91,8 @@ const Families = ({
       orderDirection,
       selectedFamilyFilter,
       sanitizedOrganizations,
-      sanitizedFacilitators
+      sanitizedFacilitators,
+      hubId
     )
       .then(response => {
         //https://material-table.com/#/docs/features/remote-data
@@ -125,7 +128,7 @@ const Families = ({
     loadFamilies();
     setSelectedOrganizations([]);
     setSelectedFacilitator([]);
-  }, []);
+  }, [selectedHub]);
 
   //Load Grid
   useEffect(() => {
@@ -156,6 +159,8 @@ const Families = ({
           <FamilyFilter
             facilitatorsData={selectedFacilitators}
             organizationsData={selectedOrganizations}
+            hubData={selectedHub}
+            onChangeHub={setSelectedHub}
             onChangeOrganization={setSelectedOrganizations}
             onChangeFamiliesFilter={onChangeFamiliesFilter}
             onChangeFacilitator={setSelectedFacilitator}
