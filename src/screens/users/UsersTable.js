@@ -52,7 +52,10 @@ const useStyles = makeStyles(theme => ({
   },
   labelStyle: {
     fontSize: '14px',
-    width: '100%'
+    width: '100%',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   },
   name: {
     maxWidth: '12vw',
@@ -137,7 +140,8 @@ const UsersTable = ({
         setSelectedUser(rowData);
         setOpenDeleteModal(true);
       },
-      disabled: rowData.role === user.role
+      disabled:
+        rowData.role === user.role || user.role === ROLES_NAMES.ROLE_PS_TEAM
     }));
 
     return list;
@@ -155,6 +159,16 @@ const UsersTable = ({
     tableRef.current.onQueryChange();
   };
 
+  const showCountLabel = numberOfRows => {
+    if (numberOfRows === 0) {
+      return t('views.user.userList.noUsersFound');
+    } else if (numberOfRows === 1) {
+      return `${numberOfRows} ${t('views.user.userList.singleRow')}`;
+    } else {
+      return `${numberOfRows} ${t('views.user.userList.rows')}`;
+    }
+  };
+
   return (
     <div className={classes.userListContainer}>
       <UserDeleteModal
@@ -165,10 +179,7 @@ const UsersTable = ({
       />
       <div className={classes.userCountContainer}>
         <Typography className={classes.labelRows} variant="subtitle1">
-          {numberOfRows}{' '}
-          {numberOfRows === 1
-            ? t('views.user.userList.rows')
-            : t('views.user.userList.singleRow')}
+          {showCountLabel(numberOfRows)}
         </Typography>
       </div>
       <MaterialTable
@@ -268,7 +279,7 @@ const UsersTable = ({
             field: 'organization',
             sorting: false,
             render: rowData => (
-              <div>
+              <div className={classes.name}>
                 <Typography className={classes.labelStyle} variant="subtitle2">
                   {rowData.organizationName}
                 </Typography>
