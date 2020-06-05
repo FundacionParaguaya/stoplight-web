@@ -32,7 +32,8 @@ const UserOrgsSelector = ({
   t,
   user,
   applicationValue,
-  organizationValue
+  organizationValue,
+  selectedRole
 }) => {
   const [optionsLoading, setOptionsLoading] = useState(false);
   const [hubs, setHubs] = useState();
@@ -65,10 +66,11 @@ const UserOrgsSelector = ({
           setOrgs(orgs);
         })
         .finally(() => setOptionsLoading(false));
-  }, []);
+  }, [selectedRole]);
 
   const showHubsFilter = ({ role }) =>
-    role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM;
+    (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM) &&
+    selectedRole === ROLES_NAMES.ROLE_HUB_ADMIN;
 
   const showOrganizationsFilter = ({ role }) =>
     role === ROLES_NAMES.ROLE_HUB_ADMIN || role === ROLES_NAMES.ROLE_APP_ADMIN;

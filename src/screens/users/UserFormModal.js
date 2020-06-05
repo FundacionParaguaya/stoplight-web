@@ -95,6 +95,7 @@ const UserFormModal = ({
   const [loading, setLoading] = useState(false);
   const [userToEdit, setUserToEdit] = useState({});
   const [usernameChanged, setUsernameChanged] = useState(false);
+  const [usernameAvailable, setUsernameAvailable] = useState(false);
 
   const fieldIsRequired = 'validation.fieldIsRequired';
 
@@ -110,17 +111,17 @@ const UserFormModal = ({
                 /^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/,
                 t('views.user.form.usernameInvalid')
               )
-              .transform(value => value.toLowerCase())
               .test('username', t('views.user.form.usernameUsed'), value => {
                 // Sadly yup triggers validation on every keystroke in the form currently there it's an open issue on the
                 // library repo to solve that bug, so doing this check becomes necessary to avoid spamm requests.
                 if (usernameChanged) {
                   setUsernameChanged(false);
-                  return checkUserName(user, value).then(
-                    response => !response.data
-                  );
+                  return checkUserName(user, value).then(response => {
+                    setUsernameAvailable(!response.data);
+                    return !response.data;
+                  });
                 } else {
-                  return true;
+                  return usernameAvailable;
                 }
               })
       ),
@@ -151,8 +152,10 @@ const UserFormModal = ({
         : schema
     ),
     role: Yup.string().required(fieldIsRequired),
-    hub: Yup.mixed().when('other', (other, schema) =>
-      showHubName(user) && !isEdit ? schema.required(fieldIsRequired) : schema
+    hub: Yup.mixed().when('role', (role, schema) =>
+      showHubName(user) && !isEdit && role === ROLES_NAMES.ROLE_HUB_ADMIN
+        ? schema.required(fieldIsRequired)
+        : schema
     ),
     organization: Yup.mixed().when('other', (other, schema) =>
       !showHubName(user) && !isEdit ? schema.required(fieldIsRequired) : schema
@@ -295,7 +298,7 @@ const UserFormModal = ({
                 (isEdit &&
                   !!userToEdit.application &&
                   userToEdit.application.id) ||
-                '',
+                null,
               active: isEdit ? userToEdit.active : true
             }}
             validationSchema={validationSchema}
@@ -303,7 +306,7 @@ const UserFormModal = ({
               onSubmit(values);
             }}
           >
-            {({ setFieldValue, values }) => (
+            {({ setFieldValue, values, disabled }) => (
               <Form noValidate>
                 <InputWithFormik
                   label={t('views.user.form.username')}
@@ -348,6 +351,26 @@ const UserFormModal = ({
                     className={classes.input}
                   />
                 )}
+                {!isEdit ? (
+                  <AutocompleteWithFormik
+                    label={t('views.user.form.role')}
+                    name="role"
+                    rawOptions={getRoleOptions(user)}
+                    labelKey="label"
+                    valueKey="value"
+                    isClearable={false}
+                    required
+                  />
+                ) : (
+                  <InputWithFormik
+                    label={t('views.user.form.role')}
+                    name="role"
+                    value={t(`role.${values.role}`)}
+                    required
+                    className={classes.input}
+                    disabled={true}
+                  />
+                )}
                 {isEdit ? (
                   !showHubName(userToEdit) && (
                     <InputWithFormik
@@ -371,26 +394,7 @@ const UserFormModal = ({
                   <UserOrgSelector
                     applicationValue={values.hub}
                     organizationValue={values.organization}
-                  />
-                )}
-                {!isEdit ? (
-                  <AutocompleteWithFormik
-                    label={t('views.user.form.role')}
-                    name="role"
-                    rawOptions={getRoleOptions(user)}
-                    labelKey="label"
-                    valueKey="value"
-                    isClearable={false}
-                    required
-                  />
-                ) : (
-                  <InputWithFormik
-                    label={t('views.user.form.role')}
-                    name="role"
-                    value={t(`role.${values.role}`)}
-                    required
-                    className={classes.input}
-                    disabled={true}
+                    selectedRole={values.role}
                   />
                 )}
                 {isEdit && (
@@ -409,7 +413,12 @@ const UserFormModal = ({
                   </div>
                 )}
                 <div className={classes.buttonContainerForm}>
-                  <Button type="submit" color="primary" variant="contained">
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    disabled={disabled}
+                  >
                     {t('general.save')}
                   </Button>
                 </div>
