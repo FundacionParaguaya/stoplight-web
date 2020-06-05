@@ -23,6 +23,7 @@ const Families = ({
   history
 }) => {
   //export class Families extends Component {
+  const [didMount, setDidMount] = useState(false);
   const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedFacilitators, setFacilitators] = useState([]);
   const [selectedHub, setSelectedHub] = useState([]);
@@ -123,18 +124,20 @@ const Families = ({
     return total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
+  useEffect(() => setDidMount(true), []);
+
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
-    loadFamilies();
-    setSelectedOrganizations([]);
-    setSelectedFacilitator([]);
+    if (didMount) {
+      loadFamilies();
+      setSelectedOrganizations([]);
+      setSelectedFacilitator([]);
+    }
   }, [selectedHub]);
 
   //Load Grid
   useEffect(() => {
-    //Load Families
-    // loadFamilies();
-    if (tableRef.current && tableRef.current.onQueryChange) {
+    if (tableRef.current && tableRef.current.onQueryChange && didMount) {
       tableRef.current.onQueryChange();
     }
   }, [selectedOrganizations, selectedFamilyFilter, selectedFacilitators]);
