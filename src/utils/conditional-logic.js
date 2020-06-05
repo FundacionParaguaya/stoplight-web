@@ -244,7 +244,10 @@ export const shouldCleanUp = (
       ea => ea.key === conditionalQuestion.codeName
     );
   }
-  if (!currentAnswer || !currentAnswer.value) {
+  if (
+    !currentAnswer ||
+    (!currentAnswer.value && !currentAnswer.multipleValue)
+  ) {
     // There's nothing to cleanUp, user has not answered the question yet
     // console.log(
     //   `Nothing to cleanUp for conditionalQuestion ${
@@ -285,9 +288,7 @@ export const shouldCleanUp = (
   }
   if (cleanUp) {
     console.log(
-      `CleanUp needed for conditionalQuestion ${
-        conditionalQuestion.codeName
-      } member ${memberIndex}`
+      `CleanUp needed for conditionalQuestion ${conditionalQuestion.codeName} member ${memberIndex}`
     );
   }
 
@@ -391,9 +392,12 @@ export const getDraftWithUpdatedQuestionsCascading = (
 ) => {
   let currentDraft = { ...draft };
   conditionalQuestions.forEach(conditionalQuestion => {
+    const keyName =
+      conditionalQuestion.answerType === 'checkbox' ? 'multipleValue' : 'value';
+    const keyValue = conditionalQuestion.answerType === 'checkbox' ? [] : '';
     const cleanedAnswer = {
       key: conditionalQuestion.codeName,
-      value: ''
+      [keyName]: keyValue
     };
     if (conditionalQuestion.forFamilyMember) {
       // Checking if we have to cleanup familyMembers socioeconomic answers
