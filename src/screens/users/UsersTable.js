@@ -161,7 +161,7 @@ const UsersTable = ({
 
   const showCountLabel = numberOfRows => {
     if (numberOfRows === 0) {
-      return t('views.user.userList.noUsersFound');
+      return t('views.user.userList.noRows');
     } else if (numberOfRows === 1) {
       return `${numberOfRows} ${t('views.user.userList.singleRow')}`;
     } else {
