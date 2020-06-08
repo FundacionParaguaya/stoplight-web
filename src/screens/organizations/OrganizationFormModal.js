@@ -113,7 +113,7 @@ const OrganizationFormModal = ({
   const classes = useStyles();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
-  const [organizations, setOrganizations] = useState({});
+  const [organizations, setOrganizations] = useState([]);
   const [subOrganizations, setSubOrganizations] = useState([]);
   const [organization, setOrganization] = useState({});
   const fieldIsRequired = 'validation.fieldIsRequired';
@@ -224,30 +224,31 @@ const OrganizationFormModal = ({
   });
 
   useEffect(() => {
-    if (org.id && open) {
-      setLoading(true);
-      getOrganization(user, org.id)
-        .then(response => {
-          setOrganization(response.data);
-          const subOrgs = response.data.subOrganizations.map(org => ({
+    setLoading(true);
+    getOrganizationsByHub(user, null)
+      .then(response => {
+        const orgs = _.get(response, 'data.data.organizations', []).map(
+          org => ({
             label: org.name,
             value: org.id
-          }));
-          setSubOrganizations(subOrgs);
-          setOrganizations([]);
-          getOrganizationsByHub(user, null)
+          })
+        );
+        setOrganizations(orgs);
+        if (org.id && open) {
+          getOrganization(user, org.id)
             .then(response => {
-              const orgs = _.get(response, 'data.data.organizations', []).map(
-                org => ({
-                  label: org.name,
-                  value: org.id
-                })
-              );
-              setOrganizations(orgs);
+              setOrganization(response.data);
+              const subOrgs = response.data.subOrganizations.map(org => ({
+                label: org.name,
+                value: org.id
+              }));
+              setSubOrganizations(subOrgs);
             })
             .catch(e => {
               console.log(e);
               onClose();
+              setLoading(false);
+
               enqueueSnackbar(t('views.organization.form.get.failed'), {
                 variant: 'error',
                 action: key => (
@@ -256,28 +257,26 @@ const OrganizationFormModal = ({
                   </IconButton>
                 )
               });
-            })
-            .finally(() => setLoading(false));
-        })
-        .catch(e => {
-          console.log(e);
-          onClose();
-          setLoading(false);
-
-          enqueueSnackbar(t('views.organization.form.get.failed'), {
-            variant: 'error',
-            action: key => (
-              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                <CloseIcon style={{ color: 'white' }} />
-              </IconButton>
-            )
-          });
+            });
+        } else {
+          //Clear form info
+          setSubOrganizations([]);
+          setOrganization({});
+        }
+      })
+      .catch(e => {
+        console.log(e);
+        onClose();
+        enqueueSnackbar(t('views.organization.form.get.failed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
         });
-    } else {
-      //Clear form info
-      setSubOrganizations([]);
-      setOrganization({});
-    }
+      })
+      .finally(() => setLoading(false));
   }, [open]);
 
   const onSubmit = values => {
