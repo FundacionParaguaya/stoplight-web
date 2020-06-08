@@ -73,7 +73,7 @@ const UserOrgsSelector = ({
     selectedRole === ROLES_NAMES.ROLE_HUB_ADMIN;
 
   const showOrganizationsFilter = ({ role }) =>
-    role === ROLES_NAMES.ROLE_HUB_ADMIN || role === ROLES_NAMES.ROLE_APP_ADMIN;
+    role === ROLES_NAMES.ROLE_HUB_ADMIN;
 
   return (
     <Grid

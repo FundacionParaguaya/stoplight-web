@@ -158,7 +158,9 @@ const UserFormModal = ({
         : schema
     ),
     organization: Yup.mixed().when('other', (other, schema) =>
-      !showHubName(user) && !isEdit ? schema.required(fieldIsRequired) : schema
+      !showHubName(user) && !isEdit && user.role !== ROLES_NAMES.ROLE_APP_ADMIN
+        ? schema.required(fieldIsRequired)
+        : schema
     )
   });
 
