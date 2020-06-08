@@ -556,7 +556,7 @@
     },
     "user": {
       "search": "Buscar",
-      "searchUser": " por username, nombre o email",
+      "searchUser": " por usuario, nombre o email",
       "addUser": "Agregar un usuario",
       "userList": {
         "rows": "Usuarios encontrados",
