@@ -51,6 +51,12 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: '#fff',
       color: '#fff'
     },
+    '& $th:first-of-type': {
+      width: '10px!important'
+    },
+    '& $td:first-of-type': {
+      width: '10px!important'
+    },
     '& .MuiPaper-root > div > div:first-of-type': {
       backgroundColor: '#fff'
     }
@@ -85,7 +91,7 @@ const useStyles = makeStyles(theme => ({
     height: 22,
     position: 'absolute',
     top: -9,
-    right: 3
+    right: -11
   },
   iconFamily: {
     maxWidth: 30,
@@ -98,7 +104,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     display: 'flex',
     margin: '0 auto',
-    width: 60
+    width: 30
   },
   familyCountContainer: {
     height: 37,
