@@ -112,7 +112,7 @@ const OrganizationFormModal = ({
   const isCreate = !org.id;
   const classes = useStyles();
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [organizations, setOrganizations] = useState([]);
   const [subOrganizations, setSubOrganizations] = useState([]);
   const [organization, setOrganization] = useState({});
@@ -172,7 +172,7 @@ const OrganizationFormModal = ({
     },
     {
       label: t('views.organization.form.areaOfExpertiseOptions.health'),
-      value: 'HEALT'
+      value: 'HEALTH'
     },
     {
       label: t(
@@ -224,7 +224,10 @@ const OrganizationFormModal = ({
   });
 
   useEffect(() => {
-    setLoading(true);
+    subOrganizations && open === true && setLoading(false);
+  }, [subOrganizations]);
+
+  useEffect(() => {
     getOrganizationsByHub(user, null)
       .then(response => {
         const orgs = _.get(response, 'data.data.organizations', []).map(
@@ -248,7 +251,6 @@ const OrganizationFormModal = ({
               console.log(e);
               onClose();
               setLoading(false);
-
               enqueueSnackbar(t('views.organization.form.get.failed'), {
                 variant: 'error',
                 action: key => (
@@ -266,6 +268,7 @@ const OrganizationFormModal = ({
       })
       .catch(e => {
         console.log(e);
+        setLoading(false);
         onClose();
         enqueueSnackbar(t('views.organization.form.get.failed'), {
           variant: 'error',
@@ -275,8 +278,7 @@ const OrganizationFormModal = ({
             </IconButton>
           )
         });
-      })
-      .finally(() => setLoading(false));
+      });
   }, [open]);
 
   const onSubmit = values => {
@@ -322,6 +324,7 @@ const OrganizationFormModal = ({
   };
   const onClose = () => {
     toggleModal();
+    setLoading(true);
   };
   return (
     <Modal
