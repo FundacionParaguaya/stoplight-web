@@ -124,6 +124,7 @@ const Authenticator = props => {
           env: environment,
           role: response.data.role,
           hub: response.data.application,
+          organization: response.data.organization,
           name: response.data.name
         });
         setLoggedIn(true);
@@ -135,7 +136,9 @@ const Authenticator = props => {
           token: null,
           env: null,
           role: null,
-          hub: null
+          hub: null,
+          organization: null,
+          name: null
         });
         setLoggedIn(false);
         setAuthVerified(true);

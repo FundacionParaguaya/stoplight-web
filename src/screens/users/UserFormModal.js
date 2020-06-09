@@ -158,7 +158,9 @@ const UserFormModal = ({
         : schema
     ),
     organization: Yup.mixed().when('other', (other, schema) =>
-      !showHubName(user) && !isEdit ? schema.required(fieldIsRequired) : schema
+      !showHubName(user) && !isEdit && user.role !== ROLES_NAMES.ROLE_APP_ADMIN
+        ? schema.required(fieldIsRequired)
+        : schema
     )
   });
 
@@ -178,6 +180,8 @@ const UserFormModal = ({
   const onSubmit = values => {
     setLoading(true);
     delete values.confirmPassword;
+    if (user.role === ROLES_NAMES.ROLE_APP_ADMIN)
+      values.organization = user.organization.id;
     if (values.organization) values.hub = user.hub.id;
     else values.organization = null;
     addOrUpdateUser(user, values)
