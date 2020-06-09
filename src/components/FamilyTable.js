@@ -54,8 +54,14 @@ const useStyles = makeStyles(theme => ({
     '& $th:first-of-type': {
       width: '10px!important'
     },
-    '& $td:first-of-type': {
+    '& $th:last-of-type': {
+      width: '40px!important'
+    },
+    '& $tbody > tr > td:first-of-type': {
       width: '10px!important'
+    },
+    '& $tbody > tr > td:last-of-type': {
+      width: '40px!important'
     },
     '& .MuiPaper-root > div > div:first-of-type': {
       backgroundColor: '#fff'
@@ -218,6 +224,9 @@ const FamilyTable = ({
           searchFieldStyle: {
             backgroundColor: '#fff',
             color: '#626262'
+          },
+          actionsCellStyle: {
+            maxWidth: 50
           }
         }}
         columns={[
