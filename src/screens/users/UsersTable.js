@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     '& $th:first-of-type': {
       width: '10px!important'
     },
-    '& $td:first-of-type': {
+    '& $tbody > tr > td:first-of-type': {
       width: '10px!important'
     },
     '& .MuiPaper-root > div > div:first-of-type': {
