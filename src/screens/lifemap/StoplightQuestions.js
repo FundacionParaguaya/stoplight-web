@@ -10,6 +10,9 @@ import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { COLORS } from '../../theme';
+import ReactPlayer from 'react-player/lazy';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 
 const questionsWrapperStyles = {
   questionContainer: {
@@ -211,7 +214,8 @@ class StoplightQuestions extends Component {
       this.props.match.params.page
     ],
     aspectRatio: null,
-    infoModal: false
+    infoModal: false,
+    playHelpAudio: false
   };
 
   handleContinue = () => {
@@ -253,7 +257,9 @@ class StoplightQuestions extends Component {
     const dataList = this.props.currentDraft.indicatorSurveyDataList;
     let update = false;
     let valueChanged = false;
+    this.setState({ playHelpAudio: false });
     // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
+
     dataList.forEach(e => {
       if (e.key === codeName) {
         update = true;
@@ -332,6 +338,9 @@ class StoplightQuestions extends Component {
   handleOpen = () => {
     this.setState({ infoModal: true });
   };
+  handleAudioPlay = () => {
+    this.setState({ playHelpAudio: !this.state.playHelpAudio });
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
@@ -340,8 +349,8 @@ class StoplightQuestions extends Component {
   }
 
   render() {
-    const { question } = this.state;
-    const { classes, t, currentDraft } = this.props;
+    const { question, playHelpAudio } = this.state;
+    const { classes, t, currentDraft, user } = this.props;
     let answered = false;
     let answeredValue = null;
     let sortedQuestions;
@@ -354,6 +363,7 @@ class StoplightQuestions extends Component {
       };
       sortedQuestions.sort(compare);
     }
+
     return (
       <div>
         <TitleBar
@@ -395,17 +405,53 @@ class StoplightQuestions extends Component {
           <div
             className={classes.bottomContainer}
             style={{
-              justifyContent: question.definition ? 'space-between' : 'flex-end'
+              justifyContent:
+                question.definition || user.interative_help
+                  ? 'space-between'
+                  : 'flex-end',
+              alignItems: 'center'
             }}
           >
-            {question.definition && (
-              <i
-                onClick={this.handleOpen}
-                className={`material-icons ${classes.icon}`}
-              >
-                info
-              </i>
-            )}
+            <div
+              style={{
+                display: 'flex'
+              }}
+            >
+              {question.definition && (
+                <i
+                  onClick={this.handleOpen}
+                  className={`material-icons ${classes.icon}`}
+                >
+                  info
+                </i>
+              )}
+
+              {user.interative_help && question && question.questionAudio && (
+                <div>
+                  {playHelpAudio ? (
+                    <div>
+                      <PauseCircleFilledIcon
+                        onClick={this.handleAudioPlay}
+                        className={`material-icons ${classes.icon}`}
+                      />
+                      <ReactPlayer
+                        width="0px"
+                        height="0px"
+                        playing={playHelpAudio}
+                        url={question.questionAudio}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <PlayCircleFilledIcon
+                        onClick={this.handleAudioPlay}
+                        className={`material-icons ${classes.icon}`}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
             {question && !question.required && (
               <span>
                 <Button
@@ -514,9 +560,10 @@ const styles = theme => ({
   }
 });
 
-const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
+const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
   currentSurvey,
-  currentDraft
+  currentDraft,
+  user
 });
 
 const mapDispatchToProps = { updateDraft };
