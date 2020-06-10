@@ -7690,10 +7690,10 @@ matcher@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.4"
 
-material-table@^1.54.1:
-  version "1.56.1"
-  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.56.1.tgz#40be8c3430df4db62ad9bd0548051104db70b379"
-  integrity sha512-j1424uQxExXXTMaED4MI0ROw7gIq2R3bUo4yVrSH6rPwxc1TPjoNytOkW1i+h5YmXzHQ7Ak+ERlehUz8g5OgpA==
+material-table@^1.59.0:
+  version "1.60.0"
+  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.60.0.tgz#9133780d78926a14d6fea0e1b4f7049d66a36514"
+  integrity sha512-qJd5CpCljKVghd3S8VTDuS7Vo5SQVnZW0LqM1Af1K65+yrV1BAXHx/iFZjir5B++v0ixYyRcnX59cAwGD5wMUg==
   dependencies:
     "@date-io/date-fns" "^1.1.0"
     "@material-ui/pickers" "^3.2.2"
