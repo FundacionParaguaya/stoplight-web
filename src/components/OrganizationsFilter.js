@@ -50,10 +50,22 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center'
   },
   label: { marginRight: 10, fontSize: 14 },
-  selector: { width: '100%' }
+  selector: { width: '100%' },
+  stackedContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: 5
+  },
+  stackedLabel: {
+    marginRight: 10,
+    marginBottom: 5,
+    fontSize: 14
+  }
 }));
 
-const OrganizationsFilter = ({ user, data, hub, onChange }) => {
+const OrganizationsFilter = ({ user, data, hub, onChange, stacked }) => {
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -85,8 +97,11 @@ const OrganizationsFilter = ({ user, data, hub, onChange }) => {
     organizationsToShow = [];
   }
   return (
-    <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
+    <div className={stacked ? classes.stackedContainer : classes.container}>
+      <Typography
+        variant="subtitle1"
+        className={stacked ? classes.stackedLabel : classes.label}
+      >
         {t('views.organizationsFilter.label')}
       </Typography>
 

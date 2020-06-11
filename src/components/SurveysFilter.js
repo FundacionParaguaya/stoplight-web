@@ -50,10 +50,29 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center'
   },
   label: { marginRight: 10, fontSize: 14 },
-  selector: { width: '100%' }
+  selector: { width: '100%' },
+  stackedContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: 5
+  },
+  stackedLabel: {
+    marginBottom: 5,
+    fontSize: 14
+  }
 }));
 
-const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
+const SurveysFilter = ({
+  user,
+  data,
+  onChange,
+  hub,
+  organizations,
+  isMulti,
+  stacked
+}) => {
   const [surveys, setSurveys] = useState([]);
   const [allSurveys, setAllSurveys] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +82,6 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
   const loadSurveysByUser = () => {
     getSurveysByUser(user)
       .then(response => {
-        console.log(response);
         const surveysFromAPI = _.get(response, 'data', []).map(survey => ({
           label: survey.title,
           value: survey.id,
@@ -133,8 +151,11 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
   };
 
   return (
-    <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
+    <div className={stacked ? classes.stackedContainer : classes.container}>
+      <Typography
+        variant="subtitle1"
+        className={stacked ? classes.stackedLabel : classes.label}
+      >
         {t('views.surveysFilter.label')}
       </Typography>
       <div className={classes.selector}>
@@ -152,7 +173,7 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
           }}
           styles={selectStyle}
           isClearable
-          isMulti
+          isMulti={isMulti}
           hideSelectedOptions
         />
       </div>

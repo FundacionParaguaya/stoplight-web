@@ -50,10 +50,21 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center'
   },
   label: { marginRight: 10, fontSize: 14 },
-  selector: { width: '100%' }
+  selector: { width: '100%' },
+  stackedContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: 5
+  },
+  stackedLabel: {
+    marginBottom: 5,
+    fontSize: 14
+  }
 }));
 
-const HubsFilter = ({ user, data, onChange }) => {
+const HubsFilter = ({ user, data, onChange, stacked }) => {
   const [hubs, setHubs] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -72,8 +83,11 @@ const HubsFilter = ({ user, data, onChange }) => {
       .finally(() => setLoading(false));
   }, [user]);
   return (
-    <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
+    <div className={stacked ? classes.stackedContainer : classes.container}>
+      <Typography
+        variant="subtitle1"
+        className={stacked ? classes.stackedLabel : classes.label}
+      >
         {t('views.hubsFilter.label')}
       </Typography>
       <div className={classes.selector}>

@@ -52,10 +52,27 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center'
   },
   label: { marginRight: 10, fontSize: 14, flexGrow: 1 },
-  selector: { width: '100%', flex: 100 }
+  selector: { width: '100%', flex: 100 },
+  stackedContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignItems: 'flex-start'
+  },
+  stackedLabel: {
+    marginBottom: 5,
+    fontSize: 14
+  }
 }));
 
-const FacilitatorFilter = ({ user, data, onChange, isMulti, label }) => {
+const FacilitatorFilter = ({
+  user,
+  data,
+  onChange,
+  isMulti,
+  label,
+  stacked
+}) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
@@ -63,8 +80,6 @@ const FacilitatorFilter = ({ user, data, onChange, isMulti, label }) => {
   useEffect(() => {
     setLoading(true);
     setFacilitators([]);
-
-    console.log('getMentorsByOrganizations');
 
     getMentors(user)
       .then(response => {
@@ -81,16 +96,12 @@ const FacilitatorFilter = ({ user, data, onChange, isMulti, label }) => {
       .finally(() => setLoading(false));
   }, [user]);
 
-  /*  const selectedFacilitator = useMemo(
-    () =>
-      //console.log('useMemo', data) ||
-      facilitators.filter(mentor => mentor.value === data.value),
-    [data, facilitators]
-  ); */
-
   return (
-    <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
+    <div className={stacked ? classes.stackedContainer : classes.container}>
+      <Typography
+        variant="subtitle1"
+        className={stacked ? classes.stackedLabel : classes.label}
+      >
         {label}
       </Typography>
 
