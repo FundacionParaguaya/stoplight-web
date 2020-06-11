@@ -13,6 +13,7 @@ import SelectIndicatorPriority from '../screens/priorities/SelectIndicatorPriori
 import Families from '../screens/Families';
 import Dashboard from '../screens/Dashboard';
 import Users from '../screens/Users';
+import Reports from '../screens/Reports';
 import PageNotFound from '../screens/PageNotFound';
 
 const Routes = ({ user }) => {
@@ -50,6 +51,9 @@ const Routes = ({ user }) => {
         <Route path="/dashboard" component={Dashboard} />
       )}
       {checkAccess(user, 'users') && <Route path="/users" component={Users} />}
+      {checkAccess(user, 'reports') && (
+        <Route path="/reports" component={Reports} />
+      )}
       <Route render={() => <PageNotFound user={user} />} />
     </Switch>
   );
