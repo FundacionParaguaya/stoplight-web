@@ -150,6 +150,18 @@ export const getSurveyById = (user, surveyId) =>
     })
   });
 
+export const getIndicatorsBySurveyId = (user, surveyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query { surveyById(surveyId:${surveyId}) { surveyStoplightQuestions { id codeName shortName } } }`
+    })
+  });
+
 export const getOverviewBlock = (
   user,
   hub,
