@@ -13,6 +13,7 @@ import { COLORS } from '../../theme';
 import ReactPlayer from 'react-player/lazy';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const questionsWrapperStyles = {
   questionContainer: {
@@ -215,7 +216,9 @@ class StoplightQuestions extends Component {
     ],
     aspectRatio: null,
     infoModal: false,
-    playHelpAudio: false
+    playHelpAudio: false,
+    audioProgress: null,
+    audioDuration: null
   };
 
   handleContinue = () => {
@@ -429,23 +432,56 @@ class StoplightQuestions extends Component {
               {user.interative_help && question && question.questionAudio && (
                 <div>
                   {playHelpAudio ? (
-                    <div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
                       <PauseCircleFilledIcon
+                        onClick={this.handleAudioPlay}
+                        className={`material-icons ${classes.icon}`}
+                      />
+                      <LinearProgress
+                        variant="determinate"
+                        value={
+                          (this.state.audioProgress /
+                            this.state.audioDuration) *
+                          100
+                        }
+                        style={{ width: '75px' }}
+                      />
+                      <ReactPlayer
+                        width="0px"
+                        height="0px"
+                        onDuration={e => this.setState({ audioDuration: e })}
+                        onProgress={e =>
+                          this.setState({ audioProgress: e.playedSeconds })
+                        }
+                        playing={playHelpAudio}
+                        url={question.questionAudio}
+                        config={{
+                          file: {
+                            forceAudio: true
+                          }
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <PlayCircleFilledIcon
                         onClick={this.handleAudioPlay}
                         className={`material-icons ${classes.icon}`}
                       />
                       <ReactPlayer
                         width="0px"
                         height="0px"
+                        onDuration={e => this.setState({ audioDuration: e })}
+                        onProgress={e =>
+                          this.setState({ audioProgress: e.playedSeconds })
+                        }
                         playing={playHelpAudio}
                         url={question.questionAudio}
-                      />
-                    </div>
-                  ) : (
-                    <div>
-                      <PlayCircleFilledIcon
-                        onClick={this.handleAudioPlay}
-                        className={`material-icons ${classes.icon}`}
+                        config={{
+                          file: {
+                            forceAudio: true
+                          }
+                        }}
                       />
                     </div>
                   )}
@@ -512,7 +548,8 @@ const styles = theme => ({
   },
   icon: {
     color: 'green',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontSize: 30
   },
   skipButton: {
     cursor: 'pointer'
