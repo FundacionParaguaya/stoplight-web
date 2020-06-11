@@ -384,6 +384,12 @@
       "from": "From",
       "to": "To"
     },
+    "indicatorFilter": {
+      "label": "Indicator",
+      "loading": "Loading...",
+      "noOption": "No indicator left",
+      "noMatchFilters": "No results matching your filters"
+    },
     "nonProdWarning": {
       "title": "Hello!",
       "subtitle": "Welcome to the demonstration environment.",
@@ -601,6 +607,35 @@
         "cannotUndo": "You cannot undo this action!",
         "success": "The User has been deleted",
         "failed": "The User cannot be deleted because it has associated data"
+      }
+    },
+    "report": {
+      "filters": {
+        "followUpSurvey": "Include follow-up surveys of families",
+        "advancedOptions": "Advanced Options",
+        "indicator": "Indicator",
+        "red": "Red",
+        "yellow": "Yellow",
+        "green": "Green"
+      },
+      "table": {
+        "surveys": "surveys",
+        "singleSurvey": "survey",
+        "families": "families",
+        "singleFamily": "family",
+        "familyName": "Family Name",
+        "surveyDate": "Survey Date",
+        "surveyNumber": "Survey Number",
+        "noRecords": "No records found",
+        "empty": "No results matching your filters"
+      },
+      "buttons": {
+        "applyFilters": "Apply",
+        "resetFilters": "Reset",
+        "downloadReport": "Download Report",
+        "pleaseWait": "Please wait until the report finishes downloading.",
+        "downloadSemaforito": "Semaforito",
+        "somethingWrong": "Something went wrong"
       }
     },
     "404": {
