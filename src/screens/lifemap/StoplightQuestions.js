@@ -431,8 +431,8 @@ class StoplightQuestions extends Component {
 
               {user.interative_help && question && question.questionAudio && (
                 <div>
-                  {playHelpAudio ? (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {!!playHelpAudio ? (
+                    <div className={classes.playerContainer}>
                       <PauseCircleFilledIcon
                         onClick={this.handleAudioPlay}
                         className={`material-icons ${classes.icon}`}
@@ -463,7 +463,7 @@ class StoplightQuestions extends Component {
                       />
                     </div>
                   ) : (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div className={classes.playerContainer}>
                       <PlayCircleFilledIcon
                         onClick={this.handleAudioPlay}
                         className={`material-icons ${classes.icon}`}
@@ -594,6 +594,10 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
     overflowY: 'auto'
+  },
+  playerContainer: {
+    display: 'flex',
+    alignItems: 'center'
   }
 });
 
