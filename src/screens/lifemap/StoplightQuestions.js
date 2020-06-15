@@ -430,7 +430,7 @@ class StoplightQuestions extends Component {
               )}
 
               {user.interative_help && question && question.questionAudio && (
-                <div>
+                <React.Fragment>
                   {!!playHelpAudio ? (
                     <div className={classes.playerContainer}>
                       <PauseCircleFilledIcon
@@ -439,12 +439,12 @@ class StoplightQuestions extends Component {
                       />
                       <LinearProgress
                         variant="determinate"
+                        className={classes.progressBar}
                         value={
                           (this.state.audioProgress /
                             this.state.audioDuration) *
                           100
                         }
-                        style={{ width: '75px' }}
                       />
                       <ReactPlayer
                         width="0px"
@@ -485,7 +485,7 @@ class StoplightQuestions extends Component {
                       />
                     </div>
                   )}
-                </div>
+                </React.Fragment>
               )}
             </div>
             {question && !question.required && (
@@ -598,6 +598,10 @@ const styles = theme => ({
   playerContainer: {
     display: 'flex',
     alignItems: 'center'
+  },
+  progressBar: {
+    width: 75,
+    backgroundColor: '#d8d8d8'
   }
 });
 
