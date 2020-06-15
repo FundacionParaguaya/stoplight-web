@@ -125,7 +125,8 @@ const Authenticator = props => {
           role: response.data.role,
           hub: response.data.application,
           organization: response.data.organization,
-          name: response.data.name
+          name: response.data.name,
+          interative_help: !!response.data.application.interactiveHelp
         });
         setLoggedIn(true);
         setAuthVerified(true);
