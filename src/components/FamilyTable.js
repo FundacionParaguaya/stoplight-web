@@ -57,12 +57,6 @@ const useStyles = makeStyles(theme => ({
     '& $th:last-of-type': {
       width: '40px!important'
     },
-    '& $tbody > tr > td:first-of-type': {
-      width: '10px!important'
-    },
-    '& $tbody > tr > td:last-of-type': {
-      width: '40px!important'
-    },
     '& .MuiPaper-root > div > div:first-of-type': {
       backgroundColor: '#fff'
     }
@@ -236,6 +230,7 @@ const FamilyTable = ({
             Title: 'Avatar',
             sorting: false,
             grouping: false,
+            width: '12%',
             render: rowData => (
               <div className={classes.badgeNumberContainer}>
                 {rowData.countFamilyMembers > 1 && (
@@ -263,6 +258,7 @@ const FamilyTable = ({
             removable: false,
             disableClick: true,
             readonly: true,
+            width: '28%',
             render: rowData => (
               <div>
                 <Typography
@@ -287,6 +283,7 @@ const FamilyTable = ({
             title: t('views.familyList.document'),
             field: 'documentNumber',
             sorting: false,
+            width: '28%',
             render: rowData => (
               <div>
                 <Typography className={classes.documentLabel} variant="h6">
@@ -308,6 +305,7 @@ const FamilyTable = ({
             title: t('views.familyList.familyCode'),
             field: 'code',
             sorting: false,
+            width: '20%',
             render: rowData => (
               <Typography className={classes.nameLabelStyle} variant="h6">
                 {rowData.code ? rowData.code : ''}

@@ -46,12 +46,6 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.background.default,
       color: theme.palette.background.default
     },
-    '& $th:first-of-type': {
-      width: '10px!important'
-    },
-    '& $tbody > tr > td:first-of-type': {
-      width: '10px!important'
-    },
     '& .MuiPaper-root > div > div:first-of-type': {
       backgroundColor: theme.palette.background.default
     }
@@ -220,6 +214,7 @@ const UsersTable = ({
             Title: 'Avatar',
             sorting: false,
             grouping: false,
+            width: '5%',
             render: rowData => (
               <div className={classes.badgeNumberContainer}>
                 <img

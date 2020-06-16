@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
   columnHeader: {
     textAlign: 'center',
     margin: 'auto'
+  },
+  indicatorsTitle: {
+    fontSize: 22,
+    fontWeight: 600
   }
 }));
 
@@ -87,6 +91,7 @@ const LifemapDetailsTable = ({
             borderRight: `1px solid ${theme.palette.grey.quarter}`,
             width: '20%'
           },
+          width: '20%',
           render: rowData => {
             let indicator = rowData.values.find(d => d.column === i);
             indicator = indicator ? indicator : {};
@@ -109,7 +114,7 @@ const LifemapDetailsTable = ({
 
     columns.push({
       title: (
-        <Typography variant="h6" style={{ fontSize: 22, fontWeight: 600 }}>
+        <Typography variant="h6" className={classes.indicatorsTitle}>
           {`${t('views.survey.indicators')}`}
         </Typography>
       ),
