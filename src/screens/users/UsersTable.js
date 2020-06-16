@@ -7,6 +7,7 @@ import { withSnackbar } from 'notistack';
 import userFace from '../../assets/family_face_large.png';
 import { Delete } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import UserDeleteModal from './UserDeleteModal';
@@ -240,16 +241,18 @@ const UsersTable = ({
                 <Typography className={classes.name} variant="subtitle1">
                   {rowData.username}
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.name}
-                  style={{ display: 'flex' }}
-                >
-                  {`${t('views.user.userList.name')}: `}
-                  <div className={classes.stackedLabels}>
-                    {rowData.name ? rowData.name : ''}
-                  </div>
-                </Typography>
+                <Tooltip title={rowData.name} aria-label="name">
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.name}
+                    style={{ display: 'flex' }}
+                  >
+                    {`${t('views.user.userList.name')}: `}
+                    <div className={classes.stackedLabels}>
+                      {rowData.name ? rowData.name : ''}
+                    </div>
+                  </Typography>
+                </Tooltip>
               </React.Fragment>
             )
           },
@@ -259,9 +262,11 @@ const UsersTable = ({
             field: 'email',
             sorting: false,
             render: rowData => (
-              <Typography variant="subtitle2" className={classes.email}>
-                {rowData.email}
-              </Typography>
+              <Tooltip title={rowData.email} aria-label="email">
+                <Typography variant="subtitle2" className={classes.email}>
+                  {rowData.email}
+                </Typography>
+              </Tooltip>
             )
           },
           //Column role
@@ -269,9 +274,11 @@ const UsersTable = ({
             title: t('views.user.userList.role'),
             field: 'role',
             render: rowData => (
-              <Typography className={classes.labelStyle} variant="h6">
-                {t(`role.${rowData.role}`)}
-              </Typography>
+              <Tooltip title={t(`role.${rowData.role}`)} aria-label="role">
+                <Typography className={classes.labelStyle} variant="h6">
+                  {t(`role.${rowData.role}`)}
+                </Typography>
+              </Tooltip>
             )
           },
           //Column organization
@@ -281,20 +288,27 @@ const UsersTable = ({
             sorting: false,
             render: rowData => (
               <div className={classes.name}>
-                <Typography className={classes.labelStyle} variant="subtitle2">
-                  {rowData.organizationName}
-                </Typography>
-                {showHubName(rowData.hubName, user) && (
+                <Tooltip title={rowData.organizationName} aria-label="orgName">
                   <Typography
-                    variant="subtitle1"
                     className={classes.labelStyle}
-                    style={{ display: 'flex' }}
+                    variant="subtitle2"
                   >
-                    {`${t('views.user.userList.hub')}: `}
-                    <div className={classes.stackedLabels}>
-                      {rowData.hubName}
-                    </div>
+                    {rowData.organizationName}
                   </Typography>
+                </Tooltip>
+                {showHubName(rowData.hubName, user) && (
+                  <Tooltip title={rowData.hubName} aria-label="hubName">
+                    <Typography
+                      variant="subtitle1"
+                      className={classes.labelStyle}
+                      style={{ display: 'flex' }}
+                    >
+                      {`${t('views.user.userList.hub')}: `}
+                      <div className={classes.stackedLabels}>
+                        {rowData.hubName}
+                      </div>
+                    </Typography>
+                  </Tooltip>
                 )}
               </div>
             )
