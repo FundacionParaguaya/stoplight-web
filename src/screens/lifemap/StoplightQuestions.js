@@ -10,6 +10,10 @@ import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { COLORS } from '../../theme';
+import ReactPlayer from 'react-player/lazy';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const questionsWrapperStyles = {
   questionContainer: {
@@ -211,7 +215,10 @@ class StoplightQuestions extends Component {
       this.props.match.params.page
     ],
     aspectRatio: null,
-    infoModal: false
+    infoModal: false,
+    playHelpAudio: false,
+    audioProgress: null,
+    audioDuration: null
   };
 
   handleContinue = () => {
@@ -253,7 +260,9 @@ class StoplightQuestions extends Component {
     const dataList = this.props.currentDraft.indicatorSurveyDataList;
     let update = false;
     let valueChanged = false;
+    this.setState({ playHelpAudio: false });
     // ////////////// CHECK IF THE QUESTION IS ALREADY IN THE DATA LIST and if it is the set update to true and edit the answer
+
     dataList.forEach(e => {
       if (e.key === codeName) {
         update = true;
@@ -332,6 +341,9 @@ class StoplightQuestions extends Component {
   handleOpen = () => {
     this.setState({ infoModal: true });
   };
+  handleAudioPlay = () => {
+    this.setState({ playHelpAudio: !this.state.playHelpAudio });
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.page !== this.props.match.params.page) {
@@ -340,8 +352,8 @@ class StoplightQuestions extends Component {
   }
 
   render() {
-    const { question } = this.state;
-    const { classes, t, currentDraft } = this.props;
+    const { question, playHelpAudio } = this.state;
+    const { classes, t, currentDraft, user } = this.props;
     let answered = false;
     let answeredValue = null;
     let sortedQuestions;
@@ -354,6 +366,7 @@ class StoplightQuestions extends Component {
       };
       sortedQuestions.sort(compare);
     }
+
     return (
       <div>
         <TitleBar
@@ -395,17 +408,86 @@ class StoplightQuestions extends Component {
           <div
             className={classes.bottomContainer}
             style={{
-              justifyContent: question.definition ? 'space-between' : 'flex-end'
+              justifyContent:
+                question.definition || user.interative_help
+                  ? 'space-between'
+                  : 'flex-end',
+              alignItems: 'center'
             }}
           >
-            {question.definition && (
-              <i
-                onClick={this.handleOpen}
-                className={`material-icons ${classes.icon}`}
-              >
-                info
-              </i>
-            )}
+            <div
+              style={{
+                display: 'flex'
+              }}
+            >
+              {question.definition && (
+                <i
+                  onClick={this.handleOpen}
+                  className={`material-icons ${classes.icon}`}
+                >
+                  info
+                </i>
+              )}
+
+              {user.interative_help && question && question.questionAudio && (
+                <React.Fragment>
+                  {!!playHelpAudio ? (
+                    <div className={classes.playerContainer}>
+                      <PauseCircleFilledIcon
+                        onClick={this.handleAudioPlay}
+                        className={`material-icons ${classes.icon}`}
+                      />
+                      <LinearProgress
+                        variant="determinate"
+                        className={classes.progressBar}
+                        value={
+                          (this.state.audioProgress /
+                            this.state.audioDuration) *
+                          100
+                        }
+                      />
+                      <ReactPlayer
+                        width="0px"
+                        height="0px"
+                        onDuration={e => this.setState({ audioDuration: e })}
+                        onProgress={e =>
+                          this.setState({ audioProgress: e.playedSeconds })
+                        }
+                        playing={playHelpAudio}
+                        url={question.questionAudio}
+                        config={{
+                          file: {
+                            forceAudio: true
+                          }
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className={classes.playerContainer}>
+                      <PlayCircleFilledIcon
+                        onClick={this.handleAudioPlay}
+                        className={`material-icons ${classes.icon}`}
+                      />
+                      <ReactPlayer
+                        width="0px"
+                        height="0px"
+                        onDuration={e => this.setState({ audioDuration: e })}
+                        onProgress={e =>
+                          this.setState({ audioProgress: e.playedSeconds })
+                        }
+                        playing={playHelpAudio}
+                        url={question.questionAudio}
+                        config={{
+                          file: {
+                            forceAudio: true
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
+              )}
+            </div>
             {question && !question.required && (
               <span>
                 <Button
@@ -466,7 +548,8 @@ const styles = theme => ({
   },
   icon: {
     color: 'green',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontSize: 30
   },
   skipButton: {
     cursor: 'pointer'
@@ -511,12 +594,21 @@ const styles = theme => ({
     height: '100%',
     width: '100%',
     overflowY: 'auto'
+  },
+  playerContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  progressBar: {
+    width: 75,
+    backgroundColor: '#d8d8d8'
   }
 });
 
-const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
+const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
   currentSurvey,
-  currentDraft
+  currentDraft,
+  user
 });
 
 const mapDispatchToProps = { updateDraft };
