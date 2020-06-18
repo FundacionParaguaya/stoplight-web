@@ -1,12 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import MaterialTable from 'material-table';
+import MaterialTable, { MTableBody } from 'material-table';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import { getDateFormatByLocale } from '../../utils/date-utils';
 import { Link } from 'react-router-dom';
-import { theme } from '../../theme';
+import { theme, COLORS } from '../../theme';
+import InfoIcon from '@material-ui/icons/Info';
+import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -47,12 +49,6 @@ const useStyles = makeStyles(theme => ({
     },
     '& $th:first-of-type': {
       width: '10px!important'
-    },
-    '& $tbody > tr > td:first-of-type': {
-      width: '10px!important'
-    },
-    '& .MuiPaper-root > div > div:first-of-type': {
-      backgroundColor: theme.palette.background.default
     }
   },
   nameLabelStyle: {
@@ -82,6 +78,26 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 10,
     fontSize: 14,
     height: 20
+  },
+  bodyContainer: {
+    backgroundColor: theme.palette.background.default
+  },
+  messageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '50vh'
+  },
+  messageIcon: {
+    height: 40,
+    width: 40
+  },
+  message: {
+    width: '30vw',
+    fontSize: 20,
+    fontWeight: 500,
+    textAlign: 'center'
   }
 }));
 
@@ -125,6 +141,50 @@ const ReportTable = ({
       </div>
       <MaterialTable
         tableRef={tableRef}
+        components={{
+          Body: props => {
+            return numberOfRows !== 0 ? (
+              <MTableBody {...props} />
+            ) : (
+              /* I had to do this to get rid off the #$%#$#$ warnings */
+              <tbody className={classes.bodyContainer}>
+                <tr>
+                  <td></td>
+                  <td>
+                    <div className={classes.messageContainer}>
+                      {hideColumns ? (
+                        <React.Fragment>
+                          <InfoIcon
+                            className={classes.messageIcon}
+                            style={{ color: COLORS.GREEN }}
+                          />
+                          <Typography className={classes.message} variant="h5">
+                            {t('views.report.table.chooseFilters')}
+                            <span style={{ color: COLORS.GREEN }}>
+                              {t('views.report.buttons.applyFilters')}
+                            </span>
+                            {t('views.report.table.chooseFiltersEnd')}
+                          </Typography>
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          <PriorityHighIcon
+                            className={classes.messageIcon}
+                            style={{ color: COLORS.RED }}
+                          />
+                          <Typography className={classes.message} variant="h5">
+                            {t('views.report.table.empty')}
+                          </Typography>
+                        </React.Fragment>
+                      )}
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            );
+          }
+        }}
         options={{
           search: false,
           toolbar: false,

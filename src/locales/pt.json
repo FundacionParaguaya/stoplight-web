@@ -628,7 +628,8 @@
         "surveyDate": "Data da pesquisa",
         "surveyNumber": "Número da pesquisa",
         "noRecords": "Não foi possível encontrar registro",
-        "chooseFilters": "Escolha alguns filtros e clique em Aplicar para baixar os resultados!",
+        "chooseFilters": "Escolha alguns filtros e clique em ",
+        "chooseFiltersEnd": "  para baixar os resultados!",
         "empty": "Não há resultados correspondentes aos seus filtros"
       },
       "buttons": {
