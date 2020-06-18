@@ -14,7 +14,7 @@ import ReportsFilter from './reports/ReportsFilters';
 import AdvancedReportsFilters from './reports/AdvancedReportFilters';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import { getFamiliesList } from '../api';
+import { searchRecords, downloadReports, downloadSemaforito } from '../api';
 import ReportsTable from './reports/ReportsTable';
 import { ROLES_NAMES } from '../utils/role-utils';
 import { withSnackbar } from 'notistack';
@@ -60,7 +60,7 @@ const styles = theme => ({
   },
   mainBody: {
     display: 'flex',
-    backgroundColor: '#fff'
+    backgroundColor: theme.palette.background.default
   },
   advancedContainer: {
     display: 'flex',
@@ -112,17 +112,13 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
       hub: {},
       organizations: [],
       survey: {},
-      fromDate: '',
-      toDate: '',
+      fromDate: null,
+      toDate: null,
       includeRetake: false,
       // Advanced filters
       facilitators: [],
-      indicator: {},
-      colors: {
-        green: true,
-        yellow: true,
-        red: true
-      }
+      indicator: [],
+      colors: []
     }
   );
 
@@ -135,8 +131,34 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    !!filterInput.hub && !!filterInput.hub.value && setAllowSearch(true);
-  }, [filterInput]);
+    setAllowSearch(!!filterInput.survey && !!filterInput.survey.value);
+  }, [filterInput.survey]);
+
+  const filtersPreProcessing = filters => {
+    //Pre-processing filters values
+    let hubs = !!filters.hub && !!filters.hub.value ? [filters.hub] : [];
+    hubs = hubs.map(h => h.value);
+    const orgs = filters.organizations.map(o => o.value);
+    const stoplightFilters = filters.colors.map(c => {
+      let values = [];
+      c.values.green && values.push('3');
+      c.values.yellow && values.push('2');
+      c.values.red && values.push('1');
+      return {
+        codeName: c.codename,
+        values
+      };
+    });
+    const surveyUsers = filters.facilitators.map(f => f.value);
+
+    return {
+      ...filters,
+      hubs,
+      orgs,
+      surveyUsers,
+      stoplightFilters
+    };
+  };
 
   const loadFamilies = query => {
     let page = query ? query.page : 0;
@@ -147,16 +169,42 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
     }
 
     if (allowSearch) {
-      return getFamiliesList(user, page).then(response => {
-        setTotalRow(response.data.data.families.totalElements);
-        setTotalFamilies(1);
-        setHideColumns(false);
-        return {
-          data: response.data.data.families.content,
-          page: page,
-          totalCount: response.data.data.families.totalElements
-        };
-      });
+      const orderDirection = query ? query.orderDirection : '';
+      const sortBy = query && query.orderBy ? query.orderBy.field : '';
+
+      const sanitazedFilters = filtersPreProcessing(filterInput);
+
+      return searchRecords(user, {
+        ...sanitazedFilters,
+        page,
+        sortBy,
+        orderDirection
+      })
+        .then(response => {
+          setTotalRow(response.data.data.searchSnapshots.totalElements);
+          const totalFamilies = !!response.data.data.searchSnapshots
+            .additionalData
+            ? response.data.data.searchSnapshots.additionalData.distinctFamilies
+            : 0;
+          setTotalFamilies(totalFamilies);
+          setHideColumns(false);
+          return {
+            data: response.data.data.searchSnapshots.content,
+            page: page,
+            totalCount: response.data.data.searchSnapshots.totalElements
+          };
+        })
+        .catch(e => {
+          console.log(e);
+          enqueueSnackbar(t('views.report.buttons.somethingWrong'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+        });
     } else {
       return Promise.all([]).then(() => {
         setTotalRow(0);
@@ -175,19 +223,85 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
     (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM) &&
     totalRows === 0;
 
-  const handleDownloadReport = async user => {
+  const handleDownloadReport = user => {
     setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    enqueueSnackbar(t('views.report.buttons.pleaseWait'), {
-      variant: 'success',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
-    });
+    const sanitazedFilters = filtersPreProcessing(filterInput);
+    downloadReports(user, sanitazedFilters)
+      .then(response => {
+        enqueueSnackbar(t('views.report.buttons.pleaseWait'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
 
+        let blob = new Blob([response.data], {
+          type:
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        let url = window.URL.createObjectURL(blob);
+        let tempLink = document.createElement('a');
+        tempLink.href = url;
+        tempLink.setAttribute('download', 'Surveys.xlsx');
+        tempLink.click();
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.report.buttons.somethingWrong'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      });
     setLoading(false);
+  };
+
+  const handleDownloadSemaforito = user => {
+    setLoading(true);
+    const sanitazedFilters = filtersPreProcessing(filterInput);
+    downloadSemaforito(user, sanitazedFilters)
+      .then(response => {
+        enqueueSnackbar(t('views.report.buttons.pleaseWait'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+
+        let blob = new Blob([response.data], {
+          type:
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        let url = window.URL.createObjectURL(blob);
+        let tempLink = document.createElement('a');
+        tempLink.href = url;
+        tempLink.setAttribute('download', 'Surveys-Semaforito.xlsx');
+        tempLink.click();
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.report.buttons.somethingWrong'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      });
+    setLoading(false);
+  };
+
+  const onChangeFilterValue = filter => {
+    setResetPagination(true);
+    setFilterInput(filter);
   };
 
   return (
@@ -213,16 +327,16 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
             to={filterInput.toDate}
             includeRetake={filterInput.includeRetake}
             onChangeHub={hub =>
-              setFilterInput({ hub, organizations: [], survey: {} })
+              onChangeFilterValue({ hub, organizations: [], survey: {} })
             }
             onChangeOrganization={organizations =>
-              setFilterInput({ organizations, survey: {} })
+              onChangeFilterValue({ organizations, survey: {} })
             }
-            onChangeSurvey={survey => setFilterInput({ survey })}
-            onFromDateChanged={fromDate => setFilterInput({ fromDate })}
-            onToDateChanged={toDate => setFilterInput({ toDate })}
+            onChangeSurvey={survey => onChangeFilterValue({ survey })}
+            onFromDateChanged={fromDate => onChangeFilterValue({ fromDate })}
+            onToDateChanged={toDate => onChangeFilterValue({ toDate })}
             toggleIncludeRetake={() =>
-              setFilterInput({ includeRetake: !filterInput.includeRetake })
+              onChangeFilterValue({ includeRetake: !filterInput.includeRetake })
             }
           />
           <Accordion>
@@ -245,12 +359,12 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
                 indicator={filterInput.indicator}
                 colorsData={filterInput.colors}
                 onChangeFacilitator={facilitators => {
-                  setFilterInput({ facilitators });
+                  onChangeFilterValue({ facilitators });
                 }}
                 onChangeIndicator={indicator => {
-                  setFilterInput({ indicator });
+                  onChangeFilterValue({ indicator });
                 }}
-                onChangeColors={colors => setFilterInput({ colors })}
+                onChangeColors={colors => onChangeFilterValue({ colors })}
               />
             </AccordionItem>
           </Accordion>
@@ -262,17 +376,12 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
                 setFilterInput({
                   hub: {},
                   organizations: [],
-                  survey: {},
                   fromDate: '',
                   toDate: '',
                   includeRetake: false,
                   facilitators: [],
-                  indicator: {},
-                  colors: {
-                    green: true,
-                    yellow: true,
-                    red: true
-                  }
+                  indicator: [],
+                  colors: []
                 });
               }}
             >
@@ -292,7 +401,12 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
             style={{ marginTop: 90 }}
           >
             {showSemaforitoButton(user, totalRows) ? (
-              <Button variant="contained" onClick={() => {}}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleDownloadSemaforito(user);
+                }}
+              >
                 {t('views.report.buttons.downloadSemaforito')}
               </Button>
             ) : (
@@ -307,11 +421,12 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
             )}
           </Container>
         </div>
-        <div style={{ width: '60vw' }}>
+        <div style={{ width: 'calc((100% - 400px))' }}>
           <ReportsTable
             tableRef={tableRef}
             loadFamilies={loadFamilies}
             numberOfRows={totalRows}
+            allowSearch={allowSearch}
             totalFamilies={totalFamilies}
             hideColumns={hideColumns}
           />

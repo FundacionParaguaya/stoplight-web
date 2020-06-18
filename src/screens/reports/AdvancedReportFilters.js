@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import FacilitatorFilter from '../../components/FacilitatorFilter';
-import ColorsFilter from '../../components/filters/ColorsFilter';
+import ColorsByIndicatorFilter from '../../components/filters/ColorsByIndicatorFilter';
 import IndicatorsFilter from '../../components/filters/IndicatorsFilter';
 
 const useStyles = makeStyles(theme => ({
@@ -64,11 +64,13 @@ const AdvancedReportFilters = ({
             survey={survey}
             indicator={indicator}
             onChangeIndicator={onChangeIndicator}
+            isMulti={true}
           />
         </Grid>
 
         <Grid item md={12} sm={12} xs={12} container spacing={1}>
-          <ColorsFilter
+          <ColorsByIndicatorFilter
+            indicators={indicator}
             colorsData={colorsData}
             onChangeColors={onChangeColors}
           />

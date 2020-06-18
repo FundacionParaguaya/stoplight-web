@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import { getDateFormatByLocale } from '../../utils/date-utils';
 import { Link } from 'react-router-dom';
+import { theme } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -87,6 +88,7 @@ const useStyles = makeStyles(theme => ({
 const ReportTable = ({
   loadFamilies,
   tableRef,
+  allowSearch,
   numberOfRows,
   totalFamilies,
   hideColumns
@@ -131,17 +133,17 @@ const ReportTable = ({
           initialPage: 0,
           draggable: false,
           rowStyle: {
-            backgroundColor: '#fff',
-            color: '#626262'
+            backgroundColor: theme.palette.background.default,
+            color: theme.typography.h4.color
           },
           headerStyle: {
-            backgroundColor: '#fff',
-            color: '#626262',
+            backgroundColor: theme.palette.background.default,
+            color: theme.typography.h4.color,
             fontSize: 14
           },
           searchFieldStyle: {
-            backgroundColor: '#fff',
-            color: '#626262'
+            backgroundColor: theme.palette.background.default,
+            color: theme.typography.h4.color
           },
           actionsCellStyle: {
             maxWidth: 50
@@ -159,10 +161,10 @@ const ReportTable = ({
             hidden: hideColumns,
             render: rowData => (
               <Link
-                to={`/family/${rowData.familyId}`}
+                to={`/family/${rowData.family}`}
                 className={classes.nameLabelStyle}
               >
-                {rowData.name}
+                {rowData.familyName}
               </Link>
             )
           },
@@ -173,9 +175,9 @@ const ReportTable = ({
             hidden: hideColumns,
             render: rowData => (
               <Typography className={classes.surveyDate} variant="h6">
-                {rowData.birthDate
+                {rowData.surveyDate
                   ? `${moment
-                      .unix(rowData.birthDate)
+                      .unix(rowData.surveyDate)
                       .utc()
                       .format(dateFormat)}`
                   : ''}
@@ -189,7 +191,7 @@ const ReportTable = ({
             hidden: hideColumns,
             render: rowData => (
               <Typography className={classes.nameLabelStyle} variant="h6">
-                {'N° 1'}
+                {`N° ${rowData.surveyNumber}`}
               </Typography>
             )
           }
@@ -206,7 +208,9 @@ const ReportTable = ({
             actions: ''
           },
           body: {
-            emptyDataSourceMessage: t('views.report.table.empty')
+            emptyDataSourceMessage: hideColumns
+              ? t('views.report.table.chooseFilters')
+              : t('views.report.table.empty')
           }
         }}
         data={loadFamilies}
