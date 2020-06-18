@@ -58,7 +58,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const IndicatorsFilter = ({ user, survey, indicator, onChangeIndicator }) => {
+const IndicatorsFilter = ({
+  user,
+  survey,
+  indicator,
+  onChangeIndicator,
+  isMulti
+}) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -81,8 +87,10 @@ const IndicatorsFilter = ({ user, survey, indicator, onChangeIndicator }) => {
           setIndicatorOptions(indicators);
         })
         .finally(() => setLoading(false));
+    } else {
+      setIndicatorOptions([]);
     }
-  }, [survey.value]);
+  }, [survey]);
 
   return (
     <div className={classes.container}>
@@ -106,6 +114,7 @@ const IndicatorsFilter = ({ user, survey, indicator, onChangeIndicator }) => {
           }}
           closeMenuOnSelect={false}
           styles={selectStyle}
+          isMulti={isMulti}
         />
       </div>
     </div>

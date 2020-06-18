@@ -4,6 +4,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { COLORS } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -32,28 +33,34 @@ const useStyles = makeStyles(theme => ({
 
 const GreenCheckbox = withStyles(theme => ({
   root: {
-    color: theme.palette.grey.main
+    color: theme.palette.grey.main,
+    paddingRight: 3,
+    paddingLeft: 3
   },
   checked: {
-    color: theme.palette.primary.main
+    color: COLORS.GREEN
   }
 }))(props => <Checkbox color={'default'} {...props} />);
 
 const YellowCheckbox = withStyles(theme => ({
   root: {
-    color: theme.palette.grey.main
+    color: theme.palette.grey.main,
+    paddingRight: 3,
+    paddingLeft: 3
   },
   checked: {
-    color: '#F0CB17'
+    color: COLORS.YELLOW
   }
 }))(props => <Checkbox color={'default'} {...props} />);
 
 const RedCheckbox = withStyles(theme => ({
   root: {
-    color: theme.palette.grey.main
+    color: theme.palette.grey.main,
+    paddingRight: 3,
+    paddingLeft: 3
   },
   checked: {
-    color: '#E1504D'
+    color: COLORS.RED
   }
 }))(props => <Checkbox color={'default'} {...props} />);
 
@@ -62,7 +69,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <div className={classes.container}>
       <Grid item md={4}>
         <div className={classes.checkboxesConatiner}>
           <GreenCheckbox
@@ -74,13 +81,13 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
           <Typography
             variant="subtitle1"
             className={classes.label}
-            style={{ color: '#50aa47' }}
+            style={{ color: COLORS.GREEN }}
           >
             {t('views.report.filters.green')}
           </Typography>
         </div>
       </Grid>
-      <Grid item md={4}>
+      <Grid item md={5}>
         <div className={classes.checkboxesConatiner}>
           <YellowCheckbox
             checked={colorsData.yellow}
@@ -91,13 +98,13 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
           <Typography
             variant="subtitle1"
             className={classes.label}
-            style={{ color: '#F0CB17' }}
+            style={{ color: COLORS.YELLOW }}
           >
             {t('views.report.filters.yellow')}
           </Typography>
         </div>
       </Grid>
-      <Grid item md={4}>
+      <Grid item md={3}>
         <div className={classes.checkboxesConatiner}>
           <RedCheckbox
             checked={colorsData.red}
@@ -108,13 +115,13 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
           <Typography
             variant="subtitle1"
             className={classes.label}
-            style={{ color: '#E1504D' }}
+            style={{ color: COLORS.RED }}
           >
             {t('views.report.filters.red')}
           </Typography>
         </div>
       </Grid>
-    </React.Fragment>
+    </div>
   );
 };
 
