@@ -627,6 +627,7 @@
         "surveyDate": "Survey Date",
         "surveyNumber": "Survey Number",
         "noRecords": "No records found",
+        "chooseFilters": "Choose some filters and the click on Apply to download the results!",
         "empty": "No results matching your filters"
       },
       "buttons": {

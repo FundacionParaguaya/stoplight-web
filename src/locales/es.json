@@ -628,6 +628,7 @@
         "surveyDate": "Fecha de Encuesta",
         "surveyNumber": "Número de Encuesta",
         "noRecords": "No se encontraron registros",
+        "chooseFilters": "!Elija algunos filtros y haga click en Aplicar para descargar los resultados!",
         "empty": "No hay resultados que coincidan con tus filtros"
       },
       "buttons": {
