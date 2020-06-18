@@ -999,3 +999,75 @@ export const checkUserName = (user, username) =>
       Authorization: `Bearer ${user.token}`
     }
   });
+
+export const searchRecords = (user, filters) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query searchSnapshots( $surveyDefinition: Long!, $hubs: [Long], $orgs: [Long], $fromDate: Long, $toDate: Long, $followupSurveys: Boolean, $surveyUsers: [Long], $stoplightFilters: [StoplightFilterInput],  $page: Int  $sortBy: String, $sortDirection: String) { searchSnapshots ( surveyDefinition: $surveyDefinition, hubs: $hubs, orgs: $orgs, fromDate: $fromDate, toDate: $toDate, followupSurveys: $followupSurveys, surveyUsers: $surveyUsers, stoplightFilters: $stoplightFilters, page: $page, sortBy: $sortBy, sortDirection: $sortDirection) { page totalElements totalPages additionalData content {family familyName surveyDate surveyNumber }  } }',
+      variables: {
+        surveyDefinition: filters.survey.value,
+        hubs: filters.hubs,
+        orgs: filters.orgs,
+        fromDate: filters.fromDate,
+        toDate: filters.toDate,
+        followupSurveys: filters.includeRetake,
+        surveyUsers: filters.surveyUsers,
+        stoplightFilters: filters.stoplightFilters,
+        page: filters.page,
+        sortBy: filters.sortBy,
+        sortDirection: filters.sortDirection
+      }
+    })
+  });
+
+export const downloadReports = (user, filters) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/reports/snapshots/report`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      surveyDefinition: filters.survey.value,
+      hubs: filters.hubs,
+      orgs: filters.orgs,
+      fromDate: filters.fromDate,
+      toDate: filters.toDate,
+      followupSurveys: filters.includeRetake,
+      surveyUsers: filters.surveyUsers,
+      stoplightFilters: filters.stoplightFilters,
+      page: filters.page,
+      sortBy: filters.sortBy,
+      sortDirection: filters.sortDirection
+    }),
+    responseType: 'arraybuffer'
+  });
+
+export const downloadSemaforito = (user, filters) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/reports/snapshots/chatbot`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      surveyDefinition: filters.survey.value,
+      hubs: filters.hubs,
+      orgs: filters.orgs,
+      fromDate: filters.fromDate,
+      toDate: filters.toDate,
+      followupSurveys: filters.includeRetake,
+      surveyUsers: filters.surveyUsers,
+      stoplightFilters: filters.stoplightFilters,
+      page: filters.page,
+      sortBy: filters.sortBy,
+      sortDirection: filters.sortDirection
+    }),
+    responseType: 'arraybuffer'
+  });
