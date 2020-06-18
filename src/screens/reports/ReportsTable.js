@@ -47,8 +47,8 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.background.default,
       color: theme.palette.background.default
     },
-    '& $th:first-of-type': {
-      width: '10px!important'
+    '& .MuiPaper-root > div > div:first-of-type': {
+      backgroundColor: theme.palette.background.default
     }
   },
   nameLabelStyle: {
