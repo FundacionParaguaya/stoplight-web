@@ -10,7 +10,7 @@ export const ROLES = {
   ROLE_ROOT: [
     // Admin user
     { item: 'dashboard', platform: ACCESS },
-    { item: 'reports', platform: OLD },
+    { item: 'reports', platform: NEW },
     { item: 'hubs', platform: NEW },
     { item: 'organizations', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
@@ -22,7 +22,7 @@ export const ROLES = {
   ROLE_HUB_ADMIN: [
     // Hub admin user
     { item: 'dashboard', platform: ACCESS },
-    { item: 'reports', platform: OLD },
+    { item: 'reports', platform: NEW },
     { item: 'surveysList', platform: NEW },
     { item: 'organizations', platform: NEW },
     { item: 'users', platform: NEW },
@@ -33,7 +33,7 @@ export const ROLES = {
   ROLE_PS_TEAM: [
     // PS Team user
     { item: 'dashboard', platform: ACCESS },
-    { item: 'reports', platform: OLD },
+    { item: 'reports', platform: NEW },
     { item: 'hubs', platform: NEW },
     { item: 'users', platform: NEW },
     { item: 'surveysList', platform: NEW },
@@ -43,7 +43,7 @@ export const ROLES = {
   ROLE_APP_ADMIN: [
     // Org admin user
     { item: 'dashboard', platform: ACCESS },
-    { item: 'reports', platform: OLD },
+    { item: 'reports', platform: NEW },
     { item: 'surveysList', platform: NEW },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },

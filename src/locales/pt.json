@@ -384,6 +384,12 @@
       "from": "Desde",
       "to": "Até"
     },
+    "indicatorFilter": {
+      "label": "Indicador",
+      "loading": "Carregando...",
+      "noOption": "Não há indicadores",
+      "noMatchFilters": "Não há resultados para os filtros aplicados"
+    },
     "nonProdWarning": {
       "title": "Olá!",
       "subtitle": "Bem-vindo ao ambiente de demostração.",
@@ -602,6 +608,38 @@
         "cannotUndo": "Esto no se puede deshacer.",
         "success": "O usuário foi eliminado",
         "failed": "O usuário não pode ser removido porque possui dados associados"
+      }
+    },
+    "report": {
+      "filters": {
+        "followUpSurvey": "Incluir múltiplos snapshots por família",
+        "surveyRequired": "Este campo é obrigatório",
+        "advancedOptions": "Opções avançadas",
+        "indicator": "Indicador",
+        "red": "Vermelho",
+        "yellow": "Amarelo",
+        "green": "Verde"
+      },
+      "table": {
+        "surveys": "Pesquisas",
+        "singleSurvey": "Pesquisa",
+        "families": "famílias",
+        "singleFamily": "família",
+        "familyName": "Família",
+        "surveyDate": "Data da pesquisa",
+        "surveyNumber": "Número da pesquisa",
+        "noRecords": "Não foi possível encontrar registro",
+        "chooseFilters": "Escolha alguns filtros e clique em ",
+        "chooseFiltersEnd": "  para baixar os resultados!",
+        "empty": "Não há resultados correspondentes aos seus filtros"
+      },
+      "buttons": {
+        "applyFilters": "Aplique",
+        "resetFilters": "Reiniciar",
+        "downloadReport": "Dowload relatório",
+        "pleaseWait": "Aguarde um momento, seu reporte está sendo descarregado",
+        "downloadSemaforito": "Dowload relatório chatbot",
+        "somethingWrong": "Um erro ocorreu"
       }
     },
     "404": {

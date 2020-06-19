@@ -100,11 +100,15 @@ export const getSurveys = user =>
 // get a list of surveys available to the authorized used
 export const getSurveysByUser = user =>
   axios({
-    method: 'get',
-    url: `${url[user.env]}/api/v1/surveys/info`,
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
-    }
+    },
+    data: JSON.stringify({
+      query:
+        'query { surveysInfoWithOrgs { id, title, applications { id }, organizations { id } } }'
+    })
   });
 
 export const surveysByUserPaginated = (user, page) =>
@@ -147,6 +151,18 @@ export const getSurveyById = (user, surveyId) =>
 
     data: JSON.stringify({
       query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id questionAudio stoplightColors { url value description } required } } }`
+    })
+  });
+
+export const getIndicatorsBySurveyId = (user, surveyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query { surveyById(surveyId:${surveyId}) { surveyStoplightQuestions { id codeName shortName } } }`
     })
   });
 
@@ -986,4 +1002,76 @@ export const checkUserName = (user, username) =>
     headers: {
       Authorization: `Bearer ${user.token}`
     }
+  });
+
+export const searchRecords = (user, filters) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query searchSnapshots( $surveyDefinition: Long!, $hubs: [Long], $orgs: [Long], $fromDate: Long, $toDate: Long, $followupSurveys: Boolean, $surveyUsers: [Long], $stoplightFilters: [StoplightFilterInput],  $page: Int  $sortBy: String, $sortDirection: String) { searchSnapshots ( surveyDefinition: $surveyDefinition, hubs: $hubs, orgs: $orgs, fromDate: $fromDate, toDate: $toDate, followupSurveys: $followupSurveys, surveyUsers: $surveyUsers, stoplightFilters: $stoplightFilters, page: $page, sortBy: $sortBy, sortDirection: $sortDirection) { page totalElements totalPages additionalData content {family familyName surveyDate surveyNumber }  } }',
+      variables: {
+        surveyDefinition: filters.survey.value,
+        hubs: filters.hubs,
+        orgs: filters.orgs,
+        fromDate: filters.fromDate,
+        toDate: filters.toDate,
+        followupSurveys: filters.includeRetake,
+        surveyUsers: filters.surveyUsers,
+        stoplightFilters: filters.stoplightFilters,
+        page: filters.page,
+        sortBy: filters.sortBy,
+        sortDirection: filters.sortDirection
+      }
+    })
+  });
+
+export const downloadReports = (user, filters) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/reports/snapshots/report`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      surveyDefinition: filters.survey.value,
+      hubs: filters.hubs,
+      orgs: filters.orgs,
+      fromDate: filters.fromDate,
+      toDate: filters.toDate,
+      followupSurveys: filters.includeRetake,
+      surveyUsers: filters.surveyUsers,
+      stoplightFilters: filters.stoplightFilters,
+      page: filters.page,
+      sortBy: filters.sortBy,
+      sortDirection: filters.sortDirection
+    }),
+    responseType: 'arraybuffer'
+  });
+
+export const downloadSemaforito = (user, filters) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/reports/snapshots/chatbot`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      surveyDefinition: filters.survey.value,
+      hubs: filters.hubs,
+      orgs: filters.orgs,
+      fromDate: filters.fromDate,
+      toDate: filters.toDate,
+      followupSurveys: filters.includeRetake,
+      surveyUsers: filters.surveyUsers,
+      stoplightFilters: filters.stoplightFilters,
+      page: filters.page,
+      sortBy: filters.sortBy,
+      sortDirection: filters.sortDirection
+    }),
+    responseType: 'arraybuffer'
   });

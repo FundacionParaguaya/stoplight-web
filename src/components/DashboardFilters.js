@@ -61,6 +61,7 @@ const DashboardFilters = ({
                 onChange={onChangeSurvey}
                 hub={hubData}
                 organizations={organizationsData}
+                isMulti={true}
               />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
@@ -88,6 +89,7 @@ const DashboardFilters = ({
                 onChange={onChangeSurvey}
                 hub={hubData}
                 organizations={organizationsData}
+                isMulti={false}
               />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>

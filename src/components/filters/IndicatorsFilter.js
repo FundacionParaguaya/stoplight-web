@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { getIndicatorsBySurveyId } from '../../api';
 import Select from 'react-select';
 import * as _ from 'lodash';
-import { getHubs } from '../api';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -45,67 +45,76 @@ const selectStyle = {
 const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    alignItems: 'center'
-  },
-  label: { marginRight: 10, fontSize: 14 },
-  selector: { width: '100%' },
-  stackedContainer: {
-    display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    alignItems: 'flex-start',
-    marginBottom: 5
+    alignItems: 'flex-start'
   },
-  stackedLabel: {
+  label: {
     marginBottom: 5,
     fontSize: 14
+  },
+  selector: {
+    width: '100%'
   }
 }));
 
-const HubsFilter = ({ user, data, onChange, stacked }) => {
-  const [hubs, setHubs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const classes = useStyles();
+const IndicatorsFilter = ({
+  user,
+  survey,
+  indicator,
+  onChangeIndicator,
+  isMulti
+}) => {
   const { t } = useTranslation();
+  const classes = useStyles();
+
+  const [loading, setLoading] = useState(false);
+  const [indicatorOptions, setIndicatorOptions] = useState([]);
+
   useEffect(() => {
-    getHubs(user)
-      .then(response => {
-        const hubsFromAPI = _.get(response, 'data.data.hubsByUser', []).map(
-          hub => ({
-            label: hub.name,
-            value: hub.id
-          })
-        );
-        setHubs(hubsFromAPI);
-      })
-      .finally(() => setLoading(false));
-  }, [user]);
+    if (!!survey && !!survey.value) {
+      setLoading(true);
+      getIndicatorsBySurveyId(user, survey.value)
+        .then(response => {
+          const indicators = _.get(
+            response,
+            'data.data.surveyById.surveyStoplightQuestions',
+            []
+          ).map(indicator => ({
+            label: indicator.shortName,
+            value: indicator.codeName
+          }));
+          setIndicatorOptions(indicators);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setIndicatorOptions([]);
+    }
+  }, [survey]);
+
   return (
-    <div className={stacked ? classes.stackedContainer : classes.container}>
-      <Typography
-        variant="subtitle1"
-        className={stacked ? classes.stackedLabel : classes.label}
-      >
-        {t('views.hubsFilter.label')}
+    <div className={classes.container}>
+      <Typography variant="subtitle1" className={classes.label}>
+        {t('views.indicatorFilter.label')}
       </Typography>
+
       <div className={classes.selector}>
         <Select
-          value={data}
-          onChange={value => onChange(value)}
+          value={indicator}
+          onChange={value => onChangeIndicator(value)}
           placeholder=""
           isLoading={loading}
-          loadingMessage={() => t('views.hubsFilter.loading')}
-          noOptionsMessage={() => t('views.hubsFilter.noOption')}
-          options={hubs}
+          loadingMessage={() => t('views.indicatorFilter.loading')}
+          noOptionsMessage={() => t('views.indicatorFilter.noMatchFilters')}
+          options={indicatorOptions}
           components={{
             DropdownIndicator: () => <div />,
-            IndicatorSeparator: () => <div />
+            IndicatorSeparator: () => <div />,
+            ClearIndicator: () => <div />
           }}
+          closeMenuOnSelect={false}
           styles={selectStyle}
-          isClearable
-          hideSelectedOptions
+          isMulti={isMulti}
         />
       </div>
     </div>
@@ -114,4 +123,4 @@ const HubsFilter = ({ user, data, onChange, stacked }) => {
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps)(HubsFilter);
+export default connect(mapStateToProps)(IndicatorsFilter);

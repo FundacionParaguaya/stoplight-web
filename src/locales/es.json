@@ -377,13 +377,19 @@
     },
     "surveysFilter": {
       "label": "Encuesta",
-      "loading": "Loading...",
+      "loading": "Cargando...",
       "noOption": "No quedan Encuestas",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
     "dateRangeFilter": {
       "from": "Desde",
       "to": "Hasta"
+    },
+    "indicatorFilter": {
+      "label": "Indicador",
+      "loading": "Cargando...",
+      "noOption": "No quedan indicadores",
+      "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
     "nonProdWarning": {
       "title": "¡Hola!",
@@ -602,6 +608,38 @@
         "cannotUndo": "Esto no se puede deshacer.",
         "success": "El usuario fue eliminado",
         "failed": "El usuario no pudo ser eliminado por que cuenta con datos asociados"
+      }
+    },
+    "report": {
+      "filters": {
+        "followUpSurvey": "Incluir encuestas de seguimiento de las familias",
+        "surveyRequired": "Este campo es obligatorio",
+        "advancedOptions": "Opciones avanzadas",
+        "indicator": "Indicador",
+        "red": "Rojo",
+        "yellow": "Amarillo",
+        "green": "Verde"
+      },
+      "table": {
+        "surveys": "encuestas",
+        "singleSurvey": "encuesta",
+        "families": "familias",
+        "singleFamily": "famlia",
+        "familyName": "Familia",
+        "surveyDate": "Fecha de Encuesta",
+        "surveyNumber": "Número de Encuesta",
+        "noRecords": "No se encontraron registros",
+        "chooseFilters": "!Elija algunos filtros y luego haga click en ",
+        "chooseFiltersEnd": " para descargar los resultados!",
+        "empty": "No hay resultados que coincidan con tus filtros"
+      },
+      "buttons": {
+        "applyFilters": "Aplicar",
+        "resetFilters": "Resetear",
+        "downloadReport": "Descargar Reporte",
+        "pleaseWait": "Aguarde un momento, su reporte está siendo descargado",
+        "downloadSemaforito": "Semaforito",
+        "somethingWrong": "Ocurrió un error"
       }
     },
     "404": {

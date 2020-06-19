@@ -8,14 +8,17 @@ import * as _ from 'lodash';
 import { getSurveysByUser } from '../api';
 
 const selectStyle = {
-  control: (styles, { isFocused }) => ({
-    ...styles,
-    backgroundColor: '#FFFFFF;',
-    borderRadius: 2,
-    '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
-    border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
-    boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none'
-  }),
+  control: (styles, { isFocused, selectProps }) => {
+    return {
+      ...styles,
+      backgroundColor:
+        isFocused || !selectProps.required ? '#FFFFFF' : '#f3f4f6',
+      borderRadius: 2,
+      '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
+      border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
+      boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none'
+    };
+  },
   multiValueLabel: styles => ({
     ...styles,
     fontSize: 14,
@@ -50,10 +53,30 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center'
   },
   label: { marginRight: 10, fontSize: 14 },
-  selector: { width: '100%' }
+  selector: { width: '100%' },
+  stackedContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: 5
+  },
+  stackedLabel: {
+    marginBottom: 5,
+    fontSize: 14
+  }
 }));
 
-const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
+const SurveysFilter = ({
+  user,
+  data,
+  onChange,
+  hub,
+  organizations,
+  isMulti,
+  stacked,
+  required
+}) => {
   const [surveys, setSurveys] = useState([]);
   const [allSurveys, setAllSurveys] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,14 +86,17 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
   const loadSurveysByUser = () => {
     getSurveysByUser(user)
       .then(response => {
-        console.log(response);
-        const surveysFromAPI = _.get(response, 'data', []).map(survey => ({
+        const surveysFromAPI = _.get(
+          response,
+          'data.data.surveysInfoWithOrgs',
+          []
+        ).map(survey => ({
           label: survey.title,
           value: survey.id,
           applications: survey.applications,
           organizations: survey.organizations
         }));
-        //console.log('Setting orgs ', loading);
+
         setSurveys(surveysFromAPI);
         setAllSurveys(surveysFromAPI);
       })
@@ -82,11 +108,8 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
   };
 
   const reloadSurveyFilter = () => {
-    //console.log(' Calling loading surveys by hub and orgs ', loading);
-    //console.log(' all surveys ', allSurveys);
-
     if (!loading && allSurveys.length > 0) {
-      if (hub || organizations.length > 0) {
+      if (!!hub.value || organizations.length > 0) {
         setLoading(true);
 
         const newSurveyList = allSurveys.filter(survey => {
@@ -96,11 +119,9 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
           );
         });
 
-        //console.log(' New list of surveys is: ', newSurveyList);
         setSurveys(newSurveyList);
         setLoading(false);
       } else {
-        //console.log(' Setting list of survey all ', allSurveys);
         setSurveys(allSurveys);
       }
     }
@@ -133,9 +154,12 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
   };
 
   return (
-    <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
-        {t('views.surveysFilter.label')}
+    <div className={stacked ? classes.stackedContainer : classes.container}>
+      <Typography
+        variant="subtitle1"
+        className={stacked ? classes.stackedLabel : classes.label}
+      >
+        {`${t('views.surveysFilter.label')} ${required ? ' *' : ''}`}
       </Typography>
       <div className={classes.selector}>
         <Select
@@ -152,8 +176,9 @@ const SurveysFilter = ({ user, data, onChange, hub, organizations }) => {
           }}
           styles={selectStyle}
           isClearable
-          isMulti
+          isMulti={isMulti}
           hideSelectedOptions
+          required={required}
         />
       </div>
     </div>
