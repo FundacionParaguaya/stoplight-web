@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
@@ -52,6 +53,7 @@ const ReportsFilters = ({
   onFromDateChanged,
   onToDateChanged,
   toggleIncludeRetake,
+  error,
   user
 }) => {
   const { t } = useTranslation();
@@ -83,7 +85,13 @@ const ReportsFilters = ({
             organizations={organizationsData}
             isMulti={false}
             stacked={true}
+            required={true}
           />
+          {error.display && error.touched && (
+            <FormHelperText error={error.display}>
+              {t('views.report.filters.surveyRequired')}
+            </FormHelperText>
+          )}
         </Grid>
         <Grid item md={12} sm={12} xs={12}>
           <DateRangeFilters

@@ -612,6 +612,7 @@
     "report": {
       "filters": {
         "followUpSurvey": "Include follow-up surveys of families",
+        "surveyRequired": "This filter is required",
         "advancedOptions": "Advanced Options",
         "indicator": "Indicator",
         "red": "Red",

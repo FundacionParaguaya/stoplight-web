@@ -126,12 +126,17 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
   const [hideColumns, setHideColumns] = useState(true);
   const [resetPagination, setResetPagination] = useState();
   const [totalRows, setTotalRow] = useState(0);
-  const [totalFamilies, setTotalFamilies] = useState(3);
+  const [totalFamilies, setTotalFamilies] = useState(0);
   const [allowSearch, setAllowSearch] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({ display: false, touched: false });
 
   useEffect(() => {
     setAllowSearch(!!filterInput.survey && !!filterInput.survey.value);
+    setError({
+      display: !filterInput.survey || !filterInput.survey.value,
+      touched: error.touched
+    });
   }, [filterInput.survey]);
 
   const filtersPreProcessing = filters => {
@@ -225,18 +230,17 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
 
   const handleDownloadReport = user => {
     setLoading(true);
+    enqueueSnackbar(t('views.report.buttons.pleaseWait'), {
+      variant: 'success',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
     const sanitazedFilters = filtersPreProcessing(filterInput);
     downloadReports(user, sanitazedFilters)
       .then(response => {
-        enqueueSnackbar(t('views.report.buttons.pleaseWait'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
-
         let blob = new Blob([response.data], {
           type:
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -246,6 +250,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
         tempLink.href = url;
         tempLink.setAttribute('download', 'Surveys.xlsx');
         tempLink.click();
+        setLoading(false);
       })
       .catch(e => {
         console.log(e);
@@ -258,23 +263,21 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
           )
         });
       });
-    setLoading(false);
   };
 
   const handleDownloadSemaforito = user => {
     setLoading(true);
+    enqueueSnackbar(t('views.report.buttons.pleaseWait'), {
+      variant: 'success',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
     const sanitazedFilters = filtersPreProcessing(filterInput);
     downloadSemaforito(user, sanitazedFilters)
       .then(response => {
-        enqueueSnackbar(t('views.report.buttons.pleaseWait'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
-
         let blob = new Blob([response.data], {
           type:
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -284,6 +287,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
         tempLink.href = url;
         tempLink.setAttribute('download', 'Surveys-Semaforito.xlsx');
         tempLink.click();
+        setLoading(false);
       })
       .catch(e => {
         console.log(e);
@@ -296,7 +300,6 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
           )
         });
       });
-    setLoading(false);
   };
 
   const onChangeFilterValue = filter => {
@@ -338,6 +341,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
             toggleIncludeRetake={() =>
               onChangeFilterValue({ includeRetake: !filterInput.includeRetake })
             }
+            error={error}
           />
           <Accordion>
             <AccordionItem
@@ -376,8 +380,9 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
                 setFilterInput({
                   hub: {},
                   organizations: [],
-                  fromDate: '',
-                  toDate: '',
+                  survey: null,
+                  fromDate: null,
+                  toDate: null,
                   includeRetake: false,
                   facilitators: [],
                   indicator: [],
@@ -390,7 +395,10 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
 
             <Button
               variant="contained"
-              onClick={() => tableRef.current.onQueryChange()}
+              onClick={() => {
+                setError({ display: error.display, touched: true });
+                tableRef.current.onQueryChange();
+              }}
             >
               {t('views.report.buttons.applyFilters')}
             </Button>
@@ -403,6 +411,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
             {showSemaforitoButton(user, totalRows) ? (
               <Button
                 variant="contained"
+                disabled={loading}
                 onClick={() => {
                   handleDownloadSemaforito(user);
                 }}
@@ -412,6 +421,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
             ) : (
               <Button
                 variant="contained"
+                disabled={loading}
                 onClick={() => {
                   handleDownloadReport(user);
                 }}

@@ -613,6 +613,7 @@
     "report": {
       "filters": {
         "followUpSurvey": "Incluir múltiplos snapshots por família",
+        "surveyRequired": "Este campo é obrigatório",
         "advancedOptions": "Opções avançadas",
         "indicator": "Indicador",
         "red": "Vermelho",

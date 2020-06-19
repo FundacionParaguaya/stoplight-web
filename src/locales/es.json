@@ -613,6 +613,7 @@
     "report": {
       "filters": {
         "followUpSurvey": "Incluir encuestas de seguimiento de las familias",
+        "surveyRequired": "Este campo es obligatorio",
         "advancedOptions": "Opciones avanzadas",
         "indicator": "Indicador",
         "red": "Rojo",
