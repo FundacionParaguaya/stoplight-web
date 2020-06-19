@@ -8,14 +8,17 @@ import * as _ from 'lodash';
 import { getSurveysByUser } from '../api';
 
 const selectStyle = {
-  control: (styles, { isFocused }) => ({
-    ...styles,
-    backgroundColor: '#FFFFFF;',
-    borderRadius: 2,
-    '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
-    border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
-    boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none'
-  }),
+  control: (styles, { isFocused, selectProps }) => {
+    return {
+      ...styles,
+      backgroundColor:
+        isFocused || !selectProps.required ? '#FFFFFF' : '#f3f4f6',
+      borderRadius: 2,
+      '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
+      border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
+      boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none'
+    };
+  },
   multiValueLabel: styles => ({
     ...styles,
     fontSize: 14,
@@ -71,7 +74,8 @@ const SurveysFilter = ({
   hub,
   organizations,
   isMulti,
-  stacked
+  stacked,
+  required
 }) => {
   const [surveys, setSurveys] = useState([]);
   const [allSurveys, setAllSurveys] = useState([]);
@@ -156,7 +160,7 @@ const SurveysFilter = ({
         variant="subtitle1"
         className={stacked ? classes.stackedLabel : classes.label}
       >
-        {t('views.surveysFilter.label')}
+        {`${t('views.surveysFilter.label')} ${required ? ' *' : ''}`}
       </Typography>
       <div className={classes.selector}>
         <Select
@@ -175,6 +179,7 @@ const SurveysFilter = ({
           isClearable
           isMulti={isMulti}
           hideSelectedOptions
+          required={required}
         />
       </div>
     </div>
