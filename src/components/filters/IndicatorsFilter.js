@@ -112,9 +112,9 @@ const IndicatorsFilter = ({
             IndicatorSeparator: () => <div />,
             ClearIndicator: () => <div />
           }}
-          closeMenuOnSelect={false}
           styles={selectStyle}
           isMulti={isMulti}
+          closeMenuOnSelect={true}
         />
       </div>
     </div>
