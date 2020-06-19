@@ -100,11 +100,15 @@ export const getSurveys = user =>
 // get a list of surveys available to the authorized used
 export const getSurveysByUser = user =>
   axios({
-    method: 'get',
-    url: `${url[user.env]}/api/v1/surveys/info`,
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
-    }
+    },
+    data: JSON.stringify({
+      query:
+        'query { surveysInfoWithOrgs { id, title, applications { id }, organizations { id } } }'
+    })
   });
 
 export const surveysByUserPaginated = (user, page) =>

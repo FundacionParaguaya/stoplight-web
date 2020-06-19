@@ -86,13 +86,17 @@ const SurveysFilter = ({
   const loadSurveysByUser = () => {
     getSurveysByUser(user)
       .then(response => {
-        const surveysFromAPI = _.get(response, 'data', []).map(survey => ({
+        const surveysFromAPI = _.get(
+          response,
+          'data.data.surveysInfoWithOrgs',
+          []
+        ).map(survey => ({
           label: survey.title,
           value: survey.id,
           applications: survey.applications,
           organizations: survey.organizations
         }));
-        //console.log('Setting orgs ', loading);
+
         setSurveys(surveysFromAPI);
         setAllSurveys(surveysFromAPI);
       })
@@ -104,11 +108,8 @@ const SurveysFilter = ({
   };
 
   const reloadSurveyFilter = () => {
-    //console.log(' Calling loading surveys by hub and orgs ', loading);
-    //console.log(' all surveys ', allSurveys);
-
     if (!loading && allSurveys.length > 0) {
-      if (hub || organizations.length > 0) {
+      if (!!hub.value || organizations.length > 0) {
         setLoading(true);
 
         const newSurveyList = allSurveys.filter(survey => {
@@ -118,11 +119,9 @@ const SurveysFilter = ({
           );
         });
 
-        //console.log(' New list of surveys is: ', newSurveyList);
         setSurveys(newSurveyList);
         setLoading(false);
       } else {
-        //console.log(' Setting list of survey all ', allSurveys);
         setSurveys(allSurveys);
       }
     }
