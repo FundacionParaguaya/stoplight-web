@@ -109,12 +109,13 @@ const SurveysFilter = ({
 
   const reloadSurveyFilter = () => {
     if (!loading && allSurveys.length > 0) {
-      if (!!hub.value || organizations.length > 0) {
+      if ((!!hub && !!hub.value) || organizations.length > 0) {
         setLoading(true);
 
         const newSurveyList = allSurveys.filter(survey => {
           return (
-            (!hub || survey.applications.some(e => e.id === hub.value)) &&
+            ((!!hub && !hub.value) ||
+              survey.applications.some(e => e.id === hub.value)) &&
             (organizations.length === 0 || existsOrgs(survey, organizations))
           );
         });

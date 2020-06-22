@@ -625,6 +625,7 @@
         "families": "families",
         "singleFamily": "family",
         "familyName": "Family Name",
+        "familyCode": "Family Code",
         "surveyDate": "Survey Date",
         "surveyNumber": "Survey Number",
         "noRecords": "No records found",
