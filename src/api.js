@@ -1013,7 +1013,7 @@ export const searchRecords = (user, filters) =>
     },
     data: JSON.stringify({
       query:
-        'query searchSnapshots( $surveyDefinition: Long!, $hubs: [Long], $orgs: [Long], $fromDate: Long, $toDate: Long, $followupSurveys: Boolean, $surveyUsers: [Long], $stoplightFilters: [StoplightFilterInput],  $page: Int  $sortBy: String, $sortDirection: String) { searchSnapshots ( surveyDefinition: $surveyDefinition, hubs: $hubs, orgs: $orgs, fromDate: $fromDate, toDate: $toDate, followupSurveys: $followupSurveys, surveyUsers: $surveyUsers, stoplightFilters: $stoplightFilters, page: $page, sortBy: $sortBy, sortDirection: $sortDirection) { page totalElements totalPages additionalData content {family familyName surveyDate surveyNumber }  } }',
+        'query searchSnapshots( $surveyDefinition: Long!, $hubs: [Long], $orgs: [Long], $fromDate: Long, $toDate: Long, $followupSurveys: Boolean, $surveyUsers: [Long], $stoplightFilters: [StoplightFilterInput],  $page: Int  $sortBy: String, $sortDirection: String) { searchSnapshots ( surveyDefinition: $surveyDefinition, hubs: $hubs, orgs: $orgs, fromDate: $fromDate, toDate: $toDate, followupSurveys: $followupSurveys, surveyUsers: $surveyUsers, stoplightFilters: $stoplightFilters, page: $page, sortBy: $sortBy, sortDirection: $sortDirection) { page totalElements totalPages additionalData content {family familyName familyCode surveyDate surveyNumber }  } }',
       variables: {
         surveyDefinition: filters.survey.value,
         hubs: filters.hubs,
@@ -1025,7 +1025,7 @@ export const searchRecords = (user, filters) =>
         stoplightFilters: filters.stoplightFilters,
         page: filters.page,
         sortBy: filters.sortBy,
-        sortDirection: filters.sortDirection
+        sortDirection: filters.orderDirection
       }
     })
   });
@@ -1048,7 +1048,7 @@ export const downloadReports = (user, filters) =>
       stoplightFilters: filters.stoplightFilters,
       page: filters.page,
       sortBy: filters.sortBy,
-      sortDirection: filters.sortDirection
+      sortDirection: filters.orderDirection
     }),
     responseType: 'arraybuffer'
   });

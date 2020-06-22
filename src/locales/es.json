@@ -626,6 +626,7 @@
         "families": "familias",
         "singleFamily": "famlia",
         "familyName": "Familia",
+        "familyCode": "Código",
         "surveyDate": "Fecha de Encuesta",
         "surveyNumber": "Número de Encuesta",
         "noRecords": "No se encontraron registros",
