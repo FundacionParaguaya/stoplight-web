@@ -154,10 +154,13 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
         values
       };
     });
+
+    const survey = !!filters.survey ? filters.survey : {};
     const surveyUsers = filters.facilitators.map(f => f.value);
 
     return {
       ...filters,
+      survey,
       hubs,
       orgs,
       surveyUsers,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable, { MTableBody } from 'material-table';
@@ -9,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { theme, COLORS } from '../../theme';
 import InfoIcon from '@material-ui/icons/Info';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
@@ -104,10 +106,10 @@ const useStyles = makeStyles(theme => ({
 const ReportTable = ({
   loadFamilies,
   tableRef,
-  allowSearch,
   numberOfRows,
   totalFamilies,
-  hideColumns
+  hideColumns,
+  user
 }) => {
   const {
     t,
@@ -126,11 +128,13 @@ const ReportTable = ({
         ? t('views.report.table.singleSurvey')
         : t('views.report.table.surveys');
     let familiesText =
-      totalFamilies === 1
+      parseInt(totalFamilies) === 1
         ? t('views.report.table.singleFamily')
         : t('views.report.table.families');
     return `${numberOfRows} ${surveysText} - ${totalFamilies} ${familiesText}`;
   };
+
+  const isPsteam = ({ role }) => role === ROLES_NAMES.ROLE_PS_TEAM;
 
   return (
     <div className={classes.familyContainer}>
@@ -210,23 +214,31 @@ const ReportTable = ({
           }
         }}
         columns={[
-          //Column Family Name
+          //Column Family Name or Code name
           {
-            title: t('views.report.table.familyName'),
-            field: 'name',
+            title: isPsteam(user)
+              ? t('views.report.table.familyCode')
+              : t('views.report.table.familyName'),
+            field: isPsteam(user) ? 'familyCode' : 'familyName',
             grouping: false,
             removable: false,
             disableClick: true,
             readonly: true,
             hidden: hideColumns,
-            render: rowData => (
-              <Link
-                to={`/family/${rowData.family}`}
-                className={classes.nameLabelStyle}
-              >
-                {rowData.familyName}
-              </Link>
-            )
+            render: rowData => {
+              return isPsteam(user) ? (
+                <Typography className={classes.nameLabelStyle} variant="h6">
+                  {rowData.familyCode}
+                </Typography>
+              ) : (
+                <Link
+                  to={`/family/${rowData.family}`}
+                  className={classes.nameLabelStyle}
+                >
+                  {rowData.familyName}
+                </Link>
+              );
+            }
           },
           // Survey Date
           {
@@ -280,4 +292,6 @@ const ReportTable = ({
   );
 };
 
-export default ReportTable;
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(ReportTable);
