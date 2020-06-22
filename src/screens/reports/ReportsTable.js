@@ -261,6 +261,7 @@ const ReportTable = ({
             title: t('views.report.table.surveyNumber'),
             field: 'surveyNumber',
             hidden: hideColumns,
+            sorting: false,
             render: rowData => (
               <Typography className={classes.nameLabelStyle} variant="h6">
                 {`N° ${rowData.surveyNumber}`}
