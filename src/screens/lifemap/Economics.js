@@ -10,10 +10,7 @@ import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import ReactPlayer from 'react-player/lazy';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import LinearProgress from '@material-ui/core/LinearProgress';
+
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateDraft } from '../../redux/actions';
@@ -32,6 +29,7 @@ import {
 } from '../../utils/conditional-logic';
 import CheckboxWithFormik from '../../components/CheckboxWithFormik';
 import InputWithDep from '../../components/InputWithDep';
+import AudioHelp from '../../components/AudioHelp';
 
 let FamilyMemberTitle = ({ name, classes }) => (
   <div className={classes.familyMemberNameLarge}>
@@ -401,46 +399,21 @@ export class Economics extends Component {
         <TitleBar title={topic} progressBar />
         <div className={classes.mainContainer}>
           <Container variant="slim">
-            <div className={classes.playerContainer}>
-              {!!playTopicAudio ? (
-                <>
-                  <PauseCircleFilledIcon
-                    onClick={() =>
-                      this.setState({ playTopicAudio: !playTopicAudio })
-                    }
-                    className={`material-icons ${classes.icon}`}
-                  />
-                  <LinearProgress
-                    variant="determinate"
-                    className={classes.progressBar}
-                    value={(audioProgress / audioDuration) * 100}
-                  />
-                </>
-              ) : (
-                <PlayCircleFilledIcon
-                  onClick={() =>
-                    this.setState({ playTopicAudio: !playTopicAudio })
-                  }
-                  className={`material-icons ${classes.icon}`}
-                />
-              )}
-              <ReactPlayer
-                width="0px"
-                height="0px"
-                onDuration={e => this.setState({ audioDuration: e })}
-                onProgress={e =>
-                  this.setState({ audioProgress: e.playedSeconds })
-                }
-                playing={playTopicAudio}
-                url={topicAudio}
-                config={{
-                  file: {
-                    forceAudio: true
-                  }
-                }}
-              />
-            </div>
-
+            <AudioHelp
+              topicAudio={topicAudio}
+              playTopicAudio={playTopicAudio}
+              handlePlayPause={() =>
+                this.setState({ playTopicAudio: !playTopicAudio })
+              }
+              audioDuration={audioDuration}
+              audioProgress={audioProgress}
+              setPlayedSeconds={playedSeconds =>
+                this.setState({ audioProgress: playedSeconds })
+              }
+              setDuration={duration =>
+                this.setState({ audioDuration: duration })
+              }
+            />
             <Formik
               enableReinitialize
               initialValues={initialValues}
@@ -981,7 +954,9 @@ const styles = theme => ({
   },
   playerContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 10
   },
   progressBar: {
     marginLeft: 10,
@@ -992,6 +967,11 @@ const styles = theme => ({
     color: 'green',
     cursor: 'pointer',
     fontSize: 30
+  },
+  audioHelp: {
+    marginLeft: 5,
+    font: 'Roboto',
+    fontWeight: 400
   }
 });
 
