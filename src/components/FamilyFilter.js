@@ -123,14 +123,12 @@ const FamilyFilter = ({
         alignItems="center"
       >
         {showHubFilters(user) && (
-          <Grid item md={12} sm={4} xs={12}>
-            <Grid item md={6} sm={4} xs={12}>
-              <HubsFilter data={hubData} onChange={onChangeHub} />
-            </Grid>
+          <Grid item md={4} sm={4} xs={12}>
+            <HubsFilter data={hubData} onChange={onChangeHub} />
           </Grid>
         )}
         {showOrgFilters(user) && (
-          <Grid item md={6} sm={4} xs={12}>
+          <Grid item md={8} sm={8} xs={12}>
             <OrganizationsFilter
               data={organizationsData}
               onChange={onChangeOrganization}
@@ -139,7 +137,7 @@ const FamilyFilter = ({
           </Grid>
         )}
 
-        <Grid item md={6} sm={4} xs={12}>
+        <Grid item md={12} sm={12} xs={12}>
           <div className={classes.containerFamilySearch}>
             <Typography variant="subtitle1" className={classes.label}>
               {t('views.familyList.search')}
