@@ -75,7 +75,8 @@ const SurveysFilter = ({
   organizations,
   isMulti,
   stacked,
-  required
+  required,
+  preSelect
 }) => {
   const [surveys, setSurveys] = useState([]);
   const [allSurveys, setAllSurveys] = useState([]);
@@ -139,6 +140,10 @@ const SurveysFilter = ({
     reloadSurveyFilter();
   }, [organizations, hub]);
 
+  useEffect(() => {
+    preSelect && surveys.length > 0 && onChange(surveys[0]);
+  }, [surveys]);
+
   //This check if the survey is asociated with some of the organization list
   const existsOrgs = (survey, organizationsSelected) => {
     let exits = false;
@@ -176,7 +181,7 @@ const SurveysFilter = ({
             IndicatorSeparator: () => <div />
           }}
           styles={selectStyle}
-          isClearable
+          isClearable={false}
           isMulti={isMulti}
           hideSelectedOptions
           required={required}
