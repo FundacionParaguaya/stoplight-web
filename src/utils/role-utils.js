@@ -17,7 +17,7 @@ export const ROLES = {
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: OLD }
+    { item: 'map', platform: NEW }
   ],
   ROLE_HUB_ADMIN: [
     // Hub admin user
@@ -28,7 +28,7 @@ export const ROLES = {
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: OLD }
+    { item: 'map', platform: NEW }
   ],
   ROLE_PS_TEAM: [
     // PS Team user
@@ -37,7 +37,7 @@ export const ROLES = {
     { item: 'hubs', platform: NEW },
     { item: 'users', platform: NEW },
     { item: 'surveysList', platform: NEW },
-    { item: 'map', platform: OLD },
+    { item: 'map', platform: NEW },
     { item: 'organizations', platform: ACCESS }
   ],
   ROLE_APP_ADMIN: [
@@ -48,7 +48,7 @@ export const ROLES = {
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: OLD }
+    { item: 'map', platform: NEW }
   ],
   ROLE_SURVEY_USER: [
     // Facilitator user
@@ -57,7 +57,7 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: OLD }
+    { item: 'map', platform: NEW }
   ],
   ROLE_SURVEY_USER_ADMIN: [
     // Facilitator admin user
@@ -66,7 +66,7 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: OLD }
+    { item: 'map', platform: NEW }
   ],
   ROLE_SURVEY_TAKER: [
     // Surveyor  user
