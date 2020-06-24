@@ -525,6 +525,11 @@
           "companyEmployees": "Colaboradores da empresa",
           "programBeneficiaries": "Beneficiários do programa",
           "other": "Outros"
+        },
+        "endSurveyType": "Tipo de aplicação",
+        "endSurveyTypeOptions": {
+          "facilitation": "Facilitação",
+          "sendingUniqueLink": "Via link"
         }
       }
     },

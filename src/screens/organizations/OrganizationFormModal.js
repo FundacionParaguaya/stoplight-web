@@ -211,6 +211,19 @@ const OrganizationFormModal = ({
     }
   ];
 
+  const endSurveyTypeTypeOptions = [
+    {
+      label: t('views.organization.form.endSurveyTypeOptions.facilitation'),
+      value: 'FACILIATION'
+    },
+    {
+      label: t(
+        'views.organization.form.endSurveyTypeOptions.sendingUniqueLink'
+      ),
+      value: 'SENDING_UNIQUE_LINK'
+    }
+  ];
+
   //Validation criterias
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -376,6 +389,9 @@ const OrganizationFormModal = ({
                 null,
               finalUserType:
                 (!!organization.finalUserType && organization.finalUserType) ||
+                null,
+              endSurveyType:
+                (!!organization.endSurveyType && organization.endSurveyType) ||
                 null
             }}
             enableReinitialize
@@ -421,6 +437,15 @@ const OrganizationFormModal = ({
                 label={t('views.organization.form.finalUserType')}
                 name="finalUserType"
                 rawOptions={finalUserTypeOptions}
+                labelKey="label"
+                valueKey="value"
+                isClearable={false}
+              />
+
+              <AutocompleteWithFormik
+                label={t('views.organization.form.endSurveyType')}
+                name="endSurveyType"
+                rawOptions={endSurveyTypeTypeOptions}
                 labelKey="label"
                 valueKey="value"
                 isClearable={false}

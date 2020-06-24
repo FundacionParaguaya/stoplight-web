@@ -524,6 +524,11 @@
           "companyEmployees": "Company employees",
           "programBeneficiaries": "Program beneficiaries",
           "other": "Other"
+        },
+        "endSurveyType": "End-survey type",
+        "endSurveyTypeOptions": {
+          "facilitation": "Facilitation",
+          "sendingUniqueLink": "Sending unique link"
         }
       }
     },
