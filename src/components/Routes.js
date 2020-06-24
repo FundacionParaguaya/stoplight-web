@@ -14,6 +14,7 @@ import Families from '../screens/Families';
 import Dashboard from '../screens/Dashboard';
 import Users from '../screens/Users';
 import Reports from '../screens/Reports';
+import Maps from '../screens/Maps';
 import PageNotFound from '../screens/PageNotFound';
 
 const Routes = ({ user }) => {
@@ -54,6 +55,7 @@ const Routes = ({ user }) => {
       {checkAccess(user, 'reports') && (
         <Route path="/reports" component={Reports} />
       )}
+      {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
       <Route render={() => <PageNotFound user={user} />} />
     </Switch>
   );

@@ -642,6 +642,12 @@
         "somethingWrong": "Something went wrong"
       }
     },
+    "map": {
+      "filters": {
+        "search": "Search",
+        "searchBy": " by name"
+      }
+    },
     "404": {
       "missing": "Something’s missing!",
       "pageNotFound": "This page is missing or could not be found.",
