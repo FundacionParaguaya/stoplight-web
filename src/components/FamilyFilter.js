@@ -18,11 +18,10 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     //padding: `${theme.spacing(4)}px 0`,
     paddingBottom: 20,
-    zIndex: 99,
     position: 'relative'
   },
   innerContainer: {
-    zIndex: 2
+    zIndex: 11 // To override material table
   },
   familiesFilterContainer: {
     display: 'flex',
@@ -47,7 +46,8 @@ const useStyles = makeStyles(theme => ({
     color: '#6A6A6A',
     fontFamily: theme.typography.subtitle1.fontFamily,
     fontWeight: theme.typography.fontWeightMedium,
-    fontSize: '13px'
+    fontSize: '13px',
+    zIndex: 0
   },
   familiesFilterLabelInput: {
     transform: 'translate(14px, -6px) scale(0.75)!important'
