@@ -123,7 +123,7 @@ const FamilyFilter = ({
         alignItems="center"
       >
         {showHubFilters(user) && (
-          <Grid item md={4} sm={4} xs={12}>
+          <Grid item md={12} sm={12} xs={12}>
             <HubsFilter data={hubData} onChange={onChangeHub} />
           </Grid>
         )}
