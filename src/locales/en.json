@@ -629,6 +629,8 @@
         "singleSurvey": "survey",
         "families": "families",
         "singleFamily": "family",
+        "represents": "represents",
+        "represent": "represent",
         "familyName": "Family Name",
         "familyCode": "Family Code",
         "surveyDate": "Survey Date",

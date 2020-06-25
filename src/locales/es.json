@@ -630,6 +630,8 @@
         "singleSurvey": "encuesta",
         "families": "familias",
         "singleFamily": "familia",
+        "represents": "representan",
+        "represent": "representa",
         "familyName": "Familia",
         "familyCode": "Código",
         "surveyDate": "Fecha de Encuesta",
