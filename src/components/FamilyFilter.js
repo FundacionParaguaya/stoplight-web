@@ -169,6 +169,7 @@ const FamilyFilter = ({
         <Grid item md={6} sm={6} xs={12}>
           <FacilitatorFilter
             data={facilitatorsData}
+            organizations={organizationsData}
             onChange={onChangeFacilitator}
             isMulti={true}
             label={t('views.facilitatorFilter.label')}

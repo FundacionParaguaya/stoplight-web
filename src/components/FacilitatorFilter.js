@@ -67,6 +67,7 @@ const useStyles = makeStyles(() => ({
 
 const FacilitatorFilter = ({
   user,
+  organizations,
   data,
   onChange,
   isMulti,
@@ -81,7 +82,11 @@ const FacilitatorFilter = ({
     setLoading(true);
     setFacilitators([]);
 
-    getMentors(user)
+    let orgIds = !organizations.some(org => org.value === 'ALL')
+      ? (organizations || []).map(o => o.value)
+      : [];
+
+    getMentors(user, orgIds)
       .then(response => {
         const mentors = _.get(
           response,
@@ -94,7 +99,7 @@ const FacilitatorFilter = ({
         setFacilitators(mentors);
       })
       .finally(() => setLoading(false));
-  }, [user]);
+  }, [user, organizations]);
 
   return (
     <div className={stacked ? classes.stackedContainer : classes.container}>

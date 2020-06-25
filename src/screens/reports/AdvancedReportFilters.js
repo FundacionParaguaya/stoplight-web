@@ -33,6 +33,7 @@ const showFalicitatorFilters = ({ role }) =>
 
 const AdvancedReportFilters = ({
   facilitatorsData,
+  organizationsData,
   survey,
   indicator,
   colorsData,
@@ -51,6 +52,7 @@ const AdvancedReportFilters = ({
           <Grid item md={12} sm={12} xs={12}>
             <FacilitatorFilter
               data={facilitatorsData}
+              organizations={organizationsData}
               onChange={onChangeFacilitator}
               isMulti={true}
               label={t('views.facilitatorFilter.label')}
