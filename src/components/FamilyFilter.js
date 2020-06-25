@@ -128,7 +128,7 @@ const FamilyFilter = ({
           </Grid>
         )}
         {showOrgFilters(user) && (
-          <Grid item md={8} sm={8} xs={12}>
+          <Grid item md={12} sm={12} xs={12}>
             <OrganizationsFilter
               data={organizationsData}
               onChange={onChangeOrganization}
@@ -166,7 +166,7 @@ const FamilyFilter = ({
         </Grid>
       </Grid>
       {showFalicitatorFilters(user) && (
-        <Grid item md={6} sm={6} xs={12}>
+        <Grid item md={12} sm={12} xs={12}>
           <FacilitatorFilter
             data={facilitatorsData}
             organizations={organizationsData}
