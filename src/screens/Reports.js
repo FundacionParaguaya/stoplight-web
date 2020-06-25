@@ -362,6 +362,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
             >
               <AdvancedReportsFilters
                 facilitatorsData={filterInput.facilitators}
+                organizationsData={filterInput.organizations}
                 survey={filterInput.survey}
                 indicator={filterInput.indicator}
                 colorsData={filterInput.colors}
