@@ -10,8 +10,8 @@ import { Typography } from '@material-ui/core';
 
 const AudioHelp = ({
   classes,
-  topicAudio,
-  playTopicAudio,
+  audio,
+  playAudio,
   audioProgress,
   audioDuration,
   handlePlayPause,
@@ -21,46 +21,44 @@ const AudioHelp = ({
 }) => {
   return (
     <>
-      {!!topicAudio && (
-        <div className={classes.playerContainer}>
-          {!!playTopicAudio ? (
-            <>
-              <PauseCircleFilledIcon
-                onClick={() => handlePlayPause()}
-                className={`material-icons ${classes.icon}`}
-              />
-              <LinearProgress
-                variant="determinate"
-                className={classes.progressBar}
-                value={(audioProgress / audioDuration) * 100}
-              />
-            </>
-          ) : (
-            <>
-              <PlayCircleFilledIcon
-                onClick={() => handlePlayPause()}
-                className={`material-icons ${classes.icon}`}
-              />
-              <Typography variant="subtitle1" className={classes.audioHelp}>
-                {t('views.survey.audioHelp')}
-              </Typography>
-            </>
-          )}
-          <ReactPlayer
-            width="0px"
-            height="0px"
-            onDuration={e => setDuration(e)}
-            onProgress={e => setPlayedSeconds(e.playedSeconds)}
-            playing={playTopicAudio}
-            url={topicAudio}
-            config={{
-              file: {
-                forceAudio: true
-              }
-            }}
-          />
-        </div>
-      )}
+      <div className={classes.playerContainer}>
+        {!!playAudio ? (
+          <>
+            <PauseCircleFilledIcon
+              onClick={() => handlePlayPause()}
+              className={`material-icons ${classes.icon}`}
+            />
+            <LinearProgress
+              variant="determinate"
+              className={classes.progressBar}
+              value={(audioProgress / audioDuration) * 100}
+            />
+          </>
+        ) : (
+          <>
+            <PlayCircleFilledIcon
+              onClick={() => handlePlayPause()}
+              className={`material-icons ${classes.icon}`}
+            />
+            <Typography variant="subtitle1" className={classes.audioHelp}>
+              {t('views.survey.audioHelp')}
+            </Typography>
+          </>
+        )}
+        <ReactPlayer
+          width="0px"
+          height="0px"
+          onDuration={e => setDuration(e)}
+          onProgress={e => setPlayedSeconds(e.playedSeconds)}
+          playing={playAudio}
+          url={audio}
+          config={{
+            file: {
+              forceAudio: true
+            }
+          }}
+        />
+      </div>
     </>
   );
 };

@@ -399,21 +399,23 @@ export class Economics extends Component {
         <TitleBar title={topic} progressBar />
         <div className={classes.mainContainer}>
           <Container variant="slim">
-            <AudioHelp
-              topicAudio={topicAudio}
-              playTopicAudio={playTopicAudio}
-              handlePlayPause={() =>
-                this.setState({ playTopicAudio: !playTopicAudio })
-              }
-              audioDuration={audioDuration}
-              audioProgress={audioProgress}
-              setPlayedSeconds={playedSeconds =>
-                this.setState({ audioProgress: playedSeconds })
-              }
-              setDuration={duration =>
-                this.setState({ audioDuration: duration })
-              }
-            />
+            {!!topicAudio && (
+              <AudioHelp
+                audio={topicAudio}
+                playAudio={playTopicAudio}
+                handlePlayPause={() =>
+                  this.setState({ playTopicAudio: !playTopicAudio })
+                }
+                audioDuration={audioDuration}
+                audioProgress={audioProgress}
+                setPlayedSeconds={playedSeconds =>
+                  this.setState({ audioProgress: playedSeconds })
+                }
+                setDuration={duration =>
+                  this.setState({ audioDuration: duration })
+                }
+              />
+            )}
             <Formik
               enableReinitialize
               initialValues={initialValues}
@@ -423,6 +425,7 @@ export class Economics extends Component {
               )}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
+                this.setState({ playTopicAudio: false });
                 this.handleContinue();
               }}
             >
