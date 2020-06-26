@@ -105,7 +105,14 @@ const styles = theme => ({
   }
 });
 
-const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
+const Reports = ({
+  classes,
+  t,
+  i18n: { language },
+  user,
+  enqueueSnackbar,
+  closeSnackbar
+}) => {
   const [filterInput, setFilterInput] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -143,7 +150,11 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
     //Pre-processing filters values
     let hubs = !!filters.hub && !!filters.hub.value ? [filters.hub] : [];
     hubs = hubs.map(h => h.value);
-    const orgs = filters.organizations.map(o => o.value);
+    let orgs = !filters.organizations.some(org => org.value === 'ALL')
+      ? filters.organizations
+      : [];
+    orgs = orgs.map(o => o.value);
+
     const stoplightFilters = filters.colors.map(c => {
       let values = [];
       c.values.green && values.push('3');
@@ -242,7 +253,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
       )
     });
     const sanitazedFilters = filtersPreProcessing(filterInput);
-    downloadReports(user, sanitazedFilters)
+    downloadReports(user, sanitazedFilters, language)
       .then(response => {
         let blob = new Blob([response.data], {
           type:
@@ -279,7 +290,7 @@ const Reports = ({ classes, t, user, enqueueSnackbar, closeSnackbar }) => {
       )
     });
     const sanitazedFilters = filtersPreProcessing(filterInput);
-    downloadSemaforito(user, sanitazedFilters)
+    downloadSemaforito(user, sanitazedFilters, language)
       .then(response => {
         let blob = new Blob([response.data], {
           type:

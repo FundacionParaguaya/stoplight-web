@@ -114,8 +114,12 @@ const SurveysFilter = ({
 
         const newSurveyList = allSurveys.filter(survey => {
           return (
-            (!hub || survey.applications.some(e => e.id === hub.value)) &&
-            (organizations.length === 0 || existsOrgs(survey, organizations))
+            (!hub ||
+              !hub.value ||
+              survey.applications.some(e => e.id === hub.value)) &&
+            (organizations.length === 0 ||
+              organizations.some(org => org.value === 'ALL') ||
+              existsOrgs(survey, organizations))
           );
         });
 
