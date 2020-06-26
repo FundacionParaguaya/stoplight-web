@@ -104,6 +104,7 @@
     "privacyPolicy": "Privacy Policy",
     "operations": "Operations",
     "survey": {
+      "audioHelp": "Audio help",
       "chooseSurvey": "Choose a survey",
       "welcome": "Welcome",
       "contains": "Contains",

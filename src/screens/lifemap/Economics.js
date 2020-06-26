@@ -10,6 +10,7 @@ import { withSnackbar } from 'notistack';
 import * as _ from 'lodash';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateDraft } from '../../redux/actions';
@@ -28,6 +29,7 @@ import {
 } from '../../utils/conditional-logic';
 import CheckboxWithFormik from '../../components/CheckboxWithFormik';
 import InputWithDep from '../../components/InputWithDep';
+import AudioHelp from '../../components/AudioHelp';
 
 let FamilyMemberTitle = ({ name, classes }) => (
   <div className={classes.familyMemberNameLarge}>
@@ -178,7 +180,10 @@ export class Economics extends Component {
     questions: null,
     initialized: false,
     topic: '',
-    initialValues: {}
+    initialValues: {},
+    playTopicAudio: false,
+    audioDuration: 1,
+    audioProgress: 1
   };
 
   handleContinue = shouldReplace => {
@@ -357,7 +362,15 @@ export class Economics extends Component {
   };
 
   render() {
-    const { questions, topic, initialValues, initialized } = this.state;
+    const {
+      questions,
+      topic,
+      initialValues,
+      initialized,
+      playTopicAudio,
+      audioProgress,
+      audioDuration
+    } = this.state;
     const {
       t,
       currentDraft,
@@ -366,6 +379,18 @@ export class Economics extends Component {
       enqueueSnackbar,
       closeSnackbar
     } = this.props;
+    let topicAudio = null;
+    if (questions && questions.forFamily.length > 0) {
+      topicAudio = questions.forFamily[0]
+        ? questions.forFamily[0].topicAudio
+        : null;
+    }
+    if (questions && questions.forFamilyMember.length > 0) {
+      topicAudio = questions.forFamilyMember[0]
+        ? questions.forFamilyMember[0].topicAudio
+        : null;
+    }
+
     if (!initialized) {
       return <TitleBar title={topic} />;
     }
@@ -374,6 +399,23 @@ export class Economics extends Component {
         <TitleBar title={topic} progressBar />
         <div className={classes.mainContainer}>
           <Container variant="slim">
+            {!!topicAudio && (
+              <AudioHelp
+                audio={topicAudio}
+                playAudio={playTopicAudio}
+                handlePlayPause={() =>
+                  this.setState({ playTopicAudio: !playTopicAudio })
+                }
+                audioDuration={audioDuration}
+                audioProgress={audioProgress}
+                setPlayedSeconds={playedSeconds =>
+                  this.setState({ audioProgress: playedSeconds })
+                }
+                setDuration={duration =>
+                  this.setState({ audioDuration: duration })
+                }
+              />
+            )}
             <Formik
               enableReinitialize
               initialValues={initialValues}
@@ -383,6 +425,7 @@ export class Economics extends Component {
               )}
               onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
+                this.setState({ playTopicAudio: false });
                 this.handleContinue();
               }}
             >
@@ -911,6 +954,27 @@ const styles = theme => ({
   },
   mainContainer: {
     marginTop: theme.spacing(5)
+  },
+  playerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 10
+  },
+  progressBar: {
+    marginLeft: 10,
+    width: '100%',
+    backgroundColor: '#d8d8d8'
+  },
+  icon: {
+    color: 'green',
+    cursor: 'pointer',
+    fontSize: 30
+  },
+  audioHelp: {
+    marginLeft: 5,
+    font: 'Roboto',
+    fontWeight: 400
   }
 });
 
