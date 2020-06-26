@@ -122,22 +122,40 @@ const FamilyFilter = ({
         className={classes.container}
         alignItems="center"
       >
-        {showHubFilters(user) && (
-          <Grid item md={4} sm={4} xs={12}>
-            <HubsFilter data={hubData} onChange={onChangeHub} />
-          </Grid>
+        {showHubFilters(user) ? (
+          <>
+            <Grid item md={6} sm={12} xs={12}>
+              <HubsFilter data={hubData} onChange={onChangeHub} />
+            </Grid>
+            <Grid item md={6} sm={12} xs={12}>
+              <OrganizationsFilter
+                data={organizationsData}
+                onChange={onChangeOrganization}
+                hub={hubData}
+              />
+            </Grid>
+          </>
+        ) : (
+          <>
+            {showOrgFilters(user) && (
+              <Grid item md={12} sm={12} xs={12}>
+                <OrganizationsFilter
+                  data={organizationsData}
+                  onChange={onChangeOrganization}
+                  hub={hubData}
+                />
+              </Grid>
+            )}
+          </>
         )}
-        {showOrgFilters(user) && (
-          <Grid item md={8} sm={8} xs={12}>
-            <OrganizationsFilter
-              data={organizationsData}
-              onChange={onChangeOrganization}
-              hub={hubData}
-            />
-          </Grid>
-        )}
-
-        <Grid item md={12} sm={12} xs={12}>
+        <Grid
+          item
+          md={6}
+          sm={6}
+          xs={12}
+          container
+          className={classes.container}
+        >
           <div className={classes.containerFamilySearch}>
             <Typography variant="subtitle1" className={classes.label}>
               {t('views.familyList.search')}
@@ -164,18 +182,18 @@ const FamilyFilter = ({
             />
           </div>
         </Grid>
+        {showFalicitatorFilters(user) && (
+          <Grid item md={6} sm={6} xs={12}>
+            <FacilitatorFilter
+              data={facilitatorsData}
+              organizations={organizationsData}
+              onChange={onChangeFacilitator}
+              isMulti={true}
+              label={t('views.facilitatorFilter.label')}
+            />
+          </Grid>
+        )}
       </Grid>
-      {showFalicitatorFilters(user) && (
-        <Grid item md={6} sm={6} xs={12}>
-          <FacilitatorFilter
-            data={facilitatorsData}
-            organizations={organizationsData}
-            onChange={onChangeFacilitator}
-            isMulti={true}
-            label={t('views.facilitatorFilter.label')}
-          />
-        </Grid>
-      )}
     </Grid>
   );
 };
