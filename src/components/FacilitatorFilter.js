@@ -82,7 +82,7 @@ const FacilitatorFilter = ({
     setLoading(true);
     setFacilitators([]);
 
-    let orgIds = !organizations.some(org => org.value === 'ALL')
+    let orgIds = !(organizations || []).some(org => org.value === 'ALL')
       ? (organizations || []).map(o => o.value)
       : [];
 
