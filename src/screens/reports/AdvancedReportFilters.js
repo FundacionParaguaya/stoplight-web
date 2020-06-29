@@ -47,7 +47,7 @@ const AdvancedReportFilters = ({
 
   return (
     <div className={classes.container}>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         {showFalicitatorFilters(user) && (
           <Grid item md={12} sm={12} xs={12}>
             <FacilitatorFilter

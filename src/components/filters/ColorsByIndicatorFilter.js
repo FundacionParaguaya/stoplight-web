@@ -15,13 +15,14 @@ const useStyles = makeStyles(theme => ({
 
   label: {
     marginRight: theme.spacing(1),
+    paddingLeft: 20,
     fontSize: 14,
     display: 'flex',
     height: '100%',
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   }
 }));
 

@@ -13,7 +13,8 @@ import BottomSpacer from '../components/BottomSpacer';
 import ReportsFilter from './reports/ReportsFilters';
 import AdvancedReportsFilters from './reports/AdvancedReportFilters';
 import { Accordion, AccordionItem } from 'react-sanfona';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 import { searchRecords, downloadReports, downloadSemaforito } from '../api';
 import ReportsTable from './reports/ReportsTable';
 import { ROLES_NAMES } from '../utils/role-utils';
@@ -29,7 +30,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     position: 'relative',
-    height: 230
+    height: 150
   },
   reportTitle: {
     color: theme.palette.primary.dark,
@@ -38,12 +39,12 @@ const styles = theme => ({
     marginBottom: 7,
     fontWeight: theme.typography.fontWeightMedium,
     lineHeight: 1.2,
-    paddingTop: 100
+    paddingTop: 60
   },
   reportImage: {
     display: 'block',
-    height: 240,
-    right: 10,
+    height: 165,
+    right: 50,
     position: 'absolute',
     top: -10,
     zIndex: 0,
@@ -56,7 +57,7 @@ const styles = theme => ({
     opacity: 1,
     backgroundColor: '#f3f4f687',
     padding: 20,
-    width: 400
+    width: 410
   },
   mainBody: {
     display: 'flex',
@@ -137,6 +138,7 @@ const Reports = ({
   const [allowSearch, setAllowSearch] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({ display: false, touched: false });
+  const [expandedFilters, setExpandedFilters] = useState(false);
 
   useEffect(() => {
     setAllowSearch(!!filterInput.survey && !!filterInput.survey.value);
@@ -359,6 +361,8 @@ const Reports = ({
           />
           <Accordion>
             <AccordionItem
+              onExpand={() => setExpandedFilters(!expandedFilters)}
+              onClose={() => setExpandedFilters(!expandedFilters)}
               title={
                 <div className={classes.advancedContainer}>
                   <Typography
@@ -367,7 +371,11 @@ const Reports = ({
                   >
                     {t('views.report.filters.advancedOptions')}
                   </Typography>
-                  <ExpandMore className={classes.expandIcon} />
+                  {!expandedFilters ? (
+                    <KeyboardArrowDown className={classes.expandIcon} />
+                  ) : (
+                    <KeyboardArrowUp className={classes.expandIcon} />
+                  )}
                 </div>
               }
             >
@@ -421,7 +429,7 @@ const Reports = ({
           <Container
             variant="fluid"
             className={classes.buttonContainerForm}
-            style={{ marginTop: 90 }}
+            style={{ marginTop: 70 }}
           >
             {showSemaforitoButton(user, totalRows) ? (
               <Button
@@ -446,7 +454,7 @@ const Reports = ({
             )}
           </Container>
         </div>
-        <div style={{ width: 'calc((100% - 400px))' }}>
+        <div style={{ width: 'calc((100% - 410px))' }}>
           <ReportsTable
             tableRef={tableRef}
             loadFamilies={loadFamilies}
