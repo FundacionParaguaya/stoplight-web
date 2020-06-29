@@ -65,6 +65,7 @@ const FamilyProfile = ({
   let { familyId } = useParams();
   const dateFormat = getDateFormatByLocale(language);
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
+  const [organizationId, setOrganizationId] = useState();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
   const [stoplightSkipped, setStoplightSkipped] = useState(false);
@@ -150,6 +151,7 @@ const FamilyProfile = ({
       );
 
       setFamily(response.data.data.familyById);
+      setOrganizationId(response.data.data.familyById.organization.id);
       setFirtsParticipant(firtsParticipantMap);
 
       let mentor = {
@@ -534,6 +536,9 @@ const FamilyProfile = ({
             <Grid item xs={6}>
               <FacilitatorFilter
                 data={selectedFacilitator}
+                organizations={
+                  !!organizationId ? [{ value: organizationId }] : null
+                }
                 isMulti={false}
                 onChange={onChangeFacilitator}
                 label={t('views.familyProfile.facilitator')}
