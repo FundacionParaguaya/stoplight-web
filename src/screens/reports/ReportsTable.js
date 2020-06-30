@@ -120,18 +120,27 @@ const ReportTable = ({
   const dateFormat = getDateFormatByLocale(language);
 
   const getCountText = (numberOfRows, totalFamilies) => {
-    if (totalFamilies === 0 || numberOfRows === 0) {
+    if (hideColumns) {
+      return '';
+    } else if (totalFamilies === 0 || numberOfRows === 0) {
       return t('views.report.table.noRecords');
     }
+
     let surveysText =
       numberOfRows === 1
         ? t('views.report.table.singleSurvey')
         : t('views.report.table.surveys');
+
+    let representText =
+      parseInt(totalFamilies) === 1
+        ? t('views.report.table.represent')
+        : t('views.report.table.represents');
+
     let familiesText =
       parseInt(totalFamilies) === 1
         ? t('views.report.table.singleFamily')
         : t('views.report.table.families');
-    return `${numberOfRows} ${surveysText} - ${totalFamilies} ${familiesText}`;
+    return `${numberOfRows} ${surveysText} - ${representText} ${totalFamilies} ${familiesText}`;
   };
 
   const isPsteam = ({ role }) => role === ROLES_NAMES.ROLE_PS_TEAM;

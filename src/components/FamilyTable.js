@@ -8,6 +8,7 @@ import { withSnackbar } from 'notistack';
 import familyFace from '../assets/family_face_large.png';
 import { Delete } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -63,17 +64,29 @@ const useStyles = makeStyles(theme => ({
   },
   nameLabelStyle: {
     fontSize: '14px',
-    width: '100%'
+    width: '100%',
+    maxWidth: '12vw',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   },
   documentLabel: {
     fontSize: '14px',
     color: '#909090',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    maxWidth: '12vw',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   },
 
   birthDateStyle: {
     fontSize: '14px',
-    color: '#909090'
+    color: '#909090',
+    maxWidth: '12vw',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   },
   deleteStyle: {
     cursor: 'pointer',
@@ -259,24 +272,31 @@ const FamilyTable = ({
             disableClick: true,
             readonly: true,
             width: '28%',
-            render: rowData => (
-              <div>
-                <Typography
-                  className={classes.nameLabelStyle}
-                  variant="subtitle1"
-                >
-                  {rowData.name}
-                </Typography>
-                <Typography className={classes.birthDateStyle} variant="h6">
-                  {rowData.birthDate
-                    ? `${t('views.snapshotsTable.dob')} ${moment
-                        .unix(rowData.birthDate)
-                        .utc()
-                        .format(dateFormat)}`
-                    : ''}
-                </Typography>
-              </div>
-            )
+            render: rowData => {
+              let birthDateText = rowData.birthDate
+                ? `${t('views.snapshotsTable.dob')} ${moment
+                    .unix(rowData.birthDate)
+                    .utc()
+                    .format(dateFormat)}`
+                : '';
+              return (
+                <div>
+                  <Tooltip title={rowData.name} aria-label="name">
+                    <Typography
+                      className={classes.nameLabelStyle}
+                      variant="subtitle1"
+                    >
+                      {rowData.name}
+                    </Typography>
+                  </Tooltip>
+                  <Tooltip title={birthDateText} aria-label="birthDate">
+                    <Typography className={classes.birthDateStyle} variant="h6">
+                      {birthDateText}
+                    </Typography>
+                  </Tooltip>
+                </div>
+              );
+            }
           },
           //Column Document
           {
@@ -286,17 +306,27 @@ const FamilyTable = ({
             width: '28%',
             render: rowData => (
               <div>
-                <Typography className={classes.documentLabel} variant="h6">
-                  {rowData.documentTypeText
-                    ? renderDocumentType(rowData.documentTypeText)
-                    : ''}
-                </Typography>
-                <Typography
-                  className={classes.nameLabelStyle}
-                  variant="subtitle1"
+                <Tooltip
+                  title={rowData.documentTypeText}
+                  aria-label="documentTypeText"
                 >
-                  {rowData.documentNumber}
-                </Typography>
+                  <Typography className={classes.documentLabel} variant="h6">
+                    {rowData.documentTypeText
+                      ? renderDocumentType(rowData.documentTypeText)
+                      : ''}
+                  </Typography>
+                </Tooltip>
+                <Tooltip
+                  title={rowData.documentNumber}
+                  aria-label="documentNumber"
+                >
+                  <Typography
+                    className={classes.nameLabelStyle}
+                    variant="subtitle1"
+                  >
+                    {rowData.documentNumber}
+                  </Typography>
+                </Tooltip>
               </div>
             )
           },
@@ -307,9 +337,11 @@ const FamilyTable = ({
             sorting: false,
             width: '20%',
             render: rowData => (
-              <Typography className={classes.nameLabelStyle} variant="h6">
-                {rowData.code ? rowData.code : ''}
-              </Typography>
+              <Tooltip title={rowData.code} aria-label="code">
+                <Typography className={classes.nameLabelStyle} variant="h6">
+                  {rowData.code ? rowData.code : ''}
+                </Typography>
+              </Tooltip>
             )
           }
         ]}

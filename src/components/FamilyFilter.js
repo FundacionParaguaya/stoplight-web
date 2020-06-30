@@ -18,11 +18,10 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     //padding: `${theme.spacing(4)}px 0`,
     paddingBottom: 20,
-    zIndex: 99,
     position: 'relative'
   },
   innerContainer: {
-    zIndex: 2
+    zIndex: 11 // To override material table
   },
   familiesFilterContainer: {
     display: 'flex',
@@ -47,7 +46,8 @@ const useStyles = makeStyles(theme => ({
     color: '#6A6A6A',
     fontFamily: theme.typography.subtitle1.fontFamily,
     fontWeight: theme.typography.fontWeightMedium,
-    fontSize: '13px'
+    fontSize: '13px',
+    zIndex: 0
   },
   familiesFilterLabelInput: {
     transform: 'translate(14px, -6px) scale(0.75)!important'
@@ -122,24 +122,40 @@ const FamilyFilter = ({
         className={classes.container}
         alignItems="center"
       >
-        {showHubFilters(user) && (
-          <Grid item md={12} sm={4} xs={12}>
-            <Grid item md={6} sm={4} xs={12}>
+        {showHubFilters(user) ? (
+          <>
+            <Grid item md={6} sm={12} xs={12}>
               <HubsFilter data={hubData} onChange={onChangeHub} />
             </Grid>
-          </Grid>
+            <Grid item md={6} sm={12} xs={12}>
+              <OrganizationsFilter
+                data={organizationsData}
+                onChange={onChangeOrganization}
+                hub={hubData}
+              />
+            </Grid>
+          </>
+        ) : (
+          <>
+            {showOrgFilters(user) && (
+              <Grid item md={12} sm={12} xs={12}>
+                <OrganizationsFilter
+                  data={organizationsData}
+                  onChange={onChangeOrganization}
+                  hub={hubData}
+                />
+              </Grid>
+            )}
+          </>
         )}
-        {showOrgFilters(user) && (
-          <Grid item md={6} sm={4} xs={12}>
-            <OrganizationsFilter
-              data={organizationsData}
-              onChange={onChangeOrganization}
-              hub={hubData}
-            />
-          </Grid>
-        )}
-
-        <Grid item md={6} sm={4} xs={12}>
+        <Grid
+          item
+          md={6}
+          sm={6}
+          xs={12}
+          container
+          className={classes.container}
+        >
           <div className={classes.containerFamilySearch}>
             <Typography variant="subtitle1" className={classes.label}>
               {t('views.familyList.search')}
@@ -166,17 +182,18 @@ const FamilyFilter = ({
             />
           </div>
         </Grid>
+        {showFalicitatorFilters(user) && (
+          <Grid item md={6} sm={6} xs={12}>
+            <FacilitatorFilter
+              data={facilitatorsData}
+              organizations={organizationsData}
+              onChange={onChangeFacilitator}
+              isMulti={true}
+              label={t('views.facilitatorFilter.label')}
+            />
+          </Grid>
+        )}
       </Grid>
-      {showFalicitatorFilters(user) && (
-        <Grid item md={6} sm={6} xs={12}>
-          <FacilitatorFilter
-            data={facilitatorsData}
-            onChange={onChangeFacilitator}
-            isMulti={true}
-            label={t('views.facilitatorFilter.label')}
-          />
-        </Grid>
-      )}
     </Grid>
   );
 };

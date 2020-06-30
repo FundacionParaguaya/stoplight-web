@@ -150,7 +150,7 @@ export const getSurveyById = (user, surveyId) =>
     },
 
     data: JSON.stringify({
-      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id questionAudio stoplightColors { url value description } required } } }`
+      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id questionAudio stoplightColors { url value description } required } } }`
     })
   });
 
@@ -697,7 +697,7 @@ export const getFamily = (familyId, user) =>
     },
     data: JSON.stringify({
       query:
-        'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code numberOfSnapshots allowRetake organization { name } country{country} ' +
+        'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code numberOfSnapshots allowRetake organization { id, name } country{country} ' +
         'familyMemberDTOList{firstParticipant email phoneNumber phoneCode} ' +
         'snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
@@ -1030,12 +1030,22 @@ export const searchRecords = (user, filters) =>
     })
   });
 
-export const downloadReports = (user, filters) =>
+const normalizeLanguages = lang => {
+  const languages = {
+    en: 'en_US',
+    es: 'es_PY',
+    pt: 'pt_BR'
+  };
+  return languages[lang] || languages['en'];
+};
+
+export const downloadReports = (user, filters, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/api/v1/reports/snapshots/report`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
     },
     data: JSON.stringify({
       surveyDefinition: filters.survey.value,
@@ -1053,12 +1063,13 @@ export const downloadReports = (user, filters) =>
     responseType: 'arraybuffer'
   });
 
-export const downloadSemaforito = (user, filters) =>
+export const downloadSemaforito = (user, filters, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/api/v1/reports/snapshots/chatbot`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
     },
     data: JSON.stringify({
       surveyDefinition: filters.survey.value,

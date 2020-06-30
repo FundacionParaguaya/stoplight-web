@@ -104,6 +104,7 @@
     "privacyPolicy": "Política de Privacidade",
     "operations": "Operações",
     "survey": {
+      "audioHelp": "Ajuda Áudio",
       "chooseSurvey": "Elige uma pesquisa",
       "welcome": "Bem-vindo",
       "contains": "Contem",
@@ -525,6 +526,11 @@
           "companyEmployees": "Colaboradores da empresa",
           "programBeneficiaries": "Beneficiários do programa",
           "other": "Outros"
+        },
+        "endSurveyType": "Tipo de aplicação",
+        "endSurveyTypeOptions": {
+          "facilitation": "Facilitação",
+          "sendingUniqueLink": "Via link"
         }
       }
     },
@@ -625,6 +631,8 @@
         "singleSurvey": "Pesquisa",
         "families": "famílias",
         "singleFamily": "família",
+        "represents": "representam",
+        "represent": "representa",
         "familyName": "Família",
         "familyCode": "Código",
         "surveyDate": "Data da pesquisa",
