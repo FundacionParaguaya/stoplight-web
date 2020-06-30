@@ -1075,3 +1075,23 @@ export const downloadSemaforito = (user, filters) =>
     }),
     responseType: 'arraybuffer'
   });
+
+export const getSnapshots = (user, filters) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query familiesSnapshot( $surveyDefinition: Long!, $hubs: [Long], $orgs: [Long], $surveyUsers: [Long],, $locationAvailable: Boolean) { familiesSnapshot ( surveyDefinition: $surveyDefinition, hubs: $hubs, orgs: $orgs, surveyUsers: $surveyUsers,  locationAvailable: $locationAvailable) { page totalElements additionalData content {id familyName latitude longitude snapshotDate stoplight {codeName value} } } }',
+      variables: {
+        surveyDefinition: filters.survey.value,
+        hubs: filters.hubs,
+        orgs: filters.orgs,
+        surveyUsers: filters.surveyUsers,
+        locationAvailable: true
+      }
+    })
+  });
