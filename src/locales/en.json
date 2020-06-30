@@ -644,9 +644,11 @@
     },
     "map": {
       "filters": {
-        "search": "Search",
-        "searchBy": " by name"
-      }
+        "displayClusters": "Display clusters"
+      },
+      "noRecords": "No records found",
+      "families": " families",
+      "singleFamily": " family"
     },
     "404": {
       "missing": "Something’s missing!",
