@@ -168,8 +168,9 @@ const Map = ({
               {!!isMarkerShown ? (
                 <MarkerClusterer
                   averageCenter
-                  minimumClusterSize={5}
-                  defaultMinimumClusterSize={5}
+                  minimumClusterSize={50}
+                  defaultMinimumClusterSize={50}
+                  ignoreHidden={true}
                   gridSize={50}
                   styles={[
                     {
