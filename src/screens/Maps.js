@@ -135,7 +135,10 @@ const Maps = ({ classes, user }) => {
     //Pre-processing filters values
     let hubs = !!filters.hub && !!filters.hub.value ? [filters.hub] : [];
     hubs = hubs.map(h => h.value);
-    const orgs = filters.organizations.map(o => o.value);
+    let orgs = !filters.organizations.some(org => org.value === 'ALL')
+      ? filters.organizations
+      : [];
+    orgs = orgs.map(o => o.value);
     const surveyUsers = filters.facilitators.map(f => f.value);
 
     return {

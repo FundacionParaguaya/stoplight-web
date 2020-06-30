@@ -123,6 +123,7 @@ const IndicatorsFilter = ({
           isMulti={isMulti}
           closeMenuOnSelect={true}
           isClearable={false}
+          hideSelectedOptions
         />
       </div>
     </div>
