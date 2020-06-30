@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import OrganizationsFilter from '../../components/OrganizationsFilter';
 import HubsFilter from '../../components/HubsFilter';
@@ -10,7 +11,6 @@ import SurveysFilter from '../../components/SurveysFilter';
 import FacilitatorFilter from '../../components/FacilitatorFilter';
 import ColorsFilter from '../../components/filters/ColorsFilter';
 import IndicatorsFilter from '../../components/filters/IndicatorsFilter';
-import SearchTextFilter from '../../components/filters/SearchTextFilter';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -28,6 +28,14 @@ const useStyles = makeStyles(theme => ({
   label: {
     marginRight: theme.spacing(1),
     fontSize: 14
+  },
+  mapTitle: {
+    color: theme.palette.primary.dark,
+    fontSize: '18px',
+    marginRight: 'auto',
+    marginBottom: 7,
+    fontWeight: theme.typography.fontWeightMedium,
+    lineHeight: 1.2
   }
 }));
 
@@ -57,22 +65,20 @@ const MapsFilters = ({
   onChangeSurvey,
   onChangeIndicator,
   onChangeFacilitator,
-  onChangeColor,
-  onChangeText,
+  onChangeColors,
   user
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const onChangeSearchText = e => {
-    if (e.key === 'Enter') {
-      onChangeText(e.target.value);
-    }
-  };
-
   return (
     <div className={classes.container}>
       <Grid container spacing={1}>
+        <Grid item md={12} sm={12} xs={12}>
+          <div className={classes.mapTitle}>
+            <Typography variant="h4">{t('views.toolbar.map')}</Typography>
+          </div>
+        </Grid>
         {showHubFilters(user) && (
           <Grid item md={12} sm={12} xs={12}>
             <HubsFilter data={hubData} onChange={onChangeHub} stacked={true} />
@@ -99,21 +105,6 @@ const MapsFilters = ({
             preSelect={true}
           />
         </Grid>
-        <Grid item md={12} sm={12} xs={12}>
-          <IndicatorsFilter
-            survey={surveyData}
-            indicator={indicatorData}
-            onChangeIndicator={onChangeIndicator}
-            isMulti={false}
-            preSelect={true}
-          />
-        </Grid>
-        <Grid item md={12} sm={12} xs={12}>
-          <ColorsFilter
-            colorsData={colorsData}
-            onChangeColors={onChangeColor}
-          />
-        </Grid>
         {showFalicitatorFilters(user) && (
           <Grid item md={12} sm={12} xs={12}>
             <FacilitatorFilter
@@ -126,11 +117,18 @@ const MapsFilters = ({
           </Grid>
         )}
         <Grid item md={12} sm={12} xs={12}>
-          <SearchTextFilter
-            onChangeInput={onChangeSearchText}
-            searchLabel={t('views.map.filters.search')}
-            searchByLabel={t('views.map.filters.searchBy')}
-            stacked={true}
+          <IndicatorsFilter
+            survey={surveyData}
+            indicator={indicatorData}
+            onChangeIndicator={onChangeIndicator}
+            isMulti={false}
+            preSelect={true}
+          />
+        </Grid>
+        <Grid item md={12} sm={12} xs={12}>
+          <ColorsFilter
+            colorsData={colorsData}
+            onChangeColors={onChangeColors}
           />
         </Grid>
       </Grid>
