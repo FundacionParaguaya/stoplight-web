@@ -1030,12 +1030,22 @@ export const searchRecords = (user, filters) =>
     })
   });
 
-export const downloadReports = (user, filters) =>
+const normalizeLanguages = lang => {
+  const languages = {
+    en: 'en_US',
+    es: 'es_PY',
+    pt: 'pt_BR'
+  };
+  return languages[lang] || languages['en'];
+};
+
+export const downloadReports = (user, filters, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/api/v1/reports/snapshots/report`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
     },
     data: JSON.stringify({
       surveyDefinition: filters.survey.value,
@@ -1053,12 +1063,13 @@ export const downloadReports = (user, filters) =>
     responseType: 'arraybuffer'
   });
 
-export const downloadSemaforito = (user, filters) =>
+export const downloadSemaforito = (user, filters, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/api/v1/reports/snapshots/chatbot`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
     },
     data: JSON.stringify({
       surveyDefinition: filters.survey.value,
