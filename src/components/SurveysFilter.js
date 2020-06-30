@@ -142,7 +142,7 @@ const SurveysFilter = ({
 
   useEffect(() => {
     preSelect && surveys.length > 0 && onChange(surveys[0]);
-  }, [surveys]);
+  }, [JSON.stringify(surveys)]);
 
   //This check if the survey is asociated with some of the organization list
   const existsOrgs = (survey, organizationsSelected) => {
