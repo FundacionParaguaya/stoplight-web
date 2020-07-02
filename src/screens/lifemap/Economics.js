@@ -881,7 +881,7 @@ export class Economics extends Component {
                         color="primary"
                         variant="contained"
                         test-id="continue"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || playTopicAudio}
                         onClick={() => {
                           validateForm().then(validationErrors => {
                             const forFamilyErrors =
