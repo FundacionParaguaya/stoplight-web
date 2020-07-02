@@ -23,8 +23,7 @@ const styles = theme => ({
     opacity: 1,
     padding: 20,
     paddingTop: 55,
-    width: 330,
-    height: '88vh'
+    width: 330
   },
   container: {
     display: 'flex',
@@ -66,6 +65,10 @@ const styles = theme => ({
     height: 40,
     width: 40,
     padding: 5
+  },
+  mapContainer: {
+    height: '75vh',
+    maxHeight: '75vh'
   }
 });
 
@@ -225,9 +228,9 @@ const Maps = ({ classes, user }) => {
           selectedColors={filterInput.colors}
           markers={markers}
           isMarkerShown={filterInput.showClusters}
-          loadingElement={<div style={{ height: `75vh` }} />}
-          containerElement={<div style={{ height: `75vh` }} />}
-          mapElement={<div style={{ height: `75vh` }} />}
+          loadingElement={<div className={classes.mapContainer} />}
+          containerElement={<div className={classes.mapContainer} />}
+          mapElement={<div className={classes.mapContainer} />}
         />
       </div>
     </div>
