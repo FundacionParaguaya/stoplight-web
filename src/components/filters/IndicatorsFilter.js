@@ -63,7 +63,8 @@ const IndicatorsFilter = ({
   survey,
   indicator,
   onChangeIndicator,
-  isMulti
+  isMulti,
+  preSelect
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -92,6 +93,12 @@ const IndicatorsFilter = ({
     }
   }, [survey]);
 
+  useEffect(() => {
+    preSelect &&
+      indicatorOptions.length > 0 &&
+      onChangeIndicator(indicatorOptions[0]);
+  }, [indicatorOptions]);
+
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
@@ -115,6 +122,8 @@ const IndicatorsFilter = ({
           styles={selectStyle}
           isMulti={isMulti}
           closeMenuOnSelect={true}
+          isClearable={false}
+          hideSelectedOptions
         />
       </div>
     </div>

@@ -651,6 +651,14 @@
         "somethingWrong": "Um erro ocorreu"
       }
     },
+    "map": {
+      "filters": {
+        "displayClusters": "Mostrar agrupamentos"
+      },
+      "noRecords": "Não foi possível encontrar registro",
+      "families": " famílias",
+      "singleFamily": " família"
+    },
     "404": {
       "missing": "Algo está faltando!",
       "pageNotFound": "Esta página está faltando ou não pode ser encontrada.",

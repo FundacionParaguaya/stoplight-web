@@ -78,11 +78,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
               onChangeColors({ ...colorsData, green: !colorsData.green })
             }
           />
-          <Typography
-            variant="subtitle1"
-            className={classes.label}
-            style={{ color: COLORS.GREEN }}
-          >
+          <Typography variant="subtitle1" className={classes.label}>
             {t('views.report.filters.green')}
           </Typography>
         </div>
@@ -95,11 +91,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
               onChangeColors({ ...colorsData, yellow: !colorsData.yellow })
             }
           />
-          <Typography
-            variant="subtitle1"
-            className={classes.label}
-            style={{ color: COLORS.YELLOW }}
-          >
+          <Typography variant="subtitle1" className={classes.label}>
             {t('views.report.filters.yellow')}
           </Typography>
         </div>
@@ -112,11 +104,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
               onChangeColors({ ...colorsData, red: !colorsData.red })
             }
           />
-          <Typography
-            variant="subtitle1"
-            className={classes.label}
-            style={{ color: COLORS.RED }}
-          >
+          <Typography variant="subtitle1" className={classes.label}>
             {t('views.report.filters.red')}
           </Typography>
         </div>

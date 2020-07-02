@@ -650,6 +650,14 @@
         "somethingWrong": "Something went wrong"
       }
     },
+    "map": {
+      "filters": {
+        "displayClusters": "Display clusters"
+      },
+      "noRecords": "No records found",
+      "families": " families",
+      "singleFamily": " family"
+    },
     "404": {
       "missing": "Something’s missing!",
       "pageNotFound": "This page is missing or could not be found.",

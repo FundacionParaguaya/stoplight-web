@@ -14,7 +14,8 @@ export const theme = {
   palette: {
     primary: {
       main: '#309E43',
-      dark: '#50aa47'
+      dark: '#50aa47',
+      grey: '#f3f4f687'
     },
     secondary: {
       main: '#e1504d'
