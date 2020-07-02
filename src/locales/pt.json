@@ -653,7 +653,7 @@
     },
     "map": {
       "filters": {
-        "displayClusters": "Mostrar clusters"
+        "displayClusters": "Mostrar agrupamentos"
       },
       "noRecords": "Não foi possível encontrar registro",
       "families": " famílias",
