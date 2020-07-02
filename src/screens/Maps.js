@@ -225,9 +225,9 @@ const Maps = ({ classes, user }) => {
           selectedColors={filterInput.colors}
           markers={markers}
           isMarkerShown={filterInput.showClusters}
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `80vh` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+          loadingElement={<div style={{ height: `75vh` }} />}
+          containerElement={<div style={{ height: `75vh` }} />}
+          mapElement={<div style={{ height: `75vh` }} />}
         />
       </div>
     </div>
