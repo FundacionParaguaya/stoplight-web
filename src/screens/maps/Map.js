@@ -27,8 +27,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 const styles = () => ({
   inputContainer: {
     position: 'absolute',
-    top: 135,
-    left: 335,
+    top: 150,
+    left: 340,
     width: '40%',
     zIndex: 1
   },
@@ -83,6 +83,8 @@ const Map = ({
 }) => {
   const { t } = useTranslation();
 
+  const google = window.google;
+
   const [marks, setMarks] = useState([]);
   const [showInfoData, setShowInfoData] = useState({
     showInfo: false,
@@ -127,7 +129,7 @@ const Map = ({
           initialLng: latLng.lng
         });
       })
-      .catch(() => {});
+      .catch(e => console.error(e));
   };
 
   const locateMe = () => {
@@ -163,6 +165,11 @@ const Map = ({
               defaultCenter={{
                 lat: locationData.initialLat,
                 lng: locationData.initialLng
+              }}
+              options={{
+                mapTypeControlOptions: {
+                  position: google.maps.ControlPosition.TOP_RIGHT
+                }
               }}
             >
               {!!isMarkerShown ? (

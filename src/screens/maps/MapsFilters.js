@@ -73,7 +73,7 @@ const MapsFilters = ({
 
   return (
     <div className={classes.container}>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         <Grid item md={12} sm={12} xs={12}>
           <div className={classes.mapTitle}>
             <Typography variant="h4">{t('views.toolbar.map')}</Typography>

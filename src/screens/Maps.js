@@ -11,6 +11,8 @@ import { getSnapshots } from '../api';
 import Map from './maps/Map';
 import moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
+import { COLORS } from '../theme';
+import InfoIcon from '@material-ui/icons/Info';
 
 const styles = theme => ({
   mainBody: {
@@ -28,8 +30,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     width: '100%',
-    height: 55
+    height: 70,
+    padding: 3
   },
   label: {
     marginRight: theme.spacing(1),
@@ -57,6 +61,11 @@ const styles = theme => ({
     fontSize: 20,
     fontWeight: 500,
     textAlign: 'left'
+  },
+  messageIcon: {
+    height: 40,
+    width: 40,
+    padding: 5
   }
 });
 
@@ -108,8 +117,7 @@ const Maps = ({ classes, user }) => {
   }, [filterInput.survey, filterInput.facilitators.length]);
 
   useEffect(() => {
-    snapshots.length > 0 &&
-      !!filterInput.indicator.value &&
+    !!filterInput.indicator.value &&
       setMarkers(
         snapshots.map(family => {
           const indicator = family.stoplight.find(
@@ -181,7 +189,14 @@ const Maps = ({ classes, user }) => {
           className={classes.container}
           style={{ justifyContent: 'space-between' }}
         >
-          <div className={classes.container}>
+          <div
+            className={classes.container}
+            style={{ justifyContent: 'flex-start' }}
+          >
+            <InfoIcon
+              className={classes.messageIcon}
+              style={{ color: COLORS.GREEN }}
+            />
             <Typography className={classes.countLabel} variant="h5">
               {distinctFamilies !== 0 ? (
                 <span style={{ fontWeight: 600 }}>{distinctFamilies}</span>
@@ -211,7 +226,7 @@ const Maps = ({ classes, user }) => {
           markers={markers}
           isMarkerShown={filterInput.showClusters}
           loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `82vh` }} />}
+          containerElement={<div style={{ height: `80vh` }} />}
           mapElement={<div style={{ height: `100%` }} />}
         />
       </div>
