@@ -57,7 +57,7 @@ const styles = theme => ({
     justifyContent: 'flex-end'
   },
   countLabel: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 500,
     textAlign: 'left'
   },
@@ -67,8 +67,8 @@ const styles = theme => ({
     padding: 5
   },
   mapContainer: {
-    height: '75vh',
-    maxHeight: '75vh'
+    height: '78vh',
+    maxHeight: '78vh'
   }
 });
 
@@ -105,8 +105,7 @@ const Maps = ({ classes, user }) => {
 
   useEffect(() => {
     setLoading(true);
-    !!filterInput.survey &&
-      !!filterInput.survey.value &&
+    if (!!filterInput.survey && !!filterInput.survey.value) {
       getSnapshots(user, filtersPreProcessing(filterInput))
         .then(response => {
           const data = response.data.data.familiesSnapshot;
@@ -117,6 +116,13 @@ const Maps = ({ classes, user }) => {
           setSnapshots(data.content);
         })
         .finally(() => setLoading(false));
+    } else {
+      setDistinctFamilies(0);
+      setSnapshots([]);
+      setFilterInput({ indicator: {} });
+      setMarkers([]);
+      setLoading(false);
+    }
   }, [filterInput.survey, filterInput.facilitators.length]);
 
   useEffect(() => {
@@ -131,6 +137,7 @@ const Maps = ({ classes, user }) => {
             color: !!indicator ? indicator.value : 0,
             householdID: family.id,
             household: family.familyName,
+            householdCode: family.familyCode,
             date: moment
               .unix(family.snapshotDate)
               .utc()

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useReducer } from 'react';
+import { connect } from 'react-redux';
 import {
   withGoogleMap,
   GoogleMap,
@@ -23,6 +24,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const styles = () => ({
   inputContainer: {
@@ -79,7 +81,8 @@ const Map = ({
   mapRenderId,
   markers,
   isMarkerShown,
-  selectedColors
+  selectedColors,
+  user
 }) => {
   const { t } = useTranslation();
 
@@ -150,6 +153,8 @@ const Map = ({
 
     return false;
   };
+
+  const isPsteam = ({ role }) => role === ROLES_NAMES.ROLE_PS_TEAM;
 
   return (
     <PlacesAutocomplete
@@ -246,10 +251,18 @@ const Map = ({
                             showInfoData.showInfoIndex === i && (
                               <InfoWindow onCloseClick={toggleInfo}>
                                 <div className={classes.infoWindow}>
-                                  <Typography variant="h5">
-                                    {marker.household}
+                                  <Typography
+                                    variant="h5"
+                                    style={{ fontSize: 16 }}
+                                  >
+                                    {isPsteam(user)
+                                      ? marker.householdCode
+                                      : marker.household}
                                   </Typography>
-                                  <Typography variant="subtitle1">
+                                  <Typography
+                                    variant="subtitle1"
+                                    style={{ fontSize: 14 }}
+                                  >
                                     {marker.date}
                                   </Typography>
                                 </div>
@@ -281,10 +294,18 @@ const Map = ({
                             showInfoData.showInfoIndex === i && (
                               <InfoWindow onCloseClick={toggleInfo}>
                                 <div className={classes.infoWindow}>
-                                  <Typography variant="h5">
-                                    {marker.household}
+                                  <Typography
+                                    variant="h5"
+                                    style={{ fontSize: 16 }}
+                                  >
+                                    {isPsteam(user)
+                                      ? marker.householdCode
+                                      : marker.household}
                                   </Typography>
-                                  <Typography variant="subtitle1">
+                                  <Typography
+                                    variant="subtitle1"
+                                    style={{ fontSize: 14 }}
+                                  >
                                     {marker.date}
                                   </Typography>
                                 </div>
@@ -354,4 +375,6 @@ const Map = ({
   );
 };
 
-export default withStyles(styles)(withGoogleMap(Map));
+const mapStateToProps = ({ user }) => ({ user });
+
+export default withStyles(styles)(connect(mapStateToProps)(withGoogleMap(Map)));

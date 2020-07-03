@@ -1096,7 +1096,7 @@ export const getSnapshots = (user, filters) =>
     },
     data: JSON.stringify({
       query:
-        'query familiesSnapshot( $surveyDefinition: Long!, $hubs: [Long], $orgs: [Long], $surveyUsers: [Long],, $locationAvailable: Boolean) { familiesSnapshot ( surveyDefinition: $surveyDefinition, hubs: $hubs, orgs: $orgs, surveyUsers: $surveyUsers,  locationAvailable: $locationAvailable) { page totalElements additionalData content {id familyName latitude longitude snapshotDate stoplight {codeName value} } } }',
+        'query familiesSnapshot( $surveyDefinition: Long!, $hubs: [Long], $orgs: [Long], $surveyUsers: [Long], $locationAvailable: Boolean) { familiesSnapshot ( surveyDefinition: $surveyDefinition, hubs: $hubs, orgs: $orgs, surveyUsers: $surveyUsers,  locationAvailable: $locationAvailable) { page totalElements additionalData content {id familyName familyCode latitude longitude snapshotDate stoplight {codeName value} } } }',
       variables: {
         surveyDefinition: filters.survey.value,
         hubs: filters.hubs,
