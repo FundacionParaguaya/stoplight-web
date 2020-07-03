@@ -31,7 +31,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     width: '100%',
-    height: 70,
+    height: 50,
     padding: 3
   },
   label: {
