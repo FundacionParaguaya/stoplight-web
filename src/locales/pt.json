@@ -360,7 +360,8 @@
       "today": "Hoje",
       "dayAgo": "Faz 1 dia",
       "daysAgo": "Fazem $dd dias",
-      "facilitator": "Facilitador"
+      "facilitator": "Facilitador",
+      "origin": "Origem"
     },
     "organizationsFilter": {
       "label": "Organizações",

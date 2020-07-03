@@ -29,7 +29,14 @@ const ActivityFeed = ({
       <div className={classes.overlay} />
       <div className={classes.childrenContainer}>
         {data.map(
-          ({ familyName, createdAt, username, activityId, familyId }) => {
+          ({
+            familyName,
+            createdAt,
+            username,
+            activityId,
+            familyId,
+            stoplightClient
+          }) => {
             const createdDaysAgo = moment().diff(createdAt, 'days');
             let daysAgoLabel = t('views.activityFeed.today');
             if (createdDaysAgo === 1) {
@@ -61,6 +68,11 @@ const ActivityFeed = ({
                   {username && (
                     <Typography className={classes.subtitle}>
                       {`${t('views.activityFeed.facilitator')}: ${username}`}
+                    </Typography>
+                  )}
+                  {stoplightClient && (
+                    <Typography className={classes.subtitle}>
+                      {`${t('views.activityFeed.origin')}: ${stoplightClient}`}
                     </Typography>
                   )}
                   <Typography className={classes.date}>
