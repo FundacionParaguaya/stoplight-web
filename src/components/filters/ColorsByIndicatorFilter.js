@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ColorsFilter from './ColorsFilter';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10
   },
 
-  label: {
+  labelContainer: {
     marginRight: theme.spacing(1),
     paddingLeft: 20,
     fontSize: 14,
@@ -22,7 +23,13 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
+    maxWidth: '100%',
     justifyContent: 'flex-start'
+  },
+  label: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis'
   }
 }));
 
@@ -63,12 +70,16 @@ const ColorsByIndicatorFilter = ({
   return colorsData.map(indicator => (
     <div className={classes.container} key={indicator.codename}>
       <Grid container>
-        <Grid item md={4} sm={4} xs={12}>
-          <Typography variant="subtitle1" className={classes.label}>
-            {indicator.name}
-          </Typography>
+        <Grid item md={3} sm={12} xs={12}>
+          <Tooltip title={indicator.name} aria-label="name">
+            <div className={classes.labelContainer}>
+              <Typography variant="subtitle1" className={classes.label}>
+                {indicator.name}
+              </Typography>
+            </div>
+          </Tooltip>
         </Grid>
-        <Grid item md={8} sm={8} xs={12}>
+        <Grid item md={9} sm={12} xs={12}>
           <ColorsFilter
             colorsData={indicator.values}
             onChangeColors={colors =>
