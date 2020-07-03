@@ -35,7 +35,10 @@ const GreenCheckbox = withStyles(theme => ({
   root: {
     color: theme.palette.grey.main,
     paddingRight: 3,
-    paddingLeft: 3
+    paddingLeft: 3,
+    '&:hover': {
+      borderRadius: '100%'
+    }
   },
   checked: {
     color: COLORS.GREEN
@@ -46,7 +49,10 @@ const YellowCheckbox = withStyles(theme => ({
   root: {
     color: theme.palette.grey.main,
     paddingRight: 3,
-    paddingLeft: 3
+    paddingLeft: 3,
+    '&:hover': {
+      borderRadius: '100%'
+    }
   },
   checked: {
     color: COLORS.YELLOW
@@ -57,7 +63,10 @@ const RedCheckbox = withStyles(theme => ({
   root: {
     color: theme.palette.grey.main,
     paddingRight: 3,
-    paddingLeft: 3
+    paddingLeft: 3,
+    '&:hover': {
+      borderRadius: '100%'
+    }
   },
   checked: {
     color: COLORS.RED
