@@ -361,7 +361,8 @@
       "today": "Hoy",
       "dayAgo": "Hace 1 día",
       "daysAgo": "Hace $dd días",
-      "facilitator": "Facilitador"
+      "facilitator": "Facilitador",
+      "origin": "Origen"
     },
     "organizationsFilter": {
       "label": "Organizaciones",

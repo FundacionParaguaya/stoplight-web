@@ -264,7 +264,7 @@ export const getFamilies = (user, lang) =>
     },
     data: JSON.stringify({
       query:
-        'query { feed { activityId, activityKey, activityParams, activityType, username, createdAt, familyId, familyName } }'
+        'query { feed { activityId, activityKey, activityParams, activityType, username, createdAt, familyId, familyName, stoplightClient } }'
     })
   });
 
