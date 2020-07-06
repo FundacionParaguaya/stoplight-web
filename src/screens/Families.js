@@ -147,14 +147,14 @@ const Families = ({
       <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
+            <Typography variant="h4">
+              {t('views.toolbar.households')}
+            </Typography>
             <img
               src={chooseLifeMap}
               alt="Choose Life Map"
               className={classes.chooseLifeMapImage}
             />
-            <Typography variant="h4">
-              {t('views.toolbar.households')}
-            </Typography>
           </div>
         </div>
 
@@ -212,7 +212,7 @@ const styles = theme => ({
   chooseLifeMapImage: {
     display: 'block',
     height: 240,
-    right: 30,
+    right: -70,
     position: 'absolute',
     top: -10,
     zIndex: 0,
@@ -224,7 +224,8 @@ const styles = theme => ({
   titleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
+    height: 240
   },
   surveyTopTitle: {
     display: 'flex',
