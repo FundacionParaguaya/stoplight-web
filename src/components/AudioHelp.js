@@ -12,11 +12,13 @@ const AudioHelp = ({
   classes,
   audio,
   playAudio,
+  handleStop,
   audioProgress,
   audioDuration,
   handlePlayPause,
   setPlayedSeconds,
   setDuration,
+  muted,
   t
 }) => {
   return (
@@ -48,10 +50,15 @@ const AudioHelp = ({
         <ReactPlayer
           width="0px"
           height="0px"
+          onReady={() => {
+            console.log('OnReady');
+            handleStop();
+          }}
           onDuration={e => setDuration(e)}
           onProgress={e => setPlayedSeconds(e.playedSeconds)}
           playing={playAudio}
           url={audio}
+          muted={playAudio ? false : true}
           config={{
             file: {
               forceAudio: true

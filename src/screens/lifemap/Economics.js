@@ -406,11 +406,19 @@ export class Economics extends Component {
                 handlePlayPause={() =>
                   this.setState({ playTopicAudio: !playTopicAudio })
                 }
+                handleStop={() => this.setState({ playTopicAudio: false })}
                 audioDuration={audioDuration}
                 audioProgress={audioProgress}
-                setPlayedSeconds={playedSeconds =>
-                  this.setState({ audioProgress: playedSeconds })
-                }
+                setPlayedSeconds={playedSeconds => {
+                  if (playedSeconds === audioDuration) {
+                    this.setState({
+                      playTopicAudio: !playTopicAudio,
+                      audioProgress: 0
+                    });
+                  } else {
+                    this.setState({ audioProgress: playedSeconds });
+                  }
+                }}
                 setDuration={duration =>
                   this.setState({ audioDuration: duration })
                 }
