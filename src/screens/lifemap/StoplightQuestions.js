@@ -309,7 +309,8 @@ class StoplightQuestions extends Component {
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
       ],
-      aspectRatio: null
+      aspectRatio: null,
+      playHelpAudio: false
     });
   }
 
@@ -364,7 +365,6 @@ class StoplightQuestions extends Component {
       };
       sortedQuestions.sort(compare);
     }
-    console.log('Render');
 
     return (
       <div>

@@ -7,14 +7,7 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 
 import { Typography } from '@material-ui/core';
 
-const AudioHelp = ({
-  classes,
-  audio,
-  playAudio,
-  handleStop,
-  handlePlayPause,
-  t
-}) => {
+const AudioHelp = ({ classes, audio, playAudio, handlePlayPause, t }) => {
   console.log('Render AudioHelp');
   return (
     <>
@@ -25,11 +18,7 @@ const AudioHelp = ({
               width="300px"
               height="35px"
               controls
-              onReady={() => {
-                console.log('OnReady');
-                //handleStop();
-              }}
-              onPause={() => handlePlayPause()}
+              onReady={() => {}}
               playing={playAudio}
               url={audio}
               muted={playAudio ? false : true}
@@ -52,10 +41,7 @@ const AudioHelp = ({
             <ReactPlayer
               width="0px"
               height="0px"
-              onReady={() => {
-                console.log('OnReady');
-                handleStop();
-              }}
+              onReady={() => {}}
               playing={playAudio}
               url={audio}
               muted={playAudio ? false : true}
