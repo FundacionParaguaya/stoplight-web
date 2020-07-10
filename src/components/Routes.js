@@ -15,6 +15,7 @@ import Dashboard from '../screens/Dashboard';
 import Users from '../screens/Users';
 import Reports from '../screens/Reports';
 import Maps from '../screens/Maps';
+import Login from '../screens/Login';
 import PageNotFound from '../screens/PageNotFound';
 
 const Routes = ({ user }) => {
@@ -56,6 +57,9 @@ const Routes = ({ user }) => {
         <Route path="/reports" component={Reports} />
       )}
       {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
+
+      {!user.role && <Route path="/login" component={Login} />}
+
       <Route render={() => <PageNotFound user={user} />} />
     </Switch>
   );
