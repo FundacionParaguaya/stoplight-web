@@ -94,3 +94,7 @@ export const ROLES_NAMES = {
 export const checkAccess = ({ role }, item) => {
   return !!role && !!ROLES[role].find(r => r.item === item);
 };
+
+export const getHomePage = role => {
+  return (!!role && ROLES[role][0].item) || '';
+};
