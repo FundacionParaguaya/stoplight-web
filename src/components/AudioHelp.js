@@ -4,8 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import ReactPlayer from 'react-player/lazy';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import LinearProgress from '@material-ui/core/LinearProgress';
+
 import { Typography } from '@material-ui/core';
 
 const AudioHelp = ({
@@ -13,27 +12,32 @@ const AudioHelp = ({
   audio,
   playAudio,
   handleStop,
-  audioProgress,
-  audioDuration,
   handlePlayPause,
-  setPlayedSeconds,
-  setDuration,
-  muted,
   t
 }) => {
+  console.log('Render AudioHelp');
   return (
     <>
       <div className={classes.playerContainer}>
         {!!playAudio ? (
           <>
-            <PauseCircleFilledIcon
-              onClick={() => handlePlayPause()}
-              className={`material-icons ${classes.icon}`}
-            />
-            <LinearProgress
-              variant="determinate"
-              className={classes.progressBar}
-              value={(audioProgress / audioDuration) * 100}
+            <ReactPlayer
+              width="300px"
+              height="35px"
+              controls
+              onReady={() => {
+                console.log('OnReady');
+                //handleStop();
+              }}
+              onPause={() => handlePlayPause()}
+              playing={playAudio}
+              url={audio}
+              muted={playAudio ? false : true}
+              config={{
+                file: {
+                  forceAudio: true
+                }
+              }}
             />
           </>
         ) : (
@@ -45,26 +49,24 @@ const AudioHelp = ({
             <Typography variant="subtitle1" className={classes.audioHelp}>
               {t('views.survey.audioHelp')}
             </Typography>
+            <ReactPlayer
+              width="0px"
+              height="0px"
+              onReady={() => {
+                console.log('OnReady');
+                handleStop();
+              }}
+              playing={playAudio}
+              url={audio}
+              muted={playAudio ? false : true}
+              config={{
+                file: {
+                  forceAudio: true
+                }
+              }}
+            />
           </>
         )}
-        <ReactPlayer
-          width="0px"
-          height="0px"
-          onReady={() => {
-            console.log('OnReady');
-            handleStop();
-          }}
-          onDuration={e => setDuration(e)}
-          onProgress={e => setPlayedSeconds(e.playedSeconds)}
-          playing={playAudio}
-          url={audio}
-          muted={playAudio ? false : true}
-          config={{
-            file: {
-              forceAudio: true
-            }
-          }}
-        />
       </div>
     </>
   );
@@ -76,11 +78,6 @@ const styles = () => ({
     alignItems: 'center',
     marginBottom: 10,
     marginTop: 10
-  },
-  progressBar: {
-    marginLeft: 10,
-    width: '100%',
-    backgroundColor: '#d8d8d8'
   },
   icon: {
     color: 'green',
