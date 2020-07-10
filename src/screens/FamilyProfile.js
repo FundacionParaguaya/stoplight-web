@@ -65,7 +65,6 @@ const FamilyProfile = ({
   let { familyId } = useParams();
   const dateFormat = getDateFormatByLocale(language);
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
-  const [organizationId, setOrganizationId] = useState();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
   const [stoplightSkipped, setStoplightSkipped] = useState(false);
@@ -152,7 +151,6 @@ const FamilyProfile = ({
       );
 
       setFamily(response.data.data.familyById);
-      setOrganizationId(response.data.data.familyById.organization.id);
       setOrgsId([{ value: response.data.data.familyById.organization.id }]);
       setFirtsParticipant(firtsParticipantMap);
 
