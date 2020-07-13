@@ -8,7 +8,6 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import { Typography } from '@material-ui/core';
 
 const AudioHelp = ({ classes, audio, playAudio, handlePlayPause, t }) => {
-  console.log('Render AudioHelp');
   return (
     <>
       <div className={classes.playerContainer}>
