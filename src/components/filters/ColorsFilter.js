@@ -34,10 +34,10 @@ const useStyles = makeStyles(theme => ({
 const GreenCheckbox = withStyles(theme => ({
   root: {
     color: theme.palette.grey.main,
-    paddingRight: 3,
-    paddingLeft: 3,
+    paddingRight: 9,
+    paddingLeft: 9,
     '&:hover': {
-      borderRadius: '100%'
+      borderRadius: '50%'
     }
   },
   checked: {
@@ -48,10 +48,10 @@ const GreenCheckbox = withStyles(theme => ({
 const YellowCheckbox = withStyles(theme => ({
   root: {
     color: theme.palette.grey.main,
-    paddingRight: 3,
-    paddingLeft: 3,
+    paddingRight: 9,
+    paddingLeft: 9,
     '&:hover': {
-      borderRadius: '100%'
+      borderRadius: '50%'
     }
   },
   checked: {
@@ -62,10 +62,10 @@ const YellowCheckbox = withStyles(theme => ({
 const RedCheckbox = withStyles(theme => ({
   root: {
     color: theme.palette.grey.main,
-    paddingRight: 3,
-    paddingLeft: 3,
+    paddingRight: 9,
+    paddingLeft: 9,
     '&:hover': {
-      borderRadius: '100%'
+      borderRadius: '50%'
     }
   },
   checked: {
@@ -79,7 +79,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
 
   return (
     <div className={classes.container}>
-      <Grid item md={4}>
+      <Grid item md={4} sm={4}>
         <div className={classes.checkboxesConatiner}>
           <GreenCheckbox
             checked={colorsData.green}
@@ -92,7 +92,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
           </Typography>
         </div>
       </Grid>
-      <Grid item md={5}>
+      <Grid item md={4} sm={4}>
         <div className={classes.checkboxesConatiner}>
           <YellowCheckbox
             checked={colorsData.yellow}
@@ -105,7 +105,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
           </Typography>
         </div>
       </Grid>
-      <Grid item md={3}>
+      <Grid item md={4} sm={4}>
         <div className={classes.checkboxesConatiner}>
           <RedCheckbox
             checked={colorsData.red}

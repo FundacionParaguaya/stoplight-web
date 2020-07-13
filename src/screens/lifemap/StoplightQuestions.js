@@ -468,6 +468,12 @@ class StoplightQuestions extends Component {
                         onClick={this.handleAudioPlay}
                         className={`material-icons ${classes.icon}`}
                       />
+                      <Typography
+                        variant="subtitle1"
+                        className={classes.audioHelpText}
+                      >
+                        {t('views.survey.audioHelp')}
+                      </Typography>
                       <ReactPlayer
                         width="0px"
                         height="0px"
@@ -602,6 +608,11 @@ const styles = theme => ({
   progressBar: {
     width: 75,
     backgroundColor: '#d8d8d8'
+  },
+  audioHelpText: {
+    marginLeft: 5,
+    font: 'Roboto',
+    fontWeight: 400
   }
 });
 

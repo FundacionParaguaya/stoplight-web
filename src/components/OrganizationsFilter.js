@@ -14,7 +14,9 @@ const selectStyle = {
     borderRadius: 2,
     '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
     border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
-    boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none'
+    boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none',
+    overflowY: 'auto',
+    maxHeight: 75
   }),
   multiValueLabel: styles => ({
     ...styles,

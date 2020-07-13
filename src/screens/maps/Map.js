@@ -29,7 +29,7 @@ import { ROLES_NAMES } from '../../utils/role-utils';
 const styles = () => ({
   inputContainer: {
     position: 'absolute',
-    top: 150,
+    top: 130,
     left: 340,
     width: '40%',
     zIndex: 1
