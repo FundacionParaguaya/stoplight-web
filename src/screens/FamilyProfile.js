@@ -65,7 +65,6 @@ const FamilyProfile = ({
   let { familyId } = useParams();
   const dateFormat = getDateFormatByLocale(language);
   const [selectedFacilitator, setSelectedFacilitator] = useState({});
-  const [organizationId, setOrganizationId] = useState();
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [disabledFacilitator, setDisabledFacilitator] = useState(true);
   const [stoplightSkipped, setStoplightSkipped] = useState(false);
@@ -75,6 +74,7 @@ const FamilyProfile = ({
   const [familyNotes, setFamilyNotes] = useState([]);
   const [familyNote, setFamilyNote] = useState('');
   const [loading, setLoading] = useState(false);
+  const [orgsId, setOrgsId] = useState();
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -151,7 +151,7 @@ const FamilyProfile = ({
       );
 
       setFamily(response.data.data.familyById);
-      setOrganizationId(response.data.data.familyById.organization.id);
+      setOrgsId([{ value: response.data.data.familyById.organization.id }]);
       setFirtsParticipant(firtsParticipantMap);
 
       let mentor = {
@@ -534,15 +534,15 @@ const FamilyProfile = ({
 
           <div className={classes.administratorBox}>
             <Grid item xs={6}>
-              <FacilitatorFilter
-                data={selectedFacilitator}
-                organizations={
-                  !!organizationId ? [{ value: organizationId }] : null
-                }
-                isMulti={false}
-                onChange={onChangeFacilitator}
-                label={t('views.familyProfile.facilitator')}
-              />
+              {!!orgsId && (
+                <FacilitatorFilter
+                  data={selectedFacilitator}
+                  organizations={!!orgsId ? orgsId : null}
+                  isMulti={false}
+                  onChange={onChangeFacilitator}
+                  label={t('views.familyProfile.facilitator')}
+                />
+              )}
             </Grid>
             <Grid item xs={5} style={{ marginLeft: '2rem' }}>
               <Button
