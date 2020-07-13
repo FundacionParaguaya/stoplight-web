@@ -10,6 +10,11 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from 'react-places-autocomplete';
+import m1 from '../../assets/m1.png';
+import m2 from '../../assets/m2.png';
+import m3 from '../../assets/m3.png';
+import m4 from '../../assets/m4.png';
+import m5 from '../../assets/m5.png';
 import green from '../../assets/green-dot.svg';
 import yellow from '../../assets/yellow-dot.svg';
 import red from '../../assets/red-dot.svg';
@@ -186,8 +191,7 @@ const Map = ({
                   gridSize={50}
                   styles={[
                     {
-                      url:
-                        'https://fp-psp-images.s3.us-east-2.amazonaws.com/stoplight-images/m1.png',
+                      url: m1,
                       height: 53,
                       lineHeight: 53,
                       width: 53,
@@ -195,8 +199,7 @@ const Map = ({
                       visibility: 'hidden'
                     },
                     {
-                      url:
-                        'https://fp-psp-images.s3.us-east-2.amazonaws.com/stoplight-images/m2.png',
+                      url: m2,
                       height: 56,
                       lineHeight: 56,
                       width: 56,
@@ -204,8 +207,7 @@ const Map = ({
                       visibility: 'hidden'
                     },
                     {
-                      url:
-                        'https://fp-psp-images.s3.us-east-2.amazonaws.com/stoplight-images/m3.png',
+                      url: m3,
                       height: 66,
                       lineHeight: 66,
                       width: 66,
@@ -213,16 +215,14 @@ const Map = ({
                       visibility: 'hidden'
                     },
                     {
-                      url:
-                        'https://fp-psp-images.s3.us-east-2.amazonaws.com/stoplight-images/m4.png',
+                      url: m4,
                       height: 78,
                       lineHeight: 78,
                       width: 78,
                       textColor: 'black'
                     },
                     {
-                      url:
-                        'https://fp-psp-images.s3.us-east-2.amazonaws.com/stoplight-images/m5.png',
+                      url: m5,
                       height: 90,
                       lineHeight: 90,
                       width: 90,
