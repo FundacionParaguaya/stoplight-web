@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Typography, Button, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import logo from '../assets/header_logo.png';
 import { connect } from 'react-redux';
 import {
@@ -101,27 +100,24 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get('token');
   const id = urlParams.get('id');
+  const initialStatus = {
+    username: '',
+    password: '',
+    email: '',
+    newPassword: '',
+    newPasswordConfirm: ''
+  };
 
   const [loading, setLoading] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  //Validation criterias
-  const validationSchema = Yup.object().shape({
-    /* 
-                password: Yup.string()
-                    .when('other', (other, schema) =>
-                        resetPassword ? schema : schema.required(fieldIsRequired)),
-                email: Yup.string()
-                    .matches(
-                        // eslint-disable-next-line
-                        /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
-                        t('views.user.form.emailNotValid'))
-                    .when('other', (other, schema) =>
-                        resetPassword ? schema.required(fieldIsRequired) : schema), */
-  });
+  useEffect(() => {
+    !!errorMessage && setTimeout(() => setErrorMessage(''), 6000);
+  }, [errorMessage]);
 
-  const onSubmit = values => {
+  const onSubmit = (values, { resetForm }) => {
+    setLoading(true);
     const formData = new FormData();
 
     if (resetPassword) {
@@ -130,6 +126,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
 
       resetPasswordService(formData, env)
         .then(() => {
+          resetForm(initialStatus);
           enqueueSnackbar(t('views.login.mailResetSuccess'), {
             variant: 'success',
             action: key => (
@@ -139,7 +136,10 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
             )
           });
         })
-        .catch(error => setErrorMessage(error.response.data.message))
+        .catch(() => {
+          resetForm(initialStatus);
+          setErrorMessage(t('views.login.mailNotFound'));
+        })
         .finally(() => setLoading(false));
     } else if (!!token && !!id) {
       formData.set('password', values.newPassword);
@@ -159,7 +159,10 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
           });
           window.location.replace(enviroments[env] + '/login');
         })
-        .catch(() => setErrorMessage(t('views.login.newPasswordConfirmFailed')))
+        .catch(() => {
+          resetForm(initialStatus);
+          setErrorMessage(t('views.login.newPasswordConfirmFailed'));
+        })
         .finally(() => setLoading(false));
     } else {
       formData.set('username', values.username);
@@ -191,6 +194,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
           window.location.replace(url);
         })
         .catch(error => {
+          resetForm(initialStatus);
           let errorMessage = error.toString().includes('401')
             ? t('views.login.wrongCredentials')
             : t('views.login.connectionError');
@@ -256,20 +260,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
             {t('views.login.resetTitle')}
           </Typography>
         )}
-        <Formik
-          initialValues={{
-            username: '',
-            password: '',
-            email: '',
-            newPassword: '',
-            newPasswordConfirm: ''
-          }}
-          validationSchema={validationSchema}
-          onSubmit={values => {
-            setLoading(true);
-            onSubmit(values);
-          }}
-        >
+        <Formik initialValues={initialStatus} onSubmit={onSubmit}>
           {({ setFieldValue, values }) => (
             <Form noValidate>
               {!!token && !!id ? (

@@ -681,7 +681,8 @@
       "unauthorizedError": "No autorizado",
       "wrongCredentials": "Credenciales incorrectas. Inténtalo de nuevo",
       "mailResetSuccess": "¡Gracias! Le hemos enviado un correo a su email para restablecer su contraseña",
-      "passwordReseted": "Contraseña restablecida correctamente"
+      "passwordReseted": "Contraseña restablecida correctamente",
+      "mailNotFound": "El par usuario y correo electrónico no se encuentra"
     },
     "404": {
       "missing": "¡Algo está perdido!",

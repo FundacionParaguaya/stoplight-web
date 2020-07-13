@@ -679,7 +679,8 @@
       "unauthorizedError": "Not authorized",
       "wrongCredentials": "Wrong credentials. Please try again.",
       "mailResetSuccess": "Thanks! Please check your email for a link to reset your password",
-      "passwordReseted": "Password sucessfully reseted"
+      "passwordReseted": "Password sucessfully reseted",
+      "mailNotFound": "User and Email pair not found"
     },
     "404": {
       "missing": "Something’s missing!",
