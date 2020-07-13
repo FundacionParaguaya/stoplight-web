@@ -176,6 +176,10 @@ const Map = ({
                 lat: locationData.initialLat,
                 lng: locationData.initialLng
               }}
+              center={{
+                lat: locationData.lat,
+                lng: locationData.lng
+              }}
               options={{
                 mapTypeControlOptions: {
                   position: google.maps.ControlPosition.TOP_RIGHT
