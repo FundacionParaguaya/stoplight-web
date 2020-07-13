@@ -244,7 +244,8 @@ export class Economics extends Component {
         questions,
         this.props.currentDraft
       ),
-      initialized: true
+      initialized: true,
+      playTopicAudio: false
     });
   }
 
@@ -367,9 +368,7 @@ export class Economics extends Component {
       topic,
       initialValues,
       initialized,
-      playTopicAudio,
-      audioProgress,
-      audioDuration
+      playTopicAudio
     } = this.state;
     const {
       t,
@@ -405,22 +404,6 @@ export class Economics extends Component {
                 playAudio={playTopicAudio}
                 handlePlayPause={() =>
                   this.setState({ playTopicAudio: !playTopicAudio })
-                }
-                handleStop={() => this.setState({ playTopicAudio: false })}
-                audioDuration={audioDuration}
-                audioProgress={audioProgress}
-                setPlayedSeconds={playedSeconds => {
-                  if (playedSeconds === audioDuration) {
-                    this.setState({
-                      playTopicAudio: !playTopicAudio,
-                      audioProgress: 0
-                    });
-                  } else {
-                    this.setState({ audioProgress: playedSeconds });
-                  }
-                }}
-                setDuration={duration =>
-                  this.setState({ audioDuration: duration })
                 }
               />
             )}
@@ -889,7 +872,7 @@ export class Economics extends Component {
                         color="primary"
                         variant="contained"
                         test-id="continue"
-                        disabled={isSubmitting || playTopicAudio}
+                        disabled={isSubmitting}
                         onClick={() => {
                           validateForm().then(validationErrors => {
                             const forFamilyErrors =

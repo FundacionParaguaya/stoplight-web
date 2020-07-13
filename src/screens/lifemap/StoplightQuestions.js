@@ -10,10 +10,7 @@ import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import { COLORS } from '../../theme';
-import ReactPlayer from 'react-player/lazy';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import AudioHelp from '../../components/AudioHelp';
 
 const questionsWrapperStyles = {
   questionContainer: {
@@ -312,7 +309,8 @@ class StoplightQuestions extends Component {
       question: this.props.currentSurvey.surveyStoplightQuestions[
         this.props.match.params.page
       ],
-      aspectRatio: null
+      aspectRatio: null,
+      playHelpAudio: false
     });
   }
 
@@ -341,6 +339,7 @@ class StoplightQuestions extends Component {
   handleOpen = () => {
     this.setState({ infoModal: true });
   };
+
   handleAudioPlay = () => {
     this.setState({ playHelpAudio: !this.state.playHelpAudio });
   };
@@ -417,7 +416,8 @@ class StoplightQuestions extends Component {
           >
             <div
               style={{
-                display: 'flex'
+                display: 'flex',
+                alignItems: 'center'
               }}
             >
               {question.definition && (
@@ -431,66 +431,16 @@ class StoplightQuestions extends Component {
 
               {user.interative_help && question && question.questionAudio && (
                 <React.Fragment>
-                  {!!playHelpAudio ? (
-                    <div className={classes.playerContainer}>
-                      <PauseCircleFilledIcon
-                        onClick={this.handleAudioPlay}
-                        className={`material-icons ${classes.icon}`}
-                      />
-                      <LinearProgress
-                        variant="determinate"
-                        className={classes.progressBar}
-                        value={
-                          (this.state.audioProgress /
-                            this.state.audioDuration) *
-                          100
-                        }
-                      />
-                      <ReactPlayer
-                        width="0px"
-                        height="0px"
-                        onDuration={e => this.setState({ audioDuration: e })}
-                        onProgress={e =>
-                          this.setState({ audioProgress: e.playedSeconds })
-                        }
-                        playing={playHelpAudio}
-                        url={question.questionAudio}
-                        config={{
-                          file: {
-                            forceAudio: true
-                          }
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <div className={classes.playerContainer}>
-                      <PlayCircleFilledIcon
-                        onClick={this.handleAudioPlay}
-                        className={`material-icons ${classes.icon}`}
-                      />
-                      <Typography
-                        variant="subtitle1"
-                        className={classes.audioHelpText}
-                      >
-                        {t('views.survey.audioHelp')}
-                      </Typography>
-                      <ReactPlayer
-                        width="0px"
-                        height="0px"
-                        onDuration={e => this.setState({ audioDuration: e })}
-                        onProgress={e =>
-                          this.setState({ audioProgress: e.playedSeconds })
-                        }
-                        playing={playHelpAudio}
-                        url={question.questionAudio}
-                        config={{
-                          file: {
-                            forceAudio: true
-                          }
-                        }}
-                      />
-                    </div>
-                  )}
+                  <div style={{ width: '300px' }}>
+                    <AudioHelp
+                      audio={question.questionAudio}
+                      playAudio={playHelpAudio}
+                      handlePlayPause={() =>
+                        this.setState({ playHelpAudio: !playHelpAudio })
+                      }
+                      handleStop={() => this.setState({ playHelpAudio: false })}
+                    />
+                  </div>
                 </React.Fragment>
               )}
             </div>
