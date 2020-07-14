@@ -15,14 +15,24 @@ import {
 import { getHomePage } from '../utils/role-utils';
 import { withSnackbar } from 'notistack';
 import Alert from '@material-ui/lab/Alert';
+import LanguageSelector from '../components/LanguageSelector';
+import Intercom from '../components/Intercom';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
     backgroundColor: theme.palette.background.default,
     height: '100vh',
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: 'center'
+  },
+  languageSelector: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    height: '100vh',
+    width: '35vw',
+    alignItems: 'flex-end',
+    padding: 10,
+    paddingBottom: 15
   },
   form: {
     width: 400
@@ -46,11 +56,11 @@ const useStyles = makeStyles(theme => ({
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
         borderRadius: '2px',
-        border: '1.5px solid #309E43'
+        border: `1.5px solid ${theme.palette.primary.main}`
       },
       '&:hover fieldset': {
         borderRadius: '2px',
-        border: '1.5px solid #309E43'
+        border: `1.5px solid ${theme.palette.primary.main}`
       }
     }
   },
@@ -218,6 +228,9 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
 
   return (
     <div className={classes.mainContainer}>
+      <div className={classes.languageSelector}>
+        <LanguageSelector />
+      </div>
       <div className={classes.form}>
         <img
           style={{ marginTop: 4 }}
@@ -394,6 +407,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
           )}
         </Formik>
       </div>
+      <Intercom />
     </div>
   );
 };

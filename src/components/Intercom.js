@@ -6,7 +6,7 @@ const InitializedIntercom = ({ user }) => (
   <Intercom
     appID="msjjl81s"
     {...{
-      name: user.username
+      name: !!user && !!user.username ? ' ' + user.username : ''
     }}
   />
 );
