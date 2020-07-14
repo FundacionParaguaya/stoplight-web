@@ -7,12 +7,12 @@ import CallingCodes from './screens/lifemap/CallingCodes';
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
 axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 
-// list of enviroments urls
-export const enviroments = {
-  platform: 'https://platform.povertystoplight.org',
-  demo: 'https://demo.povertystoplight.org',
-  testing: 'https:/testing.povertystoplight.org',
-  development: 'http://localhost:3000'
+// list of api's urls per enviroment
+export const url = {
+  platform: 'https://platform.backend.povertystoplight.org',
+  demo: 'https://demo.backend.povertystoplight.org',
+  testing: 'https://testing.backend.povertystoplight.org',
+  development: 'https://testing.backend.povertystoplight.org'
 };
 
 axios.interceptors.response.use(
