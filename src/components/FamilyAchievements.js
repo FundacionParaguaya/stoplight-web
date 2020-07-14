@@ -58,7 +58,7 @@ const styles = theme => ({
     height: 37,
     width: '100%',
     opacity: 1,
-    backgroundColor: '#DCDEE3',
+    backgroundColor: theme.palette.grey.quarter,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around'
@@ -67,7 +67,7 @@ const styles = theme => ({
     marginRight: 5,
     marginLeft: 5,
     fontSize: 18,
-    color: '#6A6A6A'
+    color: theme.palette.grey.middle
   },
   achievementsTable: {
     width: '100%',
@@ -98,7 +98,7 @@ const styles = theme => ({
     paddingTop: '1.5rem',
     paddingBottom: '1.5rem',
     '&:nth-child(2n - 1)': {
-      backgroundColor: '#F3F4F6'
+      backgroundColor: theme.palette.background.paper
     }
   },
   iconStoplight: {
@@ -118,12 +118,12 @@ const styles = theme => ({
   },
   labelTitleDetailInfo: {
     fontSize: 16,
-    color: '#6A6A6A',
+    color: theme.palette.grey.middle,
     paddingBottom: '1rem'
   },
   labelDetailInfo: {
     fontSize: 16,
-    color: '#1C212F',
+    color: theme.palette.text.primary,
     paddingBottom: '1rem'
   },
   divider: {

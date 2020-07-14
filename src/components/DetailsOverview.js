@@ -20,8 +20,10 @@ import {
   getPrioritiesBySnapshotId,
   sendLifemapPdfv2,
   downloadPdf,
-  sendWhatsappMessage
+  sendWhatsappMessage,
+  getAchievementsBySnapshot
 } from '../api';
+import FamilyAchievements from '../components/FamilyAchievements';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -106,6 +108,7 @@ const DetailsOverview = ({
   const [modalContinueButtonText, setModalContinueButtonText] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [modalVariant, setModalVariant] = useState('');
+  const [achievementsList, setAchievementsList] = useState([]);
 
   useEffect(() => {
     setAchievements(snapshot.achievements ? snapshot.achievements : []);
@@ -121,6 +124,7 @@ const DetailsOverview = ({
       };
     });
     setStoplight(stoplight);
+    loadAchievements(user, snapshot.snapshotId);
   }, [snapshot.snapshotId]);
 
   const toggleModal = (
@@ -134,6 +138,16 @@ const DetailsOverview = ({
     setModalContinueButtonText(modalContinueButtonText);
     setModalVariant(modalVariant);
     setOpenModal(true);
+  };
+
+  const loadAchievements = (user, snapshotId) => {
+    getAchievementsBySnapshot(user, Number(snapshotId)).then(response => {
+      console.log(response);
+
+      setAchievementsList(
+        response.data.data.prioritiesAchievementsBySnapshot.achievements
+      );
+    });
   };
 
   const handleWhatsappClick = () => {
@@ -340,6 +354,8 @@ const DetailsOverview = ({
         questions={snapshot}
         priorities={prioritiesList}
       ></FamilyPriorities>
+
+      <FamilyAchievements achievements={achievementsList} />
     </div>
   );
 };
