@@ -15,6 +15,14 @@ export const url = {
   development: 'https://testing.backend.povertystoplight.org'
 };
 
+// list of enviroments urls
+export const enviroments = {
+  platform: 'https://platform.povertystoplight.org',
+  demo: 'https://demo.povertystoplight.org',
+  testing: 'https:/testing.povertystoplight.org',
+  development: 'http://localhost:3000'
+};
+
 axios.interceptors.response.use(
   response => response,
   error => {
