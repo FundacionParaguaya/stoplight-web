@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography, Button } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import Container from './Container';
 import { withSnackbar } from 'notistack';
 import iconAchivement from '../assets/imgAch.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { COLORS } from '../theme';
-import { ROLES_NAMES } from '../utils/role-utils';
 
 const styles = theme => ({
   basicInfo: {
