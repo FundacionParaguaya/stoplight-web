@@ -472,7 +472,9 @@
     },
     "familyAchievements": {
       "achievements": "Logros",
-      "indicator": "Indicadores"
+      "indicator": "Indicadores",
+      "action": "¿Qué hiciste para lograr esto?",
+      "roadmap": "¿Quién o qué te motivó a llegar allí?"
     },
     "organization": {
       "addOrganization": "Agregar organización",
