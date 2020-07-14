@@ -14,6 +14,7 @@ import {
   getFamily,
   assignFacilitator,
   getPrioritiesByFamily,
+  getPrioritiesAchievementByFamily,
   getLastSnapshot,
   getFamilyNotes,
   saveFamilyNote
@@ -47,6 +48,7 @@ import {
 } from '../utils/survey-utils';
 import { getSurveyById } from '../api';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FamilyAchievements from '../components/FamilyAchievements';
 
 const FamilyProfile = ({
   classes,
@@ -73,6 +75,7 @@ const FamilyProfile = ({
   const [survey, setSurvey] = useState();
   const [familyNotes, setFamilyNotes] = useState([]);
   const [familyNote, setFamilyNote] = useState('');
+  const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(false);
   const [orgsId, setOrgsId] = useState();
 
@@ -194,6 +197,19 @@ const FamilyProfile = ({
       });
   };
 
+  const loadAchivements = (familyId, user) => {
+    getPrioritiesAchievementByFamily(user, Number(familyId))
+      .then(response => {
+        console.log(response);
+        setAchievements(
+          response.data.data.prioritiesAchievementsByFamily.achievements
+        );
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   const loadFamilyNotes = (familyId, user) => {
     getFamilyNotes(familyId, user)
       .then(response => {
@@ -238,6 +254,7 @@ const FamilyProfile = ({
     loadFamilies(familyId, user);
     loadPriorities(familyId);
     loadFamilyNotes(familyId, user);
+    loadAchivements(familyId, user);
   }, []);
 
   useEffect(() => {
@@ -512,6 +529,11 @@ const FamilyProfile = ({
         questions={family.snapshotIndicators}
         priorities={priorities}
       ></FamilyPriorities>
+
+      <FamilyAchievements
+        familyId={familyId}
+        achievements={achievements}
+      ></FamilyAchievements>
 
       {/* Notes */}
 

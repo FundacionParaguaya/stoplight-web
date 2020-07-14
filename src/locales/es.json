@@ -470,6 +470,10 @@
       "addPriority": "Agregar Prioridad",
       "updatedAt": "Fecha de Creación"
     },
+    "familyAchievements": {
+      "achievements": "Logros",
+      "indicator": "Indicadores"
+    },
     "organization": {
       "addOrganization": "Agregar organización",
       "editButton": "EDITAR",

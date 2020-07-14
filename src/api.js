@@ -724,7 +724,7 @@ export const assignFacilitator = (familyId, mentorId, user) =>
     })
   });
 
-export const getPrioritiesAchievementByFamily = (familyId, user) =>
+export const getPrioritiesAchievementByFamily = (user, familyId) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -735,7 +735,7 @@ export const getPrioritiesAchievementByFamily = (familyId, user) =>
       query:
         'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
       variables: {
-        familyId
+        familyId: familyId
       }
     })
   });
