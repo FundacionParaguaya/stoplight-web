@@ -6,7 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { capitalize } from 'lodash';
 import { updateUser } from './redux/actions';
-import { checkSessionToken } from './api';
+import { checkSessionToken, enviroments } from './api';
+import Login from './screens/Login';
 
 let LoadingAuth = ({ classes }) => (
   <div className={classes.container}>
@@ -24,17 +25,9 @@ const loadingAuthStyles = {
 };
 LoadingAuth = withStyles(loadingAuthStyles)(LoadingAuth);
 
-let UserNotAllowed = () => <div />;
+const getEnv = url => enviromentsList.find(e => url.includes(e));
 
-const userNotAllowedStyles = {
-  container: {
-    display: 'flex',
-    height: '100vh',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-};
-UserNotAllowed = withStyles(userNotAllowedStyles)(UserNotAllowed);
+const enviromentsList = ['platform', 'demo', 'testing', 'development'];
 
 const Authenticator = props => {
   // TODO add
@@ -48,8 +41,7 @@ const Authenticator = props => {
   const [authVerified, setAuthVerified] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const redirect = to =>
-    window.location.replace(`https://${to}.povertystoplight.org/login.html`);
+  const redirect = env => window.location.replace(`${enviroments[env]}/login`);
 
   const sid = useMemo(() => queryString.parse(location.search).sid, [
     location.search
@@ -58,9 +50,13 @@ const Authenticator = props => {
     location.search
   ]);
   // TODO delete the default testing environment, used only while
-  const env = useMemo(() => queryString.parse(location.search).env, [
-    location.search
-  ]);
+  const env = useMemo(
+    () =>
+      queryString.parse(location.search).env ||
+      getEnv(window.location.href) ||
+      'development',
+    [location.search]
+  );
 
   const {
     localStorageToken,
@@ -106,7 +102,6 @@ const Authenticator = props => {
       // There's no sid or env to use. User no logged in
       setAuthVerified(true);
       setLoggedIn(false);
-      redirect(environment);
       return;
     }
     // Verifying token before logging user in
@@ -160,7 +155,7 @@ const Authenticator = props => {
   return (
     <React.Fragment>
       {authVerified && loggedIn && <React.Fragment>{children}</React.Fragment>}
-      {authVerified && !loggedIn && <UserNotAllowed />}
+      {authVerified && !loggedIn && <Login env={env} />}
       {!authVerified && <LoadingAuth />}
     </React.Fragment>
   );

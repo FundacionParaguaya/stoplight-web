@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import interrogation from '../assets/interrogation.png';
 import { useTranslation } from 'react-i18next';
-import { ROLES_NAMES } from '../utils/role-utils';
+import { getHomePage } from '../utils/role-utils';
 
 const pageNotFoundStyles = makeStyles(theme => ({
   container: {
@@ -58,12 +58,6 @@ const PageNotFound = ({ user }) => {
 
   const classes = pageNotFoundStyles();
 
-  const redirectionPath = ({ role }) => {
-    if (role === ROLES_NAMES.ROLE_SURVEY_TAKER) {
-      return 'surveys';
-    } else return 'dashboard';
-  };
-
   return (
     <div className={classes.container}>
       <div className={classes.imageContainer}>
@@ -79,7 +73,7 @@ const PageNotFound = ({ user }) => {
         <Typography variant="h6" className={classes.text}>
           {t('views.404.pageNotFound')}
         </Typography>
-        <Link to={redirectionPath(user)} className={classes.linkText}>
+        <Link to={getHomePage(user.role)} className={classes.linkText}>
           {`${t('views.404.toHomePage')} >`}
         </Link>
       </div>
