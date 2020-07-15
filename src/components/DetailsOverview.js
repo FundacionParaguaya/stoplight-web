@@ -6,6 +6,7 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import { withSnackbar } from 'notistack';
 import DimensionQuestion from './summary/DimensionQuestion';
 import FamilyPriorities from './FamilyPriorities';
+import FamilyAchievements from '../components/FamilyAchievements';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -17,13 +18,11 @@ import moment from 'moment';
 import LeaveModal from './LeaveModal';
 import { ROLES_NAMES } from '../utils/role-utils';
 import {
-  getPrioritiesBySnapshotId,
   sendLifemapPdfv2,
   downloadPdf,
   sendWhatsappMessage,
-  getAchievementsBySnapshot
+  getPrioritiesAchievementsBySnapshot
 } from '../api';
-import FamilyAchievements from '../components/FamilyAchievements';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -113,9 +112,6 @@ const DetailsOverview = ({
   useEffect(() => {
     setAchievements(snapshot.achievements ? snapshot.achievements : []);
     setPriorities(snapshot.priorities ? snapshot.priorities : []);
-    getPrioritiesBySnapshotId(user, snapshot.snapshotId).then(response => {
-      setPrioritiesList(response.data.data.prioritiesBySnapshot);
-    });
     let stoplight = snapshot.stoplight.map(snapshotStoplight => {
       return {
         key: snapshotStoplight.codeName,
@@ -124,7 +120,7 @@ const DetailsOverview = ({
       };
     });
     setStoplight(stoplight);
-    loadAchievements(user, snapshot.snapshotId);
+    loadPrioritiesAchievements(user, snapshot.snapshotId);
   }, [snapshot.snapshotId]);
 
   const toggleModal = (
@@ -140,14 +136,17 @@ const DetailsOverview = ({
     setOpenModal(true);
   };
 
-  const loadAchievements = (user, snapshotId) => {
-    getAchievementsBySnapshot(user, Number(snapshotId)).then(response => {
-      console.log(response);
-
-      setAchievementsList(
-        response.data.data.prioritiesAchievementsBySnapshot.achievements
-      );
-    });
+  const loadPrioritiesAchievements = (user, snapshotId) => {
+    getPrioritiesAchievementsBySnapshot(user, Number(snapshotId)).then(
+      response => {
+        setPrioritiesList(
+          response.data.data.prioritiesAchievementsBySnapshot.priorities
+        );
+        setAchievementsList(
+          response.data.data.prioritiesAchievementsBySnapshot.achievements
+        );
+      }
+    );
   };
 
   const handleWhatsappClick = () => {

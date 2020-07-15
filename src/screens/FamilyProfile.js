@@ -13,7 +13,6 @@ import withLayout from '../components/withLayout';
 import {
   getFamily,
   assignFacilitator,
-  getPrioritiesByFamily,
   getPrioritiesAchievementByFamily,
   getLastSnapshot,
   getFamilyNotes,
@@ -178,10 +177,15 @@ const FamilyProfile = ({
     });
   };
 
-  const loadPriorities = familyId => {
-    getPrioritiesByFamily(user, Number(familyId))
+  const loadAchievementsPriorities = (familyId, user) => {
+    getPrioritiesAchievementByFamily(user, Number(familyId))
       .then(response => {
-        setPriorities(response.data.data.prioritiesByFamily);
+        setPriorities(
+          response.data.data.prioritiesAchievementsByFamily.priorities
+        );
+        setAchievements(
+          response.data.data.prioritiesAchievementsByFamily.achievements
+        );
       })
       .catch(e => {
         console.log(e);
@@ -194,19 +198,6 @@ const FamilyProfile = ({
             </IconButton>
           )
         });
-      });
-  };
-
-  const loadAchivements = (familyId, user) => {
-    getPrioritiesAchievementByFamily(user, Number(familyId))
-      .then(response => {
-        console.log(response);
-        setAchievements(
-          response.data.data.prioritiesAchievementsByFamily.achievements
-        );
-      })
-      .catch(e => {
-        console.log(e);
       });
   };
 
@@ -252,9 +243,8 @@ const FamilyProfile = ({
 
   useEffect(() => {
     loadFamilies(familyId, user);
-    loadPriorities(familyId);
     loadFamilyNotes(familyId, user);
-    loadAchivements(familyId, user);
+    loadAchievementsPriorities(familyId, user);
   }, []);
 
   useEffect(() => {

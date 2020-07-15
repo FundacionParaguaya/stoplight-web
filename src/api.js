@@ -748,7 +748,7 @@ export const getPrioritiesAchievementByFamily = (user, familyId) =>
     })
   });
 
-export const getAchievementsBySnapshot = (user, snapshotId) =>
+export const getPrioritiesAchievementsBySnapshot = (user, snapshotId) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
