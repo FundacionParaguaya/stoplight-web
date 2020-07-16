@@ -680,7 +680,7 @@
       "newPasswordRequired": "Nueva contraseña es requerida",
       "newPasswordConfirm": "Confirmar nueva contraseña",
       "newPasswordConfirmFailed": "La confirmación de nueva contraseña ha fallado",
-      "resetPass": "Cambiar Contraseña",
+      "resetPassword": "Cambiar Contraseña",
       "backLogin": "Volver al inicio de sesión",
       "resetTitle": "Por favor ingrese su usuario y correo electrónico para cambiar su contraseña",
       "connectionError": "Sin conexión con el servidor",

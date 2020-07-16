@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center'
   },
-  languageSelector: {
+  sideContainers: {
     display: 'flex',
     justifyContent: 'flex-start',
     height: '100vh',
@@ -35,10 +35,11 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 15
   },
   form: {
-    width: 400
+    width: 425
   },
   title: {
     marginTop: 20,
+    fontSize: 32,
     lineHeight: 1.2,
     textAlign: 'left'
   },
@@ -167,7 +168,10 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
               </IconButton>
             )
           });
-          window.location.replace(enviroments[env] + '/login');
+          setTimeout(
+            () => window.location.replace(enviroments[env] + '/login'),
+            1000
+          );
         })
         .catch(() => {
           resetForm(initialStatus);
@@ -226,9 +230,14 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
     );
   };
 
+  const handleBackToLogin = changePassword => {
+    changePassword && window.location.replace(enviroments[env] + '/login');
+    !changePassword && setResetPassword(!resetPassword);
+  };
+
   return (
     <div className={classes.mainContainer}>
-      <div className={classes.languageSelector}>
+      <div className={classes.sideContainers}>
         <LanguageSelector />
       </div>
       <div className={classes.form}>
@@ -241,7 +250,9 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
         />
 
         <Typography variant="h4" className={classes.title}>
-          {t('views.login.welcomeToPlatform')}
+          {env === 'platform'
+            ? t('views.login.welcomeToPlatform')
+            : t('views.login.welcomeToDemo')}
         </Typography>
         <div style={{ display: 'flex' }}>
           <Typography
@@ -279,7 +290,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
               {!!token && !!id ? (
                 <React.Fragment>
                   <Typography variant="h6" className={classes.inputLabel}>
-                    {t('views.login.newPassword')}
+                    {t('views.login.newPassword').toUpperCase()}
                   </Typography>
                   <TextField
                     InputProps={{
@@ -298,7 +309,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
                     required={true}
                   />
                   <Typography variant="h6" className={classes.inputLabel}>
-                    {t('views.login.newPasswordConfirm')}
+                    {t('views.login.newPasswordConfirm').toUpperCase()}
                   </Typography>
                   <TextField
                     InputProps={{
@@ -322,7 +333,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
               ) : (
                 <React.Fragment>
                   <Typography variant="h6" className={classes.inputLabel}>
-                    {t('views.login.username')}
+                    {t('views.login.username').toUpperCase()}
                   </Typography>
                   <TextField
                     InputProps={{
@@ -342,8 +353,8 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
 
                   <Typography variant="h6" className={classes.inputLabel}>
                     {resetPassword
-                      ? t('views.login.email')
-                      : t('views.login.password')}
+                      ? t('views.login.email').toUpperCase()
+                      : t('views.login.password').toUpperCase()}
                   </Typography>
 
                   {resetPassword ? (
@@ -396,9 +407,9 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
                 </Button>
                 <span
                   className={classes.forgotPassword}
-                  onClick={() => setResetPassword(!resetPassword)}
+                  onClick={() => handleBackToLogin(!!id)}
                 >
-                  {resetPassword
+                  {resetPassword || (!!token && !!id)
                     ? t('views.login.backLogin')
                     : t('views.login.forgotPassword')}
                 </span>
@@ -407,7 +418,9 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
           )}
         </Formik>
       </div>
-      <Intercom />
+      <div className={classes.sideContainers}>
+        <Intercom />
+      </div>
     </div>
   );
 };
