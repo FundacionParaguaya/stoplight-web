@@ -760,6 +760,38 @@ export const assignFacilitator = (familyId, mentorId, user) =>
     })
   });
 
+export const getPrioritiesAchievementByFamily = (user, familyId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
+      variables: {
+        familyId: familyId
+      }
+    })
+  });
+
+export const getPrioritiesAchievementsBySnapshot = (user, snapshotId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query prioritiesAchievementsBySnapshot($snapshotId: Long!) { prioritiesAchievementsBySnapshot (snapshotId: $snapshotId) { priorities {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
+      variables: {
+        snapshotId: snapshotId
+      }
+    })
+  });
+
 export const getPrioritiesByFamily = (user, familyId) =>
   axios({
     method: 'post',

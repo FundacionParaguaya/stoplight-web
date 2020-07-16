@@ -13,7 +13,7 @@ import withLayout from '../components/withLayout';
 import {
   getFamily,
   assignFacilitator,
-  getPrioritiesByFamily,
+  getPrioritiesAchievementByFamily,
   getLastSnapshot,
   getFamilyNotes,
   saveFamilyNote
@@ -47,6 +47,7 @@ import {
 } from '../utils/survey-utils';
 import { getSurveyById } from '../api';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FamilyAchievements from '../components/FamilyAchievements';
 
 const FamilyProfile = ({
   classes,
@@ -73,6 +74,7 @@ const FamilyProfile = ({
   const [survey, setSurvey] = useState();
   const [familyNotes, setFamilyNotes] = useState([]);
   const [familyNote, setFamilyNote] = useState('');
+  const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(false);
   const [orgsId, setOrgsId] = useState();
 
@@ -175,10 +177,15 @@ const FamilyProfile = ({
     });
   };
 
-  const loadPriorities = familyId => {
-    getPrioritiesByFamily(user, Number(familyId))
+  const loadAchievementsPriorities = (familyId, user) => {
+    getPrioritiesAchievementByFamily(user, Number(familyId))
       .then(response => {
-        setPriorities(response.data.data.prioritiesByFamily);
+        setPriorities(
+          response.data.data.prioritiesAchievementsByFamily.priorities
+        );
+        setAchievements(
+          response.data.data.prioritiesAchievementsByFamily.achievements
+        );
       })
       .catch(e => {
         console.log(e);
@@ -236,8 +243,8 @@ const FamilyProfile = ({
 
   useEffect(() => {
     loadFamilies(familyId, user);
-    loadPriorities(familyId);
     loadFamilyNotes(familyId, user);
+    loadAchievementsPriorities(familyId, user);
   }, []);
 
   useEffect(() => {
@@ -512,6 +519,11 @@ const FamilyProfile = ({
         questions={family.snapshotIndicators}
         priorities={priorities}
       ></FamilyPriorities>
+
+      <FamilyAchievements
+        familyId={familyId}
+        achievements={achievements}
+      ></FamilyAchievements>
 
       {/* Notes */}
 
