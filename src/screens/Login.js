@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-start',
     height: '100vh',
-    width: '35vw',
+    width: '40vw',
     alignItems: 'flex-end',
     padding: 10,
     paddingBottom: 15
