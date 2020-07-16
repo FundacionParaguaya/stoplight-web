@@ -18,7 +18,9 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 0
   },
   innerContainer: {
-    zIndex: 2
+    zIndex: 2,
+    display: 'flex',
+    alignItems: 'center'
   }
 }));
 
