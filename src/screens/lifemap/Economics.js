@@ -376,7 +376,8 @@ export class Economics extends Component {
       classes,
       scrollToTop,
       enqueueSnackbar,
-      closeSnackbar
+      closeSnackbar,
+      user
     } = this.props;
     let topicAudio = null;
     if (questions && questions.forFamily.length > 0) {
@@ -398,7 +399,7 @@ export class Economics extends Component {
         <TitleBar title={topic} progressBar />
         <div className={classes.mainContainer}>
           <Container variant="slim">
-            {!!topicAudio && (
+            {user.interative_help && !!topicAudio && (
               <AudioHelp
                 audio={topicAudio}
                 playAudio={playTopicAudio}
@@ -931,9 +932,10 @@ export class Economics extends Component {
   }
 }
 
-const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
+const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
   currentSurvey,
-  currentDraft
+  currentDraft,
+  user
 });
 
 const mapDispatchToProps = { updateDraft };
