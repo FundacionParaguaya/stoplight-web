@@ -51,11 +51,13 @@ const DatePickerWithFormik = ({
     onChange,
     fullWidth: true,
     TextFieldComponent: passedProps => {
+      let label = passedProps.label + ': ' + dateMask.toLowerCase();
+      label = language === 'en' ? label : label.replace(/y/g, 'a');
       const effectiveTextfieldProps = {
         ...passedProps,
         ...fieldProps,
         ...textFieldProps,
-        label: passedProps.label + ': ' + dateMask.toLowerCase()
+        label
       };
       return <TextField {...effectiveTextfieldProps} />;
     }
