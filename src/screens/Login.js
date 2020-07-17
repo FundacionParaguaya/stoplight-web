@@ -91,6 +91,10 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'underline',
     marginTop: 12
   },
+  button: {
+    paddingLeft: 15,
+    paddingRight: 15
+  },
   alert: {
     '& .MuiAlert-action': {
       paddingLeft: 0
@@ -399,6 +403,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
                   type="submit"
                   color="primary"
                   variant="contained"
+                  className={classes.button}
                   disabled={loading}
                 >
                   {resetPassword || (!!token && !!id)
