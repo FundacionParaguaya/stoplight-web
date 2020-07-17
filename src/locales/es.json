@@ -694,6 +694,10 @@
       "missing": "¡Algo está perdido!",
       "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
       "toHomePage": "Volver a la Página de Inicio"
+    },
+    "error": {
+      "subtitle": "Algo salió mal de nuestro lado. Intenta actualizar o",
+      "toHomePage": "Regrese al sitio principal."
     }
   },
   "reports": {
