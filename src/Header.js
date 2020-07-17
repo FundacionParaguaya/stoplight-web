@@ -18,6 +18,7 @@ import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 import { withTranslation } from 'react-i18next';
 import logo from './assets/header_logo.png';
 import i18n from './i18n';
+import moment from 'moment';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
 import portugueseLogo from './assets/portuguese.png';
@@ -39,12 +40,14 @@ class Header extends Component {
 
   componentDidMount() {
     const lng = localStorage.getItem('language');
+    moment.locale(lng);
     this.setState({ langaugeMenuMain: lng });
   }
 
   componentDidUpdate() {
     const lng = localStorage.getItem('language');
     if (this.state.langaugeMenuMain !== lng) {
+      moment.locale(lng);
       this.setState({ langaugeMenuMain: lng });
     }
   }
