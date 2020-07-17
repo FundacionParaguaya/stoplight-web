@@ -693,6 +693,10 @@
       "missing": "Something’s missing!",
       "pageNotFound": "This page is missing or could not be found.",
       "toHomePage": "Return to Home Page"
+    },
+    "error": {
+      "subtitle": "Something went wrong on our end. Please try refreshing or",
+      "toHomePage": " Go back to the main site."
     }
   },
   "reports": {
