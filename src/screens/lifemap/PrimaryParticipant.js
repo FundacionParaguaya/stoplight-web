@@ -42,13 +42,32 @@ const phoneCodes = CallingCodes.map(element => ({
 const fieldIsRequired = 'validation.fieldIsRequired';
 const validEmailAddress = 'validation.validEmailAddress';
 const validPhoneNumber = 'validation.validPhoneNumber';
+const validDate = 'validation.validDate';
 
 const schemaWithDateTransform = Yup.date()
   .typeError(fieldIsRequired)
   .transform((_value, originalValue) => {
     return originalValue ? moment.unix(originalValue).toDate() : new Date('');
   })
-  .required(fieldIsRequired);
+  .required(validDate)
+  .test({
+    name: 'test-date-range',
+    test: function(birthDate) {
+      if (birthDate > new Date()) {
+        return this.createError({
+          message: validDate,
+          path: 'birthDate'
+        });
+      }
+      if (birthDate < new Date('1910-01-01')) {
+        return this.createError({
+          message: validDate,
+          path: 'birthDate'
+        });
+      }
+      return true;
+    }
+  });
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 const staticFields = {
@@ -478,9 +497,11 @@ export class PrimaryParticipant extends Component {
                     disableFuture
                     required
                     minDate={moment('1910-01-01')}
-                    onChange={e =>
-                      this.syncDraft(e.unix(), 'birthDate', setFieldValue)
-                    }
+                    onChange={e => {
+                      !!e &&
+                        e._isValid &&
+                        this.syncDraft(e.unix(), 'birthDate', setFieldValue);
+                    }}
                   />
                   <AutocompleteWithFormik
                     label={t('views.family.documentType')}

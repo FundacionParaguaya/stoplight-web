@@ -29,11 +29,20 @@ import {
 } from '../../utils/conditional-logic';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
-const schemaWithDateTransform = Yup.date()
-  .typeError(fieldIsRequired)
+const validDate = 'validation.validDate';
+const minDate = '1910-01-01';
+const schemaWithDateTransform = Yup.mixed()
   .transform((_value, originalValue) => {
-    return originalValue ? moment.unix(originalValue).toDate() : new Date();
-  });
+    let birthDate = !!originalValue
+      ? moment.unix(originalValue).toDate()
+      : new Date('');
+
+    if (birthDate > new Date()) return null;
+    if (birthDate < new Date(minDate)) return null;
+
+    return birthDate;
+  })
+  .required(validDate);
 
 const validationSchema = Yup.object().shape({
   members: Yup.array().of(
@@ -65,7 +74,6 @@ export class FamilyMembers extends Component {
   }
 
   closeModal = () => {
-    console.log('Close Modal');
     this.setState({ showModal: false });
   };
 
@@ -83,9 +91,6 @@ export class FamilyMembers extends Component {
       memberIndex
     );
     if (memberKeysWithConditionsOnThem.includes(property)) {
-      console.log(
-        `Will evaluate cascading after updating family key ${property} on member ${memberIndex}`
-      );
       newDraft = getDraftWithUpdatedQuestionsCascading(
         newDraft,
         conditionalQuestions
@@ -96,8 +101,6 @@ export class FamilyMembers extends Component {
   };
 
   handleContinue = () => {
-    console.log('handle continue');
-
     if (this.validateNumberOfMembers()) {
       this.props.history.push('/lifemap/location');
     } else {
@@ -121,20 +124,10 @@ export class FamilyMembers extends Component {
     const numberAdded = this.props.currentDraft.familyData.familyMembersList
       .length;
     const decreaseMembers = this.state.decreaseMembers;
-    console.log(
-      'validating number of members: ' +
-        numberOfMembers +
-        ' --- ' +
-        numberAdded +
-        '---' +
-        decreaseMembers
-    );
+
     if (numberOfMembers === numberAdded) {
-      console.log('Equal number of members added and declared');
       return true;
     } else if (!decreaseMembers) {
-      console.log('Updating number of members to : ', numberAdded + 1);
-
       this.props.updateDraft({
         ...this.props.currentDraft,
         familyData: {
@@ -157,7 +150,6 @@ export class FamilyMembers extends Component {
   };
 
   addMember = () => {
-    console.log('Calling addMember');
     const names2 = this.props.currentDraft.familyData.familyMembersList;
     names2.push(this.emptyMember);
     this.props.updateDraft({
@@ -171,7 +163,6 @@ export class FamilyMembers extends Component {
   };
 
   removeMember = indexToRemove => {
-    console.log('Calling removeMember');
     let members = [];
     if (this.props.currentDraft.familyData.familyMembersList) {
       members = this.props.currentDraft.familyData.familyMembersList.filter(
@@ -205,9 +196,6 @@ export class FamilyMembers extends Component {
     } = this.props;
     const membersList = currentDraft.familyData.familyMembersList.slice(0);
     const { surveyConfig } = currentSurvey;
-
-    console.log('List of members');
-    console.log(membersList);
 
     return (
       <div>
@@ -341,16 +329,18 @@ export class FamilyMembers extends Component {
                               name={`members[${index}].birthDate`}
                               maxDate={new Date()}
                               disableFuture
-                              minDate={moment('1910-01-01')}
-                              onChange={e =>
-                                this.syncDraft(
-                                  e.unix(),
-                                  index,
-                                  'birthDate',
-                                  `members[${index}].birthDate`,
-                                  setFieldValue
-                                )
-                              }
+                              minDate={moment(minDate)}
+                              onChange={e => {
+                                !!e &&
+                                  e._isValid &&
+                                  this.syncDraft(
+                                    e.unix(),
+                                    index,
+                                    'birthDate',
+                                    `members[${index}].birthDate`,
+                                    setFieldValue
+                                  );
+                              }}
                             />
                           </div>
                         );
