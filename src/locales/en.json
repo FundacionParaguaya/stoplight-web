@@ -44,7 +44,8 @@
     "alphabeticCharacters": "Please enter alphabetic characters",
     "validPhoneNumber": "Please enter a valid phone number",
     "validNumber": "Please enter a valid number",
-    "formWithErrors": "The form contains invalid entries"
+    "formWithErrors": "The form contains invalid entries",
+    "validDate": "Please enter a valid date"
   },
   "months": {
     "january": "January",
