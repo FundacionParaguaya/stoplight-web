@@ -3,12 +3,12 @@ import propTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import TextField from '@material-ui/core/TextField';
-import { DatePicker } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { connect } from 'formik';
 import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
-import { getDateFormatByLocale } from '../utils/date-utils';
+import { getDateMaskByLocale } from '../utils/date-utils';
 
 const DatePickerWithFormik = ({
   classes,
@@ -20,7 +20,7 @@ const DatePickerWithFormik = ({
   textFieldProps,
   ...props
 }) => {
-  const dateFormat = getDateFormatByLocale(language);
+  const dateMask = getDateMaskByLocale(language);
 
   const error = pathHasError(name, formik.touched, formik.errors);
   const helperText = getErrorLabelForPath(
@@ -39,9 +39,9 @@ const DatePickerWithFormik = ({
   };
 
   const innerProps = {
-    format: dateFormat,
+    format: dateMask,
     name,
-    value: currentValue ? moment.unix(currentValue) : null,
+    value: !!currentValue ? moment.unix(currentValue) : null,
     variant: 'filled',
     okLabel: t('general.ok'),
     cancelLabel: t('general.cancel'),
@@ -54,13 +54,14 @@ const DatePickerWithFormik = ({
       const effectiveTextfieldProps = {
         ...passedProps,
         ...fieldProps,
-        ...textFieldProps
+        ...textFieldProps,
+        label: passedProps.label + ': ' + dateMask.toLowerCase()
       };
       return <TextField {...effectiveTextfieldProps} />;
     }
   };
   const datePickerProps = { ...innerProps, ...props };
-  return <DatePicker {...datePickerProps} />;
+  return <KeyboardDatePicker {...datePickerProps} />;
 };
 
 DatePickerWithFormik.propTypes = {

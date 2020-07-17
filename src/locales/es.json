@@ -44,7 +44,8 @@
     "alphabeticCharacters": "Favor ingrese los caracteres alfabéticos",
     "validPhoneNumber": "Favor ingrese un número de teléfono válido",
     "validNumber": "Favor ingrese un número válido",
-    "formWithErrors": "El formulario contiene datos inválidos"
+    "formWithErrors": "El formulario contiene datos inválidos",
+    "validDate": "Favor ingrese un fecha válida"
   },
   "months": {
     "january": "Enero",
