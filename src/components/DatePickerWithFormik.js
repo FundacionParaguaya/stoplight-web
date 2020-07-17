@@ -54,7 +54,8 @@ const DatePickerWithFormik = ({
       const effectiveTextfieldProps = {
         ...passedProps,
         ...fieldProps,
-        ...textFieldProps
+        ...textFieldProps,
+        label: passedProps.label + ': ' + dateMask.toLowerCase()
       };
       return <TextField {...effectiveTextfieldProps} />;
     }
