@@ -307,6 +307,7 @@
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Descargar",
+      "deleteSnapshot": "Borrar esta encuesta",
       "downloadError": "Error al descargar tu Mapa de Vida",
       "lifemapSaved": "Tu encuesta se ha enviado.",
       "clickSafe": "Ahora, ¡simplemente haz click en guardar!",
@@ -314,7 +315,14 @@
       "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email.",
       "whatsappSent": "¡Te llegará un mensaje al Whatsapp! Si quieres recibir tu Mapa de Vida, responde al mensaje con \"Si\".",
       "whatsappSentOverview": "¡Te llegará un mensaje al Whatsapp! Si quieres recibir tu Mapa de Vida, responde al mensaje con \"Si\".",
-      "emailError": "Error al enviar tu Mapa de Vida vía email"
+      "emailError": "Error al enviar tu Mapa de Vida vía email",
+      "delete": {
+        "confirmTitle": "Confirmar la eliminación",
+        "confirmText": "¿Estás seguro de que deseas eliminar esta encuesta?",
+        "cannotUndo": "¡No puedes deshacer esta acción!",
+        "success": "La encuesta ha sido eliminada",
+        "failed": "No se pudo eliminar la encuesta."
+      }
     },
     "send": {
       "title": "Envía tu Mapa de Vida",

@@ -307,13 +307,21 @@
       "email": "Email",
       "whatsapp": "Whatsapp",
       "download": "Baixar",
+      "deleteSnapshot": "Excluir esta pesquisa",
       "lifemapSaved": "Seu Mapa de Vida foi salvo com sucesso!",
       "clickSafe": "Agora, simplesmente clique em salvar!",
       "clickSafeWithoutStoplight": "Agora é só selecionar terminar.",
       "emailSent": "Seu Mapa de Vida foi enviado exitosamente via email. Não esqueça de selecionar Salvar & fechar!",
       "whatsappSent": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mensagem com \"Sim\".",
       "whatsappSentOverview": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mendsagem com \"Sim\".",
-      "emailError": "Error ao enviar seu Mapa de Vida via email"
+      "emailError": "Error ao enviar seu Mapa de Vida via email",
+      "delete": {
+        "confirmTitle": "Confirmar exclusão",
+        "confirmText": "Tem certeza de que deseja excluir esta pesquisa?",
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "success": "A pesquisa foi excluída",
+        "failed": "Não foi possível excluir a pesquisa"
+      }
     },
     "send": {
       "title": "Envie o seu Mapa de Vida",

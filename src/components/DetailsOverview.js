@@ -7,12 +7,14 @@ import { withSnackbar } from 'notistack';
 import DimensionQuestion from './summary/DimensionQuestion';
 import FamilyPriorities from './FamilyPriorities';
 import FamilyAchievements from '../components/FamilyAchievements';
+import DeleteSnapshotModal from '../components/DeleteSnapshotModal';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import LeaveModal from './LeaveModal';
@@ -108,6 +110,7 @@ const DetailsOverview = ({
   const [openModal, setOpenModal] = useState(false);
   const [modalVariant, setModalVariant] = useState('');
   const [achievementsList, setAchievementsList] = useState([]);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   useEffect(() => {
     setAchievements(snapshot.achievements ? snapshot.achievements : []);
@@ -159,6 +162,14 @@ const DetailsOverview = ({
     );
   };
 
+  const toggleDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
+
+  /*  const reloadPage = () => {
+
+  }
+ */
   const handleMailClick = () => {
     setLoading(true);
     return sendLifemapPdfv2(snapshot.snapshotId, user, language)
@@ -221,6 +232,10 @@ const DetailsOverview = ({
         role === ROLES_NAMES.ROLE_SURVEY_USER ||
         role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
       );
+    } else if (button === 'delete') {
+      return (
+        role === ROLES_NAMES.ROLE_APP_ADMIN || role === ROLES_NAMES.ROLE_ROOT
+      );
     } else {
       return false;
     }
@@ -228,6 +243,12 @@ const DetailsOverview = ({
 
   return (
     <div className={classes.mainContainer}>
+      <DeleteSnapshotModal
+        open={openDeleteModal}
+        onClose={toggleDeleteModal}
+        //afterSubmit={reloadPage}
+      />
+
       <LeaveModal
         title={modalTitle}
         subtitle={modalSubtitle}
@@ -335,6 +356,23 @@ const DetailsOverview = ({
               >
                 <DownloadIcon className={classes.leftIcon} />
                 {t('views.final.download')}
+              </Button>
+            </Grid>
+          )}
+
+          {showButton('delete', user) && (
+            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  toggleDeleteModal();
+                }}
+              >
+                <DeleteIcon className={classes.leftIcon} />
+                {t('views.final.deleteSnapshot')}
               </Button>
             </Grid>
           )}
