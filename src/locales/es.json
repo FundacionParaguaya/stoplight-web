@@ -475,7 +475,8 @@
       "achievements": "Logros",
       "indicator": "Indicadores",
       "action": "¿Qué hiciste para lograr esto?",
-      "roadmap": "¿Quién o qué te motivó a llegar allí?"
+      "roadmap": "¿Quién o qué te motivó a llegar allí?",
+      "noAchievements": "Esta familia no tiene logros."
     },
     "organization": {
       "addOrganization": "Agregar organización",
