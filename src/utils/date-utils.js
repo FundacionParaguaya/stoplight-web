@@ -10,6 +10,12 @@ const MONTH_FORMATS_BY_LANG = {
   pt: 'D [de] MMMM'
 };
 
+const DATE_MASK_BY_LANG = {
+  es: 'DD/MM/YYYY',
+  en: 'MM/DD/YYYY',
+  pt: 'DD/MM/YYYY'
+};
+
 const getDateFormatByLocale = lang => {
   const format = DATE_FORMATS_BY_LANG[lang];
   return format || DATE_FORMATS_BY_LANG.en;
@@ -20,4 +26,14 @@ const getMonthFormatByLocale = lang => {
   return format || MONTH_FORMATS_BY_LANG.en;
 };
 
-export { getMonthFormatByLocale, getDateFormatByLocale, DATE_FORMATS_BY_LANG };
+const getDateMaskByLocale = lang => {
+  const mask = DATE_MASK_BY_LANG[lang];
+  return mask || DATE_MASK_BY_LANG.en;
+};
+
+export {
+  getMonthFormatByLocale,
+  getDateFormatByLocale,
+  getDateMaskByLocale,
+  DATE_FORMATS_BY_LANG
+};

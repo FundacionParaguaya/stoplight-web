@@ -19,7 +19,7 @@ export const url = {
 export const enviroments = {
   platform: 'https://platform.povertystoplight.org',
   demo: 'https://demo.povertystoplight.org',
-  testing: 'https:/testing.povertystoplight.org',
+  testing: 'https://testing.stoplightplatform.org',
   development: 'http://localhost:3000'
 };
 
@@ -28,15 +28,15 @@ axios.interceptors.response.use(
   error => {
     const status = error.response ? error.response.status : null;
     const { user = {} } = store.getState();
-    if (status === 401) {
-      window.location.replace(
-        `https://${user.env}.povertystoplight.org/login.html`
-      );
+    if (status === 401 && !!user.env) {
+      window.location.replace(`${enviroments[user.env]}/login`);
     }
     return Promise.reject(error);
   }
 );
 
+const clientid = 'barClientIdPassword';
+const clientsecret = 'secret';
 const normalizeLang = lang => (lang === 'en' ? 'en_US' : 'es_PY');
 
 export const sendMail = (document, mail, user, lang) => {
@@ -448,6 +448,34 @@ export const submitPictures = (user, snapshot) => {
     data: formData
   });
 };
+
+export const getToken = (formData, env) =>
+  axios({
+    method: 'post',
+    url: `${url[env]}/oauth/token`,
+    headers: {
+      Authorization: `Basic ${btoa(`${clientid}:${clientsecret}`)}`,
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    data: formData
+  });
+
+export const resetPasswordService = (formData, env) =>
+  axios({
+    method: 'post',
+    url: `${url[env]}/password/resetPassword`,
+    data: formData
+  });
+
+export const changePassword = (formData, env) =>
+  axios({
+    method: 'post',
+    url: `${url[env]}/password/changePassword`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    data: formData
+  });
 
 export const checkSessionToken = (token, env) =>
   axios({

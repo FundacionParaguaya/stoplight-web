@@ -44,7 +44,8 @@
     "alphabeticCharacters": "Please enter alphabetic characters",
     "validPhoneNumber": "Please enter a valid phone number",
     "validNumber": "Please enter a valid number",
-    "formWithErrors": "The form contains invalid entries"
+    "formWithErrors": "The form contains invalid entries",
+    "validDate": "Please enter a valid date"
   },
   "months": {
     "january": "January",
@@ -666,10 +667,37 @@
       "families": " families",
       "singleFamily": " family"
     },
+    "login": {
+      "welcomeToPlatform": "Welcome to the Stoplight Platform!",
+      "welcomeToDemo": "Welcome to the Demo Platform!",
+      "switchTo": "Switch to",
+      "username": "Username",
+      "password": "Password",
+      "login": "Login",
+      "forgotPassword": "Forgot password?",
+      "goForm": "Sign in",
+      "email": "Email",
+      "newPassword": "New Password",
+      "newPasswordConfirm": "Confirm New Password",
+      "newPasswordConfirmFailed": "New password confirmation failed",
+      "resetPassword": "Reset Password",
+      "backLogin": "Back to login",
+      "resetTitle": "Please enter your username and email to reset your password",
+      "connectionError": "No connection to server",
+      "unauthorizedError": "Not authorized",
+      "wrongCredentials": "Wrong credentials. Please try again.",
+      "mailResetSuccess": "Thanks! Please check your email for a link to reset your password",
+      "passwordReseted": "Password sucessfully reseted",
+      "mailNotFound": "User and Email pair not found"
+    },
     "404": {
       "missing": "Something’s missing!",
       "pageNotFound": "This page is missing or could not be found.",
       "toHomePage": "Return to Home Page"
+    },
+    "error": {
+      "subtitle": "Something went wrong on our end. Please try refreshing or",
+      "toHomePage": " Go back to the main site."
     }
   },
   "reports": {

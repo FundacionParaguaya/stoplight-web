@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { updateUser } from './redux/actions';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -17,6 +18,7 @@ import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 import { withTranslation } from 'react-i18next';
 import logo from './assets/header_logo.png';
 import i18n from './i18n';
+import moment from 'moment';
 import englishLogo from './assets/english.png';
 import paragLogo from './assets/paraguay.png';
 import portugueseLogo from './assets/portuguese.png';
@@ -27,7 +29,7 @@ import {
   NEW,
   ROLE_SURVEY_TAKER
 } from './utils/role-utils';
-import { logout } from './api';
+import { logout, enviroments } from './api';
 
 class Header extends Component {
   state = {
@@ -38,12 +40,14 @@ class Header extends Component {
 
   componentDidMount() {
     const lng = localStorage.getItem('language');
+    moment.locale(lng);
     this.setState({ langaugeMenuMain: lng });
   }
 
   componentDidUpdate() {
     const lng = localStorage.getItem('language');
     if (this.state.langaugeMenuMain !== lng) {
+      moment.locale(lng);
       this.setState({ langaugeMenuMain: lng });
     }
   }
@@ -73,9 +77,16 @@ class Header extends Component {
   handleLogout = () => {
     this.setState({ openUserOptions: false });
     logout(this.props.user).finally(() => {
-      window.location.replace(
-        `https://${this.props.user.env}.povertystoplight.org/login.html`
-      );
+      this.props.updateUser({
+        username: null,
+        token: null,
+        env: null,
+        role: null,
+        hub: null,
+        organization: null,
+        name: null
+      });
+      window.location.replace(`${enviroments[this.props.user.env]}/login`);
     });
   };
 
@@ -134,7 +145,7 @@ class Header extends Component {
             } else if (platform === NEW) {
               return (
                 <NavLink
-                  to={`/${item}?sid=${this.props.user.token}&lang=${language}&env=${this.props.user.env}`}
+                  to={`/${item}`}
                   className={
                     path === `/${item}`
                       ? `${classes.menuLink} ${classes.surveyLink}`
@@ -366,7 +377,8 @@ const styles = theme => ({
 });
 
 const mapStateToProps = ({ user }) => ({ user });
+const mapDispatchToProps = { updateUser };
 
 export default withStyles(styles)(
-  connect(mapStateToProps, {})(withTranslation()(Header))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Header))
 );
