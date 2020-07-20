@@ -135,7 +135,6 @@ const styles = theme => ({
     flexGrow: 1
   },
   emptyList: {
-    color: theme.palette.primary.main,
     paddingTop: '1rem',
     paddingBottom: '1rem',
     marginBottom: 36
@@ -213,7 +212,7 @@ const FamilyAchievements = ({
                           </Typography>
                           <Typography
                             className={classes.labelDetailInfo}
-                            variant="body"
+                            variant="body1"
                           >
                             {item.action}
                           </Typography>
@@ -232,7 +231,7 @@ const FamilyAchievements = ({
                           </Typography>
                           <Typography
                             className={classes.labelDetailInfo}
-                            variant="body"
+                            variant="body1"
                           >
                             {item.roadmap}
                           </Typography>
