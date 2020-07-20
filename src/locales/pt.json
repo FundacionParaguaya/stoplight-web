@@ -473,7 +473,8 @@
       "achievements": "Conquistas",
       "indicator": "Indicador",
       "action": "O que você fez para conseguir isso?",
-      "roadmap": "Quem ou o que motivou a levar você até lá?"
+      "roadmap": "Quem ou o que motivou a levar você até lá?",
+      "noAchievements": "Esta família não tem conquistas."
     },
     "organization": {
       "addOrganization": "Adicione uma organização",

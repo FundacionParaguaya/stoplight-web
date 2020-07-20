@@ -133,6 +133,12 @@ const styles = theme => ({
   },
   detailInfo: {
     flexGrow: 1
+  },
+  emptyList: {
+    color: theme.palette.primary.main,
+    paddingTop: '1rem',
+    paddingBottom: '1rem',
+    marginBottom: 36
   }
 });
 
@@ -241,7 +247,11 @@ const FamilyAchievements = ({
             </Accordion>
           </div>
         ) : (
-          <div></div>
+          <Container className={classes.basicInfoText} variant="fluid">
+            <Typography variant="h6" className={classes.emptyList}>
+              {t('views.familyAchievements.noAchievements')}
+            </Typography>
+          </Container>
         )}
       </Container>
     </div>

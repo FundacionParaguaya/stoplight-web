@@ -473,7 +473,8 @@
       "achievements": "Achievements",
       "indicator": "Indicator",
       "action": "What did you do to achieve this?",
-      "roadmap": "Who  or what motivated to get the you there?"
+      "roadmap": "Who  or what motivated to get the you there?",
+      "noAchievements": "Esta familia no tiene logros."
     },
     "organization": {
       "addOrganization": "Add an organization",
