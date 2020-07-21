@@ -54,6 +54,10 @@ const Routes = ({ user }) => {
         {checkAccess(user, 'dashboard') && (
           <Route path="/dashboard" component={Dashboard} />
         )}
+        {checkAccess(user, 'dashboard') && (
+          <Route path="/" component={Dashboard} />
+        )}
+        {checkAccess(user, 'surveys') && <Route path="/" component={Surveys} />}
         {checkAccess(user, 'users') && (
           <Route path="/users" component={Users} />
         )}

@@ -91,13 +91,7 @@ class Header extends Component {
   };
 
   render() {
-    const {
-      classes,
-      user,
-      t,
-      path,
-      i18n: { language }
-    } = this.props;
+    const { classes, user, t, path } = this.props;
     const currentRole = ROLES[user.role];
     const isSurveyor = user.role === ROLE_SURVEY_TAKER;
     const logoURI = !isSurveyor ? `dashboard` : `surveys`;
@@ -107,7 +101,7 @@ class Header extends Component {
         <Toolbar className={classes.toolbar} disableGutters={false}>
           {/* Logo to dashboard */}
           <NavLink
-            to={`/${logoURI}?sid=${this.props.user.token}&lang=${language}&env=${this.props.user.env}`}
+            to={`/${logoURI}`}
             className={
               path === `/dashboard`
                 ? `${classes.menuLink} ${classes.surveyLink}`
