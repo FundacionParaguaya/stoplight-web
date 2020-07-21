@@ -52,9 +52,7 @@ const Authenticator = props => {
   // TODO delete the default testing environment, used only while
   const env = useMemo(
     () =>
-      queryString.parse(location.search).env ||
-      getEnv(window.location.href) ||
-      'development',
+      queryString.parse(location.search).env || getEnv(window.location.href),
     [location.search]
   );
 
@@ -96,7 +94,9 @@ const Authenticator = props => {
     }
     if (!environment) {
       // If there's no env from queryParam, will try to use from localStorage
-      environment = localStorageEnviroment;
+      environment = !!localStorageEnviroment
+        ? 'localStorageEnviroment'
+        : 'development';
     }
     if (!sessionId || !environment) {
       // There's no sid or env to use. User no logged in
