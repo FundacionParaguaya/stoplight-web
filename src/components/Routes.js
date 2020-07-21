@@ -54,10 +54,6 @@ const Routes = ({ user }) => {
         {checkAccess(user, 'dashboard') && (
           <Route path="/dashboard" component={Dashboard} />
         )}
-        {checkAccess(user, 'dashboard') && (
-          <Route path="/" component={Dashboard} />
-        )}
-        {checkAccess(user, 'surveys') && <Route path="/" component={Surveys} />}
         {checkAccess(user, 'users') && (
           <Route path="/users" component={Users} />
         )}
@@ -66,9 +62,16 @@ const Routes = ({ user }) => {
         )}
         {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
 
-        {!user.role && <Route path="/login" component={Login} />}
+        <Route path="/login" component={Login} />
 
-        <Route render={() => <PageNotFound user={user} />} />
+        {checkAccess(user, 'dashboard') && (
+          <Route exact path="/" component={Dashboard} />
+        )}
+        {checkAccess(user, 'surveys') && (
+          <Route exact path="/" component={Surveys} />
+        )}
+
+        {!!user.role && <Route render={() => <PageNotFound user={user} />} />}
       </Switch>
     </ErrorBoundary>
   );
