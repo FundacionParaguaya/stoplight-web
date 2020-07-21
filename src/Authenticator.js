@@ -155,7 +155,7 @@ const Authenticator = props => {
   return (
     <React.Fragment>
       {authVerified && loggedIn && <React.Fragment>{children}</React.Fragment>}
-      {authVerified && !loggedIn && <Login env={env} />}
+      {authVerified && !loggedIn && <Login env={env ? env : 'development'} />}
       {!authVerified && <LoadingAuth />}
     </React.Fragment>
   );
