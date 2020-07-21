@@ -62,7 +62,7 @@ const Routes = ({ user }) => {
         )}
         {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
 
-        <Route path="/login" component={Login} />
+        {!user.role && <Route path="/login" component={Login} />}
 
         {checkAccess(user, 'dashboard') && (
           <Route exact path="/" component={Dashboard} />
