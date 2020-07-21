@@ -81,7 +81,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   };
 
   const reloadPage = () => {
-    console.log('Calling Reload Pagee');
     loadOrganizations(true);
   };
 
@@ -260,8 +259,8 @@ const styles = theme => ({
   },
   organizationImage: {
     display: 'block',
-    height: 240,
-    right: 70,
+    height: 175,
+    right: 0,
     position: 'absolute',
     top: -10,
     zIndex: 0,
@@ -297,7 +296,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 220
+    height: 180
   },
   mainOrganizationContainerBoss: {
     backgroundColor: theme.palette.background.paper,

@@ -279,8 +279,8 @@ const styles = theme => ({
 
   chooseLifeMapImage: {
     display: 'block',
-    height: 240,
-    right: 72,
+    height: 175,
+    right: 0,
     position: 'absolute',
     top: -12,
     zIndex: 0,
@@ -298,7 +298,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 220,
+    height: 180,
     zIndex: 1
   },
   mainSurveyContainerBoss: {

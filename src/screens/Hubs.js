@@ -29,8 +29,8 @@ const styles = theme => ({
   },
   hubImage: {
     display: 'block',
-    height: 240,
-    right: 70,
+    height: 175,
+    right: 0,
     position: 'absolute',
     top: -10,
     zIndex: 0,
@@ -41,7 +41,6 @@ const styles = theme => ({
   },
   searchContariner: {
     display: 'flex',
-    paddingTop: 20,
     paddingBottom: 40,
     justifyContent: 'space-between'
   },
@@ -56,8 +55,7 @@ const styles = theme => ({
   titleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    position: 'relative',
-    paddingTop: 25
+    position: 'relative'
   },
   hubTopTitle: {
     display: 'flex',
