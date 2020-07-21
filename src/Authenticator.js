@@ -95,7 +95,7 @@ const Authenticator = props => {
     if (!environment) {
       // If there's no env from queryParam, will try to use from localStorage
       environment = !!localStorageEnviroment
-        ? 'localStorageEnviroment'
+        ? localStorageEnviroment
         : 'development';
     }
     if (!sessionId || !environment) {
