@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { withStyles, Modal, Typography, Button } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { COLORS } from '../theme';
+import { CircularProgress } from '@material-ui/core';
 
 const DEFAULT_CANCEL_TEXT = 'Cancel';
 const DEFAULT_CONTINUE_TEXT = 'Continue';
@@ -14,7 +15,7 @@ const VARIANTS = {
 
 // See and implementation example on NavIcons
 const ConfirmationModal = props => {
-  const { classes, variant } = props;
+  const { classes, variant, disabledFacilitator } = props;
 
   const titleClass = clsx(classes.confirmationModalTitle, {
     [classes.titleWarning]: variant === VARIANTS.WARNING,
@@ -38,6 +39,7 @@ const ConfirmationModal = props => {
         >
           {props.subtitle}
         </Typography>
+        {disabledFacilitator && <CircularProgress />}
         <div className={classes.buttonContainer}>
           <Button
             className={classes.button}

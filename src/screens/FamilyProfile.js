@@ -133,7 +133,8 @@ const FamilyProfile = ({
         });
       })
       .catch(e => {
-        console.log(e);
+        console.error(e);
+        setShowConfirmationModal(false);
         enqueueSnackbar(t('views.familyProfile.mentorError'), {
           variant: 'error',
           action: key => (
@@ -574,6 +575,7 @@ const FamilyProfile = ({
         cancelButtonText={t('general.no')}
         continueButtonText={t('general.yes')}
         onClose={handleClose}
+        disabledFacilitator={disabledFacilitator}
         open={showConfirmationModal}
         confirmAction={confirmChangeFacilitator}
       />
