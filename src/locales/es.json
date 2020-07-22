@@ -478,6 +478,9 @@
       "roadmap": "¿Quién o qué te motivó a llegar allí?",
       "noAchievements": "Esta familia no tiene logros."
     },
+    "familyImages": {
+      "title": "Imágenes"
+    },
     "organization": {
       "addOrganization": "Agregar organización",
       "editButton": "EDITAR",

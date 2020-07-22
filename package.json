@@ -3,6 +3,7 @@
   "version": "1.21.0",
   "private": true,
   "dependencies": {
+    "@brainhubeu/react-carousel": "^1.19.22",
     "@date-io/moment": "^1.3.5",
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",

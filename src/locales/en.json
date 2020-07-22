@@ -477,6 +477,9 @@
       "roadmap": "Who  or what motivated to get the you there?",
       "noAchievements": "This family has no achievements."
     },
+    "familyImages": {
+      "title": "Images"
+    },
     "organization": {
       "addOrganization": "Add an organization",
       "editButton": "EDIT",

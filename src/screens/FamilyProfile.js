@@ -39,6 +39,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import NavigationBar from '../components/NavigationBar';
 import FamilyPriorities from '../components/FamilyPriorities';
+import FamilyImages from '../components/FamilyImages';
 import {
   getEconomicScreens,
   getConditionalQuestions,
@@ -536,6 +537,8 @@ const FamilyProfile = ({
         handleInput={event => setFamilyNote(event.target.value)}
         loading={loading}
       />
+
+      <FamilyImages />
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (
