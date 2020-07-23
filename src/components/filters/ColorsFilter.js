@@ -83,6 +83,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
         <div className={classes.checkboxesConatiner}>
           <GreenCheckbox
             checked={colorsData.green}
+            data-testid="green-checkbox"
             onChange={() =>
               onChangeColors({ ...colorsData, green: !colorsData.green })
             }
@@ -96,6 +97,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
         <div className={classes.checkboxesConatiner}>
           <YellowCheckbox
             checked={colorsData.yellow}
+            data-testid="yellow-checkbox"
             onChange={() =>
               onChangeColors({ ...colorsData, yellow: !colorsData.yellow })
             }
@@ -109,6 +111,7 @@ const ColorsFilter = ({ colorsData, onChangeColors }) => {
         <div className={classes.checkboxesConatiner}>
           <RedCheckbox
             checked={colorsData.red}
+            data-testid="red-checkbox"
             onChange={() =>
               onChangeColors({ ...colorsData, red: !colorsData.red })
             }
