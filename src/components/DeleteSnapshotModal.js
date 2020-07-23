@@ -8,14 +8,11 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
-import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-
-//import face from '../../assets/serious_face.png';
 import face from '../assets/serious_face.png';
-import { snapshots } from '../redux/reducers';
+import { deleteSnapshot } from '../api';
 
 const styles = theme => ({
   mainContainer: {
@@ -81,16 +78,16 @@ const DeleteSnapshotModal = ({
   afterSubmit,
   classes
 }) => {
-  const [deletingSnapshot, setDeletingSnapShot] = useState(false);
+  const [deletingSnapshot, setDeletingSnapshot] = useState(false);
   const { t } = useTranslation();
 
   const onDeleteClicked = () => {
-    /*  setDeletingSnapShot(true);
-    deleteSnapShot(user, snapshot.id)
+    setDeletingSnapshot(true);
+    deleteSnapshot(user, snapshot)
       .then(() => {
-        setDeletingSnapShot(false);
+        setDeletingSnapshot(false);
         onClose({ deleteModalOpen: false });
-        //afterSubmit();
+        afterSubmit();
         enqueueSnackbar(t('views.final.delete.success'), {
           variant: 'success',
           action: key => (
@@ -110,9 +107,9 @@ const DeleteSnapshotModal = ({
             </IconButton>
           )
         });
-        setDeletingSnapshotfalse);
+        setDeletingSnapshot(false);
         onClose();
-      }); */
+      });
   };
 
   return (

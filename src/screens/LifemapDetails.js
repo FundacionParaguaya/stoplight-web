@@ -92,6 +92,11 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
     });
   };
 
+  const reloadPage = () => {
+    setValue(1);
+    loadData();
+  };
+
   const handleChange = (event, value) => {
     setValue(value);
   };
@@ -190,6 +195,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
           mentor={mentor}
           index={value - 2}
           snapshot={snapshotsWithStoplight[value - 2]}
+          reloadPage={reloadPage}
         />
       )}
     </div>

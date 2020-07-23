@@ -89,7 +89,8 @@ const DetailsOverview = ({
   index,
   snapshot,
   firstParticipant,
-  user
+  user,
+  reloadPage
 }) => {
   const {
     t,
@@ -166,10 +167,6 @@ const DetailsOverview = ({
     setOpenDeleteModal(!openDeleteModal);
   };
 
-  /*  const reloadPage = () => {
-
-  }
- */
   const handleMailClick = () => {
     setLoading(true);
     return sendLifemapPdfv2(snapshot.snapshotId, user, language)
@@ -217,7 +214,7 @@ const DetailsOverview = ({
       });
   };
 
-  const showButton = (button, { role }) => {
+  const showButton = (button, { role }, family) => {
     if (button === 'whatsapp' || button === 'email') {
       return (
         role === ROLES_NAMES.ROLE_SURVEY_USER ||
@@ -234,7 +231,9 @@ const DetailsOverview = ({
       );
     } else if (button === 'delete') {
       return (
-        role === ROLES_NAMES.ROLE_APP_ADMIN || role === ROLES_NAMES.ROLE_ROOT
+        (role === ROLES_NAMES.ROLE_APP_ADMIN ||
+          role === ROLES_NAMES.ROLE_ROOT) &&
+        (family && family.numberOfSnapshots) > 1
       );
     } else {
       return false;
@@ -246,7 +245,8 @@ const DetailsOverview = ({
       <DeleteSnapshotModal
         open={openDeleteModal}
         onClose={toggleDeleteModal}
-        //afterSubmit={reloadPage}
+        snapshot={snapshot && snapshot.snapshotId}
+        afterSubmit={reloadPage}
       />
 
       <LeaveModal
@@ -360,7 +360,7 @@ const DetailsOverview = ({
             </Grid>
           )}
 
-          {showButton('delete', user) && (
+          {showButton('delete', user, family) && (
             <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
               <Button
                 variant="outlined"
