@@ -9,7 +9,8 @@ const styles = theme => ({
   image: {
     borderRadius: 50,
     height: 'auto',
-    width: '50%'
+    width: '50%',
+    minWidth: 300
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,

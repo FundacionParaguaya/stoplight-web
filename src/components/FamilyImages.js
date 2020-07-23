@@ -11,7 +11,7 @@ import iconCamera from '../assets/icon_camera.png';
 
 const styles = theme => ({
   img: {
-    padding: 30,
+    padding: 20,
     height: 400,
     width: 300,
     objectFit: 'cover',
