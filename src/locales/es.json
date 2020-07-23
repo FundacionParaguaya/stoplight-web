@@ -481,6 +481,9 @@
     "familyImages": {
       "title": "Imágenes"
     },
+    "familySignature": {
+      "title": "Firma"
+    },
     "organization": {
       "addOrganization": "Agregar organización",
       "editButton": "EDITAR",

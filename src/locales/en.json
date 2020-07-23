@@ -480,6 +480,9 @@
     "familyImages": {
       "title": "Images"
     },
+    "familySignature": {
+      "title": "Signature"
+    },
     "organization": {
       "addOrganization": "Add an organization",
       "editButton": "EDIT",
