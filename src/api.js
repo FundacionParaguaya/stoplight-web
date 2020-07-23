@@ -19,7 +19,7 @@ export const url = {
 export const enviroments = {
   platform: 'https://platform.povertystoplight.org',
   demo: 'https://demo.povertystoplight.org',
-  testing: 'https://testing.stoplightplatform.org',
+  testing: 'https://testing.povertystoplight.org/',
   development: 'http://localhost:3000'
 };
 
