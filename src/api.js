@@ -28,7 +28,7 @@ axios.interceptors.response.use(
   error => {
     const status = error.response ? error.response.status : null;
     const { user = {} } = store.getState();
-    if (status === 401 && !!user.env) {
+    if (status === 401 && !!user && !!user.env) {
       window.location.replace(`${enviroments[user.env]}/login`);
     }
     return Promise.reject(error);
