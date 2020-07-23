@@ -883,7 +883,7 @@ export const getSnapshotsByFamily = (familyId, user) =>
     })
   });
 
-export const sendLifemapPdfv2 = (snapshotId, user, lang) => {
+export const sendLifemapPdfv2 = (snapshotId, user, lang, email) => {
   return axios({
     method: 'post',
     url: `${url[user.env]}/api/v1/reports/lifemap/email`,
@@ -892,7 +892,8 @@ export const sendLifemapPdfv2 = (snapshotId, user, lang) => {
       'X-locale': normalizeLang(lang)
     },
     params: {
-      snapshotId: snapshotId
+      snapshotId: snapshotId,
+      email: email
     }
   });
 };

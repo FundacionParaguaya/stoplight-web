@@ -314,7 +314,8 @@
       "emailSent": "Tu Mapa de Vida ha sido enviado exitosamente vía email.",
       "whatsappSent": "¡Te llegará un mensaje al Whatsapp! Si quieres recibir tu Mapa de Vida, responde al mensaje con \"Si\".",
       "whatsappSentOverview": "¡Te llegará un mensaje al Whatsapp! Si quieres recibir tu Mapa de Vida, responde al mensaje con \"Si\".",
-      "emailError": "Error al enviar tu Mapa de Vida vía email"
+      "emailError": "Error al enviar tu Mapa de Vida vía email",
+      "confirmYourMail": "Enviar al email:"
     },
     "send": {
       "title": "Envía tu Mapa de Vida",
