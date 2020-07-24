@@ -313,7 +313,8 @@
       "emailSent": "Seu Mapa de Vida foi enviado exitosamente via email. Não esqueça de selecionar Salvar & fechar!",
       "whatsappSent": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mensagem com \"Sim\".",
       "whatsappSentOverview": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mendsagem com \"Sim\".",
-      "emailError": "Error ao enviar seu Mapa de Vida via email"
+      "emailError": "Error ao enviar seu Mapa de Vida via email",
+      "confirmYourMail": "Enviar para email:"
     },
     "send": {
       "title": "Envie o seu Mapa de Vida",

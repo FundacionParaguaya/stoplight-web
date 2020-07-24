@@ -313,7 +313,8 @@
       "emailSent": "Your Life Map has been successfully sent via email.",
       "whatsappSent": "You will get a message in your Whatsapp! If you want to receive your Life Map, please answer back with \"Yes\".",
       "whatsappSentOverview": "You will get a message in your Whatsapp! If you want to receive your Life Map, please answer back with \"Yes\".",
-      "emailError": "Error while trying to send your Life Map via email"
+      "emailError": "Error while trying to send your Life Map via email",
+      "confirmYourMail": "Send to email:"
     },
     "send": {
       "title": "Send your Life Map",
