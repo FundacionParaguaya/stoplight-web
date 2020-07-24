@@ -19,7 +19,7 @@ export const url = {
 export const enviroments = {
   platform: 'https://platform.povertystoplight.org',
   demo: 'https://demo.povertystoplight.org',
-  testing: 'https://testing.stoplightplatform.org',
+  testing: 'https://testing.povertystoplight.org',
   development: 'http://localhost:3000'
 };
 
@@ -28,7 +28,7 @@ axios.interceptors.response.use(
   error => {
     const status = error.response ? error.response.status : null;
     const { user = {} } = store.getState();
-    if (status === 401 && !!user.env) {
+    if (status === 401 && !!user && !!user.env) {
       window.location.replace(`${enviroments[user.env]}/login`);
     }
     return Promise.reject(error);
@@ -883,7 +883,7 @@ export const getSnapshotsByFamily = (familyId, user) =>
     })
   });
 
-export const sendLifemapPdfv2 = (snapshotId, user, lang) => {
+export const sendLifemapPdfv2 = (snapshotId, user, lang, email) => {
   return axios({
     method: 'post',
     url: `${url[user.env]}/api/v1/reports/lifemap/email`,
@@ -892,7 +892,8 @@ export const sendLifemapPdfv2 = (snapshotId, user, lang) => {
       'X-locale': normalizeLang(lang)
     },
     params: {
-      snapshotId: snapshotId
+      snapshotId: snapshotId,
+      email: email
     }
   });
 };

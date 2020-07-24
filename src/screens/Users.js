@@ -21,21 +21,18 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     position: 'relative',
-    height: 240
+    height: 175
   },
   userTitle: {
-    color: theme.palette.primary.dark,
-    fontSize: '18px',
-    marginRight: 'auto',
-    marginBottom: 7,
-    fontWeight: theme.typography.fontWeightMedium,
-    lineHeight: 1.2,
-    paddingTop: 100
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    height: 180
   },
   userImage: {
     display: 'block',
-    height: 240,
-    right: -70,
+    height: 175,
+    right: -60,
     position: 'absolute',
     top: -10,
     zIndex: 0,

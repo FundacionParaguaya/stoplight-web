@@ -45,15 +45,11 @@ const Families = ({
 
   const setSelectedFacilitator = (selected, allFacilitators) => {
     setResetPagination(true);
-    console.log('setSelectedFacilitator', selected);
-
     setFacilitators(selected);
   };
 
   const onChangeFamiliesFilter = e => {
-    console.log(e.key);
     if (e.key === 'Enter') {
-      console.log('do search');
       setFamilyFilter(e.target.value);
       setResetPagination(true);
     }
@@ -74,13 +70,11 @@ const Families = ({
     );
 
     let page = query ? query.page : 0;
-    console.log('selectedFamilyFilter: ', selectedFamilyFilter);
+
     if (resetPagination) {
-      console.log('reset Pagination: ', resetPagination);
       page = 0;
       setResetPagination(false);
     }
-    console.log('Current Page: ', page);
 
     const orderDirection = query ? query.orderDirection : '';
     const sortBy = query && query.orderBy ? query.orderBy.field : '';
@@ -108,7 +102,7 @@ const Families = ({
         };
       })
       .catch(function(error) {
-        console.log(error);
+        console.error(error);
         setFamilies([]);
         enqueueSnackbar(t('views.familyList.errorLoadingFamilies'), {
           variant: 'error',
@@ -211,8 +205,8 @@ const styles = theme => ({
   },
   chooseLifeMapImage: {
     display: 'block',
-    height: 240,
-    right: -70,
+    height: 175,
+    right: -30,
     position: 'absolute',
     top: -10,
     zIndex: 0,
@@ -225,13 +219,13 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     position: 'relative',
-    height: 240
+    height: 180
   },
   surveyTopTitle: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 220,
+    height: 180,
     zIndex: 1
   },
   mainSurveyContainerBoss: {

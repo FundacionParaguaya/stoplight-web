@@ -64,7 +64,14 @@ const Routes = ({ user }) => {
 
         {!user.role && <Route path="/login" component={Login} />}
 
-        <Route render={() => <PageNotFound user={user} />} />
+        {checkAccess(user, 'dashboard') && (
+          <Route exact path="/" component={Dashboard} />
+        )}
+        {checkAccess(user, 'surveys') && (
+          <Route exact path="/" component={Surveys} />
+        )}
+
+        {!!user.role && <Route render={() => <PageNotFound user={user} />} />}
       </Switch>
     </ErrorBoundary>
   );
