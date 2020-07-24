@@ -96,14 +96,17 @@ export class Final extends Component {
 
     const draft = this.props.currentDraft;
     if (
-      this.props.currentDraft.pictures &&
-      this.props.currentDraft.pictures.length > 0
+      (this.props.currentDraft.pictures &&
+        this.props.currentDraft.pictures.length > 0) ||
+      this.props.currentDraft.sign
     ) {
       submitPictures(this.props.user, this.props.currentDraft)
         .then(response => {
-          console.log(response.data);
           const pictures = response.data;
-          draft.pictures = pictures;
+          draft.pictures = pictures.filter(picture => picture.type !== 'sign');
+          const sign = pictures.find(picture => picture.type === 'sign');
+          draft.signFile = sign;
+          delete draft.sign;
           this.handleSnapshotSubmit(this.props.user, { ...draft });
         })
         .catch(() => {
@@ -146,13 +149,6 @@ export class Final extends Component {
   }
 
   render() {
-    const stoplightSkipped =
-      this.props.currentSurvey.surveyConfig.stoplightOptional &&
-      this.props.currentDraft.indicatorSurveyDataList &&
-      this.props.currentDraft.indicatorSurveyDataList.length === 0;
-
-    console.log('Saltar?');
-    console.log(stoplightSkipped);
     const { t, classes } = this.props;
     const { error } = this.state;
 
