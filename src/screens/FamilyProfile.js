@@ -16,6 +16,7 @@ import {
   getPrioritiesAchievementByFamily,
   getLastSnapshot,
   getFamilyNotes,
+  getFamilyImages,
   saveFamilyNote
 } from '../api';
 import { withSnackbar } from 'notistack';
@@ -79,7 +80,9 @@ const FamilyProfile = ({
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(false);
   const [orgsId, setOrgsId] = useState();
-  const images = [
+  const [images, setImages] = useState([]);
+  const [signatureImg, setSignatureImg] = useState({});
+  /* const images = [
     {
       url: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
     },
@@ -98,12 +101,12 @@ const FamilyProfile = ({
     {
       url: 'https://homepages.cae.wisc.edu/~ece533/images/baboon.png'
     }
-  ];
+  ]; */
 
-  const image = {
+  /* const image = {
     url:
       'https://images.unsplash.com/photo-1595389302144-5d144c2704b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1519&q=80'
-  };
+  }; */
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -241,6 +244,20 @@ const FamilyProfile = ({
       });
   };
 
+  const loadFamilyImages = (family, user) => {
+    getFamilyImages(familyId, user).then(response => {
+      const pictures = response.data.data.picturesSignaturesByFamily.filter(
+        el => el.category === 'picture'
+      );
+      const signature = response.data.data.picturesSignaturesByFamily
+        .filter(el => el.category === 'signature')
+        .pop();
+
+      setImages(pictures);
+      setSignatureImg(signature);
+    });
+  };
+
   const handleSubmitNote = () => {
     setLoading(true);
     saveFamilyNote(familyId, familyNote, user)
@@ -273,6 +290,7 @@ const FamilyProfile = ({
     loadFamilies(familyId, user);
     loadFamilyNotes(familyId, user);
     loadAchievementsPriorities(familyId, user);
+    loadFamilyImages(familyId, user);
   }, []);
 
   useEffect(() => {
@@ -569,7 +587,7 @@ const FamilyProfile = ({
       <FamilyImages images={images} />
 
       {/* Signature Image */}
-      <SignatureImage image={image.url} />
+      <SignatureImage image={signatureImg ? signatureImg.url : ''} />
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (

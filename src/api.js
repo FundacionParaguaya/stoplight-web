@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'https://testing.backend.povertystoplight.org'
+  development: 'http://localhost:8080'
 };
 
 // list of enviroments urls
@@ -303,6 +303,21 @@ export const getDimensionIndicators = (
       }) {dimension, priorities, achievements,
           stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
            stoplights{count, color, dimension, indicator}} } }`
+    })
+  });
+
+export const getFamilyImages = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query picturesSignaturesByFamily($family: Long!) { picturesSignaturesByFamily (family: $family) {  category url } }`,
+      variables: {
+        family: familyId
+      }
     })
   });
 

@@ -11,20 +11,23 @@ import iconCamera from '../assets/icon_camera.png';
 
 const styles = theme => ({
   img: {
-    padding: 20,
+    padding: 30,
     height: 400,
     width: 300,
     objectFit: 'cover',
     borderRadius: 50,
     minHeight: 360,
-    minWidth: 260
+    minWidth: 260,
+    transition: 'all .2s ease-in-out',
+    '&:hover': {
+      transform: 'scale(1.1)'
+    }
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     justifyContent: 'center',
     marginTop: '3rem'
-    //position: 'relative'
   },
   familyImagesContainer: {
     backgroundColor: '#fff',
@@ -88,7 +91,7 @@ const FamilyImages = ({ classes, t, images }) => {
             <Carousel
               centered
               arrows
-              slidesPerPage={4}
+              slidesPerPage={3}
               slidesPerScroll={1}
               draggable
               arrowLeft={<ArrowBackIosIcon />}
@@ -103,9 +106,10 @@ const FamilyImages = ({ classes, t, images }) => {
                 }
               }}
             >
-              {images.map(img => {
+              {images.map((img, index) => {
                 return (
                   <img
+                    key={index}
                     className={classes.img}
                     src={img.url}
                     alt="Family screen"
