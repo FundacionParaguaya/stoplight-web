@@ -82,31 +82,6 @@ const FamilyProfile = ({
   const [orgsId, setOrgsId] = useState();
   const [images, setImages] = useState([]);
   const [signatureImg, setSignatureImg] = useState({});
-  /* const images = [
-    {
-      url: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
-    },
-    {
-      url: 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png'
-    },
-    {
-      url: 'https://homepages.cae.wisc.edu/~ece533/images/baboon.png'
-    },
-    {
-      url: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png'
-    },
-    {
-      url: 'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png'
-    },
-    {
-      url: 'https://homepages.cae.wisc.edu/~ece533/images/baboon.png'
-    }
-  ]; */
-
-  /* const image = {
-    url:
-      'https://images.unsplash.com/photo-1595389302144-5d144c2704b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1519&q=80'
-  }; */
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },

@@ -112,7 +112,8 @@ const FamilyImages = ({ classes, t, images }) => {
                     key={index}
                     className={classes.img}
                     src={img.url}
-                    alt="Family screen"
+                    alt="Family pictures"
+                    data-testid="family-picture"
                   />
                 );
               })}
