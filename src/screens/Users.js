@@ -21,21 +21,18 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     position: 'relative',
-    height: 240
+    height: 175
   },
   userTitle: {
-    color: theme.palette.primary.dark,
-    fontSize: '18px',
-    marginRight: 'auto',
-    marginBottom: 7,
-    fontWeight: theme.typography.fontWeightMedium,
-    lineHeight: 1.2,
-    paddingTop: 100
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    height: 180
   },
   userImage: {
     display: 'block',
-    height: 240,
-    right: -70,
+    height: 175,
+    right: -60,
     position: 'absolute',
     top: -10,
     zIndex: 0,
@@ -53,7 +50,6 @@ const styles = theme => ({
 });
 
 const Users = ({ classes, t, user }) => {
-  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [filter, setFilter] = useState('');
   const [hub, setHub] = useState({});
@@ -76,7 +72,6 @@ const Users = ({ classes, t, user }) => {
   }, [filter, orgs, hub]);
 
   const loadUsers = query => {
-    setLoading(true);
     let page = query ? query.page : 0;
     const orderDirection = query ? query.orderDirection : '';
     const sortBy = query && query.orderBy ? query.orderBy.field : '';
@@ -104,7 +99,6 @@ const Users = ({ classes, t, user }) => {
       orderDirection
     )
       .then(response => {
-        setUsers(response.data.data.searchUsers.content);
         setTotalRow(response.data.data.searchUsers.totalElements);
         return {
           data: response.data.data.searchUsers.content,
@@ -177,8 +171,6 @@ const Users = ({ classes, t, user }) => {
           <UsersTable
             loading={loading}
             tableRef={tableRef}
-            setUsers={setUsers}
-            users={users}
             loadUsers={loadUsers}
             numberOfRows={totalRows}
             toggleFormModal={toggleFormModal}

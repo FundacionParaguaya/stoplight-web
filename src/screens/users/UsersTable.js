@@ -11,6 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import UserDeleteModal from './UserDeleteModal';
+import { theme } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
   userListContainer: {
@@ -84,7 +85,7 @@ const useStyles = makeStyles(theme => ({
     height: 37,
     width: '100%',
     opacity: 1,
-    backgroundColor: '#f3f4f687',
+    backgroundColor: theme.palette.primary.grey,
     display: 'flex',
     alignItems: 'center'
   },
@@ -121,7 +122,7 @@ const UsersTable = ({
       icon: EditIcon,
       tooltip: t('views.user.userList.edit'),
       iconProps: {
-        color: '#6A6A6A'
+        color: theme.palette.grey.middle
       },
       onClick: (e, rowData) => {
         e.stopPropagation();
@@ -133,7 +134,7 @@ const UsersTable = ({
     list.push(rowData => ({
       icon: Delete,
       iconProps: {
-        color: '#6A6A6A'
+        color: theme.palette.grey.middle
       },
       tooltip: t('views.user.userList.delete'),
       onClick: (e, rowData) => {
@@ -195,17 +196,17 @@ const UsersTable = ({
           initialPage: 0,
           draggable: false,
           rowStyle: {
-            backgroundColor: '#fff',
-            color: '#626262'
+            backgroundColor: theme.palette.background.default,
+            color: theme.typography.h4.color
           },
           headerStyle: {
-            backgroundColor: '#fff',
-            color: '#626262',
-            fontSize: '14px'
+            backgroundColor: theme.palette.background.default,
+            color: theme.typography.h4.color,
+            fontSize: 14
           },
           searchFieldStyle: {
-            backgroundColor: '#fff',
-            color: '#626262'
+            backgroundColor: theme.palette.background.default,
+            color: theme.typography.h4.color
           }
         }}
         columns={[
@@ -241,7 +242,7 @@ const UsersTable = ({
                 <Typography className={classes.name} variant="subtitle1">
                   {rowData.username}
                 </Typography>
-                <Tooltip title={rowData.name} aria-label="name">
+                <Tooltip title={rowData.name || ''} aria-label="name">
                   <Typography
                     variant="subtitle1"
                     className={classes.name}
@@ -262,7 +263,7 @@ const UsersTable = ({
             field: 'email',
             sorting: false,
             render: rowData => (
-              <Tooltip title={rowData.email} aria-label="email">
+              <Tooltip title={rowData.email || ''} aria-label="email">
                 <Typography variant="subtitle2" className={classes.email}>
                   {rowData.email}
                 </Typography>
@@ -288,7 +289,10 @@ const UsersTable = ({
             sorting: false,
             render: rowData => (
               <div className={classes.name}>
-                <Tooltip title={rowData.organizationName} aria-label="orgName">
+                <Tooltip
+                  title={rowData.organizationName || ''}
+                  aria-label="orgName"
+                >
                   <Typography
                     className={classes.labelStyle}
                     variant="subtitle2"
@@ -297,7 +301,7 @@ const UsersTable = ({
                   </Typography>
                 </Tooltip>
                 {showHubName(rowData.hubName, user) && (
-                  <Tooltip title={rowData.hubName} aria-label="hubName">
+                  <Tooltip title={rowData.hubName || ''} aria-label="hubName">
                     <Typography
                       variant="subtitle1"
                       className={classes.labelStyle}

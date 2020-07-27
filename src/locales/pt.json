@@ -315,6 +315,7 @@
       "whatsappSent": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mensagem com \"Sim\".",
       "whatsappSentOverview": "Vai receber uma mensagem no Whatsapp! Se desejar receber o seu Mapa de Vida, por favor responda à mendsagem com \"Sim\".",
       "emailError": "Error ao enviar seu Mapa de Vida via email",
+      "confirmYourMail": "Enviar para email:",
       "delete": {
         "confirmTitle": "Confirmar exclusão",
         "confirmText": "Tem certeza de que deseja excluir esta pesquisa?",
@@ -482,7 +483,8 @@
       "achievements": "Conquistas",
       "indicator": "Indicador",
       "action": "O que você fez para conseguir isso?",
-      "roadmap": "Quem ou o que motivou a levar você até lá?"
+      "roadmap": "Quem ou o que motivou a levar você até lá?",
+      "noAchievements": "Esta família não tem conquistas."
     },
     "organization": {
       "addOrganization": "Adicione uma organização",

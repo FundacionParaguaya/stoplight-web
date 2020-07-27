@@ -133,6 +133,11 @@ const styles = theme => ({
   },
   detailInfo: {
     flexGrow: 1
+  },
+  emptyList: {
+    paddingTop: '1rem',
+    paddingBottom: '1rem',
+    marginBottom: 36
   }
 });
 
@@ -207,7 +212,7 @@ const FamilyAchievements = ({
                           </Typography>
                           <Typography
                             className={classes.labelDetailInfo}
-                            variant="body"
+                            variant="body1"
                           >
                             {item.action}
                           </Typography>
@@ -226,7 +231,7 @@ const FamilyAchievements = ({
                           </Typography>
                           <Typography
                             className={classes.labelDetailInfo}
-                            variant="body"
+                            variant="body1"
                           >
                             {item.roadmap}
                           </Typography>
@@ -241,7 +246,11 @@ const FamilyAchievements = ({
             </Accordion>
           </div>
         ) : (
-          <div></div>
+          <Container className={classes.basicInfoText} variant="fluid">
+            <Typography variant="h6" className={classes.emptyList}>
+              {t('views.familyAchievements.noAchievements')}
+            </Typography>
+          </Container>
         )}
       </Container>
     </div>

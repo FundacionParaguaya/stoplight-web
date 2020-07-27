@@ -68,7 +68,7 @@ const styles = theme => ({
   }
 });
 
-const DeleteSnapshotModal = ({
+export const DeleteSnapshotModal = ({
   open,
   onClose,
   user,

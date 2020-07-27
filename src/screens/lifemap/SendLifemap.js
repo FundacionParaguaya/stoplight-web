@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import { Typography, Button, Grid, CircularProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import PrintIcon from '@material-ui/icons/Print';
@@ -12,12 +9,16 @@ import DownloadIcon from '@material-ui/icons/CloudDownload';
 import MailIcon from '@material-ui/icons/Mail';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
+import EmailConfirmationModal from '../../components/EmailConfirmationModal';
 import { sendLifemapPdfv2, downloadPdf, sendWhatsappMessage } from '../../api';
 import TitleBar from '../../components/TitleBar';
 import AllSurveyIndicators from '../../components/summary/AllSurveyIndicators';
 import BottomSpacer from '../../components/BottomSpacer';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import HomeIcon from '@material-ui/icons/Home';
+import { withSnackbar } from 'notistack';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
   subtitle: {
@@ -80,15 +81,21 @@ const SendLifemap = ({
   t,
   i18n: { language },
   history,
+  enqueueSnackbar,
+  closeSnackbar,
   currentDraft,
   user
 }) => {
   const [modalData, setModalData] = useState({ openModal: false });
   const [loading, setLoading] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailData, setEmailData] = useState({ openEmail: false, email: '' });
   const [primaryParticipant, setPrimaryParticipant] = useState({});
 
   useEffect(() => {
-    setPrimaryParticipant(currentDraft.familyData.familyMembersList[0]);
+    let primaryParticipant = currentDraft.familyData.familyMembersList[0];
+    setPrimaryParticipant(primaryParticipant);
+    setEmailData({ openEmail: false, email: primaryParticipant.email });
   }, []);
 
   const handleContinue = (familyId, isRetake) => {
@@ -118,28 +125,31 @@ const SendLifemap = ({
     });
   };
 
-  const handleMailClick = () => {
-    setLoading(true);
-    return sendLifemapPdfv2(currentDraft.snapshotId, user, language)
+  const handleMailClick = email => {
+    setSendingEmail(true);
+    return sendLifemapPdfv2(currentDraft.snapshotId, user, language, email)
       .then(() => {
-        setModalData({
-          modalTitle: t('general.thankYou'),
-          modalSubtitle: t('views.final.emailSent'),
-          modalContinueButtonText: t('general.gotIt'),
-          modalVariant: 'success',
-          openModal: true
+        setSendingEmail(false);
+        enqueueSnackbar(t('views.final.emailSent'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
         });
-        setLoading(false);
+        setEmailData({ openEmail: false, email: email });
       })
       .catch(() => {
-        setModalData({
-          modalTitle: t('general.warning'),
-          modalSubtitle: t('views.final.emailError'),
-          modalContinueButtonText: t('general.gotIt'),
-          modalVariant: 'warning',
-          openModal: true
+        setSendingEmail(false);
+        enqueueSnackbar(t('views.final.emailError'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
         });
-        setLoading(false);
       });
   };
 
@@ -177,6 +187,13 @@ const SendLifemap = ({
 
   return (
     <React.Fragment>
+      <EmailConfirmationModal
+        open={emailData.openEmail}
+        onLeave={() => setEmailData({ ...emailData, openEmail: false })}
+        handleSendMail={handleMailClick}
+        email={emailData.email}
+        loading={sendingEmail}
+      />
       <LeaveModal
         title={modalData.modalTitle}
         subtitle={modalData.modalSubtitle}
@@ -211,22 +228,20 @@ const SendLifemap = ({
 
         <div className={classes.gridContainer}>
           <Grid container spacing={2} className={classes.buttonContainer}>
-            {primaryParticipant.email && (
-              <Grid item xs={12} sm={3}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={loading}
-                  onClick={() => {
-                    handleMailClick(primaryParticipant.email);
-                  }}
-                >
-                  <MailIcon className={classes.leftIcon} />
-                  {t('views.final.email')}
-                </Button>
-              </Grid>
-            )}
+            <Grid item xs={12} sm={3}>
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  setEmailData({ ...emailData, openEmail: true });
+                }}
+              >
+                <MailIcon className={classes.leftIcon} />
+                {t('views.final.email')}
+              </Button>
+            </Grid>
 
             {primaryParticipant.phoneNumber && (
               <Grid item xs={12} sm={3}>
@@ -309,5 +324,7 @@ const mapStateToProps = ({ user, currentDraft }) => ({
 });
 
 export default withRouter(
-  withStyles(styles)(connect(mapStateToProps)(withTranslation()(SendLifemap)))
+  withStyles(styles)(
+    connect(mapStateToProps)(withTranslation()(withSnackbar(SendLifemap)))
+  )
 );

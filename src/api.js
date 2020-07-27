@@ -19,7 +19,7 @@ export const url = {
 export const enviroments = {
   platform: 'https://platform.povertystoplight.org',
   demo: 'https://demo.povertystoplight.org',
-  testing: 'https://testing.stoplightplatform.org',
+  testing: 'https://testing.povertystoplight.org',
   development: 'http://localhost:3000'
 };
 
@@ -28,7 +28,7 @@ axios.interceptors.response.use(
   error => {
     const status = error.response ? error.response.status : null;
     const { user = {} } = store.getState();
-    if (status === 401 && !!user.env) {
+    if (status === 401 && !!user && !!user.env) {
       window.location.replace(`${enviroments[user.env]}/login`);
     }
     return Promise.reject(error);
@@ -359,15 +359,10 @@ const formatPhone = (code, phone, surveyLocation) => {
     if (code) {
       international = '+' + code + ' ' + phone;
     } else {
-      console.log(
-        'Phone code is null, set default value for country: ',
-        surveyLocation.country
-      );
       code = CallingCodes.find(e => e.code === surveyLocation.country).value;
       international = '+' + code + ' ' + phone;
     }
     let phoneNumber = phoneUtil.parse(international, code);
-    console.log('Saving number as: ' + phoneNumber.getNationalNumber());
     phone = phoneNumber.getNationalNumber();
   }
   return phone;
@@ -449,10 +444,17 @@ export const submitPictures = (user, snapshot) => {
       resolve(blob);
     });
 
+  const signProcess = async base64Sign => {
+    const sign = await dataURItoBlob(base64Sign);
+    formData.append('sign', sign);
+  };
+
   snapshot.pictures.forEach(async pic => {
     const picture = await dataURItoBlob(pic.base64.content);
     formData.append('pictures', picture);
   });
+
+  !!snapshot.sign && signProcess(snapshot.sign);
 
   return axios({
     method: 'post',
@@ -899,7 +901,7 @@ export const getSnapshotsByFamily = (familyId, user) =>
     })
   });
 
-export const sendLifemapPdfv2 = (snapshotId, user, lang) => {
+export const sendLifemapPdfv2 = (snapshotId, user, lang, email) => {
   return axios({
     method: 'post',
     url: `${url[user.env]}/api/v1/reports/lifemap/email`,
@@ -908,7 +910,8 @@ export const sendLifemapPdfv2 = (snapshotId, user, lang) => {
       'X-locale': normalizeLang(lang)
     },
     params: {
-      snapshotId: snapshotId
+      snapshotId: snapshotId,
+      email: email
     }
   });
 };
