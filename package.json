@@ -82,7 +82,8 @@
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "lint-staged": "^8.1.5",
     "prettier": "^1.17.0",
-    "prettier-eslint": "^8.8.2"
+    "prettier-eslint": "^8.8.2",
+    "redux-mock-store": "^1.5.4"
   },
   "husky": {
     "hooks": {

@@ -18,4 +18,6 @@ jest.mock('react-router-dom', () => {
 
 afterEach(() => {
   MockRedirect.mockClear();
+  jest.clearAllMocks();
+  jest.resetModules();
 });
