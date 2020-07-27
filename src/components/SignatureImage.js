@@ -77,7 +77,12 @@ const SignatureImage = ({ classes, t, image }) => {
             </Typography>
           </Container>
           <div className={classes.signatureContainer}>
-            <img src={image} className={classes.image} alt="Signature" />
+            <img
+              src={image}
+              data-testid="signature-image"
+              className={classes.image}
+              alt="Signature"
+            />
           </div>
         </>
       )}

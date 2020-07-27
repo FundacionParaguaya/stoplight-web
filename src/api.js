@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'http://localhost:8080'
+  development: 'https://testing.backend.povertystoplight.org'
 };
 
 // list of enviroments urls
