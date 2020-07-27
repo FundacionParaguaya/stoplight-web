@@ -52,8 +52,8 @@ export const ROLES = {
   ],
   ROLE_SURVEY_USER: [
     // Facilitator user
-    { item: 'dashboard', platform: ACCESS },
     { item: 'surveys', platform: NEW },
+    { item: 'dashboard', platform: ACCESS },
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
@@ -61,8 +61,8 @@ export const ROLES = {
   ],
   ROLE_SURVEY_USER_ADMIN: [
     // Facilitator admin user
-    { item: 'dashboard', platform: ACCESS },
     { item: 'surveys', platform: NEW },
+    { item: 'dashboard', platform: ACCESS },
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
