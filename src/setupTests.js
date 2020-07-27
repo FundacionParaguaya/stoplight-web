@@ -3,6 +3,10 @@ import 'jest-axe/extend-expect';
 import { Redirect as MockRedirect } from 'react-router-dom';
 
 jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => {
+    Component.defaultProps = { ...Component.defaultProps, t: key => key };
+    return Component;
+  },
   useTranslation: () => ({ t: key => key })
 }));
 

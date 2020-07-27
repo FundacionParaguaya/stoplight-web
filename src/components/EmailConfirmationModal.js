@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   withStyles,
@@ -88,6 +87,7 @@ const EmailConfirmationModal = ({
               {t('views.final.confirmYourMail')}
             </Typography>
             <InputWithFormik
+              data-testid="email-input"
               label={t('views.final.email')}
               name="email"
               className={classes.input}
@@ -119,4 +119,4 @@ const EmailConfirmationModal = ({
   );
 };
 
-export default withRouter(withStyles(styles)(EmailConfirmationModal));
+export default withStyles(styles)(EmailConfirmationModal);
