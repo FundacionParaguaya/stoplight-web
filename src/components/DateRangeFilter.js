@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { DatePicker } from '@material-ui/pickers';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as moment from 'moment';
 import { getDateFormatByLocale } from '../utils/date-utils';
+import MomentUtils from '@date-io/moment';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -129,11 +130,17 @@ const DateRangeFilter = ({ from, setFrom, to, setTo }) => {
       <Typography variant="subtitle1" className={classes.fromLabel}>
         {t('views.dateRangeFilter.from')}
       </Typography>
-      <DatePicker clearLabel={t('general.clear')} clearable {...fromProps} />
-      <Typography variant="subtitle1" className={classes.toLabel}>
-        {t('views.dateRangeFilter.to')}
-      </Typography>
-      <DatePicker clearLabel={t('general.clear')} clearable {...toProps} />
+      <MuiPickersUtilsProvider
+        libInstance={moment}
+        utils={MomentUtils}
+        locale={language}
+      >
+        <DatePicker clearLabel={t('general.clear')} clearable {...fromProps} />
+        <Typography variant="subtitle1" className={classes.toLabel}>
+          {t('views.dateRangeFilter.to')}
+        </Typography>
+        <DatePicker clearLabel={t('general.clear')} clearable {...toProps} />
+      </MuiPickersUtilsProvider>
     </div>
   );
 };
