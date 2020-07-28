@@ -36,6 +36,10 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   const dateFormat = getDateFormatByLocale(language);
 
   useEffect(() => {
+    loadFamilyData();
+  }, []);
+
+  const loadFamilyData = () => {
     getFamily(familyId, user).then(response => {
       let members = response.data.data.familyById.familyMemberDTOList;
 
@@ -53,7 +57,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
       setMentor(mentor);
     });
-  }, []);
+  };
 
   const loadData = () => {
     let data = [];
@@ -94,6 +98,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
   const reloadPage = () => {
     setValue(1);
+    loadFamilyData();
     loadData();
   };
 
