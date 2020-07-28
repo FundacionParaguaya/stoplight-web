@@ -336,6 +336,22 @@ export const saveFamilyNote = (familyId, familyNote, user) =>
     })
   });
 
+export const deleteSnapshot = (user, snapshot) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `mutation deleteSnapshot($snapshot: Long!) { deleteSnapshot (snapshot: $snapshot) {successful infos} }`,
+      variables: {
+        snapshot: snapshot
+      }
+    })
+  });
+
 const formatPhone = (code, phone, surveyLocation) => {
   const phoneUtil = PhoneNumberUtil.getInstance();
   if (phone && phone.length > 0) {
