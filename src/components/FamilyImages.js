@@ -89,9 +89,8 @@ const FamilyImages = ({ classes, t, images }) => {
           </Container>
           <div className={classes.familyImagesContainer}>
             <Carousel
-              centered
               arrows
-              slidesPerPage={3}
+              slidesPerPage={4}
               slidesPerScroll={1}
               draggable
               arrowLeft={<ArrowBackIosIcon />}
@@ -99,7 +98,7 @@ const FamilyImages = ({ classes, t, images }) => {
               addArrowClickHandler={true}
               breakpoints={{
                 640: {
-                  slidesPerPage: 1
+                  slidesPerPage: 2
                 },
                 900: {
                   slidesPerPage: 2
