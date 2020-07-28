@@ -90,7 +90,7 @@ const FamilyImages = ({ classes, t, images }) => {
           <div className={classes.familyImagesContainer}>
             <Carousel
               arrows
-              slidesPerPage={4}
+              slidesPerPage={3}
               slidesPerScroll={1}
               draggable
               arrowLeft={<ArrowBackIosIcon />}
