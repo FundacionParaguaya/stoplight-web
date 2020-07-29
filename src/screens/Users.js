@@ -50,7 +50,6 @@ const styles = theme => ({
 });
 
 const Users = ({ classes, t, user }) => {
-  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [filter, setFilter] = useState('');
   const [hub, setHub] = useState({});
@@ -73,7 +72,6 @@ const Users = ({ classes, t, user }) => {
   }, [filter, orgs, hub]);
 
   const loadUsers = query => {
-    setLoading(true);
     let page = query ? query.page : 0;
     const orderDirection = query ? query.orderDirection : '';
     const sortBy = query && query.orderBy ? query.orderBy.field : '';
@@ -101,7 +99,6 @@ const Users = ({ classes, t, user }) => {
       orderDirection
     )
       .then(response => {
-        setUsers(response.data.data.searchUsers.content);
         setTotalRow(response.data.data.searchUsers.totalElements);
         return {
           data: response.data.data.searchUsers.content,
@@ -174,8 +171,6 @@ const Users = ({ classes, t, user }) => {
           <UsersTable
             loading={loading}
             tableRef={tableRef}
-            setUsers={setUsers}
-            users={users}
             loadUsers={loadUsers}
             numberOfRows={totalRows}
             toggleFormModal={toggleFormModal}

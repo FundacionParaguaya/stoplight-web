@@ -306,6 +306,21 @@ export const getDimensionIndicators = (
     })
   });
 
+export const getFamilyImages = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query picturesSignaturesByFamily($family: Long!) { picturesSignaturesByFamily (family: $family) {  category url } }`,
+      variables: {
+        family: familyId
+      }
+    })
+  });
+
 export const getFamilyNotes = (familyId, user) =>
   axios({
     method: 'post',
@@ -336,6 +351,22 @@ export const saveFamilyNote = (familyId, familyNote, user) =>
     })
   });
 
+export const deleteSnapshot = (user, snapshot) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `mutation deleteSnapshot($snapshot: Long!) { deleteSnapshot (snapshot: $snapshot) {successful infos} }`,
+      variables: {
+        snapshot: snapshot
+      }
+    })
+  });
+
 const formatPhone = (code, phone, surveyLocation) => {
   const phoneUtil = PhoneNumberUtil.getInstance();
   if (phone && phone.length > 0) {
@@ -343,15 +374,10 @@ const formatPhone = (code, phone, surveyLocation) => {
     if (code) {
       international = '+' + code + ' ' + phone;
     } else {
-      console.log(
-        'Phone code is null, set default value for country: ',
-        surveyLocation.country
-      );
       code = CallingCodes.find(e => e.code === surveyLocation.country).value;
       international = '+' + code + ' ' + phone;
     }
     let phoneNumber = phoneUtil.parse(international, code);
-    console.log('Saving number as: ' + phoneNumber.getNationalNumber());
     phone = phoneNumber.getNationalNumber();
   }
   return phone;
@@ -433,10 +459,17 @@ export const submitPictures = (user, snapshot) => {
       resolve(blob);
     });
 
+  const signProcess = async base64Sign => {
+    const sign = await dataURItoBlob(base64Sign);
+    formData.append('sign', sign);
+  };
+
   snapshot.pictures.forEach(async pic => {
     const picture = await dataURItoBlob(pic.base64.content);
     formData.append('pictures', picture);
   });
+
+  !!snapshot.sign && signProcess(snapshot.sign);
 
   return axios({
     method: 'post',

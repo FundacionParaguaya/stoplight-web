@@ -10,6 +10,21 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: key => key })
 }));
 
+jest.mock('notistack', () => ({
+  withSnackbar: () => Component => {
+    Component.defaultProps = { ...Component.defaultProps, t: key => key };
+    return Component;
+  }
+}));
+
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => {
+    Component.defaultProps = { ...Component.defaultProps, t: key => key };
+    return Component;
+  },
+  useTranslation: () => ({ t: key => key })
+}));
+
 jest.mock('react-router-dom', () => {
   return {
     Redirect: jest.fn(() => null)

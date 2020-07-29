@@ -161,6 +161,16 @@ const Map = ({
 
   const isPsteam = ({ role }) => role === ROLES_NAMES.ROLE_PS_TEAM;
 
+  function onDragEnd() {
+    let center = this.getCenter();
+    setLocationData({
+      lat: center.lat(),
+      lng: center.lng(),
+      initialLat: center.lat(),
+      initialLng: center.lng()
+    });
+  }
+
   return (
     <PlacesAutocomplete
       value={locationData.address}
@@ -173,13 +183,14 @@ const Map = ({
             <GoogleMap
               defaultZoom={6}
               defaultCenter={{
-                lat: locationData.initialLat,
-                lng: locationData.initialLng
+                lat: locationData.lat,
+                lng: locationData.lng
               }}
               center={{
                 lat: locationData.lat,
                 lng: locationData.lng
               }}
+              onDragEnd={onDragEnd}
               options={{
                 mapTypeControlOptions: {
                   position: google.maps.ControlPosition.TOP_RIGHT

@@ -16,6 +16,7 @@ import {
   getPrioritiesAchievementByFamily,
   getLastSnapshot,
   getFamilyNotes,
+  getFamilyImages,
   saveFamilyNote
 } from '../api';
 import { withSnackbar } from 'notistack';
@@ -39,6 +40,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import NavigationBar from '../components/NavigationBar';
 import FamilyPriorities from '../components/FamilyPriorities';
+import FamilyImages from '../components/FamilyImages';
 import {
   getEconomicScreens,
   getConditionalQuestions,
@@ -48,6 +50,7 @@ import {
 import { getSurveyById } from '../api';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FamilyAchievements from '../components/FamilyAchievements';
+import SignatureImage from '../components/SignatureImage';
 
 const FamilyProfile = ({
   classes,
@@ -77,6 +80,8 @@ const FamilyProfile = ({
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(false);
   const [orgsId, setOrgsId] = useState();
+  const [images, setImages] = useState([]);
+  const [signatureImg, setSignatureImg] = useState({});
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -214,6 +219,20 @@ const FamilyProfile = ({
       });
   };
 
+  const loadFamilyImages = (family, user) => {
+    getFamilyImages(familyId, user).then(response => {
+      const pictures = response.data.data.picturesSignaturesByFamily.filter(
+        el => el.category === 'picture'
+      );
+      const signature = response.data.data.picturesSignaturesByFamily
+        .filter(el => el.category === 'signature')
+        .pop();
+
+      setImages(pictures);
+      setSignatureImg(signature);
+    });
+  };
+
   const handleSubmitNote = () => {
     setLoading(true);
     saveFamilyNote(familyId, familyNote, user)
@@ -246,6 +265,7 @@ const FamilyProfile = ({
     loadFamilies(familyId, user);
     loadFamilyNotes(familyId, user);
     loadAchievementsPriorities(familyId, user);
+    loadFamilyImages(familyId, user);
   }, []);
 
   useEffect(() => {
@@ -537,6 +557,12 @@ const FamilyProfile = ({
         handleInput={event => setFamilyNote(event.target.value)}
         loading={loading}
       />
+
+      {/* Images */}
+      <FamilyImages images={images} />
+
+      {/* Signature Image */}
+      <SignatureImage image={signatureImg ? signatureImg.url : ''} />
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (

@@ -246,7 +246,9 @@ export const shouldCleanUp = (
   }
   if (
     !currentAnswer ||
-    (!currentAnswer.value && !currentAnswer.multipleValue)
+    (!currentAnswer.value &&
+      (!currentAnswer.multipleValue ||
+        currentAnswer.multipleValue.length === 0))
   ) {
     // There's nothing to cleanUp, user has not answered the question yet
     // console.log(
@@ -282,9 +284,22 @@ export const shouldCleanUp = (
       currentDraft,
       memberIndex
     );
+    // Check if a single chosed option it's still available
     cleanUp = !availableOptions.find(
       option => option.value === currentAnswer.value
     );
+
+    // Check if all choosen option are still available in case of a multiValue question
+    if (
+      !!currentAnswer.multipleValue &&
+      currentAnswer.multipleValue.length > 0
+    ) {
+      cleanUp = currentAnswer.multipleValue.reduce(
+        (result, value) =>
+          result || !availableOptions.find(option => option.value === value),
+        false
+      );
+    }
   }
   if (cleanUp) {
     console.log(
