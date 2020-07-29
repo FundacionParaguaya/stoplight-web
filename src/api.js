@@ -306,6 +306,21 @@ export const getDimensionIndicators = (
     })
   });
 
+export const getFamilyImages = (familyId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query picturesSignaturesByFamily($family: Long!) { picturesSignaturesByFamily (family: $family) {  category url } }`,
+      variables: {
+        family: familyId
+      }
+    })
+  });
+
 export const getFamilyNotes = (familyId, user) =>
   axios({
     method: 'post',
@@ -332,6 +347,22 @@ export const saveFamilyNote = (familyId, familyNote, user) =>
           note: familyNote,
           familyId: familyId
         }
+      }
+    })
+  });
+
+export const deleteSnapshot = (user, snapshot) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `mutation deleteSnapshot($snapshot: Long!) { deleteSnapshot (snapshot: $snapshot) {successful infos} }`,
+      variables: {
+        snapshot: snapshot
       }
     })
   });
