@@ -4,9 +4,8 @@ import '@brainhubeu/react-carousel/lib/style.css';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from 'react-i18next';
-import Container from '../components/Container';
+import Container from './Container';
 import iconCamera from '../assets/icon_camera.png';
 
 const styles = theme => ({
@@ -64,6 +63,19 @@ const styles = theme => ({
     maxWidth: 50,
     maxHeight: 50,
     objectFit: 'contain'
+  },
+  arrowIcon: {
+    borderRadius: 50,
+    padding: 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)'
+    }
+  },
+  leftIcon: {
+    transform: 'rotate(180deg)'
   }
 });
 
@@ -93,8 +105,32 @@ const FamilyImages = ({ classes, t, images }) => {
               slidesPerPage={3}
               slidesPerScroll={1}
               draggable
-              arrowLeft={<ArrowBackIosIcon />}
-              arrowRight={<ArrowForwardIosIcon />}
+              arrowLeft={
+                <div className={classes.arrowIcon}>
+                  <ArrowForwardIosIcon
+                    className={classes.leftIcon}
+                    color="primary"
+                  />{' '}
+                </div>
+              }
+              arrowRight={
+                <div className={classes.arrowIcon}>
+                  <ArrowForwardIosIcon color="primary" />{' '}
+                </div>
+              }
+              arrowLeftDisabled={
+                <div className={classes.arrowIcon}>
+                  <ArrowForwardIosIcon
+                    className={classes.leftIcon}
+                    color="disabled"
+                  />
+                </div>
+              }
+              arrowRightDisabled={
+                <div className={classes.arrowIcon}>
+                  <ArrowForwardIosIcon color="disabled" />
+                </div>
+              }
               addArrowClickHandler={true}
               breakpoints={{
                 640: {
