@@ -316,23 +316,23 @@ const DetailsOverview = ({
       <div className={classes.overviewContainer}>
         <div className={classes.gridContainer}>
           <Grid container spacing={4} className={classes.buttonsContainer}>
-            {/* {firstParticipant.email && showButton('email', user) && ( */}
-            <Grid item xs={12} sm={4} className={classes.buttonContainer}>
-              <Button
-                variant="outlined"
-                color="primary"
-                style={{ margin: 'auto' }}
-                fullWidth
-                disabled={loading}
-                onClick={() => {
-                  handleMailClick();
-                }}
-              >
-                <MailIcon className={classes.leftIcon} />
-                {t('views.final.email')}
-              </Button>
-            </Grid>
-            {/*  )} */}
+            {firstParticipant.email && showButton('email', user) && (
+              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  style={{ margin: 'auto' }}
+                  fullWidth
+                  disabled={loading}
+                  onClick={() => {
+                    handleMailClick();
+                  }}
+                >
+                  <MailIcon className={classes.leftIcon} />
+                  {t('views.final.email')}
+                </Button>
+              </Grid>
+            )}
             {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
               <Grid item xs={12} sm={4} className={classes.buttonContainer}>
                 <Button

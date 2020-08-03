@@ -212,7 +212,6 @@ export const theme = {
         fontFamily: 'Poppins',
         fontWeight: 600,
         letterSpacing: 0.25,
-        textTransform: 'capitalize',
         width: 107,
         border: '1.5px solid rgba(0, 0, 0, 0.23)',
         color: 'rgba(0, 0, 0, 0.23)'
