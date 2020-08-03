@@ -4,9 +4,8 @@ import '@brainhubeu/react-carousel/lib/style.css';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { withTranslation } from 'react-i18next';
-import Container from '../components/Container';
+import Container from './Container';
 import iconCamera from '../assets/icon_camera.png';
 
 const styles = theme => ({
@@ -74,6 +73,9 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, 0.04)'
     }
+  },
+  leftIcon: {
+    transform: 'rotate(180deg)'
   }
 });
 
@@ -105,7 +107,10 @@ const FamilyImages = ({ classes, t, images }) => {
               draggable
               arrowLeft={
                 <div className={classes.arrowIcon}>
-                  <ArrowBackIosIcon color="primary" />{' '}
+                  <ArrowForwardIosIcon
+                    className={classes.leftIcon}
+                    color="primary"
+                  />{' '}
                 </div>
               }
               arrowRight={
@@ -115,7 +120,10 @@ const FamilyImages = ({ classes, t, images }) => {
               }
               arrowLeftDisabled={
                 <div className={classes.arrowIcon}>
-                  <ArrowBackIosIcon color="disabled" />
+                  <ArrowForwardIosIcon
+                    className={classes.leftIcon}
+                    color="disabled"
+                  />
                 </div>
               }
               arrowRightDisabled={
