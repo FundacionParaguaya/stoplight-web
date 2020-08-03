@@ -64,6 +64,16 @@ const styles = theme => ({
     maxWidth: 50,
     maxHeight: 50,
     objectFit: 'contain'
+  },
+  arrowIcon: {
+    borderRadius: 50,
+    padding: 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)'
+    }
   }
 });
 
@@ -93,8 +103,26 @@ const FamilyImages = ({ classes, t, images }) => {
               slidesPerPage={3}
               slidesPerScroll={1}
               draggable
-              arrowLeft={<ArrowBackIosIcon />}
-              arrowRight={<ArrowForwardIosIcon />}
+              arrowLeft={
+                <div className={classes.arrowIcon}>
+                  <ArrowBackIosIcon color="primary" />{' '}
+                </div>
+              }
+              arrowRight={
+                <div className={classes.arrowIcon}>
+                  <ArrowForwardIosIcon color="primary" />{' '}
+                </div>
+              }
+              arrowLeftDisabled={
+                <div className={classes.arrowIcon}>
+                  <ArrowBackIosIcon color="disabled" />
+                </div>
+              }
+              arrowRightDisabled={
+                <div className={classes.arrowIcon}>
+                  <ArrowForwardIosIcon color="disabled" />
+                </div>
+              }
               addArrowClickHandler={true}
               breakpoints={{
                 640: {
