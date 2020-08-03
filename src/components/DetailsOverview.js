@@ -45,10 +45,15 @@ const useStyles = makeStyles(theme => ({
     height: 80,
     backgroundColor: theme.palette.background.default
   },
-  buttonContainer: {
+  buttonsContainer: {
     height: 80,
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'space-between'
+  },
+  buttonContainer: {
+    '&:first-child:nth-last-child(1)': {
+      margin: 'auto'
+    }
   },
   container: {
     display: 'flex',
@@ -308,77 +313,77 @@ const DetailsOverview = ({
         </div>
       </div>
 
-      <div className={classes.gridContainer}>
-        <Grid container spacing={4} className={classes.buttonContainer}>
-          {firstParticipant.email && showButton('email', user) && (
-            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
-              <Button
-                variant="outlined"
-                color="primary"
-                style={{ margin: 'auto' }}
-                fullWidth
-                disabled={loading}
-                onClick={() => {
-                  handleMailClick();
-                }}
-              >
-                <MailIcon className={classes.leftIcon} />
-                {t('views.final.email')}
-              </Button>
-            </Grid>
-          )}
-          {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
-            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
-              <Button
-                variant="outlined"
-                color="primary"
-                fullWidth
-                disabled={loading}
-                onClick={() => {
-                  handleWhatsappClick();
-                }}
-              >
-                <WhatsAppIcon className={classes.leftIcon} />
-                {t('views.final.whatsapp')}
-              </Button>
-            </Grid>
-          )}
-          {showButton('download', user) && (
-            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
-              <Button
-                variant="outlined"
-                color="primary"
-                fullWidth
-                disabled={loading}
-                onClick={() => {
-                  handleDownloadClick();
-                }}
-              >
-                <DownloadIcon className={classes.leftIcon} />
-                {t('views.final.download')}
-              </Button>
-            </Grid>
-          )}
-
-          {showButton('delete', user, family) && (
-            <Grid item xs={12} sm={4} style={{ margin: 'auto' }}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                fullWidth
-                disabled={loading}
-                onClick={() => {
-                  toggleDeleteModal();
-                }}
-              >
-                <DeleteIcon className={classes.leftIcon} />
-                {t('views.final.deleteSnapshot')}
-              </Button>
-            </Grid>
-          )}
-        </Grid>
-      </div>
       <div className={classes.overviewContainer}>
+        <div className={classes.gridContainer}>
+          <Grid container spacing={4} className={classes.buttonsContainer}>
+            {firstParticipant.email && showButton('email', user) && (
+              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  style={{ margin: 'auto' }}
+                  fullWidth
+                  disabled={loading}
+                  onClick={() => {
+                    handleMailClick();
+                  }}
+                >
+                  <MailIcon className={classes.leftIcon} />
+                  {t('views.final.email')}
+                </Button>
+              </Grid>
+            )}
+            {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
+              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  disabled={loading}
+                  onClick={() => {
+                    handleWhatsappClick();
+                  }}
+                >
+                  <WhatsAppIcon className={classes.leftIcon} />
+                  {t('views.final.whatsapp')}
+                </Button>
+              </Grid>
+            )}
+            {showButton('download', user) && (
+              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  disabled={loading}
+                  onClick={() => {
+                    handleDownloadClick();
+                  }}
+                >
+                  <DownloadIcon className={classes.leftIcon} />
+                  {t('views.final.download')}
+                </Button>
+              </Grid>
+            )}
+
+            {showButton('delete', user, family) && (
+              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  disabled={loading}
+                  onClick={() => {
+                    toggleDeleteModal();
+                  }}
+                >
+                  <DeleteIcon className={classes.leftIcon} />
+                  {t('views.final.deleteSnapshot')}
+                </Button>
+              </Grid>
+            )}
+          </Grid>
+        </div>
         <DimensionQuestion
           questions={stoplight}
           priorities={priorities}
