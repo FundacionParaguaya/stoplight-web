@@ -7,7 +7,7 @@ jest.mock('react-i18next', () => ({
     Component.defaultProps = { ...Component.defaultProps, t: key => key };
     return Component;
   },
-  useTranslation: () => ({ t: key => key })
+  useTranslation: () => ({ t: key => key, i18n: { language: 'en' } })
 }));
 
 jest.mock('notistack', () => ({
@@ -15,14 +15,6 @@ jest.mock('notistack', () => ({
     Component.defaultProps = { ...Component.defaultProps, t: key => key };
     return Component;
   }
-}));
-
-jest.mock('react-i18next', () => ({
-  withTranslation: () => Component => {
-    Component.defaultProps = { ...Component.defaultProps, t: key => key };
-    return Component;
-  },
-  useTranslation: () => ({ t: key => key })
 }));
 
 jest.mock('react-router-dom', () => {
