@@ -457,7 +457,8 @@
       "stoplight": "Semáforo",
       "loadingSnapshots": "Carregando semáforos...",
       "familyNoteSuccess": "Nota de família enviada corretamente",
-      "familyNoteError": "Não foi possível enviar o bilhete da família"
+      "familyNoteError": "Não foi possível enviar o bilhete da família",
+      "download": "Baixar"
     },
     "familyNotes": {
       "by": "por",

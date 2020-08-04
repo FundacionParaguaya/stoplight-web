@@ -79,7 +79,7 @@ const styles = theme => ({
   }
 });
 
-const FamilyImages = ({ classes, t, images }) => {
+const FamilyImages = ({ classes, t, images, showImage }) => {
   return (
     <>
       {images && images.length > 0 && (
@@ -145,6 +145,7 @@ const FamilyImages = ({ classes, t, images }) => {
                 return (
                   <img
                     key={index}
+                    onClick={() => showImage(img.url)}
                     className={classes.img}
                     src={img.url}
                     alt="Family pictures"

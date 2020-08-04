@@ -56,7 +56,7 @@ const styles = theme => ({
   }
 });
 
-const SignatureImage = ({ classes, t, image }) => {
+const SignatureImage = ({ classes, t, image, showImage }) => {
   return (
     <>
       {!!image && (
@@ -79,6 +79,7 @@ const SignatureImage = ({ classes, t, image }) => {
           <div className={classes.signatureContainer}>
             <img
               src={image}
+              onClick={() => showImage(image)}
               data-testid="signature-image"
               className={classes.image}
               alt="Signature"
