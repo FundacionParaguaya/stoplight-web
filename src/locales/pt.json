@@ -402,6 +402,12 @@
       "noOption": "Não há indicadores",
       "noMatchFilters": "Não há resultados para os filtros aplicados"
     },
+    "dimensionFilter": {
+      "label": "Dimensão",
+      "loading": "Carregando...",
+      "noOption": "Não há dimensões",
+      "noMatchFilters": "Não há resultados para os filtros aplicados"
+    },
     "nonProdWarning": {
       "title": "Olá!",
       "subtitle": "Bem-vindo ao ambiente de demostração.",
