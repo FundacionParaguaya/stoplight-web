@@ -458,7 +458,8 @@
       "stoplight": "Semáforo",
       "loadingSnapshots": "Cargando semáforos...",
       "familyNoteSuccess": "Nota de familia enviada correctamente",
-      "familyNoteError": "No se pudo enviar la nota familiar"
+      "familyNoteError": "No se pudo enviar la nota familiar",
+      "download": "Descargar"
     },
     "familyNotes": {
       "by": "por",

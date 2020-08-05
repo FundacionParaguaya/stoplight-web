@@ -457,7 +457,8 @@
       "stoplight": "Stoplight",
       "loadingSnapshots": "Loading stoplights...",
       "familyNoteSuccess": "Family note sent correctly",
-      "familyNoteError": "Could not send family note"
+      "familyNoteError": "Could not send family note",
+      "download": "Download"
     },
     "familyNotes": {
       "by": "by",
