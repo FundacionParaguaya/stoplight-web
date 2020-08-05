@@ -1222,3 +1222,17 @@ export const getDimensionsByUser = (user, lang) =>
       query: 'query { getDimensions { name, surveyDimensionId } }'
     })
   });
+
+// get a list of indicators available to the authorized used
+export const getIndicatorsByUser = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { getIndicators { codeName, name, surveyIndicatorId } }'
+    })
+  });
