@@ -10,7 +10,8 @@ const styles = theme => ({
     borderRadius: 50,
     height: 'auto',
     width: '50%',
-    minWidth: 300
+    minWidth: 300,
+    cursor: 'pointer'
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,

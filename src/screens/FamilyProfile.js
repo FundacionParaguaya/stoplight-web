@@ -595,7 +595,7 @@ const FamilyProfile = ({
             alt={'Family gallery or signature'}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions className={classes.btnContainer}>
           <Button
             href={imageUrl}
             className={classes.btnDialog}
@@ -854,6 +854,9 @@ const styles = theme => ({
     '&:hover': {
       textDecoration: 'none'
     }
+  },
+  btnContainer: {
+    padding: '8px 24px'
   }
 });
 

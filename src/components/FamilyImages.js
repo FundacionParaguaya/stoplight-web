@@ -17,6 +17,7 @@ const styles = theme => ({
     borderRadius: 50,
     minHeight: 360,
     minWidth: 260,
+    cursor: 'pointer',
     transition: 'all .2s ease-in-out',
     '&:hover': {
       transform: 'scale(1.1)'
@@ -69,12 +70,14 @@ const styles = theme => ({
     padding: 10,
     display: 'flex',
     justifyContent: 'center',
+    cursor: 'pointer',
     alignItems: 'center',
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, 0.04)'
     }
   },
   leftIcon: {
+    cursor: 'pointer',
     transform: 'rotate(180deg)'
   }
 });
