@@ -45,7 +45,7 @@ jest.mock('../api', () => ({
   )
 }));
 
-test('should not repeat selected facilitator in the list of selectable surveys', async () => {
+test('should not repeat selected facilitator in the list of selectable facilitators', async () => {
   const onChangeFacilitator = jest.fn();
   const { container, getByText, queryAllByText, rerender } = render(
     <Provider store={store}>
