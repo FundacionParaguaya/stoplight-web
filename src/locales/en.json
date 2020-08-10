@@ -402,6 +402,12 @@
       "noOption": "No indicator left",
       "noMatchFilters": "No results matching your filters"
     },
+    "dimensionFilter": {
+      "label": "Dimension",
+      "loading": "Loading...",
+      "noOption": "No dimension left",
+      "noMatchFilters": "No results matching your filters"
+    },
     "nonProdWarning": {
       "title": "Hello!",
       "subtitle": "Welcome to the demonstration environment.",

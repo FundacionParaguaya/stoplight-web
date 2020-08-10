@@ -1208,3 +1208,17 @@ export const getSnapshots = (user, filters) =>
       }
     })
   });
+
+// get a list of dimensions available to the authorized used
+export const getDimensionsByUser = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { getDimensions { name, surveyDimensionId } }'
+    })
+  });
