@@ -18,6 +18,7 @@ import Maps from '../screens/Maps';
 import Login from '../screens/Login';
 import PageNotFound from '../screens/PageNotFound';
 import ErrorBoundary from './ErrorBoundary';
+import Solutions from '../screens/Solutions';
 
 const Routes = ({ user }) => {
   return (
@@ -70,6 +71,7 @@ const Routes = ({ user }) => {
         {checkAccess(user, 'surveys') && (
           <Route exact path="/" component={Surveys} />
         )}
+        {<Route exact path="/solutions" component={Solutions} />}
 
         {!!user.role && <Route render={() => <PageNotFound user={user} />} />}
       </Switch>
