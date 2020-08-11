@@ -101,6 +101,5 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "proxy": "https://testing.backend.povertystoplight.org/"
+  }
 }

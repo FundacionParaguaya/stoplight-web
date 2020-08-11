@@ -22,16 +22,19 @@ const Solutions = ({ classes }) => {
 
   const editorConfiguration = {
     toolbar: ['Bold', 'Italic', '|', 'Undo', 'Redo', 'ImageUpload'],
+
     simpleUpload: {
       // The URL that the images are uploaded to.
-      uploadUrl: '/api/v1/snapshots/files/pictures/upload',
+      uploadUrl:
+        'https://testing.backend.povertystoplight.org/api/v1/snapshots/files/pictures/upload',
 
       // Enable the XMLHttpRequest.withCredentials property.
-      withCredentials: true,
+      withCredentials: false,
 
       // Headers sent along with the XMLHttpRequest to the upload server.
       headers: {
-        Authorization: 'Bearer 527c2c38-23bf-4d3e-bfaf-adaebae8be91'
+        Authorization: 'Bearer 9a74f00a-b3cf-43dd-8c43-ce4988be0646'
+        // 'Content-Type': 'multipart/form-data'
       }
     }
   };
