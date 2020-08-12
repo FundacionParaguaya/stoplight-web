@@ -80,7 +80,8 @@
       "families": "Familias",
       "map": "Mapa",
       "logout": "Cerrar sesión",
-      "support": "Soporte"
+      "support": "Soporte",
+      "solutions": "Soluciones"
     },
     "synced": "Sincronización",
     "dashboard": {
@@ -713,6 +714,23 @@
       "passwordReseted": "Contraseña restablecida correctamente",
       "mailNotFound": "El par usuario y correo electrónico no se encuentra"
     },
+    "solutions": {
+      "form": {
+        "title": "Título de la solución",
+        "subtitle": "Agrega una descripción a tu solución...",
+        "country": "País",
+        "resource": "Recursos",
+        "resourcePlaceholder": "Aquí puedas agregar PDFs, imágenes y más",
+        "resourceUploadError": "¡Alcanzaste el límite de 10MB! Elimina un archivo para poder continuar.",
+        "contact": "Información de contacto",
+        "contactPlaceHolder": "Aquí puedas agregar un email y número para mas informaciones",
+        "reference": "Referencia",
+        "save": {
+          "success": "Solución guardada exitosamente",
+          "failed": "No es posible guardar la solución"
+        }
+      }
+    },
     "404": {
       "missing": "¡Algo está perdido!",
       "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
@@ -720,7 +738,7 @@
     },
     "error": {
       "subtitle": "Algo salió mal de nuestro lado. Intenta actualizar o",
-      "toHomePage": "Regrese al sitio principal."
+      "toHomePage": " Regrese al sitio principal."
     }
   },
   "reports": {

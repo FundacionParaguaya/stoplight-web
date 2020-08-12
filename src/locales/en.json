@@ -80,7 +80,8 @@
       "reports": "Reports",
       "families": "Households",
       "logout": "Logout",
-      "support": "Support"
+      "support": "Support",
+      "solutions": "Solutions"
     },
     "synced": "Sync",
     "dashboard": {
@@ -710,6 +711,23 @@
       "mailResetSuccess": "Thanks! Please check your email for a link to reset your password",
       "passwordReseted": "Password sucessfully reseted",
       "mailNotFound": "User and Email pair not found"
+    },
+    "solutions": {
+      "form": {
+        "title": "Solution title",
+        "subtitle": "Add a description for you solution...",
+        "country": "Country",
+        "resource": "Resources",
+        "resourcePlaceholder": "Here you can add files like PDFs, images and more",
+        "resourceUploadError": "You reached the 10MB limit! Please delete a file to continue.",
+        "contact": "Contact information",
+        "contactPlaceHolder": "Here you can add an email and number for further contact",
+        "reference": "Reference",
+        "save": {
+          "success": "Solution saved successfully",
+          "failed": "Could not save solution"
+        }
+      }
     },
     "404": {
       "missing": "Something’s missing!",
