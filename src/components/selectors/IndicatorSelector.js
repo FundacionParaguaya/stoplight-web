@@ -4,12 +4,15 @@ import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { getIndicatorsByUser } from '../../api';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from 'react-select';
 import * as _ from 'lodash';
 import { selectStyle } from '../../utils/styles-utils';
 
 const useStyles = makeStyles(() => ({
   container: {
+    marginTop: 20,
+    marginBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
@@ -24,7 +27,15 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const IndicatorSelector = ({ user, indicatorsData, onChangeIndicator }) => {
+const IndicatorSelector = ({
+  withTitle,
+  user,
+  indicatorsData,
+  onChangeIndicator,
+  onBlur,
+  required,
+  error
+}) => {
   const {
     t,
     i18n: { language }
@@ -33,6 +44,7 @@ const IndicatorSelector = ({ user, indicatorsData, onChangeIndicator }) => {
 
   const [loading, setLoading] = useState(false);
   const [indicatorOptions, setIndicatorOptions] = useState([]);
+  const label = `${t('views.indicatorFilter.label')} ${required ? ' *' : ''}`;
 
   useEffect(() => {
     setLoading(true);
@@ -53,15 +65,18 @@ const IndicatorSelector = ({ user, indicatorsData, onChangeIndicator }) => {
 
   return (
     <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
-        {t('views.indicatorFilter.label')}
-      </Typography>
+      {withTitle && (
+        <Typography variant="subtitle1" className={classes.label}>
+          {label}
+        </Typography>
+      )}
 
       <div className={classes.selector}>
         <Select
           value={indicatorsData}
           onChange={value => onChangeIndicator(value)}
-          placeholder=""
+          onBlur={onBlur}
+          placeholder={withTitle ? '' : label}
           isLoading={loading}
           loadingMessage={() => t('views.indicatorFilter.loading')}
           noOptionsMessage={() => t('views.indicatorFilter.noOption')}
@@ -78,6 +93,11 @@ const IndicatorSelector = ({ user, indicatorsData, onChangeIndicator }) => {
           isMulti
         />
       </div>
+      {error && (
+        <FormHelperText error={error}>
+          {t('validation.fieldIsRequired')}
+        </FormHelperText>
+      )}
     </div>
   );
 };
