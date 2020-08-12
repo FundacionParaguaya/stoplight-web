@@ -10,7 +10,8 @@ const styles = theme => ({
     borderRadius: 50,
     height: 'auto',
     width: '50%',
-    minWidth: 300
+    minWidth: 300,
+    cursor: 'pointer'
   },
   basicInfo: {
     backgroundColor: theme.palette.background.default,
@@ -56,7 +57,7 @@ const styles = theme => ({
   }
 });
 
-const SignatureImage = ({ classes, t, image }) => {
+const SignatureImage = ({ classes, t, image, showImage }) => {
   return (
     <>
       {!!image && (
@@ -79,6 +80,7 @@ const SignatureImage = ({ classes, t, image }) => {
           <div className={classes.signatureContainer}>
             <img
               src={image}
+              onClick={() => showImage(image)}
               data-testid="signature-image"
               className={classes.image}
               alt="Signature"

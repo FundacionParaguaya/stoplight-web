@@ -51,6 +51,10 @@ import { getSurveyById } from '../api';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FamilyAchievements from '../components/FamilyAchievements';
 import SignatureImage from '../components/SignatureImage';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const FamilyProfile = ({
   classes,
@@ -82,6 +86,8 @@ const FamilyProfile = ({
   const [orgsId, setOrgsId] = useState();
   const [images, setImages] = useState([]);
   const [signatureImg, setSignatureImg] = useState({});
+  const [imagePreview, setImagePreview] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -98,6 +104,15 @@ const FamilyProfile = ({
 
   const handleClose = () => {
     setShowConfirmationModal(false);
+  };
+
+  const handleOpenImage = image => {
+    setImagePreview(true);
+    setImageUrl(image);
+  };
+
+  const handleCloseImage = () => {
+    setImagePreview(false);
   };
 
   const showAdministrationOptions = ({ role }) => {
@@ -559,10 +574,39 @@ const FamilyProfile = ({
       />
 
       {/* Images */}
-      <FamilyImages images={images} />
+      <FamilyImages showImage={handleOpenImage} images={images} />
 
       {/* Signature Image */}
-      <SignatureImage image={signatureImg ? signatureImg.url : ''} />
+      <SignatureImage
+        showImage={handleOpenImage}
+        image={signatureImg ? signatureImg.url : ''}
+      />
+
+      <Dialog
+        open={imagePreview}
+        onClose={handleCloseImage}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent className={classes.previewContent}>
+          <img
+            className={classes.imagePreview}
+            src={imageUrl}
+            alt={'Family gallery or signature'}
+          />
+        </DialogContent>
+        <DialogActions className={classes.btnContainer}>
+          <Button
+            href={imageUrl}
+            className={classes.btnDialog}
+            download
+            color="primary"
+          >
+            <GetAppIcon />
+            {t('views.familyProfile.download')}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* AssignFacilitator */}
       {showAdministrationOptions(user) && (
@@ -798,6 +842,21 @@ const styles = theme => ({
   retakeButton: {
     ...theme.overrides.label,
     color: theme.palette.background.paper
+  },
+  imagePreview: {
+    width: '100%'
+  },
+  previewContent: {
+    overflowY: 'hidden'
+  },
+  btnDialog: {
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'none'
+    }
+  },
+  btnContainer: {
+    padding: '8px 24px'
   }
 });
 

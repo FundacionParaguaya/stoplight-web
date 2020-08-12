@@ -17,6 +17,7 @@ const styles = theme => ({
     borderRadius: 50,
     minHeight: 360,
     minWidth: 260,
+    cursor: 'pointer',
     transition: 'all .2s ease-in-out',
     '&:hover': {
       transform: 'scale(1.1)'
@@ -69,17 +70,19 @@ const styles = theme => ({
     padding: 10,
     display: 'flex',
     justifyContent: 'center',
+    cursor: 'pointer',
     alignItems: 'center',
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, 0.04)'
     }
   },
   leftIcon: {
+    cursor: 'pointer',
     transform: 'rotate(180deg)'
   }
 });
 
-const FamilyImages = ({ classes, t, images }) => {
+const FamilyImages = ({ classes, t, images, showImage }) => {
   return (
     <>
       {images && images.length > 0 && (
@@ -145,6 +148,7 @@ const FamilyImages = ({ classes, t, images }) => {
                 return (
                   <img
                     key={index}
+                    onClick={() => showImage(img.url)}
                     className={classes.img}
                     src={img.url}
                     alt="Family pictures"
