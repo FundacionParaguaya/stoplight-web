@@ -36,6 +36,10 @@ const selectStyle = {
     ...styles,
     fontSize: 16,
     fontFamily: 'Poppins'
+  }),
+  menu: styles => ({
+    ...styles,
+    zIndex: 2
   })
 };
 
