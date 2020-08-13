@@ -1236,3 +1236,21 @@ export const getIndicatorsByUser = (user, lang) =>
       query: 'query { getIndicators { codeName, name, surveyIndicatorId } }'
     })
   });
+
+// submit resources
+export const submitResources = (user, resources) => {
+  const formData = new FormData();
+  resources.forEach(resource => {
+    formData.append('resources', resource);
+  });
+
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/solutions/resources/store`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  });
+};

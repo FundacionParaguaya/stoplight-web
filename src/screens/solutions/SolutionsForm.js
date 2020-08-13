@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import RoomIcon from '@material-ui/icons/Room';
 import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
 import { Form, Formik } from 'formik';
 import { withSnackbar } from 'notistack';
@@ -19,6 +20,7 @@ import DimensionSelector from '../../components/selectors/DimensionSelector';
 import IndicatorSelector from '../../components/selectors/IndicatorSelector';
 import withLayout from '../../components/withLayout';
 import FileUploader from './FileUploader';
+import { submitResources } from '../../api';
 
 const inputStyle = {
   height: 25,
@@ -78,6 +80,18 @@ const useStyles = makeStyles(theme => ({
         borderBottom: `3px dashed ${theme.palette.grey.quarter}`
       }
     }
+  },
+  loadingContainer: {
+    zIndex: 1000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 }));
 
@@ -86,6 +100,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
   const { t } = useTranslation();
 
   const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   //Validation criterias
   const fieldIsRequired = 'validation.fieldIsRequired';
@@ -99,14 +114,23 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
   });
 
   const onSubmit = values => {
-    console.log(values);
-    enqueueSnackbar(t('views.solutions.form.save.success'), {
-      variant: 'success',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
+    setLoading(true);
+    Promise.all([
+      files.length > 0 &&
+        submitResources(user, files).then(
+          response => (values.resources = response.data)
+        )
+    ]).then(() => {
+      // Here the endpoint to save a solution should be called
+      setLoading(false);
+      enqueueSnackbar(t('views.solutions.form.save.success'), {
+        variant: 'success',
+        action: key => (
+          <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+            <CloseIcon style={{ color: 'white' }} />
+          </IconButton>
+        )
+      });
     });
   };
 
@@ -119,6 +143,11 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
 
   return (
     <React.Fragment>
+      {loading && (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      )}
       <Formik
         initialValues={{
           title: '',
