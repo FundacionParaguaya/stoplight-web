@@ -3273,8 +3273,13 @@ circular-json@^0.3.1:
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
   integrity sha512-UZK3NBx2Mca+b5LsG7bY183pHWt5Y1xts4P3Pz7ENTwGVnJOUWbRb3ocjvX7hx9tq/yTAdclXm9sZ38gNuem4A==
 
+"ckeditor5-custom-build@git+https://github.com/FundacionParaguaya/stoplight-custom-editor.git":
+  version "0.0.1"
+  resolved "git+https://github.com/FundacionParaguaya/stoplight-custom-editor.git#63dfa7b10df94b213d809f4ab119caf0eaf956f7"
+
 "ckeditor5-custom-build@https://github.com/FundacionParaguaya/stoplight-custom-editor.git":
   version "0.0.1"
+  uid "63dfa7b10df94b213d809f4ab119caf0eaf956f7"
   resolved "https://github.com/FundacionParaguaya/stoplight-custom-editor.git#63dfa7b10df94b213d809f4ab119caf0eaf956f7"
 
 class-utils@^0.3.5:
