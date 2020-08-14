@@ -82,9 +82,7 @@ const Editor = ({
       'Redo',
       'insertTable',
       'ImageUpload',
-      'ImageStyle',
       'ImageResize',
-      'mediaEmbed',
       'Link'
     ],
     removePlugins: ['Title', 'ImageCaption'],
@@ -184,14 +182,14 @@ const Editor = ({
 
     image: {
       toolbar: [
-        'imageStyle:full',
-        'imageStyle:side',
+        'ImageStyle:full',
+        'ImageStyle:side',
         '|',
-        'imageTextAlternative',
-        'imageStyle:alignLeft',
-        'imageStyle:alignCenter',
-        'imageStyle:alignRight',
-        'imageResize',
+        'ImageTextAlternative',
+        'ImageStyle:alignLeft',
+        'ImageStyle:alignCenter',
+        'ImageStyle:alignRight',
+        'ImageResize',
         '|',
         'link'
       ],
