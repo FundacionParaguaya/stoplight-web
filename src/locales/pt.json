@@ -719,6 +719,7 @@
       "form": {
         "title": "Título da solução",
         "subtitle": "Adicione uma descrição à sua solução...",
+        "content": "Comece a escrever seu conteúdo...",
         "country": "País",
         "resource": "Recursos",
         "resourcePlaceholder": "Aqui você pode adicionar PDFs, imagens e muito mais",

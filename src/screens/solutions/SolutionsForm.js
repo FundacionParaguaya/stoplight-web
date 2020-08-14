@@ -13,14 +13,14 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import organizationIcon from '../../assets/dimension_organization.png';
-import BottomSpacer from '../../components/BottomSpacer';
 import InputWithFormik from '../../components/InputWithFormik';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import DimensionSelector from '../../components/selectors/DimensionSelector';
 import IndicatorSelector from '../../components/selectors/IndicatorSelector';
-import withLayout from '../../components/withLayout';
 import FileUploader from './FileUploader';
 import { submitResources } from '../../api';
+import withLayout from '../../components/withLayout';
+import Editor from './Editor';
 
 const inputStyle = {
   height: 25,
@@ -34,7 +34,7 @@ const inputStyle = {
 const useStyles = makeStyles(theme => ({
   form: {
     width: '100vw',
-    maxHeight: '95vh'
+    height: '100%'
   },
   innerFrom: {
     paddingLeft: '20vw',
@@ -100,6 +100,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
   const { t } = useTranslation();
 
   const [files, setFiles] = useState([]);
+  const [plainContent, setPlainContent] = useState('');
   const [loading, setLoading] = useState(false);
 
   //Validation criterias
@@ -108,6 +109,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required(fieldIsRequired),
     subtitle: Yup.string().required(fieldIsRequired),
+    contentRich: Yup.string().required(fieldIsRequired),
     country: Yup.string().required(fieldIsRequired),
     dimension: Yup.object().required(),
     indicators: Yup.array().required()
@@ -152,6 +154,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
         initialValues={{
           title: '',
           subtitle: '',
+          contentRich: '',
           country: '',
           showOrg: true,
           dimension: '',
@@ -161,7 +164,11 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
-          onSubmit(values);
+          const solutionValues = {
+            ...values,
+            contentText: plainContent
+          };
+          onSubmit(solutionValues);
         }}
       >
         {({ setFieldValue, setTouched, values, touched, isSubmitting }) => (
@@ -254,8 +261,20 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={1} style={{ height: '25vh' }}>
-                <Grid item md={8} sm={8} xs={12}></Grid>
+              <Grid container spacing={1} style={{ minHeight: '40vh' }}>
+                <Grid item md={8} sm={8} xs={12}>
+                  <Editor
+                    data={values.contentRich}
+                    handleData={editorData =>
+                      setFieldValue('contentRich', editorData)
+                    }
+                    handlePlainData={editorPlain =>
+                      setPlainContent('contentText', editorPlain)
+                    }
+                    handleStats={() => {}}
+                    placeholder={t('views.solutions.form.content')}
+                  />
+                </Grid>
                 {/* Show organizations switch and country selector */}
                 <Grid item md={4} sm={4} xs={12}>
                   <Grid item md={12} sm={12} xs={12}>
@@ -332,7 +351,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
           </Form>
         )}
       </Formik>
-      <BottomSpacer />
     </React.Fragment>
   );
 };

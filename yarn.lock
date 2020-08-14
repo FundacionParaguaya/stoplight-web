@@ -1121,6 +1121,13 @@
   resolved "https://registry.yarnpkg.com/@brainhubeu/react-carousel/-/react-carousel-1.19.22.tgz#cb846b1d1e04463723b662b616206d5875c02053"
   integrity sha512-a5QY1Fh/nwL7EPDMylUr23yZmcEQfLBCHrgGI+K5UbSd5c5x+xAzBgw6pMXaQ2FAUU7dONDuWxWH9QzWzs1KHQ==
 
+"@ckeditor/ckeditor5-react@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-react/-/ckeditor5-react-2.1.0.tgz#f612546a5a328899a436d71b72ffd632600049e8"
+  integrity sha512-rlHjRKhwP9tNK0Yj2UJShL14mRfxLPgJ+Pv6zTv/Mvmd4wrwGnJf+5ybOAGK92S02hP1cXH+9km+PRO1b4V+ng==
+  dependencies:
+    prop-types "^15.6.1"
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
@@ -3265,6 +3272,10 @@ circular-json@^0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
   integrity sha512-UZK3NBx2Mca+b5LsG7bY183pHWt5Y1xts4P3Pz7ENTwGVnJOUWbRb3ocjvX7hx9tq/yTAdclXm9sZ38gNuem4A==
+
+"ckeditor5-custom-build@https://github.com/FundacionParaguaya/stoplight-custom-editor.git":
+  version "0.0.1"
+  resolved "https://github.com/FundacionParaguaya/stoplight-custom-editor.git#63dfa7b10df94b213d809f4ab119caf0eaf956f7"
 
 class-utils@^0.3.5:
   version "0.3.6"

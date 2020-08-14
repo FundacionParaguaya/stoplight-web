@@ -717,6 +717,7 @@
       "form": {
         "title": "Solution title",
         "subtitle": "Add a description for you solution...",
+        "content": "Start writing your content...",
         "country": "Country",
         "resource": "Resources",
         "resourcePlaceholder": "Here you can add files like PDFs, images and more",
