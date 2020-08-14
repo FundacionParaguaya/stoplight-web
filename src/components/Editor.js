@@ -1,0 +1,281 @@
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
+import CKEditor from '@ckeditor/ckeditor5-react';
+import { withStyles } from '@material-ui/core/styles';
+import CustomEditor from 'ckeditor5-custom-build/build/ckeditor';
+import { connect } from 'react-redux';
+import withLayout from './withLayout';
+import { url } from '../api';
+import 'ckeditor5-custom-build/build/translations/en-gb';
+import 'ckeditor5-custom-build/build/translations/es';
+import 'ckeditor5-custom-build/build/translations/pt';
+
+const styles = theme => ({
+  screen: {
+    flex: 1,
+    padding: 20
+  }
+});
+
+const Editor = ({
+  classes,
+  data,
+  handleData,
+  handlePlainData,
+  handleStats,
+  user,
+  t,
+  i18n: { language },
+  placeholder
+}) => {
+  const customColorPalette = [
+    {
+      color: 'hsl(4, 90%, 58%)',
+      label: 'Red'
+    },
+    {
+      color: 'hsl(340, 82%, 52%)',
+      label: 'Pink'
+    },
+    {
+      color: 'hsl(291, 64%, 42%)',
+      label: 'Purple'
+    },
+    {
+      color: 'hsl(262, 52%, 47%)',
+      label: 'Deep Purple'
+    },
+    {
+      color: 'hsl(231, 48%, 48%)',
+      label: 'Indigo'
+    },
+    {
+      color: 'hsl(207, 90%, 54%)',
+      label: 'Blue'
+    }
+
+    // ...
+  ];
+
+  const editorConfiguration = {
+    language: language === 'en' ? 'en' : language,
+    toolbar: [
+      'Heading',
+      'BulletedList',
+      'NumberedList',
+      'FontFamily',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'removeFormat',
+      'todoList',
+      'fontColor',
+      'fontBackgroundColor',
+      '|',
+      'alignment:left',
+      'alignment:right',
+      'alignment:center',
+      'alignment:justify',
+      '|',
+      'Undo',
+      'Redo',
+      'insertTable',
+      'ImageUpload',
+      'ImageStyle',
+      'ImageResize',
+      'ImageCaption',
+      'mediaEmbed',
+      'Link'
+    ],
+    removePlugins: ['Title'],
+
+    wordCount: {
+      onUpdate: stats => {
+        handleStats({
+          characters: stats.characters,
+          words: stats.words
+        });
+        console.log(`Characters: ${stats.characters}\nWords: ${stats.words}`);
+      }
+    },
+    table: {
+      contentToolbar: [
+        'tableColumn',
+        'tableRow',
+        'mergeTableCells',
+        'tableProperties',
+        'tableCellProperties'
+      ],
+
+      // Configuration of the TableProperties plugin.
+      tableProperties: {
+        borderColors: customColorPalette,
+        backgroundColors: customColorPalette
+      },
+
+      // Configuration of the TableCellProperties plugin.
+      tableCellProperties: {
+        borderColors: customColorPalette,
+        backgroundColors: customColorPalette
+      }
+    },
+
+    fontColor: {
+      colors: [
+        {
+          color: 'hsl(0, 0%, 0%)',
+          label: 'Black'
+        },
+        {
+          color: 'hsl(0, 0%, 30%)',
+          label: 'Dim grey'
+        },
+        {
+          color: 'hsl(0, 0%, 60%)',
+          label: 'Grey'
+        },
+        {
+          color: 'hsl(0, 0%, 90%)',
+          label: 'Light grey'
+        },
+        {
+          color: 'hsl(0, 0%, 100%)',
+          label: 'White',
+          hasBorder: true
+        }
+
+        // ...
+      ]
+    },
+    fontBackgroundColor: {
+      colors: [
+        {
+          color: 'hsl(0, 75%, 60%)',
+          label: 'Red'
+        },
+        {
+          color: 'hsl(30, 75%, 60%)',
+          label: 'Orange'
+        },
+        {
+          color: 'hsl(60, 75%, 60%)',
+          label: 'Yellow'
+        },
+        {
+          color: 'hsl(90, 75%, 60%)',
+          label: 'Light green'
+        },
+        {
+          color: 'hsl(120, 75%, 60%)',
+          label: 'Green'
+        }
+      ]
+    },
+    fontFamily: {
+      options: [
+        'default',
+        'Ubuntu, Arial, sans-serif',
+        'Ubuntu Mono, Courier New, Courier, monospace'
+      ]
+    },
+    fontSize: {
+      options: [9, 11, 13, 'default', 16, 18, 22, 23, 24, 28, 36, 48],
+      supportAllValues: true
+    },
+
+    image: {
+      toolbar: [
+        'imageStyle:full',
+        'imageStyle:side',
+        '|',
+        'imageTextAlternative',
+        'imageStyle:alignLeft',
+        'imageStyle:alignCenter',
+        'imageStyle:alignRight',
+        'imageResize',
+        '|',
+        'link'
+      ],
+
+      styles: ['full', 'side', 'alignLeft', 'alignCenter', 'alignRight'],
+      resizeOptions: [
+        {
+          name: 'imageResize:original',
+          label: 'Original',
+          value: null
+        },
+        {
+          name: 'imageResize:25',
+          label: '25%',
+          value: '25'
+        },
+        {
+          name: 'imageResize:50',
+          label: '50%',
+          value: '50'
+        },
+        {
+          name: 'imageResize:75',
+          label: '75%',
+          value: '75'
+        }
+      ]
+    },
+
+    simpleUpload: {
+      // The URL that the images are uploaded to.
+      // uploadUrl: 'http://localhost:8080/api/v1/solutions/pictures/upload',
+
+      uploadUrl: `${url[user.env]}/api/v1/solutions/pictures/upload`,
+
+      // Enable the XMLHttpRequest.withCredentials property.
+      withCredentials: false,
+
+      // Headers sent along with the XMLHttpRequest to the upload server.
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      }
+    },
+    placeholder
+  };
+
+  return (
+    <div className={classes.screen}>
+      <CKEditor
+        editor={CustomEditor}
+        data={data}
+        placeholder={placeholder}
+        config={editorConfiguration}
+        onChange={(event, editor) => {
+          const editorData = editor.getData();
+          const plainData = editor
+            .getData()
+            .replace(/<\/p[^>]*>/g, '\n')
+            .replace(/<\/h[^>]*>/g, '\n')
+            .replace(/<br\/[^>]*>/g, '\n')
+            .replace(/&iacute/g, 'í')
+            .replace(/&oacute/g, 'ó')
+            .replace(/&aacute;/g, 'á')
+            .replace(/&eacute;/g, 'é')
+            .replace(/&iquest;/g, '¿')
+            .replace(/&uacute;/g, 'ú')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&ntilde;/g, 'ñ')
+            .replace(/<(.|\n)*?>/g, '');
+
+          handlePlainData(plainData);
+          handleData(editorData);
+        }}
+      />
+    </div>
+  );
+};
+
+const mapStateToProps = ({ user }) => ({ user });
+export default withRouter(
+  withStyles(styles)(
+    connect(mapStateToProps)(withTranslation()(withLayout(Editor)))
+  )
+);
