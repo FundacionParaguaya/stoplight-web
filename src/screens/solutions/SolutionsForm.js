@@ -2,7 +2,6 @@ import { Button, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
-import RoomIcon from '@material-ui/icons/Room';
 import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
@@ -18,7 +17,7 @@ import CountrySelector from '../../components/selectors/CountrySelector';
 import DimensionSelector from '../../components/selectors/DimensionSelector';
 import IndicatorSelector from '../../components/selectors/IndicatorSelector';
 import FileUploader from './FileUploader';
-import { submitResources } from '../../api';
+import { submitResources, saveSolution } from '../../api';
 import withLayout from '../../components/withLayout';
 import Editor from './Editor';
 
@@ -97,7 +96,10 @@ const useStyles = makeStyles(theme => ({
 
 const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
 
   const [files, setFiles] = useState([]);
   const [plainContent, setPlainContent] = useState('');
@@ -123,16 +125,43 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
           response => (values.resources = response.data)
         )
     ]).then(() => {
-      // Here the endpoint to save a solution should be called
-      setLoading(false);
-      enqueueSnackbar(t('views.solutions.form.save.success'), {
-        variant: 'success',
-        action: key => (
-          <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-            <CloseIcon style={{ color: 'white' }} />
-          </IconButton>
-        )
-      });
+      values.codeName = 'solution2';
+      values.country = values.country.value;
+      values.plainContent = plainContent;
+      values.indicatorsCodeNames = values.indicators.map(
+        indicator => indicator.value
+      );
+      values.indicatorNames = values.indicators.map(
+        indicator => indicator.codeName
+      );
+      values.organization =
+        !!user.organization && !!user.organization.id
+          ? user.organization.id
+          : 1;
+      values.hub = !!user.hub ? user.hub.id : 1;
+      values.language = language;
+      saveSolution(user, values)
+        .then(() => {
+          enqueueSnackbar(t('views.solutions.form.save.success'), {
+            variant: 'success',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+        })
+        .catch(() => {
+          enqueueSnackbar(t('views.solutions.form.save.failed'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+        })
+        .finally(() => setLoading(false));
     });
   };
 
@@ -205,7 +234,14 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
             <div className={classes.innerFrom}>
               {/* Show organizations switch and country selector */}
               <Grid container spacing={1}>
-                <Grid item md={5} sm={5} xs={12} container>
+                <Grid item md={1} sm={2} xs={2}>
+                  <Switch
+                    checked={values.showOrg}
+                    onChange={() => setFieldValue('showOrg', !values.showOrg)}
+                    color="primary"
+                  />
+                </Grid>
+                <Grid item md={6} sm={6} xs={12} container>
                   <Grid
                     item
                     lg={7}
@@ -230,38 +266,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
                       </>
                     )}
                   </Grid>
-                  <Grid item md={1} sm={1} xs={1}>
-                    <Switch
-                      checked={values.showOrg}
-                      onChange={() => setFieldValue('showOrg', !values.showOrg)}
-                      color="primary"
-                    />
-                  </Grid>
                 </Grid>
-                <Grid item md={4} sm={4} xs={12} style={{ display: 'flex' }}>
-                  <RoomIcon
-                    className={`material-icons ${classes.icon}`}
-                    style={{ fontSize: '4vh' }}
-                  />
-                  <CountrySelector
-                    withTitle={false}
-                    countryData={values.country}
-                    onChangeCountry={country =>
-                      setFieldValue('country', country)
-                    }
-                    onBlur={() =>
-                      setTouched(
-                        Object.assign(touched, {
-                          country: true
-                        })
-                      )
-                    }
-                    error={touched.country && !values.country}
-                    required={true}
-                  />
-                </Grid>
+                <Grid
+                  item
+                  md={4}
+                  sm={4}
+                  xs={12}
+                  style={{ display: 'flex' }}
+                ></Grid>
               </Grid>
-              <Grid container spacing={1} style={{ minHeight: '40vh' }}>
+              <Grid container spacing={2} style={{ minHeight: '40vh' }}>
                 <Grid item md={8} sm={8} xs={12}>
                   <Editor
                     data={values.contentRich}
@@ -277,6 +291,24 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
                 </Grid>
                 {/* Show organizations switch and country selector */}
                 <Grid item md={4} sm={4} xs={12}>
+                  <Grid item md={12} sm={12} xs={12}>
+                    <CountrySelector
+                      withTitle={false}
+                      countryData={values.country}
+                      onChangeCountry={country =>
+                        setFieldValue('country', country)
+                      }
+                      onBlur={() =>
+                        setTouched(
+                          Object.assign(touched, {
+                            country: true
+                          })
+                        )
+                      }
+                      error={touched.country && !values.country}
+                      required={true}
+                    />
+                  </Grid>
                   <Grid item md={12} sm={12} xs={12}>
                     <DimensionSelector
                       withTitle={false}
@@ -318,35 +350,37 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <FileUploader files={files} setFiles={setFiles} />
-              <Typography variant="h6" className={classes.inputLabel}>
-                {`${t('views.solutions.form.contact')}:`}
-              </Typography>
-              <InputWithFormik
-                placeholder={t('views.solutions.form.contactPlaceHolder')}
-                name="contact"
-                variant="outlined"
-                InputProps={{
-                  classes: {
-                    input: classes.inputTypeThree
-                  }
-                }}
-                className={classes.input}
-              />
-              <div className={classes.buttonContainer}>
-                <Button variant="outlined" disabled={isSubmitting}>
-                  {t('general.cancel')}
-                </Button>
+              <Grid item md={8} sm={8} xs={12}>
+                <FileUploader files={files} setFiles={setFiles} />
+                <Typography variant="h6" className={classes.inputLabel}>
+                  {`${t('views.solutions.form.contact')}:`}
+                </Typography>
+                <InputWithFormik
+                  placeholder={t('views.solutions.form.contactPlaceHolder')}
+                  name="contact"
+                  variant="outlined"
+                  InputProps={{
+                    classes: {
+                      input: classes.inputTypeThree
+                    }
+                  }}
+                  className={classes.input}
+                />
+                <div className={classes.buttonContainer}>
+                  <Button variant="outlined" disabled={isSubmitting}>
+                    {t('general.cancel')}
+                  </Button>
 
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  disabled={isSubmitting}
-                >
-                  {t('general.save')}
-                </Button>
-              </div>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    disabled={isSubmitting}
+                  >
+                    {t('general.save')}
+                  </Button>
+                </div>
+              </Grid>
             </div>
           </Form>
         )}

@@ -1254,3 +1254,34 @@ export const submitResources = (user, resources) => {
     data: formData
   });
 };
+
+export const saveSolution = (user, values) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `mutation createSolution($solution: StoplightSolutionModelInput) {createSolution(solution: $solution){title} }`,
+      variables: {
+        solution: {
+          codeName: values.codeName,
+          title: values.title,
+          description: values.subtitle,
+          country: values.country,
+          contentText: values.plainContent,
+          contentRich: values.contentRich,
+          dimension: values.dimension.label,
+          indicatorsCodeNames: values.indicatorsCodeNames,
+          indicatorsNames: values.indicatorNames,
+          showAuthor: values.showOrg,
+          organization: values.organization,
+          hub: values.hub,
+          resources: values.resources,
+          contactInfo: values.contact,
+          lang: normalizeLanguages(values.language)
+        }
+      }
+    })
+  });
