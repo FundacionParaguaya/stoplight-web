@@ -13,7 +13,10 @@ import 'ckeditor5-custom-build/build/translations/pt';
 const styles = theme => ({
   screen: {
     flex: 1,
-    paddingTop: 20
+    borderWidth: 3,
+    borderRadius: 2,
+    borderColor: theme.palette.grey.quarter,
+    borderStyle: 'solid'
   }
 });
 

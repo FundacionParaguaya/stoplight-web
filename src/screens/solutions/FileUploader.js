@@ -12,6 +12,9 @@ import filePreview from '../../assets/archive.png';
 import { MB_SIZE } from '../../utils/files-utils';
 
 const useStyles = makeStyles(theme => ({
+  inputLabel: {
+    marginTop: 15
+  },
   dropzone: {
     display: 'flex',
     flexDirection: 'column',
