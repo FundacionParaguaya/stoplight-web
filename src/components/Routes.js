@@ -24,7 +24,12 @@ const Routes = ({ user }) => {
     <ErrorBoundary>
       <Switch>
         {checkAccess(user, 'surveys') && (
-          <Route path="/surveys" component={Surveys} />
+          <React.Fragment>
+            <Route path="/surveys" component={Surveys} />
+            <Route exact path="/" component={Surveys} />
+            <Route path="/login" component={Surveys} />
+            <Route path="/login.html" component={Surveys} />
+          </React.Fragment>
         )}
         {checkAccess(user, 'surveysList') && (
           <Route path="/surveysList" component={SurveyList} />
@@ -52,7 +57,12 @@ const Routes = ({ user }) => {
           />
         )}
         {checkAccess(user, 'dashboard') && (
-          <Route path="/dashboard" component={Dashboard} />
+          <React.Fragment>
+            <Route path="/dashboard" component={Dashboard} />
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/login" component={Dashboard} />
+            <Route path="/login.html" component={Dashboard} />
+          </React.Fragment>
         )}
         {checkAccess(user, 'users') && (
           <Route path="/users" component={Users} />
@@ -63,13 +73,6 @@ const Routes = ({ user }) => {
         {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
 
         {!user.role && <Route path="/login" component={Login} />}
-
-        {checkAccess(user, 'dashboard') && (
-          <Route exact path="/" component={Dashboard} />
-        )}
-        {checkAccess(user, 'surveys') && (
-          <Route exact path="/" component={Surveys} />
-        )}
 
         {!!user.role && <Route render={() => <PageNotFound user={user} />} />}
       </Switch>
