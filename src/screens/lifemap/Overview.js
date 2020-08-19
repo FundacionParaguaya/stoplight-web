@@ -189,9 +189,11 @@ export class Overview extends Component {
           title={t('views.lifemap.toComplete')}
           subtitle={`${t('general.create')} ${this.props.currentSurvey
             .minimumPriorities -
-            (this.props.currentDraft.priorities || []).length} ${t(
-            'views.lifemap.priorities'
-          )}`}
+            (this.props.currentDraft.priorities || []).length} ${
+            this.props.currentSurvey.minimumPriorities !== 1
+              ? t('views.lifemap.priorities').toLowerCase()
+              : t('views.lifemap.priority').toLowerCase()
+          }`}
           continueButtonText={t('general.gotIt')}
           singleAction
           onClose={this.toggleModal}
