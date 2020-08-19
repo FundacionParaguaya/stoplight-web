@@ -94,7 +94,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
+const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   const classes = useStyles();
   const {
     t,
@@ -125,7 +125,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
           response => (values.resources = response.data)
         )
     ]).then(() => {
-      values.codeName = 'solution2';
       values.country = values.country.value;
       values.plainContent = plainContent;
       values.indicatorsCodeNames = values.indicators.map(
@@ -137,8 +136,8 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
       values.organization =
         !!user.organization && !!user.organization.id
           ? user.organization.id
-          : 1;
-      values.hub = !!user.hub ? user.hub.id : 1;
+          : null;
+      values.hub = !!user.hub ? user.hub.id : null;
       values.language = language;
       saveSolution(user, values)
         .then(() => {
@@ -161,7 +160,10 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
             )
           });
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+          history.push(`/`);
+        });
     });
   };
 

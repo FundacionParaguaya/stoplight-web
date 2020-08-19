@@ -1273,6 +1273,7 @@ export const saveSolution = (user, values) =>
           contentText: values.plainContent,
           contentRich: values.contentRich,
           dimension: values.dimension.label,
+          stoplightDimension: values.dimension.value,
           indicatorsCodeNames: values.indicatorsCodeNames,
           indicatorsNames: values.indicatorNames,
           showAuthor: values.showOrg,
