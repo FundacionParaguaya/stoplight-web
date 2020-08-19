@@ -25,7 +25,10 @@ const Routes = ({ user }) => {
     <ErrorBoundary>
       <Switch>
         {checkAccess(user, 'surveys') && (
-          <Route path="/surveys" component={Surveys} />
+          <Route
+            path={['/surveys', '/login', '/login.html']}
+            component={Surveys}
+          />
         )}
         {checkAccess(user, 'surveysList') && (
           <Route path="/surveysList" component={SurveyList} />
@@ -53,7 +56,10 @@ const Routes = ({ user }) => {
           />
         )}
         {checkAccess(user, 'dashboard') && (
-          <Route path="/dashboard" component={Dashboard} />
+          <Route
+            path={['/dashboard', '/login', '/login.html']}
+            component={Dashboard}
+          />
         )}
         {checkAccess(user, 'users') && (
           <Route path="/users" component={Users} />
