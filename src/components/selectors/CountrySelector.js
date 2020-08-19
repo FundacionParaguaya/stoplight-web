@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
-import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@material-ui/core/styles';
-import { getIndicatorsByUser } from '../../api';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import countries from 'localized-countries';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-import * as _ from 'lodash';
 import { selectStyle } from '../../utils/styles-utils';
 
 const useStyles = makeStyles(() => ({
   container: {
-    marginTop: 20,
-    marginBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
@@ -27,11 +23,10 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const IndicatorSelector = ({
+const CountrySelector = ({
   withTitle,
-  user,
-  indicatorsData,
-  onChangeIndicator,
+  countryData,
+  onChangeCountry,
   onBlur,
   required,
   error
@@ -41,26 +36,23 @@ const IndicatorSelector = ({
     i18n: { language }
   } = useTranslation();
   const classes = useStyles();
+  const label = `${t('views.solutions.form.country')} ${required ? ' *' : ''}`;
 
   const [loading, setLoading] = useState(false);
-  const [indicatorOptions, setIndicatorOptions] = useState([]);
-  const label = `${t('views.indicatorFilter.label')} ${required ? ' *' : ''}`;
+  const [countryOptions, setCountryOptions] = useState([]);
 
   useEffect(() => {
     setLoading(true);
-
-    getIndicatorsByUser(user, language)
-      .then(response => {
-        const indicators = _.get(response, 'data.data.getIndicators', []).map(
-          indicator => ({
-            codeName: indicator.codeName,
-            label: indicator.name,
-            value: indicator.surveyIndicatorId
-          })
-        );
-        setIndicatorOptions(indicators);
-      })
-      .finally(() => setLoading(false));
+    let countriesOptions = countries(
+      require(`localized-countries/data/${language}`)
+    ).array();
+    setCountryOptions(
+      countriesOptions.map(country => ({
+        label: country.label,
+        value: country.code
+      }))
+    );
+    setLoading(false);
   }, [language]);
 
   return (
@@ -73,14 +65,14 @@ const IndicatorSelector = ({
 
       <div className={classes.selector}>
         <Select
-          value={indicatorsData}
-          onChange={value => onChangeIndicator(value)}
+          value={countryData}
+          onChange={value => onChangeCountry(value)}
           onBlur={onBlur}
           placeholder={withTitle ? '' : label}
           isLoading={loading}
-          loadingMessage={() => t('views.indicatorFilter.loading')}
-          noOptionsMessage={() => t('views.indicatorFilter.noOption')}
-          options={indicatorOptions}
+          loadingMessage={() => t('views.dimensionFilter.loading')}
+          noOptionsMessage={() => t('views.dimensionFilter.noOption')}
+          options={countryOptions}
           components={{
             DropdownDimension: () => <div />,
             DimensionSeparator: () => <div />,
@@ -88,9 +80,7 @@ const IndicatorSelector = ({
           }}
           styles={selectStyle}
           closeMenuOnSelect={true}
-          isClearable={false}
-          hideSelectedOptions
-          isMulti
+          isClearable={true}
         />
       </div>
       {error && (
@@ -102,6 +92,4 @@ const IndicatorSelector = ({
   );
 };
 
-const mapStateToProps = ({ user }) => ({ user });
-
-export default connect(mapStateToProps)(IndicatorSelector);
+export default CountrySelector;
