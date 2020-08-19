@@ -283,7 +283,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
                       setFieldValue('contentRich', editorData)
                     }
                     handlePlainData={editorPlain =>
-                      setPlainContent('contentText', editorPlain)
+                      setPlainContent(editorPlain)
                     }
                     handleStats={() => {}}
                     placeholder={t('views.solutions.form.content')}
