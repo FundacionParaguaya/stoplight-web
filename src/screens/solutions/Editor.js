@@ -5,6 +5,7 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import { withStyles } from '@material-ui/core/styles';
 import CustomEditor from 'ckeditor5-custom-build/build/ckeditor';
 import { connect } from 'react-redux';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import { url } from '../../api';
 import 'ckeditor5-custom-build/build/translations/en-gb';
 import 'ckeditor5-custom-build/build/translations/es';
@@ -29,7 +30,9 @@ const Editor = ({
   user,
   t,
   i18n: { language },
-  placeholder
+  placeholder,
+  error,
+  setTouched
 }) => {
   const customColorPalette = [
     {
@@ -238,34 +241,44 @@ const Editor = ({
   };
 
   return (
-    <div className={classes.screen}>
-      <CKEditor
-        className={classes.editor}
-        editor={CustomEditor}
-        data={data}
-        placeholder={placeholder}
-        config={editorConfiguration}
-        onChange={(event, editor) => {
-          const editorData = editor.getData();
-          const plainData = editor
-            .getData()
-            .replace(/<\/p[^>]*>/g, '\n')
-            .replace(/<\/h[^>]*>/g, '\n')
-            .replace(/<br\/[^>]*>/g, '\n')
-            .replace(/&iacute/g, 'í')
-            .replace(/&oacute/g, 'ó')
-            .replace(/&aacute;/g, 'á')
-            .replace(/&eacute;/g, 'é')
-            .replace(/&iquest;/g, '¿')
-            .replace(/&uacute;/g, 'ú')
-            .replace(/&nbsp;/g, ' ')
-            .replace(/&ntilde;/g, 'ñ')
-            .replace(/<(.|\n)*?>/g, '');
+    <div>
+      <div className={classes.screen}>
+        <CKEditor
+          className={classes.editor}
+          editor={CustomEditor}
+          data={data}
+          placeholder={placeholder}
+          config={editorConfiguration}
+          onChange={(event, editor) => {
+            const editorData = editor.getData();
+            const plainData = editor
+              .getData()
+              .replace(/<\/p[^>]*>/g, '\n')
+              .replace(/<\/h[^>]*>/g, '\n')
+              .replace(/<br\/[^>]*>/g, '\n')
+              .replace(/&iacute/g, 'í')
+              .replace(/&oacute/g, 'ó')
+              .replace(/&aacute;/g, 'á')
+              .replace(/&eacute;/g, 'é')
+              .replace(/&iquest;/g, '¿')
+              .replace(/&uacute;/g, 'ú')
+              .replace(/&nbsp;/g, ' ')
+              .replace(/&ntilde;/g, 'ñ')
+              .replace(/<(.|\n)*?>/g, '');
 
-          handlePlainData(plainData);
-          handleData(editorData);
-        }}
-      />
+            handlePlainData(plainData);
+            handleData(editorData);
+          }}
+          onBlur={() => {
+            setTouched();
+          }}
+        />
+      </div>
+      {error && (
+        <FormHelperText error={error}>
+          {t('validation.fieldIsRequired')}
+        </FormHelperText>
+      )}
     </div>
   );
 };

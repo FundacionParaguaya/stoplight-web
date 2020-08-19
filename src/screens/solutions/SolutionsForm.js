@@ -287,6 +287,12 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar }) => {
                     }
                     handleStats={() => {}}
                     placeholder={t('views.solutions.form.content')}
+                    setTouched={() => {
+                      Object.assign(touched, {
+                        contentRich: true
+                      });
+                    }}
+                    error={touched.contentRich && !values.contentRich}
                   />
                 </Grid>
                 {/* Show organizations switch and country selector */}
