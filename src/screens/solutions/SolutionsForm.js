@@ -20,6 +20,7 @@ import FileUploader from './FileUploader';
 import { submitResources, saveSolution } from '../../api';
 import withLayout from '../../components/withLayout';
 import Editor from './Editor';
+import SolutionLangPicker from './SolutionLangPicker';
 
 const inputStyle = {
   height: 25,
@@ -96,13 +97,13 @@ const useStyles = makeStyles(theme => ({
 
 const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   const classes = useStyles();
-  const {
-    t,
-    i18n: { language }
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const [files, setFiles] = useState([]);
   const [plainContent, setPlainContent] = useState('');
+  const [solutionLang, setSolutionLang] = useState(
+    localStorage.getItem('language') || 'en'
+  );
   const [loading, setLoading] = useState(false);
 
   //Validation criterias
@@ -138,7 +139,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           ? user.organization.id
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
-      values.language = language;
+      values.language = solutionLang;
       saveSolution(user, values)
         .then(() => {
           enqueueSnackbar(t('views.solutions.form.save.success'), {
@@ -243,7 +244,15 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     color="primary"
                   />
                 </Grid>
-                <Grid item md={6} sm={6} xs={12} container>
+                <Grid
+                  item
+                  md={7}
+                  sm={7}
+                  xs={12}
+                  container
+                  justify="space-between"
+                  alignItems="center"
+                >
                   <Grid
                     item
                     lg={7}
@@ -268,7 +277,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       </>
                     )}
                   </Grid>
+                  <Grid>
+                    <SolutionLangPicker
+                      language={solutionLang}
+                      setLanguage={lang => {
+                        setSolutionLang(lang);
+                      }}
+                    />
+                  </Grid>
                 </Grid>
+
                 <Grid
                   item
                   md={4}
