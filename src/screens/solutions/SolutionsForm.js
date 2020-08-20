@@ -129,10 +129,10 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       values.country = values.country.value;
       values.plainContent = plainContent;
       values.indicatorsCodeNames = values.indicators.map(
-        indicator => indicator.value
+        indicator => indicator.codeName
       );
       values.indicatorNames = values.indicators.map(
-        indicator => indicator.codeName
+        indicator => indicator.label
       );
       values.organization =
         !!user.organization && !!user.organization.id
