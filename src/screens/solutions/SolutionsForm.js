@@ -20,6 +20,7 @@ import FileUploader from './FileUploader';
 import { submitResources, saveSolution } from '../../api';
 import withLayout from '../../components/withLayout';
 import Editor from './Editor';
+import SolutionLangPicker from './SolutionLangPicker';
 
 const inputStyle = {
   height: 25,
@@ -96,10 +97,7 @@ const useStyles = makeStyles(theme => ({
 
 const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   const classes = useStyles();
-  const {
-    t,
-    i18n: { language }
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const [files, setFiles] = useState([]);
   const [plainContent, setPlainContent] = useState('');
@@ -128,17 +126,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       values.country = values.country.value;
       values.plainContent = plainContent;
       values.indicatorsCodeNames = values.indicators.map(
-        indicator => indicator.value
+        indicator => indicator.codeName
       );
       values.indicatorNames = values.indicators.map(
-        indicator => indicator.codeName
+        indicator => indicator.label
       );
       values.organization =
         !!user.organization && !!user.organization.id
           ? user.organization.id
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
-      values.language = language;
       saveSolution(user, values)
         .then(() => {
           enqueueSnackbar(t('views.solutions.form.save.success'), {
@@ -191,7 +188,8 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           dimension: '',
           indicators: [],
           contact: '',
-          reference: ''
+          reference: '',
+          language: localStorage.getItem('language') || 'en'
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
@@ -243,11 +241,19 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     color="primary"
                   />
                 </Grid>
-                <Grid item md={6} sm={6} xs={12} container>
+                <Grid
+                  item
+                  md={7}
+                  sm={7}
+                  xs={12}
+                  container
+                  justify="space-between"
+                  alignItems="center"
+                >
                   <Grid
                     item
                     lg={7}
-                    md={10}
+                    md={7}
                     sm={11}
                     xs={11}
                     container
@@ -268,7 +274,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       </>
                     )}
                   </Grid>
+                  <Grid>
+                    <SolutionLangPicker
+                      language={values.language}
+                      setLanguage={lang => {
+                        setFieldValue('language', lang);
+                      }}
+                    />
+                  </Grid>
                 </Grid>
+
                 <Grid
                   item
                   md={4}
