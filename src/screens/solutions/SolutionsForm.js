@@ -101,9 +101,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
 
   const [files, setFiles] = useState([]);
   const [plainContent, setPlainContent] = useState('');
-  const [solutionLang, setSolutionLang] = useState(
-    localStorage.getItem('language') || 'en'
-  );
   const [loading, setLoading] = useState(false);
 
   //Validation criterias
@@ -139,7 +136,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           ? user.organization.id
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
-      values.language = solutionLang;
       saveSolution(user, values)
         .then(() => {
           enqueueSnackbar(t('views.solutions.form.save.success'), {
@@ -192,7 +188,8 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           dimension: '',
           indicators: [],
           contact: '',
-          reference: ''
+          reference: '',
+          language: localStorage.getItem('language') || 'en'
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
@@ -256,7 +253,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   <Grid
                     item
                     lg={7}
-                    md={10}
+                    md={7}
                     sm={11}
                     xs={11}
                     container
@@ -279,9 +276,9 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   </Grid>
                   <Grid>
                     <SolutionLangPicker
-                      language={solutionLang}
+                      language={values.language}
                       setLanguage={lang => {
-                        setSolutionLang(lang);
+                        setFieldValue('language', lang);
                       }}
                     />
                   </Grid>
