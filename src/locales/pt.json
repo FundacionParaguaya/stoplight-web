@@ -716,6 +716,13 @@
       "mailNotFound": "Par de usuários e email não encontrados"
     },
     "solutions": {
+      "search": "Busque",
+      "searchBy": "por título",
+      "addSolution": "Adicione uma solução",
+      "noSolutionFound": "Nenhuma solução encontrada",
+      "solutionFound": "Solução encontrada",
+      "solutionsFound": "Soluções encontradas",
+      "viewmore": "VER MAIS",
       "form": {
         "title": "Título da solução",
         "subtitle": "Adicione uma descrição à sua solução...",
