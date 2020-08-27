@@ -99,6 +99,7 @@ test('Select an indicator', async () => {
         user={user}
         indicatorsData={selectedIndicators}
         onChangeIndicator={onChange}
+        isMulti={true}
       />
     </Provider>
   );

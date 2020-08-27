@@ -34,6 +34,7 @@ const IndicatorSelector = ({
   onChangeIndicator,
   onBlur,
   required,
+  isMulti,
   error
 }) => {
   const {
@@ -90,7 +91,7 @@ const IndicatorSelector = ({
           closeMenuOnSelect={true}
           isClearable={false}
           hideSelectedOptions
-          isMulti
+          isMulti={isMulti}
         />
       </div>
       {error && (
