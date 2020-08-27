@@ -172,7 +172,7 @@ const Solutions = ({ classes, user, history }) => {
       indicators: !!filterInput.indicator
         ? [filterInput.indicator.codeName]
         : [],
-      filter: filterInput,
+      filter: filterInput.text,
       lang: language
     };
 
