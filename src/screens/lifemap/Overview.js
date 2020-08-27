@@ -190,7 +190,9 @@ export class Overview extends Component {
           subtitle={`${t('general.create')} ${this.props.currentSurvey
             .minimumPriorities -
             (this.props.currentDraft.priorities || []).length} ${
-            this.props.currentSurvey.minimumPriorities !== 1
+            this.props.currentSurvey.minimumPriorities -
+              (this.props.currentDraft.priorities || []).length !==
+            1
               ? t('views.lifemap.priorities').toLowerCase()
               : t('views.lifemap.priority').toLowerCase()
           }`}
