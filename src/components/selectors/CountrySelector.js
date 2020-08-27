@@ -9,6 +9,8 @@ import { selectStyle } from '../../utils/styles-utils';
 
 const useStyles = makeStyles(() => ({
   container: {
+    marginTop: 20,
+    marginBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
