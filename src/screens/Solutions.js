@@ -168,12 +168,12 @@ const Solutions = ({ classes, user, history }) => {
       page: page,
       user: user.name,
       country: !!filterInput.country ? filterInput.country.value : '',
-      dimension: filterInput.dimension,
+      dimension: !!filterInput.dimension ? filterInput.dimension.label : '',
       indicators: !!filterInput.indicator
         ? [filterInput.indicator.codeName]
         : [],
       filter: filterInput,
-      lang: filterInput.lang
+      lang: language
     };
 
     (overwrite || page !== paginationData.prevPage) &&
@@ -195,7 +195,7 @@ const Solutions = ({ classes, user, history }) => {
 
   useEffect(() => {
     loadSolutions(true);
-  }, [filterInput]);
+  }, [filterInput, language]);
 
   useEffect(() => {
     !loading && loadSolutions(false);

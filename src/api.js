@@ -1300,9 +1300,9 @@ export const getSolutions = (user, values) =>
       variables: {
         page: values.page,
         country: values.country,
-        lang: normalizeLanguages(values.language),
+        lang: normalizeLanguages(values.lang),
         name: values.filter,
-        dimension: values.dimension.label,
+        dimension: values.dimension,
         indicators: values.indicators,
         organizations: [],
         hub: null,
