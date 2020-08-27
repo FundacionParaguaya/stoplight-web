@@ -34,6 +34,7 @@ const DimensionSelector = ({
   onChangeDimension,
   onBlur,
   required,
+  isClearable,
   error
 }) => {
   const {
@@ -87,7 +88,7 @@ const DimensionSelector = ({
           }}
           styles={selectStyle}
           closeMenuOnSelect={true}
-          isClearable={false}
+          isClearable={isClearable}
           hideSelectedOptions
         />
       </div>

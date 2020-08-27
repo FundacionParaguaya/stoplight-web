@@ -75,6 +75,7 @@ const SolutionFilters = ({
             onChangeDimension={onChangeDimension}
             error={false}
             required={false}
+            isClearable={true}
           />
         </Grid>
         <Grid item lg={6} md={5} sm={4} xs={12}>
@@ -85,6 +86,7 @@ const SolutionFilters = ({
             error={false}
             required={false}
             isMulti={false}
+            isClearable={true}
           />
         </Grid>
         <Grid item md={9} sm={9} xs={12}>
