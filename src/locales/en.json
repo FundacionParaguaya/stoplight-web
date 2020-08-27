@@ -714,6 +714,13 @@
       "mailNotFound": "User and Email pair not found"
     },
     "solutions": {
+      "addSolution": "Add a new solution",
+      "search": "Search",
+      "searchBy": "by title",
+      "noSolutionFound": "No solution found",
+      "solutionFound": "Solution found",
+      "solutionsFound": "Solutions found",
+      "viewmore": "VIEW MORE",
       "form": {
         "title": "Solution title",
         "subtitle": "Add a description for you solution...",

@@ -369,6 +369,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                         (!values.indicators || values.indicators.length === 0)
                       }
                       required={true}
+                      isMulti={true}
                     />
                   </Grid>
                 </Grid>

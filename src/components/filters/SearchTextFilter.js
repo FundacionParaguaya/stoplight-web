@@ -46,14 +46,15 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 20
   },
   stackedContainer: {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
     alignItems: 'flex-start',
-    marginBottom: 5
+    marginBottom: 20
   },
   stackedLabel: {
     marginRight: 10,

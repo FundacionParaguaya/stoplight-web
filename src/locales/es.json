@@ -716,6 +716,13 @@
       "mailNotFound": "El par usuario y correo electrónico no se encuentra"
     },
     "solutions": {
+      "addSolution": "Agregar una solución",
+      "search": "Buscar",
+      "searchBy": "por título",
+      "noSolutionFound": "No se encontraron soluciones",
+      "solutionFound": "Solución encontrada",
+      "solutionsFound": "Soluciones encontradas",
+      "viewmore": "VER MÁS",
       "form": {
         "title": "Título de la solución",
         "subtitle": "Agrega una descripción a tu solución...",
