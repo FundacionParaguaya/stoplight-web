@@ -1286,3 +1286,27 @@ export const saveSolution = (user, values) =>
       }
     })
   });
+
+export const getSolutions = (user, values) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query solutions($page: Int, $country: String, $name: String, $lang: String, $dimension: String, $indicators: [String],  $organizations: [Long], $hub: Long, $user: String, $sortBy: String, $sortDirection: String) { solutions (page: $page, country: $country, name: $name, lang: $lang, dimension: $dimension, indicators:$indicators ,organizations: $organizations, hub: $hub, user: $user, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, indicatorsNames , description }  totalElements totalPages } }',
+      variables: {
+        page: values.page,
+        country: values.country,
+        lang: normalizeLanguages(values.language),
+        name: values.filter,
+        dimension: values.dimension,
+        indicators: values.indicators,
+        organizations: [],
+        hub: null,
+        user: ''
+      }
+    })
+  });

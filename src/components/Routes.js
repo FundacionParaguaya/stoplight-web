@@ -18,6 +18,7 @@ import Maps from '../screens/Maps';
 import Login from '../screens/Login';
 import PageNotFound from '../screens/PageNotFound';
 import ErrorBoundary from './ErrorBoundary';
+import Solutions from '../screens/Solutions';
 import SolutionsForm from '../screens/solutions/SolutionsForm';
 
 const Routes = ({ user }) => {
@@ -69,7 +70,10 @@ const Routes = ({ user }) => {
         )}
         {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
         {checkAccess(user, 'solutions') && (
-          <Route path="/solutions" component={SolutionsForm} />
+          <Route path="/solutions/create" component={SolutionsForm} />
+        )}
+        {checkAccess(user, 'solutions') && (
+          <Route path="/solutions" component={Solutions} />
         )}
         {!user.role && <Route path="/login" component={Login} />}
 
