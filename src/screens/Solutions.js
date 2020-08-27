@@ -104,7 +104,7 @@ const styles = theme => ({
   button: {
     borderRadius: '0%',
     fontSize: 14,
-    padding: 0,
+    padding: 5,
     marginRight: 5,
     justifyContent: 'center',
     alignSelf: 'flex-end',
@@ -172,7 +172,8 @@ const Solutions = ({ classes, user, history }) => {
       indicators: !!filterInput.indicator
         ? [filterInput.indicator.codeName]
         : [],
-      filter: filterInput.text
+      filter: filterInput,
+      lang: filterInput.lang
     };
 
     (overwrite || page !== paginationData.prevPage) &&

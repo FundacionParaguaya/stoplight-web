@@ -1302,7 +1302,7 @@ export const getSolutions = (user, values) =>
         country: values.country,
         lang: normalizeLanguages(values.language),
         name: values.filter,
-        dimension: values.dimension,
+        dimension: values.dimension.label,
         indicators: values.indicators,
         organizations: [],
         hub: null,
