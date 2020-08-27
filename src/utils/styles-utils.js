@@ -1,4 +1,8 @@
 import { theme } from '../theme';
+import {
+  normalizeDimension,
+  NORMALIZED_DIMENSIONS
+} from '../utils/parametric_data';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -43,4 +47,56 @@ const selectStyle = {
   })
 };
 
-export { selectStyle };
+const colors = {
+  lightOrange: '#FFD6A5',
+  lightBlue: '#ACEBF1',
+  lightPink: '#FFADAD',
+  lightGreen: '#CAFFBF',
+  lightYellow: '#FCFF95',
+  lightPurple: '#FFC6FF'
+};
+
+const getColorByDimension = dimension => {
+  switch (normalizeDimension(dimension)) {
+    case NORMALIZED_DIMENSIONS.EDUCATION:
+      return colors['lightGreen'];
+    case NORMALIZED_DIMENSIONS.HEALTH:
+      return colors['lightBlue'];
+    case NORMALIZED_DIMENSIONS.HOUSING:
+      return colors['lightBlue'];
+    case NORMALIZED_DIMENSIONS.INCOME:
+      return colors['lightOrange'];
+    case NORMALIZED_DIMENSIONS.INTERIORITY:
+      return colors['lightPurple'];
+    case NORMALIZED_DIMENSIONS.ORGANIZATION:
+      return colors['lightYellow'];
+    case NORMALIZED_DIMENSIONS.EDU_CONDITIONS:
+      return colors['lightGreen'];
+    case NORMALIZED_DIMENSIONS.EDU_COMMITMENT:
+      return colors['lightYellow'];
+    case NORMALIZED_DIMENSIONS.EDU_HEALTH:
+      return colors['lightBlue'];
+    case NORMALIZED_DIMENSIONS.EDU_DISCIPLINE:
+      return colors['lightPurple'];
+    case NORMALIZED_DIMENSIONS.EDU_INFRAESTRUCTURE:
+      return colors['lightBlue'];
+    case NORMALIZED_DIMENSIONS.EDU_SAFETY:
+      return colors['lightYellow'];
+    case NORMALIZED_DIMENSIONS.EDU_INTERIORITY:
+      return colors['lightPurple'];
+    case NORMALIZED_DIMENSIONS.EDU_PEDAGOGICAL_PRACTICES:
+      return colors['lightGreen'];
+    case NORMALIZED_DIMENSIONS.EDU_ETHICS:
+      return colors['lightYellow'];
+    case NORMALIZED_DIMENSIONS.EDU_RESOURCES:
+      return colors['lightBlue'];
+    case NORMALIZED_DIMENSIONS.EDU_LEARNING_PRACTICES:
+      return colors['lightGreen'];
+    case NORMALIZED_DIMENSIONS.EDU_EDUCATIONAL_TOOLS:
+      return colors['lightOrange'];
+    default:
+      return colors['lightGreen'];
+  }
+};
+
+export { selectStyle, getColorByDimension };
