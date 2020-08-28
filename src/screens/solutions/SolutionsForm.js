@@ -1,9 +1,9 @@
 import { Button, Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
 import { Form, Formik } from 'formik';
 import { withSnackbar } from 'notistack';
@@ -11,15 +11,16 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
+import { saveSolution, submitResources } from '../../api';
 import organizationIcon from '../../assets/dimension_organization.png';
 import InputWithFormik from '../../components/InputWithFormik';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import DimensionSelector from '../../components/selectors/DimensionSelector';
 import IndicatorSelector from '../../components/selectors/IndicatorSelector';
-import FileUploader from './FileUploader';
-import { submitResources, saveSolution } from '../../api';
+import SolutionTypeSelector from './SolutionTypeSelector';
 import withLayout from '../../components/withLayout';
 import Editor from './Editor';
+import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
 
 const inputStyle = {
@@ -136,6 +137,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           ? user.organization.id
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
+      values.type = values.solutionType.label;
       saveSolution(user, values)
         .then(() => {
           enqueueSnackbar(t('views.solutions.form.save.success'), {
@@ -159,7 +161,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
         })
         .finally(() => {
           setLoading(false);
-          history.push(`/`);
+          history.push(`/solutions`);
         });
     });
   };
@@ -185,6 +187,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           contentRich: '',
           country: '',
           showOrg: true,
+          solutionType: '',
           dimension: '',
           indicators: [],
           contact: '',
@@ -370,6 +373,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       }
                       required={true}
                       isMulti={true}
+                    />
+                  </Grid>
+                  <Grid item md={12} sm={12} xs={12}>
+                    <SolutionTypeSelector
+                      withTitle={false}
+                      solutionTypeData={values.solutionType}
+                      onChangeSolutionType={solutionType =>
+                        setFieldValue('solutionType', solutionType)
+                      }
+                      isClearable={true}
                     />
                   </Grid>
                 </Grid>
