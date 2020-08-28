@@ -726,6 +726,7 @@
         "subtitle": "Add a description for you solution...",
         "content": "Start writing your content...",
         "country": "Country",
+        "solutionType": "Solution type",
         "resource": "Resources",
         "resourcePlaceholder": "Here you can add files like PDFs, images and more",
         "resourceUploadError": "You reached the 10MB limit! Please delete a file to continue.",

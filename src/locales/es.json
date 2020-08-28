@@ -728,6 +728,7 @@
         "subtitle": "Agrega una descripción a tu solución...",
         "content": "Empiece a escribir su contenido...",
         "country": "País",
+        "solutionType": "Tipo de solución",
         "resource": "Recursos",
         "resourcePlaceholder": "Aquí puedas agregar PDFs, imágenes y más",
         "resourceUploadError": "¡Alcanzaste el límite de 10MB! Elimina un archivo para poder continuar.",
