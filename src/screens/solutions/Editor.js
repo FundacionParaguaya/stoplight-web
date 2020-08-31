@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -34,6 +34,7 @@ const Editor = ({
   error,
   setTouched
 }) => {
+  const [editor, setEditor] = useState(null);
   const customColorPalette = [
     {
       color: 'hsl(4, 90%, 58%)',
@@ -240,6 +241,16 @@ const Editor = ({
     placeholder
   };
 
+  useEffect(() => {
+    const prevEditor = document.querySelector('.ck-editor__editable');
+    if (!!editor) {
+      editor.destroy();
+      CustomEditor.create(prevEditor, editorConfiguration).then(newEditor => {
+        setEditor(newEditor);
+      });
+    }
+  }, [language]);
+
   return (
     <div>
       <div className={classes.screen}>
@@ -249,6 +260,9 @@ const Editor = ({
           data={data}
           placeholder={placeholder}
           config={editorConfiguration}
+          onInit={editor => {
+            setEditor(editor);
+          }}
           onChange={(event, editor) => {
             const editorData = editor.getData();
             const plainData = editor
