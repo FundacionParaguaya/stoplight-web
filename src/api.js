@@ -1297,7 +1297,7 @@ export const getSolutions = (user, values) =>
     },
     data: JSON.stringify({
       query:
-        'query solutions($page: Int, $country: String, $name: String, $lang: String, $dimension: String, $indicators: [String],  $organizations: [Long], $hub: Long, $user: String, $sortBy: String, $sortDirection: String) { solutions (page: $page, country: $country, name: $name, lang: $lang, dimension: $dimension, indicators:$indicators ,organizations: $organizations, hub: $hub, user: $user, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, indicatorsNames , description }  totalElements totalPages } }',
+        'query solutions($page: Int, $country: String, $name: String, $lang: String, $dimension: String, $indicators: [String],  $organizations: [Long], $hub: Long, $user: String, $sortBy: String, $sortDirection: String) { solutions (page: $page, country: $country, name: $name, lang: $lang, dimension: $dimension, indicators:$indicators ,organizations: $organizations, hub: $hub, user: $user, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, indicatorsNames , description, dimension }  totalElements totalPages } }',
       variables: {
         page: values.page,
         country: values.country,
@@ -1323,5 +1323,22 @@ export const getSolutionTypes = (user, lang) =>
     },
     data: JSON.stringify({
       query: 'query solutionTypes { solutionTypes { code description} }'
+    })
+  });
+
+// get solutions types
+export const getSolutionById = (user, id) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getSolutionById($id: Long!){ getSolutionById(id: $id){title, description, contentRich, country, showAuthor, organization, hub, dimension, indicatorsNames, indicatorsCodeNames, contactInfo, resources{url type title description}} }',
+      variables: {
+        id: id
+      }
     })
   });
