@@ -34,13 +34,16 @@
     "showMore": "Show More",
     "continueStoplight": "Continue",
     "yourStoplight": "Your Stoplight",
-    "completeStoplight": "Finish Stoplight"
+    "completeStoplight": "Finish Stoplight",
+    "publish": "Publish"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
     "validEmailAddress": "Please enter a valid email address",
     "lessThan250Characters": "Value must be less than 250 characters",
     "lessThan50Characters": "Value must be less than 50 characters",
+    "lessThan64Characters": "Value must be less than 64 characters",
+    "lessThan200Characters": "Value must be less than 200 characters",
     "alphabeticCharacters": "Please enter alphabetic characters",
     "validPhoneNumber": "Please enter a valid phone number",
     "validNumber": "Please enter a valid number",

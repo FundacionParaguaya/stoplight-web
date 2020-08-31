@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import { saveSolution, submitResources } from '../../api';
-import organizationIcon from '../../assets/dimension_organization.png';
 import InputWithFormik from '../../components/InputWithFormik';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import DimensionSelector from '../../components/selectors/DimensionSelector';
@@ -58,12 +57,14 @@ const useStyles = makeStyles(theme => ({
   inputTypeOne: {
     ...inputStyle,
     fontSize: 30,
-    fontWeight: 600
+    fontWeight: 600,
+    color: '#626262'
   },
   inputTypeTwo: {
     ...inputStyle,
     fontSize: 16,
-    fontWeight: 600
+    fontWeight: 500,
+    color: '#626262'
   },
   inputTypeThree: {
     ...inputStyle,
@@ -73,14 +74,25 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 20,
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        border: 'none',
+        border: 'none'
+      },
+      '&:hover fieldset': {
+        border: 'none'
+      }
+    }
+  },
+  inputDashed: {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
         borderBottom: `3px dashed ${theme.palette.grey.quarter}`
       },
       '&:hover fieldset': {
-        border: 'none',
         borderBottom: `3px dashed ${theme.palette.grey.quarter}`
       }
     }
+  },
+  inputLabel: {
+    fontWeight: 500
   },
   loadingContainer: {
     zIndex: 1000,
@@ -106,10 +118,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
 
   //Validation criterias
   const fieldIsRequired = 'validation.fieldIsRequired';
+  const lessThan64Characters = 'validation.lessThan64Characters';
+  const lessThan200Characters = 'validation.lessThan200Characters';
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required(fieldIsRequired),
-    subtitle: Yup.string().required(fieldIsRequired),
+    title: Yup.string()
+      .required(fieldIsRequired)
+      .max(64, lessThan64Characters),
+    subtitle: Yup.string()
+      .required(fieldIsRequired)
+      .max(200, lessThan200Characters),
     contentRich: Yup.string().required(fieldIsRequired),
     country: Yup.string().required(fieldIsRequired),
     dimension: Yup.object().required(),
@@ -218,7 +236,10 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       input: classes.inputTypeOne
                     }
                   }}
-                  className={classes.input}
+                  className={[
+                    classes.input,
+                    !values.title ? classes.inputDashed : null
+                  ]}
                 />
                 <InputWithFormik
                   placeholder={t('views.solutions.form.subtitle')}
@@ -230,14 +251,17 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       input: classes.inputTypeTwo
                     }
                   }}
-                  className={classes.input}
+                  className={[
+                    classes.input,
+                    !values.subtitle ? classes.inputDashed : null
+                  ]}
                 />
               </div>
             </div>
             <div className={classes.innerFrom}>
               {/* Show organizations switch and country selector */}
               <Grid container spacing={1}>
-                <Grid item md={1} sm={2} xs={2}>
+                <Grid item md={1} sm={1} xs={1}>
                   <Switch
                     checked={values.showOrg}
                     onChange={() => setFieldValue('showOrg', !values.showOrg)}
@@ -264,13 +288,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   >
                     {values.showOrg && (
                       <>
-                        <img
-                          src={organizationIcon}
-                          height="30px"
-                          width="30px"
-                          alt=""
-                          style={{ marginRight: 5 }}
-                        />
                         <Typography variant="subtitle1" align="center">
                           {getOrganizationsName(user)}
                         </Typography>
@@ -401,7 +418,10 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       input: classes.inputTypeThree
                     }
                   }}
-                  className={classes.input}
+                  className={[
+                    classes.input,
+                    !values.contact ? classes.inputDashed : null
+                  ]}
                 />
                 <div className={classes.buttonContainer}>
                   <Button variant="outlined" disabled={isSubmitting}>
@@ -414,7 +434,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     variant="contained"
                     disabled={isSubmitting}
                   >
-                    {t('general.save')}
+                    {t('general.publish')}
                   </Button>
                 </div>
               </Grid>
