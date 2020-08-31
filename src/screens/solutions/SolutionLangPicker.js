@@ -24,14 +24,13 @@ const useStyles = makeStyles(theme => ({
   },
   imgLogo: {
     width: '20px',
-    height: '15px',
+    height: '20px',
     objectFit: 'cover',
     marginRight: '10px'
   },
   menuLinkText: {
     fontWeight: 500,
-    position: 'relative',
-    top: 4
+    position: 'relative'
   }
 }));
 
@@ -53,6 +52,20 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
     setAnchorEl(event.currentTarget);
   };
 
+  let logo;
+  switch (language) {
+    case 'en':
+      logo = englishLogo;
+      break;
+    case 'es':
+      logo = paragLogo;
+      break;
+    case 'pt':
+      logo = portugueseLogo;
+      break;
+    default:
+  }
+
   return (
     <React.Fragment>
       <Button
@@ -66,6 +79,7 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
         aria-haspopup="true"
         onClick={event => handleClick(event)}
       >
+        <img className={classes.imgLogo} src={logo} alt="flag" />
         <Typography
           variant="subtitle1"
           align="center"

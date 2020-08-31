@@ -13,7 +13,8 @@ import { MB_SIZE } from '../../utils/files-utils';
 
 const useStyles = makeStyles(theme => ({
   inputLabel: {
-    marginTop: 15
+    marginTop: 15,
+    fontWeight: 500
   },
   dropzone: {
     display: 'flex',

@@ -34,13 +34,16 @@
     "showMore": "Mostrar Más",
     "continueStoplight": "Continuar",
     "yourStoplight": "Tu Semáforo",
-    "completeStoplight": "Completar Semáforo"
+    "completeStoplight": "Completar Semáforo",
+    "publish": "Publicar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
     "validEmailAddress": "Favor ingrese una dirección de correo electrónico válida",
     "lessThan250Characters": "El valor debe ser menos de 250 caracteres.",
     "lessThan50Characters": "El valor debe ser menos de 50 caracteres.",
+    "lessThan64Characters": "El valor debe ser menos de 64 caracteres.",
+    "lessThan200Characters": "El valor debe ser menos de 200 caracteres.",
     "alphabeticCharacters": "Favor ingrese los caracteres alfabéticos",
     "validPhoneNumber": "Favor ingrese un número de teléfono válido",
     "validNumber": "Favor ingrese un número válido",
