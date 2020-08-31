@@ -31,6 +31,9 @@ const useStyles = makeStyles(theme => ({
   menuLinkText: {
     fontWeight: 500,
     position: 'relative'
+  },
+  tooltip: {
+    zIndex: 14
   }
 }));
 
@@ -75,7 +78,7 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
           display: 'flex',
           marginBottom: '4px'
         }}
-        aria-owns={open ? 'menu-list-grow' : undefined}
+        aria-owns={open ? 'menu-list-grow' : null}
         aria-haspopup="true"
         onClick={event => handleClick(event)}
       >
@@ -90,7 +93,12 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
           {language === 'pt' && 'Português'}
         </Typography>
       </Button>
-      <Popper open={open} anchorEl={anchorEl} transition disablePortal>
+      <Popper
+        className={classes.tooltip}
+        open={open}
+        anchorEl={anchorEl}
+        transition
+      >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
