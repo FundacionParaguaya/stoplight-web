@@ -12,7 +12,7 @@ import BottomSpacer from '../components/BottomSpacer';
 import Container from '../components/Container';
 import withLayout from '../components/withLayout';
 import SolutionsFilters from './solutions/SolutionsFilters';
-import { getColorByDimension } from '../utils/styles-utils';
+import { getIndicatorColorByDimension } from '../utils/styles-utils';
 
 const styles = theme => ({
   titleContainer: {
@@ -280,7 +280,7 @@ const Solutions = ({ classes, user, history }) => {
                               variant="caption"
                               className={classes.tag}
                               style={{
-                                backgroundColor: getColorByDimension(
+                                backgroundColor: getIndicatorColorByDimension(
                                   solution.dimension || ''
                                 )
                               }}
@@ -301,7 +301,7 @@ const Solutions = ({ classes, user, history }) => {
                       className={classes.button}
                       component="span"
                       onClick={() => {
-                        console.log(solution);
+                        history.push(`solutions/${solution.id}`);
                       }}
                     >
                       {t('views.solutions.viewmore')}
