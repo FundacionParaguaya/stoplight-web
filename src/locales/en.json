@@ -724,6 +724,8 @@
       "form": {
         "title": "Solution title",
         "subtitle": "Add a description for you solution...",
+        "subtitleLabel": "Subtitle",
+        "contentLabel": "Content",
         "content": "Start writing your content...",
         "country": "Country",
         "solutionType": "Solution type",

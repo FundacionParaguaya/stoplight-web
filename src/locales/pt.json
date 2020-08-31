@@ -726,6 +726,8 @@
       "form": {
         "title": "Título da solução",
         "subtitle": "Adicione uma descrição à sua solução...",
+        "subtitleLabel": "Legenda",
+        "contentLabel": "Conteúdo",
         "content": "Comece a escrever seu conteúdo...",
         "country": "País",
         "solutionType": "Tipo de solução",
