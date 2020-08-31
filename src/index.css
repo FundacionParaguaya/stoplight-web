@@ -12,3 +12,57 @@
 .ck-editor__editable {
   min-height: 30em;
 }
+
+.image.image_resized {
+  max-width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+figure[class*='image'] > img {
+  display: table;
+  clear: both;
+  text-align: center;
+  margin: 1em auto;
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  min-width: 50px;
+}
+
+[dir='ltr']
+  .ck.ck-button.ck-button_with-text.ck-resize-image-button
+  .ck-button__icon {
+  margin-right: var(--ck-spacing-standard);
+}
+
+[dir='rtl']
+  .ck.ck-button.ck-button_with-text.ck-resize-image-button
+  .ck-button__icon {
+  margin-left: var(--ck-spacing-standard);
+}
+
+.ck.ck-dropdown .ck-button.ck-resize-image-button .ck-button__label {
+  width: 4em;
+}
+
+.image-style-side {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
+  max-width: 50%;
+}
+
+.image-style-align-left {
+  float: left;
+  margin-right: var(--ck-image-style-spacing);
+}
+
+.image-style-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-style-align-right {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
+}
