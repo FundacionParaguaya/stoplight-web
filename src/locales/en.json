@@ -587,6 +587,7 @@
         "fileUploadError": "You reached the 10MB limit! Choose another image",
         "partnerType": "Type of Partner",
         "allowRetake": "Retaking feature:",
+        "allowSolutions": "Bank of Solutions:",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"

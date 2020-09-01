@@ -163,9 +163,14 @@ const HubFormModal = ({
   });
 
   const onSubmit = values => {
+    values.labels = [];
     if (values.allowRetake) {
       delete values.allowRetake;
-      values.labels = ['allowRetake'];
+      values.labels.push('allowRetake');
+    }
+    if (values.allowSolutions) {
+      delete values.allowSolutions;
+      values.labels.push('allowSolutions');
     }
     addOrUpdateHub(user, { ...values, file })
       .then(() => {
@@ -232,7 +237,9 @@ const HubFormModal = ({
               description: (!!hub.description && hub.description) || '',
               language: (!!hub.language && hub.language) || '',
               partnerType: (!!hub.partnerType && hub.partnerType) || '',
-              allowRetake: !!hub.labels
+              allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
+              allowSolutions:
+                !!hub.labels && hub.labels.includes('allowSolutions')
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -286,6 +293,22 @@ const HubFormModal = ({
                       setFieldValue('allowRetake', !values.allowRetake);
                     }}
                     checked={values.allowRetake}
+                  />
+                </div>
+                <div className={classes.allowRetakeContainer}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.allowRetake}
+                  >
+                    {t('views.hub.form.allowSolutions')}
+                  </Typography>
+                  <GreenCheckbox
+                    name={'allowSolutions'}
+                    value={'allowSolutions'}
+                    onChange={e => {
+                      setFieldValue('allowSolutions', !values.allowSolutions);
+                    }}
+                    checked={values.allowSolutions}
                   />
                 </div>
                 <div style={{ position: 'relative', marginBottom: 10 }}>
