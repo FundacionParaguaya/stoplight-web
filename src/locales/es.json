@@ -588,6 +588,7 @@
         "fileUploadError": "¡Alcanzaste el límite de 10MB! Elige otra imagen.",
         "partnerType": "Tipo de Socio",
         "allowRetake": "Funcionalidad de seguimiento:",
+        "allowSolutions": "Banco de Soluciones:",
         "save": {
           "success": "Hub guardado exitosamente",
           "failed": "El Hub ya existe"
