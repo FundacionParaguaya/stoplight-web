@@ -1336,9 +1336,28 @@ export const getSolutionById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getSolutionById($id: Long!){ getSolutionById(id: $id){title, description, contentRich, country, showAuthor, organization, hub, dimension, indicatorsNames, indicatorsCodeNames, contactInfo, resources{url type title description}} }',
+        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, country, showAuthor, organization, hub, dimension, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description}, createdBy} }',
       variables: {
         id: id
+      }
+    })
+  });
+
+//  delete solution
+export const deleteSolutionById = (user, id) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteSolution($solution: StoplightSolutionModelInput) {deleteSolution(solution: $solution){successful} }',
+      variables: {
+        solution: {
+          id: id
+        }
       }
     })
   });
