@@ -66,7 +66,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10,
     marginRight: 4,
     width: 'fit-content',
-    height: 'fit-content'
+    height: 'fit-content',
+    whiteSpace: 'nowrap'
   },
   icon: {
     color: theme.palette.primary.main,
@@ -292,13 +293,21 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   {solution.dimension}
                 </Typography>
               </Grid>
-              <Grid
-                item
-                md={12}
-                container
-                justify="flex-end"
-                alignContent="flex-end"
-              >
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
+              <Typography variant="h5" className={classes.label}>
+                {`${t('views.solutions.form.contentLabel')}:`}
+              </Typography>
+              {
+                <div
+                  dangerouslySetInnerHTML={{ __html: solution.contentRich }}
+                />
+              }
+            </Grid>
+            <Grid item md={4}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {solution.indicatorsNames.map((indicator, index) => {
                   return (
                     <Typography
@@ -315,14 +324,8 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     </Typography>
                   );
                 })}
-              </Grid>
+              </div>
             </Grid>
-          </Grid>
-          <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
-            <Typography variant="h5" className={classes.label}>
-              {`${t('views.solutions.form.contentLabel')}:`}
-            </Typography>
-            {<div dangerouslySetInnerHTML={{ __html: solution.contentRich }} />}
           </Grid>
           <Grid item md={8}>
             {!!solution.resources && solution.resources.length > 0 && (
