@@ -301,7 +301,7 @@ const Solutions = ({ classes, user, history }) => {
                       className={classes.button}
                       component="span"
                       onClick={() => {
-                        history.push(`solutions/${solution.id}`);
+                        history.push(`solution/${solution.id}`);
                       }}
                     >
                       {t('views.solutions.viewmore')}

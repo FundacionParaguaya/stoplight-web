@@ -74,7 +74,7 @@ const Routes = ({ user }) => {
           <Route path="/solutions/create" component={SolutionsForm} />
         )}
         {checkAccess(user, 'solutions') && (
-          <Route path="/solutions/:id" component={SolutionsView} />
+          <Route path="/solution/:id" component={SolutionsView} />
         )}
         {checkAccess(user, 'solutions') && (
           <Route path="/solutions" component={Solutions} />

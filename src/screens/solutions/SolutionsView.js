@@ -1,18 +1,28 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import GroupIcon from '@material-ui/icons/Group';
+import LabelIcon from '@material-ui/icons/Label';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import clsx from 'clsx';
 import countries from 'localized-countries';
+import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getSolutionById } from '../../api';
-import organizationIcon from '../../assets/dimension_organization.png';
+import { deleteSolutionById, getSolutionById } from '../../api';
+import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
+import { getPreviewForFile } from '../../utils/files-utils';
 import {
   getDimensionColor,
   getIndicatorColorByDimension
@@ -50,6 +60,8 @@ const useStyles = makeStyles(theme => ({
   },
   tag: {
     color: theme.palette.grey.middle,
+    fontFamily: 'Poppins',
+    borderRadius: 6,
     padding: 3,
     marginBottom: 10,
     marginRight: 4,
@@ -59,6 +71,23 @@ const useStyles = makeStyles(theme => ({
   icon: {
     color: theme.palette.primary.main,
     marginRight: 5
+  },
+  button: {
+    margin: 5,
+    height: 40,
+    width: 85
+  },
+  actionIcon: {
+    padding: 0,
+    paddingBottom: 6,
+    color: theme.palette.grey.middle,
+    width: 30
+  },
+  preview: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: '3px 6px 3px 6px'
   },
   thumbsContainer: {
     display: 'flex',
@@ -84,6 +113,12 @@ const useStyles = makeStyles(theme => ({
     minWidth: 0,
     overflow: 'hidden'
   },
+  thumbName: {
+    maxWidth: 100,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden'
+  },
   img: {
     display: 'block',
     width: '100%',
@@ -96,16 +131,27 @@ const useStyles = makeStyles(theme => ({
     minWidth: 36,
     padding: 0,
     borderRadius: '50%'
+  },
+  solutionType: {
+    backgroundColor: theme.palette.grey.quarter,
+    display: 'flex'
+  },
+  solutionTypeIcon: {
+    marginRight: 3
   }
 }));
 
-const SolutionsView = ({ user, history }) => {
+const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   const classes = useStyles();
   const {
     t,
     i18n: { language }
   } = useTranslation();
   let { id } = useParams();
+  const navigationOptions = [
+    { label: t('views.solutions.solutions'), link: '/solutions' },
+    { label: t('views.solutions.solution'), link: `/solution/${id}` }
+  ];
 
   const [loading, setLoading] = useState(true);
   const [solution, setSolution] = useState({
@@ -130,8 +176,32 @@ const SolutionsView = ({ user, history }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  const getUrl = resource => {
-    return resource.url;
+  const deleteSolution = id => {
+    setLoading(true);
+    deleteSolutionById(user, id)
+      .then(() => {
+        enqueueSnackbar(t('views.solutions.form.delete.success'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        history.push('/solutions');
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.solutions.form.delete.failed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -143,8 +213,9 @@ const SolutionsView = ({ user, history }) => {
       )}
       <div className={classes.form}>
         <div className={classes.headInputs}>
-          <div className={classes.innerFrom} style={{ paddingTop: '3rem' }}>
-            <Grid container spacing={1}>
+          <div className={classes.innerFrom}>
+            <NavigationBar options={navigationOptions}></NavigationBar>
+            <Grid container spacing={1} style={{ paddingTop: '2rem' }}>
               <Grid item md={8} container>
                 <Typography variant="h4" className={classes.label}>
                   {solution.title}
@@ -157,6 +228,73 @@ const SolutionsView = ({ user, history }) => {
               <Grid
                 item
                 md={4}
+                container
+                justify="flex-end"
+                alignContent="flex-end"
+              >
+                <Tooltip title={t('views.solutions.form.deleteButton')}>
+                  <Button
+                    className={classes.actionIcon}
+                    onClick={() => {
+                      deleteSolution(solution.id);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </Button>
+                </Tooltip>
+                <Tooltip title={t('views.solutions.form.editButton')}>
+                  <Button className={classes.actionIcon}>
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          </div>
+        </div>
+        <div className={classes.innerFrom}>
+          <Grid container>
+            <Grid item md={2} container>
+              <LocationOnIcon className={classes.icon} />
+              <Typography variant="h6">{country}</Typography>
+            </Grid>
+            <Grid item md={4} container>
+              {solution.showAuthor && (
+                <>
+                  <GroupIcon className={classes.icon} />
+                  <Typography variant="h6">
+                    {solution.organization ||
+                      solution.hub ||
+                      'Fundacion Paraguaya'}
+                  </Typography>
+                </>
+              )}
+            </Grid>
+            <Grid item md={2} container>
+              {solution.type && (
+                <Typography
+                  variant="h6"
+                  className={clsx(classes.tag, classes.solutionType)}
+                >
+                  <LabelIcon className={classes.solutionTypeIcon} />
+                  {solution.type}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item md={4}>
+              <Grid item md={12} container justify="flex-end">
+                <Typography
+                  variant="caption"
+                  className={classes.tag}
+                  style={{
+                    backgroundColor: getDimensionColor(solution.dimension || '')
+                  }}
+                >
+                  {solution.dimension}
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                md={12}
                 container
                 justify="flex-end"
                 alignContent="flex-end"
@@ -179,43 +317,6 @@ const SolutionsView = ({ user, history }) => {
                 })}
               </Grid>
             </Grid>
-          </div>
-        </div>
-        <div className={classes.innerFrom}>
-          <Grid container>
-            <Grid item md={3} container>
-              <LocationOnIcon className={classes.icon} />
-              <Typography variant="h6">{country}</Typography>
-            </Grid>
-            <Grid item md={5} container>
-              {solution.showAuthor && (
-                <>
-                  <img
-                    src={organizationIcon}
-                    height="30px"
-                    width="30px"
-                    alt=""
-                    style={{ marginRight: 5 }}
-                  />
-                  <Typography variant="h6">
-                    {solution.organization ||
-                      solution.hub ||
-                      'Fundacion Paraguaya'}
-                  </Typography>
-                </>
-              )}
-            </Grid>
-            <Grid item md={4} container justify="flex-end">
-              <Typography
-                variant="caption"
-                className={classes.tag}
-                style={{
-                  backgroundColor: getDimensionColor(solution.dimension || '')
-                }}
-              >
-                {solution.dimension}
-              </Typography>
-            </Grid>
           </Grid>
           <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
             <Typography variant="h5" className={classes.label}>
@@ -231,31 +332,46 @@ const SolutionsView = ({ user, history }) => {
                 </Typography>
                 <aside className={classes.thumbsContainer}>
                   {solution.resources.map((resource, index) => (
-                    <div className={classes.thumb} key={index}>
-                      <div className={classes.thumbInner}>
-                        <Button
-                          href={resource.url}
-                          className={classes.closeButton}
-                          download
-                          color="primary"
-                        >
-                          <GetAppIcon />
-                        </Button>
-                        <img
-                          alt="index"
-                          className={classes.img}
-                          src={getUrl(resource)}
-                        />
+                    <div className={classes.preview} key={index}>
+                      <div className={classes.thumb}>
+                        <div className={classes.thumbInner}>
+                          <Button
+                            href={resource.url}
+                            className={classes.closeButton}
+                            download
+                            color="primary"
+                          >
+                            <GetAppIcon />
+                          </Button>
+                          <img
+                            alt="index"
+                            className={classes.img}
+                            src={getPreviewForFile(resource)}
+                          />
+                        </div>
                       </div>
+                      <Tooltip title={resource.title}>
+                        <Typography
+                          variant="subtitle2"
+                          align="center"
+                          className={classes.thumbName}
+                        >
+                          {resource.title}
+                        </Typography>
+                      </Tooltip>
                     </div>
                   ))}
                 </aside>
               </>
             )}
-            <Typography variant="h5" className={classes.label}>
-              {`${t('views.solutions.form.contact')}:`}
-            </Typography>
-            <Typography variant="h6">{solution.contactInfo}</Typography>
+            {!!solution.contactInfo && (
+              <>
+                <Typography variant="h5" className={classes.label}>
+                  {`${t('views.solutions.form.contact')}:`}
+                </Typography>
+                <Typography variant="h6">{solution.contactInfo}</Typography>
+              </>
+            )}
           </Grid>
         </div>
       </div>
@@ -267,4 +383,6 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(withLayout(SolutionsView));
+export default connect(mapStateToProps)(
+  withLayout(withSnackbar(SolutionsView))
+);
