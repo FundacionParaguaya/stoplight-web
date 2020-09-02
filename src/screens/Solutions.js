@@ -173,7 +173,7 @@ const Solutions = ({ classes, user, history }) => {
         ? [filterInput.indicator.codeName]
         : [],
       filter: filterInput.text,
-      lang: language
+      lang: !!filterInput.lang ? filterInput.lang : language
     };
 
     (overwrite || page !== paginationData.prevPage) &&
@@ -246,6 +246,8 @@ const Solutions = ({ classes, user, history }) => {
             onChangeDimension={dimension => setFilterInput({ dimension })}
             onChangeIndicator={indicator => setFilterInput({ indicator })}
             onChangeFilterText={onChangeFilterText}
+            onChangeFilterLang={lang => setFilterInput({ lang })}
+            language={filterInput.lang}
             goToForm={goToForm}
           />
           <div className={classes.solutionCountContainer}>

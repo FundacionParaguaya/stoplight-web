@@ -9,6 +9,7 @@ import DimensionSelector from '../../components/selectors/DimensionSelector';
 import IndicatorSelector from '../../components/selectors/IndicatorSelector';
 import SearchTextFilter from '../../components/filters/SearchTextFilter';
 import { ROLES_NAMES } from '../../utils/role-utils';
+import SolutionLangPicker from './SolutionLangPicker';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -44,6 +45,8 @@ const SolutionFilters = ({
   onChangeIndicator,
   onChangeFilterText,
   goToForm,
+  onChangeFilterLang,
+  language,
   user
 }) => {
   const { t } = useTranslation();
@@ -58,7 +61,7 @@ const SolutionFilters = ({
         spacing={1}
       >
         {showCountryFilters(user) && (
-          <Grid item lg={2} md={3} sm={4} xs={12}>
+          <Grid item lg={2} md={2} sm={2} xs={12}>
             <CountrySelector
               withTitle={false}
               countryData={countryData}
@@ -78,7 +81,7 @@ const SolutionFilters = ({
             isClearable={true}
           />
         </Grid>
-        <Grid item lg={6} md={5} sm={4} xs={12}>
+        <Grid item lg={4} md={4} sm={4} xs={12}>
           <IndicatorSelector
             withTitle={false}
             indicatorsData={indicatorsData}
@@ -87,6 +90,21 @@ const SolutionFilters = ({
             required={false}
             isMulti={false}
             isClearable={true}
+          />
+        </Grid>
+        <Grid
+          item
+          lg={2}
+          md={2}
+          sm={2}
+          xs={12}
+          container
+          alignItems="center"
+          justify="flex-end"
+        >
+          <SolutionLangPicker
+            language={language}
+            setLanguage={onChangeFilterLang}
           />
         </Grid>
         <Grid item md={9} sm={9} xs={12}>
