@@ -719,6 +719,8 @@
       "mailNotFound": "Par de usuários e email não encontrados"
     },
     "solutions": {
+      "solutions": "Soluções",
+      "solution": "Solução",
       "search": "Busque",
       "searchBy": "por título",
       "addSolution": "Adicione uma solução",
@@ -727,6 +729,8 @@
       "solutionsFound": "Soluções encontradas",
       "viewmore": "VER MAIS",
       "form": {
+        "editButton": "EDITAR",
+        "deleteButton": "ELIMINAR",
         "title": "Título da solução",
         "subtitle": "Adicione uma descrição à sua solução...",
         "subtitleLabel": "Legenda",
@@ -743,6 +747,10 @@
         "save": {
           "success": "Solução salva com sucesso",
           "failed": "A solução não pode ser salva"
+        },
+        "delete": {
+          "success": "Solução removida com sucesso",
+          "failed": "Solução não pôde ser removida"
         }
       }
     },
