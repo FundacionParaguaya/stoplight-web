@@ -56,7 +56,16 @@ const colors = {
   lightPurple: '#FFC6FF'
 };
 
-const getColorByDimension = dimension => {
+const dimensionColors = {
+  orange: '#FFAF4F',
+  blue: '#70E5F0',
+  pink: '#FF9494',
+  green: '#9AED88',
+  yellow: '#F6FB55',
+  purple: '#FF9AFF'
+};
+
+const getIndicatorColorByDimension = dimension => {
   switch (normalizeDimension(dimension)) {
     case NORMALIZED_DIMENSIONS.EDUCATION:
       return colors['lightGreen'];
@@ -99,4 +108,46 @@ const getColorByDimension = dimension => {
   }
 };
 
-export { selectStyle, getColorByDimension };
+const getDimensionColor = dimension => {
+  switch (normalizeDimension(dimension)) {
+    case NORMALIZED_DIMENSIONS.EDUCATION:
+      return dimensionColors['green'];
+    case NORMALIZED_DIMENSIONS.HEALTH:
+      return dimensionColors['blue'];
+    case NORMALIZED_DIMENSIONS.HOUSING:
+      return dimensionColors['blue'];
+    case NORMALIZED_DIMENSIONS.INCOME:
+      return dimensionColors['orange'];
+    case NORMALIZED_DIMENSIONS.INTERIORITY:
+      return dimensionColors['purple'];
+    case NORMALIZED_DIMENSIONS.ORGANIZATION:
+      return dimensionColors['yellow'];
+    case NORMALIZED_DIMENSIONS.EDU_CONDITIONS:
+      return dimensionColors['green'];
+    case NORMALIZED_DIMENSIONS.EDU_COMMITMENT:
+      return dimensionColors['yellow'];
+    case NORMALIZED_DIMENSIONS.EDU_HEALTH:
+      return dimensionColors['blue'];
+    case NORMALIZED_DIMENSIONS.EDU_DISCIPLINE:
+      return dimensionColors['purple'];
+    case NORMALIZED_DIMENSIONS.EDU_INFRAESTRUCTURE:
+      return dimensionColors['blue'];
+    case NORMALIZED_DIMENSIONS.EDU_SAFETY:
+      return dimensionColors['yellow'];
+    case NORMALIZED_DIMENSIONS.EDU_INTERIORITY:
+      return dimensionColors['purple'];
+    case NORMALIZED_DIMENSIONS.EDU_PEDAGOGICAL_PRACTICES:
+      return dimensionColors['green'];
+    case NORMALIZED_DIMENSIONS.EDU_ETHICS:
+      return dimensionColors['yellow'];
+    case NORMALIZED_DIMENSIONS.EDU_RESOURCES:
+      return dimensionColors['blue'];
+    case NORMALIZED_DIMENSIONS.EDU_LEARNING_PRACTICES:
+      return dimensionColors['green'];
+    case NORMALIZED_DIMENSIONS.EDU_EDUCATIONAL_TOOLS:
+      return dimensionColors['orange'];
+    default:
+      return dimensionColors['green'];
+  }
+};
+export { selectStyle, getIndicatorColorByDimension, getDimensionColor };

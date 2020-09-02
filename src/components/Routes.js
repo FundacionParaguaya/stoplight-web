@@ -20,6 +20,7 @@ import PageNotFound from '../screens/PageNotFound';
 import ErrorBoundary from './ErrorBoundary';
 import Solutions from '../screens/Solutions';
 import SolutionsForm from '../screens/solutions/SolutionsForm';
+import SolutionsView from '../screens/solutions/SolutionsView';
 
 const Routes = ({ user }) => {
   return (
@@ -71,6 +72,9 @@ const Routes = ({ user }) => {
         {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
         {checkAccess(user, 'solutions') && (
           <Route path="/solutions/create" component={SolutionsForm} />
+        )}
+        {checkAccess(user, 'solutions') && (
+          <Route path="/solution/:id" component={SolutionsView} />
         )}
         {checkAccess(user, 'solutions') && (
           <Route path="/solutions" component={Solutions} />

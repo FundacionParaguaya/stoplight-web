@@ -718,6 +718,8 @@
       "mailNotFound": "User and Email pair not found"
     },
     "solutions": {
+      "solutions": "Solutions",
+      "solution": "Solution",
       "addSolution": "Add a new solution",
       "search": "Search",
       "searchBy": "by title",
@@ -726,8 +728,12 @@
       "solutionsFound": "Solutions found",
       "viewmore": "VIEW MORE",
       "form": {
+        "editButton": "EDIT",
+        "deleteButton": "DELETE",
         "title": "Solution title",
         "subtitle": "Add a description for you solution...",
+        "subtitleLabel": "Subtitle",
+        "contentLabel": "Content",
         "content": "Start writing your content...",
         "country": "Country",
         "solutionType": "Solution type",
@@ -740,6 +746,10 @@
         "save": {
           "success": "Solution saved successfully",
           "failed": "Could not save solution"
+        },
+        "delete": {
+          "success": "Solution deleted successfully",
+          "failed": "Could not delete solution"
         }
       }
     },

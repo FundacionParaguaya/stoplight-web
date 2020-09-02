@@ -720,6 +720,8 @@
       "mailNotFound": "El par usuario y correo electrónico no se encuentra"
     },
     "solutions": {
+      "solutions": "Soluciones",
+      "solution": "Solución",
       "addSolution": "Agregar una solución",
       "search": "Buscar",
       "searchBy": "por título",
@@ -728,8 +730,12 @@
       "solutionsFound": "Soluciones encontradas",
       "viewmore": "VER MÁS",
       "form": {
+        "editButton": "EDITAR",
+        "deleteButton": "ELIMINAR",
         "title": "Título de la solución",
         "subtitle": "Agrega una descripción a tu solución...",
+        "subtitleLabel": "Subtítulo",
+        "contentLabel": "Contenido",
         "content": "Empiece a escribir su contenido...",
         "country": "País",
         "solutionType": "Tipo de solución",
@@ -742,6 +748,10 @@
         "save": {
           "success": "Solución guardada exitosamente",
           "failed": "No es posible guardar la solución"
+        },
+        "delete": {
+          "success": "Solución eliminada exitosamente",
+          "failed": "No es posible eliminar la solución"
         }
       }
     },
