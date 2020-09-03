@@ -7,7 +7,7 @@ import Switch from '@material-ui/core/Switch';
 import CloseIcon from '@material-ui/icons/Close';
 import { Form, Formik } from 'formik';
 import { withSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
@@ -21,6 +21,9 @@ import withLayout from '../../components/withLayout';
 import Editor from './Editor';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
+import { getSolutionById, updateSolution } from '../../api';
+import { useParams } from 'react-router-dom';
+import countries from 'localized-countries';
 
 const inputStyle = {
   height: 25,
@@ -110,11 +113,16 @@ const useStyles = makeStyles(theme => ({
 
 const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
+  const { id } = useParams();
 
   const [files, setFiles] = useState([]);
   const [plainContent, setPlainContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [solution, setSolution] = useState({});
 
   //Validation criterias
   const fieldIsRequired = 'validation.fieldIsRequired';
@@ -191,6 +199,55 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
     return 'Fundación Paraguaya';
   };
 
+  useEffect(() => {
+    if (!!id) {
+      setLoading(true);
+      getSolutionById(user, id).then(res => {
+        getSolutionTypes(user, language).then(response => {
+          const typeOptions = _.get(
+            response,
+            'data.data.solutionTypes',
+            []
+          ).map(type => ({
+            label: type.description,
+            value: type.code
+          }));
+          let countryOptions = countries(
+            require(`localized-countries/data/${language}`)
+          ).array();
+
+          console.log(res);
+          const fetchedSolution = {
+            ...res.data.data.getSolutionById,
+            dimension: {
+              label: res.data.data.getSolutionById.dimension,
+              value: res.data.data.getSolutionById.stoplightDiemension
+            },
+            country: {
+              label: countryOptions
+                .find(
+                  country =>
+                    country.code === res.data.data.getSolutionById.country
+                )
+                .label.split('_')[0]
+            },
+            indicators: res.data.data.getSolutionById.indicatorsCodeNames.map(
+              (item, index) => {
+                return {
+                  codeName: item,
+                  label: res.data.data.getSolutionById.indicatorsNames[index]
+                };
+              }
+            )
+          };
+          setSolution(fetchedSolution);
+          setPlainContent(res.data.data.getSolutionById.contentText);
+          setLoading(false);
+        });
+      });
+    }
+  }, []);
+
   return (
     <React.Fragment>
       {loading && (
@@ -200,18 +257,20 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       )}
       <Formik
         initialValues={{
-          title: '',
-          subtitle: '',
-          contentRich: '',
-          country: '',
+          id: (!!solution.id && solution.id) || null,
+          title: (!!solution.title && solution.title) || '',
+          subtitle: (!!solution.description && solution.description) || '',
+          contentRich: (!!solution.contentRich && solution.contentRich) || '',
+          country: (!!solution.country && solution.country) || '',
           showOrg: true,
-          solutionType: '',
-          dimension: '',
-          indicators: [],
+          solutionType: (!!solution.type && solution.type) || '',
+          dimension: (!!solution.dimension && solution.dimension) || '',
+          indicators: (!!solution.indicators && solution.indicators) || [],
           contact: '',
           reference: '',
           language: localStorage.getItem('language') || 'en'
         }}
+        enableReinitialize
         validationSchema={validationSchema}
         onSubmit={values => {
           const solutionValues = {

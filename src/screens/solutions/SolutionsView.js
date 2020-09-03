@@ -244,7 +244,12 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   </Button>
                 </Tooltip>
                 <Tooltip title={t('views.solutions.form.editButton')}>
-                  <Button className={classes.actionIcon}>
+                  <Button
+                    className={classes.actionIcon}
+                    onClick={() => {
+                      history.push(`edit/${solution.id}`);
+                    }}
+                  >
                     <EditIcon />
                   </Button>
                 </Tooltip>

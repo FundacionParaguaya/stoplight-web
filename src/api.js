@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'http://localhost:8080'
+  development: 'https://testing.backend.povertystoplight.org'
 };
 
 // list of enviroments urls
@@ -1288,6 +1288,40 @@ export const saveSolution = (user, values) =>
     })
   });
 
+export const updateSolution = (user, values) => {
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `mutation updateSolution($solution: StoplightSolutionModelInput) {updateSolution(solution: $solution){title version resources{id url}}`,
+      variables: {
+        solution: {
+          codeName: values.codeName,
+          title: values.title,
+          description: values.subtitle,
+          country: values.country,
+          contentText: values.plainContent,
+          contentRich: values.contentRich,
+          dimension: values.dimension.label,
+          stoplightDimension: values.dimension.value,
+          indicatorsCodeNames: values.indicatorsCodeNames,
+          indicatorsNames: values.indicatorNames,
+          showAuthor: values.showOrg,
+          organization: values.organization,
+          hub: values.hub,
+          resources: values.resources,
+          contactInfo: values.contact,
+          lang: normalizeLanguages(values.language),
+          type: values.type
+        }
+      }
+    })
+  });
+};
+
 export const getSolutions = (user, values) =>
   axios({
     method: 'post',
@@ -1336,7 +1370,7 @@ export const getSolutionById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, country, showAuthor, organization, hub, dimension, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description}, createdBy} }',
+        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, contentText, country, showAuthor, organization, hub, dimension,stoplightDimension,lang, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description}, createdBy} }',
       variables: {
         id: id
       }
