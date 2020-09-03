@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'https://testing.backend.povertystoplight.org'
+  development: 'http://localhost:8080'
 };
 
 // list of enviroments urls
@@ -1288,7 +1288,7 @@ export const saveSolution = (user, values) =>
     })
   });
 
-export const updateSolution = (user, values) => {
+export const updateSolution = (user, values) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -1296,7 +1296,7 @@ export const updateSolution = (user, values) => {
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query: `mutation updateSolution($solution: StoplightSolutionModelInput) {updateSolution(solution: $solution){title version resources{id url}}`,
+      query: `mutation updateSolution($solution: StoplightSolutionModelInput) {updateSolution(solution: $solution){title version resources{id url}}}`,
       variables: {
         solution: {
           codeName: values.codeName,
@@ -1320,8 +1320,6 @@ export const updateSolution = (user, values) => {
       }
     })
   });
-};
-
 export const getSolutions = (user, values) =>
   axios({
     method: 'post',

@@ -21,9 +21,10 @@ import withLayout from '../../components/withLayout';
 import Editor from './Editor';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
-import { getSolutionById, updateSolution } from '../../api';
+import { getSolutionById, updateSolution, getSolutionTypes } from '../../api';
 import { useParams } from 'react-router-dom';
 import countries from 'localized-countries';
+import * as _ from 'lodash';
 
 const inputStyle = {
   height: 25,
@@ -164,31 +165,60 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
       values.type = values.solutionType.label;
-      saveSolution(user, values)
-        .then(() => {
-          enqueueSnackbar(t('views.solutions.form.save.success'), {
-            variant: 'success',
-            action: key => (
-              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                <CloseIcon style={{ color: 'white' }} />
-              </IconButton>
-            )
+      values.resources = [];
+      if (!!id) {
+        updateSolution(user, values)
+          .then(() => {
+            enqueueSnackbar(t('views.solutions.form.save.success'), {
+              variant: 'success',
+              action: key => (
+                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                  <CloseIcon style={{ color: 'white' }} />
+                </IconButton>
+              )
+            });
+          })
+          .catch(() => {
+            enqueueSnackbar(t('views.solutions.form.save.failed'), {
+              variant: 'error',
+              action: key => (
+                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                  <CloseIcon style={{ color: 'white' }} />
+                </IconButton>
+              )
+            });
+          })
+          .finally(() => {
+            setLoading(false);
+            history.push(`/solutions`);
           });
-        })
-        .catch(() => {
-          enqueueSnackbar(t('views.solutions.form.save.failed'), {
-            variant: 'error',
-            action: key => (
-              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                <CloseIcon style={{ color: 'white' }} />
-              </IconButton>
-            )
+      } else {
+        saveSolution(user, values)
+          .then(() => {
+            enqueueSnackbar(t('views.solutions.form.save.success'), {
+              variant: 'success',
+              action: key => (
+                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                  <CloseIcon style={{ color: 'white' }} />
+                </IconButton>
+              )
+            });
+          })
+          .catch(() => {
+            enqueueSnackbar(t('views.solutions.form.save.failed'), {
+              variant: 'error',
+              action: key => (
+                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                  <CloseIcon style={{ color: 'white' }} />
+                </IconButton>
+              )
+            });
+          })
+          .finally(() => {
+            setLoading(false);
+            history.push(`/solutions`);
           });
-        })
-        .finally(() => {
-          setLoading(false);
-          history.push(`/solutions`);
-        });
+      }
     });
   };
 
@@ -221,15 +251,13 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
             ...res.data.data.getSolutionById,
             dimension: {
               label: res.data.data.getSolutionById.dimension,
-              value: res.data.data.getSolutionById.stoplightDiemension
+              value: res.data.data.getSolutionById.stoplightDimension
             },
             country: {
-              label: countryOptions
-                .find(
-                  country =>
-                    country.code === res.data.data.getSolutionById.country
-                )
-                .label.split('_')[0]
+              label: countryOptions.find(
+                country =>
+                  country.code === res.data.data.getSolutionById.country
+              ).label
             },
             indicators: res.data.data.getSolutionById.indicatorsCodeNames.map(
               (item, index) => {
@@ -238,7 +266,18 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   label: res.data.data.getSolutionById.indicatorsNames[index]
                 };
               }
-            )
+            ),
+            type: {
+              label: res.data.data.getSolutionById.type,
+              value:
+                typeOptions.find(
+                  type => type.label === res.data.data.getSolutionById.type
+                ) &&
+                typeOptions.find(
+                  type => type.label === res.data.data.getSolutionById.type
+                ).value
+            },
+            lang: res.data.data.getSolutionById.lang.split('_')[0]
           };
           setSolution(fetchedSolution);
           setPlainContent(res.data.data.getSolutionById.contentText);
@@ -262,13 +301,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           subtitle: (!!solution.description && solution.description) || '',
           contentRich: (!!solution.contentRich && solution.contentRich) || '',
           country: (!!solution.country && solution.country) || '',
-          showOrg: true,
+          showOrg: (!!solution.showAuthor && solution.showAuthor) || true,
           solutionType: (!!solution.type && solution.type) || '',
           dimension: (!!solution.dimension && solution.dimension) || '',
           indicators: (!!solution.indicators && solution.indicators) || [],
-          contact: '',
+          contact: (!!solution.contactInfo && solution.contactInfo) || '',
           reference: '',
-          language: localStorage.getItem('language') || 'en'
+          language:
+            (!!solution.lang && solution.lang) ||
+            localStorage.getItem('language') ||
+            'en'
         }}
         enableReinitialize
         validationSchema={validationSchema}
