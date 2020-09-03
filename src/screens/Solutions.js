@@ -156,7 +156,7 @@ const Solutions = ({ classes, user, history }) => {
       lang: language,
       country: '',
       dimension: '',
-      indicator: '',
+      indicators: [],
       text: ''
     }
   );
@@ -169,9 +169,7 @@ const Solutions = ({ classes, user, history }) => {
       user: user.name,
       country: !!filterInput.country ? filterInput.country.value : '',
       dimension: !!filterInput.dimension ? filterInput.dimension.label : '',
-      indicators: !!filterInput.indicator
-        ? [filterInput.indicator.codeName]
-        : [],
+      indicators: filterInput.indicators.map(indicator => indicator.codeName),
       filter: filterInput.text,
       lang: !!filterInput.lang ? filterInput.lang : language
     };
@@ -244,7 +242,7 @@ const Solutions = ({ classes, user, history }) => {
             indicatorsData={filterInput.indicators}
             onChangeCountry={country => setFilterInput({ country })}
             onChangeDimension={dimension => setFilterInput({ dimension })}
-            onChangeIndicator={indicator => setFilterInput({ indicator })}
+            onChangeIndicator={indicators => setFilterInput({ indicators })}
             onChangeFilterText={onChangeFilterText}
             onChangeFilterLang={lang => setFilterInput({ lang })}
             language={filterInput.lang}
