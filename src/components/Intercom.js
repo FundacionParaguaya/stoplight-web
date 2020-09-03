@@ -7,7 +7,7 @@ const InitializedIntercom = ({ user }) => (
     appID="msjjl81s"
     {...{
       name: !!user && !!user.username ? ' ' + user.username : '',
-      email: !!user && !!user.email ? ' ' + user.email : '',
+      email: !!user && !!user.email ? ' ' + user.email : null,
       created_at: !!user && !!user.name && new Date().getTime()
     }}
   />
