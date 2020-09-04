@@ -25,6 +25,9 @@ import { getSolutionById, updateSolution, getSolutionTypes } from '../../api';
 import { useParams } from 'react-router-dom';
 import countries from 'localized-countries';
 import * as _ from 'lodash';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Tooltip from '@material-ui/core/Tooltip';
+import { getPreviewForFile } from '../../utils/files-utils';
 
 const inputStyle = {
   height: 25,
@@ -109,6 +112,91 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
     top: 0,
     left: 0
+  },
+  label: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '100%'
+  },
+  tag: {
+    color: theme.palette.grey.middle,
+    fontFamily: 'Poppins',
+    borderRadius: 6,
+    padding: 3,
+    marginBottom: 10,
+    marginRight: 4,
+    width: 'fit-content',
+    height: 'fit-content',
+    whiteSpace: 'nowrap'
+  },
+  iconPreview: {
+    color: theme.palette.primary.main,
+    marginRight: 5
+  },
+  button: {
+    margin: 5,
+    height: 40,
+    width: 85
+  },
+  actionIcon: {
+    padding: 0,
+    paddingBottom: 6,
+    color: theme.palette.grey.middle,
+    width: 30
+  },
+  preview: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: '3px 6px 3px 6px'
+  },
+  thumbsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 16,
+    marginBottom: 16
+  },
+  thumb: {
+    position: 'relative',
+    display: 'inline-flex',
+    borderRadius: 2,
+    border: `1px solid ${theme.palette.primary.main}`,
+    marginBottom: 8,
+    marginRight: 8,
+    width: 125,
+    height: 125,
+    padding: 4,
+    boxSizing: 'border-box'
+  },
+  thumbInner: {
+    display: 'flex',
+    minWidth: 0,
+    overflow: 'hidden'
+  },
+  thumbName: {
+    maxWidth: 100,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden'
+  },
+  img: {
+    display: 'block',
+    width: '100%',
+    height: '100%'
+  },
+  downloadButton: {
+    position: 'absolute',
+    bottom: -5,
+    right: 2,
+    minWidth: 36,
+    padding: 0,
+    borderRadius: '50%'
+  },
+  closeButton: {
+    position: 'absolute',
+    top: -5,
+    right: -6
   }
 }));
 
@@ -151,7 +239,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           response => (values.resources = response.data)
         )
     ]).then(() => {
-      values.country = values.country.value;
       values.plainContent = plainContent;
       values.indicatorsCodeNames = values.indicators.map(
         indicator => indicator.codeName
@@ -165,7 +252,9 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
       values.type = values.solutionType.label;
-      values.resources = [];
+      values.resources = solution.resources
+        ? solution.resources.concat(values.resources ? values.resources : [])
+        : values.resources;
       if (!!id) {
         updateSolution(user, values)
           .then(() => {
@@ -229,6 +318,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
     return 'Fundación Paraguaya';
   };
 
+  const removeItem = index => {
+    const resources = solution.resources;
+    resources.splice(index, 1);
+    const updatedSolution = {
+      ...solution,
+      resources: resources
+    };
+    setSolution(updatedSolution);
+  };
+
   useEffect(() => {
     if (!!id) {
       setLoading(true);
@@ -254,10 +353,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
               value: res.data.data.getSolutionById.stoplightDimension
             },
             country: {
-              label: countryOptions.find(
-                country =>
-                  country.code === res.data.data.getSolutionById.country
-              ).label
+              label:
+                countryOptions.find(
+                  country =>
+                    country.code === res.data.data.getSolutionById.country
+                ) &&
+                countryOptions.find(
+                  country =>
+                    country.code === res.data.data.getSolutionById.country
+                ).label,
+              value: res.data.data.getSolutionById.country
             },
             indicators: res.data.data.getSolutionById.indicatorsCodeNames.map(
               (item, index) => {
@@ -306,7 +411,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           dimension: (!!solution.dimension && solution.dimension) || '',
           indicators: (!!solution.indicators && solution.indicators) || [],
           contact: (!!solution.contactInfo && solution.contactInfo) || '',
-          reference: '',
           language:
             (!!solution.lang && solution.lang) ||
             localStorage.getItem('language') ||
@@ -507,6 +611,51 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
               </Grid>
               <Grid item md={8} sm={8} xs={12}>
                 <FileUploader files={files} setFiles={setFiles} />
+
+                {!!solution.resources && solution.resources.length > 0 && (
+                  <>
+                    <aside className={classes.thumbsContainer}>
+                      {solution.resources.map((resource, index) => (
+                        <div className={classes.preview} key={index}>
+                          <div className={classes.thumb}>
+                            <div className={classes.thumbInner}>
+                              <IconButton
+                                className={classes.closeButton}
+                                key="clear"
+                                onClick={() => removeItem(index)}
+                              >
+                                <CloseIcon className={classes.color} />
+                              </IconButton>
+                              <Button
+                                href={resource.url}
+                                className={classes.downloadButton}
+                                download
+                                color="primary"
+                              >
+                                <GetAppIcon />
+                              </Button>
+                              <img
+                                alt="index"
+                                className={classes.img}
+                                src={getPreviewForFile(resource)}
+                              />
+                            </div>
+                          </div>
+                          <Tooltip title={resource.title}>
+                            <Typography
+                              variant="subtitle2"
+                              align="center"
+                              className={classes.thumbName}
+                            >
+                              {resource.title}
+                            </Typography>
+                          </Tooltip>
+                        </div>
+                      ))}
+                    </aside>
+                  </>
+                )}
+
                 <Typography variant="h6" className={classes.inputLabel}>
                   {`${t('views.solutions.form.contact')}:`}
                 </Typography>

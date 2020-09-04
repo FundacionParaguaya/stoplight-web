@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'http://localhost:8080'
+  development: 'https://testing.backend.povertystoplight.org'
 };
 
 // list of enviroments urls
@@ -1299,10 +1299,11 @@ export const updateSolution = (user, values) =>
       query: `mutation updateSolution($solution: StoplightSolutionModelInput) {updateSolution(solution: $solution){title version resources{id url}}}`,
       variables: {
         solution: {
+          id: values.id,
           codeName: values.codeName,
           title: values.title,
           description: values.subtitle,
-          country: values.country,
+          country: values.country.value,
           contentText: values.plainContent,
           contentRich: values.contentRich,
           dimension: values.dimension.label,
@@ -1368,7 +1369,7 @@ export const getSolutionById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, contentText, country, showAuthor, organization, hub, dimension,stoplightDimension,lang, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description}, createdBy} }',
+        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, contentText, country, showAuthor, organization, hub, dimension,stoplightDimension,lang, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description id}, createdBy} }',
       variables: {
         id: id
       }
