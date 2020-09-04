@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
-import { saveSolution, submitResources } from '../../api';
+import { saveOrUpdateSolution, submitResources } from '../../api';
 import InputWithFormik from '../../components/InputWithFormik';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import DimensionSelector from '../../components/selectors/DimensionSelector';
@@ -21,7 +21,7 @@ import withLayout from '../../components/withLayout';
 import Editor from './Editor';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
-import { getSolutionById, updateSolution, getSolutionTypes } from '../../api';
+import { getSolutionById, getSolutionTypes } from '../../api';
 import { useParams } from 'react-router-dom';
 import countries from 'localized-countries';
 import * as _ from 'lodash';
@@ -255,59 +255,32 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       values.resources = solution.resources
         ? solution.resources.concat(values.resources ? values.resources : [])
         : values.resources;
-      if (!!id) {
-        updateSolution(user, values)
-          .then(() => {
-            enqueueSnackbar(t('views.solutions.form.save.success'), {
-              variant: 'success',
-              action: key => (
-                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                  <CloseIcon style={{ color: 'white' }} />
-                </IconButton>
-              )
-            });
-          })
-          .catch(() => {
-            enqueueSnackbar(t('views.solutions.form.save.failed'), {
-              variant: 'error',
-              action: key => (
-                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                  <CloseIcon style={{ color: 'white' }} />
-                </IconButton>
-              )
-            });
-          })
-          .finally(() => {
-            setLoading(false);
-            history.push(`/solutions`);
+
+      saveOrUpdateSolution(user, values)
+        .then(() => {
+          enqueueSnackbar(t('views.solutions.form.save.success'), {
+            variant: 'success',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
           });
-      } else {
-        saveSolution(user, values)
-          .then(() => {
-            enqueueSnackbar(t('views.solutions.form.save.success'), {
-              variant: 'success',
-              action: key => (
-                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                  <CloseIcon style={{ color: 'white' }} />
-                </IconButton>
-              )
-            });
-          })
-          .catch(() => {
-            enqueueSnackbar(t('views.solutions.form.save.failed'), {
-              variant: 'error',
-              action: key => (
-                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-                  <CloseIcon style={{ color: 'white' }} />
-                </IconButton>
-              )
-            });
-          })
-          .finally(() => {
-            setLoading(false);
-            history.push(`/solutions`);
+        })
+        .catch(() => {
+          enqueueSnackbar(t('views.solutions.form.save.failed'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
           });
-      }
+        })
+        .finally(() => {
+          setLoading(false);
+          history.push(`/solutions`);
+        });
     });
   };
 
@@ -345,47 +318,42 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
             require(`localized-countries/data/${language}`)
           ).array();
 
-          console.log(res);
-          const fetchedSolution = {
-            ...res.data.data.getSolutionById,
+          const fetchedSolution = res.data.data.getSolutionById;
+          const updatedSolution = {
+            ...fetchedSolution,
             dimension: {
-              label: res.data.data.getSolutionById.dimension,
-              value: res.data.data.getSolutionById.stoplightDimension
+              label: fetchedSolution.dimension,
+              value: fetchedSolution.stoplightDimension
             },
             country: {
               label:
                 countryOptions.find(
-                  country =>
-                    country.code === res.data.data.getSolutionById.country
+                  country => country.code === fetchedSolution.country
                 ) &&
                 countryOptions.find(
-                  country =>
-                    country.code === res.data.data.getSolutionById.country
+                  country => country.code === fetchedSolution.country
                 ).label,
-              value: res.data.data.getSolutionById.country
+              value: fetchedSolution.country
             },
-            indicators: res.data.data.getSolutionById.indicatorsCodeNames.map(
+            indicators: fetchedSolution.indicatorsCodeNames.map(
               (item, index) => {
                 return {
                   codeName: item,
-                  label: res.data.data.getSolutionById.indicatorsNames[index]
+                  label: fetchedSolution.indicatorsNames[index]
                 };
               }
             ),
             type: {
-              label: res.data.data.getSolutionById.type,
+              label: fetchedSolution.type,
               value:
-                typeOptions.find(
-                  type => type.label === res.data.data.getSolutionById.type
-                ) &&
-                typeOptions.find(
-                  type => type.label === res.data.data.getSolutionById.type
-                ).value
+                typeOptions.find(type => type.label === fetchedSolution.type) &&
+                typeOptions.find(type => type.label === fetchedSolution.type)
+                  .value
             },
-            lang: res.data.data.getSolutionById.lang.split('_')[0]
+            lang: fetchedSolution.lang.split('_')[0]
           };
-          setSolution(fetchedSolution);
-          setPlainContent(res.data.data.getSolutionById.contentText);
+          setSolution(updatedSolution);
+          setPlainContent(fetchedSolution.contentText);
           setLoading(false);
         });
       });

@@ -1255,72 +1255,75 @@ export const submitResources = (user, resources) => {
   });
 };
 
-export const saveSolution = (user, values) =>
-  axios({
-    method: 'post',
-    url: `${url[user.env]}/graphql`,
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    },
-    data: JSON.stringify({
-      query: `mutation createSolution($solution: StoplightSolutionModelInput) {createSolution(solution: $solution){title} }`,
-      variables: {
-        solution: {
-          codeName: values.codeName,
-          title: values.title,
-          description: values.subtitle,
-          country: values.country,
-          contentText: values.plainContent,
-          contentRich: values.contentRich,
-          dimension: values.dimension.label,
-          stoplightDimension: values.dimension.value,
-          indicatorsCodeNames: values.indicatorsCodeNames,
-          indicatorsNames: values.indicatorNames,
-          showAuthor: values.showOrg,
-          organization: values.organization,
-          hub: values.hub,
-          resources: values.resources,
-          contactInfo: values.contact,
-          lang: normalizeLanguages(values.language),
-          type: values.type
+export const saveOrUpdateSolution = (user, values) => {
+  if (!values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createSolution($solution: StoplightSolutionModelInput) {createSolution(solution: $solution){title} }`,
+        variables: {
+          solution: {
+            codeName: values.codeName,
+            title: values.title,
+            description: values.subtitle,
+            country: values.country.value,
+            contentText: values.plainContent,
+            contentRich: values.contentRich,
+            dimension: values.dimension.label,
+            stoplightDimension: values.dimension.value,
+            indicatorsCodeNames: values.indicatorsCodeNames,
+            indicatorsNames: values.indicatorNames,
+            showAuthor: values.showOrg,
+            organization: values.organization,
+            hub: values.hub,
+            resources: values.resources,
+            contactInfo: values.contact,
+            lang: normalizeLanguages(values.language),
+            type: values.type
+          }
         }
-      }
-    })
-  });
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateSolution($solution: StoplightSolutionModelInput) {updateSolution(solution: $solution){title version resources{id url}}}`,
+        variables: {
+          solution: {
+            id: values.id,
+            codeName: values.codeName,
+            title: values.title,
+            description: values.subtitle,
+            country: values.country.value,
+            contentText: values.plainContent,
+            contentRich: values.contentRich,
+            dimension: values.dimension.label,
+            stoplightDimension: values.dimension.value,
+            indicatorsCodeNames: values.indicatorsCodeNames,
+            indicatorsNames: values.indicatorNames,
+            showAuthor: values.showOrg,
+            organization: values.organization,
+            hub: values.hub,
+            resources: values.resources,
+            contactInfo: values.contact,
+            lang: normalizeLanguages(values.language),
+            type: values.type
+          }
+        }
+      })
+    });
+  }
+};
 
-export const updateSolution = (user, values) =>
-  axios({
-    method: 'post',
-    url: `${url[user.env]}/graphql`,
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    },
-    data: JSON.stringify({
-      query: `mutation updateSolution($solution: StoplightSolutionModelInput) {updateSolution(solution: $solution){title version resources{id url}}}`,
-      variables: {
-        solution: {
-          id: values.id,
-          codeName: values.codeName,
-          title: values.title,
-          description: values.subtitle,
-          country: values.country.value,
-          contentText: values.plainContent,
-          contentRich: values.contentRich,
-          dimension: values.dimension.label,
-          stoplightDimension: values.dimension.value,
-          indicatorsCodeNames: values.indicatorsCodeNames,
-          indicatorsNames: values.indicatorNames,
-          showAuthor: values.showOrg,
-          organization: values.organization,
-          hub: values.hub,
-          resources: values.resources,
-          contactInfo: values.contact,
-          lang: normalizeLanguages(values.language),
-          type: values.type
-        }
-      }
-    })
-  });
 export const getSolutions = (user, values) =>
   axios({
     method: 'post',
