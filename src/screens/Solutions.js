@@ -89,6 +89,7 @@ const styles = theme => ({
     marginBottom: 7
   },
   tagsContainer: {
+    marginTop: 7,
     marginBottom: 7,
     display: 'flex',
     flexDirection: 'row',
@@ -191,9 +192,13 @@ const Solutions = ({ classes, user, history }) => {
       getSolutions(user, filterData)
         .then(response => {
           let data = response.data.data.solutions;
-          overwrite
-            ? setSolutions(data.content)
-            : setSolutions([...solutions, data.content]);
+
+          let solutionList = overwrite
+            ? data.content
+            : [...solutions, ...data.content];
+
+          setSolutions(solutionList);
+
           setPaginationData({
             page: page,
             totalPages: data.totalPages,
