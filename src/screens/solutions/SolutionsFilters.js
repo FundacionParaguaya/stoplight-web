@@ -88,7 +88,7 @@ const SolutionFilters = ({
             onChangeIndicator={onChangeIndicator}
             error={false}
             required={false}
-            isMulti={false}
+            isMulti={true}
             isClearable={true}
           />
         </Grid>

@@ -13,6 +13,8 @@ import Container from '../components/Container';
 import withLayout from '../components/withLayout';
 import SolutionsFilters from './solutions/SolutionsFilters';
 import { getIndicatorColorByDimension } from '../utils/styles-utils';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import countries from 'localized-countries';
 
 const styles = theme => ({
   titleContainer: {
@@ -72,14 +74,13 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     padding: '1rem 20px 5px 20px',
-    marginRight: 10,
-    marginLeft: 10,
     height: '100%',
     alignItems: 'flex-start',
     boxShadow: `1px 3px 7px ${theme.palette.grey.main}`,
-    borderRadius: 2,
+    borderTop: `4px solid ${theme.palette.background.default}`,
+    borderTopWidth: 4,
     '&:hover': {
-      borderTop: `3px solid ${theme.palette.primary.main}`
+      borderTop: `4px solid ${theme.palette.primary.main}`
     }
   },
   description: {
@@ -88,6 +89,7 @@ const styles = theme => ({
     marginBottom: 7
   },
   tagsContainer: {
+    marginTop: 7,
     marginBottom: 7,
     display: 'flex',
     flexDirection: 'row',
@@ -95,17 +97,20 @@ const styles = theme => ({
   },
   tag: {
     color: theme.palette.grey.middle,
-    padding: 3,
-    marginBottom: 8,
-    marginRight: 8,
+    fontFamily: 'Poppins',
+    borderRadius: 6,
+    padding: '6px 10px 6px 10px',
+    marginBottom: 10,
+    marginRight: 4,
     width: 'fit-content',
-    height: 'fit-content'
+    height: 'fit-content',
+    whiteSpace: 'nowrap'
   },
   button: {
     borderRadius: '0%',
     fontSize: 14,
     padding: 5,
-    marginRight: 5,
+    marginBottom: 8,
     justifyContent: 'center',
     alignSelf: 'flex-end',
     textDecoration: 'none',
@@ -133,6 +138,10 @@ const styles = theme => ({
     bottom: 0,
     top: 0,
     left: 0
+  },
+  icon: {
+    color: theme.palette.primary.main,
+    marginRight: 5
   }
 });
 
@@ -141,6 +150,9 @@ const Solutions = ({ classes, user, history }) => {
     t,
     i18n: { language }
   } = useTranslation();
+  const countryOptions = countries(
+    require(`localized-countries/data/${language}`)
+  ).array();
 
   const [loading, setLoading] = useState(true);
   const [solutions, setSolutions] = useState([]);
@@ -156,7 +168,7 @@ const Solutions = ({ classes, user, history }) => {
       lang: language,
       country: '',
       dimension: '',
-      indicator: '',
+      indicators: [],
       text: ''
     }
   );
@@ -169,9 +181,7 @@ const Solutions = ({ classes, user, history }) => {
       user: user.name,
       country: !!filterInput.country ? filterInput.country.value : '',
       dimension: !!filterInput.dimension ? filterInput.dimension.label : '',
-      indicators: !!filterInput.indicator
-        ? [filterInput.indicator.codeName]
-        : [],
+      indicators: filterInput.indicators.map(indicator => indicator.codeName),
       filter: filterInput.text,
       lang: !!filterInput.lang ? filterInput.lang : language
     };
@@ -180,9 +190,13 @@ const Solutions = ({ classes, user, history }) => {
       getSolutions(user, filterData)
         .then(response => {
           let data = response.data.data.solutions;
-          overwrite
-            ? setSolutions(data.content)
-            : setSolutions([...solutions, data.content]);
+
+          let solutionList = overwrite
+            ? data.content
+            : [...solutions, ...data.content];
+
+          setSolutions(solutionList);
+
           setPaginationData({
             page: page,
             totalPages: data.totalPages,
@@ -216,6 +230,10 @@ const Solutions = ({ classes, user, history }) => {
     }
   };
 
+  const getCountryByCode = code => {
+    return countryOptions.find(country => country.code === code).label;
+  };
+
   return (
     <React.Fragment>
       {loading && (
@@ -244,7 +262,7 @@ const Solutions = ({ classes, user, history }) => {
             indicatorsData={filterInput.indicators}
             onChangeCountry={country => setFilterInput({ country })}
             onChangeDimension={dimension => setFilterInput({ dimension })}
-            onChangeIndicator={indicator => setFilterInput({ indicator })}
+            onChangeIndicator={indicators => setFilterInput({ indicators })}
             onChangeFilterText={onChangeFilterText}
             onChangeFilterLang={lang => setFilterInput({ lang })}
             language={filterInput.lang}
@@ -296,6 +314,12 @@ const Solutions = ({ classes, user, history }) => {
                           ...
                         </Typography>
                       )}
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                      <LocationOnIcon className={classes.icon} />
+                      <Typography variant="h6">
+                        {getCountryByCode(solution.country)}
+                      </Typography>
                     </div>
                     <Button
                       color="default"

@@ -1333,7 +1333,7 @@ export const getSolutions = (user, values) =>
     },
     data: JSON.stringify({
       query:
-        'query solutions($page: Int, $country: String, $name: String, $lang: String, $dimension: String, $indicators: [String],  $organizations: [Long], $hub: Long, $user: String, $sortBy: String, $sortDirection: String) { solutions (page: $page, country: $country, name: $name, lang: $lang, dimension: $dimension, indicators:$indicators ,organizations: $organizations, hub: $hub, user: $user, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, indicatorsNames , description, dimension }  totalElements totalPages } }',
+        'query solutions($page: Int, $country: String, $name: String, $lang: String, $dimension: String, $indicators: [String],  $organizations: [Long], $hub: Long, $user: String, $sortBy: String, $sortDirection: String) { solutions (page: $page, country: $country, name: $name, lang: $lang, dimension: $dimension, indicators:$indicators ,organizations: $organizations, hub: $hub, user: $user, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, country, indicatorsNames , description, dimension }  totalElements totalPages } }',
       variables: {
         page: values.page,
         country: values.country,
@@ -1372,7 +1372,7 @@ export const getSolutionById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, contentText, country, showAuthor, organization, hub, dimension,stoplightDimension,lang, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description id}, createdBy} }',
+        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, contentText, country, showAuthor, organization, organizationName, hub, hubName, dimension,stoplightDimension,lang, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description, id}, createdBy} }',
       variables: {
         id: id
       }

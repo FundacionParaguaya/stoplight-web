@@ -1,11 +1,9 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -19,7 +17,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { deleteSolutionById, getSolutionById } from '../../api';
+import { getSolutionById } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
 import { getPreviewForFile } from '../../utils/files-utils';
@@ -27,6 +25,8 @@ import {
   getDimensionColor,
   getIndicatorColorByDimension
 } from '../../utils/styles-utils';
+import DeleteSolutionModal from './DeleteSolutionModal';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.grey.middle,
     fontFamily: 'Poppins',
     borderRadius: 6,
-    padding: 3,
+    padding: '6px 10px 6px 10px',
     marginBottom: 10,
     marginRight: 4,
     width: 'fit-content',
@@ -142,7 +142,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
+const SolutionsView = ({ user, history }) => {
   const classes = useStyles();
   const {
     t,
@@ -155,6 +155,10 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   ];
 
   const [loading, setLoading] = useState(true);
+  const [deleteData, setDeleteData] = useState({
+    openModal: false,
+    solutionId: ''
+  });
   const [solution, setSolution] = useState({
     indicatorsNames: [],
     resources: []
@@ -177,32 +181,18 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  const deleteSolution = id => {
-    setLoading(true);
-    deleteSolutionById(user, id)
-      .then(() => {
-        enqueueSnackbar(t('views.solutions.form.delete.success'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
-        history.push('/solutions');
-      })
-      .catch(e => {
-        console.log(e);
-        enqueueSnackbar(t('views.solutions.form.delete.failed'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
-      })
-      .finally(() => setLoading(false));
+  const showButtons = ({ role }) => {
+    return (
+      (!!user.organization &&
+        !!user.organization.id &&
+        user.organization.id === solution.organization) ||
+      (!!user.hub &&
+        !!user.hub.id &&
+        user.hub.id === solution.hub &&
+        !user.organization) ||
+      role === ROLES_NAMES.ROLE_ROOT ||
+      role === ROLES_NAMES.ROLE_PS_TEAM
+    );
   };
 
   return (
@@ -213,6 +203,12 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
         </div>
       )}
       <div className={classes.form}>
+        <DeleteSolutionModal
+          open={deleteData.openModal}
+          solutionId={deleteData.solutionId}
+          onClose={() => setDeleteData({ ...deleteData, openModal: false })}
+          afterSubmit={() => history.push('/solutions')}
+        />
         <div className={classes.headInputs}>
           <div className={classes.innerFrom}>
             <NavigationBar options={navigationOptions}></NavigationBar>
@@ -226,34 +222,39 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   {solution.description}
                 </Typography>
               </Grid>
-              <Grid
-                item
-                md={4}
-                container
-                justify="flex-end"
-                alignContent="flex-end"
-              >
-                <Tooltip title={t('views.solutions.form.deleteButton')}>
-                  <Button
-                    className={classes.actionIcon}
-                    onClick={() => {
-                      deleteSolution(solution.id);
-                    }}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                </Tooltip>
-                <Tooltip title={t('views.solutions.form.editButton')}>
-                  <Button
-                    className={classes.actionIcon}
-                    onClick={() => {
-                      history.push(`edit/${solution.id}`);
-                    }}
-                  >
-                    <EditIcon />
-                  </Button>
-                </Tooltip>
-              </Grid>
+              {showButtons(user) && (
+                <Grid
+                  item
+                  md={4}
+                  container
+                  justify="flex-end"
+                  alignContent="flex-end"
+                >
+                  <Tooltip title={t('views.solutions.form.deleteButton')}>
+                    <Button
+                      className={classes.actionIcon}
+                      onClick={() => {
+                        setDeleteData({
+                          openModal: true,
+                          solutionId: solution.id
+                        });
+                      }}
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title={t('views.solutions.form.editButton')}>
+                    <Button
+                      className={classes.actionIcon}
+                      onClick={() => {
+                        history.push(`edit/${solution.id}`);
+                      }}
+                    >
+                      <EditIcon />
+                    </Button>
+                  </Tooltip>
+                </Grid>
+              )}
             </Grid>
           </div>
         </div>
@@ -268,8 +269,8 @@ const SolutionsView = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                 <>
                   <GroupIcon className={classes.icon} />
                   <Typography variant="h6">
-                    {solution.organization ||
-                      solution.hub ||
+                    {solution.organizationName ||
+                      solution.hubName ||
                       'Fundacion Paraguaya'}
                   </Typography>
                 </>
