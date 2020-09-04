@@ -84,7 +84,7 @@
       "map": "Mapa",
       "logout": "Cerrar sesión",
       "support": "Soporte",
-      "solutions": "Soluciones"
+      "solutions": "Banco de Soluciones"
     },
     "synced": "Sincronización",
     "dashboard": {
@@ -748,11 +748,14 @@
         "save": {
           "success": "Solución guardada exitosamente",
           "failed": "No es posible guardar la solución"
-        },
-        "delete": {
-          "success": "Solución eliminada exitosamente",
-          "failed": "No es posible eliminar la solución"
         }
+      },
+      "delete": {
+        "confirmTitle": "Confirmación de Eliminación",
+        "confirmText": "¿Está seguro que desea eliminar esta Solución?",
+        "cannotUndo": "Esto no se puede deshacer.",
+        "success": "Solución eliminada exitosamente",
+        "failed": "No es posible eliminar la solución"
       }
     },
     "404": {
