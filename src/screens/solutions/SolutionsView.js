@@ -190,7 +190,8 @@ const SolutionsView = ({ user, history }) => {
         !!user.hub.id &&
         user.hub.id === solution.hub &&
         !user.organization) ||
-      role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM
+      role === ROLES_NAMES.ROLE_ROOT ||
+      role === ROLES_NAMES.ROLE_PS_TEAM
     );
   };
 
@@ -243,7 +244,12 @@ const SolutionsView = ({ user, history }) => {
                     </Button>
                   </Tooltip>
                   <Tooltip title={t('views.solutions.form.editButton')}>
-                    <Button className={classes.actionIcon}>
+                    <Button
+                      className={classes.actionIcon}
+                      onClick={() => {
+                        history.push(`edit/${solution.id}`);
+                      }}
+                    >
                       <EditIcon />
                     </Button>
                   </Tooltip>

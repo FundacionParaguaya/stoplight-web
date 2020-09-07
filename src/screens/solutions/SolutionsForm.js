@@ -7,11 +7,11 @@ import Switch from '@material-ui/core/Switch';
 import CloseIcon from '@material-ui/icons/Close';
 import { Form, Formik } from 'formik';
 import { withSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
-import { saveSolution, submitResources } from '../../api';
+import { saveOrUpdateSolution, submitResources } from '../../api';
 import InputWithFormik from '../../components/InputWithFormik';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import DimensionSelector from '../../components/selectors/DimensionSelector';
@@ -21,6 +21,13 @@ import withLayout from '../../components/withLayout';
 import Editor from './Editor';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
+import { getSolutionById, getSolutionTypes } from '../../api';
+import { useParams } from 'react-router-dom';
+import countries from 'localized-countries';
+import * as _ from 'lodash';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Tooltip from '@material-ui/core/Tooltip';
+import { getPreviewForFile } from '../../utils/files-utils';
 
 const inputStyle = {
   height: 25,
@@ -105,16 +112,106 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
     top: 0,
     left: 0
+  },
+  label: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '100%'
+  },
+  tag: {
+    color: theme.palette.grey.middle,
+    fontFamily: 'Poppins',
+    borderRadius: 6,
+    padding: 3,
+    marginBottom: 10,
+    marginRight: 4,
+    width: 'fit-content',
+    height: 'fit-content',
+    whiteSpace: 'nowrap'
+  },
+  iconPreview: {
+    color: theme.palette.primary.main,
+    marginRight: 5
+  },
+  button: {
+    margin: 5,
+    height: 40,
+    width: 85
+  },
+  actionIcon: {
+    padding: 0,
+    paddingBottom: 6,
+    color: theme.palette.grey.middle,
+    width: 30
+  },
+  preview: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: '3px 6px 3px 6px'
+  },
+  thumbsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 16,
+    marginBottom: 16
+  },
+  thumb: {
+    position: 'relative',
+    display: 'inline-flex',
+    borderRadius: 2,
+    border: `1px solid ${theme.palette.primary.main}`,
+    marginBottom: 8,
+    marginRight: 8,
+    width: 125,
+    height: 125,
+    padding: 4,
+    boxSizing: 'border-box'
+  },
+  thumbInner: {
+    display: 'flex',
+    minWidth: 0,
+    overflow: 'hidden'
+  },
+  thumbName: {
+    maxWidth: 100,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden'
+  },
+  img: {
+    display: 'block',
+    width: '100%',
+    height: '100%'
+  },
+  downloadButton: {
+    position: 'absolute',
+    bottom: -5,
+    right: 2,
+    minWidth: 36,
+    padding: 0,
+    borderRadius: '50%'
+  },
+  closeButton: {
+    position: 'absolute',
+    top: -5,
+    right: -6
   }
 }));
 
 const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
+  const { id } = useParams();
 
   const [files, setFiles] = useState([]);
   const [plainContent, setPlainContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [solution, setSolution] = useState({});
 
   //Validation criterias
   const fieldIsRequired = 'validation.fieldIsRequired';
@@ -142,7 +239,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           response => (values.resources = response.data)
         )
     ]).then(() => {
-      values.country = values.country.value;
       values.plainContent = plainContent;
       values.indicatorsCodeNames = values.indicators.map(
         indicator => indicator.codeName
@@ -156,7 +252,11 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
       values.type = values.solutionType.label;
-      saveSolution(user, values)
+      values.resources = solution.resources
+        ? solution.resources.concat(values.resources ? values.resources : [])
+        : values.resources;
+
+      saveOrUpdateSolution(user, values)
         .then(() => {
           enqueueSnackbar(t('views.solutions.form.save.success'), {
             variant: 'success',
@@ -191,6 +291,75 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
     return 'Fundación Paraguaya';
   };
 
+  const removeItem = index => {
+    const resources = solution.resources;
+    resources.splice(index, 1);
+    const updatedSolution = {
+      ...solution,
+      resources: resources
+    };
+    setSolution(updatedSolution);
+  };
+
+  useEffect(() => {
+    if (!!id) {
+      setLoading(true);
+      getSolutionById(user, id).then(res => {
+        getSolutionTypes(user, language).then(response => {
+          const typeOptions = _.get(
+            response,
+            'data.data.solutionTypes',
+            []
+          ).map(type => ({
+            label: type.description,
+            value: type.code
+          }));
+          let countryOptions = countries(
+            require(`localized-countries/data/${language}`)
+          ).array();
+
+          const fetchedSolution = res.data.data.getSolutionById;
+          const updatedSolution = {
+            ...fetchedSolution,
+            dimension: {
+              label: fetchedSolution.dimension,
+              value: fetchedSolution.stoplightDimension
+            },
+            country: {
+              label:
+                countryOptions.find(
+                  country => country.code === fetchedSolution.country
+                ) &&
+                countryOptions.find(
+                  country => country.code === fetchedSolution.country
+                ).label,
+              value: fetchedSolution.country
+            },
+            indicators: fetchedSolution.indicatorsCodeNames.map(
+              (item, index) => {
+                return {
+                  codeName: item,
+                  label: fetchedSolution.indicatorsNames[index]
+                };
+              }
+            ),
+            type: {
+              label: fetchedSolution.type,
+              value:
+                typeOptions.find(type => type.label === fetchedSolution.type) &&
+                typeOptions.find(type => type.label === fetchedSolution.type)
+                  .value
+            },
+            lang: fetchedSolution.lang.split('_')[0]
+          };
+          setSolution(updatedSolution);
+          setPlainContent(fetchedSolution.contentText);
+          setLoading(false);
+        });
+      });
+    }
+  }, []);
+
   return (
     <React.Fragment>
       {loading && (
@@ -200,18 +369,22 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       )}
       <Formik
         initialValues={{
-          title: '',
-          subtitle: '',
-          contentRich: '',
-          country: '',
-          showOrg: true,
-          solutionType: '',
-          dimension: '',
-          indicators: [],
-          contact: '',
-          reference: '',
-          language: localStorage.getItem('language') || 'en'
+          id: (!!solution.id && solution.id) || null,
+          title: (!!solution.title && solution.title) || '',
+          subtitle: (!!solution.description && solution.description) || '',
+          contentRich: (!!solution.contentRich && solution.contentRich) || '',
+          country: (!!solution.country && solution.country) || '',
+          showOrg: (!!solution.showAuthor && solution.showAuthor) || true,
+          solutionType: (!!solution.type && solution.type) || '',
+          dimension: (!!solution.dimension && solution.dimension) || '',
+          indicators: (!!solution.indicators && solution.indicators) || [],
+          contact: (!!solution.contactInfo && solution.contactInfo) || '',
+          language:
+            (!!solution.lang && solution.lang) ||
+            localStorage.getItem('language') ||
+            'en'
         }}
+        enableReinitialize
         validationSchema={validationSchema}
         onSubmit={values => {
           const solutionValues = {
@@ -406,6 +579,51 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
               </Grid>
               <Grid item md={8} sm={8} xs={12}>
                 <FileUploader files={files} setFiles={setFiles} />
+
+                {!!solution.resources && solution.resources.length > 0 && (
+                  <>
+                    <aside className={classes.thumbsContainer}>
+                      {solution.resources.map((resource, index) => (
+                        <div className={classes.preview} key={index}>
+                          <div className={classes.thumb}>
+                            <div className={classes.thumbInner}>
+                              <IconButton
+                                className={classes.closeButton}
+                                key="clear"
+                                onClick={() => removeItem(index)}
+                              >
+                                <CloseIcon className={classes.color} />
+                              </IconButton>
+                              <Button
+                                href={resource.url}
+                                className={classes.downloadButton}
+                                download
+                                color="primary"
+                              >
+                                <GetAppIcon />
+                              </Button>
+                              <img
+                                alt="index"
+                                className={classes.img}
+                                src={getPreviewForFile(resource)}
+                              />
+                            </div>
+                          </div>
+                          <Tooltip title={resource.title}>
+                            <Typography
+                              variant="subtitle2"
+                              align="center"
+                              className={classes.thumbName}
+                            >
+                              {resource.title}
+                            </Typography>
+                          </Tooltip>
+                        </div>
+                      ))}
+                    </aside>
+                  </>
+                )}
+
                 <Typography variant="h6" className={classes.inputLabel}>
                   {`${t('views.solutions.form.contact')}:`}
                 </Typography>
