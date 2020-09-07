@@ -15,6 +15,7 @@ import SolutionsFilters from './solutions/SolutionsFilters';
 import { getIndicatorColorByDimension } from '../utils/styles-utils';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import countries from 'localized-countries';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const styles = theme => ({
   titleContainer: {
@@ -111,13 +112,22 @@ const styles = theme => ({
     fontSize: 14,
     padding: 5,
     marginBottom: 8,
-    justifyContent: 'center',
-    alignSelf: 'flex-end',
     textDecoration: 'none',
     '&:hover': {
       backgroundColor: theme.palette.background.paper,
       textDecoration: 'none'
     }
+  },
+  infoContainer: {
+    paddingBottom: 5,
+    marginBottom: 8
+  },
+  bottomContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    width: '100%'
   },
   showMoreButtonContainer: {
     width: '100%',
@@ -315,23 +325,34 @@ const Solutions = ({ classes, user, history }) => {
                         </Typography>
                       )}
                     </div>
-                    <div style={{ display: 'flex' }}>
-                      <LocationOnIcon className={classes.icon} />
-                      <Typography variant="h6">
-                        {getCountryByCode(solution.country)}
-                      </Typography>
+                    <div className={classes.bottomContainer}>
+                      <div className={classes.infoContainer}>
+                        <div style={{ display: 'flex' }}>
+                          <VisibilityIcon className={classes.icon} />
+                          <Typography variant="h6">
+                            {solution.views ? solution.views : 0}
+                          </Typography>
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                          <LocationOnIcon className={classes.icon} />
+                          <Typography variant="h6">
+                            {getCountryByCode(solution.country)}
+                          </Typography>
+                        </div>
+                      </div>
+
+                      <Button
+                        color="default"
+                        aria-label="Delete Hub"
+                        className={classes.button}
+                        component="span"
+                        onClick={() => {
+                          history.push(`solution/${solution.id}`);
+                        }}
+                      >
+                        {t('views.solutions.viewmore')}
+                      </Button>
                     </div>
-                    <Button
-                      color="default"
-                      aria-label="Delete Hub"
-                      className={classes.button}
-                      component="span"
-                      onClick={() => {
-                        history.push(`solution/${solution.id}`);
-                      }}
-                    >
-                      {t('views.solutions.viewmore')}
-                    </Button>
                   </div>
                 </Grid>
               );

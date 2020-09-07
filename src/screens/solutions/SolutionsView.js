@@ -2,6 +2,8 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -17,7 +19,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getSolutionById } from '../../api';
+import { getSolutionById, updateSolutionView } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
 import { getPreviewForFile } from '../../utils/files-utils';
@@ -142,7 +144,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SolutionsView = ({ user, history }) => {
+const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
   const classes = useStyles();
   const {
     t,
@@ -165,14 +167,29 @@ const SolutionsView = ({ user, history }) => {
   });
   const [country, setCountry] = useState('');
 
+  const updateSolution = solutionId => {
+    updateSolutionView(user, solutionId).catch(() => {
+      enqueueSnackbar(t('views.solutions.failUpdateView'), {
+        variant: 'error',
+        action: key => (
+          <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+            <CloseIcon style={{ color: 'white' }} />
+          </IconButton>
+        )
+      });
+    });
+  };
+
   useEffect(() => {
     setLoading(true);
+    updateSolution(id);
     let countryOptions = countries(
       require(`localized-countries/data/${language}`)
     ).array();
     getSolutionById(user, id)
       .then(response => {
         let data = response.data.data.getSolutionById;
+
         setSolution(data);
         setCountry(
           countryOptions.find(country => country.code === data.country).label

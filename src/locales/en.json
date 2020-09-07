@@ -727,6 +727,7 @@
       "solutionFound": "Solution found",
       "solutionsFound": "Solutions found",
       "viewmore": "VIEW MORE",
+      "failUpdateView": "Error updating the number of visits",
       "form": {
         "editButton": "EDIT",
         "deleteButton": "DELETE",

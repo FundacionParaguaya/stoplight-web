@@ -1324,6 +1324,24 @@ export const saveOrUpdateSolution = (user, values) => {
   }
 };
 
+export const updateSolutionView = (user, id) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateSolutionViews($solution: StoplightSolutionModelInput) {updateSolutionViews(solution: $solution){title views}}',
+      variables: {
+        solution: {
+          id: id
+        }
+      }
+    })
+  });
+
 export const getSolutions = (user, values) =>
   axios({
     method: 'post',
@@ -1333,7 +1351,7 @@ export const getSolutions = (user, values) =>
     },
     data: JSON.stringify({
       query:
-        'query solutions($page: Int, $country: String, $name: String, $lang: String, $dimension: String, $indicators: [String],  $organizations: [Long], $hub: Long, $user: String, $sortBy: String, $sortDirection: String) { solutions (page: $page, country: $country, name: $name, lang: $lang, dimension: $dimension, indicators:$indicators ,organizations: $organizations, hub: $hub, user: $user, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, country, indicatorsNames , description, dimension }  totalElements totalPages } }',
+        'query solutions($page: Int, $country: String, $name: String, $lang: String, $dimension: String, $indicators: [String],  $organizations: [Long], $hub: Long, $user: String, $sortBy: String, $sortDirection: String) { solutions (page: $page, country: $country, name: $name, lang: $lang, dimension: $dimension, indicators:$indicators ,organizations: $organizations, hub: $hub, user: $user, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, country, indicatorsNames , description, dimension, views }  totalElements totalPages } }',
       variables: {
         page: values.page,
         country: values.country,
