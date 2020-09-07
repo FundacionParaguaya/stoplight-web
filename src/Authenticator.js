@@ -121,6 +121,7 @@ const Authenticator = props => {
           hub: response.data.application,
           organization: response.data.organization,
           name: response.data.name,
+          email: response.data.email,
           interative_help:
             !!response.data.application &&
             !!response.data.application.interactiveHelp
