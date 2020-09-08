@@ -729,6 +729,7 @@
       "solutionFound": "Solución encontrada",
       "solutionsFound": "Soluciones encontradas",
       "viewmore": "VER MÁS",
+      "failUpdateView": "Error al actualizar la cantidad de visitas",
       "form": {
         "editButton": "EDITAR",
         "deleteButton": "ELIMINAR",
