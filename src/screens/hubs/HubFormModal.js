@@ -238,8 +238,7 @@ const HubFormModal = ({
               language: (!!hub.language && hub.language) || '',
               partnerType: (!!hub.partnerType && hub.partnerType) || '',
               allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
-              allowSolutions:
-                !!hub.labels && hub.labels.includes('allowSolutions')
+              allowSolutions: !!hub.allowSolutions && hub.allowSolutions
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
