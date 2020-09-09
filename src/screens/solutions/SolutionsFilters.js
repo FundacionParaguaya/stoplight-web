@@ -10,6 +10,7 @@ import IndicatorSelector from '../../components/selectors/IndicatorSelector';
 import SearchTextFilter from '../../components/filters/SearchTextFilter';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import SolutionLangPicker from './SolutionLangPicker';
+import SolutionTypeSelector from './SolutionTypeSelector';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -21,7 +22,12 @@ const useStyles = makeStyles(() => ({
   innerContainer: {
     zIndex: 11 // To override material table
   },
+  filter: {
+    marginTop: 0,
+    marginBottom: 0
+  },
   button: {
+    height: 39,
     marginBottom: 20
   },
   gridAlignRight: {
@@ -40,10 +46,12 @@ const SolutionFilters = ({
   countryData,
   dimensionData,
   indicatorsData,
+  solutionTypeData,
   onChangeCountry,
   onChangeDimension,
   onChangeIndicator,
   onChangeFilterText,
+  onChangeSolutionType,
   goToForm,
   onChangeFilterLang,
   language,
@@ -107,11 +115,20 @@ const SolutionFilters = ({
             setLanguage={onChangeFilterLang}
           />
         </Grid>
-        <Grid item md={9} sm={9} xs={12}>
+        <Grid item md={6} sm={6} xs={12}>
           <SearchTextFilter
             onChangeInput={onChangeFilterText}
             searchLabel={t('views.solutions.search')}
             searchByLabel={t('views.solutions.searchBy')}
+          />
+        </Grid>
+        <Grid item md={3} sm={3} xs={12}>
+          <SolutionTypeSelector
+            withTitle={false}
+            solutionTypeData={solutionTypeData}
+            onChangeSolutionType={onChangeSolutionType}
+            isClearable={true}
+            className={classes.filter}
           />
         </Grid>
         <Grid item md={3} sm={3} xs={12} className={classes.gridAlignRight}>

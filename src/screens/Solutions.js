@@ -179,7 +179,8 @@ const Solutions = ({ classes, user, history }) => {
       country: '',
       dimension: '',
       indicators: [],
-      text: ''
+      text: '',
+      solutionType: ''
     }
   );
 
@@ -193,7 +194,10 @@ const Solutions = ({ classes, user, history }) => {
       dimension: !!filterInput.dimension ? filterInput.dimension.label : '',
       indicators: filterInput.indicators.map(indicator => indicator.codeName),
       filter: filterInput.text,
-      lang: !!filterInput.lang ? filterInput.lang : language
+      lang: !!filterInput.lang ? filterInput.lang : language,
+      solutionType: !!filterInput.solutionType
+        ? filterInput.solutionType.value
+        : ''
     };
 
     (overwrite || page !== paginationData.prevPage) &&
@@ -270,11 +274,15 @@ const Solutions = ({ classes, user, history }) => {
             countryData={filterInput.country}
             dimensionData={filterInput.dimension}
             indicatorsData={filterInput.indicators}
+            solutionTypeData={filterInput.solutionType}
             onChangeCountry={country => setFilterInput({ country })}
             onChangeDimension={dimension => setFilterInput({ dimension })}
             onChangeIndicator={indicators => setFilterInput({ indicators })}
             onChangeFilterText={onChangeFilterText}
             onChangeFilterLang={lang => setFilterInput({ lang })}
+            onChangeSolutionType={solutionType =>
+              setFilterInput({ solutionType })
+            }
             language={filterInput.lang}
             goToForm={goToForm}
           />
