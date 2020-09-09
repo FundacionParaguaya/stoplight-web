@@ -109,6 +109,7 @@ export const checkAccessToSolution = ({ role, hub, organization }) => {
     return true;
   else if (
     !!organization &&
+    organization.application.allowSolutions &&
     !!organization.solutionsAccess &&
     organization.solutionsAccess !== 'NONE'
   )
