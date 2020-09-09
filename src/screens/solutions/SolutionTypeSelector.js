@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { selectStyle } from '../../utils/styles-utils';
 import { getSolutionTypes } from '../../api';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -31,6 +32,7 @@ const solutionTypeSelector = ({
   user,
   solutionTypeData,
   onChangeSolutionType,
+  className,
   isClearable
 }) => {
   const {
@@ -59,7 +61,7 @@ const solutionTypeSelector = ({
   }, [language]);
 
   return (
-    <div className={classes.container}>
+    <div className={clsx(classes.container, className)}>
       {withTitle && (
         <Typography variant="subtitle1" className={classes.label}>
           {label}
