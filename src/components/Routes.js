@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { checkAccess } from '../utils/role-utils';
+import { checkAccess, checkAccessToSolution } from '../utils/role-utils';
 import Surveys from '../screens/SurveysWithDrafts';
 import SurveyList from '../screens/Surveys';
 import Organizations from '../screens/Organizations';
@@ -70,16 +70,16 @@ const Routes = ({ user }) => {
           <Route path="/reports" component={Reports} />
         )}
         {checkAccess(user, 'map') && <Route path="/map" component={Maps} />}
-        {checkAccess(user, 'solutions') && (
+        {checkAccessToSolution(user, 'solutions') && (
           <Route path="/solutions/create" component={SolutionsForm} />
         )}
-        {checkAccess(user, 'solutions') && (
+        {checkAccessToSolution(user, 'solutions') && (
           <Route path="/solution/edit/:id" component={SolutionsForm} />
         )}
-        {checkAccess(user, 'solutions') && (
+        {checkAccessToSolution(user) && (
           <Route path="/solution/:id" component={SolutionsView} />
         )}
-        {checkAccess(user, 'solutions') && (
+        {checkAccessToSolution(user) && (
           <Route path="/solutions" component={Solutions} />
         )}
         {!user.role && <Route path="/login" component={Login} />}
