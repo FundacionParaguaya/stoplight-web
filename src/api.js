@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'https://testing.backend.povertystoplight.org'
+  development: 'http://localhost:8080'
 };
 
 // list of enviroments urls
@@ -1413,5 +1413,19 @@ export const deleteSolutionById = (user, id) =>
           id: id
         }
       }
+    })
+  });
+
+// get access solutions types
+export const getSolutionsAccessTypes = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query: 'query solutionsAccess { solutionsAccess { code description} }'
     })
   });
