@@ -565,7 +565,8 @@
         "endSurveyTypeOptions": {
           "facilitation": "Facilitation",
           "sendingUniqueLink": "Sending unique link"
-        }
+        },
+        "solutionAccessType": "Bank of Solutions"
       }
     },
     "hub": {
