@@ -107,7 +107,7 @@ const SendLifemap = ({
   };
 
   const redirectToSurveys = () => {
-    history.push(`/surveys?sid=${user.token}`);
+    history.push(`/surveys`);
   };
 
   const redirectToFamilyProfile = familyId => {

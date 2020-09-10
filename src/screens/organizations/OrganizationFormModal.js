@@ -16,9 +16,14 @@ import InputWithFormik from '../../components/InputWithFormik';
 import * as Yup from 'yup';
 import { addOrUpdateOrg } from '../../api';
 import Select from 'react-select';
-import { getOrganizationsByHub, getOrganization } from '../../api.js';
+import {
+  getSolutionsAccessTypes,
+  getOrganizationsByHub,
+  getOrganization
+} from '../../api.js';
 import * as _ from 'lodash';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
+import { checkAccessToSolution } from '../../utils/role-utils';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -111,9 +116,13 @@ const OrganizationFormModal = ({
 }) => {
   const isCreate = !org.id;
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [organizations, setOrganizations] = useState([]);
+  const [accessTypesOptions, setAccessTypesOptions] = useState([]);
   const [subOrganizations, setSubOrganizations] = useState([]);
   const [organization, setOrganization] = useState({});
   const fieldIsRequired = 'validation.fieldIsRequired';
@@ -292,6 +301,19 @@ const OrganizationFormModal = ({
           )
         });
       });
+    getSolutionsAccessTypes(user, language)
+      .then(response => {
+        const typeOptions = _.get(
+          response,
+          'data.data.solutionsAccess',
+          []
+        ).map(type => ({
+          label: type.description,
+          value: type.code
+        }));
+        setAccessTypesOptions(typeOptions);
+      })
+      .finally(() => setLoading(false));
   }, [open]);
 
   const onSubmit = values => {
@@ -392,7 +414,11 @@ const OrganizationFormModal = ({
                 null,
               endSurveyType:
                 (!!organization.endSurveyType && organization.endSurveyType) ||
-                null
+                null,
+              solutionsAccess:
+                (!!organization.solutionsAccess &&
+                  organization.solutionsAccess) ||
+                ''
             }}
             enableReinitialize
             validationSchema={validationSchema}
@@ -451,6 +477,16 @@ const OrganizationFormModal = ({
                 isClearable={false}
               />
 
+              {checkAccessToSolution(user) && (
+                <AutocompleteWithFormik
+                  label={t('views.organization.form.solutionAccessType')}
+                  name="solutionsAccess"
+                  rawOptions={accessTypesOptions}
+                  labelKey="label"
+                  valueKey="value"
+                  isClearable={false}
+                />
+              )}
               <div className={classes.container}>
                 <Typography variant="subtitle1" className={classes.label}>
                   {t('views.organization.form.subOrg')}

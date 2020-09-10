@@ -24,10 +24,9 @@ import paragLogo from './assets/paraguay.png';
 import portugueseLogo from './assets/portuguese.png';
 import {
   ROLES,
-  getPlatform,
-  OLD,
   NEW,
-  ROLE_SURVEY_TAKER
+  ROLE_SURVEY_TAKER,
+  checkAccessToSolution
 } from './utils/role-utils';
 import { logout, enviroments } from './api';
 
@@ -120,13 +119,16 @@ class Header extends Component {
 
           {/* Rest of the items */}
           {currentRole.map(({ item, platform }) => {
-            if (platform === OLD) {
+            if (item === 'solutions' && checkAccessToSolution(user)) {
               return (
-                <a
+                <NavLink
+                  to={`/${item}`}
+                  className={
+                    path === `/${item}`
+                      ? `${classes.menuLink} ${classes.surveyLink}`
+                      : classes.menuLink
+                  }
                   key={item}
-                  href={`${getPlatform(user.env)}/#${item}`}
-                  className={classes.menuLink}
-                  test-id={item}
                 >
                   <Typography
                     variant="subtitle1"
@@ -134,7 +136,7 @@ class Header extends Component {
                   >
                     {t(`views.toolbar.${item}`)}
                   </Typography>
-                </a>
+                </NavLink>
               );
             } else if (platform === NEW) {
               return (

@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const IndicatorSelector = ({
+const solutionTypeSelector = ({
   withTitle,
   user,
   solutionTypeData,
@@ -62,7 +62,7 @@ const IndicatorSelector = ({
     <div className={classes.container}>
       {withTitle && (
         <Typography variant="subtitle1" className={classes.label}>
-          {label}}
+          {label}
         </Typography>
       )}
 
@@ -92,4 +92,4 @@ const IndicatorSelector = ({
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps)(IndicatorSelector);
+export default connect(mapStateToProps)(solutionTypeSelector);
