@@ -15,7 +15,9 @@ const selectStyle = {
     border: isFocused
       ? `1.5px solid ${theme.palette.primary.main}`
       : `1.5px solid ${theme.palette.grey.quarter}`,
-    boxShadow: isFocused ? `0 0 0 1px ${theme.palette.primary.main}` : 'none'
+    boxShadow: isFocused ? `0 0 0 1px ${theme.palette.primary.main}` : 'none',
+    overflowY: 'auto',
+    maxHeight: 75
   }),
   multiValueLabel: styles => ({
     ...styles,
