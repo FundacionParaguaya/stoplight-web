@@ -65,13 +65,13 @@ const useStyles = makeStyles(theme => ({
     ...inputStyle,
     fontSize: 30,
     fontWeight: 600,
-    color: '#626262'
+    color: theme.typography.h4.color
   },
   inputTypeTwo: {
     ...inputStyle,
     fontSize: 16,
     fontWeight: 500,
-    color: '#626262'
+    color: theme.typography.h4.color
   },
   inputTypeThree: {
     ...inputStyle,

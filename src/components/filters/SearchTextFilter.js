@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   filterInput: {
-    paddingTop: '12.0px!important',
+    paddingTop: '14.0px!important',
     paddingBottom: '12.0px!important',
     paddingRight: '14px!important',
     paddingLeft: '14px!important',

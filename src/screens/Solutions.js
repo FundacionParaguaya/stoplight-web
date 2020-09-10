@@ -16,6 +16,7 @@ import { getIndicatorColorByDimension } from '../utils/styles-utils';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import countries from 'localized-countries';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import SolutionLangPicker from './solutions/SolutionLangPicker';
 
 const styles = theme => ({
   titleContainer: {
@@ -51,6 +52,7 @@ const styles = theme => ({
     width: '100%',
     opacity: 1,
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 20,
     marginBottom: 20
@@ -179,7 +181,8 @@ const Solutions = ({ classes, user, history }) => {
       country: '',
       dimension: '',
       indicators: [],
-      text: ''
+      text: '',
+      solutionType: ''
     }
   );
 
@@ -193,7 +196,10 @@ const Solutions = ({ classes, user, history }) => {
       dimension: !!filterInput.dimension ? filterInput.dimension.label : '',
       indicators: filterInput.indicators.map(indicator => indicator.codeName),
       filter: filterInput.text,
-      lang: !!filterInput.lang ? filterInput.lang : language
+      lang: !!filterInput.lang ? filterInput.lang : language,
+      solutionType: !!filterInput.solutionType
+        ? filterInput.solutionType.value
+        : ''
     };
 
     (overwrite || page !== paginationData.prevPage) &&
@@ -270,18 +276,24 @@ const Solutions = ({ classes, user, history }) => {
             countryData={filterInput.country}
             dimensionData={filterInput.dimension}
             indicatorsData={filterInput.indicators}
+            solutionTypeData={filterInput.solutionType}
             onChangeCountry={country => setFilterInput({ country })}
             onChangeDimension={dimension => setFilterInput({ dimension })}
             onChangeIndicator={indicators => setFilterInput({ indicators })}
             onChangeFilterText={onChangeFilterText}
-            onChangeFilterLang={lang => setFilterInput({ lang })}
-            language={filterInput.lang}
+            onChangeSolutionType={solutionType =>
+              setFilterInput({ solutionType })
+            }
             goToForm={goToForm}
           />
           <div className={classes.solutionCountContainer}>
             <Typography className={classes.labelRows} variant="subtitle1">
               {getCountText(paginationData.totalElements)}
             </Typography>
+            <SolutionLangPicker
+              language={filterInput.lang}
+              setLanguage={lang => setFilterInput({ lang })}
+            />
           </div>
           <Grid container spacing={2}>
             {solutions.map(solution => {

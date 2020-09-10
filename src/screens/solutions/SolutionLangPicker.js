@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import React, { useState } from 'react';
 import englishLogo from '../../assets/english.png';
 import paragLogo from '../../assets/paraguay.png';
 import portugueseLogo from '../../assets/portuguese.png';
@@ -34,6 +35,11 @@ const useStyles = makeStyles(theme => ({
   },
   tooltip: {
     zIndex: 14
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(0.5),
+    color: theme.palette.text.primary,
+    position: 'relative'
   }
 }));
 
@@ -76,7 +82,8 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
           color: 'white',
           alignItems: 'center',
           display: 'flex',
-          marginBottom: '4px'
+          marginBottom: '4px',
+          paddingRight: 8
         }}
         aria-owns={open ? 'menu-list-grow' : null}
         aria-haspopup="true"
@@ -92,6 +99,7 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
           {language === 'es' && 'Español'}
           {language === 'pt' && 'Português'}
         </Typography>
+        <KeyboardArrowDown className={classes.rightIcon} />
       </Button>
       <Popper
         className={classes.tooltip}
