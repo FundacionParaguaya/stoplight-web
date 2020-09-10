@@ -9,7 +9,7 @@ import DimensionSelector from '../../components/selectors/DimensionSelector';
 import IndicatorSelector from '../../components/selectors/IndicatorSelector';
 import SearchTextFilter from '../../components/filters/SearchTextFilter';
 import { ROLES_NAMES } from '../../utils/role-utils';
-import SolutionLangPicker from './SolutionLangPicker';
+
 import SolutionTypeSelector from './SolutionTypeSelector';
 
 const useStyles = makeStyles(() => ({
@@ -34,6 +34,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: 2
+  },
+  typeSelector: {
+    marginTop: 20,
+    alignItems: 'flex-start'
   }
 }));
 
@@ -53,8 +57,6 @@ const SolutionFilters = ({
   onChangeFilterText,
   onChangeSolutionType,
   goToForm,
-  onChangeFilterLang,
-  language,
   user
 }) => {
   const { t } = useTranslation();
@@ -89,7 +91,7 @@ const SolutionFilters = ({
             isClearable={true}
           />
         </Grid>
-        <Grid item lg={4} md={4} sm={4} xs={12}>
+        <Grid item lg={3} md={3} sm={4} xs={12}>
           <IndicatorSelector
             withTitle={false}
             indicatorsData={indicatorsData}
@@ -102,17 +104,21 @@ const SolutionFilters = ({
         </Grid>
         <Grid
           item
-          lg={2}
-          md={2}
-          sm={2}
+          lg={3}
+          md={3}
+          sm={3}
           xs={12}
+          className={classes.typeSelector}
           container
           alignItems="center"
           justify="flex-end"
         >
-          <SolutionLangPicker
-            language={language}
-            setLanguage={onChangeFilterLang}
+          <SolutionTypeSelector
+            withTitle={false}
+            solutionTypeData={solutionTypeData}
+            onChangeSolutionType={onChangeSolutionType}
+            isClearable={true}
+            className={classes.filter}
           />
         </Grid>
         <Grid item md={6} sm={6} xs={12}>
@@ -122,16 +128,14 @@ const SolutionFilters = ({
             searchByLabel={t('views.solutions.searchBy')}
           />
         </Grid>
-        <Grid item md={3} sm={3} xs={12}>
-          <SolutionTypeSelector
-            withTitle={false}
-            solutionTypeData={solutionTypeData}
-            onChangeSolutionType={onChangeSolutionType}
-            isClearable={true}
-            className={classes.filter}
-          />
-        </Grid>
-        <Grid item md={3} sm={3} xs={12} className={classes.gridAlignRight}>
+        <Grid
+          item
+          lg={3}
+          md={4}
+          sm={4}
+          xs={12}
+          className={classes.gridAlignRight}
+        >
           <Button
             variant="contained"
             onClick={goToForm}
