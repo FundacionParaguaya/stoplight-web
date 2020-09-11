@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getSolutions } from '../api';
-import solutionBanner from '../assets/user_banner.png';
+import solutionBanner from '../assets/solution_banner.png';
 import BottomSpacer from '../components/BottomSpacer';
 import Container from '../components/Container';
 import withLayout from '../components/withLayout';
@@ -35,9 +35,9 @@ const styles = theme => ({
   solutionImage: {
     display: 'block',
     height: 175,
-    right: 60,
+    right: -60,
     position: 'absolute',
-    top: -10,
+    top: -5,
     zIndex: 0,
     objectFit: 'cover',
     [theme.breakpoints.down('xs')]: {
@@ -107,7 +107,7 @@ const styles = theme => ({
     marginRight: 4,
     width: 'fit-content',
     height: 'fit-content',
-    whiteSpace: 'nowrap'
+    overflowWrap: 'break-word'
   },
   button: {
     borderRadius: '0%',
@@ -154,6 +154,10 @@ const styles = theme => ({
   icon: {
     color: theme.palette.primary.main,
     marginRight: 5
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center'
   }
 });
 
@@ -258,7 +262,7 @@ const Solutions = ({ classes, user, history }) => {
         </div>
       )}
       <div className={classes.titleContainer}>
-        <Container variant="stretch">
+        <Container variant="stretch" style={{ position: 'relative' }}>
           <div className={classes.solutionTitle}>
             <Typography variant="h4">{t('views.toolbar.solutions')}</Typography>
           </div>
@@ -339,15 +343,15 @@ const Solutions = ({ classes, user, history }) => {
                     </div>
                     <div className={classes.bottomContainer}>
                       <div className={classes.infoContainer}>
-                        <div style={{ display: 'flex' }}>
+                        <div className={classes.container}>
                           <VisibilityIcon className={classes.icon} />
-                          <Typography variant="h6">
+                          <Typography variant="h6" style={{ fontSize: 14 }}>
                             {solution.views ? solution.views : 0}
                           </Typography>
                         </div>
-                        <div style={{ display: 'flex' }}>
+                        <div className={classes.container}>
                           <LocationOnIcon className={classes.icon} />
-                          <Typography variant="h6">
+                          <Typography variant="h6" style={{ fontSize: 14 }}>
                             {getCountryByCode(solution.country)}
                           </Typography>
                         </div>
