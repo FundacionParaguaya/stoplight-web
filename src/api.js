@@ -1264,7 +1264,7 @@ export const saveOrUpdateSolution = (user, values) => {
         Authorization: `Bearer ${user.token}`
       },
       data: JSON.stringify({
-        query: `mutation createSolution($solution: StoplightSolutionModelInput) {createSolution(solution: $solution){title} }`,
+        query: `mutation createSolution($solution: StoplightSolutionModelInput) {createSolution(solution: $solution){id, title} }`,
         variables: {
           solution: {
             codeName: values.codeName,
