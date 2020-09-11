@@ -31,6 +31,7 @@ const CountrySelector = ({
   onChangeCountry,
   onBlur,
   required,
+  parentLang,
   error
 }) => {
   const {
@@ -45,8 +46,9 @@ const CountrySelector = ({
 
   useEffect(() => {
     setLoading(true);
+    let lang = !!parentLang ? parentLang : language;
     let countriesOptions = countries(
-      require(`localized-countries/data/${language}`)
+      require(`localized-countries/data/${lang}`)
     ).array();
     setCountryOptions(
       countriesOptions.map(country => ({
@@ -55,7 +57,7 @@ const CountrySelector = ({
       }))
     );
     setLoading(false);
-  }, [language]);
+  }, [language, parentLang]);
 
   return (
     <div className={classes.container}>
