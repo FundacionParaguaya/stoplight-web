@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import CKEditor from '@ckeditor/ckeditor5-react';
@@ -35,6 +35,7 @@ const Editor = ({
   setTouched
 }) => {
   const [editor, setEditor] = useState(null);
+  const editorRef = useRef(null);
   const customColorPalette = [
     {
       color: 'hsl(4, 90%, 58%)',
@@ -241,11 +242,35 @@ const Editor = ({
     placeholder
   };
 
+  const storeData = editorInstance => {
+    const editorData = editorInstance.getData();
+    const plainData = editorInstance
+      .getData()
+      .replace(/<\/p[^>]*>/g, '\n')
+      .replace(/<\/h[^>]*>/g, '\n')
+      .replace(/<br\/[^>]*>/g, '\n')
+      .replace(/&iacute/g, 'í')
+      .replace(/&oacute/g, 'ó')
+      .replace(/&aacute;/g, 'á')
+      .replace(/&eacute;/g, 'é')
+      .replace(/&iquest;/g, '¿')
+      .replace(/&uacute;/g, 'ú')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&ntilde;/g, 'ñ')
+      .replace(/<(.|\n)*?>/g, '');
+
+    handlePlainData(plainData);
+    handleData(editorData);
+  };
+
+  useEffect(() => () => (editorRef.current.editor = null), []);
+
   useEffect(() => {
     const prevEditor = document.querySelector('.ck-editor__editable');
     if (!!editor) {
       editor.destroy();
       CustomEditor.create(prevEditor, editorConfiguration).then(newEditor => {
+        storeData(newEditor);
         setEditor(newEditor);
       });
     }
@@ -255,6 +280,7 @@ const Editor = ({
     <div>
       <div className={classes.screen}>
         <CKEditor
+          ref={editorRef}
           className={classes.editor}
           editor={CustomEditor}
           data={data}
@@ -264,24 +290,7 @@ const Editor = ({
             setEditor(editor);
           }}
           onChange={(event, editor) => {
-            const editorData = editor.getData();
-            const plainData = editor
-              .getData()
-              .replace(/<\/p[^>]*>/g, '\n')
-              .replace(/<\/h[^>]*>/g, '\n')
-              .replace(/<br\/[^>]*>/g, '\n')
-              .replace(/&iacute/g, 'í')
-              .replace(/&oacute/g, 'ó')
-              .replace(/&aacute;/g, 'á')
-              .replace(/&eacute;/g, 'é')
-              .replace(/&iquest;/g, '¿')
-              .replace(/&uacute;/g, 'ú')
-              .replace(/&nbsp;/g, ' ')
-              .replace(/&ntilde;/g, 'ñ')
-              .replace(/<(.|\n)*?>/g, '');
-
-            handlePlainData(plainData);
-            handleData(editorData);
+            storeData(editor);
           }}
           onBlur={() => {
             setTouched();
