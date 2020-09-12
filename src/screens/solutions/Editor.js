@@ -178,10 +178,11 @@ const Editor = ({
     },
     fontFamily: {
       options: [
-        'default',
+        'Open Sans',
         'Ubuntu, Arial, sans-serif',
         'Ubuntu Mono, Courier New, Courier, monospace'
-      ]
+      ],
+      supportAllValues: true
     },
     fontSize: {
       options: [9, 11, 13, 'default', 16, 18, 22, 23, 24, 28, 36, 48],
