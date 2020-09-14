@@ -143,6 +143,9 @@ const useStyles = makeStyles(theme => ({
   solutionTypeIcon: {
     marginRight: 3,
     width: 19
+  },
+  defaultContentRich: {
+    fontFamily: 'Open sans'
   }
 }));
 
@@ -313,6 +316,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
             <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
               {
                 <div
+                  className={classes.defaultContentRich}
                   dangerouslySetInnerHTML={{ __html: solution.contentRich }}
                 />
               }
