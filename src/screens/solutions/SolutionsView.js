@@ -141,6 +141,9 @@ const useStyles = makeStyles(theme => ({
   },
   solutionTypeIcon: {
     marginRight: 3
+  },
+  defaultContentRich: {
+    fontFamily: 'Open sans'
   }
 }));
 
@@ -325,6 +328,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
               </Typography>
               {
                 <div
+                  className={classes.defaultContentRich}
                   dangerouslySetInnerHTML={{ __html: solution.contentRich }}
                 />
               }
