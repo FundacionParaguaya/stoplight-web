@@ -35,6 +35,7 @@ const DimensionSelector = ({
   onBlur,
   required,
   isClearable,
+  parentLang,
   error
 }) => {
   const {
@@ -49,8 +50,8 @@ const DimensionSelector = ({
 
   useEffect(() => {
     setLoading(true);
-
-    getDimensionsByUser(user, language)
+    let lang = !!parentLang ? parentLang : language;
+    getDimensionsByUser(user, lang)
       .then(response => {
         const dimensions = _.get(response, 'data.data.getDimensions', []).map(
           dimension => ({
@@ -61,7 +62,7 @@ const DimensionSelector = ({
         setDimensionOptions(dimensions);
       })
       .finally(() => setLoading(false));
-  }, [language]);
+  }, [language, parentLang]);
 
   return (
     <div className={classes.container}>

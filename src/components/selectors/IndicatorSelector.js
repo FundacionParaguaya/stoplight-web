@@ -36,6 +36,7 @@ const IndicatorSelector = ({
   required,
   isMulti,
   isClearable,
+  parentLang,
   error
 }) => {
   const {
@@ -50,8 +51,8 @@ const IndicatorSelector = ({
 
   useEffect(() => {
     setLoading(true);
-
-    getIndicatorsByUser(user, language)
+    let lang = !!parentLang ? parentLang : language;
+    getIndicatorsByUser(user, lang)
       .then(response => {
         const indicators = _.get(response, 'data.data.getIndicators', []).map(
           indicator => ({
@@ -63,7 +64,7 @@ const IndicatorSelector = ({
         setIndicatorOptions(indicators);
       })
       .finally(() => setLoading(false));
-  }, [language]);
+  }, [language, parentLang]);
 
   return (
     <div className={classes.container}>

@@ -14,7 +14,7 @@ export const toBase64 = file =>
 
 export const getPreviewForFile = resource => {
   if (resource.type === 'image/jpeg' || resource.type === 'image/png')
-    return resource.url;
+    return resource.url || resource.preview;
   if (resource.type === 'application/pdf') return pdfPreview;
   if (
     resource.type ===

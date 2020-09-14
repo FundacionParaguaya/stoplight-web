@@ -1,11 +1,11 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -23,12 +23,12 @@ import { getSolutionById, updateSolutionView } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
 import { getPreviewForFile } from '../../utils/files-utils';
+import { ROLES_NAMES } from '../../utils/role-utils';
 import {
   getDimensionColor,
   getIndicatorColorByDimension
 } from '../../utils/styles-utils';
 import DeleteSolutionModal from './DeleteSolutionModal';
-import { ROLES_NAMES } from '../../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => ({
     left: 0
   },
   form: {
-    width: '100vw',
-    height: '100%'
+    height: '100%',
+    marginBottom: '2rem'
   },
   innerFrom: {
     paddingLeft: '20vw',
@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: 4,
     width: 'fit-content',
     height: 'fit-content',
-    whiteSpace: 'nowrap'
+    overflowWrap: 'break-word'
   },
   icon: {
     color: theme.palette.primary.main,
@@ -136,11 +136,13 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '50%'
   },
   solutionType: {
+    alignItems: 'center',
     backgroundColor: theme.palette.grey.quarter,
     display: 'flex'
   },
   solutionTypeIcon: {
-    marginRight: 3
+    marginRight: 3,
+    width: 19
   }
 }));
 
@@ -152,7 +154,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
   } = useTranslation();
   let { id } = useParams();
   const navigationOptions = [
-    { label: t('views.solutions.solutions'), link: '/solutions' },
+    { label: t('views.toolbar.solutions'), link: '/solutions' },
     { label: t('views.solutions.solution'), link: `/solution/${id}` }
   ];
 
@@ -206,7 +208,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
       (!!user.hub &&
         !!user.hub.id &&
         user.hub.id === solution.hub &&
-        !user.organization) ||
+        role === ROLES_NAMES.ROLE_HUB_ADMIN) ||
       role === ROLES_NAMES.ROLE_ROOT ||
       role === ROLES_NAMES.ROLE_PS_TEAM
     );
@@ -277,32 +279,43 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
         </div>
         <div className={classes.innerFrom}>
           <Grid container>
-            <Grid item md={2} container>
-              <LocationOnIcon className={classes.icon} />
-              <Typography variant="h6">{country}</Typography>
-            </Grid>
-            <Grid item md={4} container>
+            <Grid item md={8} container>
               {solution.showAuthor && (
-                <>
+                <Grid item lg={5} md={6} xs={8} container>
                   <GroupIcon className={classes.icon} />
                   <Typography variant="h6">
                     {solution.organizationName ||
                       solution.hubName ||
                       'Fundacion Paraguaya'}
                   </Typography>
-                </>
+                </Grid>
               )}
+              <Grid item lg={3} md={4} container>
+                <LocationOnIcon className={classes.icon} />
+                <Typography variant="h6">{country}</Typography>
+              </Grid>
             </Grid>
-            <Grid item md={2} container>
-              {solution.type && (
-                <Typography
-                  variant="h6"
-                  className={clsx(classes.tag, classes.solutionType)}
-                >
-                  <LabelIcon className={classes.solutionTypeIcon} />
-                  {solution.type}
-                </Typography>
-              )}
+            <Grid item md={4}>
+              <Grid item md={12} container justify="flex-end">
+                {solution.type && (
+                  <Typography
+                    variant="caption"
+                    className={clsx(classes.tag, classes.solutionType)}
+                  >
+                    <LabelIcon className={classes.solutionTypeIcon} />
+                    {solution.type}
+                  </Typography>
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
+              {
+                <div
+                  dangerouslySetInnerHTML={{ __html: solution.contentRich }}
+                />
+              }
             </Grid>
             <Grid item md={4}>
               <Grid item md={12} container justify="flex-end">
@@ -316,38 +329,26 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   {solution.dimension}
                 </Typography>
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
-              <Typography variant="h5" className={classes.label}>
-                {`${t('views.solutions.form.contentLabel')}:`}
-              </Typography>
-              {
-                <div
-                  dangerouslySetInnerHTML={{ __html: solution.contentRich }}
-                />
-              }
-            </Grid>
-            <Grid item md={4}>
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {solution.indicatorsNames.map((indicator, index) => {
-                  return (
-                    <Typography
-                      key={index}
-                      variant="caption"
-                      className={classes.tag}
-                      style={{
-                        backgroundColor: getIndicatorColorByDimension(
-                          solution.dimension || ''
-                        )
-                      }}
-                    >
-                      {indicator}
-                    </Typography>
-                  );
-                })}
-              </div>
+              <Grid item md={12} container justify="flex-end">
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  {solution.indicatorsNames.map((indicator, index) => {
+                    return (
+                      <Typography
+                        key={index}
+                        variant="caption"
+                        className={classes.tag}
+                        style={{
+                          backgroundColor: getIndicatorColorByDimension(
+                            solution.dimension || ''
+                          )
+                        }}
+                      >
+                        {indicator}
+                      </Typography>
+                    );
+                  })}
+                </div>
+              </Grid>
             </Grid>
           </Grid>
           <Grid item md={8}>

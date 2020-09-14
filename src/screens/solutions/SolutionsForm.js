@@ -40,7 +40,6 @@ const inputStyle = {
 
 const useStyles = makeStyles(theme => ({
   form: {
-    width: '100vw',
     height: '100%'
   },
   innerFrom: {
@@ -251,13 +250,15 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           ? user.organization.id
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
-      values.type = values.solutionType.label;
+      values.type = values.solutionType.value;
       values.resources = solution.resources
         ? solution.resources.concat(values.resources ? values.resources : [])
         : values.resources;
 
+      let redirectId;
       saveOrUpdateSolution(user, values)
-        .then(() => {
+        .then(response => {
+          redirectId = !!id ? id : response.data.data.createSolution.id;
           enqueueSnackbar(t('views.solutions.form.save.success'), {
             variant: 'success',
             action: key => (
@@ -279,7 +280,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
         })
         .finally(() => {
           setLoading(false);
-          history.push(`/solutions`);
+          history.push(`/solution/${redirectId}`);
         });
     });
   };
@@ -434,7 +435,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
             <div className={classes.innerFrom}>
               {/* Show organizations switch and country selector */}
               <Grid container spacing={1}>
-                <Grid item md={1} sm={1} xs={1}>
+                <Grid item lg={'auto'} md={1} sm={1} xs={1}>
                   <Switch
                     checked={values.showOrg}
                     onChange={() => setFieldValue('showOrg', !values.showOrg)}
@@ -454,8 +455,8 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     item
                     lg={7}
                     md={7}
-                    sm={11}
-                    xs={11}
+                    sm={5}
+                    xs={5}
                     container
                     alignItems="center"
                   >
@@ -467,7 +468,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       </>
                     )}
                   </Grid>
-                  <Grid>
+                  <Grid item lg={4} md={4} sm={4} xs={4}>
                     <SolutionLangPicker
                       language={values.language}
                       setLanguage={lang => {
@@ -521,6 +522,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                           })
                         )
                       }
+                      parentLang={values.language}
                       error={touched.country && !values.country}
                       required={true}
                     />
@@ -539,6 +541,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                           })
                         )
                       }
+                      parentLang={values.language}
                       error={touched.dimension && !values.dimension}
                       required={true}
                     />
@@ -557,6 +560,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                           })
                         )
                       }
+                      parentLang={values.language}
                       error={
                         touched.indicators &&
                         (!values.indicators || values.indicators.length === 0)
@@ -572,6 +576,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       onChangeSolutionType={solutionType =>
                         setFieldValue('solutionType', solutionType)
                       }
+                      parentLang={values.language}
                       isClearable={true}
                     />
                   </Grid>
@@ -642,7 +647,13 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   ]}
                 />
                 <div className={classes.buttonContainer}>
-                  <Button variant="outlined" disabled={isSubmitting}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      history.push(`/solutions`);
+                    }}
+                    disabled={isSubmitting}
+                  >
                     {t('general.cancel')}
                   </Button>
 
