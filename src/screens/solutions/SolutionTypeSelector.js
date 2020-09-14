@@ -33,7 +33,8 @@ const solutionTypeSelector = ({
   solutionTypeData,
   onChangeSolutionType,
   className,
-  isClearable
+  isClearable,
+  parentLang
 }) => {
   const {
     t,
@@ -47,7 +48,8 @@ const solutionTypeSelector = ({
 
   useEffect(() => {
     setLoading(true);
-    getSolutionTypes(user, language)
+    let lang = !!parentLang ? parentLang : language;
+    getSolutionTypes(user, lang)
       .then(response => {
         const typeOptions = _.get(response, 'data.data.solutionTypes', []).map(
           type => ({
@@ -58,7 +60,7 @@ const solutionTypeSelector = ({
         setTypeOptions(typeOptions);
       })
       .finally(() => setLoading(false));
-  }, [language]);
+  }, [language, parentLang]);
 
   return (
     <div className={clsx(classes.container, className)}>

@@ -8,7 +8,7 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
-import filePreview from '../../assets/archive.png';
+import { getPreviewForFile } from '../../utils/files-utils';
 import { MB_SIZE } from '../../utils/files-utils';
 
 const useStyles = makeStyles(theme => ({
@@ -152,7 +152,7 @@ const FileUploader = ({ files, setFiles }) => {
   };
 
   const thumbs = files.map(file => (
-    <div className={classes.preview} key={file.name}>
+    <div className={classes.preview} key={file.name} data-testid={file.name}>
       <div className={classes.thumb}>
         <div className={classes.thumbInner}>
           <IconButton
@@ -162,11 +162,7 @@ const FileUploader = ({ files, setFiles }) => {
           >
             <CloseIcon className={classes.color} />
           </IconButton>
-          <img
-            alt=""
-            src={!!file.preview ? file.preview : filePreview}
-            className={classes.img}
-          />
+          <img alt="" src={getPreviewForFile(file)} className={classes.img} />
         </div>
       </div>
       <Tooltip title={file.name}>
@@ -186,7 +182,10 @@ const FileUploader = ({ files, setFiles }) => {
       <Typography variant="h6" className={classes.inputLabel}>
         {`${t('views.solutions.form.resource')}:`}
       </Typography>
-      <div {...getRootProps({ className: classes.dropzone })}>
+      <div
+        {...getRootProps({ className: classes.dropzone })}
+        data-testid="dropzone"
+      >
         <input {...getInputProps()} />
         <InsertDriveFileIcon className={classes.icon} />
         <Typography style={{ paddingTop: 15 }} variant="subtitle2">

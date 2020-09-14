@@ -61,8 +61,7 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS }
+    { item: 'map', platform: NEW }
   ],
   ROLE_SURVEY_USER_ADMIN: [
     // Facilitator admin user
@@ -71,8 +70,7 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS }
+    { item: 'map', platform: NEW }
   ],
   ROLE_SURVEY_TAKER: [
     // Surveyor  user
@@ -108,6 +106,7 @@ export const checkAccessToSolution = ({ role, hub, organization }) => {
   else if (role === ROLES_NAMES.ROLE_HUB_ADMIN && !!hub && hub.allowSolutions)
     return true;
   else if (
+    checkAccess({ role }, 'solutions') &&
     !!organization &&
     !!organization.application &&
     organization.application.allowSolutions &&
