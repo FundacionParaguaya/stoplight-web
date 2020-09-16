@@ -35,7 +35,7 @@ const styles = theme => ({
   solutionImage: {
     display: 'block',
     height: 175,
-    right: -60,
+    right: -38,
     position: 'absolute',
     top: -5,
     zIndex: 0,
