@@ -28,6 +28,9 @@ import * as _ from 'lodash';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Tooltip from '@material-ui/core/Tooltip';
 import { getPreviewForFile } from '../../utils/files-utils';
+import ExitSolutionModal from './ExitSolutionModal';
+import { Prompt } from 'react-router';
+import clsx from 'clsx';
 
 const inputStyle = {
   height: 25,
@@ -211,6 +214,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
   const [plainContent, setPlainContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [solution, setSolution] = useState({});
+  const [openExitModal, setOpenExitModal] = useState(false);
 
   //Validation criterias
   const fieldIsRequired = 'validation.fieldIsRequired';
@@ -302,6 +306,13 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
     setSolution(updatedSolution);
   };
 
+  window.addEventListener('beforeunload', function(e) {
+    // Cancel the event
+    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    // Chrome requires returnValue to be set
+    e.returnValue = '';
+  });
+
   useEffect(() => {
     if (!!id) {
       setLoading(true);
@@ -368,6 +379,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           <CircularProgress />
         </div>
       )}
+      <ExitSolutionModal
+        open={openExitModal}
+        onDissmiss={() => setOpenExitModal(false)}
+        onClose={() => history.push(`/solutions`)}
+      />
+      <Prompt
+        when={!openExitModal}
+        message={t('views.solutions.exitModal.confirmText')}
+      />
+
       <Formik
         initialValues={{
           id: (!!solution.id && solution.id) || null,
@@ -410,10 +431,10 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       input: classes.inputTypeOne
                     }
                   }}
-                  className={[
+                  className={clsx(
                     classes.input,
-                    !values.title ? classes.inputDashed : null
-                  ]}
+                    !values.title && classes.inputDashed
+                  )}
                 />
                 <InputWithFormik
                   placeholder={t('views.solutions.form.subtitle')}
@@ -425,10 +446,10 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       input: classes.inputTypeTwo
                     }
                   }}
-                  className={[
+                  className={clsx(
                     classes.input,
-                    !values.subtitle ? classes.inputDashed : null
-                  ]}
+                    !values.subtitle && classes.inputDashed
+                  )}
                 />
               </div>
             </div>
@@ -641,16 +662,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       input: classes.inputTypeThree
                     }
                   }}
-                  className={[
+                  className={clsx(
                     classes.input,
-                    !values.contact ? classes.inputDashed : null
-                  ]}
+                    !values.contact && classes.inputDashed
+                  )}
                 />
                 <div className={classes.buttonContainer}>
                   <Button
                     variant="outlined"
                     onClick={() => {
-                      history.push(`/solutions`);
+                      setOpenExitModal(true);
                     }}
                     disabled={isSubmitting}
                   >

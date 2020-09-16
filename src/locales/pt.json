@@ -645,6 +645,11 @@
           "failed": "Não foi possível salvar o usuário"
         }
       },
+      "exitModal": {
+        "confirmTitle": "Confirmação de partida",
+        "confirmText": "Tem certeza que quer sair?",
+        "cannotUndo": "Você perderá todas as suas alterações!!"
+      },
       "delete": {
         "confirmTitle": "Confirmação da eliminação",
         "confirmText": "Tem a certeza de que quer eliminar este usuário?",

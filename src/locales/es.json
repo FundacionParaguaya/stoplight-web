@@ -752,6 +752,11 @@
           "failed": "No es posible guardar la solución"
         }
       },
+      "exitModal": {
+        "confirmTitle": "Confirmación de salida",
+        "confirmText": "¿Está seguro que desea salir?",
+        "cannotUndo": "Perderá todos sus cambios!!"
+      },
       "delete": {
         "confirmTitle": "Confirmación de Eliminación",
         "confirmText": "¿Está seguro que desea eliminar esta Solución?",
