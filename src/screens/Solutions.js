@@ -281,6 +281,7 @@ const Solutions = ({ classes, user, history }) => {
             dimensionData={filterInput.dimension}
             indicatorsData={filterInput.indicators}
             solutionTypeData={filterInput.solutionType}
+            language={filterInput.lang}
             onChangeCountry={country => setFilterInput({ country })}
             onChangeDimension={dimension => setFilterInput({ dimension })}
             onChangeIndicator={indicators => setFilterInput({ indicators })}

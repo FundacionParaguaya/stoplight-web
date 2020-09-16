@@ -550,6 +550,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     <IndicatorSelector
                       withTitle={false}
                       indicatorsData={values.indicators}
+                      dimensionData={values.dimension}
                       onChangeIndicator={indicators =>
                         setFieldValue('indicators', indicators)
                       }

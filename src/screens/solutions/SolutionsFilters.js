@@ -51,6 +51,7 @@ const SolutionFilters = ({
   dimensionData,
   indicatorsData,
   solutionTypeData,
+  language,
   onChangeCountry,
   onChangeDimension,
   onChangeIndicator,
@@ -75,6 +76,7 @@ const SolutionFilters = ({
             <CountrySelector
               withTitle={false}
               countryData={countryData}
+              parentLang={language}
               onChangeCountry={onChangeCountry}
               error={false}
               required={false}
@@ -85,6 +87,7 @@ const SolutionFilters = ({
           <DimensionSelector
             withTitle={false}
             dimensionData={dimensionData}
+            parentLang={language}
             onChangeDimension={onChangeDimension}
             error={false}
             required={false}
@@ -95,6 +98,8 @@ const SolutionFilters = ({
           <IndicatorSelector
             withTitle={false}
             indicatorsData={indicatorsData}
+            dimensionData={dimensionData}
+            parentLang={language}
             onChangeIndicator={onChangeIndicator}
             error={false}
             required={false}
@@ -117,6 +122,7 @@ const SolutionFilters = ({
             withTitle={false}
             solutionTypeData={solutionTypeData}
             onChangeSolutionType={onChangeSolutionType}
+            parentLang={language}
             isClearable={true}
             className={classes.filter}
           />
