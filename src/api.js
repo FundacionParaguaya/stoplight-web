@@ -119,7 +119,7 @@ export const getSurveysByUser = user =>
     })
   });
 
-export const surveysByUserPaginated = (user, page) =>
+export const surveysByUserPaginated = (user, filter, page) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -128,8 +128,9 @@ export const surveysByUserPaginated = (user, page) =>
     },
     data: JSON.stringify({
       query:
-        'query surveysByUserPaginated($page: Int, $sortBy: String, $sortDirection: String) { surveysByUserPaginated(page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {id,title, indicatorsCount, createdAt, organizations{id,name}, applications{id,name}} totalPages totalElements }}',
+        'query surveysByUserPaginated($filter: String, $page: Int, $sortBy: String, $sortDirection: String) { surveysByUserPaginated(filter:$filter, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {id,title, indicatorsCount, createdAt, organizations{id,name}, applications{id,name}} totalPages totalElements }}',
       variables: {
+        filter: filter,
         page: page,
         sortBy: '',
         sortDirection: ''
@@ -1224,7 +1225,7 @@ export const getDimensionsByUser = (user, lang) =>
   });
 
 // get a list of indicators available to the authorized used
-export const getIndicatorsByUser = (user, lang) =>
+export const getIndicatorsByUser = (user, dimension, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -1233,7 +1234,11 @@ export const getIndicatorsByUser = (user, lang) =>
       'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
-      query: 'query { getIndicators { codeName, name, surveyIndicatorId } }'
+      query:
+        'query getIndicators( $dimension: String) { getIndicators (dimension: $dimension) { codeName, name, surveyIndicatorId  } }',
+      variables: {
+        dimension: dimension
+      }
     })
   });
 

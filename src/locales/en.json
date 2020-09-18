@@ -124,6 +124,10 @@
         "assignSurvey": "Assign survey",
         "surveyAssigned": "Saved correctly",
         "surveyAssignError": "An error occurred while assigning survey. Try again"
+      },
+      "filter": {
+        "search": "Search",
+        "searchBy": "by title"
       }
     },
     "analytics": {

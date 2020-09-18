@@ -124,6 +124,10 @@
         "assignSurvey": "Asignar encuesta",
         "surveyAssigned": "Guardado correctamente",
         "surveyAssignError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar"
+      },
+      "filter": {
+        "search": "Buscar",
+        "searchBy": "por título"
       }
     },
     "analytics": {

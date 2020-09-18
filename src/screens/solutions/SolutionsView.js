@@ -282,7 +282,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
         </div>
         <div className={classes.innerFrom}>
           <Grid container>
-            <Grid item md={8} container>
+            <Grid item md={8} container justify="space-between">
               {solution.showAuthor && (
                 <Grid item lg={5} md={6} xs={8} container>
                   <GroupIcon className={classes.icon} />
@@ -293,7 +293,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   </Typography>
                 </Grid>
               )}
-              <Grid item lg={3} md={4} container>
+              <Grid item lg={3} md={4} container justify="flex-end">
                 <LocationOnIcon className={classes.icon} />
                 <Typography variant="h6">{country}</Typography>
               </Grid>

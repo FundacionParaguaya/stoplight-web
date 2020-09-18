@@ -455,32 +455,16 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
             </div>
             <div className={classes.innerFrom}>
               {/* Show organizations switch and country selector */}
-              <Grid container spacing={1}>
-                <Grid item lg={'auto'} md={1} sm={1} xs={1}>
-                  <Switch
-                    checked={values.showOrg}
-                    onChange={() => setFieldValue('showOrg', !values.showOrg)}
-                    color="primary"
-                  />
-                </Grid>
-                <Grid
-                  item
-                  md={7}
-                  sm={7}
-                  xs={12}
-                  container
-                  justify="space-between"
-                  alignItems="center"
-                >
-                  <Grid
-                    item
-                    lg={7}
-                    md={7}
-                    sm={5}
-                    xs={5}
-                    container
-                    alignItems="center"
-                  >
+              <Grid item md={8} sm={8} xs={12} container>
+                <Grid item md={8} sm={8} xs={12} container>
+                  <Grid item lg={'auto'} md={3} sm={4} xs={4}>
+                    <Switch
+                      checked={values.showOrg}
+                      onChange={() => setFieldValue('showOrg', !values.showOrg)}
+                      color="primary"
+                    />
+                  </Grid>
+                  <Grid item lg={8} md={8} container alignItems="center">
                     {values.showOrg && (
                       <>
                         <Typography variant="subtitle1" align="center">
@@ -489,23 +473,24 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       </>
                     )}
                   </Grid>
-                  <Grid item lg={4} md={4} sm={4} xs={4}>
-                    <SolutionLangPicker
-                      language={values.language}
-                      setLanguage={lang => {
-                        setFieldValue('language', lang);
-                      }}
-                    />
-                  </Grid>
                 </Grid>
 
                 <Grid
                   item
+                  lg={4}
                   md={4}
                   sm={4}
-                  xs={12}
-                  style={{ display: 'flex' }}
-                ></Grid>
+                  xs={4}
+                  container
+                  justify="flex-end"
+                >
+                  <SolutionLangPicker
+                    language={values.language}
+                    setLanguage={lang => {
+                      setFieldValue('language', lang);
+                    }}
+                  />
+                </Grid>
               </Grid>
               <Grid container spacing={2} style={{ minHeight: '40vh' }}>
                 <Grid item md={8} sm={8} xs={12}>
@@ -571,6 +556,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     <IndicatorSelector
                       withTitle={false}
                       indicatorsData={values.indicators}
+                      dimensionData={values.dimension}
                       onChangeIndicator={indicators =>
                         setFieldValue('indicators', indicators)
                       }

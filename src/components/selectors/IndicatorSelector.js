@@ -31,6 +31,7 @@ const IndicatorSelector = ({
   withTitle,
   user,
   indicatorsData,
+  dimensionData,
   onChangeIndicator,
   onBlur,
   required,
@@ -50,9 +51,10 @@ const IndicatorSelector = ({
   const label = `${t('views.indicatorFilter.label')} ${required ? ' *' : ''}`;
 
   useEffect(() => {
+    let dimension = !!dimensionData ? dimensionData.label : '';
     setLoading(true);
     let lang = !!parentLang ? parentLang : language;
-    getIndicatorsByUser(user, lang)
+    getIndicatorsByUser(user, dimension, lang)
       .then(response => {
         const indicators = _.get(response, 'data.data.getIndicators', []).map(
           indicator => ({
@@ -64,7 +66,7 @@ const IndicatorSelector = ({
         setIndicatorOptions(indicators);
       })
       .finally(() => setLoading(false));
-  }, [language, parentLang]);
+  }, [language, parentLang, dimensionData]);
 
   return (
     <div className={classes.container}>

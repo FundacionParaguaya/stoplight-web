@@ -18,48 +18,54 @@ import withLayout from '../components/withLayout';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 import AssignModal from './surveys/AssignModal';
+import SearchTextFilter from '../components/filters/SearchTextFilter';
 
 const Surveys = ({ classes, t, user, i18n: { language } }) => {
   const [surveys, setSurveys] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState({});
   const [paginationData, setPaginationData] = useState({
-    page: 0,
+    page: 1,
     totalPages: 1,
     prevPage: 0
   });
   const dateFormat = getDateFormatByLocale(language);
 
-  const getSurveys = () => {
-    let page = paginationData.page;
+  const getSurveys = overwrite => {
+    let page = overwrite ? 1 : paginationData.page;
 
-    surveysByUserPaginated(user, page)
-      .then(response => {
-        setSurveys([
-          ...surveys,
-          ...response.data.data.surveysByUserPaginated.content
-        ]);
+    if (page !== paginationData.prevPage || overwrite) {
+      setLoading(true);
+      surveysByUserPaginated(user, filter, page - 1)
+        .then(response => {
+          let data = response.data.data.surveysByUserPaginated.content;
+          let newSurveys = overwrite ? data : [...surveys, ...data];
 
-        setPaginationData({
-          page: page,
-          totalPages: response.data.data.surveysByUserPaginated.totalPages,
-          prevPage: page
-        });
-      })
-      .finally(() => setLoading(false));
+          setSurveys(newSurveys);
 
-    /* getSurveysByUser(user)
-      .then(response => {
-        setSurveys(response.data);
-      })
-      .finally(() => setLoading(false));
-      */
+          setPaginationData({
+            page: page,
+            totalPages: response.data.data.surveysByUserPaginated.totalPages,
+            prevPage: page
+          });
+        })
+        .finally(() => setLoading(false));
+    }
   };
 
   useEffect(() => {
-    getSurveys();
+    getSurveys(false);
+  }, []);
+
+  useEffect(() => {
+    !loading && getSurveys(false);
   }, [paginationData.page]);
+
+  useEffect(() => {
+    !loading && getSurveys(true);
+  }, [filter]);
 
   const nextPage = () => {
     if (paginationData.page + 1 <= paginationData.totalPages)
@@ -69,7 +75,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
       });
   };
 
-  const showHubs = () => {
+  const showAdminFeatures = () => {
     return (
       user.role === ROLES_NAMES.ROLE_ROOT ||
       user.role === ROLES_NAMES.ROLE_PS_TEAM
@@ -102,6 +108,12 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     setSurveys(newSurveys);
   };
 
+  const onChangeFilterText = e => {
+    if (e.key === 'Enter') {
+      setFilter(e.target.value);
+    }
+  };
+
   return (
     <div className={classes.mainSurveyContainerBoss}>
       <AssignModal
@@ -110,6 +122,11 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
         toggleModal={toggleModal}
         updateSurveys={updateSurveys}
       />
+      {loading && (
+        <div className={classes.spinnerWrapper}>
+          <CircularProgress size={50} thickness={2} />
+        </div>
+      )}
       <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
@@ -122,10 +139,12 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
           />
         </div>
         <div className={classes.listContainer}>
-          {loading && (
-            <div className={classes.spinnerWrapper}>
-              <CircularProgress size={50} thickness={2} />
-            </div>
+          {showAdminFeatures() && (
+            <SearchTextFilter
+              onChangeInput={onChangeFilterText}
+              searchLabel={t('views.survey.filter.search')}
+              searchByLabel={t('views.survey.filter.searchBy')}
+            />
           )}
           <Grid container spacing={2}>
             {surveys.map(survey => {
@@ -151,7 +170,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                       )}
                     </div>
                     <div className={classes.tagsContainer}>
-                      {showHubs() &&
+                      {showAdminFeatures() &&
                         survey.applications.slice(0, 3).map(hub => {
                           return (
                             <Typography
@@ -163,7 +182,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                             </Typography>
                           );
                         })}
-                      {showHubs() && survey.applications.length > 3 && (
+                      {showAdminFeatures() && survey.applications.length > 3 && (
                         <Typography variant="caption" className={classes.tag}>
                           ...
                         </Typography>
@@ -215,7 +234,6 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                 className={classes.showMoreButton}
                 component="span"
                 onClick={() => {
-                  setLoading(true);
                   nextPage();
                 }}
               >
@@ -326,10 +344,16 @@ const styles = theme => ({
     }
   },
   spinnerWrapper: {
+    zIndex: 1000,
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'center',
-    height: 500,
-    alignItems: 'center'
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   },
   button: {
     marginBottom: 20

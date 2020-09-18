@@ -124,6 +124,10 @@
         "assignSurvey": "Atribuir pesquisa",
         "surveyAssigned": "Registado correctamente",
         "errorSaving": "Ocorreu um erro ao atribuir a pesquisa. Por favor, tente novamente."
+      },
+      "filter": {
+        "search": "Busque",
+        "searchBy": "por título"
       }
     },
     "analytics": {
