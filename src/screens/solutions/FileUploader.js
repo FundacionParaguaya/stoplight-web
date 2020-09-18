@@ -112,7 +112,7 @@ const FileUploader = ({ files, setFiles }) => {
 
   const onDropAccepted = acceptedFiles => {
     let dropSize = 0;
-    let newFiles = acceptedFiles.map(file => {
+    let accepted = acceptedFiles.map(file => {
       dropSize += file.size;
       return file.type.includes('image/')
         ? Object.assign(file, {
@@ -120,7 +120,8 @@ const FileUploader = ({ files, setFiles }) => {
           })
         : file;
     });
-    setFiles([...files, ...newFiles]);
+    let newFiles = [...files, ...accepted];
+    setFiles(newFiles);
     setFilesSize(filesSize + dropSize);
   };
 
