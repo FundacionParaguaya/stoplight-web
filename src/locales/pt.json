@@ -743,6 +743,7 @@
       "form": {
         "editButton": "EDITAR",
         "deleteButton": "ELIMINAR",
+        "userNotAllowed": "Operação não permitida",
         "title": "Título da solução",
         "subtitle": "Adicione uma descrição à sua solução...",
         "subtitleLabel": "Legenda",
