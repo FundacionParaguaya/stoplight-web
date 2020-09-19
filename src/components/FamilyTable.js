@@ -68,7 +68,8 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '12vw',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    cursor: 'pointer'
   },
   documentLabel: {
     fontSize: '14px',
@@ -285,6 +286,9 @@ const FamilyTable = ({
                     <Typography
                       className={classes.nameLabelStyle}
                       variant="subtitle1"
+                      onClick={event =>
+                        redirectToFamily(event, rowData.familyId)
+                      }
                     >
                       {rowData.name}
                     </Typography>
