@@ -64,7 +64,8 @@ const styles = theme => ({
     fontSize: '18px',
     marginRight: 'auto',
     marginBottom: 7,
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
+    cursor: 'pointer'
   },
   descriptionContainer: {
     height: 80,
@@ -305,7 +306,13 @@ const Solutions = ({ classes, user, history }) => {
               return (
                 <Grid item key={solution.id} xs={12} sm={4} md={4} xl={3}>
                   <div className={classes.cardContainer}>
-                    <Typography variant="h6" className={classes.cardTitle}>
+                    <Typography
+                      variant="h6"
+                      className={classes.cardTitle}
+                      onClick={() => {
+                        history.push(`solution/${solution.id}`);
+                      }}
+                    >
                       {solution.title}
                     </Typography>
                     <div className={classes.descriptionContainer}>
