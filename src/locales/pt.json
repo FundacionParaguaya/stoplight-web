@@ -594,6 +594,7 @@
         "partnerType": "Tipo de Sócio",
         "allowRetake": "Funcionalidade de seguimento:",
         "allowSolutions": "Banco de solução:",
+        "allowInteractiveHelp": "Ajuda interativa:",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"
