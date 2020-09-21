@@ -205,9 +205,10 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
   }, []);
 
   useEffect(() => {
-    document
-      .querySelectorAll('#content > p')
-      .forEach(e => (e.style.textAlignLast = e.style.textAlign));
+    document.querySelectorAll('#content > p').forEach(e => {
+      e.style.textAlignLast = e.style.textAlign;
+      e.style.marginTop = '3px';
+    });
   }, [solution]);
 
   const showButtons = ({ role }) => {
@@ -329,7 +330,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                 />
               }
             </Grid>
-            <Grid item md={4}>
+            <Grid item md={4} style={{ marginTop: 3 }}>
               <Grid item md={12} container justify="flex-end">
                 <Typography
                   variant="caption"

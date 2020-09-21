@@ -260,6 +260,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
       values.type = values.solutionType.value;
+      !values.type && delete values.type;
       values.resources = solution.resources
         ? solution.resources.concat(values.resources ? values.resources : [])
         : values.resources;
@@ -429,6 +430,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           dimension: (!!solution.dimension && solution.dimension) || '',
           indicators: (!!solution.indicators && solution.indicators) || [],
           contact: (!!solution.contactInfo && solution.contactInfo) || '',
+          type: (!!solution.type && solution.type.value) || '',
           language:
             (!!solution.lang && solution.lang) ||
             localStorage.getItem('language') ||
