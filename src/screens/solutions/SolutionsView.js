@@ -188,6 +188,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
   useEffect(() => {
     setLoading(true);
     updateSolution(id);
+
     let countryOptions = countries(
       require(`localized-countries/data/${language}`)
     ).array();
@@ -202,6 +203,13 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    document.querySelectorAll('#content > p').forEach(e => {
+      e.style.textAlignLast = e.style.textAlign;
+      e.style.marginTop = '3px';
+    });
+  }, [solution]);
 
   const showButtons = ({ role }) => {
     return (
@@ -312,16 +320,17 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container>
+          <Grid container spacing={2}>
             <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
               {
                 <div
+                  id="content"
                   className={classes.defaultContentRich}
                   dangerouslySetInnerHTML={{ __html: solution.contentRich }}
                 />
               }
             </Grid>
-            <Grid item md={4}>
+            <Grid item md={4} style={{ marginTop: 3 }}>
               <Grid item md={12} container justify="flex-end">
                 <Typography
                   variant="caption"
@@ -334,24 +343,22 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                 </Typography>
               </Grid>
               <Grid item md={12} container justify="flex-end">
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  {solution.indicatorsNames.map((indicator, index) => {
-                    return (
-                      <Typography
-                        key={index}
-                        variant="caption"
-                        className={classes.tag}
-                        style={{
-                          backgroundColor: getIndicatorColorByDimension(
-                            solution.dimension || ''
-                          )
-                        }}
-                      >
-                        {indicator}
-                      </Typography>
-                    );
-                  })}
-                </div>
+                {solution.indicatorsNames.map((indicator, index) => {
+                  return (
+                    <Typography
+                      key={index}
+                      variant="caption"
+                      className={classes.tag}
+                      style={{
+                        backgroundColor: getIndicatorColorByDimension(
+                          solution.dimension || ''
+                        )
+                      }}
+                    >
+                      {indicator}
+                    </Typography>
+                  );
+                })}
               </Grid>
             </Grid>
           </Grid>

@@ -736,6 +736,7 @@
       "form": {
         "editButton": "EDIT",
         "deleteButton": "DELETE",
+        "userNotAllowed": "Operation not allowed",
         "title": "Solution title",
         "subtitle": "Add a description for you solution...",
         "subtitleLabel": "Subtitle",

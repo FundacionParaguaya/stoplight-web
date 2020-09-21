@@ -738,6 +738,7 @@
       "form": {
         "editButton": "EDITAR",
         "deleteButton": "ELIMINAR",
+        "userNotAllowed": "Operación no permitida",
         "title": "Título de la solución",
         "subtitle": "Agrega una descripción a tu solución...",
         "subtitleLabel": "Subtítulo",

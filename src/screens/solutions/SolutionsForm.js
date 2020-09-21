@@ -4,33 +4,38 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
+import Tooltip from '@material-ui/core/Tooltip';
 import CloseIcon from '@material-ui/icons/Close';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import clsx from 'clsx';
 import { Form, Formik } from 'formik';
+import countries from 'localized-countries';
+import * as _ from 'lodash';
 import { withSnackbar } from 'notistack';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Prompt } from 'react-router';
+import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
-import { saveOrUpdateSolution, submitResources } from '../../api';
+import {
+  getSolutionById,
+  getSolutionTypes,
+  saveOrUpdateSolution,
+  submitResources
+} from '../../api';
 import InputWithFormik from '../../components/InputWithFormik';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import DimensionSelector from '../../components/selectors/DimensionSelector';
 import IndicatorSelector from '../../components/selectors/IndicatorSelector';
-import SolutionTypeSelector from './SolutionTypeSelector';
 import withLayout from '../../components/withLayout';
+import { getPreviewForFile } from '../../utils/files-utils';
+import { ROLES_NAMES } from '../../utils/role-utils';
 import Editor from './Editor';
+import ExitSolutionModal from './ExitSolutionModal';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
-import { getSolutionById, getSolutionTypes } from '../../api';
-import { useParams } from 'react-router-dom';
-import countries from 'localized-countries';
-import * as _ from 'lodash';
-import GetAppIcon from '@material-ui/icons/GetApp';
-import Tooltip from '@material-ui/core/Tooltip';
-import { getPreviewForFile } from '../../utils/files-utils';
-import ExitSolutionModal from './ExitSolutionModal';
-import { Prompt } from 'react-router';
-import clsx from 'clsx';
+import SolutionTypeSelector from './SolutionTypeSelector';
 
 const inputStyle = {
   height: 25,
@@ -255,6 +260,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           : null;
       values.hub = !!user.hub ? user.hub.id : null;
       values.type = values.solutionType.value;
+      !values.type && delete values.type;
       values.resources = solution.resources
         ? solution.resources.concat(values.resources ? values.resources : [])
         : values.resources;
@@ -283,7 +289,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           });
         })
         .finally(() => {
-          setLoading(false);
           history.push(`/solution/${redirectId}`);
         });
     });
@@ -306,70 +311,94 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
     setSolution(updatedSolution);
   };
 
-  window.addEventListener('beforeunload', function(e) {
-    // Cancel the event
-    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-    // Chrome requires returnValue to be set
-    e.returnValue = '';
-  });
+  const canEdit = solution => {
+    return (
+      (!!user.organization &&
+        !!user.organization.id &&
+        user.organization.id === solution.organization) ||
+      (!!user.hub &&
+        !!user.hub.id &&
+        user.hub.id === solution.hub &&
+        user.role === ROLES_NAMES.ROLE_HUB_ADMIN) ||
+      user.role === ROLES_NAMES.ROLE_ROOT ||
+      user.role === ROLES_NAMES.ROLE_PS_TEAM
+    );
+  };
 
   useEffect(() => {
+    window.onbeforeunload = () => true;
     if (!!id) {
       setLoading(true);
-      getSolutionById(user, id).then(res => {
-        getSolutionTypes(user, language).then(response => {
-          const typeOptions = _.get(
-            response,
-            'data.data.solutionTypes',
-            []
-          ).map(type => ({
-            label: type.description,
-            value: type.code
-          }));
-          let countryOptions = countries(
-            require(`localized-countries/data/${language}`)
-          ).array();
+      getSolutionById(user, id)
+        .then(res => {
+          if (!canEdit(solution)) throw new Error();
+          getSolutionTypes(user, language).then(response => {
+            const typeOptions = _.get(
+              response,
+              'data.data.solutionTypes',
+              []
+            ).map(type => ({
+              label: type.description,
+              value: type.code
+            }));
+            let countryOptions = countries(
+              require(`localized-countries/data/${language}`)
+            ).array();
 
-          const fetchedSolution = res.data.data.getSolutionById;
-          const updatedSolution = {
-            ...fetchedSolution,
-            dimension: {
-              label: fetchedSolution.dimension,
-              value: fetchedSolution.stoplightDimension
-            },
-            country: {
-              label:
-                countryOptions.find(
-                  country => country.code === fetchedSolution.country
-                ) &&
-                countryOptions.find(
-                  country => country.code === fetchedSolution.country
-                ).label,
-              value: fetchedSolution.country
-            },
-            indicators: fetchedSolution.indicatorsCodeNames.map(
-              (item, index) => {
-                return {
-                  codeName: item,
-                  label: fetchedSolution.indicatorsNames[index]
-                };
-              }
-            ),
-            type: {
-              label: fetchedSolution.type,
-              value:
-                typeOptions.find(type => type.label === fetchedSolution.type) &&
-                typeOptions.find(type => type.label === fetchedSolution.type)
-                  .value
-            },
-            lang: fetchedSolution.lang.split('_')[0]
-          };
-          setSolution(updatedSolution);
-          setPlainContent(fetchedSolution.contentText);
-          setLoading(false);
+            const fetchedSolution = res.data.data.getSolutionById;
+            const updatedSolution = {
+              ...fetchedSolution,
+              dimension: {
+                label: fetchedSolution.dimension,
+                value: fetchedSolution.stoplightDimension
+              },
+              country: {
+                label:
+                  countryOptions.find(
+                    country => country.code === fetchedSolution.country
+                  ) &&
+                  countryOptions.find(
+                    country => country.code === fetchedSolution.country
+                  ).label,
+                value: fetchedSolution.country
+              },
+              indicators: fetchedSolution.indicatorsCodeNames.map(
+                (item, index) => {
+                  return {
+                    codeName: item,
+                    label: fetchedSolution.indicatorsNames[index]
+                  };
+                }
+              ),
+              type: {
+                label: fetchedSolution.type,
+                value:
+                  typeOptions.find(
+                    type => type.label === fetchedSolution.type
+                  ) &&
+                  typeOptions.find(type => type.label === fetchedSolution.type)
+                    .value
+              },
+              lang: fetchedSolution.lang.split('_')[0]
+            };
+            setSolution(updatedSolution);
+            setPlainContent(fetchedSolution.contentText);
+            setLoading(false);
+          });
+        })
+        .catch(() => {
+          enqueueSnackbar(t('views.solutions.form.userNotAllowed'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+          history.push('/solutions');
         });
-      });
     }
+    return () => (window.onbeforeunload = undefined);
   }, []);
 
   return (
@@ -385,7 +414,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
         onClose={() => history.push(`/solutions`)}
       />
       <Prompt
-        when={!openExitModal}
+        when={!openExitModal && !loading}
         message={t('views.solutions.exitModal.confirmText')}
       />
 
@@ -401,6 +430,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
           dimension: (!!solution.dimension && solution.dimension) || '',
           indicators: (!!solution.indicators && solution.indicators) || [],
           contact: (!!solution.contactInfo && solution.contactInfo) || '',
+          type: (!!solution.type && solution.type.value) || '',
           language:
             (!!solution.lang && solution.lang) ||
             localStorage.getItem('language') ||
