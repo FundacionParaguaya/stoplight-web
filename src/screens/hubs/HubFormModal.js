@@ -163,6 +163,10 @@ const HubFormModal = ({
       delete values.allowSolutions;
       values.labels.push('allowSolutions');
     }
+    if (values.interactiveHelp) {
+      delete values.interactiveHelp;
+      values.labels.push('interactiveHelp');
+    }
     addOrUpdateHub(user, { ...values, file })
       .then(() => {
         setLoading(false);
@@ -230,8 +234,8 @@ const HubFormModal = ({
               partnerType: (!!hub.partnerType && hub.partnerType) || '',
               allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
               allowSolutions: !!hub.allowSolutions && hub.allowSolutions,
-              allowInteractiveHelp:
-                !!hub.allowInteractiveHelp && hub.allowInteractiveHelp
+              interactiveHelp:
+                !!hub.labels && hub.labels.includes('interactiveHelp')
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -313,15 +317,12 @@ const HubFormModal = ({
                     {t('views.hub.form.allowInteractiveHelp')}
                   </Typography>
                   <Switch
-                    name={'allowInteractiveHelp'}
-                    value={'allowInteractiveHelp'}
+                    name={'interactiveHelp'}
+                    value={'interactiveHelp'}
                     onChange={e => {
-                      setFieldValue(
-                        'allowInteractiveHelp',
-                        !values.allowInteractiveHelp
-                      );
+                      setFieldValue('interactiveHelp', !values.interactiveHelp);
                     }}
-                    checked={values.allowInteractiveHelp}
+                    checked={values.interactiveHelp}
                     color="primary"
                   />
                 </div>
