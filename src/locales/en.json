@@ -455,6 +455,7 @@
     "familyProfile": {
       "organization": "Organization: ",
       "lifemapNumber": "Life Map - Number",
+      "familyDetails": "Family Details",
       "continueWithStoplight": "Take a follow-up survey",
       "viewLifeMap": "View Life Map in Detail",
       "mentor": "Facilitator",
