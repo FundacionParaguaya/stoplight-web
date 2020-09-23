@@ -263,7 +263,7 @@ const PersonalDetails = ({
                     <Grid item container md={12}>
                       <img alt="" height={30} width={30} src={familyFaceIcon} />
                       <Typography variant="h6" className={classes.memberTitle}>
-                        {t('views.family.familyMember')} {index + 2}
+                        {t('views.family.familyMember')} {index + 1}
                       </Typography>
                     </Grid>
                     <Grid item md={12}>
