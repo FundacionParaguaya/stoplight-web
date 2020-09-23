@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import {
   Modal,
   Typography,
-  withStyles,
   Button,
   CircularProgress,
-  IconButton,
-  Checkbox
+  IconButton
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
@@ -21,6 +19,7 @@ import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { useDropzone } from 'react-dropzone';
 import { MB_SIZE, toBase64 } from '../../utils/files-utils';
 import { addOrUpdateHub } from '../../api';
+import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles(theme => ({
   buttonContainerForm: {
@@ -82,10 +81,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: '8vh',
     color: theme.palette.grey.quarter
   },
-  allowRetakeContainer: {
+  switchOptionsContainer: {
     display: 'flex',
     marginBottom: '1rem',
-    marginTop: '1rem'
+    marginTop: '1rem',
+    justifyContent: 'space-between'
   },
   allowRetake: {
     fontWeight: 400,
@@ -122,15 +122,6 @@ const HubFormModal = ({
     { label: 'Special Project', value: 'SPECIAL_PROJECT' }
   ];
   const fieldIsRequired = 'validation.fieldIsRequired';
-
-  const GreenCheckbox = withStyles(theme => ({
-    root: {
-      color: theme.palette.grey.main
-    },
-    checked: {
-      color: theme.palette.primary.main
-    }
-  }))(props => <Checkbox color={'default'} {...props} />);
 
   //Validation criterias
   const validationSchema = Yup.object().shape({
@@ -171,6 +162,10 @@ const HubFormModal = ({
     if (values.allowSolutions) {
       delete values.allowSolutions;
       values.labels.push('allowSolutions');
+    }
+    if (values.interactiveHelp) {
+      delete values.interactiveHelp;
+      values.labels.push('interactiveHelp');
     }
     addOrUpdateHub(user, { ...values, file })
       .then(() => {
@@ -238,7 +233,9 @@ const HubFormModal = ({
               language: (!!hub.language && hub.language) || '',
               partnerType: (!!hub.partnerType && hub.partnerType) || '',
               allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
-              allowSolutions: !!hub.allowSolutions && hub.allowSolutions
+              allowSolutions: !!hub.allowSolutions && hub.allowSolutions,
+              interactiveHelp:
+                !!hub.labels && hub.labels.includes('interactiveHelp')
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -278,36 +275,55 @@ const HubFormModal = ({
                   isClearable={false}
                   required
                 />
-                <div className={classes.allowRetakeContainer}>
+                <div className={classes.switchOptionsContainer}>
                   <Typography
                     variant="subtitle1"
                     className={classes.allowRetake}
                   >
                     {t('views.hub.form.allowRetake')}
                   </Typography>
-                  <GreenCheckbox
+                  <Switch
                     name={'allowRetake'}
                     value={'allowRetake'}
                     onChange={e => {
                       setFieldValue('allowRetake', !values.allowRetake);
                     }}
                     checked={values.allowRetake}
+                    color="primary"
                   />
                 </div>
-                <div className={classes.allowRetakeContainer}>
+                <div className={classes.switchOptionsContainer}>
                   <Typography
                     variant="subtitle1"
                     className={classes.allowRetake}
                   >
                     {t('views.hub.form.allowSolutions')}
                   </Typography>
-                  <GreenCheckbox
+                  <Switch
                     name={'allowSolutions'}
                     value={'allowSolutions'}
                     onChange={e => {
                       setFieldValue('allowSolutions', !values.allowSolutions);
                     }}
                     checked={values.allowSolutions}
+                    color="primary"
+                  />
+                </div>
+                <div className={classes.switchOptionsContainer}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.allowRetake}
+                  >
+                    {t('views.hub.form.allowInteractiveHelp')}
+                  </Typography>
+                  <Switch
+                    name={'interactiveHelp'}
+                    value={'interactiveHelp'}
+                    onChange={e => {
+                      setFieldValue('interactiveHelp', !values.interactiveHelp);
+                    }}
+                    checked={values.interactiveHelp}
+                    color="primary"
                   />
                 </div>
                 <div style={{ position: 'relative', marginBottom: 10 }}>
