@@ -55,6 +55,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import Details from './families/profile/Details';
 
 const FamilyProfile = ({
   classes,
@@ -69,6 +70,7 @@ const FamilyProfile = ({
 }) => {
   //export class FamilyProfile extends Component {
   const [family, setFamily] = useState({});
+  const [familyMembers, setFamilyMembers] = useState([]);
   const [firtsParticipant, setFirtsParticipant] = useState({});
   let { familyId } = useParams();
   const dateFormat = getDateFormatByLocale(language);
@@ -176,6 +178,7 @@ const FamilyProfile = ({
       setFamily(response.data.data.familyById);
       setOrgsId([{ value: response.data.data.familyById.organization.id }]);
       setFirtsParticipant(firtsParticipantMap);
+      setFamilyMembers(members);
 
       let mentor = {
         label: response.data.data.familyById.user.username,
@@ -546,6 +549,13 @@ const FamilyProfile = ({
           </Button>
         </div>
       )}
+
+      <Details
+        primaryParticipant={firtsParticipant}
+        familyMembers={familyMembers}
+        latitude={family.latitude}
+        longitude={family.longitude}
+      />
 
       {/* Priorities */}
 
