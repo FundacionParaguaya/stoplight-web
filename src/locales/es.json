@@ -761,7 +761,7 @@
       "exitModal": {
         "confirmTitle": "Confirmación de salida",
         "confirmText": "¿Está seguro que desea salir?",
-        "cannotUndo": "Perderá todos sus cambios!!"
+        "cannotUndo": " ¡Perderá todos sus cambios!"
       },
       "delete": {
         "confirmTitle": "Confirmación de Eliminación",

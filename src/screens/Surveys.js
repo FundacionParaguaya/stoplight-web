@@ -139,13 +139,17 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
           />
         </div>
         <div className={classes.listContainer}>
-          {showAdminFeatures() && (
-            <SearchTextFilter
-              onChangeInput={onChangeFilterText}
-              searchLabel={t('views.survey.filter.search')}
-              searchByLabel={t('views.survey.filter.searchBy')}
-            />
-          )}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={8} md={8}>
+              {showAdminFeatures() && (
+                <SearchTextFilter
+                  onChangeInput={onChangeFilterText}
+                  searchLabel={t('views.survey.filter.search')}
+                  searchByLabel={t('views.survey.filter.searchBy')}
+                />
+              )}
+            </Grid>
+          </Grid>
           <Grid container spacing={2}>
             {surveys.map(survey => {
               return (
