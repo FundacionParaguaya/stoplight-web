@@ -13,18 +13,6 @@ import MarkerIcon from '../../../assets/marker.png';
 import { getDateFormatByLocale } from '../../../utils/date-utils';
 
 const useStyles = makeStyles(theme => ({
-  loadingContainer: {
-    zIndex: 1000,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'fixed',
-    backgroundColor: theme.palette.text.light,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    left: 0
-  },
   root: {
     backgroundColor: theme.palette.background.default,
     paddingLeft: '12%',
@@ -249,53 +237,63 @@ const PersonalDetails = ({
 
         {value === 2 && (
           <Grid container>
-            {familyMembers.map(
-              (member, index) =>
-                !member.firstParticipant && (
-                  <Grid
-                    item
-                    container
-                    md={6}
-                    spacing={2}
-                    key={index}
-                    style={{ marginTop: 10 }}
-                  >
-                    <Grid item container md={12}>
-                      <img alt="" height={30} width={30} src={familyFaceIcon} />
-                      <Typography variant="h6" className={classes.memberTitle}>
-                        {t('views.family.familyMember')} {index + 1}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={12}>
-                      <Typography variant="h6" className={classes.label}>
-                        {`${t('views.family.firstName')}:`}
-                      </Typography>
-                      <Typography variant="h6" className={classes.answer}>
-                        {member.firstName}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={12}>
-                      <Typography variant="h6" className={classes.label}>
-                        {`${t('views.family.gender')}:`}
-                      </Typography>
-                      <Typography variant="h6" className={classes.answer}>
-                        {member.genderText}
-                      </Typography>
-                    </Grid>
-                    <Grid item md={12}>
-                      <Typography variant="h6" className={classes.label}>
-                        {`${t('views.family.dateOfBirth')}:`}
-                      </Typography>
-                      <Typography variant="h6" className={classes.answer}>
-                        {!!member.birthDate &&
-                          moment
-                            .unix(member.birthDate)
-                            .utc()
-                            .format(dateFormat)}
-                      </Typography>
-                    </Grid>
+            {familyMembers.length > 0 ? (
+              familyMembers.map((member, index) => (
+                <Grid
+                  item
+                  container
+                  md={6}
+                  spacing={2}
+                  key={index}
+                  style={{ marginTop: 10 }}
+                >
+                  <Grid item container md={12}>
+                    <img alt="" height={30} width={30} src={familyFaceIcon} />
+                    <Typography variant="h6" className={classes.memberTitle}>
+                      {t('views.family.familyMember')} {index + 2}
+                    </Typography>
                   </Grid>
-                )
+                  <Grid item md={12}>
+                    <Typography variant="h6" className={classes.label}>
+                      {`${t('views.family.firstName')}:`}
+                    </Typography>
+                    <Typography variant="h6" className={classes.answer}>
+                      {member.firstName}
+                    </Typography>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Typography variant="h6" className={classes.label}>
+                      {`${t('views.family.gender')}:`}
+                    </Typography>
+                    <Typography variant="h6" className={classes.answer}>
+                      {member.genderText}
+                    </Typography>
+                  </Grid>
+                  <Grid item md={12}>
+                    <Typography variant="h6" className={classes.label}>
+                      {`${t('views.family.dateOfBirth')}:`}
+                    </Typography>
+                    <Typography variant="h6" className={classes.answer}>
+                      {!!member.birthDate &&
+                        moment
+                          .unix(member.birthDate)
+                          .utc()
+                          .format(dateFormat)}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              ))
+            ) : (
+              <Grid
+                container
+                justify="center"
+                alignItems="center"
+                style={{ height: 250 }}
+              >
+                <Typography variant="h6" className={classes.memberTitle}>
+                  {t('views.familyProfile.noMember')}
+                </Typography>
+              </Grid>
             )}
           </Grid>
         )}

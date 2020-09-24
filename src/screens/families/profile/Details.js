@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import PersonalDetails from './PersonalDetails';
@@ -47,6 +47,14 @@ const Details = ({
   const { t } = useTranslation();
 
   const [openFamilyDetails, setOpenFamilyDetails] = useState(false);
+  const [sanitazedFamilyMembers, setSanitazedFamilyMembers] = useState([]);
+
+  useEffect(() => {
+    let cleanfamilyMembers = familyMembers.filter(
+      member => !member.firstParticipant && member
+    );
+    setSanitazedFamilyMembers(cleanfamilyMembers);
+  }, [familyMembers]);
 
   return (
     <Accordion className={classes.container}>
@@ -68,7 +76,7 @@ const Details = ({
       >
         <PersonalDetails
           primaryParticipant={primaryParticipant}
-          familyMembers={familyMembers}
+          familyMembers={sanitazedFamilyMembers}
           latitude={latitude}
           longitude={longitude}
         />
