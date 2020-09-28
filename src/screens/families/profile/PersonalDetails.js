@@ -316,8 +316,9 @@ const PersonalDetails = ({
               disableDefaultUI
               draggable={false}
               scrollwheel={false}
+              clickableIcons={false}
               disableDoubleClickZoom={true}
-              zoomControl={false}
+              zoomControl={true}
             >
               <div className={classes.markerContainer}>
                 <img src={MarkerIcon} className={classes.markerIcon} alt="" />
