@@ -129,7 +129,6 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
             onChange={handleChange}
             indicatorColor="secondary"
             textColor="secondary"
-            variant="fullWidth"
             variant="scrollable"
             scrollButtons="auto"
             classes={{ root: classes.tabsRoot }}
