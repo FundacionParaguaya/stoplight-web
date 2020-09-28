@@ -313,9 +313,11 @@ const PersonalDetails = ({
               zoom={16}
               loadingMessage={t('views.location.mapLoading')}
               params={params}
-              scrollwheel={false}
               disableDefaultUI
-              zoomControl
+              draggable={false}
+              scrollwheel={false}
+              disableDoubleClickZoom={true}
+              zoomControl={false}
             >
               <div className={classes.markerContainer}>
                 <img src={MarkerIcon} className={classes.markerIcon} alt="" />
