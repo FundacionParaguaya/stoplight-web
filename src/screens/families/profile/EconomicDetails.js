@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10
   },
   tabsRoot: {
-    marginBottom: 20,
     '& $div > span': {
       backgroundColor: theme.palette.primary.dark,
       height: 4
@@ -38,6 +37,7 @@ const useStyles = makeStyles(theme => ({
   label: {
     fontFamily: 'Open Sans',
     fontWeight: 500,
+    marginTop: 10,
     margin: '0px 10px 0px 10px'
   },
   answer: {
@@ -130,7 +130,7 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
             indicatorColor="secondary"
             textColor="secondary"
             variant="fullWidth"
-            centered
+            variant="scrollable"
             scrollButtons="auto"
             classes={{ root: classes.tabsRoot }}
           >
@@ -192,6 +192,7 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
                           alt=""
                           height={30}
                           width={30}
+                          style={{ marginLeft: 10 }}
                           src={familyFaceIcon}
                         />
                         <Typography

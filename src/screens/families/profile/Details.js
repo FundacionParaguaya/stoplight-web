@@ -11,6 +11,7 @@ import PersonalDetails from './PersonalDetails';
 
 const useStyles = makeStyles(theme => ({
   container: {
+    marginTop: 15,
     padding: '10px 12% 10px 12%',
     backgroundColor: theme.palette.background.default
   },
@@ -32,7 +33,8 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.dark,
     width: '80%',
     paddingLeft: '20%',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontSize: 20
   },
   expandIcon: {
     color: theme.palette.primary.dark,
