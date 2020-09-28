@@ -457,6 +457,7 @@
       "lifemapNumber": "Life Map - Number",
       "familyDetails": "Family Details",
       "noMember": "This family does not have more members",
+      "noEconomic": "This family does not have socioecomic data",
       "continueWithStoplight": "Take a follow-up survey",
       "viewLifeMap": "View Life Map in Detail",
       "mentor": "Facilitator",
