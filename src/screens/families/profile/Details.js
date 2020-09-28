@@ -108,7 +108,7 @@ const Details = ({
         title={
           <div className={classes.advancedContainer}>
             <Typography className={classes.advancedLabel} variant="subtitle1">
-              {'Economic Details'}
+              {t('views.familyProfile.economicDetails')}
             </Typography>
             {!openEconomicDetails ? (
               <KeyboardArrowDown className={classes.expandIcon} />

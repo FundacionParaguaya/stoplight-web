@@ -20,10 +20,14 @@ const useStyles = makeStyles(theme => ({
     '& $div > span': {
       backgroundColor: theme.palette.primary.dark,
       height: 4
+    },
+    '& $div >.MuiTabs-flexContainer': {
+      justifyContent: 'space-between'
     }
   },
   tabRoot: {
     minHeight: 50,
+    padding: 5,
     color: theme.typography.h4.color,
     height: 'auto',
     width: 'auto',
