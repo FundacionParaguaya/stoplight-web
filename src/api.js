@@ -769,6 +769,7 @@ export const getFamily = (familyId, user) =>
       query:
         'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code latitude longitude numberOfSnapshots allowRetake organization { id, name } country{country} ' +
         'familyMemberDTOList{firstParticipant firstName lastName genderText customGender birthDate documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} ' +
+        'snapshotEconomics { questionText text multipleText multipleTextArray topic} membersEconomic{ firstName economic{codeName questionText text multipleText multipleTextArray topic} } ' +
         'snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
         id: familyId

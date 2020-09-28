@@ -555,6 +555,8 @@ const FamilyProfile = ({
         familyMembers={familyMembers}
         latitude={family.latitude}
         longitude={family.longitude}
+        economicData={family.snapshotEconomics}
+        membersEconomicData={family.membersEconomic}
       />
 
       {/* Priorities */}
