@@ -78,7 +78,8 @@ export class Final extends Component {
         // Reset ProgressBar Context
         this.context.setRouteTree = {};
       })
-      .catch(() => {
+      .catch(e => {
+        console.error(e);
         this.toggleModal(
           t('general.warning'),
           t('general.saveError'),
