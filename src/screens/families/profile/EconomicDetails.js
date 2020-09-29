@@ -94,8 +94,8 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
             ? [...questionByTopic[index], question]
             : [question];
         } else {
+          questionByTopic[topicsOptions.length] = [question];
           topicsOptions.push(question.topic);
-          questionByTopic[questionByTopic.length] = [question];
         }
       });
 
@@ -112,10 +112,10 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
               ? [...memberQuestionByTopic[mIndex].questions[index], question]
               : [question];
           } else {
+            memberQuestionByTopic[mIndex].questions[topicsOptions.length] = [
+              question
+            ];
             topicsOptions.push(question.topic);
-            memberQuestionByTopic[mIndex].questions[
-              memberQuestionByTopic[mIndex].questions.length
-            ] = [question];
           }
         });
       });
