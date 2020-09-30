@@ -567,9 +567,10 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     <DimensionSelector
                       withTitle={false}
                       dimensionData={values.dimension}
-                      onChangeDimension={dimension =>
-                        setFieldValue('dimension', dimension)
-                      }
+                      onChangeDimension={dimension => {
+                        setFieldValue('dimension', dimension);
+                        setFieldValue('indicators', []);
+                      }}
                       onBlur={() =>
                         setTouched(
                           Object.assign(touched, {
