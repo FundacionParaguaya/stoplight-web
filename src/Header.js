@@ -351,7 +351,16 @@ const styles = theme => ({
     paddingLeft: 14,
     paddingRight: 14,
     textDecoration: 'none',
-    borderBottom: '4px solid transparent'
+    borderBottom: '4px solid transparent',
+
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'flex-end',
+      flexDirection: 'column'
+    },
+    [theme.breakpoints.down('md')]: {
+      alignItems: 'center',
+      flexDirection: 'row'
+    }
   },
   extraButtons: {
     marginLeft: 'auto',
@@ -385,10 +394,13 @@ const styles = theme => ({
     backgroundColor: '#ff9800',
     color: '#fff',
     fontSize: 10,
-    height: '18px',
-    alignSelf: 'flex-end',
     marginTop: '3px',
-    marginBottom: '3px'
+    marginBottom: '3px',
+    height: '18px',
+    [theme.breakpoints.up('md')]: {
+      alignSelf: 'flex-end'
+    },
+    [theme.breakpoints.down('md')]: {}
   }
 });
 
