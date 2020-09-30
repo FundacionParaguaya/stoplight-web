@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { updateUser } from './redux/actions';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Chip from '@material-ui/core/Chip';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
@@ -125,8 +126,8 @@ class Header extends Component {
                   to={`/${item}`}
                   className={
                     path === `/${item}`
-                      ? `${classes.menuLink} ${classes.surveyLink}`
-                      : classes.menuLink
+                      ? `${classes.menuLinkSolutions} ${classes.surveyLink}`
+                      : classes.menuLinkSolutions
                   }
                   key={item}
                 >
@@ -136,6 +137,7 @@ class Header extends Component {
                   >
                     {t(`views.toolbar.${item}`)}
                   </Typography>
+                  <Chip classes={{ root: classes.chip }} label="Beta" />
                 </NavLink>
               );
             } else if (platform === NEW) {
@@ -342,6 +344,15 @@ const styles = theme => ({
     textDecoration: 'none',
     borderBottom: '4px solid transparent'
   },
+  menuLinkSolutions: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    paddingLeft: 14,
+    paddingRight: 14,
+    textDecoration: 'none',
+    borderBottom: '4px solid transparent'
+  },
   extraButtons: {
     marginLeft: 'auto',
     display: 'flex',
@@ -369,6 +380,15 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: theme.palette.background.paper
     }
+  },
+  chip: {
+    backgroundColor: '#ff9800',
+    color: '#fff',
+    fontSize: 10,
+    height: '18px',
+    alignSelf: 'flex-end',
+    marginTop: '3px',
+    marginBottom: '3px'
   }
 });
 
