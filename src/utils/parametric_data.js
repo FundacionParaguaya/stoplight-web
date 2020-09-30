@@ -5,6 +5,7 @@ export const NORMALIZED_DIMENSIONS = Object.freeze({
   INCOME: Symbol('income'),
   INTERIORITY: Symbol('interiority'),
   ORGANIZATION: Symbol('organization'),
+  AGRICULTURAL: Symbol('agricultural'),
   EDU_CONDITIONS: Symbol('eduConditions'),
   EDU_COMMITMENT: Symbol('eduCommitment'),
   EDU_HEALTH: Symbol('eduHealth'),
@@ -49,10 +50,16 @@ const INTERIORITY_OPTIONS = [
   'Interiority and Motivation',
   'Desarrollo Personal'
 ];
+
 const ORGANIZATION_OPTIONS = [
   'Organización y Participación',
   'Organization & Participation',
   'Organization and Participation'
+];
+
+const AGRICULTURAL_OPTIONS = [
+  'Desarrollo Agroproductivo',
+  'Agricultural Development'
 ];
 
 const EDU_CONDITIONS_OPTIONS = [
@@ -120,6 +127,7 @@ const {
   HOUSING,
   EDUCATION,
   ORGANIZATION,
+  AGRICULTURAL,
   INTERIORITY,
   EDU_CONDITIONS,
   EDU_COMMITMENT,
@@ -143,6 +151,7 @@ const {
 export const ORDERED_DIMENSIONS = [
   INTERIORITY,
   ORGANIZATION,
+  AGRICULTURAL,
   EDUCATION,
   HOUSING,
   HEALTH,
@@ -167,7 +176,8 @@ export const DIMENSIONS_EN = Object.freeze({
   HOUSING: 'Housing & Infrastructure',
   INCOME: 'Income & Employment',
   INTERIORITY: 'Interiority & Motivation',
-  ORGANIZATION: 'Organization & Participation'
+  ORGANIZATION: 'Organization & Participation',
+  AGRICULTURAL: 'Agricultural Development'
 });
 
 export const DIMENSIONS_ES = Object.freeze({
@@ -176,7 +186,8 @@ export const DIMENSIONS_ES = Object.freeze({
   HOUSING: 'Vivienda e Infraestructura',
   INCOME: 'Ingreso y Empleo',
   INTERIORITY: 'Interioridad y Motivación',
-  ORGANIZATION: 'Organización y Participación'
+  ORGANIZATION: 'Organización y Participación',
+  AGRICULTURAL: 'Desarrollo Agroproductivo'
 });
 
 export const normalizeDimension = d => {
@@ -194,6 +205,8 @@ export const normalizeDimension = d => {
     normalized = NORMALIZED_DIMENSIONS.INTERIORITY;
   } else if (ORGANIZATION_OPTIONS.indexOf(dimension) >= 0) {
     normalized = NORMALIZED_DIMENSIONS.ORGANIZATION;
+  } else if (AGRICULTURAL_OPTIONS.indexOf(dimension) >= 0) {
+    normalized = NORMALIZED_DIMENSIONS.AGRICULTURAL;
   } else if (EDU_CONDITIONS_OPTIONS.indexOf(dimension) >= 0) {
     normalized = NORMALIZED_DIMENSIONS.EDU_CONDITIONS;
   } else if (EDU_COMMITMENT_OPTIONS.indexOf(dimension) >= 0) {

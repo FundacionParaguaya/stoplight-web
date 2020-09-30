@@ -15,6 +15,7 @@ import dimensionHousingIcon from '../assets/dimension_housing.png';
 import dimensionIncomeIcon from '../assets/dimension_income.png';
 import dimensionInteriorityIcon from '../assets/dimension_interiority.png';
 import dimensionOrganizationIcon from '../assets/dimension_organization.png';
+import dimensionAgroproductiveIcon from '../assets/dimension_agroproductive.png';
 import SummaryStackedBar from './summary/SummaryStackedBar';
 import CountDetail from './CountDetail';
 import { COLORS } from '../theme';
@@ -45,6 +46,8 @@ const getIconForDimension = dimension => {
       return dimensionInteriorityIcon;
     case NORMALIZED_DIMENSIONS.ORGANIZATION:
       return dimensionOrganizationIcon;
+    case NORMALIZED_DIMENSIONS.AGRICULTURAL:
+      return dimensionAgroproductiveIcon;
     case NORMALIZED_DIMENSIONS.EDU_CONDITIONS:
       return dimensionEducationIcon;
     case NORMALIZED_DIMENSIONS.EDU_COMMITMENT:
