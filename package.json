@@ -20,7 +20,7 @@
     "i18next": "^15.0.8",
     "localized-countries": "^1.0.2",
     "lodash": "^4.17.14",
-    "material-table": "^1.59.0",
+    "material-table": "1.68.0",
     "moment": "^2.27.0",
     "notistack": "^0.8.2",
     "pdfmake": "^0.1.57",
