@@ -27,7 +27,7 @@
     "cachedData": "cached data",
     "chooseView": "Choose view",
     "create": "Create",
-    "saveError": "Error while trying to save your Life Map. Please try again!",
+    "saveError": "Error while trying to save your Life Map. Please try again or contact our support team with this error ID: %n",
     "savePdfError": "Error while trying to save your Life Map pdf for whatsapp",
     "noOptionsToShow": "There are no options available to select",
     "clear": "Clear",

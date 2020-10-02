@@ -27,7 +27,7 @@
     "cachedData": "Datos almacenados",
     "chooseView": "Elegir vista",
     "create": "Crear",
-    "saveError": "Hubo un error al tratar de guardar tu Mapa de Vida. ¡Favor intente de nuevo!",
+    "saveError": "Hubo un error al tratar de guardar tu Mapa de Vida. Favor intente de nuevo o contacte al equipo de soporte con este código de error: %n",
     "savePdfError": "Error al guardar tu Mapa de Vida en pdf para whatsapp",
     "noOptionsToShow": "No hay opciones disponibles para seleccionar",
     "clear": "Limpiar",
