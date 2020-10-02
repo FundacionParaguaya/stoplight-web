@@ -32,7 +32,7 @@ import withLayout from '../../components/withLayout';
 import { getPreviewForFile } from '../../utils/files-utils';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import Editor from './Editor';
-import ExitSolutionModal from './ExitSolutionModal';
+import ExitSolutionModal from '../../components/ExitModal';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
 import SolutionTypeSelector from './SolutionTypeSelector';

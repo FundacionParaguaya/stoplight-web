@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import face from '../../assets/serious_face.png';
+import face from '../assets/serious_face.png';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ExitSolutionModal = ({ open, onDissmiss, onClose }) => {
+const ExitModal = ({ open, onDissmiss, onClose }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -69,13 +69,13 @@ const ExitSolutionModal = ({ open, onDissmiss, onClose }) => {
       <div className={classes.mainContainer}>
         <img src={face} className={classes.icon} alt="Warning icon" />
         <Typography className={classes.title} variant="h5">
-          {t('views.solutions.exitModal.confirmTitle')}
+          {t('views.exitModal.confirmTitle')}
         </Typography>
         <Typography className={classes.subtitle} variant="subtitle1">
-          {t('views.solutions.exitModal.cannotUndo')}
+          {t('views.exitModal.cannotUndo')}
         </Typography>
         <Typography className={classes.areYouSureLabel} variant="h5">
-          {t('views.solutions.exitModal.confirmText')}
+          {t('views.exitModal.confirmText')}
         </Typography>
 
         <div className={classes.buttonContainer}>
@@ -104,4 +104,4 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(withSnackbar(ExitSolutionModal));
+export default connect(mapStateToProps)(withSnackbar(ExitModal));

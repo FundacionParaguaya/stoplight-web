@@ -416,6 +416,11 @@
       "noOption": "Não há dimensões",
       "noMatchFilters": "Não há resultados para os filtros aplicados"
     },
+    "exitModal": {
+      "confirmTitle": "Confirmação de partida",
+      "confirmText": "Tem certeza que quer sair?",
+      "cannotUndo": "Você perderá todas as suas alterações!!"
+    },
     "nonProdWarning": {
       "title": "Olá!",
       "subtitle": "Bem-vindo ao ambiente de demostração.",
@@ -653,11 +658,6 @@
           "success": "Usuário salvo com sucesso",
           "failed": "Não foi possível salvar o usuário"
         }
-      },
-      "exitModal": {
-        "confirmTitle": "Confirmação de partida",
-        "confirmText": "Tem certeza que quer sair?",
-        "cannotUndo": "Você perderá todas as suas alterações!!"
       },
       "delete": {
         "confirmTitle": "Confirmação da eliminação",

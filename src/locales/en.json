@@ -416,6 +416,11 @@
       "noOption": "No dimension left",
       "noMatchFilters": "No results matching your filters"
     },
+    "exitModal": {
+      "confirmTitle": "Confirm Exit",
+      "confirmText": "Are you sure you want to exit?",
+      "cannotUndo": "You will lose all your changes!!"
+    },
     "nonProdWarning": {
       "title": "Hello!",
       "subtitle": "Welcome to the demonstration environment.",
@@ -759,11 +764,6 @@
           "success": "Solution saved successfully",
           "failed": "Could not save solution"
         }
-      },
-      "exitModal": {
-        "confirmTitle": "Confirm Exit",
-        "confirmText": "Are you sure you want to exit?",
-        "cannotUndo": "You will lose all your changes!!"
       },
       "delete": {
         "confirmTitle": "Confirm Deletion",

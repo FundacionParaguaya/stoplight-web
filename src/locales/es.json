@@ -417,6 +417,11 @@
       "noOption": "No quedan indicadores dimensiones",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
+    "exitModal": {
+      "confirmTitle": "Confirmación de salida",
+      "confirmText": "¿Está seguro que desea salir?",
+      "cannotUndo": " ¡Perderá todos sus cambios!"
+    },
     "nonProdWarning": {
       "title": "¡Hola!",
       "subtitle": "Bienvenido al ambiente de demostración.",
@@ -761,11 +766,6 @@
           "success": "Solución guardada exitosamente",
           "failed": "No es posible guardar la solución"
         }
-      },
-      "exitModal": {
-        "confirmTitle": "Confirmación de salida",
-        "confirmText": "¿Está seguro que desea salir?",
-        "cannotUndo": " ¡Perderá todos sus cambios!"
       },
       "delete": {
         "confirmTitle": "Confirmación de Eliminación",
