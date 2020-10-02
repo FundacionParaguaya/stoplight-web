@@ -82,7 +82,7 @@ export class Final extends Component {
         console.error(e);
         this.toggleModal(
           t('general.warning'),
-          t('general.saveError'),
+          t('general.saveError').replace('%n', currentDraft.draftId),
           t('general.gotIt'),
           'warning',
           () => this.toggleModal()
