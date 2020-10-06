@@ -597,6 +597,58 @@ export const getOrganization = (user, organizationId) => {
   });
 };
 
+export const getOrganizationTypes = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { organizantionTypes {code, description } }'
+    })
+  });
+
+export const getOrganizationAreaTypes = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { organizationAreasTypes {code, description } }'
+    })
+  });
+
+export const getOrganizationFinalUserTypes = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { organizationFinalUserTypes {code, description } }'
+    })
+  });
+
+export const getOrganizationEndSurveyTypesTypes = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { organizationEndSurveyTypes {code, description } }'
+    })
+  });
+
 export const getHubs = user =>
   axios({
     method: 'post',
@@ -768,7 +820,7 @@ export const getFamily = (familyId, user) =>
     data: JSON.stringify({
       query:
         'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code latitude longitude numberOfSnapshots allowRetake organization { id, name } country{country} ' +
-        'familyMemberDTOList{firstParticipant firstName lastName genderText customGender birthDate documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} ' +
+        'familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} ' +
         'snapshotEconomics { questionText text multipleText multipleTextArray topic} membersEconomic{ firstName economic{codeName questionText text multipleText multipleTextArray topic} } ' +
         'snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
@@ -1434,5 +1486,25 @@ export const getSolutionsAccessTypes = (user, lang) =>
     },
     data: JSON.stringify({
       query: 'query solutionsAccess { solutionsAccess { code description} }'
+    })
+  });
+
+// get access solutions types
+export const updateFamilyDetails = (user, familyId, familyDetails) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateFamilyDetails($family: FamilyModelInput) {updateFamilyDetails(family: $family){successful}}',
+      variables: {
+        family: {
+          familyId: familyId,
+          familyMembersList: familyDetails
+        }
+      }
     })
   });

@@ -21,6 +21,8 @@ import ErrorBoundary from './ErrorBoundary';
 import Solutions from '../screens/Solutions';
 import SolutionsForm from '../screens/solutions/SolutionsForm';
 import SolutionsView from '../screens/solutions/SolutionsView';
+import EditPrimaryParticipantForm from '../screens/families/edit/EditPrimaryParticipantForm';
+import EditFamilyMembersForm from '../screens/families/edit/EditFamilyMembersForm';
 
 const Routes = ({ user }) => {
   return (
@@ -46,7 +48,19 @@ const Routes = ({ user }) => {
           <Route path="/families" component={Families} />
         )}
         {checkAccess(user, 'families') && (
-          <Route path="/family/:familyId" component={FamilyProfile} />
+          <Route exact path="/family/:familyId" component={FamilyProfile} />
+        )}
+        {checkAccess(user, 'editFamily') && (
+          <Route
+            path="/family/:familyId/edit"
+            component={EditPrimaryParticipantForm}
+          />
+        )}
+        {checkAccess(user, 'editFamily') && (
+          <Route
+            path="/family/:familyId/edit-members"
+            component={EditFamilyMembersForm}
+          />
         )}
         {checkAccess(user, 'detail') && (
           <Route path="/detail/:familyId" component={LifemapDetails} />

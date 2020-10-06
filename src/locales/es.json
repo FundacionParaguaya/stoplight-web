@@ -482,7 +482,13 @@
       "loadingSnapshots": "Cargando semáforos...",
       "familyNoteSuccess": "Nota de familia enviada correctamente",
       "familyNoteError": "No se pudo enviar la nota familiar",
-      "download": "Descargar"
+      "download": "Descargar",
+      "form": {
+        "save": {
+          "success": "Familia actualizada exitosamente",
+          "failed": "No se pudo actualizar la familia"
+        }
+      }
     },
     "familyNotes": {
       "by": "por",

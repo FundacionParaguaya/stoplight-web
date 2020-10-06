@@ -481,7 +481,13 @@
       "loadingSnapshots": "Loading stoplights...",
       "familyNoteSuccess": "Family note sent correctly",
       "familyNoteError": "Could not send family note",
-      "download": "Download"
+      "download": "Download",
+      "form": {
+        "save": {
+          "success": "Family updated successfully",
+          "failed": "Could not update family"
+        }
+      }
     },
     "familyNotes": {
       "by": "by",

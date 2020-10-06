@@ -481,7 +481,13 @@
       "loadingSnapshots": "Carregando semáforos...",
       "familyNoteSuccess": "Nota de família enviada corretamente",
       "familyNoteError": "Não foi possível enviar o bilhete da família",
-      "download": "Baixar"
+      "download": "Baixar",
+      "form": {
+        "save": {
+          "success": "Família atualizada com sucesso",
+          "failed": "Não foi possível atualizar a família"
+        }
+      }
     },
     "familyNotes": {
       "by": "por",
