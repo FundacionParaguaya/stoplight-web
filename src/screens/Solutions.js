@@ -284,7 +284,9 @@ const Solutions = ({ classes, user, history }) => {
             solutionTypeData={filterInput.solutionType}
             language={filterInput.lang}
             onChangeCountry={country => setFilterInput({ country })}
-            onChangeDimension={dimension => setFilterInput({ dimension })}
+            onChangeDimension={dimension =>
+              setFilterInput({ dimension, indicators: [] })
+            }
             onChangeIndicator={indicators => setFilterInput({ indicators })}
             onChangeFilterText={onChangeFilterText}
             onChangeSolutionType={solutionType =>
