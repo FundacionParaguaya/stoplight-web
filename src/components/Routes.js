@@ -23,6 +23,7 @@ import SolutionsForm from '../screens/solutions/SolutionsForm';
 import SolutionsView from '../screens/solutions/SolutionsView';
 import EditPrimaryParticipantForm from '../screens/families/edit/EditPrimaryParticipantForm';
 import EditFamilyMembersForm from '../screens/families/edit/EditFamilyMembersForm';
+import OrganizationForm from '../screens/organizations/OrganizationForm';
 
 const Routes = ({ user }) => {
   return (
@@ -39,6 +40,15 @@ const Routes = ({ user }) => {
         )}
         {checkAccess(user, 'organizations') && (
           <Route path="/organizations" component={Organizations} />
+        )}
+        {checkAccess(user, 'organizationEdit') && (
+          <Route path="/organization/create" component={OrganizationForm} />
+        )}
+        {checkAccess(user, 'organizationEdit') && (
+          <Route
+            path="/organization/:orgId/edit"
+            component={OrganizationForm}
+          />
         )}
         {checkAccess(user, 'hubs') && <Route path="/hubs" component={Hubs} />}
         {checkAccess(user, 'surveys') && (

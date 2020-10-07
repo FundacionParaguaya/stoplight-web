@@ -13,7 +13,6 @@ import Container from '../components/Container';
 import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
 import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
-import OrganizationFormModal from './organizations/OrganizationFormModal';
 import { ROLES_NAMES } from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
@@ -25,7 +24,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [selectedOrganization, setSelectedOrganization] = useState({});
-  const [openFormModal, setOpenFormModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [paginationData, setPaginationData] = useState({
     page: 1,
@@ -76,9 +74,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const toggleDeleteModal = () => {
     setOpenDeleteModal(!openDeleteModal);
   };
-  const toggleFormModal = () => {
-    setOpenFormModal(!openFormModal);
-  };
 
   const reloadPage = () => {
     loadOrganizations(true);
@@ -107,13 +102,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
         {readOnly && (
           <NavigationBar options={navigationOptions}></NavigationBar>
         )}
-        <OrganizationFormModal
-          org={selectedOrganization}
-          subOrganizations={organizations}
-          open={openFormModal}
-          toggleModal={toggleFormModal}
-          afterSubmit={reloadPage}
-        />
         <DeleteOrganizationModal
           organization={selectedOrganization}
           open={openDeleteModal}
@@ -144,8 +132,7 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
               variant="contained"
               className={classes.addOrganization}
               onClick={() => {
-                setSelectedOrganization({});
-                toggleFormModal();
+                history.push(`/organization/create`);
               }}
             >
               {t('views.organization.addOrganization')}
@@ -194,8 +181,9 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                             label: classes.buttonLabel
                           }}
                           onClick={() => {
-                            setSelectedOrganization(organization);
-                            toggleFormModal();
+                            history.push(
+                              `/organization/${organization.id}/edit`
+                            );
                           }}
                         >
                           {t('views.organization.editButton')}

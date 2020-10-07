@@ -26,6 +26,7 @@ export const ROLES = {
     { item: 'reports', platform: NEW },
     { item: 'surveysList', platform: NEW },
     { item: 'organizations', platform: NEW },
+    { item: 'organizationEdit', platform: ACCESS },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
