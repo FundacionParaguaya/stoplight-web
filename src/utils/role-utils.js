@@ -52,7 +52,8 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS }
+    { item: 'solutions', platform: ACCESS },
+    { item: 'editFamily', platform: ACCESS }
   ],
   ROLE_SURVEY_USER: [
     // Facilitator user
@@ -61,7 +62,8 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: NEW }
+    { item: 'map', platform: NEW },
+    { item: 'editFamily', platform: ACCESS }
   ],
   ROLE_SURVEY_USER_ADMIN: [
     // Facilitator admin user
@@ -70,7 +72,8 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'priorities', platform: ACCESS },
     { item: 'detail', platform: ACCESS },
-    { item: 'map', platform: NEW }
+    { item: 'map', platform: NEW },
+    { item: 'editFamily', platform: ACCESS }
   ],
   ROLE_SURVEY_TAKER: [
     // Surveyor  user

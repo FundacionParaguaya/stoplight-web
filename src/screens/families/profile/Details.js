@@ -58,7 +58,8 @@ const Details = ({
   latitude,
   longitude,
   economicData,
-  membersEconomicData
+  membersEconomicData,
+  history
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -98,6 +99,7 @@ const Details = ({
           familyMembers={sanitazedFamilyMembers}
           latitude={latitude}
           longitude={longitude}
+          history={history}
         />
       </AccordionItem>
 

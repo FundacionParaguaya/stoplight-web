@@ -1,5 +1,4 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
@@ -73,11 +72,11 @@ const PageNotFound = ({ user }) => {
         <Typography variant="h6" className={classes.text}>
           {t('views.404.pageNotFound')}
         </Typography>
-        <Link to={getHomePage(user.role)} className={classes.linkText}>
+        <Link to={`/${getHomePage(user.role)}`} className={classes.linkText}>
           {`${t('views.404.toHomePage')} >`}
         </Link>
       </div>
     </div>
   );
 };
-export default withStyles(pageNotFoundStyles)(PageNotFound);
+export default PageNotFound;

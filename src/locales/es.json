@@ -417,6 +417,11 @@
       "noOption": "No quedan indicadores dimensiones",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
+    "exitModal": {
+      "confirmTitle": "Confirmación de salida",
+      "confirmText": "¿Está seguro que desea salir?",
+      "cannotUndo": " ¡Perderá todos sus cambios!"
+    },
     "nonProdWarning": {
       "title": "¡Hola!",
       "subtitle": "Bienvenido al ambiente de demostración.",
@@ -477,7 +482,13 @@
       "loadingSnapshots": "Cargando semáforos...",
       "familyNoteSuccess": "Nota de familia enviada correctamente",
       "familyNoteError": "No se pudo enviar la nota familiar",
-      "download": "Descargar"
+      "download": "Descargar",
+      "form": {
+        "save": {
+          "success": "Familia actualizada exitosamente",
+          "failed": "No se pudo actualizar la familia"
+        }
+      }
     },
     "familyNotes": {
       "by": "por",
@@ -761,11 +772,6 @@
           "success": "Solución guardada exitosamente",
           "failed": "No es posible guardar la solución"
         }
-      },
-      "exitModal": {
-        "confirmTitle": "Confirmación de salida",
-        "confirmText": "¿Está seguro que desea salir?",
-        "cannotUndo": " ¡Perderá todos sus cambios!"
       },
       "delete": {
         "confirmTitle": "Confirmación de Eliminación",

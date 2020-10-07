@@ -1,8 +1,11 @@
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import EditIcon from '@material-ui/icons/Edit';
 import countries from 'localized-countries';
 import moment from 'moment';
 import React, { useState } from 'react';
@@ -11,6 +14,9 @@ import { useTranslation } from 'react-i18next';
 import familyFaceIcon from '../../../assets/family_face_large.png';
 import MarkerIcon from '../../../assets/marker.png';
 import { getDateFormatByLocale } from '../../../utils/date-utils';
+import { ROLES_NAMES } from '../../../utils/role-utils';
+import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +58,7 @@ const useStyles = makeStyles(theme => ({
   },
   answer: {
     fontFamily: 'Open Sans',
-    color: 'rgba(0,0,0,0.5)',
+    color: theme.palette.text.light,
     marginLeft: 10
   },
   memberTitle: {
@@ -85,7 +91,9 @@ const PersonalDetails = ({
   primaryParticipant,
   familyMembers,
   latitude,
-  longitude
+  longitude,
+  user,
+  history
 }) => {
   const classes = useStyles();
   const {
@@ -96,6 +104,7 @@ const PersonalDetails = ({
   let countryOptions = countries(
     require(`localized-countries/data/${language}`)
   ).array();
+  let { familyId } = useParams();
 
   const [value, setValue] = useState(1);
 
@@ -108,6 +117,11 @@ const PersonalDetails = ({
   const handleChange = (event, value) => {
     setValue(value);
   };
+
+  const showEditButtons = ({ role }) =>
+    role === ROLES_NAMES.ROLE_APP_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER;
 
   return (
     <React.Fragment>
@@ -156,6 +170,20 @@ const PersonalDetails = ({
 
         {value === 1 && (
           <Grid container>
+            {showEditButtons(user) && (
+              <Grid item md={12} container justify="flex-end">
+                <Tooltip title={t('views.solutions.form.editButton')}>
+                  <Button
+                    className={classes.actionIcon}
+                    onClick={() => {
+                      history.push(`/family/${familyId}/edit`);
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+              </Grid>
+            )}
             <Grid item md={6} sm={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.firstName')}:`}
@@ -237,6 +265,20 @@ const PersonalDetails = ({
 
         {value === 2 && (
           <Grid container>
+            {showEditButtons(user) && (
+              <Grid item md={12} container justify="flex-end">
+                <Tooltip title={t('views.solutions.form.editButton')}>
+                  <Button
+                    className={classes.actionIcon}
+                    onClick={() => {
+                      history.push(`/family/${familyId}/edit-members`);
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+              </Grid>
+            )}
             {familyMembers.length > 0 ? (
               familyMembers.map((member, index) => (
                 <Grid
@@ -331,4 +373,8 @@ const PersonalDetails = ({
   );
 };
 
-export default PersonalDetails;
+const mapStateToProps = ({ user }) => ({
+  user
+});
+
+export default connect(mapStateToProps)(PersonalDetails);

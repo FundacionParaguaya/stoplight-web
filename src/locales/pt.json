@@ -416,6 +416,11 @@
       "noOption": "Não há dimensões",
       "noMatchFilters": "Não há resultados para os filtros aplicados"
     },
+    "exitModal": {
+      "confirmTitle": "Confirmação de partida",
+      "confirmText": "Tem certeza que quer sair?",
+      "cannotUndo": "Você perderá todas as suas alterações!!"
+    },
     "nonProdWarning": {
       "title": "Olá!",
       "subtitle": "Bem-vindo ao ambiente de demostração.",
@@ -476,7 +481,13 @@
       "loadingSnapshots": "Carregando semáforos...",
       "familyNoteSuccess": "Nota de família enviada corretamente",
       "familyNoteError": "Não foi possível enviar o bilhete da família",
-      "download": "Baixar"
+      "download": "Baixar",
+      "form": {
+        "save": {
+          "success": "Família atualizada com sucesso",
+          "failed": "Não foi possível atualizar a família"
+        }
+      }
     },
     "familyNotes": {
       "by": "por",
@@ -653,11 +664,6 @@
           "success": "Usuário salvo com sucesso",
           "failed": "Não foi possível salvar o usuário"
         }
-      },
-      "exitModal": {
-        "confirmTitle": "Confirmação de partida",
-        "confirmText": "Tem certeza que quer sair?",
-        "cannotUndo": "Você perderá todas as suas alterações!!"
       },
       "delete": {
         "confirmTitle": "Confirmação da eliminação",
