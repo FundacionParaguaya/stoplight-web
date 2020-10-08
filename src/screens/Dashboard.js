@@ -213,7 +213,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     <Container variant="fluid" className={classes.greyBackground}>
       {!!getLogoImg(user) && (
         <div className={classes.logo}>
-          <img alt="log" height="120" width="135" src={getLogoImg(user)} />
+          <img alt="logo" className={classes.img} src={getLogoImg(user)} />
         </div>
       )}
       {/* Tite bar */}
@@ -327,8 +327,12 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 const styles = theme => ({
   logo: {
     position: 'absolute',
-    left: 45,
-    top: 100
+    left: 27,
+    top: 120
+  },
+  img: {
+    maxWidth: 170,
+    maxHeight: 120
   },
   titleBar: {
     paddingTop: theme.spacing(8),
