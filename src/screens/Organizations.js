@@ -16,6 +16,7 @@ import organizationBanner from '../assets/hub.png';
 import { ROLES_NAMES } from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
+import DefaultHubLogo from '../assets/icon_logo_hub.png';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
@@ -162,6 +163,17 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                       >
                         {organization.name}
                       </Typography>
+                    </div>
+                    <div className={classes.logoContainer}>
+                      <img
+                        src={
+                          organization.logoUrl
+                            ? organization.logoUrl
+                            : DefaultHubLogo
+                        }
+                        alt="logo"
+                        className={classes.logoImage}
+                      />
                     </div>
                     <div className={classes.descriptionContainer}>
                       <Typography noWrap={false} variant="body2">
@@ -310,11 +322,22 @@ const styles = theme => ({
   addOrganization: {
     textDecoration: 'none'
   },
+  logoContainer: {
+    height: 130,
+    margin: 'auto',
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  logoImage: {
+    maxWidth: 130,
+    maxHeight: 130,
+    padding: 10,
+    margin: 'auto'
+  },
   descriptionContainer: {
     height: 80,
     padding: '0 16px',
-    marginTop: 16,
-    marginBottom: 16
+    marginTop: 5
   },
 
   spinnerWrapper: {

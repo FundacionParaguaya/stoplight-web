@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     maxWidth: 160,
     top: '10%',
-    left: '40%',
+    left: '33%',
     backgroundColor: theme.palette.background.default
   },
   icon: {
