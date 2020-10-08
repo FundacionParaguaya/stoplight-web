@@ -13,10 +13,10 @@ import Container from '../components/Container';
 import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
 import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
-import OrganizationFormModal from './organizations/OrganizationFormModal';
 import { ROLES_NAMES } from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
+import DefaultHubLogo from '../assets/icon_logo_hub.png';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
@@ -25,7 +25,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [selectedOrganization, setSelectedOrganization] = useState({});
-  const [openFormModal, setOpenFormModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [paginationData, setPaginationData] = useState({
     page: 1,
@@ -76,9 +75,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const toggleDeleteModal = () => {
     setOpenDeleteModal(!openDeleteModal);
   };
-  const toggleFormModal = () => {
-    setOpenFormModal(!openFormModal);
-  };
 
   const reloadPage = () => {
     loadOrganizations(true);
@@ -107,13 +103,6 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
         {readOnly && (
           <NavigationBar options={navigationOptions}></NavigationBar>
         )}
-        <OrganizationFormModal
-          org={selectedOrganization}
-          subOrganizations={organizations}
-          open={openFormModal}
-          toggleModal={toggleFormModal}
-          afterSubmit={reloadPage}
-        />
         <DeleteOrganizationModal
           organization={selectedOrganization}
           open={openDeleteModal}
@@ -144,8 +133,7 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
               variant="contained"
               className={classes.addOrganization}
               onClick={() => {
-                setSelectedOrganization({});
-                toggleFormModal();
+                history.push(`/organization/create`);
               }}
             >
               {t('views.organization.addOrganization')}
@@ -176,6 +164,17 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                         {organization.name}
                       </Typography>
                     </div>
+                    <div className={classes.logoContainer}>
+                      <img
+                        src={
+                          organization.logoUrl
+                            ? organization.logoUrl
+                            : DefaultHubLogo
+                        }
+                        alt="logo"
+                        className={classes.logoImage}
+                      />
+                    </div>
                     <div className={classes.descriptionContainer}>
                       <Typography noWrap={false} variant="body2">
                         {organization.description.length >= 80
@@ -194,8 +193,9 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                             label: classes.buttonLabel
                           }}
                           onClick={() => {
-                            setSelectedOrganization(organization);
-                            toggleFormModal();
+                            history.push(
+                              `/organization/${organization.id}/edit`
+                            );
                           }}
                         >
                           {t('views.organization.editButton')}
@@ -322,11 +322,22 @@ const styles = theme => ({
   addOrganization: {
     textDecoration: 'none'
   },
+  logoContainer: {
+    height: 130,
+    margin: 'auto',
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  logoImage: {
+    maxWidth: 130,
+    maxHeight: 130,
+    padding: 10,
+    margin: 'auto'
+  },
   descriptionContainer: {
     height: 80,
     padding: '0 16px',
-    marginTop: 16,
-    marginBottom: 16
+    marginTop: 5
   },
 
   spinnerWrapper: {

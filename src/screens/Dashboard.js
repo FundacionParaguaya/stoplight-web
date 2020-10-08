@@ -26,7 +26,7 @@ import OverviewBlock from '../components/OverviewBlock';
 import DimensionsVisualisation from '../components/DimensionsVisualisation';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import DashboardFilters from '../components/DashboardFilters';
-import { ROLE_SURVEY_USER } from '../utils/role-utils';
+import { ROLE_SURVEY_USER, ROLE_HUB_ADMIN } from '../utils/role-utils';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
@@ -199,8 +199,23 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     lang
   ]);
 
+  const getLogoImg = user =>
+    (!!user.organization &&
+      !!user.organization.logoUrl &&
+      user.organization.logoUrl) ||
+    (!!user.hub &&
+      !!user.hub.logoUrl &&
+      user.role === ROLE_HUB_ADMIN &&
+      user.hub.logoUrl) ||
+    '';
+
   return (
     <Container variant="fluid" className={classes.greyBackground}>
+      {!!getLogoImg(user) && (
+        <div className={classes.logo}>
+          <img alt="logo" className={classes.img} src={getLogoImg(user)} />
+        </div>
+      )}
       {/* Tite bar */}
       <Container
         className={classes.titleBar}
@@ -310,6 +325,15 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 };
 
 const styles = theme => ({
+  logo: {
+    position: 'absolute',
+    left: 27,
+    top: 120
+  },
+  img: {
+    maxWidth: 170,
+    maxHeight: 120
+  },
   titleBar: {
     paddingTop: theme.spacing(8),
     position: 'relative',
