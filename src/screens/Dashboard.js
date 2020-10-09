@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, CircularProgress, Box } from '@material-ui/core';
+import { Grid, Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
@@ -211,37 +211,41 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
   return (
     <Container variant="fluid" className={classes.greyBackground}>
-      {!!getLogoImg(user) && (
-        <div className={classes.logo}>
-          <img alt="logo" className={classes.img} src={getLogoImg(user)} />
-        </div>
-      )}
-      {/* Tite bar */}
-      <Container
-        className={classes.titleBar}
-        style={{ overflow: isMentor ? 'hidden' : null }}
-      >
-        <div className={classes.ballsContainer}>
-          <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
-        </div>
-        <Typography variant="h4">
-          {t('views.dashboard.welcome').replace('$n', user.name)}
-        </Typography>
-        {!isMentor && (
-          <DashboardFilters
-            organizationsData={selectedOrganizations}
-            onChangeOrganization={setSelectedOrganizations}
-            surveyData={selectedSurveys}
-            hubData={selectedHub}
-            onChangeHub={setSelectedHub}
-            onChangeSurvey={setSelectedSurveys}
-            from={fromDate}
-            to={toDate}
-            onFromDateChanged={setFromDate}
-            onToDateChanged={setToDate}
-          />
-        )}
-      </Container>
+      <Grid container>
+        <Grid item md={2} container justify="center" alignItems="center">
+          {!!getLogoImg(user) && (
+            <img alt="logo" className={classes.img} src={getLogoImg(user)} />
+          )}
+        </Grid>
+        <Grid item md={8}>
+          {/* Tite bar */}
+          <div
+            className={classes.titleBar}
+            style={{ overflow: isMentor ? 'hidden' : null }}
+          >
+            <div className={classes.ballsContainer}>
+              <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
+            </div>
+            <Typography variant="h4">
+              {t('views.dashboard.welcome').replace('$n', user.name)}
+            </Typography>
+            {!isMentor && (
+              <DashboardFilters
+                organizationsData={selectedOrganizations}
+                onChangeOrganization={setSelectedOrganizations}
+                surveyData={selectedSurveys}
+                hubData={selectedHub}
+                onChangeHub={setSelectedHub}
+                onChangeSurvey={setSelectedSurveys}
+                from={fromDate}
+                to={toDate}
+                onFromDateChanged={setFromDate}
+                onToDateChanged={setToDate}
+              />
+            )}
+          </div>
+        </Grid>
+      </Grid>
 
       {/* Operations */}
       <Container className={classes.operations} variant="fluid">
@@ -325,11 +329,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 };
 
 const styles = theme => ({
-  logo: {
-    position: 'absolute',
-    left: 27,
-    top: 120
-  },
   img: {
     maxWidth: 170,
     maxHeight: 120
