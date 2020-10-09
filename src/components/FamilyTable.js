@@ -277,7 +277,7 @@ const FamilyTable = ({
               let birthDateText = rowData.birthDate
                 ? `${t('views.snapshotsTable.dob')} ${moment
                     .unix(rowData.birthDate)
-                    .utc()
+                    .utc(true)
                     .format(dateFormat)}`
                 : '';
               return (

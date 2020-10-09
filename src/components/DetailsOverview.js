@@ -295,7 +295,7 @@ const DetailsOverview = ({
           <Typography variant="h5">
             {`${moment
               .unix(snapshot.snapshotDate)
-              .utc()
+              .utc(true)
               .format(dateFormat)}`}
           </Typography>
           <div
