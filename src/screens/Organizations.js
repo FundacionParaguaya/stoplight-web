@@ -16,7 +16,7 @@ import organizationBanner from '../assets/hub.png';
 import { ROLES_NAMES } from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
-import DefaultHubLogo from '../assets/icon_logo_hub.png';
+import DefaultOrgLogo from '../assets/grey_isologo.png';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
@@ -169,7 +169,7 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                         src={
                           organization.logoUrl
                             ? organization.logoUrl
-                            : DefaultHubLogo
+                            : DefaultOrgLogo
                         }
                         alt="logo"
                         className={classes.logoImage}

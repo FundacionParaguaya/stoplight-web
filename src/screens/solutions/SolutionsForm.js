@@ -415,7 +415,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       />
       <Prompt
         when={!openExitModal && !loading}
-        message={t('views.solutions.exitModal.confirmText')}
+        message={t('views.exitModal.confirmText')}
       />
 
       <Formik
