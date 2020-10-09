@@ -36,6 +36,19 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     height: '100%'
   },
+  title: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  familyMemberTitle: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  icon: {
+    marginRight: 10,
+    fontSize: 30,
+    color: theme.palette.grey.main
+  },
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -224,7 +237,7 @@ const EditFamilyMembersForm = ({
                                   label={`${t('views.family.specify')} ${t(
                                     'views.family.gender'
                                   ).toLowerCase()}`}
-                                  name="customGender"
+                                  name={`members[${index}].customGender`}
                                   required
                                 />
                               )}

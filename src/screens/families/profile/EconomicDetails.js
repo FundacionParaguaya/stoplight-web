@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
   tabRoot: {
     minHeight: 50,
-    padding: 5,
+    padding: '5px 15px',
     color: theme.typography.h4.color,
     height: 'auto',
     width: 'auto',
@@ -37,6 +37,11 @@ const useStyles = makeStyles(theme => ({
     '&.MuiTab-textColorSecondary.MuiTab-fullWidth': {
       borderBottom: `1px solid ${theme.palette.grey.quarter}`
     }
+  },
+  tabTitle: {
+    fontSize: 16,
+    fontWeight: 500,
+    textTransform: 'none'
   },
   label: {
     fontFamily: 'Open Sans',
