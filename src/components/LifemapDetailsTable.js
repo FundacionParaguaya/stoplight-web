@@ -79,7 +79,7 @@ const LifemapDetailsTable = ({
               </div>
               {`${moment
                 .unix(snapshot.snapshotDate)
-                .utc()
+                .utc(true)
                 .format(dateFormat)}`}
             </Typography>
           ),

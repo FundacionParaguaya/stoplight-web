@@ -56,6 +56,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500,
     margin: '0px 10px 0px 10px'
   },
+  editIconContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    right: 120
+  },
   answer: {
     fontFamily: 'Open Sans',
     color: theme.palette.text.light,
@@ -171,7 +177,7 @@ const PersonalDetails = ({
         {value === 1 && (
           <Grid container>
             {showEditButtons(user) && (
-              <Grid item md={12} container justify="flex-end">
+              <div className={classes.editIconContainer}>
                 <Tooltip title={t('views.solutions.form.editButton')}>
                   <Button
                     className={classes.actionIcon}
@@ -182,7 +188,7 @@ const PersonalDetails = ({
                     <EditIcon />
                   </Button>
                 </Tooltip>
-              </Grid>
+              </div>
             )}
             <Grid item md={6} sm={12}>
               <Typography variant="h6" className={classes.label}>
@@ -239,7 +245,7 @@ const PersonalDetails = ({
               <Typography variant="h6" className={classes.answer}>
                 {moment
                   .unix(primaryParticipant.birthDate)
-                  .utc()
+                  .utc(true)
                   .format(dateFormat)}
               </Typography>
             </Grid>
@@ -266,7 +272,7 @@ const PersonalDetails = ({
         {value === 2 && (
           <Grid container>
             {showEditButtons(user) && (
-              <Grid item md={12} container justify="flex-end">
+              <div className={classes.editIconContainer}>
                 <Tooltip title={t('views.solutions.form.editButton')}>
                   <Button
                     className={classes.actionIcon}
@@ -277,7 +283,7 @@ const PersonalDetails = ({
                     <EditIcon />
                   </Button>
                 </Tooltip>
-              </Grid>
+              </div>
             )}
             {familyMembers.length > 0 ? (
               familyMembers.map((member, index) => (
@@ -319,7 +325,7 @@ const PersonalDetails = ({
                       {!!member.birthDate &&
                         moment
                           .unix(member.birthDate)
-                          .utc()
+                          .utc(true)
                           .format(dateFormat)}
                     </Typography>
                   </Grid>

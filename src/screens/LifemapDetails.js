@@ -172,7 +172,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
                       </div>
                       {`${moment
                         .unix(snapshot.snapshotDate)
-                        .utc()
+                        .utc(true)
                         .format(dateFormat)}`}
                     </Typography>
                   }
