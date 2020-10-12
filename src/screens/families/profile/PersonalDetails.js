@@ -271,66 +271,68 @@ const PersonalDetails = ({
 
         {value === 2 && (
           <Grid container>
-            {showEditButtons(user) && (
-              <div className={classes.editIconContainer}>
-                <Tooltip title={t('views.solutions.form.editButton')}>
-                  <Button
-                    className={classes.actionIcon}
-                    onClick={() => {
-                      history.push(`/family/${familyId}/edit-members`);
-                    }}
-                  >
-                    <EditIcon />
-                  </Button>
-                </Tooltip>
-              </div>
-            )}
             {familyMembers.length > 0 ? (
-              familyMembers.map((member, index) => (
-                <Grid
-                  item
-                  container
-                  md={6}
-                  spacing={2}
-                  key={index}
-                  style={{ marginTop: 10 }}
-                >
-                  <Grid item container md={12}>
-                    <img alt="" height={30} width={30} src={familyFaceIcon} />
-                    <Typography variant="h6" className={classes.memberTitle}>
-                      {t('views.family.familyMember')} {index + 2}
-                    </Typography>
+              <React.Fragment>
+                {showEditButtons(user) && (
+                  <div className={classes.editIconContainer}>
+                    <Tooltip title={t('views.solutions.form.editButton')}>
+                      <Button
+                        className={classes.actionIcon}
+                        onClick={() => {
+                          history.push(`/family/${familyId}/edit-members`);
+                        }}
+                      >
+                        <EditIcon />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                )}
+                {familyMembers.map((member, index) => (
+                  <Grid
+                    item
+                    container
+                    md={6}
+                    spacing={2}
+                    key={index}
+                    style={{ marginTop: 10 }}
+                  >
+                    <Grid item container md={12}>
+                      <img alt="" height={30} width={30} src={familyFaceIcon} />
+                      <Typography variant="h6" className={classes.memberTitle}>
+                        {t('views.family.familyMember')} {index + 2}
+                      </Typography>
+                    </Grid>
+                    <Grid item md={12}>
+                      <Typography variant="h6" className={classes.label}>
+                        {`${t('views.family.firstName')}:`}
+                      </Typography>
+                      <Typography variant="h6" className={classes.answer}>
+                        {member.firstName}
+                      </Typography>
+                    </Grid>
+                    <Grid item md={12}>
+                      <Typography variant="h6" className={classes.label}>
+                        {`${t('views.family.gender')}:`}
+                      </Typography>
+                      <Typography variant="h6" className={classes.answer}>
+                        {member.genderText}
+                      </Typography>
+                    </Grid>
+                    <Grid item md={12}>
+                      <Typography variant="h6" className={classes.label}>
+                        {`${t('views.family.dateOfBirth')}:`}
+                      </Typography>
+                      <Typography variant="h6" className={classes.answer}>
+                        {!!member.birthDate &&
+                          moment
+                            .unix(member.birthDate)
+                            .utc(true)
+                            .format(dateFormat)}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item md={12}>
-                    <Typography variant="h6" className={classes.label}>
-                      {`${t('views.family.firstName')}:`}
-                    </Typography>
-                    <Typography variant="h6" className={classes.answer}>
-                      {member.firstName}
-                    </Typography>
-                  </Grid>
-                  <Grid item md={12}>
-                    <Typography variant="h6" className={classes.label}>
-                      {`${t('views.family.gender')}:`}
-                    </Typography>
-                    <Typography variant="h6" className={classes.answer}>
-                      {member.genderText}
-                    </Typography>
-                  </Grid>
-                  <Grid item md={12}>
-                    <Typography variant="h6" className={classes.label}>
-                      {`${t('views.family.dateOfBirth')}:`}
-                    </Typography>
-                    <Typography variant="h6" className={classes.answer}>
-                      {!!member.birthDate &&
-                        moment
-                          .unix(member.birthDate)
-                          .utc(true)
-                          .format(dateFormat)}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              ))
+                ))}
+              </React.Fragment>
             ) : (
               <Grid
                 container
