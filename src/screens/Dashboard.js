@@ -331,8 +331,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 const styles = theme => ({
   img: {
     maxWidth: 170,
-    maxHeight: 95,
-    marginTop: 40
+    maxHeight: 85,
+    marginTop: 44
   },
   titleBar: {
     paddingTop: theme.spacing(8),
