@@ -212,7 +212,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   return (
     <Container variant="fluid" className={classes.greyBackground}>
       <Grid container>
-        <Grid item md={2} container justify="center">
+        <Grid item md={2} className={classes.logoContainer}>
           {!!getLogoImg(user) && (
             <img alt="logo" className={classes.img} src={getLogoImg(user)} />
           )}
@@ -329,10 +329,16 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 };
 
 const styles = theme => ({
+  logoContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 120
+  },
   img: {
     maxWidth: 180,
     maxHeight: 85,
-    marginTop: 44
+    marginTop: 48
   },
   titleBar: {
     paddingTop: theme.spacing(8),
