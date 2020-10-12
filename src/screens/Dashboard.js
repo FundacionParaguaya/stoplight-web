@@ -330,7 +330,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
 const styles = theme => ({
   img: {
-    maxWidth: 170,
+    maxWidth: 180,
     maxHeight: 85,
     marginTop: 44
   },
