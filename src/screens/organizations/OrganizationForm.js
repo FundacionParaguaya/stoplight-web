@@ -242,6 +242,18 @@ const OrganizationFormModal = ({
   }, []);
 
   const onSubmit = values => {
+    values.organizationType = !!values.organizationType
+      ? values.organizationType
+      : null;
+    values.areaOfExpertise = !!values.areaOfExpertise
+      ? values.areaOfExpertise
+      : null;
+    values.finalUserType = !!values.finalUserType ? values.finalUserType : null;
+    values.endSurveyType = !!values.endSurveyType ? values.endSurveyType : null;
+    values.solutionsAccess = !!values.solutionsAccess
+      ? values.solutionsAccess
+      : null;
+
     setLoading(true);
     const orgs = subOrganizations.map(m => ({ id: m.value }));
     addOrUpdateOrg(user, {
