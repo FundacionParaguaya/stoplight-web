@@ -84,6 +84,7 @@
       "families": "Households",
       "logout": "Logout",
       "support": "Support",
+      "projects": "Projects",
       "solutions": "Bank of Solutions"
     },
     "synced": "Sync",
@@ -521,6 +522,17 @@
     },
     "familySignature": {
       "title": "Signature"
+    },
+    "projects": {
+      "search": "Search",
+      "searchProject": "by name",
+      "addProject": "Add project",
+      "editButton": "EDIT",
+      "deleteButton": "DELETE",
+      "form": {
+        "addTitle": "Add a Project",
+        "editTitle": "Edit a Project"
+      }
     },
     "organization": {
       "addOrganization": "Add an organization",

@@ -24,6 +24,7 @@ import SolutionsView from '../screens/solutions/SolutionsView';
 import EditPrimaryParticipantForm from '../screens/families/edit/EditPrimaryParticipantForm';
 import EditFamilyMembersForm from '../screens/families/edit/EditFamilyMembersForm';
 import OrganizationForm from '../screens/organizations/OrganizationForm';
+import Projects from '../screens/Projects';
 
 const Routes = ({ user }) => {
   return (
@@ -38,9 +39,13 @@ const Routes = ({ user }) => {
         {checkAccess(user, 'surveysList') && (
           <Route path="/surveysList" component={SurveyList} />
         )}
+        {checkAccess(user, 'projects') && (
+          <Route path="/projects" component={Projects} />
+        )}
         {checkAccess(user, 'organizations') && (
           <Route path="/organizations" component={Organizations} />
         )}
+
         {checkAccess(user, 'organizationEdit') && (
           <Route path="/organization/create" component={OrganizationForm} />
         )}

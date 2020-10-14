@@ -84,6 +84,7 @@
       "map": "Mapa",
       "logout": "Fechar sessão",
       "support": "Suporte",
+      "projects": "Projetos",
       "solutions": "Banco de Soluções"
     },
     "synced": "Sincronização",
@@ -521,6 +522,13 @@
     },
     "familySignature": {
       "title": "Assinatura"
+    },
+    "projects": {
+      "search": "Pesquisa",
+      "searchProject": "pelo nome",
+      "addProject": "Adicionar projeto",
+      "editButton": "EDITAR",
+      "deleteButton": "RETIRAR"
     },
     "organization": {
       "addOrganization": "Adicione uma organização",
