@@ -1,11 +1,17 @@
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import EditIcon from '@material-ui/icons/Edit';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import familyFaceIcon from '../../../assets/family_face_large.png';
+import { ROLES_NAMES } from '../../../utils/role-utils';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,9 +61,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const EconomicDetails = ({ economicData, membersEconomicData }) => {
+const EconomicDetails = ({
+  economicData,
+  membersEconomicData,
+  history,
+  user
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  let { familyId } = useParams();
 
   const [value, setValue] = useState(0);
   const [topics, setTopics] = useState([]);
@@ -124,6 +136,11 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
     setMembersDataByTopic(memberQuestionByTopic);
   }, [economicData, membersEconomicData]);
 
+  const showEditButtons = ({ role }) =>
+    role === ROLES_NAMES.ROLE_APP_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER;
+
   return (
     <React.Fragment>
       {hasData ? (
@@ -152,6 +169,22 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
           </Tabs>
 
           <Grid container>
+            {showEditButtons(user) && (
+              <Grid item md={12} container justify="flex-end">
+                <Tooltip title={t('views.solutions.form.editButton')}>
+                  <Button
+                    className={classes.actionIcon}
+                    onClick={() => {
+                      history.push(
+                        `/family/${familyId}/edit-economic/${topics[value]}`
+                      );
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+              </Grid>
+            )}
             {!!dataByTopic[value] &&
               dataByTopic[value].length > 0 &&
               dataByTopic[value].map((answer, index) => (
@@ -251,4 +284,8 @@ const EconomicDetails = ({ economicData, membersEconomicData }) => {
   );
 };
 
-export default EconomicDetails;
+const mapStateToProps = ({ user }) => ({
+  user
+});
+
+export default connect(mapStateToProps)(EconomicDetails);
