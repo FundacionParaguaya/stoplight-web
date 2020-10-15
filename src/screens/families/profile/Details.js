@@ -59,6 +59,7 @@ const Details = ({
   longitude,
   economicData,
   membersEconomicData,
+  survey,
   history
 }) => {
   const classes = useStyles();
@@ -67,6 +68,7 @@ const Details = ({
   const [openFamilyDetails, setOpenFamilyDetails] = useState(false);
   const [openEconomicDetails, setOpenEconomicDetails] = useState(false);
   const [sanitazedFamilyMembers, setSanitazedFamilyMembers] = useState([]);
+  const [topics, setTopics] = useState([]);
 
   useEffect(() => {
     let cleanfamilyMembers = familyMembers.filter(
@@ -74,6 +76,21 @@ const Details = ({
     );
     setSanitazedFamilyMembers(cleanfamilyMembers);
   }, [familyMembers]);
+
+  useEffect(() => {
+    let currentDimension = '';
+    let topicsFounded = [];
+
+    !!survey &&
+      survey.surveyEconomicQuestions.forEach(question => {
+        if (question.topic !== currentDimension) {
+          currentDimension = question.topic;
+          topicsFounded.push(question.topic);
+        }
+      });
+
+    setTopics(topicsFounded);
+  }, [survey]);
 
   return (
     <Accordion className={classes.container}>
@@ -127,6 +144,8 @@ const Details = ({
         <EconomicDetails
           economicData={economicData}
           membersEconomicData={membersEconomicData}
+          topics={topics}
+          history={history}
         />
       </AccordionItem>
     </Accordion>

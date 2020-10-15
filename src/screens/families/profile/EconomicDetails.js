@@ -64,6 +64,7 @@ const useStyles = makeStyles(theme => ({
 const EconomicDetails = ({
   economicData,
   membersEconomicData,
+  topics,
   history,
   user
 }) => {
@@ -72,8 +73,8 @@ const EconomicDetails = ({
   let { familyId } = useParams();
 
   const [value, setValue] = useState(0);
-  const [topics, setTopics] = useState([]);
   const [hasData, setHasData] = useState(false);
+  const [hasDataPerTopic, setHasDataPerTopic] = useState([]);
   const [dataByTopic, setDataByTopic] = useState([]);
   const [membersDataByTopic, setMembersDataByTopic] = useState([]);
 
@@ -82,11 +83,11 @@ const EconomicDetails = ({
   };
 
   useEffect(() => {
-    let topicsOptions = [];
-
     let questionByTopic = [];
 
     let memberQuestionByTopic = [];
+
+    let hasDataPerTopic = Array(topics.length).fill(false);
 
     setHasData(
       (!!economicData && economicData.length > 0) ||
@@ -99,42 +100,36 @@ const EconomicDetails = ({
 
     !!economicData &&
       economicData.forEach(question => {
-        let index = topicsOptions.findIndex(t => t === question.topic);
+        let index = topics.findIndex(t => t === question.topic);
 
-        if (index >= 0) {
-          questionByTopic[index] = !!questionByTopic[index]
-            ? [...questionByTopic[index], question]
-            : [question];
-        } else {
-          questionByTopic[topicsOptions.length] = [question];
-          topicsOptions.push(question.topic);
-        }
+        questionByTopic[index] = !!questionByTopic[index]
+          ? [...questionByTopic[index], question]
+          : [question];
+
+        hasDataPerTopic[index] = true;
       });
 
     !!membersEconomicData &&
       membersEconomicData.forEach((member, mIndex) => {
         memberQuestionByTopic.push({ name: member.firstName, questions: [] });
-        member.economic.forEach(question => {
-          let index = topicsOptions.findIndex(t => t === question.topic);
 
-          if (index >= 0) {
-            memberQuestionByTopic[mIndex].questions[
-              index
-            ] = !!memberQuestionByTopic[mIndex].questions[index]
-              ? [...memberQuestionByTopic[mIndex].questions[index], question]
-              : [question];
-          } else {
-            memberQuestionByTopic[mIndex].questions[topicsOptions.length] = [
-              question
-            ];
-            topicsOptions.push(question.topic);
-          }
+        member.economic.forEach(question => {
+          let index = topics.findIndex(t => t === question.topic);
+
+          memberQuestionByTopic[mIndex].questions[
+            index
+          ] = !!memberQuestionByTopic[mIndex].questions[index]
+            ? [...memberQuestionByTopic[mIndex].questions[index], question]
+            : [question];
+
+          hasDataPerTopic[index] = true;
         });
       });
-    setTopics(topicsOptions);
+
+    setHasDataPerTopic(hasDataPerTopic);
     setDataByTopic(questionByTopic);
     setMembersDataByTopic(memberQuestionByTopic);
-  }, [economicData, membersEconomicData]);
+  }, [economicData, membersEconomicData, topics]);
 
   const showEditButtons = ({ role }) =>
     role === ROLES_NAMES.ROLE_APP_ADMIN ||
@@ -167,106 +162,131 @@ const EconomicDetails = ({
               />
             ))}
           </Tabs>
-
-          <Grid container>
-            {showEditButtons(user) && (
-              <Grid item md={12} container justify="flex-end">
-                <Tooltip title={t('views.solutions.form.editButton')}>
-                  <Button
-                    className={classes.actionIcon}
-                    onClick={() => {
-                      history.push(
-                        `/family/${familyId}/edit-economic/${topics[value]}`
-                      );
-                    }}
-                  >
-                    <EditIcon />
-                  </Button>
-                </Tooltip>
-              </Grid>
-            )}
-            {!!dataByTopic[value] &&
-              dataByTopic[value].length > 0 &&
-              dataByTopic[value].map((answer, index) => (
-                <Grid key={index} item md={6}>
-                  <Typography variant="h6" className={classes.label}>
-                    {`${answer.questionText}:`}
-                  </Typography>
-                  {!!answer.text ? (
-                    <Typography variant="h6" className={classes.answer}>
-                      {answer.text}
-                    </Typography>
-                  ) : (
-                    <ul>
-                      {answer.multipleTextArray.map((answer, index) => (
-                        <Grid key={index}>
-                          <Typography variant="h6" className={classes.answer}>
-                            <li>{answer}</li>
-                          </Typography>
-                        </Grid>
-                      ))}
-                    </ul>
-                  )}
-                </Grid>
-              ))}
-
-            {!!membersDataByTopic &&
-              membersDataByTopic.length > 0 &&
-              membersDataByTopic.map(
-                (member, mIndex) =>
-                  !!member.questions[value] &&
-                  member.questions[value].length > 0 && (
-                    <React.Fragment key={mIndex}>
-                      <Grid
-                        item
-                        container
-                        md={12}
-                        alignItems="center"
-                        style={{ marginTop: 15 }}
+          {hasDataPerTopic[value] ? (
+            <React.Fragment>
+              <Grid container style={{ minHeight: 150 }}>
+                {showEditButtons(user) && (
+                  <Grid item md={12} container justify="flex-end">
+                    <Tooltip title={t('views.solutions.form.editButton')}>
+                      <Button
+                        className={classes.actionIcon}
+                        onClick={() => {
+                          history.push(
+                            `/family/${familyId}/edit-economic/${topics[value]}`
+                          );
+                        }}
                       >
-                        <img
-                          alt=""
-                          height={30}
-                          width={30}
-                          style={{ marginLeft: 10 }}
-                          src={familyFaceIcon}
-                        />
-                        <Typography
-                          variant="h6"
-                          className={classes.memberTitle}
-                        >
-                          {member.name}
+                        <EditIcon />
+                      </Button>
+                    </Tooltip>
+                  </Grid>
+                )}
+                {!!dataByTopic[value] &&
+                  dataByTopic[value].length > 0 &&
+                  dataByTopic[value].map((answer, index) => (
+                    <Grid key={index} item md={6}>
+                      <Typography variant="h6" className={classes.label}>
+                        {`${answer.questionText}:`}
+                      </Typography>
+                      {!!answer.text ? (
+                        <Typography variant="h6" className={classes.answer}>
+                          {answer.text}
                         </Typography>
-                      </Grid>
-                      {member.questions[value].map((answer, index) => (
-                        <Grid key={index} item md={6}>
-                          <Typography variant="h6" className={classes.label}>
-                            {`${answer.questionText}:`}
-                          </Typography>
-                          {!!answer.text ? (
-                            <Typography variant="h6" className={classes.answer}>
-                              {answer.text}
+                      ) : (
+                        <ul>
+                          {answer.multipleTextArray.map((answer, index) => (
+                            <Grid key={index}>
+                              <Typography
+                                variant="h6"
+                                className={classes.answer}
+                              >
+                                <li>{answer}</li>
+                              </Typography>
+                            </Grid>
+                          ))}
+                        </ul>
+                      )}
+                    </Grid>
+                  ))}
+
+                {!!membersDataByTopic &&
+                  membersDataByTopic.length > 0 &&
+                  membersDataByTopic.map(
+                    (member, mIndex) =>
+                      !!member.questions[value] &&
+                      member.questions[value].length > 0 && (
+                        <React.Fragment key={mIndex}>
+                          <Grid
+                            item
+                            container
+                            md={12}
+                            alignItems="center"
+                            style={{ marginTop: 15 }}
+                          >
+                            <img
+                              alt=""
+                              height={30}
+                              width={30}
+                              style={{ marginLeft: 10 }}
+                              src={familyFaceIcon}
+                            />
+                            <Typography
+                              variant="h6"
+                              className={classes.memberTitle}
+                            >
+                              {member.name}
                             </Typography>
-                          ) : (
-                            <ul>
-                              {answer.multipleTextArray.map((answer, index) => (
-                                <Grid key={index}>
-                                  <Typography
-                                    variant="h6"
-                                    className={classes.answer}
-                                  >
-                                    <li>{answer}</li>
-                                  </Typography>
-                                </Grid>
-                              ))}
-                            </ul>
-                          )}
-                        </Grid>
-                      ))}
-                    </React.Fragment>
-                  )
-              )}
-          </Grid>
+                          </Grid>
+                          {member.questions[value].map((answer, index) => (
+                            <Grid key={index} item md={6}>
+                              <Typography
+                                variant="h6"
+                                className={classes.label}
+                              >
+                                {`${answer.questionText}:`}
+                              </Typography>
+                              {!!answer.text ? (
+                                <Typography
+                                  variant="h6"
+                                  className={classes.answer}
+                                >
+                                  {answer.text}
+                                </Typography>
+                              ) : (
+                                <ul>
+                                  {answer.multipleTextArray.map(
+                                    (answer, index) => (
+                                      <Grid key={index}>
+                                        <Typography
+                                          variant="h6"
+                                          className={classes.answer}
+                                        >
+                                          <li>{answer}</li>
+                                        </Typography>
+                                      </Grid>
+                                    )
+                                  )}
+                                </ul>
+                              )}
+                            </Grid>
+                          ))}
+                        </React.Fragment>
+                      )
+                  )}
+              </Grid>
+            </React.Fragment>
+          ) : (
+            <Grid
+              container
+              justify="center"
+              alignItems="center"
+              style={{ height: 150 }}
+            >
+              <Typography variant="h6" className={classes.memberTitle}>
+                {t('views.familyProfile.noDataInTopic')}
+              </Typography>
+            </Grid>
+          )}
         </div>
       ) : (
         <Grid
