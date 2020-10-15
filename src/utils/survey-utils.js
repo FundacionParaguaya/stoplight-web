@@ -1,5 +1,8 @@
-import { CONDITION_TYPES } from '../utils/conditional-logic';
+import * as _ from 'lodash';
 import uuid from 'uuid/v1';
+import * as Yup from 'yup';
+import { CONDITION_TYPES } from '../utils/conditional-logic';
+import { shouldShowQuestion } from './conditional-logic';
 
 export const getEconomicScreens = survey => {
   let currentDimension = '';
@@ -141,4 +144,108 @@ export const snapshotToDraft = (snapshot, family, familyId) => {
   };
 
   return draft;
+};
+
+export const capitalize = string => _.startCase(string).replace(/ /g, '');
+
+const fieldIsRequired = 'validation.fieldIsRequired';
+
+const buildValidationForField = question => {
+  let validation = Yup.string();
+  if (question.required) {
+    validation = validation.required(fieldIsRequired);
+  }
+  return validation;
+};
+
+/**
+ * Builds the validation schema that will be used by Formik
+ * @param {*} questions The list of economic questions for the current screen
+ * @param {*} draft the current draft from redux state
+ */
+export const buildValidationSchemaForQuestions = (questions, draft) => {
+  const forFamilySchema = {};
+  const familyQuestions = (questions && questions.forFamily) || [];
+
+  familyQuestions.forEach(question => {
+    if (shouldShowQuestion(question, draft)) {
+      forFamilySchema[question.codeName] = buildValidationForField(question);
+    }
+  });
+
+  const forFamilyMemberSchema = {};
+  const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
+  const familyMembersList = _.get(draft, 'familyData.familyMembersList', []);
+
+  familyMembersList.forEach((_member, index) => {
+    const memberScheme = {};
+    familyMemberQuestions.forEach(question => {
+      if (shouldShowQuestion(question, draft, index)) {
+        memberScheme[question.codeName] = buildValidationForField(question);
+      }
+    });
+    forFamilyMemberSchema[index] = Yup.object().shape({
+      ...memberScheme
+    });
+  });
+
+  const validationSchema = Yup.object().shape({
+    forFamily: Yup.object().shape(forFamilySchema),
+    forFamilyMember: Yup.object().shape(forFamilyMemberSchema)
+  });
+  return validationSchema;
+};
+
+/**
+ * Based on the current draft, builds the initial values of the economics section
+ * @param {*} questions The list of economic questions for the current screen
+ * @param {*} draft the current draft from redux state
+ */
+export const buildInitialValuesForForm = (questions, draft) => {
+  const forFamilyInitial = {};
+  const familyQuestions = (questions && questions.forFamily) || [];
+
+  familyQuestions.forEach(question => {
+    const draftQuestion =
+      draft.economicSurveyDataList.find(e => e.key === question.codeName) || {};
+
+    const hasOtherOption = question.options.find(o => o.otherOption);
+
+    if (hasOtherOption) {
+      forFamilyInitial[`custom${capitalize(question.codeName)}`] =
+        draftQuestion.value === hasOtherOption.value ? draftQuestion.text : '';
+    }
+
+    forFamilyInitial[question.codeName] =
+      (Object.prototype.hasOwnProperty.call(draftQuestion, 'value') &&
+      !!draftQuestion.value
+        ? draftQuestion.value
+        : draftQuestion.multipleValue) || '';
+
+    delete forFamilyInitial[question.codeName].text;
+  });
+
+  const forFamilyMemberInitial = {};
+  const familyMemberQuestions = (questions && questions.forFamilyMember) || [];
+  const familyMembersList = _.get(draft, 'familyData.familyMembersList', []);
+  familyMembersList.forEach((familyMember, index) => {
+    const memberInitial = {};
+    const socioEconomicAnswers = familyMember.socioEconomicAnswers || [];
+    familyMemberQuestions.forEach(question => {
+      const draftQuestion =
+        socioEconomicAnswers.find(e => e.key === question.codeName) || {};
+
+      memberInitial[question.codeName] =
+        (Object.prototype.hasOwnProperty.call(draftQuestion, 'value') &&
+        !!draftQuestion.value
+          ? draftQuestion.value
+          : draftQuestion.multipleValue) || '';
+    });
+    forFamilyMemberInitial[index] = memberInitial;
+  });
+
+  return {
+    forFamily: forFamilyInitial,
+    forFamilyMember: forFamilyMemberInitial
+  };
 };
