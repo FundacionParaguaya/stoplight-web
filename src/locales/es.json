@@ -123,7 +123,7 @@
         "organizations": "Organizaciones",
         "assignSurvey": "Asignar encuesta",
         "surveyAssigned": "Guardado correctamente",
-        "surveyAssignError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar"
+        "surveyAssignError": "Ocurrió un error al asignar la encuesta. Vuelva a Intentar"
       },
       "filter": {
         "search": "Buscar",

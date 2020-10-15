@@ -230,7 +230,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
               );
             })}
           </Grid>
-          {paginationData.page + 1 < paginationData.totalPages && (
+          {paginationData.page + 1 <= paginationData.totalPages && (
             <div className={classes.showMoreButtonContainer}>
               <Button
                 variant="contained"
