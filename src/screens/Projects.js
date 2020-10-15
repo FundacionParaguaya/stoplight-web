@@ -41,9 +41,24 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
     setLoading(true);
     setTimeout(() => {
       const fetchedProjects = [
-        { id: 1, title: 'Project1', description: 'a description 1' },
-        { id: 2, title: 'Project2', description: 'a description 2' },
-        { id: 3, title: 'Project3', description: 'a description 3' }
+        {
+          id: 1,
+          name: 'Project1',
+          description: 'a description 1',
+          active: true
+        },
+        {
+          id: 2,
+          name: 'Project2',
+          description: 'a description 2',
+          active: true
+        },
+        {
+          id: 3,
+          name: 'Project3',
+          description: 'a description 3',
+          active: true
+        }
       ];
       console.log('set Projects');
       setProjects(fetchedProjects);
@@ -96,7 +111,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
                   <div className={classes.mainProjectContainer}>
                     <div className={classes.projectTitleContainer}>
                       <Typography variant="h6" className={classes.projectTitle}>
-                        {project.title}
+                        {project.name}
                       </Typography>
                     </div>
                     <div className={classes.descriptionContainer}>

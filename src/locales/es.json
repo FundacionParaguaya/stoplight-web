@@ -529,7 +529,16 @@
       "searchProject": "por nombre",
       "addProject": "Agregar proyecto",
       "editButton": "EDITAR",
-      "deleteButton": "ELIMINAR"
+      "deleteButton": "ELIMINAR",
+      "form": {
+        "addTitle": "Add a Project",
+        "editTitle": "Edit a Project",
+        "active": "Active",
+        "name": "Organization name",
+        "nameLengthExceeded": "Project name must have a maximum of 50 characters",
+        "description": "Description",
+        "descriptionLengthExceeded": "Description must have a maximum of 140 characters"
+      }
     },
     "organization": {
       "addOrganization": "Agregar organización",
