@@ -193,23 +193,23 @@ const EditEconomicForm = ({
   const handleContinue = () => {
     setLoading(true);
     let sanitazedDraft = draft;
-    sanitazedDraft.economicSurveyDataList = sanitazedDraft.economicSurveyDataList.map(
-      question => {
+    sanitazedDraft.economicSurveyDataList = sanitazedDraft.economicSurveyDataList
+      .filter(question => !!question.value || !!question.multipleValue)
+      .map(question => {
         !!question.value
           ? delete question.multipleValue
           : delete question.value;
         delete question.text;
         return question;
-      }
-    );
+      });
     sanitazedDraft.familyData.familyMembersList = sanitazedDraft.familyData.familyMembersList.map(
       member => {
-        member.socioEconomicAnswers = member.socioEconomicAnswers.map(
-          question => {
+        member.socioEconomicAnswers = member.socioEconomicAnswers
+          .filter(question => !!question.value || !!question.multipleValue)
+          .map(question => {
             delete question.text;
             return question;
-          }
-        );
+          });
         return member;
       }
     );
@@ -366,6 +366,10 @@ const EditEconomicForm = ({
                           setFieldValue
                         );
                       };
+
+                      if (!shouldShowQuestion(question, draft)) {
+                        return <React.Fragment key={question.codeName} />;
+                      }
 
                       if (question.answerType === 'select') {
                         return (
