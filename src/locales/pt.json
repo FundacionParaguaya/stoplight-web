@@ -464,7 +464,7 @@
       "economicDetails": "Dados socioeconômicos",
       "noMember": "Esta família não tem outros membros",
       "noEconomic": "Esta família não possui dados socioeconômicos",
-      "noDataInTopic": "Sem dados aqui",
+      "noDataInTopic": "Esta família não completou esta seção socioeconômica",
       "continueWithStoplight": "Fazer uma pesquisa de seguimento",
       "viewLifeMap": "Ver o Mapa de Vida em detalhe",
       "mentor": "Facilitador",
