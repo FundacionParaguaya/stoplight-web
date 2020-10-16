@@ -85,7 +85,7 @@ const StyledFormLabel = withStyles(() => ({
   focused: {
     color: '#909090!important'
   }
-}))(props => <FormLabel color="default" {...props} />);
+}))(props => <FormLabel color={'primary'} {...props} />);
 
 const FilledFormControlLabel = withStyles(() => ({
   root: {
@@ -96,7 +96,7 @@ const FilledFormControlLabel = withStyles(() => ({
     borderRadius: 50,
     minHeight: 37
   }
-}))(props => <FormControlLabel color="default" {...props} />);
+}))(props => <FormControlLabel color={'primary'} {...props} />);
 
 const GreenRadio = withStyles(theme => ({
   root: {
@@ -105,7 +105,7 @@ const GreenRadio = withStyles(theme => ({
   checked: {
     color: theme.palette.primary.main
   }
-}))(props => <Radio color="default" {...props} />);
+}))(props => <Radio color={'primary'} {...props} />);
 
 const styles = {
   gridCentering: {

@@ -24,6 +24,7 @@ import SolutionsView from '../screens/solutions/SolutionsView';
 import EditPrimaryParticipantForm from '../screens/families/edit/EditPrimaryParticipantForm';
 import EditFamilyMembersForm from '../screens/families/edit/EditFamilyMembersForm';
 import OrganizationForm from '../screens/organizations/OrganizationForm';
+import EditEconomicForm from '../screens/families/edit/EditEconomicForm';
 
 const Routes = ({ user }) => {
   return (
@@ -64,6 +65,12 @@ const Routes = ({ user }) => {
           <Route
             path="/family/:familyId/edit"
             component={EditPrimaryParticipantForm}
+          />
+        )}
+        {checkAccess(user, 'editFamily') && (
+          <Route
+            path="/family/:familyId/edit-economic/:topic"
+            component={EditEconomicForm}
           />
         )}
         {checkAccess(user, 'editFamily') && (

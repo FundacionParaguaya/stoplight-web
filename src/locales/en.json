@@ -464,6 +464,7 @@
       "economicDetails": "Socioeconomic Details",
       "noMember": "This family does not have more members",
       "noEconomic": "This family does not have socioecomic data",
+      "noDataInTopic": "This family has not completed this socioeconomic section",
       "continueWithStoplight": "Take a follow-up survey",
       "viewLifeMap": "View Life Map in Detail",
       "mentor": "Facilitator",
@@ -486,6 +487,10 @@
         "save": {
           "success": "Family updated successfully",
           "failed": "Could not update family"
+        },
+        "saveEconomic": {
+          "success": "Socio Economic data updated successfully",
+          "failed": "Could not update Socio Economic data"
         }
       }
     },

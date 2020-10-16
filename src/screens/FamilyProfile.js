@@ -557,6 +557,7 @@ const FamilyProfile = ({
         longitude={family.longitude}
         economicData={family.snapshotEconomics}
         membersEconomicData={family.membersEconomic}
+        survey={survey}
         history={history}
       />
 
