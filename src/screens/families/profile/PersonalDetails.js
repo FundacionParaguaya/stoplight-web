@@ -349,32 +349,50 @@ const PersonalDetails = ({
         )}
 
         {value === 3 && (
-          <Grid
-            container
-            spacing={2}
-            alignItems="center"
-            style={{ margin: '25px 0px 5px 0px' }}
-          >
-            <Gmaps
-              height="240px"
-              width="100%"
-              lat={latitude}
-              lng={longitude}
-              zoom={16}
-              loadingMessage={t('views.location.mapLoading')}
-              params={params}
-              disableDefaultUI
-              draggable={false}
-              scrollwheel={false}
-              clickableIcons={false}
-              disableDoubleClickZoom={true}
-              zoomControl={true}
+          <React.Fragment>
+            {showEditButtons(user) && (
+              <Grid item container justify="flex-end">
+                <Tooltip title={t('views.solutions.form.editButton')}>
+                  <Button
+                    className={classes.actionIcon}
+                    onClick={() => {
+                      history.push(
+                        `/family/${familyId}/edit-location/${latitude}/${longitude}`
+                      );
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+              </Grid>
+            )}
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              style={{ margin: '0px 0px 5px 0px' }}
             >
-              <div className={classes.markerContainer}>
-                <img src={MarkerIcon} className={classes.markerIcon} alt="" />
-              </div>
-            </Gmaps>
-          </Grid>
+              <Gmaps
+                height="240px"
+                width="100%"
+                lat={latitude}
+                lng={longitude}
+                zoom={16}
+                loadingMessage={t('views.location.mapLoading')}
+                params={params}
+                disableDefaultUI
+                draggable={false}
+                scrollwheel={false}
+                clickableIcons={false}
+                disableDoubleClickZoom={true}
+                zoomControl={true}
+              >
+                <div className={classes.markerContainer}>
+                  <img src={MarkerIcon} className={classes.markerIcon} alt="" />
+                </div>
+              </Gmaps>
+            </Grid>
+          </React.Fragment>
         )}
       </div>
     </React.Fragment>
