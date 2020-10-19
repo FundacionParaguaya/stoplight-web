@@ -220,10 +220,16 @@ const DetailsOverview = ({
   };
 
   const showButton = (button, { role }, family) => {
-    if (button === 'whatsapp' || button === 'email') {
+    if (button === 'whatsapp') {
       return (
         role === ROLES_NAMES.ROLE_SURVEY_USER ||
         role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+      );
+    } else if (button === 'email') {
+      return (
+        role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+        role === ROLES_NAMES.ROLE_APP_ADMIN
       );
     } else if (button === 'download') {
       return (
