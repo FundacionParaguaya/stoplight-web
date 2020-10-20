@@ -1527,3 +1527,23 @@ export const updateEconomicData = (user, id, draft) =>
       }
     })
   });
+
+export const updateLocation = (user, familyId, lat, lng) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateFamilyLocation($familyLocation: FamilyLocationModelInput) {updateFamilyLocation(familyLocation: $familyLocation){successful}}',
+      variables: {
+        familyLocation: {
+          family: familyId,
+          latitude: lat,
+          longitude: lng
+        }
+      }
+    })
+  });
