@@ -10,6 +10,7 @@ import ProjectSearchFilter from './projects/ProjectSearchFilter';
 import { Grid, Button, CircularProgress } from '@material-ui/core';
 import clsx from 'clsx';
 import ProjectFormModal from './projects/ProjectFormModal';
+import DeleteProjectModal from './projects/DeleteProjectModal';
 
 const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const [filter, setFilter] = useState('');
@@ -30,7 +31,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   };
 
   const toggleDeleteModal = () => {
-    setOpenDeleteModal(!setOpenDeleteModal);
+    setOpenDeleteModal(!openDeleteModal);
   };
 
   const reloadPage = () => {
@@ -78,6 +79,12 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
         open={openFormModal}
         afterSubmit={reloadPage}
         toggleModal={toggleFormModal}
+      />
+      <DeleteProjectModal
+        project={selectedProject}
+        open={openDeleteModal}
+        afterSubmit={reloadPage}
+        toggleModal={toggleDeleteModal}
       />
       <Container variant="stretch">
         <div className={classes.titleContainer}>

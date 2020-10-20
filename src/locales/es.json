@@ -531,13 +531,13 @@
       "editButton": "EDITAR",
       "deleteButton": "ELIMINAR",
       "form": {
-        "addTitle": "Add a Project",
-        "editTitle": "Edit a Project",
-        "active": "Active",
-        "name": "Organization name",
-        "nameLengthExceeded": "Project name must have a maximum of 50 characters",
-        "description": "Description",
-        "descriptionLengthExceeded": "Description must have a maximum of 140 characters"
+        "addTitle": "Agregar un proyecto",
+        "editTitle": "Editar un proyecto",
+        "active": "Activo",
+        "name": "Nombre del proyecto",
+        "nameLengthExceeded": "El nombre del proyecto debe tener un máximo de 50 caracteres",
+        "description": "Descripción",
+        "descriptionLengthExceeded": "La descripción debe tener un máximo de 140 caracteres"
       }
     },
     "organization": {

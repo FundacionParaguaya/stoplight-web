@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'http://localhost:8080'
+  development: 'https://testing.backend.povertystoplight.org'
 };
 
 // list of enviroments urls
@@ -1075,6 +1075,55 @@ export const getUserById = (user, userId) => {
     })
   });
 };
+
+export const addOrUpdateProject = (user, values) => {
+  if (!values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createProject($project: ProjectModelInput) {createProject(project: $project){title}}`,
+        variables: {
+          project: {
+            title: values.title,
+            description: values.description,
+            active: values.active
+          }
+        }
+      })
+    });
+  }
+};
+
+export const getProjectsPaginated = (
+  user,
+  page,
+  filter,
+  organizations,
+  sortBy,
+  sortDirection
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description}, totalElements } }',
+      variables: {
+        page,
+        filter,
+        organizations,
+        sortBy,
+        sortDirection
+      }
+    })
+  });
 
 export const getUsersPaginated = (
   user,
