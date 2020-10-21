@@ -22,6 +22,7 @@ import { useParams } from 'react-router-dom';
 import { updateLocation } from '../../../api';
 import LocationIcon from '../../../assets/location.png';
 import MarkerIcon from '../../../assets/marker.png';
+import BottomSpacer from '../../../components/BottomSpacer';
 import Container from '../../../components/Container';
 import ExitModal from '../../../components/ExitModal';
 
@@ -82,7 +83,7 @@ const useStyles = makeStyles(() => ({
   },
   myLocationContainer: {
     right: 260,
-    bottom: 211,
+    bottom: 250,
     position: 'absolute',
     zIndex: 1
   },
@@ -317,6 +318,7 @@ const EditMap = ({ history, enqueueSnackbar, closeSnackbar, user }) => {
           {t('general.save')}
         </Button>
       </div>
+      <BottomSpacer />
     </Container>
   );
 };

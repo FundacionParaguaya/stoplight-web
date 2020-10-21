@@ -7,8 +7,8 @@ const useStyles = makeStyles(theme => ({
   mapContainer: {
     paddingTop: '3rem',
     maxWidth: '80vw',
-    height: '72vh',
-    maxHeight: '72vh',
+    height: '68vh',
+    maxHeight: '68vh',
     margin: 'auto'
   }
 }));
