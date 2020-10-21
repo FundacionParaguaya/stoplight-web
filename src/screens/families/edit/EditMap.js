@@ -22,7 +22,6 @@ import { useParams } from 'react-router-dom';
 import { updateLocation } from '../../../api';
 import LocationIcon from '../../../assets/location.png';
 import MarkerIcon from '../../../assets/marker.png';
-import BottomSpacer from '../../../components/BottomSpacer';
 import Container from '../../../components/Container';
 import ExitModal from '../../../components/ExitModal';
 
@@ -318,7 +317,6 @@ const EditMap = ({ history, enqueueSnackbar, closeSnackbar, user }) => {
           {t('general.save')}
         </Button>
       </div>
-      <BottomSpacer />
     </Container>
   );
 };
