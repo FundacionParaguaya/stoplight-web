@@ -12,7 +12,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'https://testing.backend.povertystoplight.org'
+  development: 'http://localhost:8080'
 };
 
 // list of enviroments urls
@@ -1090,7 +1090,9 @@ export const addOrUpdateProject = (user, values) => {
           project: {
             title: values.title,
             description: values.description,
-            active: values.active
+            active: values.active,
+            from: 123123123,
+            to: 234234234
           }
         }
       })
@@ -1100,11 +1102,7 @@ export const addOrUpdateProject = (user, values) => {
 
 export const getProjectsPaginated = (
   user,
-  page,
-  filter,
-  organizations,
-  sortBy,
-  sortDirection
+  { page, filter, organizations, sortBy, sortDirection }
 ) =>
   axios({
     method: 'post',

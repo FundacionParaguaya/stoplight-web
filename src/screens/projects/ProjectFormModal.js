@@ -15,11 +15,13 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import * as Yup from 'yup';
 import InputWithFormik from '../../components/InputWithFormik';
+import { addOrUpdateProject } from '../../api';
 
 const ProjectFormModal = ({
   open,
   toggleModal,
   afterSubmit,
+  user,
   project,
   enqueueSnackbar,
   closeSnackbar
@@ -35,7 +37,7 @@ const ProjectFormModal = ({
   const fieldIsRequired = 'validation.fieldIsRequired';
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
+    title: Yup.string()
       .required(fieldIsRequired)
       .max(50, t('views.projects.form.nameLengthExceeded')),
     description: Yup.string()
@@ -44,18 +46,32 @@ const ProjectFormModal = ({
   });
 
   const onSubmit = values => {
-    setTimeout(() => {
-      setLoading(false);
-      onClose(true);
-      enqueueSnackbar(t('views.projects.form.save.success'), {
-        variant: 'success',
-        action: key => (
-          <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-            <CloseIcon style={{ color: 'white' }} />
-          </IconButton>
-        )
+    addOrUpdateProject(user, { ...values })
+      .then(() => {
+        setLoading(false);
+        onClose(true);
+        enqueueSnackbar(t('views.projects.form.save.success'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.projects.form.save.failed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        setLoading(false);
+        onClose(true);
       });
-    }, 1000);
   };
   return (
     <Modal
@@ -88,7 +104,7 @@ const ProjectFormModal = ({
           <Formik
             initialValues={{
               id: (!!project.id && project.id) || '',
-              name: (!!project.name && project.name) || '',
+              title: (!!project.title && project.title) || '',
               description: (!!project.description && project.description) || '',
               active: (!!project.active && project.active) || false
             }}
@@ -102,7 +118,7 @@ const ProjectFormModal = ({
               <Form noValidate>
                 <InputWithFormik
                   label={t('views.projects.form.name')}
-                  name="name"
+                  name="title"
                   required
                   className={classes.input}
                 />

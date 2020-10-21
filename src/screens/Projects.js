@@ -11,6 +11,7 @@ import { Grid, Button, CircularProgress } from '@material-ui/core';
 import clsx from 'clsx';
 import ProjectFormModal from './projects/ProjectFormModal';
 import DeleteProjectModal from './projects/DeleteProjectModal';
+import { getProjectsPaginated } from '../api';
 
 const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const [filter, setFilter] = useState('');
@@ -19,6 +20,11 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const [selectedProject, setSelectedProject] = useState({});
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [paginationData, setPaginationData] = useState({
+    page: 0,
+    totalPages: 1,
+    prevPage: null
+  });
 
   const onChangeProjectFilter = e => {
     if (e.key == 'Enter') {
@@ -40,6 +46,23 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
 
   const loadProjects = overwrite => {
     setLoading(true);
+
+    const page = overwrite ? 1 : paginationData.page;
+    let filterData = {
+      page: page,
+      filter: filter,
+      organizations: [],
+      sortBy: '',
+      sortDirection: ''
+    };
+
+    if (page !== paginationData.prevPage || overwrite) {
+      setLoading(true);
+      getProjectsPaginated(user, filterData).then(response => {
+        console.log('res', response);
+      });
+    }
+
     setTimeout(() => {
       const fetchedProjects = [
         {

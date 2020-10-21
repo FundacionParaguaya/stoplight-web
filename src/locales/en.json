@@ -526,7 +526,7 @@
     "projects": {
       "search": "Search",
       "searchProject": "by name",
-      "addProject": "Add project",
+      "addProject": "Add a project",
       "editButton": "EDIT",
       "deleteButton": "DELETE",
       "form": {
