@@ -91,11 +91,11 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   }, []);
 
   useEffect(() => {
-    !loading && loadProjects(false);
+    !openDeleteModal && !openFormModal && !loading && loadProjects(false);
   }, [paginationData.page]);
 
   useEffect(() => {
-    !loading && loadProjects(true);
+    !openDeleteModal && !openFormModal && !loading && loadProjects(true);
   }, [filter]);
 
   return (

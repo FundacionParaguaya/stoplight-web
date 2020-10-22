@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import face from '../../assets/serious_face.png';
+import { deleteProject } from '../../api';
 
 const DeleteProjectModal = ({
   open,
@@ -28,18 +29,33 @@ const DeleteProjectModal = ({
 
   const onDeleteClicked = () => {
     setDeletingProject(true);
-    setTimeout(() => {
-      setDeletingProject(false);
-      onClose({ deleteModalOpen: false });
-      enqueueSnackbar(t('views.projects.delete.success'), {
-        variant: 'success',
-        action: key => (
-          <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-            <CloseIcon style={{ color: 'white' }} />
-          </IconButton>
-        )
+
+    deleteProject(user, project.id)
+      .then(() => {
+        setDeletingProject(false);
+        onClose({ deleteModalOpen: false });
+        enqueueSnackbar(t('views.projects.delete.success'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.projects.delete.failed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        setDeletingProject(false);
+        onClose();
       });
-    }, 1000);
   };
 
   const onClose = () => {

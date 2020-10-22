@@ -1103,7 +1103,7 @@ export const addOrUpdateProject = (user, values) => {
         Authorization: `Bearer ${user.token}`
       },
       data: JSON.stringify({
-        query: `mutation updateProject($project: ProjectModelInput) {createProject(project: $project){title}}`,
+        query: `mutation updateProject($project: ProjectModelInput) {updateProject(project: $project){title}}`,
         variables: {
           project: {
             id: values.id,
@@ -1129,7 +1129,7 @@ export const getProjectsPaginated = (
     },
     data: JSON.stringify({
       query:
-        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description}, totalElements totalPages } }',
+        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description, active}, totalElements totalPages } }',
       variables: {
         page,
         filter,
@@ -1137,6 +1137,20 @@ export const getProjectsPaginated = (
         sortBy,
         sortDirection
       }
+    })
+  });
+
+export const deleteProject = (user, projectId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteProject($project: ProjectModelInput) {deleteProject(project: $project){successful} }',
+      variables: { project: { id: projectId } }
     })
   });
 

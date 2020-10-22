@@ -106,7 +106,7 @@ const ProjectFormModal = ({
               id: (!!project.id && project.id) || '',
               title: (!!project.title && project.title) || '',
               description: (!!project.description && project.description) || '',
-              active: (!!project.active && project.active) || true
+              active: !isCreate ? project.active : true
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
