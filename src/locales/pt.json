@@ -84,6 +84,7 @@
       "map": "Mapa",
       "logout": "Fechar sessão",
       "support": "Suporte",
+      "projects": "Projetos",
       "solutions": "Banco de Soluções"
     },
     "synced": "Sincronização",
@@ -526,6 +527,33 @@
     },
     "familySignature": {
       "title": "Assinatura"
+    },
+    "projects": {
+      "search": "Pesquisa",
+      "searchProject": "pelo nome",
+      "addProject": "Adicionar projeto",
+      "editButton": "EDITAR",
+      "deleteButton": "RETIRAR",
+      "form": {
+        "addTitle": "Adicionar um Projeto",
+        "editTitle": "Editar um Projeto",
+        "active": "Ativo",
+        "name": "Nome do Projeto",
+        "nameLengthExceeded": "O nome do projeto deve ter no máximo 50 caracteres",
+        "description": "Descrição",
+        "descriptionLengthExceeded": "A descrição deve ter no máximo 140 caracteres",
+        "save": {
+          "success": "Projeto salvo com sucesso",
+          "failed": "Projeto já existe"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirmar exclusão",
+        "confirmText": "Tem certeza de que deseja excluir este projeto?",
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "success": "O projeto foi excluído",
+        "failed": "O projeto não pode ser excluído porque tem dados associados"
+      }
     },
     "organization": {
       "addOrganization": "Adicione uma organização",

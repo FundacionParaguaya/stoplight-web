@@ -84,6 +84,7 @@
       "map": "Mapa",
       "logout": "Cerrar sesión",
       "support": "Soporte",
+      "projects": "Proyectos",
       "solutions": "Banco de Soluciones"
     },
     "synced": "Sincronización",
@@ -527,6 +528,33 @@
     },
     "familySignature": {
       "title": "Firma"
+    },
+    "projects": {
+      "search": "Buscar",
+      "searchProject": "por nombre",
+      "addProject": "Agregar proyecto",
+      "editButton": "EDITAR",
+      "deleteButton": "ELIMINAR",
+      "form": {
+        "addTitle": "Agregar un proyecto",
+        "editTitle": "Editar un proyecto",
+        "active": "Activo",
+        "name": "Nombre del proyecto",
+        "nameLengthExceeded": "El nombre del proyecto debe tener un máximo de 50 caracteres",
+        "description": "Descripción",
+        "descriptionLengthExceeded": "La descripción debe tener un máximo de 140 caracteres",
+        "save": {
+          "success": "Proyecto guardado correctamente",
+          "failed": "El proyecto ya existe"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirmar la eliminación",
+        "confirmText": "¿Está seguro de que desea eliminar este proyecto?",
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "success": "El proyecto ha sido eliminado",
+        "failed": "El proyecto no se puede eliminar porque tiene datos asociados"
+      }
     },
     "organization": {
       "addOrganization": "Agregar organización",

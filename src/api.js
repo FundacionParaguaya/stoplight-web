@@ -1076,6 +1076,84 @@ export const getUserById = (user, userId) => {
   });
 };
 
+export const addOrUpdateProject = (user, values) => {
+  if (!values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createProject($project: ProjectModelInput) {createProject(project: $project){title}}`,
+        variables: {
+          project: {
+            title: values.title,
+            description: values.description,
+            active: values.active
+          }
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateProject($project: ProjectModelInput) {updateProject(project: $project){title}}`,
+        variables: {
+          project: {
+            id: values.id,
+            title: values.title,
+            description: values.description,
+            active: values.active
+          }
+        }
+      })
+    });
+  }
+};
+
+export const getProjectsPaginated = (
+  user,
+  { page, filter, organizations, sortBy, sortDirection }
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description, active}, totalElements totalPages } }',
+      variables: {
+        page,
+        filter,
+        organizations,
+        sortBy,
+        sortDirection
+      }
+    })
+  });
+
+export const deleteProject = (user, projectId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteProject($project: ProjectModelInput) {deleteProject(project: $project){successful} }',
+      variables: { project: { id: projectId } }
+    })
+  });
+
 export const getUsersPaginated = (
   user,
   page,

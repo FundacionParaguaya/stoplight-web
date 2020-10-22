@@ -48,6 +48,7 @@ export const ROLES = {
     // Org admin user
     { item: 'dashboard', platform: ACCESS },
     { item: 'reports', platform: NEW },
+    { item: 'projects', platform: NEW },
     { item: 'surveysList', platform: NEW },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },

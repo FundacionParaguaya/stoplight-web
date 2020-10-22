@@ -25,6 +25,7 @@ import EditPrimaryParticipantForm from '../screens/families/edit/EditPrimaryPart
 import EditFamilyMembersForm from '../screens/families/edit/EditFamilyMembersForm';
 import EditLocation from '../screens/families/edit/EditLocation';
 import OrganizationForm from '../screens/organizations/OrganizationForm';
+import Projects from '../screens/Projects';
 import EditEconomicForm from '../screens/families/edit/EditEconomicForm';
 
 const Routes = ({ user }) => {
@@ -40,9 +41,13 @@ const Routes = ({ user }) => {
         {checkAccess(user, 'surveysList') && (
           <Route path="/surveysList" component={SurveyList} />
         )}
+        {checkAccess(user, 'projects') && (
+          <Route path="/projects" component={Projects} />
+        )}
         {checkAccess(user, 'organizations') && (
           <Route path="/organizations" component={Organizations} />
         )}
+
         {checkAccess(user, 'organizationEdit') && (
           <Route path="/organization/create" component={OrganizationForm} />
         )}
