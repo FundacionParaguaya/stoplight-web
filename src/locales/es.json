@@ -537,7 +537,18 @@
         "name": "Nombre del proyecto",
         "nameLengthExceeded": "El nombre del proyecto debe tener un máximo de 50 caracteres",
         "description": "Descripción",
-        "descriptionLengthExceeded": "La descripción debe tener un máximo de 140 caracteres"
+        "descriptionLengthExceeded": "La descripción debe tener un máximo de 140 caracteres",
+        "save": {
+          "success": "Proyecto guardado correctamente",
+          "failed": "El proyecto ya existe"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirmar la eliminación",
+        "confirmText": "¿Está seguro de que desea eliminar este proyecto?",
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "success": "El proyecto ha sido eliminado",
+        "failed": "El proyecto no se puede eliminar porque tiene datos asociados"
       }
     },
     "organization": {

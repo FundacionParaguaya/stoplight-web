@@ -165,8 +165,8 @@ const ProjectFormModal = ({
 const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
-    justifyContent: 'space-evenly',
-    marginTop: 30
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   confirmationModal: {
     backgroundColor: theme.palette.background.default,

@@ -8,10 +8,10 @@ import Container from '../components/Container';
 import Typography from '@material-ui/core/Typography';
 import ProjectSearchFilter from './projects/ProjectSearchFilter';
 import { Grid, Button, CircularProgress } from '@material-ui/core';
-import clsx from 'clsx';
 import ProjectFormModal from './projects/ProjectFormModal';
 import DeleteProjectModal from './projects/DeleteProjectModal';
 import { getProjectsPaginated } from '../api';
+import BottomSpacer from '../components/BottomSpacer';
 
 const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const [filter, setFilter] = useState('');
@@ -21,14 +21,14 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [paginationData, setPaginationData] = useState({
-    page: 0,
-    totalPages: 0,
+    page: 1,
+    totalPages: 1,
     totalElements: 0,
-    prevPage: null
+    prevPage: 0
   });
 
   const onChangeProjectFilter = e => {
-    if (e.key == 'Enter') {
+    if (e.key === 'Enter') {
       setFilter(e.target.value);
     }
   };
@@ -42,7 +42,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   };
 
   const reloadPage = () => {
-    loadProjects();
+    loadProjects(true);
   };
 
   const nextPage = () => {
@@ -57,19 +57,16 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const loadProjects = overwrite => {
     const page = overwrite ? 1 : paginationData.page;
     let filterData = {
-      page: page,
+      page: page - 1,
       filter: filter,
       organizations: [],
       sortBy: '',
       sortDirection: ''
     };
-
     if (page !== paginationData.prevPage || overwrite) {
       setLoading(true);
-      console.log('llegue aca');
       getProjectsPaginated(user, filterData)
         .then(response => {
-          console.log('res', response);
           let data = response.data.data.searchProjects;
 
           let projectsList = overwrite
@@ -92,6 +89,14 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
     setLoading(true);
     loadProjects();
   }, []);
+
+  useEffect(() => {
+    !loading && loadProjects(false);
+  }, [paginationData.page]);
+
+  useEffect(() => {
+    !loading && loadProjects(true);
+  }, [filter]);
 
   return (
     <div className={classes.mainProjectsContainerBoss}>
@@ -189,7 +194,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
               <Button
                 variant="contained"
                 aria-label="Show more"
-                className={classes.showMoreButtom}
+                className={classes.showMoreButton}
                 component="span"
                 onClick={() => {
                   nextPage();
@@ -201,6 +206,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
           )}
         </div>
       </Container>
+      <BottomSpacer />
     </div>
   );
 };

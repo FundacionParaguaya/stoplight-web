@@ -1090,9 +1090,26 @@ export const addOrUpdateProject = (user, values) => {
           project: {
             title: values.title,
             description: values.description,
-            active: values.active,
-            from: 123123123,
-            to: 234234234
+            active: values.active
+          }
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateProject($project: ProjectModelInput) {createProject(project: $project){title}}`,
+        variables: {
+          project: {
+            id: values.id,
+            title: values.title,
+            description: values.description,
+            active: values.active
           }
         }
       })
@@ -1112,7 +1129,7 @@ export const getProjectsPaginated = (
     },
     data: JSON.stringify({
       query:
-        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description}, totalElements } }',
+        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description}, totalElements totalPages } }',
       variables: {
         page,
         filter,
