@@ -78,11 +78,12 @@ const useStyles = makeStyles(() => ({
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginTop: 40
+    marginTop: 40,
+    marginBottom: 20
   },
   myLocationContainer: {
-    right: 260,
-    bottom: 250,
+    right: 55,
+    bottom: 280,
     position: 'absolute',
     zIndex: 1
   },
@@ -195,7 +196,7 @@ const EditMap = ({ history, enqueueSnackbar, closeSnackbar, user }) => {
   };
 
   return (
-    <Container variant="slim">
+    <Container variant="stretch">
       <ExitModal
         open={openExitModal}
         onDissmiss={() => setOpenExitModal(false)}
@@ -227,6 +228,9 @@ const EditMap = ({ history, enqueueSnackbar, closeSnackbar, user }) => {
                 options={{
                   mapTypeControlOptions: {
                     position: google.maps.ControlPosition.TOP_RIGHT
+                  },
+                  streetViewControlOptions: {
+                    position: 'hidden'
                   }
                 }}
               >
