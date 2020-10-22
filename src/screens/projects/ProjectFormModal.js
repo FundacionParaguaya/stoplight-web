@@ -106,7 +106,7 @@ const ProjectFormModal = ({
               id: (!!project.id && project.id) || '',
               title: (!!project.title && project.title) || '',
               description: (!!project.description && project.description) || '',
-              active: (!!project.active && project.active) || false
+              active: (!!project.active && project.active) || true
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -128,23 +128,26 @@ const ProjectFormModal = ({
                   required
                   className={classes.input}
                 />
-                <div className={classes.switchOptionsContainer}>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.switchLabel}
-                  >
-                    {t('views.projects.form.active')}
-                  </Typography>
-                  <Switch
-                    name={'active'}
-                    value={'active'}
-                    onChange={e => {
-                      setFieldValue('active', !values.active);
-                    }}
-                    checked={values.active}
-                    color="primary"
-                  />
-                </div>
+                {!isCreate && (
+                  <div className={classes.switchOptionsContainer}>
+                    <Typography
+                      variant="subtitle1"
+                      className={classes.switchLabel}
+                    >
+                      {t('views.projects.form.active')}
+                    </Typography>
+                    <Switch
+                      name={'active'}
+                      value={'active'}
+                      onChange={e => {
+                        setFieldValue('active', !values.active);
+                      }}
+                      checked={values.active}
+                      color="primary"
+                    />
+                  </div>
+                )}
+
                 <div className={classes.buttonContainerForm}>
                   <Button type="submit" color="primary" variant="contained">
                     {t('general.save')}

@@ -22,7 +22,8 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const [projects, setProjects] = useState([]);
   const [paginationData, setPaginationData] = useState({
     page: 0,
-    totalPages: 1,
+    totalPages: 0,
+    totalElements: 0,
     prevPage: null
   });
 
@@ -44,9 +45,16 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
     loadProjects();
   };
 
-  const loadProjects = overwrite => {
-    setLoading(true);
+  const nextPage = () => {
+    if (paginationData.page + 1 <= paginationData.totalPages) {
+      setPaginationData({
+        page: paginationData.page + 1,
+        totalPages: paginationData.totalPages
+      });
+    }
+  };
 
+  const loadProjects = overwrite => {
     const page = overwrite ? 1 : paginationData.page;
     let filterData = {
       page: page,
@@ -58,36 +66,26 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
 
     if (page !== paginationData.prevPage || overwrite) {
       setLoading(true);
-      getProjectsPaginated(user, filterData).then(response => {
-        console.log('res', response);
-      });
-    }
+      console.log('llegue aca');
+      getProjectsPaginated(user, filterData)
+        .then(response => {
+          console.log('res', response);
+          let data = response.data.data.searchProjects;
 
-    setTimeout(() => {
-      const fetchedProjects = [
-        {
-          id: 1,
-          name: 'Project1',
-          description: 'a description 1',
-          active: true
-        },
-        {
-          id: 2,
-          name: 'Project2',
-          description: 'a description 2',
-          active: true
-        },
-        {
-          id: 3,
-          name: 'Project3',
-          description: 'a description 3',
-          active: true
-        }
-      ];
-      console.log('set Projects');
-      setProjects(fetchedProjects);
-      setLoading(false);
-    }, 2000);
+          let projectsList = overwrite
+            ? data.content
+            : [...projects, ...data.content];
+
+          setProjects(projectsList);
+          setPaginationData({
+            page: page,
+            totalPages: data.totalPages,
+            totalElements: data.totalElements,
+            prevPage: page
+          });
+        })
+        .finally(() => setLoading(false));
+    }
   };
 
   useEffect(() => {
@@ -141,7 +139,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
                   <div className={classes.mainProjectContainer}>
                     <div className={classes.projectTitleContainer}>
                       <Typography variant="h6" className={classes.projectTitle}>
-                        {project.name}
+                        {project.title}
                       </Typography>
                     </div>
                     <div className={classes.descriptionContainer}>
@@ -186,6 +184,21 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
               );
             })}
           </Grid>
+          {paginationData.page < paginationData.totalPages && (
+            <div className={classes.showMoreButtonContainer}>
+              <Button
+                variant="contained"
+                aria-label="Show more"
+                className={classes.showMoreButtom}
+                component="span"
+                onClick={() => {
+                  nextPage();
+                }}
+              >
+                {t('general.showMore')}
+              </Button>
+            </div>
+          )}
         </div>
       </Container>
     </div>
@@ -280,6 +293,14 @@ const styles = theme => ({
     justifyContent: 'center',
     height: 500,
     alignItems: 'center'
+  },
+  showMoreButtonContainer: {
+    width: '100%',
+    marginTop: 30,
+    display: 'flex'
+  },
+  showMoreButton: {
+    margin: 'auto'
   }
 });
 const mapStateToProps = ({ user }) => ({ user });
