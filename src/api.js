@@ -819,9 +819,9 @@ export const getFamily = (familyId, user) =>
     },
     data: JSON.stringify({
       query:
-        'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code latitude longitude numberOfSnapshots allowRetake organization { id, name } country{country} ' +
+        'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot allowRetake organization { id, name } country{country} ' +
         'familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} ' +
-        'snapshotEconomics { questionText text multipleText multipleTextArray topic} membersEconomic{ firstName economic{codeName questionText text multipleText multipleTextArray topic} } ' +
+        'snapshotEconomics { codeName value multipleValueArray questionText text multipleText multipleTextArray other topic} membersEconomic{ memberIdentifier firstName economic{codeName value multipleValue questionText text multipleText multipleTextArray other topic} } ' +
         'snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
       variables: {
         id: familyId
@@ -1582,6 +1582,45 @@ export const updateFamilyDetails = (user, familyId, familyDetails) =>
         family: {
           familyId: familyId,
           familyMembersList: familyDetails
+        }
+      }
+    })
+  });
+
+export const updateEconomicData = (user, id, draft) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateSnapshot($snapshot: SnapshotUpdateModelInput) {updateSnapshot(snapshot: $snapshot){successful}}',
+      variables: {
+        snapshot: {
+          id: id,
+          ...draft
+        }
+      }
+    })
+  });
+
+export const updateLocation = (user, familyId, lat, lng) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateFamilyLocation($familyLocation: FamilyLocationModelInput) {updateFamilyLocation(familyLocation: $familyLocation){successful}}',
+      variables: {
+        familyLocation: {
+          family: familyId,
+          latitude: lat,
+          longitude: lng
         }
       }
     })

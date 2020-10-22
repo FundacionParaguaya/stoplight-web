@@ -23,8 +23,10 @@ import SolutionsForm from '../screens/solutions/SolutionsForm';
 import SolutionsView from '../screens/solutions/SolutionsView';
 import EditPrimaryParticipantForm from '../screens/families/edit/EditPrimaryParticipantForm';
 import EditFamilyMembersForm from '../screens/families/edit/EditFamilyMembersForm';
+import EditLocation from '../screens/families/edit/EditLocation';
 import OrganizationForm from '../screens/organizations/OrganizationForm';
 import Projects from '../screens/Projects';
+import EditEconomicForm from '../screens/families/edit/EditEconomicForm';
 
 const Routes = ({ user }) => {
   return (
@@ -73,8 +75,20 @@ const Routes = ({ user }) => {
         )}
         {checkAccess(user, 'editFamily') && (
           <Route
+            path="/family/:familyId/edit-economic/:topic"
+            component={EditEconomicForm}
+          />
+        )}
+        {checkAccess(user, 'editFamily') && (
+          <Route
             path="/family/:familyId/edit-members"
             component={EditFamilyMembersForm}
+          />
+        )}
+        {checkAccess(user, 'editFamily') && (
+          <Route
+            path="/family/:familyId/edit-location/:latitude/:longitude"
+            component={EditLocation}
           />
         )}
         {checkAccess(user, 'detail') && (

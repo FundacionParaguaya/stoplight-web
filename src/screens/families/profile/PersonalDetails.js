@@ -62,6 +62,10 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     right: 120
   },
+  actionIcon: {
+    paddingLeft: 18,
+    paddingRight: 15
+  },
   answer: {
     fontFamily: 'Open Sans',
     color: theme.palette.text.light,
@@ -180,7 +184,6 @@ const PersonalDetails = ({
               <div className={classes.editIconContainer}>
                 <Tooltip title={t('views.solutions.form.editButton')}>
                   <Button
-                    className={classes.actionIcon}
                     onClick={() => {
                       history.push(`/family/${familyId}/edit`);
                     }}
@@ -277,7 +280,6 @@ const PersonalDetails = ({
                   <div className={classes.editIconContainer}>
                     <Tooltip title={t('views.solutions.form.editButton')}>
                       <Button
-                        className={classes.actionIcon}
                         onClick={() => {
                           history.push(`/family/${familyId}/edit-members`);
                         }}
@@ -349,32 +351,55 @@ const PersonalDetails = ({
         )}
 
         {value === 3 && (
-          <Grid
-            container
-            spacing={2}
-            alignItems="center"
-            style={{ margin: '25px 0px 5px 0px' }}
-          >
-            <Gmaps
-              height="240px"
-              width="100%"
-              lat={latitude}
-              lng={longitude}
-              zoom={16}
-              loadingMessage={t('views.location.mapLoading')}
-              params={params}
-              disableDefaultUI
-              draggable={false}
-              scrollwheel={false}
-              clickableIcons={false}
-              disableDoubleClickZoom={true}
-              zoomControl={true}
+          <React.Fragment>
+            {showEditButtons(user) && (
+              <Grid
+                container
+                spacing={2}
+                justify="flex-end"
+                style={{ margin: '0px 0px 5px 0px' }}
+              >
+                <Tooltip title={t('views.solutions.form.editButton')}>
+                  <Button
+                    className={classes.actionIcon}
+                    onClick={() => {
+                      history.push(
+                        `/family/${familyId}/edit-location/${latitude}/${longitude}`
+                      );
+                    }}
+                  >
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+              </Grid>
+            )}
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              style={{ margin: '0px 0px 5px 0px' }}
             >
-              <div className={classes.markerContainer}>
-                <img src={MarkerIcon} className={classes.markerIcon} alt="" />
-              </div>
-            </Gmaps>
-          </Grid>
+              <Gmaps
+                height="240px"
+                width="100%"
+                lat={latitude}
+                lng={longitude}
+                zoom={16}
+                loadingMessage={t('views.location.mapLoading')}
+                params={params}
+                disableDefaultUI
+                draggable={false}
+                scrollwheel={false}
+                clickableIcons={false}
+                disableDoubleClickZoom={true}
+                zoomControl={true}
+              >
+                <div className={classes.markerContainer}>
+                  <img src={MarkerIcon} className={classes.markerIcon} alt="" />
+                </div>
+              </Gmaps>
+            </Grid>
+          </React.Fragment>
         )}
       </div>
     </React.Fragment>

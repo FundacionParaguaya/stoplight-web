@@ -124,7 +124,7 @@
         "organizations": "Organizaciones",
         "assignSurvey": "Asignar encuesta",
         "surveyAssigned": "Guardado correctamente",
-        "surveyAssignError": "Ocurrió un error al asignar facilitador. Vuelva a Intenar"
+        "surveyAssignError": "Ocurrió un error al asignar la encuesta. Vuelva a Intentar"
       },
       "filter": {
         "search": "Buscar",
@@ -466,6 +466,7 @@
       "economicDetails": "Datos socioeconómicos",
       "noMember": "Esta familia no tiene otros miembros",
       "noEconomic": "Esta familia no tiene datos socioeconómicos",
+      "noDataInTopic": "Esta familia no ha completado esta sección socioeconómica",
       "continueWithStoplight": "Tomar encuesta de seguimiento",
       "viewLifeMap": "Ver Mapa de Vida en detalle",
       "mentor": "Facilitador",
@@ -488,6 +489,10 @@
         "save": {
           "success": "Familia actualizada exitosamente",
           "failed": "No se pudo actualizar la familia"
+        },
+        "saveEconomic": {
+          "success": "Datos socioeconómicos actualizados correctamente",
+          "failed": "No se pudieron actualizar los datos socioeconómicos"
         }
       }
     },

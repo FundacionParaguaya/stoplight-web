@@ -94,7 +94,7 @@ const GreenCheckbox = withStyles(theme => ({
   checked: {
     color: theme.palette.primary.main
   }
-}))(props => <Checkbox color="default" {...props} />);
+}))(props => <Checkbox color={'primary'} {...props} />);
 
 const styles = {
   formLabel: {
@@ -122,7 +122,7 @@ const FilledFormControlLabel = withStyles(() => ({
   label: {
     maxWidth: '75%'
   }
-}))(props => <FormControlLabel color="default" {...props} />);
+}))(props => <FormControlLabel color={'primary'} {...props} />);
 
 const StyledFormLabel = withStyles(() => ({
   root: {
@@ -134,7 +134,7 @@ const StyledFormLabel = withStyles(() => ({
   focused: {
     color: '#909090!important'
   }
-}))(props => <FormLabel color="default" {...props} />);
+}))(props => <FormLabel color={'primary'} {...props} />);
 
 export default withTranslation()(
   connect(withStyles(styles)(CheckboxWithFormik))
