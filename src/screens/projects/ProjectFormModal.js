@@ -87,7 +87,7 @@ const ProjectFormModal = ({
         </div>
       ) : (
         <div className={classes.confirmationModal}>
-          <Typography variant="h5" align="center">
+          <Typography className={classes.title} variant="h5" align="center">
             {isCreate
               ? t('views.projects.form.addTitle')
               : t('views.projects.form.editTitle')}
@@ -174,7 +174,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: '55vh',
+    maxHeight: '65vh',
+    minHeight: '40vh',
     width: '500px',
     overflow: 'auto',
     position: 'relative',
@@ -188,6 +189,9 @@ const useStyles = makeStyles(theme => ({
   },
   crossIcon: {
     color: 'green'
+  },
+  title: {
+    paddingBottom: 30
   },
   input: {
     marginBottom: 10,
