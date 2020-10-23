@@ -1119,7 +1119,7 @@ export const addOrUpdateProject = (user, values) => {
 
 export const getProjectsPaginated = (
   user,
-  { page, filter, organizations, sortBy, sortDirection }
+  { page, filter, organizations, sortBy, sortDirection, organization }
 ) =>
   axios({
     method: 'post',

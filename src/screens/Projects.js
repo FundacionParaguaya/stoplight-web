@@ -12,8 +12,12 @@ import ProjectFormModal from './projects/ProjectFormModal';
 import DeleteProjectModal from './projects/DeleteProjectModal';
 import { getProjectsPaginated } from '../api';
 import BottomSpacer from '../components/BottomSpacer';
+import { ROLES_NAMES } from '../utils/role-utils';
+import NavigationBar from '../components/NavigationBar';
 
 const Projects = ({ history, classes, t, user, i18n: { language } }) => {
+  const orgId = history.location.state ? [history.location.state.orgId] : null;
+  const readOnly = user.role !== ROLES_NAMES.ROLE_APP_ADMIN ? true : false;
   const [filter, setFilter] = useState('');
   const [openFormModal, setOpenFormModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -59,7 +63,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
     let filterData = {
       page: page - 1,
       filter: filter,
-      organizations: [],
+      organizations: orgId,
       sortBy: '',
       sortDirection: ''
     };
@@ -98,8 +102,16 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
     !openDeleteModal && !openFormModal && !loading && loadProjects(true);
   }, [filter]);
 
+  const navigationOptions = [
+    { label: t('views.toolbar.organizations'), link: '/organizations' },
+    { label: t('views.toolbar.projects'), link: '/projects' }
+  ];
+
   return (
     <div className={classes.mainProjectsContainerBoss}>
+      <Container variant="stretch">
+        {readOnly && <NavigationBar options={navigationOptions} />}
+      </Container>
       <ProjectFormModal
         project={selectedProject}
         open={openFormModal}
@@ -120,16 +132,18 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
         </div>
         <Container variant="fluid" className={classes.searchContainer}>
           <ProjectSearchFilter onChangeProjectFilter={onChangeProjectFilter} />
-          <Button
-            variant="contained"
-            className={classes.addProject}
-            onClick={() => {
-              setSelectedProject({});
-              toggleFormModal();
-            }}
-          >
-            {t('views.projects.addProject')}
-          </Button>
+          {!readOnly && (
+            <Button
+              variant="contained"
+              className={classes.addProject}
+              onClick={() => {
+                setSelectedProject({});
+                toggleFormModal();
+              }}
+            >
+              {t('views.projects.addProject')}
+            </Button>
+          )}
         </Container>
         <div className={classes.listContainer}>
           {loading && (
@@ -154,36 +168,38 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
                           : project.description}
                       </Typography>
                     </div>
-                    <div className={classes.buttonsContainer}>
-                      <Button
-                        color="default"
-                        aria-label="Edit project"
-                        component="span"
-                        className={classes.button}
-                        classes={{
-                          root: classes.button,
-                          label: classes.buttonLabel
-                        }}
-                        onClick={() => {
-                          setSelectedProject(project);
-                          toggleFormModal();
-                        }}
-                      >
-                        {t('views.projects.editButton').padEnd(5)}
-                      </Button>
-                      <Button
-                        color="default"
-                        aria-label="Delete Project"
-                        className={classes.button}
-                        component="span"
-                        onClick={() => {
-                          setSelectedProject(project);
-                          toggleDeleteModal();
-                        }}
-                      >
-                        {t('views.projects.deleteButton')}
-                      </Button>
-                    </div>
+                    {!readOnly && (
+                      <div className={classes.buttonsContainer}>
+                        <Button
+                          color="default"
+                          aria-label="Edit project"
+                          component="span"
+                          className={classes.button}
+                          classes={{
+                            root: classes.button,
+                            label: classes.buttonLabel
+                          }}
+                          onClick={() => {
+                            setSelectedProject(project);
+                            toggleFormModal();
+                          }}
+                        >
+                          {t('views.projects.editButton').padEnd(5)}
+                        </Button>
+                        <Button
+                          color="default"
+                          aria-label="Delete Project"
+                          className={classes.button}
+                          component="span"
+                          onClick={() => {
+                            setSelectedProject(project);
+                            toggleDeleteModal();
+                          }}
+                        >
+                          {t('views.projects.deleteButton')}
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </Grid>
               );
