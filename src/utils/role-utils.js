@@ -24,6 +24,7 @@ export const ROLES = {
     // Hub admin user
     { item: 'dashboard', platform: ACCESS },
     { item: 'reports', platform: NEW },
+    { item: 'projects', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
     { item: 'organizations', platform: NEW },
     { item: 'organizationEdit', platform: ACCESS },

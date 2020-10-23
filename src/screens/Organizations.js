@@ -17,6 +17,8 @@ import { ROLES_NAMES } from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
 import DefaultOrgLogo from '../assets/grey_isologo.png';
+import IconButton from '@material-ui/core/IconButton';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
@@ -57,6 +59,13 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
         })
         .finally(() => setLoading(false));
     }
+  };
+
+  const handleGoNext = org => {
+    history.push({
+      pathname: '/projects',
+      state: { orgId: org.id }
+    });
   };
 
   const nextPage = () => {
@@ -215,6 +224,17 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                         >
                           {t('views.organization.deleteButton')}
                         </Button>
+                        <IconButton
+                          color="default"
+                          aria-label="To projects"
+                          component="span"
+                          className={classes.goNextButton}
+                          onClick={() => {
+                            handleGoNext(organization);
+                          }}
+                        >
+                          <NavigateNextIcon />{' '}
+                        </IconButton>
                       </div>
                     )}
                   </div>
@@ -378,8 +398,9 @@ const styles = theme => ({
 
   goNextButton: {
     position: 'absolute',
-    top: 4,
-    right: 0
+    top: 6,
+    right: 0,
+    marginRight: 4
   },
   showMoreButtonContainer: {
     width: '100%',
