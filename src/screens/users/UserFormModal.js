@@ -20,6 +20,7 @@ import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import * as Yup from 'yup';
 import UserOrgSelector from './form/UserOrgsSelector';
+import ProjectsSelector from '../../components/selectors/ProjectsSelector';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -253,6 +254,9 @@ const UserFormModal = ({
   const showHubName = ({ role }) =>
     role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM;
 
+  const showProjectsSelector = ({ role }) =>
+    role === ROLES_NAMES.ROLE_APP_ADMIN;
+
   return (
     <Modal
       disableEnforceFocus
@@ -303,14 +307,15 @@ const UserFormModal = ({
                   !!userToEdit.application &&
                   userToEdit.application.id) ||
                 null,
-              active: isEdit ? userToEdit.active : true
+              active: isEdit ? userToEdit.active : true,
+              projects: []
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
               onSubmit(values);
             }}
           >
-            {({ setFieldValue, values, disabled }) => (
+            {({ setFieldValue, values, disabled, touched, setTouched }) => (
               <Form noValidate>
                 <InputWithFormik
                   label={t('views.user.form.username')}
@@ -416,6 +421,30 @@ const UserFormModal = ({
                     />
                   </div>
                 )}
+
+                {showProjectsSelector && (
+                  <ProjectsSelector
+                    withTitle={false}
+                    projectData={values.projects}
+                    onChangeProject={(selected, allProjects) => {
+                      if (selected.some(project => project.value === 'ALL')) {
+                        setFieldValue('projects', allProjects);
+                      } else {
+                        setFieldValue('projects', selected);
+                      }
+                    }}
+                    isMulti={true}
+                    isClearable={true}
+                    onBlur={() =>
+                      setTouched(
+                        Object.assign(touched, {
+                          indicators: true
+                        })
+                      )
+                    }
+                  />
+                )}
+
                 <div className={classes.buttonContainerForm}>
                   <Button
                     type="submit"
