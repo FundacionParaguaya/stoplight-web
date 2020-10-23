@@ -192,51 +192,54 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                       </Typography>
                     </div>
 
-                    {!readOnly && (
-                      <div className={classes.buttonsContainer}>
-                        <Button
-                          color="default"
-                          aria-label="Edit organization"
-                          classes={{
-                            root: classes.button,
-                            label: classes.buttonLabel
-                          }}
-                          onClick={() => {
-                            history.push(
-                              `/organization/${organization.id}/edit`
-                            );
-                          }}
-                        >
-                          {t('views.organization.editButton')}
-                        </Button>
-                        <Button
-                          color="default"
-                          aria-label="Delete organization"
-                          component="span"
-                          classes={{
-                            root: classes.button,
-                            label: classes.buttonLabel
-                          }}
-                          onClick={() => {
-                            setSelectedOrganization(organization);
-                            toggleDeleteModal();
-                          }}
-                        >
-                          {t('views.organization.deleteButton')}
-                        </Button>
-                        <IconButton
-                          color="default"
-                          aria-label="To projects"
-                          component="span"
-                          className={classes.goNextButton}
-                          onClick={() => {
-                            handleGoNext(organization);
-                          }}
-                        >
-                          <NavigateNextIcon />{' '}
-                        </IconButton>
-                      </div>
-                    )}
+                    <div className={classes.buttonsContainer}>
+                      {!readOnly && (
+                        <>
+                          <Button
+                            color="default"
+                            aria-label="Edit organization"
+                            classes={{
+                              root: classes.button,
+                              label: classes.buttonLabel
+                            }}
+                            onClick={() => {
+                              history.push(
+                                `/organization/${organization.id}/edit`
+                              );
+                            }}
+                          >
+                            {t('views.organization.editButton')}
+                          </Button>
+                          <Button
+                            color="default"
+                            aria-label="Delete organization"
+                            component="span"
+                            classes={{
+                              root: classes.button,
+                              label: classes.buttonLabel
+                            }}
+                            onClick={() => {
+                              setSelectedOrganization(organization);
+                              toggleDeleteModal();
+                            }}
+                          >
+                            {t('views.organization.deleteButton')}
+                          </Button>
+                        </>
+                      )}
+
+                      <IconButton
+                        color="default"
+                        aria-label="To projects"
+                        component="span"
+                        className={classes.goNextButton}
+                        onClick={() => {
+                          handleGoNext(organization);
+                        }}
+                      >
+                        <NavigateNextIcon />{' '}
+                      </IconButton>
+                    </div>
                   </div>
                 </Grid>
               );

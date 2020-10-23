@@ -13,6 +13,7 @@ export const ROLES = {
     { item: 'reports', platform: NEW },
     { item: 'hubs', platform: NEW },
     { item: 'organizations', platform: ACCESS },
+    { item: 'projects', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
@@ -43,6 +44,7 @@ export const ROLES = {
     { item: 'surveysList', platform: NEW },
     { item: 'map', platform: NEW },
     { item: 'organizations', platform: ACCESS },
+    { item: 'projects', platform: ACCESS },
     { item: 'solutions', platform: ACCESS }
   ],
   ROLE_APP_ADMIN: [
