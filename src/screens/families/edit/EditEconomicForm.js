@@ -713,6 +713,12 @@ const EditEconomicForm = ({
                                                     question.codeName
                                                   )}]`}
                                                   required
+                                                  onChange={e =>
+                                                    setFieldValue(
+                                                      `forFamilyMember.[${index}].[${question.codeName}].otherValue`,
+                                                      e
+                                                    )
+                                                  }
                                                 />
                                               )
                                             }
@@ -754,6 +760,14 @@ const EditEconomicForm = ({
                                         }
                                         name={`forFamilyMember.[${index}].[${question.codeName}]`}
                                         required={question.required}
+                                        onChange={e =>
+                                          updateEconomicAnswerCascading(
+                                            question,
+                                            _.get(e, 'target.value', ''),
+                                            setFieldValue,
+                                            index
+                                          )
+                                        }
                                       />
                                     );
                                   })}
