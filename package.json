@@ -27,6 +27,7 @@
     "prop-types": "^15.7.2",
     "query-string": "^6.5.0",
     "react": "^16.8.4",
+    "react-color": "^2.18.1",
     "react-dom": "^16.8.4",
     "react-dropzone": "^10.2.1",
     "react-geocode": "^0.1.2",
@@ -90,7 +91,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && CI=true npm run test"
+      "pre-commit": "lint-staged && set CI=true npm run test"
     }
   },
   "lint-staged": {

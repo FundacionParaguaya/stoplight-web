@@ -4,7 +4,10 @@ import { withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
+import PaletteOutlinedIcon from '@material-ui/icons/PaletteOutlined';
 import Switch from '@material-ui/core/Switch';
+import Popover from '@material-ui/core/Popover';
+import { CirclePicker } from 'react-color';
 import {
   Modal,
   CircularProgress,
@@ -29,12 +32,16 @@ const ProjectFormModal = ({
   const isCreate = !project.id;
   const classes = useStyles();
   const { t } = useTranslation();
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [loading, setLoading] = useState(false);
   const onClose = submitted => {
     submitted && afterSubmit();
     toggleModal();
   };
   const fieldIsRequired = 'validation.fieldIsRequired';
+
+  const openColor = Boolean(anchorEl);
+  const id = openColor ? 'simple-popover' : undefined;
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -44,6 +51,14 @@ const ProjectFormModal = ({
       .required(fieldIsRequired)
       .max(256, t('views.projects.form.descriptionLengthExceeded'))
   });
+
+  const handleOpenChangeColor = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseChangeColor = () => {
+    setAnchorEl(null);
+  };
 
   const onSubmit = values => {
     addOrUpdateProject(user, { ...values })
@@ -106,7 +121,8 @@ const ProjectFormModal = ({
               id: (!!project.id && project.id) || '',
               title: (!!project.title && project.title) || '',
               description: (!!project.description && project.description) || '',
-              active: !isCreate ? project.active : true
+              active: !isCreate ? project.active : true,
+              color: (!!project.color && project.color) || ''
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -147,6 +163,65 @@ const ProjectFormModal = ({
                     />
                   </div>
                 )}
+                <div className={classes.switchOptionsContainer}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.switchLabel}
+                  >
+                    {t('views.projects.form.color')}
+                  </Typography>
+                  {values.color ? (
+                    <div
+                      className={classes.circle}
+                      style={{ background: values.color ? values.color : null }}
+                      onClick={handleOpenChangeColor}
+                    />
+                  ) : (
+                    <PaletteOutlinedIcon
+                      style={{ color: '#309E43', marginRight: 10 }}
+                      onClick={handleOpenChangeColor}
+                    />
+                  )}
+
+                  <Popover
+                    id={id}
+                    anchorEl={anchorEl}
+                    open={openColor}
+                    onClose={handleCloseChangeColor}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left'
+                    }}
+                    transformOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left'
+                    }}
+                  >
+                    <div className={classes.colorPicker}>
+                      <CirclePicker
+                        circleSpacing={20}
+                        onChange={(color, event) => {
+                          console.log(color.hex);
+                          setFieldValue('color', color.hex);
+                          handleCloseChangeColor();
+                        }}
+                        colors={[
+                          '#f28b82',
+                          '#fbbc04',
+                          '#fff475',
+                          '#ccff90',
+                          '#a7ffeb',
+                          '#cbf0f8',
+                          '#aecbfa',
+                          '#d7aefb',
+                          '#fdcfe8',
+                          '#e6c9a8',
+                          '#e8eaed'
+                        ]}
+                      />
+                    </div>
+                  </Popover>
+                </div>
 
                 <div className={classes.buttonContainerForm}>
                   <Button type="submit" color="primary" variant="contained">
@@ -191,6 +266,11 @@ const useStyles = makeStyles(theme => ({
   crossIcon: {
     color: 'green'
   },
+  colorPicker: {
+    padding: 10,
+
+    overflow: 'hidden'
+  },
   title: {
     paddingBottom: 30
   },
@@ -202,7 +282,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     marginBottom: '1em',
     marginTop: '1em',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   switchLabel: {
     fontWeight: 400,
@@ -214,6 +295,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-evenly',
     marginTop: 30
+  },
+  circle: {
+    marginRight: 12,
+    borderRadius: '50%',
+    width: 20,
+    height: 20
   }
 }));
 
