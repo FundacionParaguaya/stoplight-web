@@ -13,7 +13,6 @@ export const ROLES = {
     { item: 'reports', platform: NEW },
     { item: 'hubs', platform: NEW },
     { item: 'organizations', platform: ACCESS },
-    { item: 'projects', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
@@ -25,7 +24,6 @@ export const ROLES = {
     // Hub admin user
     { item: 'dashboard', platform: ACCESS },
     { item: 'reports', platform: NEW },
-    { item: 'projects', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
     { item: 'organizations', platform: NEW },
     { item: 'organizationEdit', platform: ACCESS },
@@ -44,14 +42,12 @@ export const ROLES = {
     { item: 'surveysList', platform: NEW },
     { item: 'map', platform: NEW },
     { item: 'organizations', platform: ACCESS },
-    { item: 'projects', platform: ACCESS },
     { item: 'solutions', platform: ACCESS }
   ],
   ROLE_APP_ADMIN: [
     // Org admin user
     { item: 'dashboard', platform: ACCESS },
     { item: 'reports', platform: NEW },
-    { item: 'projects', platform: NEW },
     { item: 'surveysList', platform: NEW },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
