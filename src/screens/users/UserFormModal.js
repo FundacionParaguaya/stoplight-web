@@ -185,7 +185,18 @@ const UserFormModal = ({
       values.organization = user.organization.id;
     if (values.organization) values.hub = user.hub.id;
     else values.organization = null;
-    addOrUpdateUser(user, values)
+
+    const projects = values.projects.map(project => ({ id: project.value }));
+
+    console.log({
+      ...values,
+      projects: projects
+    });
+
+    addOrUpdateUser(user, {
+      ...values,
+      projects: projects
+    })
       .then(() => {
         setLoading(false);
         onClose(true);
@@ -422,7 +433,7 @@ const UserFormModal = ({
                   </div>
                 )}
 
-                {showProjectsSelector && (
+                {showProjectsSelector(user) && (
                   <ProjectsSelector
                     withTitle={false}
                     projectData={values.projects}

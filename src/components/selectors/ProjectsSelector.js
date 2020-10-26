@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { getProjectsPaginated } from '../../api';
+import { getProjectsByOrganization } from '../../api';
 import * as _ from 'lodash';
 import Select from 'react-select';
 import { selectStyle } from '../../utils/styles-utils';
@@ -26,11 +26,12 @@ const ProjectsSelector = ({
 
   useEffect(() => {
     setLoading(true);
-    getProjectsPaginated(user, { page: 0 })
+    const orgId = !!user.organization && user.organization.id;
+    getProjectsByOrganization(user, orgId)
       .then(response => {
         const projects = _.get(
           response,
-          'data.data.searchProjects.content',
+          'data.data.projectsByOrganization',
           []
         ).map(project => ({
           label: project.title,
