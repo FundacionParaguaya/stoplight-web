@@ -28,8 +28,8 @@ import ExitModal from '../../../components/ExitModal';
 const useStyles = makeStyles(() => ({
   inputContainer: {
     position: 'absolute',
-    top: 127,
-    left: 148,
+    top: 56,
+    left: 10,
     width: '40%',
     zIndex: 1
   },
