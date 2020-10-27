@@ -417,6 +417,13 @@
       "noOption": "No dimension left",
       "noMatchFilters": "No results matching your filters"
     },
+    "projectFilter": {
+      "label": "Projects",
+      "loading": "Loading...",
+      "noOption": "No projects left",
+      "noMatchFilters": "No results matching your filters",
+      "allProjects": "All Projects"
+    },
     "exitModal": {
       "confirmTitle": "Confirm Exit",
       "confirmText": "Are you sure you want to exit?",

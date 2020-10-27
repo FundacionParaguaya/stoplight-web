@@ -1068,7 +1068,7 @@ export const getUserById = (user, userId) => {
     },
     data: JSON.stringify({
       query:
-        'query retrieveUser ($userId: Long) { retrieveUser (userId: $userId) {id, username, name, email, organizationName, hubName, role, active  } }',
+        'query retrieveUser ($userId: Long) { retrieveUser (userId: $userId) {id, username, name, email, organizationName, hubName, role, active, projects {id title description} } }',
       variables: {
         userId
       }
@@ -1118,6 +1118,22 @@ export const addOrUpdateProject = (user, values) => {
     });
   }
 };
+
+export const getProjectsByOrganization = (user, orgId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query projectsByOrganization($organization: Long) { projectsByOrganization (organization: $organization) { id, title, description} }',
+      variables: {
+        organization: orgId
+      }
+    })
+  });
 
 export const getProjectsPaginated = (
   user,
@@ -1214,7 +1230,8 @@ export const addOrUpdateUser = (user, values) => {
             id: values.id,
             name: values.name,
             email: values.email,
-            active: values.active
+            active: values.active,
+            projects: values.projects
           }
         }
       })

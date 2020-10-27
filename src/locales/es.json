@@ -418,6 +418,13 @@
       "noOption": "No quedan indicadores dimensiones",
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
+    "projectFilter": {
+      "label": "Proyectos",
+      "loading": "Cargando...",
+      "noOption": "No quedan proyectos",
+      "noMatchFilters": "No hay resultados para los filtros aplicados",
+      "allProjects": "Todos los proyectos"
+    },
     "exitModal": {
       "confirmTitle": "Confirmación de salida",
       "confirmText": "¿Está seguro que desea salir?",
