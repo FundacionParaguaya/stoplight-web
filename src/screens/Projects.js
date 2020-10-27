@@ -339,7 +339,7 @@ const styles = theme => ({
   },
   tagContainer: {
     width: '100%',
-    paddingLeft: '16px'
+    padding: '16px'
   },
   tag: {
     backgroundColor: 'red',
