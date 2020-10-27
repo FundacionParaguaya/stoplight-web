@@ -17,8 +17,8 @@ import { ROLES_NAMES } from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
 import DefaultOrgLogo from '../assets/grey_isologo.png';
-//import IconButton from '@material-ui/core/IconButton';
-//import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import IconButton from '@material-ui/core/IconButton';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
@@ -61,12 +61,12 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
     }
   };
 
-  /*  const handleGoNext = org => {
+  const handleGoNext = org => {
     history.push({
       pathname: '/projects',
       state: { orgId: org.id }
     });
-  }; */
+  };
 
   const nextPage = () => {
     if (paginationData.page + 1 <= paginationData.totalPages)
@@ -191,9 +191,10 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                           : organization.description}
                       </Typography>
                     </div>
-                    {!readOnly && (
-                      <>
-                        <div className={classes.buttonsContainer}>
+
+                    <div className={classes.buttonsContainer}>
+                      {!readOnly && (
+                        <>
                           <Button
                             color="default"
                             aria-label="Edit organization"
@@ -224,8 +225,9 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                           >
                             {t('views.organization.deleteButton')}
                           </Button>
-
-                          {/* <IconButton
+                        </>
+                      )}
+                      <IconButton
                         color="default"
                         aria-label="To projects"
                         component="span"
@@ -234,11 +236,9 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                           handleGoNext(organization);
                         }}
                       >
-                        <NavigateNextIcon />{' '}
-                      </IconButton> */}
-                        </div>
-                      </>
-                    )}
+                        <NavigateNextIcon />
+                      </IconButton>
+                    </div>
                   </div>
                 </Grid>
               );

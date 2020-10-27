@@ -545,6 +545,7 @@
         "addTitle": "Adicionar um Projeto",
         "editTitle": "Editar um Projeto",
         "active": "Ativo",
+        "color": "Mudar cor",
         "name": "Nome do Projeto",
         "nameLengthExceeded": "O nome do projeto deve ter no máximo 50 caracteres",
         "description": "Descrição",

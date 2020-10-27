@@ -67,6 +67,20 @@ const dimensionColors = {
   purple: '#FF9AFF'
 };
 
+const pickerColor = [
+  '#f28b82',
+  '#fbbc04',
+  '#fff475',
+  '#ccff90',
+  '#a7ffeb',
+  '#cbf0f8',
+  '#aecbfa',
+  '#d7aefb',
+  '#fdcfe8',
+  '#e6c9a8',
+  '#e8eaed'
+];
+
 const getIndicatorColorByDimension = dimension => {
   switch (normalizeDimension(dimension)) {
     case NORMALIZED_DIMENSIONS.EDUCATION:
@@ -152,4 +166,9 @@ const getDimensionColor = dimension => {
       return dimensionColors['green'];
   }
 };
-export { selectStyle, getIndicatorColorByDimension, getDimensionColor };
+export {
+  selectStyle,
+  getIndicatorColorByDimension,
+  getDimensionColor,
+  pickerColor
+};

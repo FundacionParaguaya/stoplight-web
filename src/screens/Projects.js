@@ -168,6 +168,19 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
                           : project.description}
                       </Typography>
                     </div>
+                    {!!project.color && (
+                      <div className={classes.tagContainer}>
+                        <div
+                          className={classes.tag}
+                          style={{
+                            backgroundColor: project.color
+                              ? project.color
+                              : null
+                          }}
+                        />
+                      </div>
+                    )}
+
                     {!readOnly && (
                       <div className={classes.buttonsContainer}>
                         <Button
@@ -323,6 +336,16 @@ const styles = theme => ({
   },
   showMoreButton: {
     margin: 'auto'
+  },
+  tagContainer: {
+    width: '100%',
+    padding: '16px'
+  },
+  tag: {
+    backgroundColor: 'red',
+    width: '40px',
+    height: '18px',
+    borderRadius: '16px'
   }
 });
 const mapStateToProps = ({ user }) => ({ user });
