@@ -1090,7 +1090,8 @@ export const addOrUpdateProject = (user, values) => {
           project: {
             title: values.title,
             description: values.description,
-            active: values.active
+            active: values.active,
+            color: values.color
           }
         }
       })
@@ -1109,7 +1110,8 @@ export const addOrUpdateProject = (user, values) => {
             id: values.id,
             title: values.title,
             description: values.description,
-            active: values.active
+            active: values.active,
+            color: values.color
           }
         }
       })
@@ -1129,7 +1131,7 @@ export const getProjectsPaginated = (
     },
     data: JSON.stringify({
       query:
-        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description, active}, totalElements totalPages } }',
+        'query searchProjects($page: Int, $filter: String, $organizations: [Long], $sortBy: String, $sortDirection: String) { searchProjects (page: $page, filter: $filter, organizations: $organizations, sortBy:$sortBy, sortDirection:$sortDirection) {content { id, title, description, active, color}, totalElements totalPages } }',
       variables: {
         page,
         filter,

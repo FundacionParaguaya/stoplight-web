@@ -19,6 +19,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as Yup from 'yup';
 import InputWithFormik from '../../components/InputWithFormik';
 import { addOrUpdateProject } from '../../api';
+import { pickerColor } from '../../utils/styles-utils';
 
 const ProjectFormModal = ({
   open,
@@ -200,29 +201,15 @@ const ProjectFormModal = ({
                     <div className={classes.colorPicker}>
                       <CirclePicker
                         circleSpacing={20}
-                        onChange={(color, event) => {
-                          console.log(color.hex);
+                        onChange={color => {
                           setFieldValue('color', color.hex);
                           handleCloseChangeColor();
                         }}
-                        colors={[
-                          '#f28b82',
-                          '#fbbc04',
-                          '#fff475',
-                          '#ccff90',
-                          '#a7ffeb',
-                          '#cbf0f8',
-                          '#aecbfa',
-                          '#d7aefb',
-                          '#fdcfe8',
-                          '#e6c9a8',
-                          '#e8eaed'
-                        ]}
+                        colors={pickerColor}
                       />
                     </div>
                   </Popover>
                 </div>
-
                 <div className={classes.buttonContainerForm}>
                   <Button type="submit" color="primary" variant="contained">
                     {t('general.save')}
