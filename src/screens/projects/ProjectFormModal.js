@@ -73,6 +73,7 @@ const ProjectFormModal = ({
         onClose(true);
       });
   };
+
   return (
     <Modal
       disableEnforceFocus
