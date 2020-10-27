@@ -1068,7 +1068,7 @@ export const getUserById = (user, userId) => {
     },
     data: JSON.stringify({
       query:
-        'query retrieveUser ($userId: Long) { retrieveUser (userId: $userId) {id, username, name, email, organizationName, hubName, role, active } }',
+        'query retrieveUser ($userId: Long) { retrieveUser (userId: $userId) {id, username, name, email, organizationName, hubName, role, active, projects {id title description} } }',
       variables: {
         userId
       }

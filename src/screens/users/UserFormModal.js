@@ -168,9 +168,14 @@ const UserFormModal = ({
   useEffect(() => {
     if (!!userId && open) {
       setLoading(true);
-      getUserById(user, userId).then(response =>
-        setUserToEdit(response.data.data.retrieveUser)
-      );
+      getUserById(user, userId).then(response => {
+        let user = response.data.data.retrieveUser;
+        const projects = user.projects.map(project => ({
+          label: project.title,
+          value: project.id
+        }));
+        setUserToEdit({ ...user, projects: projects });
+      });
     }
   }, [open]);
 
@@ -187,11 +192,6 @@ const UserFormModal = ({
     else values.organization = null;
 
     const projects = values.projects.map(project => ({ id: project.value }));
-
-    console.log({
-      ...values,
-      projects: projects
-    });
 
     addOrUpdateUser(user, {
       ...values,
@@ -319,7 +319,8 @@ const UserFormModal = ({
                   userToEdit.application.id) ||
                 null,
               active: isEdit ? userToEdit.active : true,
-              projects: []
+              projects:
+                (isEdit && !!userToEdit.projects && userToEdit.projects) || []
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
