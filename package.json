@@ -19,7 +19,7 @@
     "google-libphonenumber": "^3.2.6",
     "i18next": "^15.0.8",
     "localized-countries": "^1.0.2",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.20",
     "material-table": "1.68.0",
     "moment": "^2.27.0",
     "notistack": "^0.8.2",
@@ -48,7 +48,7 @@
     "recharts": "^1.5.0",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
-    "serve": "^11.0.0",
+    "serve": "^11.3.2",
     "uuid": "^3.3.2",
     "yup": "^0.27.0"
   },
