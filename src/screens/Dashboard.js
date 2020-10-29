@@ -45,6 +45,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const [selectedOrganizations, setOrganizations] = useState([]);
   const [selectedHub, setSelectedHub] = useState(null);
   const [selectedSurveys, setSelectedSurveys] = useState([]);
+  const [selectedProjects, setSelectedProjects] = useState([]);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [chart, setChart] = useState(null);
@@ -77,6 +78,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   // Clearing survey filter
   useEffect(() => {
     setSelectedSurveys([]);
+    setSelectedProjects([]);
   }, [selectedOrganizations]);
 
   useEffect(() => {
@@ -98,12 +100,14 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     );
 
     const sanitizedSurveys = (selectedSurveys || []).map(o => o.value);
+    const sanitizedProjects = (selectedProjects || []).map(o => o.value);
     const hubId = selectedHub && selectedHub.value ? selectedHub.value : null;
     getDimensionIndicators(
       user,
       hubId,
       (selectedOrganizations || []).map(o => o.value),
       sanitizedSurveys,
+      sanitizedProjects,
       fromDate,
       toDate,
       lang
@@ -137,6 +141,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       toDate,
       sanitizedOrganizations,
       sanitizedSurveys,
+      sanitizedProjects,
       lang
     )
       .then(data => {
@@ -152,6 +157,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       toDate,
       sanitizedOrganizations,
       sanitizedSurveys,
+      sanitizedProjects,
       lang
     )
       .then(data => {
@@ -167,6 +173,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       toDate,
       sanitizedOrganizations,
       sanitizedSurveys,
+      sanitizedProjects,
       lang
     )
       .then(data => {
@@ -194,6 +201,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     selectedHub,
     selectedOrganizations,
     selectedSurveys,
+    selectedProjects,
     fromDate,
     toDate,
     lang
@@ -219,30 +227,28 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         </Grid>
         <Grid item md={8}>
           {/* Tite bar */}
-          <div
-            className={classes.titleBar}
-            style={{ overflow: isMentor ? 'hidden' : null }}
-          >
+          <div className={classes.titleBar}>
             <div className={classes.ballsContainer}>
               <img src={ballstoit} className={classes.titleBalls} alt="Balls" />
             </div>
             <Typography variant="h4">
               {t('views.dashboard.welcome').replace('$n', user.name)}
             </Typography>
-            {!isMentor && (
-              <DashboardFilters
-                organizationsData={selectedOrganizations}
-                onChangeOrganization={setSelectedOrganizations}
-                surveyData={selectedSurveys}
-                hubData={selectedHub}
-                onChangeHub={setSelectedHub}
-                onChangeSurvey={setSelectedSurveys}
-                from={fromDate}
-                to={toDate}
-                onFromDateChanged={setFromDate}
-                onToDateChanged={setToDate}
-              />
-            )}
+
+            <DashboardFilters
+              organizationsData={selectedOrganizations}
+              onChangeOrganization={setSelectedOrganizations}
+              surveyData={selectedSurveys}
+              hubData={selectedHub}
+              projectsData={selectedProjects}
+              onChangeHub={setSelectedHub}
+              onChangeSurvey={setSelectedSurveys}
+              onChangeProjects={setSelectedProjects}
+              from={fromDate}
+              to={toDate}
+              onFromDateChanged={setFromDate}
+              onToDateChanged={setToDate}
+            />
           </div>
         </Grid>
       </Grid>
@@ -349,8 +355,7 @@ const styles = theme => ({
     position: 'absolute',
     top: 0,
     right: 0,
-    height: '100%',
-    zIndex: 0
+    height: '100%'
   },
   titleBalls: {
     position: 'relative',

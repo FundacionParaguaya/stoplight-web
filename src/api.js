@@ -182,6 +182,7 @@ export const getOverviewBlock = (
   toDate,
   organizations,
   surveys,
+  projects,
   lang
 ) =>
   axios({
@@ -193,11 +194,12 @@ export const getOverviewBlock = (
     },
     data: JSON.stringify({
       query:
-        'query blockOverview($hub: Long, $organizations: [Long], $surveys: [Long], $toDate: Long, $fromDate: Long) { blockOverview(hub: $hub, organizations: $organizations,surveys: $surveys, toDate: $toDate, fromDate: $fromDate) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }',
+        'query blockOverview($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long] $toDate: Long, $fromDate: Long) { blockOverview(hub: $hub, organizations: $organizations,surveys: $surveys, projects: $projects, toDate: $toDate, fromDate: $fromDate) { stoplightOverview{ greens yellows reds skipped } priorities achievements } }',
       variables: {
         hub,
         organizations,
         surveys,
+        projects,
         fromDate,
         toDate
       }
@@ -211,6 +213,7 @@ export const getEconomicOverview = (
   toDate,
   organizations,
   surveys,
+  projects,
   lang
 ) =>
   axios({
@@ -222,11 +225,12 @@ export const getEconomicOverview = (
     },
     data: JSON.stringify({
       query:
-        'query economicOverview($hub: Long, $organizations: [Long],$surveys: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, surveys: $surveys,toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount familiesWithStoplightCount} }',
+        'query economicOverview($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount familiesWithStoplightCount} }',
       variables: {
         hub,
         organizations,
         surveys,
+        projects,
         fromDate,
         toDate
       }
@@ -240,6 +244,7 @@ export const getOperationsOverview = (
   toDate,
   organizations,
   surveys,
+  projects,
   lang
 ) =>
   axios({
@@ -251,11 +256,12 @@ export const getOperationsOverview = (
     },
     data: JSON.stringify({
       query:
-        'query operationsOverview($hub: Long, $organizations: [Long],$surveys: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(hub: $hub, organizations: $organizations,surveys: $surveys, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
+        'query operationsOverview($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toTime: Long, $fromTime: Long) { operationsOverview(hub: $hub, organizations: $organizations,surveys: $surveys, projects: $projects, toTime: $toTime, fromTime: $fromTime) { surveysByMonth } }',
       variables: {
         hub,
         organizations,
         surveys,
+        projects: projects,
         toTime: toDate,
         fromTime: fromDate
       }
@@ -282,6 +288,7 @@ export const getDimensionIndicators = (
   hub,
   organizations = [],
   surveys = [],
+  projects = [],
   fromDate,
   toDate,
   lang
@@ -295,15 +302,15 @@ export const getDimensionIndicators = (
       'X-locale': normalizeLang(lang)
     },
     data: JSON.stringify({
-      query: `query { dimensionIndicators(hub: ${hub} organizations: ${JSON.stringify(
-        organizations
-      )} 
-      surveys: ${JSON.stringify(surveys)} 
-      ${fromDate ? `fromDate: ${fromDate}` : ''} ${
-        toDate ? `toDate: ${toDate}` : ''
-      }) {dimension, priorities, achievements,
-          stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities,
-           stoplights{count, color, dimension, indicator}} } }`
+      query: `query dimensionIndicators($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $fromDate: Long, $toDate: Long) { dimensionIndicators (hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects,  fromDate: $fromDate, toDate: $toDate) { dimension, priorities, achievements, stoplights{count, color, dimension}, indicators{name, dimension, achievements, priorities, stoplights{count, color, dimension, indicator} } } }`,
+      variables: {
+        hub: hub,
+        organizations: organizations,
+        surveys: surveys,
+        projects: projects,
+        fromDate: fromDate,
+        toDate: toDate
+      }
     })
   });
 
@@ -762,7 +769,8 @@ export const getFamiliesList = (
   name,
   organizations,
   facilitators,
-  hub
+  hub,
+  projects
 ) =>
   axios({
     method: 'post',
@@ -772,12 +780,13 @@ export const getFamiliesList = (
     },
     data: JSON.stringify({
       query:
-        'query families($facilitators: [Long], $hub: Long, $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String) ' +
-        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
+        'query families($facilitators: [Long], $hub: Long, $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String, $projects: [Long]) ' +
+        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, projects: $projects, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
       variables: {
         facilitators,
         hub,
         organizations,
+        projects,
         name,
         page,
         sortBy,
