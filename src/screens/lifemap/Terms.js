@@ -69,11 +69,17 @@ export class Terms extends Component {
   };
 
   handleContinue = () => {
-    this.props.history.push(
-      this.props.location.pathname === '/lifemap/terms'
-        ? '/lifemap/privacy'
-        : '/lifemap/primary-participant'
-    );
+    this.props.history.push({
+      pathname:
+        this.props.location.pathname === '/lifemap/terms'
+          ? '/lifemap/privacy'
+          : '/lifemap/primary-participant',
+      state: {
+        projectId: !!this.props.location.state.projectId
+          ? this.props.location.state.projectId
+          : null
+      }
+    });
   };
 
   handleDisagree = () => {

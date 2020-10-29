@@ -170,6 +170,7 @@ export class PrimaryParticipant extends Component {
 
     // create draft skeleton
     this.props.updateDraft({
+      project: this.props.location.state.projectId,
       sign: '',
       pictures: [],
       draftId: uuid(), // generate unique id based on timestamp
