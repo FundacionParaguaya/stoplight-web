@@ -34,12 +34,18 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 40px',
-    minHeight: '35vh',
     maxHeight: '95vh',
     width: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none'
+  },
+  loadingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 615
   },
   closeIcon: {
     position: 'absolute',
@@ -278,7 +284,9 @@ const UserFormModal = ({
     >
       {loading ? (
         <div className={classes.modalBody}>
-          <CircularProgress style={{ margin: 'auto' }} />
+          <div className={classes.loadingContainer}>
+            <CircularProgress style={{ margin: 'auto' }} />
+          </div>
         </div>
       ) : (
         <div className={classes.modalBody}>

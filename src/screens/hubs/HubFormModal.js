@@ -32,12 +32,20 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  loadingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 695
+  },
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
+    minHeight: '35vh',
     maxHeight: '95vh',
     width: '500px',
     overflowY: 'auto',
@@ -209,11 +217,18 @@ const HubFormModal = ({
     >
       {loading ? (
         <div className={classes.confirmationModal}>
-          <CircularProgress />
+          <div className={classes.loadingContainer}>
+            <CircularProgress style={{ margin: 'auto' }} />
+          </div>
         </div>
       ) : (
         <div className={classes.confirmationModal}>
-          <Typography variant="h5" test-id="title-bar" align="center">
+          <Typography
+            variant="h5"
+            test-id="title-bar"
+            align="center"
+            style={{ marginBottom: 10 }}
+          >
             {isCreate
               ? t('views.hub.form.addTitle')
               : t('views.hub.form.editTitle')}
