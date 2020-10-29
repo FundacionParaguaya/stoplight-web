@@ -454,6 +454,7 @@ const UserFormModal = ({
                         })
                       )
                     }
+                    stacked={true}
                   />
                 )}
 

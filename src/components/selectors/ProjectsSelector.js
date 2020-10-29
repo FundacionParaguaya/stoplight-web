@@ -15,7 +15,8 @@ const ProjectsSelector = ({
   isClearable,
   onChangeProject,
   onBlur,
-  projectData
+  projectData,
+  stacked
 }) => {
   const { t } = useTranslation();
 
@@ -54,8 +55,11 @@ const ProjectsSelector = ({
   }
 
   return (
-    <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.label}>
+    <div className={stacked ? classes.stackedContainer : classes.container}>
+      <Typography
+        variant="subtitle1"
+        className={stacked ? classes.stackedLabel : classes.label}
+      >
         {label}
       </Typography>
       <div className={classes.selector}>
@@ -80,20 +84,30 @@ const ProjectsSelector = ({
 };
 
 const useStyles = makeStyles(() => ({
-  container: {
-    marginTop: 20,
-    marginBottom: 20,
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    alignItems: 'flex-start'
-  },
   label: {
     marginBottom: 5,
+    marginRight: 10,
     fontSize: 14
   },
   selector: {
     width: '100%'
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center'
+  },
+  stackedContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: 5
+  },
+  stackedLabel: {
+    marginBottom: 5,
+    fontSize: 14
   }
 }));
 
