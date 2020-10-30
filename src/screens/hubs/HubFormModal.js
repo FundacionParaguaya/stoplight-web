@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 695
+    height: '85vh',
   },
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: '40px 50px',
     minHeight: '35vh',
-    maxHeight: '95vh',
+    maxHeight: '85vh',
     width: '500px',
     overflowY: 'auto',
     position: 'relative',
