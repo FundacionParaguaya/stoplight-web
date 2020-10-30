@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 40px',
-    maxHeight: '95vh',
+    height: '85vh',
     width: 500,
     overflowY: 'auto',
     position: 'relative',
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 615
+    height: '85vh',
   },
   closeIcon: {
     position: 'absolute',
