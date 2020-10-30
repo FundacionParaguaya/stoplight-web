@@ -7,6 +7,7 @@ import OrganizationsFilter from './OrganizationsFilter';
 import HubsFilter from './HubsFilter';
 import SurveysFilter from './SurveysFilter';
 import { ROLES_NAMES } from '../utils/role-utils';
+import ProjectSelector from '../components/selectors/ProjectsSelector';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -27,11 +28,15 @@ const useStyles = makeStyles(theme => ({
 const showHubFilters = ({ role }) =>
   role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
+const isMentor = ({ role }) => role === ROLES_NAMES.ROLE_SURVEY_USER;
+
 const DashboardFilters = ({
   surveyData,
   hubData,
+  projectsData,
   onChangeHub,
   onChangeSurvey,
+  onChangeProjects,
   organizationsData,
   onChangeOrganization,
   from,
@@ -76,13 +81,29 @@ const DashboardFilters = ({
             </Grid>
           </React.Fragment>
         )}
-        {!showHubFilters(user) && (
+        {!showHubFilters(user) && !isMentor(user) && (
           <React.Fragment>
             <Grid item md={12} sm={12} xs={12}>
               <OrganizationsFilter
                 data={organizationsData}
                 onChange={onChangeOrganization}
                 hub={hubData}
+              />
+            </Grid>
+            <Grid item md={12} sm={12} xs={12}>
+              <ProjectSelector
+                withTitle={true}
+                projectData={projectsData}
+                onChangeProject={(selected, allProjects) => {
+                  if (selected.some(project => project.value === 'ALL')) {
+                    onChangeProjects(allProjects);
+                  } else {
+                    onChangeProjects(selected);
+                  }
+                }}
+                isMulti={true}
+                isClearable={true}
+                stacked={false}
               />
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
@@ -103,6 +124,24 @@ const DashboardFilters = ({
               />
             </Grid>
           </React.Fragment>
+        )}
+        {isMentor(user) && (
+          <Grid item md={12} sm={12} xs={12}>
+            <ProjectSelector
+              withTitle={true}
+              projectData={projectsData}
+              onChangeProject={(selected, allProjects) => {
+                if (selected.some(project => project.value === 'ALL')) {
+                  onChangeProjects(allProjects);
+                } else {
+                  onChangeProjects(selected);
+                }
+              }}
+              isMulti={true}
+              isClearable={true}
+              stacked={false}
+            />
+          </Grid>
         )}
       </Grid>
     </div>
