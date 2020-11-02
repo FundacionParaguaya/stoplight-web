@@ -12,7 +12,7 @@ Using an app on a phone, tablet or computer, families take a visual survey to se
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Install all the dependencies with `yarn`.
+For the first time, install all the dependencies with both `yarn` and `npm`.
 
 ### Available Scripts
 
@@ -20,12 +20,20 @@ In the project directory, you can run:
 
 #### `yarn start`
 
+or
+
+#### `npm start`
+
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-----
+### Comments
 
-Hosting sponsored by <a href="https://netlify.com">Netlify</a> 
+BrowserStack is no longer used
+
+---
+
+Hosting sponsored by <a href="https://netlify.com">Netlify</a>

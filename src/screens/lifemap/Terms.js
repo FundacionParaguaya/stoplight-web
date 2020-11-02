@@ -69,6 +69,7 @@ export class Terms extends Component {
   };
 
   handleContinue = () => {
+    window.onbeforeunload = () => null;
     this.props.history.push({
       pathname:
         this.props.location.pathname === '/lifemap/terms'
@@ -111,7 +112,6 @@ export class Terms extends Component {
             <TitleContainer title={t('views.privacyPolicy')} />
           </div>
         )}
-
         <Container>
           <div className={classes.contentContainer}>
             <Typography variant="h5">{this.state.title}</Typography>

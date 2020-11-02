@@ -28,6 +28,7 @@ const Families = ({
   const [selectedFacilitators, setFacilitators] = useState([]);
   const [selectedHub, setSelectedHub] = useState([]);
   const [selectedFamilyFilter, setFamilyFilter] = useState(null);
+  const [selectedProjects, setSelectedProjects] = useState([]);
   const tableRef = useRef();
   const [height] = React.useState('unset');
   const [families, setFamilies] = useState([]);
@@ -69,6 +70,8 @@ const Families = ({
       ({ value }) => value
     );
 
+    const sanitizedProjects = selectedProjects.map(({ value }) => value);
+
     let page = query ? query.page : 0;
 
     if (resetPagination) {
@@ -87,7 +90,8 @@ const Families = ({
       selectedFamilyFilter,
       sanitizedOrganizations,
       sanitizedFacilitators,
-      hubId
+      hubId,
+      sanitizedProjects
     )
       .then(response => {
         //https://material-table.com/#/docs/features/remote-data
@@ -134,7 +138,12 @@ const Families = ({
     if (tableRef.current && tableRef.current.onQueryChange && didMount) {
       tableRef.current.onQueryChange();
     }
-  }, [selectedOrganizations, selectedFamilyFilter, selectedFacilitators]);
+  }, [
+    selectedOrganizations,
+    selectedFamilyFilter,
+    selectedFacilitators,
+    selectedProjects
+  ]);
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
@@ -157,10 +166,12 @@ const Families = ({
             facilitatorsData={selectedFacilitators}
             organizationsData={selectedOrganizations}
             hubData={selectedHub}
+            projectsData={selectedProjects}
             onChangeHub={setSelectedHub}
             onChangeOrganization={setSelectedOrganizations}
             onChangeFamiliesFilter={onChangeFamiliesFilter}
             onChangeFacilitator={setSelectedFacilitator}
+            onChangeProjects={setSelectedProjects}
             familiesFilter={selectedFamilyFilter}
             setFamiliesFilter={setFamilyFilter}
             setResetPagination={setResetPagination}

@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import FacilitatorFilter from './FacilitatorFilter';
 import HubsFilter from './HubsFilter';
+import ProjectSelector from './selectors/ProjectsSelector';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -94,17 +95,26 @@ const showFalicitatorFilters = ({ role }) => {
   return role === ROLES_NAMES.ROLE_APP_ADMIN;
 };
 
+const showProjectFilter = ({ role }) => {
+  return (
+    role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+    role === ROLES_NAMES.ROLE_APP_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER
+  );
+};
+
 const FamilyFilter = ({
   organizationsData,
   onChangeOrganization,
   hubData,
   onChangeHub,
-  familiesFilter,
   onChangeFamiliesFilter,
   user,
-  setResetPagination,
   facilitatorsData,
-  onChangeFacilitator
+  onChangeFacilitator,
+  projectsData,
+  onChangeProjects
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -147,6 +157,24 @@ const FamilyFilter = ({
               </Grid>
             )}
           </>
+        )}
+        {showProjectFilter(user) && (
+          <Grid item md={12} sm={12} xs={12}>
+            <ProjectSelector
+              withTitle={true}
+              projectData={projectsData}
+              onChangeProject={(selected, allProjects) => {
+                if (selected.some(project => project.value === 'ALL')) {
+                  onChangeProjects(allProjects);
+                } else {
+                  onChangeProjects(selected);
+                }
+              }}
+              isMulti={true}
+              isClearable={true}
+              stacked={false}
+            />
+          </Grid>
         )}
         <Grid
           item
