@@ -13,7 +13,8 @@ import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
 import {
   getSurveysDefinition,
   getSurveyById,
-  getEconomicOverview
+  getEconomicOverview,
+  getProjectsByOrganization
 } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
@@ -24,6 +25,8 @@ import FamiliesOverviewBlock from '../components/FamiliesOverviewBlock';
 import SnapshotsTable from '../components/SnapshotsTable';
 import { useWindowSize } from '../utils/hooks-helpers';
 import { ROLE_SURVEY_USER, ROLE_SURVEY_TAKER } from '../utils/role-utils';
+import * as _ from 'lodash';
+import ProjectsModal from './lifemap/ProjectsModal';
 
 const useSurveysListStyle = makeStyles(theme => ({
   mainContainer: {
@@ -91,9 +94,7 @@ const SurveysList = ({ surveys, heightRef, handleSurveyClick }) => {
       <Typography variant="h5">{t('views.survey.surveys')}</Typography>
       <List
         dense
-        className={`${
-          classes.listStyle
-        } visible-scrollbar visible-scrollbar-thumb`}
+        className={`${classes.listStyle} visible-scrollbar visible-scrollbar-thumb`}
       >
         {surveys.map((survey, index) => (
           <React.Fragment key={survey.id}>
@@ -139,7 +140,10 @@ class Surveys extends Component {
     loading: true,
     loadingSurvey: false,
     draftsNumber: null,
-    draftsLoading: true
+    draftsLoading: true,
+    selectedSurvey: null,
+    openSelectProjectModal: false,
+    projects: []
   };
 
   constructor(props) {
@@ -294,7 +298,7 @@ class Surveys extends Component {
     return { questionsWithConditionsOnThem, memberKeysWithConditionsOnThem };
   };
 
-  handleClickOnSurvey = s => {
+  loadSurveyById = (s, project) => {
     this.setState({ loadingSurvey: true });
     getSurveyById(this.props.user, s.id)
       .then(response => {
@@ -310,11 +314,33 @@ class Surveys extends Component {
           conditionalQuestions,
           elementsWithConditionsOnThem
         });
-        this.props.history.push('/lifemap/terms');
+        this.props.history.push({
+          pathname: '/lifemap/terms',
+          state: { projectId: !!project ? project : null }
+        });
       })
       .catch(() => {
         this.setState({ loadingSurvey: false });
       });
+  };
+
+  handleClickOnSurvey = s => {
+    this.setState({ loadingSurvey: true });
+    const orgId =
+      !!this.props.user.organization && this.props.user.organization.id;
+    getProjectsByOrganization(this.props.user, orgId).then(response => {
+      const projects = _.get(response, 'data.data.projectsByOrganization', []);
+      this.setState({ loadingSurvey: false });
+      if (projects.length > 0) {
+        this.setState({
+          openSelectProjectModal: true,
+          selectedSurvey: s,
+          projects: projects
+        });
+      } else {
+        this.loadSurveyById(s);
+      }
+    });
   };
 
   handleClickOnSnapshot = snapshot => {
@@ -371,6 +397,12 @@ class Surveys extends Component {
     }
   }
 
+  toggleSelectModal = () => {
+    this.setState({
+      openSelectProjectModal: !this.state.openSelectProjectModal
+    });
+  };
+
   setDraftsNumber = n => {
     this.setState({ draftsNumber: n });
   };
@@ -393,6 +425,13 @@ class Surveys extends Component {
           </div>
         )}
         <Container variant="stretch">
+          <ProjectsModal
+            open={this.state.openSelectProjectModal}
+            selectedSurvey={this.state.selectedSurvey}
+            afterSelect={this.loadSurveyById}
+            toggleModal={this.toggleSelectModal}
+            projects={this.state.projects}
+          />
           <div className={classes.titleContainer}>
             <div className={classes.surveyTopTitle}>
               <Typography variant="h4">

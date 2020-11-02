@@ -429,7 +429,7 @@ export const submitDraft = (user, snapshot, surveyLocation) => {
     },
     data: JSON.stringify({
       query:
-        'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+        'mutation addSnapshot($newSnapshot: NewSnapshotDTOInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId  surveyVersionId snapshotId  snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
       variables: { newSnapshot: { ...sanitizedSnapshot } }
     })
   });
@@ -721,7 +721,7 @@ export const getDrafts = user =>
     },
     data: JSON.stringify({
       query:
-        'query { getSnapshotDraft{ snapshotDraftDate draftId lifemapNavHistory { url state } surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value multipleValue other} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
+        'query { getSnapshotDraft{ snapshotDraftDate draftId lifemapNavHistory { url state } surveyId project surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value multipleValue other} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
     })
   });
 
@@ -1137,7 +1137,7 @@ export const getProjectsByOrganization = (user, orgId) =>
     },
     data: JSON.stringify({
       query:
-        'query projectsByOrganization($organization: Long) { projectsByOrganization (organization: $organization) { id, title, description} }',
+        'query projectsByOrganization($organization: Long) { projectsByOrganization (organization: $organization) { id, title, description, color} }',
       variables: {
         organization: orgId
       }
