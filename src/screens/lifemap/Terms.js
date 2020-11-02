@@ -90,14 +90,6 @@ export class Terms extends Component {
     }
   };
 
-  componentDidMount() {
-    window.onbeforeunload = () => true;
-  }
-
-  componentWillUnmount() {
-    window.onbeforeunload = () => null;
-  }
-
   render() {
     const { classes, t } = this.props;
 

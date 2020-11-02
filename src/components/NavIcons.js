@@ -48,7 +48,6 @@ class NavIcons extends Component {
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount');
     window.onbeforeunload = () => null;
   }
 
