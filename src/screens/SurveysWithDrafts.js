@@ -300,8 +300,6 @@ class Surveys extends Component {
 
   loadSurveyById = (s, project) => {
     this.setState({ loadingSurvey: true });
-    console.log('el survey', s);
-    console.log('el project', project);
     getSurveyById(this.props.user, s.id)
       .then(response => {
         const survey = response.data.data.surveyById;
