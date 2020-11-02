@@ -38,16 +38,32 @@ class NavIcons extends Component {
     this.props.history.push('/surveys');
   };
 
+  componentDidMount() {
+    window.onbeforeunload = () => true;
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      window.onbeforeunload = () => true;
+    }
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+    window.onbeforeunload = () => null;
+  }
+
+  goBack = () => {
+    window.onbeforeunload = () => null;
+    this.props.history.goBack();
+  };
+
   render() {
     const { classes, t, style } = this.props;
 
     return (
       <React.Fragment>
         <div className={classes.container} style={style}>
-          <i
-            onClick={this.props.uniqueBack || this.props.history.goBack}
-            className={`material-icons ${classes.icon}`}
-          >
+          <i onClick={this.goBack} className={`material-icons ${classes.icon}`}>
             arrow_back
           </i>
           <h2 className={classes.titleMainAll}>{this.props.title}</h2>
@@ -110,9 +126,6 @@ const mapDispatchToProps = {};
 
 export default withRouter(
   withStyles(styles)(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(withTranslation()(NavIcons))
+    connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NavIcons))
   )
 );
