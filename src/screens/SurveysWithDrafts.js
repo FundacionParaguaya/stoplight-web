@@ -26,7 +26,7 @@ import SnapshotsTable from '../components/SnapshotsTable';
 import { useWindowSize } from '../utils/hooks-helpers';
 import { ROLE_SURVEY_USER, ROLE_SURVEY_TAKER } from '../utils/role-utils';
 import * as _ from 'lodash';
-import ProjectsModal from '../components/ProjectsModal';
+import ProjectsModal from './lifemap/ProjectsModal';
 
 const useSurveysListStyle = makeStyles(theme => ({
   mainContainer: {
