@@ -1155,7 +1155,7 @@ export const getProjectsByOrganization = (user, orgId) =>
     },
     data: JSON.stringify({
       query:
-        'query projectsByOrganization($organization: Long) { projectsByOrganization (organization: $organization) { id, title, description, color} }',
+        'query projectsByOrganization($organization: Long) { projectsByOrganization (organization: $organization) { id, title, description, color, active} }',
       variables: {
         organization: orgId
       }

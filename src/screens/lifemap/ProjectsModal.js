@@ -31,7 +31,7 @@ const ProjectsModal = ({
     >
       <div className={classes.container}>
         <Typography className={classes.title} variant="h5" align="center">
-          {t('views.survey.chooseSurvey')}
+          {t('views.survey.chooseProjectTitle')}
         </Typography>
         <IconButton
           className={classes.closeIcon}
@@ -43,7 +43,7 @@ const ProjectsModal = ({
           <CloseIcon style={{ color: 'green' }} />
         </IconButton>
         <Typography align="center" variant="subtitle1">
-          {t('views.survey.chooseProject')}
+          {t('views.survey.chooseProjectSubtitle')}
         </Typography>
         <ProjectsCarousel projects={projects} handleClick={onClose} />
         <Button
@@ -76,14 +76,15 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '1em',
     backgroundColor: theme.palette.background.default,
     outline: 'none',
-    width: '1100px',
-    minWidth: '900px',
+    width: '80vw',
+    minWidth: '80vw',
     maxHeight: '65vh',
     minHeight: '45vh',
     position: 'relative'
   },
   title: {
-    paddingBottom: 15
+    marginTop: 20,
+    paddingBottom: 5
   },
   closeIcon: {
     position: 'absolute',

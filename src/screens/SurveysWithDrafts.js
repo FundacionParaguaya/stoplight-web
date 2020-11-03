@@ -329,7 +329,11 @@ class Surveys extends Component {
     const orgId =
       !!this.props.user.organization && this.props.user.organization.id;
     getProjectsByOrganization(this.props.user, orgId).then(response => {
-      const projects = _.get(response, 'data.data.projectsByOrganization', []);
+      const projects = _.get(
+        response,
+        'data.data.projectsByOrganization',
+        []
+      ).filter(project => project.active === true);
       this.setState({ loadingSurvey: false });
       if (projects.length > 0) {
         this.setState({
