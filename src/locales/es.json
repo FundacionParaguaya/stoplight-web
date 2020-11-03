@@ -419,7 +419,7 @@
       "noMatchFilters": "No hay resultados para los filtros aplicados"
     },
     "projectFilter": {
-      "label": "Proyectos",
+      "label": "Proyecto",
       "loading": "Cargando...",
       "noOption": "No quedan proyectos",
       "noMatchFilters": "No hay resultados para los filtros aplicados",
@@ -492,6 +492,12 @@
       "familyNoteSuccess": "Nota de familia enviada correctamente",
       "familyNoteError": "No se pudo enviar la nota familiar",
       "download": "Descargar",
+      "project": {
+        "assignedCorrectly": "Proyecto asignado correctamente",
+        "assignError": "Ocurrió un error al asignar el proyecto. Vuelva a intentarlo",
+        "changeProject": "Cambiar Proyecto",
+        "changeProjectConfirm": "¿Está seguro que desea cambiar el proyecto de la familia?"
+      },
       "form": {
         "save": {
           "success": "Familia actualizada exitosamente",
