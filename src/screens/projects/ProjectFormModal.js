@@ -180,7 +180,11 @@ const ProjectFormModal = ({
                     />
                   ) : (
                     <PaletteOutlinedIcon
-                      style={{ color: '#309E43', marginRight: 10 }}
+                      style={{
+                        color: '#309E43',
+                        marginRight: 10,
+                        cursor: 'pointer'
+                      }}
                       onClick={handleOpenChangeColor}
                     />
                   )}
@@ -288,7 +292,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: 12,
     borderRadius: '50%',
     width: 20,
-    height: 20
+    height: 20,
+    cursor: 'pointer'
   }
 }));
 

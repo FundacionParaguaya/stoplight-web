@@ -572,6 +572,7 @@
       "deleteButton": "ELIMINAR",
       "search": "Buscar",
       "searchOrganization": "por nombre",
+      "projectsList": "Lista de proyectos",
       "delete": {
         "confirmTitle": "Confirmar la eliminación",
         "confirmText": "¿Estás seguro de que deseas eliminar esta organización?",

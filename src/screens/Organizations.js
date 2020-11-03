@@ -19,6 +19,7 @@ import clsx from 'clsx';
 import DefaultOrgLogo from '../assets/grey_isologo.png';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
@@ -227,17 +228,19 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                           </Button>
                         </>
                       )}
-                      <IconButton
-                        color="default"
-                        aria-label="To projects"
-                        component="span"
-                        className={classes.goNextButton}
-                        onClick={() => {
-                          handleGoNext(organization);
-                        }}
-                      >
-                        <NavigateNextIcon />
-                      </IconButton>
+                      <Tooltip title={t('views.organization.projectsList')}>
+                        <IconButton
+                          color="default"
+                          aria-label="To projects"
+                          component="span"
+                          className={classes.goNextButton}
+                          onClick={() => {
+                            handleGoNext(organization);
+                          }}
+                        >
+                          <NavigateNextIcon />
+                        </IconButton>
+                      </Tooltip>
                     </div>
                   </div>
                 </Grid>
