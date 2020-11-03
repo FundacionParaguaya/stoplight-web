@@ -48,7 +48,7 @@ const ProjectsCarousel = ({ classes, projects, handleClick }) => {
       >
         {projects.map((project, index) => {
           return (
-            <>
+            <React.Fragment key={index}>
               <div
                 key={index}
                 style={{
@@ -69,7 +69,7 @@ const ProjectsCarousel = ({ classes, projects, handleClick }) => {
                   {project.description}
                 </Typography>
               </div>{' '}
-            </>
+            </React.Fragment>
           );
         })}
       </Carousel>
