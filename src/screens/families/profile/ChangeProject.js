@@ -33,6 +33,8 @@ const ChangeProject = ({
   const disabled = user.role !== ROLE_APP_ADMIN;
 
   const [openConfirmationModal, setConfirmationModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [changedProject, setChangedProject] = useState(false);
   const [projectData, setProjectData] = useState();
 
   useEffect(() => {
@@ -44,8 +46,10 @@ const ChangeProject = ({
     setConfirmationModal(!openConfirmationModal);
 
   const confirmAction = () => {
+    setLoading(true);
     updateProject(familyId, projectData.value, user)
       .then(() => {
+        setLoading(false);
         setConfirmationModal(false);
         enqueueSnackbar(t('views.familyProfile.project.assignedCorrectly'), {
           variant: 'success',
@@ -58,6 +62,7 @@ const ChangeProject = ({
       })
       .catch(e => {
         console.error(e);
+        setLoading(false);
         setConfirmationModal(false);
         enqueueSnackbar(t('views.familyProfile.project.assignError'), {
           variant: 'error',
@@ -77,7 +82,10 @@ const ChangeProject = ({
           <ProjectSelector
             withTitle={true}
             projectData={projectData}
-            onChangeProject={selected => setProjectData(selected)}
+            onChangeProject={selected => {
+              setChangedProject(true);
+              setProjectData(selected);
+            }}
             isMulti={false}
             isClearable={true}
             stacked={false}
@@ -87,7 +95,7 @@ const ChangeProject = ({
           <Button
             variant="contained"
             onClick={toggleConfirmationModal}
-            disabled={disabled}
+            disabled={disabled || !changedProject}
           >
             {t('views.familyProfile.project.changeProject')}
           </Button>
@@ -99,7 +107,7 @@ const ChangeProject = ({
         cancelButtonText={t('general.no')}
         continueButtonText={t('general.yes')}
         onClose={toggleConfirmationModal}
-        disabledFacilitator={disabled}
+        disabledFacilitator={loading}
         open={openConfirmationModal}
         confirmAction={confirmAction}
       />
