@@ -7,7 +7,7 @@ import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { updateProject } from '../../../api';
+import { updateFamilyProject } from '../../../api';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import ProjectSelector from '../../../components/selectors/ProjectsSelector';
 import { ROLE_APP_ADMIN } from '../../../utils/role-utils';
@@ -47,7 +47,7 @@ const ChangeProject = ({
 
   const confirmAction = () => {
     setLoading(true);
-    updateProject(familyId, projectData.value, user)
+    updateFamilyProject(familyId, projectData.value, user)
       .then(() => {
         setLoading(false);
         setConfirmationModal(false);

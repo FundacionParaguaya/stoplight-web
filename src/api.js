@@ -856,7 +856,7 @@ export const assignFacilitator = (familyId, mentorId, user) =>
     })
   });
 
-export const updateProject = (familyId, projectId, user) =>
+export const updateFamilyProject = (familyId, projectId, user) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
