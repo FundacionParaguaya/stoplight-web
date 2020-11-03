@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '85vh',
+    height: '85vh'
   },
   closeIcon: {
     position: 'absolute',
@@ -190,7 +190,7 @@ const UserFormModal = ({
   }, [userToEdit.id]);
 
   const onSubmit = values => {
-    setLoading(true);
+    // setLoading(true);
     delete values.confirmPassword;
     if (user.role === ROLES_NAMES.ROLE_APP_ADMIN)
       values.organization = user.organization.id;
@@ -204,7 +204,7 @@ const UserFormModal = ({
       projects: projects
     })
       .then(() => {
-        setLoading(false);
+        // setLoading(false);
         onClose(true);
         enqueueSnackbar(t('views.user.form.save.success'), {
           variant: 'success',
@@ -335,7 +335,14 @@ const UserFormModal = ({
               onSubmit(values);
             }}
           >
-            {({ setFieldValue, values, disabled, touched, setTouched }) => (
+            {({
+              setFieldValue,
+              values,
+              disabled,
+              touched,
+              setTouched,
+              isSubmitting
+            }) => (
               <Form noValidate>
                 <InputWithFormik
                   label={t('views.user.form.username')}
@@ -464,13 +471,15 @@ const UserFormModal = ({
                     }
                   />
                 )}
-
+                {isSubmitting ? (
+                  <CircularProgress style={{ margin: 'auto' }} />
+                ) : null}
                 <div className={classes.buttonContainerForm}>
                   <Button
                     type="submit"
                     color="primary"
                     variant="contained"
-                    disabled={disabled}
+                    disabled={isSubmitting}
                   >
                     {t('general.save')}
                   </Button>

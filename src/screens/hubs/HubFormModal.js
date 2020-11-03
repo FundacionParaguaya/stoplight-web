@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '85vh',
+    height: '85vh'
   },
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     padding: '40px 50px',
     minHeight: '35vh',
     maxHeight: '85vh',
-    width: '500px',
+    width: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none'
@@ -198,7 +198,7 @@ const HubFormModal = ({
             </IconButton>
           )
         });
-        setLoading(false);
+        //setLoading(false);
         onClose(true);
       });
   };
@@ -215,166 +215,157 @@ const HubFormModal = ({
       open={open}
       onClose={() => onClose(false)}
     >
-      {loading ? (
-        <div className={classes.confirmationModal}>
-          <div className={classes.loadingContainer}>
-            <CircularProgress style={{ margin: 'auto' }} />
-          </div>
-        </div>
-      ) : (
-        <div className={classes.confirmationModal}>
-          <Typography
-            variant="h5"
-            test-id="title-bar"
-            align="center"
-            style={{ marginBottom: 10 }}
-          >
-            {isCreate
-              ? t('views.hub.form.addTitle')
-              : t('views.hub.form.editTitle')}
-          </Typography>
-          <IconButton
-            className={classes.closeIcon}
-            key="dismiss"
-            onClick={() => onClose(false)}
-          >
-            <CloseIcon style={{ color: 'green' }} />
-          </IconButton>
-          <Formik
-            initialValues={{
-              id: (!!hub.id && hub.id) || '',
-              name: (!!hub.name && hub.name) || '',
-              description: (!!hub.description && hub.description) || '',
-              language: (!!hub.language && hub.language) || '',
-              partnerType: (!!hub.partnerType && hub.partnerType) || '',
-              allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
-              allowSolutions: !!hub.allowSolutions && hub.allowSolutions,
-              interactiveHelp:
-                !!hub.labels && hub.labels.includes('interactiveHelp')
-            }}
-            validationSchema={validationSchema}
-            onSubmit={values => {
-              setLoading(true);
-              onSubmit(values);
-            }}
-          >
-            {({ setFieldValue, values }) => (
-              <Form noValidate>
-                <InputWithFormik
-                  label={t('views.hub.form.name')}
-                  name="name"
-                  required
-                  className={classes.input}
+      <div className={classes.confirmationModal}>
+        <Typography
+          variant="h5"
+          test-id="title-bar"
+          align="center"
+          style={{ marginBottom: 10 }}
+        >
+          {isCreate
+            ? t('views.hub.form.addTitle')
+            : t('views.hub.form.editTitle')}
+        </Typography>
+        <IconButton
+          className={classes.closeIcon}
+          key="dismiss"
+          onClick={() => onClose(false)}
+        >
+          <CloseIcon style={{ color: 'green' }} />
+        </IconButton>
+        <Formik
+          initialValues={{
+            id: (!!hub.id && hub.id) || '',
+            name: (!!hub.name && hub.name) || '',
+            description: (!!hub.description && hub.description) || '',
+            language: (!!hub.language && hub.language) || '',
+            partnerType: (!!hub.partnerType && hub.partnerType) || '',
+            allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
+            allowSolutions: !!hub.allowSolutions && hub.allowSolutions,
+            interactiveHelp:
+              !!hub.labels && hub.labels.includes('interactiveHelp')
+          }}
+          validationSchema={validationSchema}
+          onSubmit={values => {
+            //setLoading(true);
+            onSubmit(values);
+          }}
+        >
+          {({ setFieldValue, values, isSubmitting }) => (
+            <Form noValidate>
+              <InputWithFormik
+                label={t('views.hub.form.name')}
+                name="name"
+                required
+                className={classes.input}
+              />
+              <InputWithFormik
+                label={t('views.hub.form.description')}
+                name="description"
+                required
+                className={classes.input}
+              />
+              <AutocompleteWithFormik
+                label={t('views.hub.form.language')}
+                name="language"
+                rawOptions={langagueOptions}
+                labelKey="label"
+                valueKey="value"
+                isClearable={false}
+                required
+              />
+              <AutocompleteWithFormik
+                label={t('views.hub.form.partnerType')}
+                name="partnerType"
+                rawOptions={partnerTypeOptions}
+                labelKey="label"
+                valueKey="value"
+                isClearable={false}
+                required
+              />
+              <div className={classes.switchOptionsContainer}>
+                <Typography variant="subtitle1" className={classes.allowRetake}>
+                  {t('views.hub.form.allowRetake')}
+                </Typography>
+                <Switch
+                  name={'allowRetake'}
+                  value={'allowRetake'}
+                  onChange={e => {
+                    setFieldValue('allowRetake', !values.allowRetake);
+                  }}
+                  checked={values.allowRetake}
+                  color="primary"
                 />
-                <InputWithFormik
-                  label={t('views.hub.form.description')}
-                  name="description"
-                  required
-                  className={classes.input}
+              </div>
+              <div className={classes.switchOptionsContainer}>
+                <Typography variant="subtitle1" className={classes.allowRetake}>
+                  {t('views.hub.form.allowSolutions')}
+                </Typography>
+                <Switch
+                  name={'allowSolutions'}
+                  value={'allowSolutions'}
+                  onChange={e => {
+                    setFieldValue('allowSolutions', !values.allowSolutions);
+                  }}
+                  checked={values.allowSolutions}
+                  color="primary"
                 />
-                <AutocompleteWithFormik
-                  label={t('views.hub.form.language')}
-                  name="language"
-                  rawOptions={langagueOptions}
-                  labelKey="label"
-                  valueKey="value"
-                  isClearable={false}
-                  required
+              </div>
+              <div className={classes.switchOptionsContainer}>
+                <Typography variant="subtitle1" className={classes.allowRetake}>
+                  {t('views.hub.form.allowInteractiveHelp')}
+                </Typography>
+                <Switch
+                  name={'interactiveHelp'}
+                  value={'interactiveHelp'}
+                  onChange={e => {
+                    setFieldValue('interactiveHelp', !values.interactiveHelp);
+                  }}
+                  checked={values.interactiveHelp}
+                  color="primary"
                 />
-                <AutocompleteWithFormik
-                  label={t('views.hub.form.partnerType')}
-                  name="partnerType"
-                  rawOptions={partnerTypeOptions}
-                  labelKey="label"
-                  valueKey="value"
-                  isClearable={false}
-                  required
-                />
-                <div className={classes.switchOptionsContainer}>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.allowRetake}
-                  >
-                    {t('views.hub.form.allowRetake')}
+              </div>
+              <div style={{ position: 'relative', marginBottom: 10 }}>
+                <div {...getRootProps({ className: classes.dropzone })}>
+                  <input {...getInputProps()} />
+                  <AddAPhoto className={classes.icon} />
+                  <Typography style={{ paddingTop: 55 }} variant="subtitle1">
+                    {!isCreate && !!hub.logoUrl
+                      ? t('views.hub.form.changeLogo')
+                      : t('views.hub.form.logoUpload')}{' '}
                   </Typography>
-                  <Switch
-                    name={'allowRetake'}
-                    value={'allowRetake'}
-                    onChange={e => {
-                      setFieldValue('allowRetake', !values.allowRetake);
-                    }}
-                    checked={values.allowRetake}
-                    color="primary"
+                </div>
+                {(!!file || !!hub.logoUrl) && (
+                  <img
+                    src={file ? file : hub.logoUrl}
+                    alt="Choose Life Map"
+                    className={classes.img}
                   />
-                </div>
-                <div className={classes.switchOptionsContainer}>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.allowRetake}
-                  >
-                    {t('views.hub.form.allowSolutions')}
-                  </Typography>
-                  <Switch
-                    name={'allowSolutions'}
-                    value={'allowSolutions'}
-                    onChange={e => {
-                      setFieldValue('allowSolutions', !values.allowSolutions);
-                    }}
-                    checked={values.allowSolutions}
-                    color="primary"
-                  />
-                </div>
-                <div className={classes.switchOptionsContainer}>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.allowRetake}
-                  >
-                    {t('views.hub.form.allowInteractiveHelp')}
-                  </Typography>
-                  <Switch
-                    name={'interactiveHelp'}
-                    value={'interactiveHelp'}
-                    onChange={e => {
-                      setFieldValue('interactiveHelp', !values.interactiveHelp);
-                    }}
-                    checked={values.interactiveHelp}
-                    color="primary"
-                  />
-                </div>
-                <div style={{ position: 'relative', marginBottom: 10 }}>
-                  <div {...getRootProps({ className: classes.dropzone })}>
-                    <input {...getInputProps()} />
-                    <AddAPhoto className={classes.icon} />
-                    <Typography style={{ paddingTop: 55 }} variant="subtitle1">
-                      {!isCreate && !!hub.logoUrl
-                        ? t('views.hub.form.changeLogo')
-                        : t('views.hub.form.logoUpload')}{' '}
-                    </Typography>
-                  </div>
-                  {(!!file || !!hub.logoUrl) && (
-                    <img
-                      src={file ? file : hub.logoUrl}
-                      alt="Choose Life Map"
-                      className={classes.img}
-                    />
-                  )}
-                </div>
-
-                {error && (
-                  <Typography color="error">
-                    {t('views.hub.form.fileUploadError')}
-                  </Typography>
                 )}
-                <div className={classes.buttonContainerForm}>
-                  <Button type="submit" color="primary" variant="contained">
-                    {t('general.save')}
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
-      )}
+              </div>
+
+              {error && (
+                <Typography color="error">
+                  {t('views.hub.form.fileUploadError')}
+                </Typography>
+              )}
+              {isSubmitting ? (
+                <CircularProgress style={{ margin: 'auto' }} />
+              ) : null}
+              <div className={classes.buttonContainerForm}>
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  disabled={isSubmitting}
+                >
+                  {t('general.save')}
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </Modal>
   );
 };
