@@ -571,6 +571,7 @@
       "deleteButton": "DELETE",
       "search": "Search",
       "searchOrganization": "by name",
+      "projectsList": "List of projects",
       "delete": {
         "confirmTitle": "Confirm Deletion",
         "confirmText": "Are you sure you want to delete this Organization?",

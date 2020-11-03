@@ -571,6 +571,7 @@
       "deleteButton": "EXCLUIR",
       "search": "Procurar",
       "searchOrganization": "pelo nome",
+      "projectsList": "Lista de proyectos",
       "email": "Email para enviar Lifemap",
       "delete": {
         "confirmTitle": "Confirmar exclusão",
