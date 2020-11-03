@@ -76,8 +76,8 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '1em',
     backgroundColor: theme.palette.background.default,
     outline: 'none',
-    width: '900px',
-    minWidth: '900px',
+    width: '80vw',
+    minWidth: '80vw',
     maxHeight: '65vh',
     minHeight: '45vh',
     position: 'relative'
