@@ -93,7 +93,7 @@ const styles = theme => ({
     padding: '1rem 20px 5px 20px',
     height: '100%',
     minHeight: 240,
-
+    width: 300,
     boxShadow: `1px 2px 5px ${theme.palette.grey.main}`,
     marginRight: '2em'
   },

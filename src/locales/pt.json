@@ -112,7 +112,8 @@
     "survey": {
       "audioHelp": "Ajuda Áudio",
       "chooseSurvey": "Elige uma pesquisa",
-      "chooseProject": "Escolha um projeto ao qual a família pertencerá",
+      "chooseProjectTitle": "Elige um projeto",
+      "chooseProjectSubtitle": "Escolha o projeto onde a família vai pertencer",
       "skipProject": "Omitir projeto",
       "welcome": "Bem-vindo",
       "contains": "Contem",
