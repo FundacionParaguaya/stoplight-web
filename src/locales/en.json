@@ -420,7 +420,7 @@
       "noMatchFilters": "No results matching your filters"
     },
     "projectFilter": {
-      "label": "Projects",
+      "label": "Project",
       "loading": "Loading...",
       "noOption": "No projects left",
       "noMatchFilters": "No results matching your filters",
@@ -493,6 +493,12 @@
       "familyNoteSuccess": "Family note sent correctly",
       "familyNoteError": "Could not send family note",
       "download": "Download",
+      "project": {
+        "assignedCorrectly": "Project assigned correctly",
+        "assignError": "An error occurred while assigning a project. Try again",
+        "changeProject": "Change Project",
+        "changeProjectConfirm": "Are you sure you want to change the family project?"
+      },
       "form": {
         "save": {
           "success": "Family updated successfully",

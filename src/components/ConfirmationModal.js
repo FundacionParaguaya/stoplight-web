@@ -47,6 +47,7 @@ const ConfirmationModal = props => {
             test-id="continue"
             color="primary"
             onClick={props.confirmAction}
+            disabled={disabledFacilitator}
           >
             {props.continueButtonText || DEFAULT_CONTINUE_TEXT}
           </Button>
@@ -55,6 +56,7 @@ const ConfirmationModal = props => {
               className={classes.button}
               variant="outlined"
               onClick={props.onClose}
+              disabled={disabledFacilitator}
             >
               {props.cancelButtonText || DEFAULT_CANCEL_TEXT}
             </Button>

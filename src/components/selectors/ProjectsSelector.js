@@ -23,7 +23,7 @@ const ProjectsSelector = ({
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [projectsOptions, setProjectsOptions] = useState([]);
-  const label = `${t('views.projectFilter.label')}`;
+  const label = `${t('views.projectFilter.label')}${isMulti ? 's' : ''}`;
 
   useEffect(() => {
     setLoading(true);
@@ -46,13 +46,21 @@ const ProjectsSelector = ({
     label: t('views.projectFilter.allProjects'),
     value: 'ALL'
   };
-  let projectsToShow =
-    projectsOptions.length !== projectData.length && projectsOptions.length > 1
-      ? [allProjectsOption, ...projectsOptions]
-      : [...projectsOptions];
-  if (projectData.some(d => d.value === 'ALL')) {
-    projectsToShow = [];
+  let projectsToShow = [];
+  if (isMulti) {
+    projectsToShow =
+      projectsOptions.length !== projectData.length &&
+      projectsOptions.length > 1
+        ? [allProjectsOption, ...projectsOptions]
+        : [...projectsOptions];
+    if (projectData.some(d => d.value === 'ALL')) {
+      projectsToShow = [];
+    }
+  } else {
+    projectsToShow = [...projectsOptions];
   }
+
+  console.log(projectData);
 
   return (
     <div className={stacked ? classes.stackedContainer : classes.container}>
