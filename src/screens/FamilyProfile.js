@@ -56,6 +56,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Details from './families/profile/Details';
+import ChangeProject from './families/profile/ChangeProject';
 
 const FamilyProfile = ({
   classes,
@@ -651,6 +652,7 @@ const FamilyProfile = ({
               </Button>
             </Grid>
           </div>
+          <ChangeProject familyId={familyId} currentProject={family.project} />
         </Container>
       )}
       <ConfirmationModal

@@ -828,7 +828,7 @@ export const getFamily = (familyId, user) =>
     },
     data: JSON.stringify({
       query:
-        'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot allowRetake organization { id, name } country{country} ' +
+        'query familyById($id: Long) { familyById(id: $id) {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot allowRetake organization { id, name } country{country} project {id title}' +
         'familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} ' +
         'snapshotEconomics { codeName value multipleValueArray questionText text multipleText multipleTextArray other topic} membersEconomic{ memberIdentifier firstName economic{codeName value multipleValue questionText text multipleText multipleTextArray other topic} } ' +
         'snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} }}',
@@ -852,6 +852,24 @@ export const assignFacilitator = (familyId, mentorId, user) =>
       variables: {
         familyId,
         mentorId
+      }
+    })
+  });
+
+export const updateProject = (familyId, projectId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateFamilyProject($familyId: Long, $projectId: Long) ' +
+        '{  updateFamilyProject(familyId: $familyId, projectId: $projectId) {    familyId    name    user { userId username role    }  }}',
+      variables: {
+        familyId,
+        projectId
       }
     })
   });
