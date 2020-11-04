@@ -115,7 +115,6 @@ const HubFormModal = ({
   const isCreate = !hub.id;
   const classes = useStyles();
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [file, setFile] = useState('');
 
@@ -177,7 +176,6 @@ const HubFormModal = ({
     }
     addOrUpdateHub(user, { ...values, file })
       .then(() => {
-        setLoading(false);
         onClose(true);
         enqueueSnackbar(t('views.hub.form.save.success'), {
           variant: 'success',
@@ -198,7 +196,6 @@ const HubFormModal = ({
             </IconButton>
           )
         });
-        //setLoading(false);
         onClose(true);
       });
   };
