@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '85vh'
+    margin: 'auto'
   },
   closeIcon: {
     position: 'absolute',
@@ -472,7 +472,7 @@ const UserFormModal = ({
                   />
                 )}
                 {isSubmitting ? (
-                  <CircularProgress style={{ margin: 'auto' }} />
+                  <CircularProgress className={classes.loadingContainer} />
                 ) : null}
                 <div className={classes.buttonContainerForm}>
                   <Button

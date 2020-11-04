@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '85vh'
+    margin: 'auto'
   },
   confirmationModal: {
     backgroundColor: theme.palette.background.default,
@@ -350,7 +350,7 @@ const HubFormModal = ({
                 </Typography>
               )}
               {isSubmitting ? (
-                <CircularProgress style={{ margin: 'auto' }} />
+                <CircularProgress className={classes.loadingContainer} />
               ) : null}
               <div className={classes.buttonContainerForm}>
                 <Button
