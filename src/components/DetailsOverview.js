@@ -316,6 +316,22 @@ const DetailsOverview = ({
               {family.organization.name}
             </Typography>
           </div>
+          <div
+            className={classes.labelContainer}
+            style={{ justifyContent: 'flex-end' }}
+          >
+            {family.project != null ? (
+              <Typography variant="h6" className={classes.mainLabel}>
+                {`${t('views.familyProfile.project_')} `}
+              </Typography>
+            ) : null}
+            &nbsp;&nbsp;
+            {family.project != null ? (
+              <Typography variant="h6" style={{ width: 'auto' }}>
+                {family.project.title}
+              </Typography>
+            ) : null}
+          </div>
         </div>
       </div>
 
