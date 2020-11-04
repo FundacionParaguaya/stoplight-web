@@ -1146,7 +1146,7 @@ export const addOrUpdateProject = (user, values) => {
   }
 };
 
-export const getProjectsByOrganization = (user, orgId) =>
+export const getProjectsByOrganization = (user, orgsId) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -1155,9 +1155,9 @@ export const getProjectsByOrganization = (user, orgId) =>
     },
     data: JSON.stringify({
       query:
-        'query projectsByOrganization($organization: Long) { projectsByOrganization (organization: $organization) { id, title, description, color, active} }',
+        'query projectsByOrganization($organizations: [Long]) { projectsByOrganization (organizations: $organizations) { id, title, description, color, active} }',
       variables: {
-        organization: orgId
+        organizations: orgsId
       }
     })
   });
