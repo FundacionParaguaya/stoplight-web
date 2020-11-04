@@ -34,12 +34,18 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 40px',
-    minHeight: '35vh',
-    maxHeight: '95vh',
+    height: '85vh',
     width: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none'
+  },
+  loadingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 'auto'
   },
   closeIcon: {
     position: 'absolute',
@@ -184,7 +190,7 @@ const UserFormModal = ({
   }, [userToEdit.id]);
 
   const onSubmit = values => {
-    setLoading(true);
+    // setLoading(true);
     delete values.confirmPassword;
     if (user.role === ROLES_NAMES.ROLE_APP_ADMIN)
       values.organization = user.organization.id;
@@ -198,7 +204,7 @@ const UserFormModal = ({
       projects: projects
     })
       .then(() => {
-        setLoading(false);
+        // setLoading(false);
         onClose(true);
         enqueueSnackbar(t('views.user.form.save.success'), {
           variant: 'success',
@@ -278,7 +284,9 @@ const UserFormModal = ({
     >
       {loading ? (
         <div className={classes.modalBody}>
-          <CircularProgress style={{ margin: 'auto' }} />
+          <div className={classes.loadingContainer}>
+            <CircularProgress style={{ margin: 'auto' }} />
+          </div>
         </div>
       ) : (
         <div className={classes.modalBody}>
@@ -327,7 +335,14 @@ const UserFormModal = ({
               onSubmit(values);
             }}
           >
-            {({ setFieldValue, values, disabled, touched, setTouched }) => (
+            {({
+              setFieldValue,
+              values,
+              disabled,
+              touched,
+              setTouched,
+              isSubmitting
+            }) => (
               <Form noValidate>
                 <InputWithFormik
                   label={t('views.user.form.username')}
@@ -457,13 +472,15 @@ const UserFormModal = ({
                     stacked={true}
                   />
                 )}
-
+                {isSubmitting ? (
+                  <CircularProgress className={classes.loadingContainer} />
+                ) : null}
                 <div className={classes.buttonContainerForm}>
                   <Button
                     type="submit"
                     color="primary"
                     variant="contained"
-                    disabled={disabled}
+                    disabled={isSubmitting}
                   >
                     {t('general.save')}
                   </Button>
