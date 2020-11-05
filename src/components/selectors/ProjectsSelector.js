@@ -16,6 +16,7 @@ const ProjectsSelector = ({
   onChangeProject,
   onBlur,
   projectData,
+  organizationData,
   stacked
 }) => {
   const { t } = useTranslation();
@@ -27,8 +28,16 @@ const ProjectsSelector = ({
 
   useEffect(() => {
     setLoading(true);
-    const orgId = !!user.organization && user.organization.id;
-    getProjectsByOrganization(user, orgId)
+
+    const orgId =
+      (isMulti &&
+        !!organizationData &&
+        organizationData.length > 0 &&
+        organizationData.map(o => o.value)) ||
+      (!isMulti && !!organizationData && [organizationData.value]) ||
+      (!!user.organization && !!user.organization.id && [user.organization.id]);
+
+    getProjectsByOrganization(user, orgId ? orgId : [])
       .then(response => {
         const projects = _.get(
           response,
@@ -41,7 +50,8 @@ const ProjectsSelector = ({
         setProjectsOptions(projects);
       })
       .finally(() => setLoading(false));
-  }, [user]);
+  }, [user, organizationData]);
+
   const allProjectsOption = {
     label: t('views.projectFilter.allProjects'),
     value: 'ALL'
@@ -59,8 +69,6 @@ const ProjectsSelector = ({
   } else {
     projectsToShow = [...projectsOptions];
   }
-
-  console.log(projectData);
 
   return (
     <div className={stacked ? classes.stackedContainer : classes.container}>

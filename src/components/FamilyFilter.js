@@ -163,6 +163,7 @@ const FamilyFilter = ({
             <ProjectSelector
               withTitle={true}
               projectData={projectsData}
+              organizationData={organizationsData}
               onChangeProject={(selected, allProjects) => {
                 if (selected.some(project => project.value === 'ALL')) {
                   onChangeProjects(allProjects);
