@@ -17,7 +17,8 @@ import {
   getLastSnapshot,
   getFamilyNotes,
   getFamilyImages,
-  saveFamilyNote
+  saveFamilyNote,
+  getProjectsByOrganization
 } from '../api';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/face_icon_large.png';
@@ -57,6 +58,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Details from './families/profile/Details';
 import ChangeProject from './families/profile/ChangeProject';
+import * as _ from 'lodash';
+import ProjectsModal from './lifemap/ProjectsModal';
 
 const FamilyProfile = ({
   classes,
@@ -91,6 +94,8 @@ const FamilyProfile = ({
   const [signatureImg, setSignatureImg] = useState({});
   const [imagePreview, setImagePreview] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
+  const [projects, setProjects] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -189,6 +194,15 @@ const FamilyProfile = ({
       setStoplightSkipped(
         response.data.data.familyById.snapshotIndicators.stoplightSkipped
       );
+      const orgId = !!user.organization && user.organization.id;
+      getProjectsByOrganization(user, [orgId]).then(response => {
+        const projects = _.get(
+          response,
+          'data.data.projectsByOrganization',
+          []
+        ).filter(project => project.active === true);
+        setProjects(projects);
+      });
       getSurveyById(
         user,
         response.data.data.familyById.snapshotIndicators.surveyId
@@ -291,7 +305,11 @@ const FamilyProfile = ({
     !!family.name && setLoadingSurvey(false);
   }, [family]);
 
-  const handleRetakeSurvey = e => {
+  const handleRetakeSurvey = () => {
+    projects.length > 0 ? setOpenModal(true) : loadSurvey();
+  };
+
+  const loadSurvey = e => {
     setLoadingSurvey(true);
 
     const economicScreens = getEconomicScreens(survey);
@@ -551,6 +569,12 @@ const FamilyProfile = ({
         </div>
       )}
 
+      <ProjectsModal
+        open={openModal}
+        afterSelect={loadSurvey}
+        toggleModal={() => setOpenModal(!openModal)}
+        projects={projects}
+      />
       <Details
         primaryParticipant={firtsParticipant}
         familyMembers={familyMembers}
