@@ -647,38 +647,40 @@ const FamilyProfile = ({
         </DialogActions>
       </Dialog>
 
-      {/* AssignFacilitator */}
-      {showAdministrationOptions(user) && (
-        <Container className={classes.administratorContainer} variant="fluid">
-          <Typography variant="h5">
-            {t('views.familyProfile.administration')}
-          </Typography>
+      <Container className={classes.administratorContainer} variant="fluid">
+        {/* AssignFacilitator */}
+        {showAdministrationOptions(user) && (
+          <React.Fragment>
+            <Typography variant="h5">
+              {t('views.familyProfile.administration')}
+            </Typography>
 
-          <div className={classes.administratorBox}>
-            <Grid item xs={6}>
-              {!!orgsId && (
-                <FacilitatorFilter
-                  data={selectedFacilitator}
-                  organizations={!!orgsId ? orgsId : null}
-                  isMulti={false}
-                  onChange={onChangeFacilitator}
-                  label={t('views.familyProfile.facilitator')}
-                />
-              )}
-            </Grid>
-            <Grid item xs={5} style={{ marginLeft: '2rem' }}>
-              <Button
-                variant="contained"
-                onClick={changeFacilitator}
-                disabled={disabledFacilitator}
-              >
-                {t('views.familyProfile.changeFacilitator')}
-              </Button>
-            </Grid>
-          </div>
-          <ChangeProject familyId={familyId} currentProject={family.project} />
-        </Container>
-      )}
+            <div className={classes.administratorBox}>
+              <Grid item xs={6}>
+                {!!orgsId && (
+                  <FacilitatorFilter
+                    data={selectedFacilitator}
+                    organizations={!!orgsId ? orgsId : null}
+                    isMulti={false}
+                    onChange={onChangeFacilitator}
+                    label={t('views.familyProfile.facilitator')}
+                  />
+                )}
+              </Grid>
+              <Grid item xs={5} style={{ marginLeft: '2rem' }}>
+                <Button
+                  variant="contained"
+                  onClick={changeFacilitator}
+                  disabled={disabledFacilitator}
+                >
+                  {t('views.familyProfile.changeFacilitator')}
+                </Button>
+              </Grid>
+            </div>
+          </React.Fragment>
+        )}
+        <ChangeProject familyId={familyId} currentProject={family.project} />
+      </Container>
       <ConfirmationModal
         title={t('views.familyProfile.changeFacilitator')}
         subtitle={t('views.familyProfile.changeFacilitatorConfirm')}
