@@ -320,13 +320,13 @@ const DetailsOverview = ({
             className={classes.labelContainer}
             style={{ justifyContent: 'flex-end' }}
           >
-            {family.project != null ? (
+            {!!family.project ? (
               <Typography variant="h6" className={classes.mainLabel}>
-                {`${t('views.familyProfile.project_')} `}
+                {t('views.familyProfile.project_title')}
               </Typography>
             ) : null}
             &nbsp;&nbsp;
-            {family.project != null ? (
+            {!!family.project ? (
               <Typography variant="h6" style={{ width: 'auto' }}>
                 {family.project.title}
               </Typography>
