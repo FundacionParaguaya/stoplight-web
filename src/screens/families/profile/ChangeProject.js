@@ -95,7 +95,7 @@ const ChangeProject = ({
           <Button
             variant="contained"
             onClick={toggleConfirmationModal}
-            disabled={disabled || !changedProject}
+            disabled={disabled || !changedProject || !projectData}
           >
             {t('views.familyProfile.project.changeProject')}
           </Button>
