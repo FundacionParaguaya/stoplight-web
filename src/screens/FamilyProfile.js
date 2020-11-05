@@ -309,7 +309,7 @@ const FamilyProfile = ({
     projects.length > 0 ? setOpenModal(true) : loadSurvey();
   };
 
-  const loadSurvey = e => {
+  const loadSurvey = (s, project) => {
     setLoadingSurvey(true);
 
     const economicScreens = getEconomicScreens(survey);
@@ -327,13 +327,17 @@ const FamilyProfile = ({
     getLastSnapshot(familyId, user)
       .then(response => {
         const draft = snapshotToDraft(response, family, familyId);
-        updateDraft({ ...draft });
+        updateDraft({ ...draft, projectId: !!project ? project : null });
       })
       .catch(() => {
         setLoadingSurvey(false);
       });
     setLoadingSurvey(false);
-    history.push('/lifemap/terms');
+    //Project id it's ignored since current draft it's already created in line 331 instruction
+    history.push({
+      pathname: '/lifemap/terms',
+      state: { projectId: null }
+    });
   };
 
   const showRetakeButton = user => {
@@ -407,10 +411,10 @@ const FamilyProfile = ({
               </Typography>
             </a>
           ) : (
-            <Typography variant="subtitle1" className={classes.labelGreen}>
-              --
-            </Typography>
-          )}
+              <Typography variant="subtitle1" className={classes.labelGreen}>
+                --
+              </Typography>
+            )}
         </div>
         <div className={classes.horizontalAlign}>
           <PhoneInTalkIcon className={classes.iconGreen} />
@@ -422,10 +426,10 @@ const FamilyProfile = ({
               </Typography>
             </a>
           ) : (
-            <Typography variant="subtitle1" className={classes.labelGreen}>
-              --
-            </Typography>
-          )}
+              <Typography variant="subtitle1" className={classes.labelGreen}>
+                --
+              </Typography>
+            )}
         </div>
         <div className={classes.horizontalAlign}>
           <LocationOnIcon className={classes.iconGray} />
@@ -530,8 +534,8 @@ const FamilyProfile = ({
             >
               {family.snapshotIndicators
                 ? `${moment(family.snapshotIndicators.createdAt).format(
-                    dateFormat
-                  )}`
+                  dateFormat
+                )}`
                 : ''}
             </Typography>
             <AllSurveyIndicators
