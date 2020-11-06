@@ -17,7 +17,8 @@ import {
   getLastSnapshot,
   getFamilyNotes,
   getFamilyImages,
-  saveFamilyNote
+  saveFamilyNote,
+  getProjectsByOrganization
 } from '../api';
 import { withSnackbar } from 'notistack';
 import familyFace from '../assets/face_icon_large.png';
@@ -57,6 +58,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import Details from './families/profile/Details';
 import ChangeProject from './families/profile/ChangeProject';
+import * as _ from 'lodash';
+import ProjectsModal from './lifemap/ProjectsModal';
 
 const FamilyProfile = ({
   classes,
@@ -91,6 +94,8 @@ const FamilyProfile = ({
   const [signatureImg, setSignatureImg] = useState({});
   const [imagePreview, setImagePreview] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
+  const [projects, setProjects] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
@@ -189,6 +194,15 @@ const FamilyProfile = ({
       setStoplightSkipped(
         response.data.data.familyById.snapshotIndicators.stoplightSkipped
       );
+      const orgId = !!user.organization && user.organization.id;
+      getProjectsByOrganization(user, [orgId]).then(response => {
+        const projects = _.get(
+          response,
+          'data.data.projectsByOrganization',
+          []
+        ).filter(project => project.active === true);
+        setProjects(projects);
+      });
       getSurveyById(
         user,
         response.data.data.familyById.snapshotIndicators.surveyId
@@ -291,7 +305,11 @@ const FamilyProfile = ({
     !!family.name && setLoadingSurvey(false);
   }, [family]);
 
-  const handleRetakeSurvey = e => {
+  const handleRetakeSurvey = () => {
+    projects.length > 0 ? setOpenModal(true) : loadSurvey();
+  };
+
+  const loadSurvey = (s, project) => {
     setLoadingSurvey(true);
 
     const economicScreens = getEconomicScreens(survey);
@@ -309,13 +327,17 @@ const FamilyProfile = ({
     getLastSnapshot(familyId, user)
       .then(response => {
         const draft = snapshotToDraft(response, family, familyId);
-        updateDraft({ ...draft });
+        updateDraft({ ...draft, project: !!project ? project : null });
       })
       .catch(() => {
         setLoadingSurvey(false);
       });
     setLoadingSurvey(false);
-    history.push('/lifemap/terms');
+    //Project id it's ignored since current draft it's already created in line 331 instruction
+    history.push({
+      pathname: '/lifemap/terms',
+      state: { projectId: null }
+    });
   };
 
   const showRetakeButton = user => {
@@ -551,6 +573,12 @@ const FamilyProfile = ({
         </div>
       )}
 
+      <ProjectsModal
+        open={openModal}
+        afterSelect={loadSurvey}
+        toggleModal={() => setOpenModal(!openModal)}
+        projects={projects}
+      />
       <Details
         primaryParticipant={firtsParticipant}
         familyMembers={familyMembers}
@@ -623,38 +651,40 @@ const FamilyProfile = ({
         </DialogActions>
       </Dialog>
 
-      {/* AssignFacilitator */}
-      {showAdministrationOptions(user) && (
-        <Container className={classes.administratorContainer} variant="fluid">
-          <Typography variant="h5">
-            {t('views.familyProfile.administration')}
-          </Typography>
+      <Container className={classes.administratorContainer} variant="fluid">
+        {/* AssignFacilitator */}
+        {showAdministrationOptions(user) && (
+          <React.Fragment>
+            <Typography variant="h5" style={{ paddingTop: '2%' }}>
+              {t('views.familyProfile.administration')}
+            </Typography>
 
-          <div className={classes.administratorBox}>
-            <Grid item xs={6}>
-              {!!orgsId && (
-                <FacilitatorFilter
-                  data={selectedFacilitator}
-                  organizations={!!orgsId ? orgsId : null}
-                  isMulti={false}
-                  onChange={onChangeFacilitator}
-                  label={t('views.familyProfile.facilitator')}
-                />
-              )}
-            </Grid>
-            <Grid item xs={5} style={{ marginLeft: '2rem' }}>
-              <Button
-                variant="contained"
-                onClick={changeFacilitator}
-                disabled={disabledFacilitator}
-              >
-                {t('views.familyProfile.changeFacilitator')}
-              </Button>
-            </Grid>
-          </div>
-          <ChangeProject familyId={familyId} currentProject={family.project} />
-        </Container>
-      )}
+            <div className={classes.administratorBox}>
+              <Grid item xs={6}>
+                {!!orgsId && (
+                  <FacilitatorFilter
+                    data={selectedFacilitator}
+                    organizations={!!orgsId ? orgsId : null}
+                    isMulti={false}
+                    onChange={onChangeFacilitator}
+                    label={t('views.familyProfile.facilitator')}
+                  />
+                )}
+              </Grid>
+              <Grid item xs={5} style={{ marginLeft: '2rem' }}>
+                <Button
+                  variant="contained"
+                  onClick={changeFacilitator}
+                  disabled={disabledFacilitator}
+                >
+                  {t('views.familyProfile.changeFacilitator')}
+                </Button>
+              </Grid>
+            </div>
+          </React.Fragment>
+        )}
+        <ChangeProject familyId={familyId} currentProject={family.project} />
+      </Container>
       <ConfirmationModal
         title={t('views.familyProfile.changeFacilitator')}
         subtitle={t('views.familyProfile.changeFacilitatorConfirm')}
@@ -749,13 +779,11 @@ const styles = theme => ({
     marginTop: '2%',
     marginBottom: '2%',
     paddingRight: '12%',
-    paddingLeft: '12%',
-    paddingTop: '2%'
+    paddingLeft: '12%'
   },
   administratorBox: {
     display: 'flex',
     paddingTop: '3%',
-    paddingBottom: '3%',
     flexDirection: 'row'
   },
 
