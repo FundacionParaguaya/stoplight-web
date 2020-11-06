@@ -163,7 +163,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
                     </div>
                     <div className={classes.descriptionContainer}>
                       <Typography noWrap={false} variant="body2">
-                        {project.description.length >= 80
+                        {project.description.length > 80
                           ? project.description.slice(0, 80) + '...'
                           : project.description}
                       </Typography>
