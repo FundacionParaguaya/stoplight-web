@@ -559,7 +559,7 @@
         "name": "Nome do Projeto",
         "nameLengthExceeded": "O nome do projeto deve ter no máximo 50 caracteres",
         "description": "Descrição",
-        "descriptionLengthExceeded": "A descrição deve ter no máximo 140 caracteres",
+        "descriptionLengthExceeded": "A descrição deve ter no máximo 80 caracteres",
         "save": {
           "success": "Projeto salvo com sucesso",
           "failed": "Projeto já existe"

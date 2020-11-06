@@ -66,7 +66,9 @@ const ProjectsCarousel = ({ classes, projects, handleClick }) => {
                   {project.title}
                 </Typography>
                 <Typography className={classes.description} variant="body2">
-                  {project.description}
+                  {project.description.length > 80
+                    ? project.description.slice(0, 80) + '...'
+                    : project.description}
                 </Typography>
               </div>{' '}
             </React.Fragment>
