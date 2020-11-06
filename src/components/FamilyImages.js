@@ -1,14 +1,13 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { withTranslation } from 'react-i18next';
 import Container from './Container';
 import iconCamera from '../assets/icon_camera.png';
-
+import { makeStyles } from '@material-ui/core/styles';
 import Slider from 'react-slick';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   img: {
     padding: 30,
     height: 400,
@@ -78,24 +77,33 @@ const styles = theme => ({
     cursor: 'pointer',
     transform: 'rotate(180deg)'
   }
-});
+}));
 
-const FamilyImages = ({ classes, t, images, showImage }) => {
+const NextArrow = ({ currentSlide, slideCount, ...props }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.arrowIcon} {...props}>
+      <ArrowForwardIosIcon color="primary" />
+    </div>
+  );
+};
+
+const PrevArrow = ({ currentSlide, slideCount, ...props }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.arrowIcon} {...props}>
+      <ArrowForwardIosIcon className={classes.leftIcon} color="primary" />
+    </div>
+  );
+};
+
+const FamilyImages = ({ t, images, showImage }) => {
+  const classes = useStyles();
   const settings = {
     infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    nextArrow: (
-      <div className={classes.arrowIcon}>
-        <ArrowForwardIosIcon color="primary" />
-      </div>
-    ),
-    prevArrow: (
-      <div className={classes.arrowIcon}>
-        <ArrowForwardIosIcon className={classes.leftIcon} color="primary" />{' '}
-      </div>
-    ),
     responsive: [
       {
         breakpoint: 1024,
@@ -134,7 +142,11 @@ const FamilyImages = ({ classes, t, images, showImage }) => {
           </Container>
           <div className={classes.familyImagesContainer}>
             <div>
-              <Slider {...settings}>
+              <Slider
+                nextArrow={<NextArrow />}
+                prevArrow={<PrevArrow />}
+                {...settings}
+              >
                 {images.map((img, index) => {
                   return (
                     <img
@@ -156,4 +168,4 @@ const FamilyImages = ({ classes, t, images, showImage }) => {
   );
 };
 
-export default withStyles(styles)(withTranslation()(FamilyImages));
+export default withTranslation()(FamilyImages);
