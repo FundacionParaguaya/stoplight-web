@@ -1,12 +1,12 @@
 import React from 'react';
-import Carousel from '@brainhubeu/react-carousel';
-import '@brainhubeu/react-carousel/lib/style.css';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { withTranslation } from 'react-i18next';
 import Container from './Container';
 import iconCamera from '../assets/icon_camera.png';
+
+import Slider from 'react-slick';
 
 const styles = theme => ({
   img: {
@@ -31,9 +31,7 @@ const styles = theme => ({
   },
   familyImagesContainer: {
     backgroundColor: '#fff',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+
     width: '100%',
     paddingTop: '2rem',
     paddingRight: '12%',
@@ -83,6 +81,38 @@ const styles = theme => ({
 });
 
 const FamilyImages = ({ classes, t, images, showImage }) => {
+  const settings = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    nextArrow: (
+      <div className={classes.arrowIcon}>
+        <ArrowForwardIosIcon color="primary" />
+      </div>
+    ),
+    prevArrow: (
+      <div className={classes.arrowIcon}>
+        <ArrowForwardIosIcon className={classes.leftIcon} color="primary" />{' '}
+      </div>
+    ),
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
   return (
     <>
       {images && images.length > 0 && (
@@ -103,60 +133,22 @@ const FamilyImages = ({ classes, t, images, showImage }) => {
             </Typography>
           </Container>
           <div className={classes.familyImagesContainer}>
-            <Carousel
-              arrows
-              slidesPerPage={3}
-              slidesPerScroll={1}
-              draggable
-              arrowLeft={
-                <div className={classes.arrowIcon}>
-                  <ArrowForwardIosIcon
-                    className={classes.leftIcon}
-                    color="primary"
-                  />{' '}
-                </div>
-              }
-              arrowRight={
-                <div className={classes.arrowIcon}>
-                  <ArrowForwardIosIcon color="primary" />{' '}
-                </div>
-              }
-              arrowLeftDisabled={
-                <div className={classes.arrowIcon}>
-                  <ArrowForwardIosIcon
-                    className={classes.leftIcon}
-                    color="disabled"
-                  />
-                </div>
-              }
-              arrowRightDisabled={
-                <div className={classes.arrowIcon}>
-                  <ArrowForwardIosIcon color="disabled" />
-                </div>
-              }
-              addArrowClickHandler={true}
-              breakpoints={{
-                640: {
-                  slidesPerPage: 2
-                },
-                900: {
-                  slidesPerPage: 2
-                }
-              }}
-            >
-              {images.map((img, index) => {
-                return (
-                  <img
-                    key={index}
-                    onClick={() => showImage(img.url)}
-                    className={classes.img}
-                    src={img.url}
-                    alt="Family pictures"
-                    data-testid="family-picture"
-                  />
-                );
-              })}
-            </Carousel>
+            <div>
+              <Slider {...settings}>
+                {images.map((img, index) => {
+                  return (
+                    <img
+                      key={index}
+                      onClick={() => showImage(img.url)}
+                      className={classes.img}
+                      src={img.url}
+                      alt="Family pictures"
+                      data-testid="family-picture"
+                    />
+                  );
+                })}
+              </Slider>
+            </div>
           </div>
         </>
       )}
