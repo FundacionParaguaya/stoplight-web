@@ -327,7 +327,7 @@ const FamilyProfile = ({
     getLastSnapshot(familyId, user)
       .then(response => {
         const draft = snapshotToDraft(response, family, familyId);
-        updateDraft({ ...draft, projectId: !!project ? project : null });
+        updateDraft({ ...draft, project: !!project ? project : null });
       })
       .catch(() => {
         setLoadingSurvey(false);
@@ -411,10 +411,10 @@ const FamilyProfile = ({
               </Typography>
             </a>
           ) : (
-              <Typography variant="subtitle1" className={classes.labelGreen}>
-                --
-              </Typography>
-            )}
+            <Typography variant="subtitle1" className={classes.labelGreen}>
+              --
+            </Typography>
+          )}
         </div>
         <div className={classes.horizontalAlign}>
           <PhoneInTalkIcon className={classes.iconGreen} />
@@ -426,10 +426,10 @@ const FamilyProfile = ({
               </Typography>
             </a>
           ) : (
-              <Typography variant="subtitle1" className={classes.labelGreen}>
-                --
-              </Typography>
-            )}
+            <Typography variant="subtitle1" className={classes.labelGreen}>
+              --
+            </Typography>
+          )}
         </div>
         <div className={classes.horizontalAlign}>
           <LocationOnIcon className={classes.iconGray} />
@@ -534,8 +534,8 @@ const FamilyProfile = ({
             >
               {family.snapshotIndicators
                 ? `${moment(family.snapshotIndicators.createdAt).format(
-                  dateFormat
-                )}`
+                    dateFormat
+                  )}`
                 : ''}
             </Typography>
             <AllSurveyIndicators
@@ -655,7 +655,7 @@ const FamilyProfile = ({
         {/* AssignFacilitator */}
         {showAdministrationOptions(user) && (
           <React.Fragment>
-            <Typography variant="h5">
+            <Typography variant="h5" style={{ paddingTop: '2%' }}>
               {t('views.familyProfile.administration')}
             </Typography>
 
@@ -779,13 +779,11 @@ const styles = theme => ({
     marginTop: '2%',
     marginBottom: '2%',
     paddingRight: '12%',
-    paddingLeft: '12%',
-    paddingTop: '2%'
+    paddingLeft: '12%'
   },
   administratorBox: {
     display: 'flex',
     paddingTop: '3%',
-    paddingBottom: '3%',
     flexDirection: 'row'
   },
 
