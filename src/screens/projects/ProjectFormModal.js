@@ -50,7 +50,7 @@ const ProjectFormModal = ({
       .max(50, t('views.projects.form.nameLengthExceeded')),
     description: Yup.string()
       .required(fieldIsRequired)
-      .max(256, t('views.projects.form.descriptionLengthExceeded'))
+      .max(80, t('views.projects.form.descriptionLengthExceeded'))
   });
 
   const handleOpenChangeColor = event => {
