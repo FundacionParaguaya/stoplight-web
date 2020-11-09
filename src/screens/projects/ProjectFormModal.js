@@ -86,7 +86,6 @@ const ProjectFormModal = ({
           )
         });
         setLoading(false);
-        onClose(true);
       });
   };
 
