@@ -374,6 +374,17 @@ const FamilyProfile = ({
                 {family.organization ? family.organization.name : ''}
               </Typography>
             </div>
+            {!!family.project && (
+              <div className={classes.container}>
+                <Typography variant="subtitle1" className={classes.label}>
+                  {t('views.familyProfile.projectTitle')}
+                </Typography>
+                <span>&nbsp;</span>
+                <Typography variant="subtitle1" className={classes.label}>
+                  {family.project.title}
+                </Typography>
+              </div>
+            )}
           </div>
         </div>
       </Container>
@@ -777,7 +788,7 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'left',
     marginTop: '2%',
-    marginBottom: '2%',
+    paddingBottom: '2%',
     paddingRight: '12%',
     paddingLeft: '12%'
   },

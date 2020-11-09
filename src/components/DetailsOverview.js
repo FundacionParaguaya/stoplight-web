@@ -320,15 +320,15 @@ const DetailsOverview = ({
             className={classes.labelContainer}
             style={{ justifyContent: 'flex-end' }}
           >
-            {!!family.project ? (
+            {!!snapshot.projectTitle ? (
               <Typography variant="h6" className={classes.mainLabel}>
-                {t('views.familyProfile.project_title')}
+                {t('views.familyProfile.projectTitle')}
               </Typography>
             ) : null}
             &nbsp;&nbsp;
-            {!!family.project ? (
+            {!!snapshot.projectTitle ? (
               <Typography variant="h6" style={{ width: 'auto' }}>
-                {family.project.title}
+                {snapshot.projectTitle}
               </Typography>
             ) : null}
           </div>

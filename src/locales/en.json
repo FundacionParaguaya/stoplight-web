@@ -470,7 +470,7 @@
     },
     "familyProfile": {
       "organization": "Organization: ",
-      "project_title": "Project: ",
+      "projectTitle": "Project: ",
       "lifemapNumber": "Life Map - Number",
       "familyDetails": "Family Details",
       "economicDetails": "Socioeconomic Details",
