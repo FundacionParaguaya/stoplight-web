@@ -59,7 +59,8 @@ const SummaryDonut = props => {
     t,
     countingSection,
     isAnimationActive,
-    width
+    width,
+    height
   } = props;
   const data = [
     { name: 'red', value: redIndicatorCount },
@@ -76,7 +77,7 @@ const SummaryDonut = props => {
   return (
     <div className={classes.mainContainer} style={{ width }}>
       <div className={classes.donutContainer}>
-        <ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height={!!height ? height : 240}>
           <PieChart>
             <Pie
               data={data}
