@@ -137,7 +137,6 @@ export const checkAccessToProjects = ({ role, hub, organization }) => {
   else if (role === ROLES_NAMES.ROLE_HUB_ADMIN && !!hub && hub.projectsSupport)
     return true;
   else if (
-    checkAccess({ role }, 'projects') &&
     !!organization &&
     !!organization.projectsAccess &&
     !!organization.application &&
