@@ -129,3 +129,21 @@ export const checkAccessToSolution = ({ role, hub, organization }) => {
 export const getHomePage = role => {
   return (!!role && ROLES[role][0].item) || '';
 };
+
+export const checkAccessToProjects = ({ role, hub, organization }) => {
+  if (!role) return false;
+  else if (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM)
+    return true;
+  else if (role === ROLES_NAMES.ROLE_HUB_ADMIN && !!hub && hub.projectsSupport)
+    return true;
+  else if (
+    checkAccess({ role }, 'projects') &&
+    !!organization &&
+    !!organization.projectsAccess &&
+    !!organization.application &&
+    !!organization.application.projectsSupport
+  )
+    return true;
+
+  return false;
+};
