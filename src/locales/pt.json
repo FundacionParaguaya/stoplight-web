@@ -595,6 +595,7 @@
         "nameLengthExceeded": "O nome de Organização deve ter no máximo 50 caracteres",
         "description": "Descrição",
         "descriptionLengthExceeded": "Descrição deve ter no máximo 140 caracteres",
+        "allowProjects": "Projeto",
         "save": {
           "success": "Organização salvo com sucesso",
           "failed": "Organização já existe"
@@ -662,6 +663,7 @@
         "allowRetake": "Funcionalidade de seguimento:",
         "allowSolutions": "Banco de solução:",
         "allowInteractiveHelp": "Ajuda interativa:",
+        "allowProjects": "Projeto",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"

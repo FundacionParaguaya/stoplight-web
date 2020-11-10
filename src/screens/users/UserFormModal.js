@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
-import { ROLES_NAMES } from '../../utils/role-utils';
+import { ROLES_NAMES, checkAccessToProjects } from '../../utils/role-utils';
 import { getUserById, addOrUpdateUser, checkUserName } from '../../api';
 import InputWithFormik from '../../components/InputWithFormik';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
@@ -272,7 +272,7 @@ const UserFormModal = ({
     role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM;
 
   const showProjectsSelector = ({ role }) =>
-    role === ROLES_NAMES.ROLE_APP_ADMIN;
+    role === ROLES_NAMES.ROLE_APP_ADMIN && checkAccessToProjects(user);
 
   return (
     <Modal

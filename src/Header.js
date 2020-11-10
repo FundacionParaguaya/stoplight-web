@@ -27,7 +27,8 @@ import {
   ROLES,
   NEW,
   ROLE_SURVEY_TAKER,
-  checkAccessToSolution
+  checkAccessToSolution,
+  checkAccessToProjects
 } from './utils/role-utils';
 import { logout, enviroments } from './api';
 
@@ -140,6 +141,29 @@ class Header extends Component {
                   <Chip classes={{ root: classes.chip }} label="Beta" />
                 </NavLink>
               );
+            } else if (item === 'projects') {
+              if (platform === NEW && checkAccessToProjects(user)) {
+                return (
+                  <NavLink
+                    to={`/${item}`}
+                    className={
+                      path === `/${item}`
+                        ? `${classes.menuLink} ${classes.surveyLink}`
+                        : classes.menuLink
+                    }
+                    key={item}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      className={classes.menuLinkText}
+                    >
+                      {t(`views.toolbar.${item}`)}
+                    </Typography>
+                  </NavLink>
+                );
+              } else {
+                return '';
+              }
             } else if (platform === NEW) {
               return (
                 <NavLink

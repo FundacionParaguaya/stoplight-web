@@ -594,6 +594,7 @@
         "nameLengthExceeded": "Organization name must have a maximum of 50 characters",
         "description": "Description",
         "descriptionLengthExceeded": "Description must have a maximum of 140 characters",
+        "allowProjects": "Projects:",
         "save": {
           "success": "Organization saved successfully",
           "failed": "Organization already exist"
@@ -661,6 +662,7 @@
         "allowRetake": "Retaking feature:",
         "allowSolutions": "Bank of Solutions:",
         "allowInteractiveHelp": "Interactive Help:",
+        "allowProjects": "Projects:",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
