@@ -167,9 +167,6 @@ export class Final extends Component {
         />
         <TitleBar title={t('views.final.title')} progressBar />
         <Container variant="stretch">
-          <Typography variant="h5" className={classes.subtitle}>
-            {t('views.final.congratulations')}
-          </Typography>
           <Typography variant="h5" className={classes.surveyCompleted}>
             {t('views.final.surveyCompleted')}
           </Typography>

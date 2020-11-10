@@ -313,8 +313,7 @@
     },
     "final": {
       "title": "¡Gracias!",
-      "congratulations": "¡Felicidades!",
-      "surveyCompleted": "Ya respondiste todas las preguntas. ¡No te olvides de finalizar tu encuesta!",
+      "surveyCompleted": "¡No te olvides de finalizar tu encuesta!",
       "print": "Imprimir",
       "email": "Email",
       "whatsapp": "Whatsapp",
