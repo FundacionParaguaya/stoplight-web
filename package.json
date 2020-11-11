@@ -1,6 +1,6 @@
 {
   "name": "stoplight-web",
-  "version": "1.29.0",
+  "version": "1.30.0",
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^2.1.0",
