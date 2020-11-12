@@ -162,19 +162,20 @@ const HubFormModal = ({
 
   const onSubmit = values => {
     values.labels = [];
-    if (values.allowRetake) {
-      delete values.allowRetake;
-      values.labels.push('allowRetake');
+    let sanitazedValues = values;
+    if (sanitazedValues.allowRetake) {
+      sanitazedValues.labels.push('allowRetake');
     }
-    if (values.allowSolutions) {
-      delete values.allowSolutions;
-      values.labels.push('allowSolutions');
+    if (sanitazedValues.allowSolutions) {
+      sanitazedValues.labels.push('allowSolutions');
     }
-    if (values.interactiveHelp) {
-      delete values.interactiveHelp;
-      values.labels.push('interactiveHelp');
+    if (sanitazedValues.interactiveHelp) {
+      sanitazedValues.labels.push('interactiveHelp');
     }
-    addOrUpdateHub(user, { ...values, file })
+    if (sanitazedValues.projectsSupport) {
+      sanitazedValues.labels.push('projectsSupport');
+    }
+    addOrUpdateHub(user, { ...sanitazedValues, file })
       .then(() => {
         onClose(true);
         enqueueSnackbar(t('views.hub.form.save.success'), {
@@ -240,7 +241,9 @@ const HubFormModal = ({
             allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
             allowSolutions: !!hub.allowSolutions && hub.allowSolutions,
             interactiveHelp:
-              !!hub.labels && hub.labels.includes('interactiveHelp')
+              !!hub.labels && hub.labels.includes('interactiveHelp'),
+            projectsSupport:
+              !!hub.projectsSupport && hub.labels.includes('projectsSupport')
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
@@ -313,12 +316,26 @@ const HubFormModal = ({
                   {t('views.hub.form.allowInteractiveHelp')}
                 </Typography>
                 <Switch
-                  name={'interactiveHelp'}
+                  name={'allowSolutions'}
                   value={'interactiveHelp'}
                   onChange={e => {
                     setFieldValue('interactiveHelp', !values.interactiveHelp);
                   }}
                   checked={values.interactiveHelp}
+                  color="primary"
+                />
+              </div>
+              <div className={classes.switchOptionsContainer}>
+                <Typography variant="subtitle1" className={classes.allowRetake}>
+                  {t('views.hub.form.allowProjects')}
+                </Typography>
+                <Switch
+                  name={'projectsSupport'}
+                  value={'projectsSupport'}
+                  onChange={e => {
+                    setFieldValue('projectsSupport', !values.projectsSupport);
+                  }}
+                  checked={values.projectsSupport}
                   color="primary"
                 />
               </div>

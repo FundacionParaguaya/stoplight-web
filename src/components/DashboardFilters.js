@@ -6,7 +6,7 @@ import DateRangeFilters from './DateRangeFilter';
 import OrganizationsFilter from './OrganizationsFilter';
 import HubsFilter from './HubsFilter';
 import SurveysFilter from './SurveysFilter';
-import { ROLES_NAMES } from '../utils/role-utils';
+import { ROLES_NAMES, checkAccessToProjects } from '../utils/role-utils';
 import ProjectSelector from '../components/selectors/ProjectsSelector';
 
 const useStyles = makeStyles(theme => ({
@@ -91,21 +91,23 @@ const DashboardFilters = ({
               />
             </Grid>
             <Grid item md={12} sm={12} xs={12}>
-              <ProjectSelector
-                withTitle={true}
-                projectData={projectsData}
-                organizationData={organizationsData}
-                onChangeProject={(selected, allProjects) => {
-                  if (selected.some(project => project.value === 'ALL')) {
-                    onChangeProjects(allProjects);
-                  } else {
-                    onChangeProjects(selected);
-                  }
-                }}
-                isMulti={true}
-                isClearable={true}
-                stacked={false}
-              />
+              {checkAccessToProjects(user) && (
+                <ProjectSelector
+                  withTitle={true}
+                  projectData={projectsData}
+                  organizationData={organizationsData}
+                  onChangeProject={(selected, allProjects) => {
+                    if (selected.some(project => project.value === 'ALL')) {
+                      onChangeProjects(allProjects);
+                    } else {
+                      onChangeProjects(selected);
+                    }
+                  }}
+                  isMulti={true}
+                  isClearable={true}
+                  stacked={false}
+                />
+              )}
             </Grid>
             <Grid item md={6} sm={6} xs={12}>
               <SurveysFilter
@@ -126,7 +128,7 @@ const DashboardFilters = ({
             </Grid>
           </React.Fragment>
         )}
-        {isMentor(user) && (
+        {isMentor(user) && checkAccessToProjects(user) && (
           <Grid item md={12} sm={12} xs={12}>
             <ProjectSelector
               withTitle={true}
