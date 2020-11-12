@@ -168,9 +168,6 @@ export class Final extends Component {
         <TitleBar title={t('views.final.title')} progressBar />
         <Container variant="stretch">
           <Typography variant="h5" className={classes.subtitle}>
-            {t('views.final.congratulations')}
-          </Typography>
-          <Typography variant="h5" className={classes.surveyCompleted}>
             {t('views.final.surveyCompleted')}
           </Typography>
           {error && <Typography color="error">{error}</Typography>}
@@ -229,14 +226,6 @@ const styles = theme => ({
     justifyContent: 'center',
     textAlign: 'center',
     marginTop: theme.spacing(6)
-  },
-  surveyCompleted: {
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    width: '55%',
-    margin: 'auto',
-    marginTop: theme.spacing()
   },
   saveButtonContainer: {
     display: 'flex',
