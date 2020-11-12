@@ -469,7 +469,7 @@
     },
     "familyProfile": {
       "organization": "Organização: ",
-      "project_title": "Projeto: ",
+      "projectTitle": "Projeto: ",
       "lifemapNumber": "Mapa de Vida - Número",
       "familyDetails": "Detalhes da Família",
       "economicDetails": "Dados socioeconômicos",
@@ -558,7 +558,7 @@
         "name": "Nome do Projeto",
         "nameLengthExceeded": "O nome do projeto deve ter no máximo 50 caracteres",
         "description": "Descrição",
-        "descriptionLengthExceeded": "A descrição deve ter no máximo 140 caracteres",
+        "descriptionLengthExceeded": "A descrição deve ter no máximo 80 caracteres",
         "save": {
           "success": "Projeto salvo com sucesso",
           "failed": "Projeto já existe"
@@ -594,6 +594,7 @@
         "nameLengthExceeded": "O nome de Organização deve ter no máximo 50 caracteres",
         "description": "Descrição",
         "descriptionLengthExceeded": "Descrição deve ter no máximo 140 caracteres",
+        "allowProjects": "Projeto",
         "save": {
           "success": "Organização salvo com sucesso",
           "failed": "Organização já existe"
@@ -661,6 +662,7 @@
         "allowRetake": "Funcionalidade de seguimento:",
         "allowSolutions": "Banco de solução:",
         "allowInteractiveHelp": "Ajuda interativa:",
+        "allowProjects": "Projeto",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"

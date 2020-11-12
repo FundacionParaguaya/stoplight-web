@@ -70,7 +70,9 @@ const Families = ({
       ({ value }) => value
     );
 
-    const sanitizedProjects = selectedProjects.map(({ value }) => value);
+    const sanitizedProjects = (selectedProjects || []).map(
+      ({ value }) => value
+    );
 
     let page = query ? query.page : 0;
 

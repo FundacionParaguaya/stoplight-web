@@ -5,11 +5,14 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import CloseIcon from '@material-ui/icons/Close';
 import { Form, Formik } from 'formik';
 import * as _ from 'lodash';
 import { withSnackbar } from 'notistack';
 import React, { useEffect, useReducer, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Prompt } from 'react-router';
@@ -28,15 +31,16 @@ import {
 } from '../../api.js';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import BottomSpacer from '../../components/BottomSpacer';
+import Container from '../../components/Container';
 import ExitModal from '../../components/ExitModal';
 import InputWithFormik from '../../components/InputWithFormik';
 import withLayout from '../../components/withLayout';
-import { checkAccessToSolution } from '../../utils/role-utils';
-import { selectStyle } from '../../utils/styles-utils';
-import AddAPhoto from '@material-ui/icons/AddAPhoto';
-import { useDropzone } from 'react-dropzone';
 import { MB_SIZE, toBase64 } from '../../utils/files-utils';
-import Container from '../../components/Container';
+import {
+  checkAccessToSolution,
+  checkAccessToProjects
+} from '../../utils/role-utils';
+import { selectStyle } from '../../utils/styles-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -83,6 +87,18 @@ const useStyles = makeStyles(theme => ({
   icon: {
     fontSize: '8vh',
     color: theme.palette.grey.quarter
+  },
+  switchOptionsContainer: {
+    display: 'flex',
+    marginBottom: '1rem',
+    marginTop: '1rem',
+    justifyContent: 'space-between'
+  },
+  switchLabel: {
+    fontWeight: 400,
+    padding: 11,
+    paddingLeft: 14,
+    font: 'Roboto'
   }
 }));
 
@@ -359,7 +375,11 @@ const OrganizationFormModal = ({
               solutionsAccess:
                 (!!organization.solutionsAccess &&
                   organization.solutionsAccess) ||
-                ''
+                '',
+              projectsAccess:
+                (!!organization.projectsAccess &&
+                  organization.projectsAccess) ||
+                false
             }}
             enableReinitialize
             validationSchema={validationSchema}
@@ -368,7 +388,7 @@ const OrganizationFormModal = ({
               onSubmit(values);
             }}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, setFieldValue, values }) => (
               <Form noValidate>
                 <InputWithFormik
                   label={t('views.organization.form.name')}
@@ -428,6 +448,26 @@ const OrganizationFormModal = ({
                     valueKey="value"
                     isClearable={false}
                   />
+                )}
+
+                {checkAccessToProjects(user) && (
+                  <div className={classes.switchOptionsContainer}>
+                    <Typography
+                      variant="subtitle1"
+                      className={classes.switchLabel}
+                    >
+                      {t('views.organization.form.allowProjects')}
+                    </Typography>
+                    <Switch
+                      name={'projectsAccess'}
+                      value={'projectsAccess'}
+                      onChange={e => {
+                        setFieldValue('projectsAccess', !values.projectsAccess);
+                      }}
+                      checked={values.projectsAccess}
+                      color="primary"
+                    />
+                  </div>
                 )}
                 <div className={classes.container}>
                   <Typography variant="subtitle1" className={classes.label}>

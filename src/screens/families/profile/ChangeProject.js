@@ -30,7 +30,7 @@ const ChangeProject = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const disabled = user.role !== ROLE_APP_ADMIN;
+  const display = user.role === ROLE_APP_ADMIN;
 
   const [openConfirmationModal, setConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -50,6 +50,7 @@ const ChangeProject = ({
     updateFamilyProject(familyId, projectData.value, user)
       .then(() => {
         setLoading(false);
+        setChangedProject(false);
         setConfirmationModal(false);
         enqueueSnackbar(t('views.familyProfile.project.assignedCorrectly'), {
           variant: 'success',
@@ -77,40 +78,44 @@ const ChangeProject = ({
 
   return (
     <React.Fragment>
-      <div className={classes.administratorBox}>
-        <Grid item xs={6}>
-          <ProjectSelector
-            withTitle={true}
-            projectData={projectData}
-            onChangeProject={selected => {
-              setChangedProject(true);
-              setProjectData(selected);
-            }}
-            isMulti={false}
-            isClearable={true}
-            stacked={false}
+      {display && (
+        <React.Fragment>
+          <div className={classes.administratorBox}>
+            <Grid item xs={6}>
+              <ProjectSelector
+                withTitle={true}
+                projectData={projectData}
+                onChangeProject={selected => {
+                  setChangedProject(true);
+                  setProjectData(selected);
+                }}
+                isMulti={false}
+                isClearable={true}
+                stacked={false}
+              />
+            </Grid>
+            <Grid item xs={5} style={{ marginLeft: '2rem' }}>
+              <Button
+                variant="contained"
+                onClick={toggleConfirmationModal}
+                disabled={!changedProject || !projectData}
+              >
+                {t('views.familyProfile.project.changeProject')}
+              </Button>
+            </Grid>
+          </div>
+          <ConfirmationModal
+            title={t('views.familyProfile.project.changeProject')}
+            subtitle={t('views.familyProfile.project.changeProjectConfirm')}
+            cancelButtonText={t('general.no')}
+            continueButtonText={t('general.yes')}
+            onClose={toggleConfirmationModal}
+            disabledFacilitator={loading}
+            open={openConfirmationModal}
+            confirmAction={confirmAction}
           />
-        </Grid>
-        <Grid item xs={5} style={{ marginLeft: '2rem' }}>
-          <Button
-            variant="contained"
-            onClick={toggleConfirmationModal}
-            disabled={disabled || !changedProject || !projectData}
-          >
-            {t('views.familyProfile.project.changeProject')}
-          </Button>
-        </Grid>
-      </div>
-      <ConfirmationModal
-        title={t('views.familyProfile.project.changeProject')}
-        subtitle={t('views.familyProfile.project.changeProjectConfirm')}
-        cancelButtonText={t('general.no')}
-        continueButtonText={t('general.yes')}
-        onClose={toggleConfirmationModal}
-        disabledFacilitator={loading}
-        open={openConfirmationModal}
-        confirmAction={confirmAction}
-      />
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };

@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import OrganizationsFilter from './OrganizationsFilter';
-import { ROLES_NAMES } from '../utils/role-utils';
+import { ROLES_NAMES, checkAccessToProjects } from '../utils/role-utils';
 import TextField from '@material-ui/core/TextField';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
@@ -95,12 +95,14 @@ const showFalicitatorFilters = ({ role }) => {
   return role === ROLES_NAMES.ROLE_APP_ADMIN;
 };
 
-const showProjectFilter = ({ role }) => {
+const showProjectFilter = user => {
+  const role = user.role;
   return (
-    role === ROLES_NAMES.ROLE_HUB_ADMIN ||
-    role === ROLES_NAMES.ROLE_APP_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER
+    (role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+      role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER) &&
+    checkAccessToProjects(user)
   );
 };
 

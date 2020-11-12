@@ -13,7 +13,7 @@ import Container from '../components/Container';
 import OrganizationSearchFilter from './organizations/OrganizationSearchFilter';
 import DeleteOrganizationModal from './organizations/DeleteOrganizationModal';
 import organizationBanner from '../assets/hub.png';
-import { ROLES_NAMES } from '../utils/role-utils';
+import { ROLES_NAMES, checkAccessToProjects } from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 import clsx from 'clsx';
 import DefaultOrgLogo from '../assets/grey_isologo.png';
@@ -228,19 +228,21 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                           </Button>
                         </>
                       )}
-                      <Tooltip title={t('views.organization.projectsList')}>
-                        <IconButton
-                          color="default"
-                          aria-label="To projects"
-                          component="span"
-                          className={classes.goNextButton}
-                          onClick={() => {
-                            handleGoNext(organization);
-                          }}
-                        >
-                          <NavigateNextIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {checkAccessToProjects(user) && (
+                        <Tooltip title={t('views.organization.projectsList')}>
+                          <IconButton
+                            color="default"
+                            aria-label="To projects"
+                            component="span"
+                            className={classes.goNextButton}
+                            onClick={() => {
+                              handleGoNext(organization);
+                            }}
+                          >
+                            <NavigateNextIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                     </div>
                   </div>
                 </Grid>
@@ -366,10 +368,16 @@ const styles = theme => ({
   },
 
   spinnerWrapper: {
+    zIndex: 1000,
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'center',
-    height: 500,
-    alignItems: 'center'
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   },
   listContainer: {
     position: 'relative'

@@ -70,3 +70,7 @@ figure[class*='image'] > img {
   float: right;
   margin-left: var(--ck-image-style-spacing);
 }
+
+.slick-disabled {
+  display: none !important;
+}

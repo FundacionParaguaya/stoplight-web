@@ -18,7 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import LeaveModal from './LeaveModal';
-import { ROLES_NAMES } from '../utils/role-utils';
+import { ROLES_NAMES, checkAccessToProjects } from '../utils/role-utils';
 import {
   sendLifemapPdfv2,
   downloadPdf,
@@ -320,17 +320,17 @@ const DetailsOverview = ({
             className={classes.labelContainer}
             style={{ justifyContent: 'flex-end' }}
           >
-            {!!family.project ? (
-              <Typography variant="h6" className={classes.mainLabel}>
-                {t('views.familyProfile.project_title')}
-              </Typography>
-            ) : null}
-            &nbsp;&nbsp;
-            {!!family.project ? (
-              <Typography variant="h6" style={{ width: 'auto' }}>
-                {family.project.title}
-              </Typography>
-            ) : null}
+            {checkAccessToProjects(user) && !!snapshot.projectTitle && (
+              <React.Fragment>
+                <Typography variant="h6" className={classes.mainLabel}>
+                  {t('views.familyProfile.projectTitle')}
+                </Typography>
+                &nbsp;&nbsp;
+                <Typography variant="h6" style={{ width: 'auto' }}>
+                  {snapshot.projectTitle}
+                </Typography>
+              </React.Fragment>
+            )}
           </div>
         </div>
       </div>

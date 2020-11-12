@@ -1,88 +1,19 @@
 import React from 'react';
-import Carousel from '@brainhubeu/react-carousel';
-import '@brainhubeu/react-carousel/lib/style.css';
-import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import Slider from 'react-slick';
+import { makeStyles } from '@material-ui/core/styles';
 
-const ProjectsCarousel = ({ classes, projects, handleClick }) => {
-  return (
-    <div className={classes.container}>
-      <Carousel
-        arrows
-        slidesPerPage={3}
-        slidesPerScroll={1}
-        draggable
-        arrowLeft={
-          <div className={classes.arrowIcon}>
-            <ArrowForwardIosIcon className={classes.leftIcon} color="primary" />{' '}
-          </div>
-        }
-        arrowRight={
-          <div className={classes.arrowIcon}>
-            <ArrowForwardIosIcon color="primary" />{' '}
-          </div>
-        }
-        arrowLeftDisabled={
-          <div className={classes.arrowIcon}>
-            {/* <ArrowForwardIosIcon
-                            className={classes.leftIcon}
-                            color="disabled"
-                        /> */}
-          </div>
-        }
-        arrowRightDisabled={
-          <div className={classes.arrowIcon}>
-            {/* <ArrowForwardIosIcon color="disabled" /> */}
-          </div>
-        }
-        addArrowClickHandler={true}
-        breakpoints={{
-          640: {
-            slidesPerPage: 2
-          },
-          900: {
-            slidesPerPage: 2
-          }
-        }}
-      >
-        {projects.map((project, index) => {
-          return (
-            <React.Fragment key={index}>
-              <div
-                key={index}
-                style={{
-                  backgroundColor: project.color ? project.color : '#fff'
-                }}
-                className={classes.projectCard}
-                onClick={() => handleClick(true, project.id)}
-              >
-                <Typography
-                  align="center"
-                  className={classes.title}
-                  variant="h5"
-                >
-                  {' '}
-                  {project.title}
-                </Typography>
-                <Typography className={classes.description} variant="body2">
-                  {project.description}
-                </Typography>
-              </div>{' '}
-            </React.Fragment>
-          );
-        })}
-      </Carousel>
-    </div>
-  );
-};
+// Import css files
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   container: {
-    display: 'flex',
     width: '100%',
     paddingTop: '2rem',
-
+    paddingRight: '2em',
+    paddingLeft: '2em',
     paddingBottom: '2rem'
   },
   projectCard: {
@@ -93,9 +24,10 @@ const styles = theme => ({
     padding: '1rem 20px 5px 20px',
     height: '100%',
     minHeight: 240,
+    minWidth: 260,
     width: 300,
     boxShadow: `1px 2px 5px ${theme.palette.grey.main}`,
-    marginRight: '2em'
+    marginRight: '20px'
   },
   title: {
     lineHeight: 1.2,
@@ -127,6 +59,79 @@ const styles = theme => ({
       backgroundColor: 'rgba(0, 0, 0, 0.04)'
     }
   }
-});
+}));
 
-export default withStyles(styles)(ProjectsCarousel);
+const NextArrow = ({ currentSlide, slideCount, ...props }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.arrowIcon} {...props}>
+      <ArrowForwardIosIcon color="primary" />
+    </div>
+  );
+};
+
+const PrevArrow = ({ currentSlide, slideCount, ...props }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.arrowIcon} {...props}>
+      <ArrowForwardIosIcon className={classes.leftIcon} color="primary" />
+    </div>
+  );
+};
+
+const ProjectsCarousel = ({ projects, handleClick }) => {
+  const classes = useStyles();
+
+  let settings = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
+  return (
+    <div className={classes.container}>
+      <Slider nextArrow={<NextArrow />} prevArrow={<PrevArrow />} {...settings}>
+        {projects.map((project, index) => (
+          <React.Fragment key={index}>
+            <div
+              key={index}
+              style={{
+                backgroundColor: project.color ? project.color : '#fff'
+              }}
+              className={classes.projectCard}
+              onClick={() => handleClick(true, project.id)}
+            >
+              <Typography align="center" className={classes.title} variant="h5">
+                {' '}
+                {project.title}
+              </Typography>
+              <Typography className={classes.description} variant="body2">
+                {project.description}
+              </Typography>
+            </div>
+          </React.Fragment>
+        ))}
+      </Slider>
+    </div>
+  );
+};
+
+export default ProjectsCarousel;

@@ -35,7 +35,7 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import moment from 'moment';
 import FacilitatorFilter from '../components/FacilitatorFilter';
 import Grid from '@material-ui/core/Grid';
-import { ROLES_NAMES } from '../utils/role-utils';
+import { ROLES_NAMES, checkAccessToProjects } from '../utils/role-utils';
 import ConfirmationModal from '../components/ConfirmationModal';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -195,7 +195,7 @@ const FamilyProfile = ({
         response.data.data.familyById.snapshotIndicators.stoplightSkipped
       );
       const orgId = !!user.organization && user.organization.id;
-      getProjectsByOrganization(user, [orgId]).then(response => {
+      getProjectsByOrganization(user, !!orgId ? [orgId] : []).then(response => {
         const projects = _.get(
           response,
           'data.data.projectsByOrganization',
@@ -374,6 +374,17 @@ const FamilyProfile = ({
                 {family.organization ? family.organization.name : ''}
               </Typography>
             </div>
+            {!!family.project && checkAccessToProjects(user) && (
+              <div className={classes.container}>
+                <Typography variant="subtitle1" className={classes.label}>
+                  {t('views.familyProfile.projectTitle')}
+                </Typography>
+                <span>&nbsp;</span>
+                <Typography variant="subtitle1" className={classes.label}>
+                  {family.project.title}
+                </Typography>
+              </div>
+            )}
           </div>
         </div>
       </Container>
@@ -683,7 +694,9 @@ const FamilyProfile = ({
             </div>
           </React.Fragment>
         )}
-        <ChangeProject familyId={familyId} currentProject={family.project} />
+        {checkAccessToProjects(user) && (
+          <ChangeProject familyId={familyId} currentProject={family.project} />
+        )}
       </Container>
       <ConfirmationModal
         title={t('views.familyProfile.changeFacilitator')}
@@ -777,7 +790,7 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'left',
     marginTop: '2%',
-    marginBottom: '2%',
+    paddingBottom: '2%',
     paddingRight: '12%',
     paddingLeft: '12%'
   },

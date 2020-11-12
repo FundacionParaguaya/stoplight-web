@@ -469,7 +469,7 @@
     },
     "familyProfile": {
       "organization": "Organization: ",
-      "project_title": "Project: ",
+      "projectTitle": "Project: ",
       "lifemapNumber": "Life Map - Number",
       "familyDetails": "Family Details",
       "economicDetails": "Socioeconomic Details",
@@ -558,7 +558,7 @@
         "name": "Project name",
         "nameLengthExceeded": "Project name must have a maximum of 50 characters",
         "description": "Description",
-        "descriptionLengthExceeded": "Description must have a maximum of 140 characters",
+        "descriptionLengthExceeded": "Description must have a maximum of 80 characters",
         "save": {
           "success": "Project saved successfully",
           "failed": "Project already exist"
@@ -593,6 +593,7 @@
         "nameLengthExceeded": "Organization name must have a maximum of 50 characters",
         "description": "Description",
         "descriptionLengthExceeded": "Description must have a maximum of 140 characters",
+        "allowProjects": "Projects:",
         "save": {
           "success": "Organization saved successfully",
           "failed": "Organization already exist"
@@ -660,6 +661,7 @@
         "allowRetake": "Retaking feature:",
         "allowSolutions": "Bank of Solutions:",
         "allowInteractiveHelp": "Interactive Help:",
+        "allowProjects": "Projects:",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
