@@ -294,7 +294,8 @@ const styles = theme => ({
     paddingBottom: 0
   },
   countersContainer: {
-    padding: `${theme.spacing(6)}px 0`,
+    paddingTop: '38px',
+    paddingBottom: '16px',
     backgroundColor: theme.palette.background.default
   },
   containerInnerCounters: {
