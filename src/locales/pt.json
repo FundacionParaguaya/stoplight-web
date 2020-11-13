@@ -663,6 +663,7 @@
         "allowSolutions": "Banco de solução:",
         "allowInteractiveHelp": "Ajuda interativa:",
         "allowProjects": "Projeto",
+        "allowMapRestriction": "Restrição de mapa:",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"

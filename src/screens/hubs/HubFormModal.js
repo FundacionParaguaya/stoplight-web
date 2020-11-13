@@ -243,7 +243,9 @@ const HubFormModal = ({
             interactiveHelp:
               !!hub.labels && hub.labels.includes('interactiveHelp'),
             projectsSupport:
-              !!hub.projectsSupport && hub.labels.includes('projectsSupport')
+              !!hub.projectsSupport && hub.labels.includes('projectsSupport'),
+            mapRestriction:
+              !!hub.mapRestriction && hub.labels.includes('mapRestriction')
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
@@ -336,6 +338,20 @@ const HubFormModal = ({
                     setFieldValue('projectsSupport', !values.projectsSupport);
                   }}
                   checked={values.projectsSupport}
+                  color="primary"
+                />
+              </div>
+              <div className={classes.switchOptionsContainer}>
+                <Typography variant="subtitle1" className={classes.allowRetake}>
+                  {t('views.hub.form.allowMapRestriction')}
+                </Typography>
+                <Switch
+                  name={'mapRestriction'}
+                  value={'mapRestriction'}
+                  onChange={e => {
+                    setFieldValue('mapRestriction', !values.mapRestriction);
+                  }}
+                  checked={values.mapRestriction}
                   color="primary"
                 />
               </div>
