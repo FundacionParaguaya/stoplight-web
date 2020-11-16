@@ -119,23 +119,53 @@ const EditEconomicForm = ({
       elementsWithConditionsOnThem: { questionsWithConditionsOnThem }
     } = survey;
 
-    const hasOtherOption = question.codeName.match(/^custom/g);
+    const otherQuestion = question.codeName.match(/^custom/g);
 
     // We get a draft with updated answer
     let key = question.codeName;
     let currentDraft;
-    const keyName = !Array.isArray(value) ? 'value' : 'multipleValue';
+    let keyName = 'value';
+    let hasOtherValue;
+    if (Array.isArray(value)) {
+      keyName = 'multipleValue';
+      hasOtherValue = !!question.options.find(o => o.otherOption);
+    }
     let newAnswer = {
       key,
       [keyName]: value
     };
 
-    if (hasOtherOption) {
+    let selectedValues;
+    let answers = !question.forFamilyMember
+      ? draft.economicSurveyDataList
+      : draft.familyData.familyMembersList[memberIndex];
+    let answer = answers.find(ans => ans.key === key);
+
+    if (otherQuestion) {
       key = _.camelCase(question.codeName.replace(/^custom/g, ''));
+
+      answer = answers.find(ans => ans.key === key);
+
+      if (question.answerType === 'checkbox') {
+        selectedValues = !!answer ? answer.multipleValue : [];
+      } else {
+        selectedValues = question.options.find(o => o.otherOption).value;
+      }
+
+      keyName = !Array.isArray(selectedValues) ? 'value' : 'multipleValue';
+
       newAnswer = {
         key,
-        [keyName]: question.options.find(o => o.otherOption).value,
+        [keyName]: selectedValues,
         other: value
+      };
+    }
+
+    if (hasOtherValue && !otherQuestion) {
+      newAnswer = {
+        key,
+        [keyName]: value,
+        other: answer.other
       };
     }
 
@@ -367,6 +397,14 @@ const EditEconomicForm = ({
                         );
                       };
 
+                      const cleanUpMultipleValue = () => {
+                        updateEconomicAnswerCascading(
+                          modifiedQuestion,
+                          '',
+                          setFieldValue
+                        );
+                      };
+
                       if (!shouldShowQuestion(question, draft)) {
                         return <React.Fragment key={question.codeName} />;
                       }
@@ -483,20 +521,57 @@ const EditEconomicForm = ({
                       }
                       if (question.answerType === 'checkbox') {
                         return (
-                          <CheckboxWithFormik
-                            key={question.codeName}
-                            label={question.questionText}
-                            rawOptions={getConditionalOptions(question, draft)}
-                            name={`forFamily.[${question.codeName}]`}
-                            required={question.required}
-                            onChange={multipleValue => {
-                              updateEconomicAnswerCascading(
+                          <React.Fragment key={question.codeName}>
+                            <CheckboxWithFormik
+                              key={question.codeName}
+                              label={question.questionText}
+                              rawOptions={getConditionalOptions(
                                 question,
-                                multipleValue,
-                                setFieldValue
-                              );
-                            }}
-                          />
+                                draft
+                              )}
+                              name={`forFamily.[${question.codeName}]`}
+                              required={question.required}
+                              onChange={multipleValue => {
+                                updateEconomicAnswerCascading(
+                                  question,
+                                  multipleValue,
+                                  setFieldValue
+                                );
+                              }}
+                            />
+                            <InputWithDep
+                              key={`custom${capitalize(question.codeName)}`}
+                              dep={question.codeName}
+                              from={draft}
+                              fieldOptions={question.options}
+                              target={`custom${capitalize(question.codeName)}`}
+                              isEconomic
+                              isMultiValue
+                              cleanUp={cleanUpMultipleValue}
+                            >
+                              {(otherOption, value) =>
+                                otherOption === value && (
+                                  <InputWithFormik
+                                    key={`custom${capitalize(
+                                      question.codeName
+                                    )}`}
+                                    type="text"
+                                    label={t('views.survey.specifyOther')}
+                                    name={`forFamily.custom${capitalize(
+                                      question.codeName
+                                    )}`}
+                                    onChange={e => {
+                                      updateEconomicAnswerCascading(
+                                        modifiedQuestion,
+                                        _.get(e, 'target.value', ''),
+                                        setFieldValue
+                                      );
+                                    }}
+                                  />
+                                )
+                              }
+                            </InputWithDep>
+                          </React.Fragment>
                         );
                       }
                       return (
