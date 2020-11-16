@@ -175,6 +175,9 @@ const HubFormModal = ({
     if (sanitazedValues.projectsSupport) {
       sanitazedValues.labels.push('projectsSupport');
     }
+    if (sanitazedValues.zoomLimit) {
+      sanitazedValues.labels.push('zoomLimit');
+    }
     addOrUpdateHub(user, { ...sanitazedValues, file })
       .then(() => {
         onClose(true);
@@ -244,8 +247,7 @@ const HubFormModal = ({
               !!hub.labels && hub.labels.includes('interactiveHelp'),
             projectsSupport:
               !!hub.projectsSupport && hub.labels.includes('projectsSupport'),
-            mapRestriction:
-              !!hub.mapRestriction && hub.labels.includes('mapRestriction')
+            zoomLimit: !!hub.zoomLimit && hub.labels.includes('zoomLimit')
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
@@ -346,12 +348,12 @@ const HubFormModal = ({
                   {t('views.hub.form.allowMapRestriction')}
                 </Typography>
                 <Switch
-                  name={'mapRestriction'}
-                  value={'mapRestriction'}
+                  name={'zoomLimit'}
+                  value={'zoomLimit'}
                   onChange={e => {
-                    setFieldValue('mapRestriction', !values.mapRestriction);
+                    setFieldValue('zoomLimit', !values.zoomLimit);
                   }}
-                  checked={values.mapRestriction}
+                  checked={values.zoomLimit}
                   color="primary"
                 />
               </div>
