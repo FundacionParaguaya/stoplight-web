@@ -662,6 +662,7 @@
         "allowSolutions": "Bank of Solutions:",
         "allowInteractiveHelp": "Interactive Help:",
         "allowProjects": "Projects:",
+        "allowMapRestriction": "Map restriction:",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
