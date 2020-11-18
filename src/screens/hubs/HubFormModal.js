@@ -19,7 +19,6 @@ import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { useDropzone } from 'react-dropzone';
 import { MB_SIZE, toBase64 } from '../../utils/files-utils';
 import { addOrUpdateHub } from '../../api';
-import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles(theme => ({
   buttonContainerForm: {
