@@ -14,7 +14,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import skippedLifemap from '../../assets/Family_center.png';
 import { upsertSnapshot, updateDraft } from '../../redux/actions';
-import Bugsnag from '@bugsnag/js'
+import Bugsnag from '@bugsnag/js';
 
 export class Final extends Component {
   state = {
@@ -69,7 +69,7 @@ export class Final extends Component {
       currentDraft,
       this.props.currentSurvey.surveyConfig.surveyLocation
     )
-      .then(response => { 
+      .then(response => {
         const snapshotId = response.data.data.addSnapshot.snapshotId;
         this.props.updateDraft({ ...currentDraft, snapshotId });
 
@@ -81,8 +81,8 @@ export class Final extends Component {
       })
       .catch(e => {
         console.error(e);
-        Bugsnag.notify(e,(event) => {
-          event.addMetadata('draft',{draftId: currentDraft.draftId})
+        Bugsnag.notify(e, event => {
+          event.addMetadata('draft', { draft: currentDraft });
         });
         this.toggleModal(
           t('general.warning'),
