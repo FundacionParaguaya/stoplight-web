@@ -46,7 +46,6 @@ const useStyles = makeStyles(theme => ({
   containeHubSearch: {
     display: 'flex',
     flexDirection: 'row',
-    width: '50%',
     alignItems: 'center'
   }
 }));
