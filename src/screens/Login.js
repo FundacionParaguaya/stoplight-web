@@ -130,13 +130,7 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
   useEffect(() => {
     !!errorMessage && setTimeout(() => setErrorMessage(''), 6000);
   }, [errorMessage]);
-  const userLang = navigator.language.substr(0, 2);
-  localStorage.setItem(
-    'language',
-    userLang === 'es' || userLang === 'en' || userLang === 'pt'
-      ? userLang.substr(0, 2)
-      : 'en'
-  );
+
   const onSubmit = (values, { resetForm }) => {
     setLoading(true);
     const formData = new FormData();
