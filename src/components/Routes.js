@@ -6,6 +6,7 @@ import {
   checkAccessToProjects,
   checkAccessToSolution
 } from '../utils/role-utils';
+import CircularProgress from '@material-ui/core/CircularProgress';
 const Surveys = lazy(() => import('../screens/SurveysWithDrafts'));
 const SurveyList = lazy(() => import('../screens/Surveys'));
 const Organizations = lazy(() => import('../screens/Organizations'));
@@ -46,7 +47,21 @@ const EditEconomicForm = lazy(() =>
 
 const Routes = ({ user }) => {
   return (
-    <Suspense fallback={<div></div>}>
+    <Suspense
+      fallback={
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            height: '100vh',
+            alignItems: 'center',
+            backgroundColor: '#f3f4f6'
+          }}
+        >
+          <CircularProgress size={50} thickness={2} />
+        </div>
+      }
+    >
       <ErrorBoundary>
         <Switch>
           {checkAccess(user, 'surveys') && (
