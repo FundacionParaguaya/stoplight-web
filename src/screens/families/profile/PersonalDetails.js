@@ -385,6 +385,8 @@ const PersonalDetails = ({
                 lat={latitude}
                 lng={longitude}
                 zoom={16}
+                maxZoom={!!user.hub && user.hub.zoomLimit === true ? 13 : ''}
+                minZoom={2}
                 loadingMessage={t('views.location.mapLoading')}
                 params={params}
                 disableDefaultUI

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from '../i18n';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -37,6 +37,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const normalizeLanguages = lang => {
+  const shortLang = lang.substr(0, 2);
+  const languages = {
+    en: 'en',
+    es: 'es',
+    pt: 'pt'
+  };
+  return languages[shortLang] || languages['en'];
+};
+
 const LanguageSelector = () => {
   const classes = useStyles();
 
@@ -45,6 +55,11 @@ const LanguageSelector = () => {
     localStorage.getItem('language') || 'en'
   );
   const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    const language = normalizeLanguages(navigator.language);
+    localStorage.setItem('language', language);
+  }, []);
 
   const handleClose = event => {
     setLanguage(event);
