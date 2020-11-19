@@ -14,6 +14,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import skippedLifemap from '../../assets/Family_center.png';
 import { upsertSnapshot, updateDraft } from '../../redux/actions';
+import Bugsnag from '@bugsnag/js';
 
 export class Final extends Component {
   state = {
@@ -80,6 +81,9 @@ export class Final extends Component {
       })
       .catch(e => {
         console.error(e);
+        Bugsnag.notify(e, event => {
+          event.addMetadata('draft', { draft: currentDraft });
+        });
         this.toggleModal(
           t('general.warning'),
           t('general.saveError').replace('%n', currentDraft.draftId),
