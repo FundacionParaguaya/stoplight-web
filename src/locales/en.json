@@ -644,11 +644,20 @@
       "search": "Search",
       "searchHub": " by name",
       "addAHub": "Add a hub",
-      "editButton": "EDIT",
-      "deleteButton": "DELETE",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
+      "list": {
+        "rows": "Hubs found",
+        "singleRow": "Hub found",
+        "noRows": "No hubs found",
+        "search": "Search",
+        "empty": "No hubs to show",
+        "type": "Type"
+      },
       "form": {
         "addTitle": "Add a Hub",
         "editTitle": "Edit Hub",
+        "permissionTitle": "Permissions",
         "name": "Hub name",
         "nameLengthExceeded": "Hub name must have a maximum of 50 characters",
         "description": "Description",
