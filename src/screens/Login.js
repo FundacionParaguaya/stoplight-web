@@ -100,7 +100,9 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 25,
     paddingBottom: 25,
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
+    display: 'flex',
+    alignItems: 'center'
   },
   alert: {
     '& .MuiAlert-action': {
