@@ -20,15 +20,22 @@ import Intercom from '../components/Intercom';
 import Container from '../components/Container';
 
 const useStyles = makeStyles(theme => ({
+  screen: {
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column'
+  },
   mainContainer: {
     backgroundColor: theme.palette.background.default,
-    height: '95vh',
+    flex: 1,
     [theme.breakpoints.down('md')]: {
-      height: '80vh'
+      justifyContent: 'center'
     },
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    overflowY: 'auto'
   },
   sideContainers: {
     display: 'flex',
@@ -103,9 +110,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 25,
     paddingBottom: 25,
     paddingLeft: 15,
-    paddingRight: 15,
-    display: 'flex',
-    alignItems: 'center'
+    paddingRight: 15
   },
   alert: {
     '& .MuiAlert-action': {
@@ -119,12 +124,14 @@ const useStyles = makeStyles(theme => ({
     }
   },
   selectorContainer: {
-    position: 'fixed',
+    position: 'absolute',
     bottom: '25px',
     left: '5px'
   },
   footer: {
-    height: '5vh',
+    position: 'relative',
+    height: '75px',
+    display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
   }
@@ -262,11 +269,9 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
   };
 
   return (
-    <>
+    <div className={classes.screen}>
+      <div />
       <Container className={classes.mainContainer}>
-        {/* <div className={classes.sideContainers}>
-        <LanguageSelector />
-      </div> */}
         <div className={classes.form}>
           <img
             style={{ marginTop: 4 }}
@@ -451,16 +456,12 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
             )}
           </Formik>
         </div>
-        {/* <div className={classes.sideContainers}>
-        <Intercom />
-      </div> */}
       </Container>
-
-      <div className={classes.selectorContainer}>
+      <div className={classes.footer}>
         <LanguageSelector />
+        <Intercom />
       </div>
-      <Intercom />
-    </>
+    </div>
   );
 };
 
