@@ -59,6 +59,7 @@ const LanguageSelector = () => {
   useEffect(() => {
     const language = normalizeLanguages(window.navigator.language);
     localStorage.setItem('language', language);
+    setLanguage(language);
   }, []);
 
   const handleClose = event => {
