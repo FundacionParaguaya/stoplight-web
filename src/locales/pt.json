@@ -645,11 +645,20 @@
       "search": "Buscar",
       "searchHub": "por nome",
       "addAHub": "Adicionar um Hub",
-      "editButton": "EDITAR",
-      "deleteButton": "ELIMINAR",
+      "editButton": "Editar",
+      "deleteButton": "Excluir",
+      "list": {
+        "rows": "Hubs encontrados",
+        "singleRow": "Hub encontrado",
+        "noRows": "Hubs não encontrados",
+        "search": "Buscar",
+        "empty": "Não há hubs para mostrar.",
+        "type": "Tipo"
+      },
       "form": {
         "addTitle": "Adicionar um Hub",
         "editTitle": "Editar Hub",
+        "permissionTitle": "Permissões",
         "name": "Nome hub",
         "nameLengthExceeded": "O nome de hub deve ter no máximo 50 caracteres",
         "description": "Descrição",

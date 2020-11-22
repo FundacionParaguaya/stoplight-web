@@ -19,7 +19,6 @@ import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { useDropzone } from 'react-dropzone';
 import { MB_SIZE, toBase64 } from '../../utils/files-utils';
 import { addOrUpdateHub } from '../../api';
-import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles(theme => ({
   buttonContainerForm: {
@@ -163,21 +162,6 @@ const HubFormModal = ({
   const onSubmit = values => {
     values.labels = [];
     let sanitazedValues = values;
-    if (sanitazedValues.allowRetake) {
-      sanitazedValues.labels.push('allowRetake');
-    }
-    if (sanitazedValues.allowSolutions) {
-      sanitazedValues.labels.push('allowSolutions');
-    }
-    if (sanitazedValues.interactiveHelp) {
-      sanitazedValues.labels.push('interactiveHelp');
-    }
-    if (sanitazedValues.projectsSupport) {
-      sanitazedValues.labels.push('projectsSupport');
-    }
-    if (sanitazedValues.zoomLimit) {
-      sanitazedValues.labels.push('zoomLimit');
-    }
     addOrUpdateHub(user, { ...sanitazedValues, file })
       .then(() => {
         onClose(true);
@@ -240,14 +224,7 @@ const HubFormModal = ({
             name: (!!hub.name && hub.name) || '',
             description: (!!hub.description && hub.description) || '',
             language: (!!hub.language && hub.language) || '',
-            partnerType: (!!hub.partnerType && hub.partnerType) || '',
-            allowRetake: !!hub.labels && hub.labels.includes('allowRetake'),
-            allowSolutions: !!hub.allowSolutions && hub.allowSolutions,
-            interactiveHelp:
-              !!hub.labels && hub.labels.includes('interactiveHelp'),
-            projectsSupport:
-              !!hub.projectsSupport && hub.labels.includes('projectsSupport'),
-            zoomLimit: !!hub.zoomLimit && hub.labels.includes('zoomLimit')
+            partnerType: (!!hub.partnerType && hub.partnerType) || ''
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
@@ -287,76 +264,6 @@ const HubFormModal = ({
                 isClearable={false}
                 required
               />
-              <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
-                  {t('views.hub.form.allowRetake')}
-                </Typography>
-                <Switch
-                  name={'allowRetake'}
-                  value={'allowRetake'}
-                  onChange={e => {
-                    setFieldValue('allowRetake', !values.allowRetake);
-                  }}
-                  checked={values.allowRetake}
-                  color="primary"
-                />
-              </div>
-              <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
-                  {t('views.hub.form.allowSolutions')}
-                </Typography>
-                <Switch
-                  name={'allowSolutions'}
-                  value={'allowSolutions'}
-                  onChange={e => {
-                    setFieldValue('allowSolutions', !values.allowSolutions);
-                  }}
-                  checked={values.allowSolutions}
-                  color="primary"
-                />
-              </div>
-              <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
-                  {t('views.hub.form.allowInteractiveHelp')}
-                </Typography>
-                <Switch
-                  name={'allowSolutions'}
-                  value={'interactiveHelp'}
-                  onChange={e => {
-                    setFieldValue('interactiveHelp', !values.interactiveHelp);
-                  }}
-                  checked={values.interactiveHelp}
-                  color="primary"
-                />
-              </div>
-              <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
-                  {t('views.hub.form.allowProjects')}
-                </Typography>
-                <Switch
-                  name={'projectsSupport'}
-                  value={'projectsSupport'}
-                  onChange={e => {
-                    setFieldValue('projectsSupport', !values.projectsSupport);
-                  }}
-                  checked={values.projectsSupport}
-                  color="primary"
-                />
-              </div>
-              <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
-                  {t('views.hub.form.allowMapRestriction')}
-                </Typography>
-                <Switch
-                  name={'zoomLimit'}
-                  value={'zoomLimit'}
-                  onChange={e => {
-                    setFieldValue('zoomLimit', !values.zoomLimit);
-                  }}
-                  checked={values.zoomLimit}
-                  color="primary"
-                />
-              </div>
               <div style={{ position: 'relative', marginBottom: 10 }}>
                 <div {...getRootProps({ className: classes.dropzone })}>
                   <input {...getInputProps()} />
