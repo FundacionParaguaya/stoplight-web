@@ -17,13 +17,25 @@ import { withSnackbar } from 'notistack';
 import Alert from '@material-ui/lab/Alert';
 import LanguageSelector from '../components/LanguageSelector';
 import Intercom from '../components/Intercom';
+import Container from '../components/Container';
 
 const useStyles = makeStyles(theme => ({
-  mainContainer: {
-    backgroundColor: theme.palette.background.default,
+  screen: {
     height: '100vh',
     display: 'flex',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    flexDirection: 'column'
+  },
+  mainContainer: {
+    backgroundColor: theme.palette.background.default,
+    flex: 1,
+    [theme.breakpoints.down('md')]: {
+      justifyContent: 'center'
+    },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflowY: 'auto'
   },
   sideContainers: {
     display: 'flex',
@@ -86,14 +98,20 @@ const useStyles = makeStyles(theme => ({
   },
   forgotPassword: {
     color: theme.palette.primary.dark,
+    textAlign: 'right',
     fontSize: 14,
     cursor: 'pointer',
     textDecoration: 'underline',
-    marginTop: 12
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 0
   },
   button: {
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
+    display: 'flex',
+    alignItems: 'center',
+    height: 'fit-content'
   },
   alert: {
     '& .MuiAlert-action': {
@@ -105,6 +123,18 @@ const useStyles = makeStyles(theme => ({
     '& .MuiAlert-icon': {
       marginRight: 0
     }
+  },
+  selectorContainer: {
+    position: 'absolute',
+    bottom: '25px',
+    left: '5px'
+  },
+  footer: {
+    position: 'relative',
+    height: '75px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 }));
 
@@ -240,190 +270,196 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
   };
 
   return (
-    <div className={classes.mainContainer}>
-      <div className={classes.sideContainers}>
-        <LanguageSelector />
-      </div>
-      <div className={classes.form}>
-        <img
-          style={{ marginTop: 4 }}
-          src={logo}
-          alt="Stoplight Logo"
-          width={54}
-          height={54}
-        />
+    <div className={classes.screen}>
+      <div />
+      <Container className={classes.mainContainer}>
+        <div className={classes.form}>
+          <img
+            style={{ marginTop: 4 }}
+            src={logo}
+            alt="Stoplight Logo"
+            width={54}
+            height={54}
+          />
 
-        <Typography variant="h4" className={classes.title}>
-          {env === 'platform'
-            ? t('views.login.welcomeToPlatform')
-            : t('views.login.welcomeToDemo')}
-        </Typography>
-        <div style={{ display: 'flex' }}>
-          <Typography
-            variant="subtitle2"
-            className={classes.label}
-            style={{ marginRight: 3 }}
-          >
-            {t('views.login.switchTo')}
+          <Typography variant="h4" className={classes.title}>
+            {env === 'platform'
+              ? t('views.login.welcomeToPlatform')
+              : t('views.login.welcomeToDemo')}
           </Typography>
-          <Typography variant="subtitle2" className={classes.label}>
-            {getRedirect(env)}
-          </Typography>
-        </div>
+          <div style={{ display: 'flex' }}>
+            <Typography
+              variant="subtitle2"
+              className={classes.label}
+              style={{ marginRight: 3 }}
+            >
+              {t('views.login.switchTo')}
+            </Typography>
+            <Typography variant="subtitle2" className={classes.label}>
+              {getRedirect(env)}
+            </Typography>
+          </div>
 
-        {!!errorMessage && (
-          <Alert
-            onClose={() => setErrorMessage('')}
-            icon={<div />}
-            severity="error"
-            variant="filled"
-            className={classes.alert}
-          >
-            {errorMessage}
-          </Alert>
-        )}
-
-        {resetPassword && (
-          <Typography variant="subtitle2" className={classes.label}>
-            {t('views.login.resetTitle')}
-          </Typography>
-        )}
-        <Formik initialValues={initialStatus} onSubmit={onSubmit}>
-          {({ setFieldValue, values }) => (
-            <Form noValidate>
-              {!!token && !!id ? (
-                <React.Fragment>
-                  <Typography variant="h6" className={classes.inputLabel}>
-                    {t('views.login.newPassword').toUpperCase()}
-                  </Typography>
-                  <TextField
-                    InputProps={{
-                      classes: {
-                        input: classes.filterInput
-                      }
-                    }}
-                    variant="outlined"
-                    margin="dense"
-                    name="newPassword"
-                    type="password"
-                    value={values.newPassword}
-                    onChange={e => setFieldValue('newPassword', e.target.value)}
-                    fullWidth
-                    className={classes.textField}
-                    required={true}
-                  />
-                  <Typography variant="h6" className={classes.inputLabel}>
-                    {t('views.login.newPasswordConfirm').toUpperCase()}
-                  </Typography>
-                  <TextField
-                    InputProps={{
-                      classes: {
-                        input: classes.filterInput
-                      }
-                    }}
-                    variant="outlined"
-                    margin="dense"
-                    type="password"
-                    name="newPasswordConfirm"
-                    value={values.newPasswordConfirm}
-                    onChange={e =>
-                      setFieldValue('newPasswordConfirm', e.target.value)
-                    }
-                    fullWidth
-                    className={classes.textField}
-                    required={true}
-                  />
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Typography variant="h6" className={classes.inputLabel}>
-                    {t('views.login.username').toUpperCase()}
-                  </Typography>
-                  <TextField
-                    InputProps={{
-                      classes: {
-                        input: classes.filterInput
-                      }
-                    }}
-                    variant="outlined"
-                    margin="dense"
-                    name="username"
-                    value={values.username}
-                    onChange={e => setFieldValue('username', e.target.value)}
-                    fullWidth
-                    className={classes.textField}
-                    required={true}
-                  />
-
-                  <Typography variant="h6" className={classes.inputLabel}>
-                    {resetPassword
-                      ? t('views.login.email').toUpperCase()
-                      : t('views.login.password').toUpperCase()}
-                  </Typography>
-
-                  {resetPassword ? (
-                    <TextField
-                      InputProps={{
-                        classes: {
-                          input: classes.filterInput
-                        }
-                      }}
-                      variant="outlined"
-                      margin="dense"
-                      id="email"
-                      value={values.email}
-                      onChange={e => setFieldValue('email', e.target.value)}
-                      fullWidth
-                      className={classes.textField}
-                      required={true}
-                    />
-                  ) : (
-                    <TextField
-                      InputProps={{
-                        classes: {
-                          input: classes.filterInput
-                        }
-                      }}
-                      variant="outlined"
-                      margin="dense"
-                      id="password"
-                      type="password"
-                      value={values.password}
-                      onChange={e => setFieldValue('password', e.target.value)}
-                      fullWidth
-                      className={classes.textField}
-                      required={true}
-                    />
-                  )}
-                </React.Fragment>
-              )}
-
-              <div className={classes.buttonContainerForm}>
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  className={classes.button}
-                  disabled={loading}
-                >
-                  {resetPassword || (!!token && !!id)
-                    ? t('views.login.resetPassword')
-                    : t('views.login.login')}
-                </Button>
-                <span
-                  className={classes.forgotPassword}
-                  onClick={() => handleBackToLogin(!!id)}
-                >
-                  {resetPassword || (!!token && !!id)
-                    ? t('views.login.backLogin')
-                    : t('views.login.forgotPassword')}
-                </span>
-              </div>
-            </Form>
+          {!!errorMessage && (
+            <Alert
+              onClose={() => setErrorMessage('')}
+              icon={<div />}
+              severity="error"
+              variant="filled"
+              className={classes.alert}
+            >
+              {errorMessage}
+            </Alert>
           )}
-        </Formik>
-      </div>
-      <div className={classes.sideContainers}>
+
+          {resetPassword && (
+            <Typography variant="subtitle2" className={classes.label}>
+              {t('views.login.resetTitle')}
+            </Typography>
+          )}
+          <Formik initialValues={initialStatus} onSubmit={onSubmit}>
+            {({ setFieldValue, values }) => (
+              <Form noValidate>
+                {!!token && !!id ? (
+                  <React.Fragment>
+                    <Typography variant="h6" className={classes.inputLabel}>
+                      {t('views.login.newPassword').toUpperCase()}
+                    </Typography>
+                    <TextField
+                      InputProps={{
+                        classes: {
+                          input: classes.filterInput
+                        }
+                      }}
+                      variant="outlined"
+                      margin="dense"
+                      name="newPassword"
+                      type="password"
+                      value={values.newPassword}
+                      onChange={e =>
+                        setFieldValue('newPassword', e.target.value)
+                      }
+                      fullWidth
+                      className={classes.textField}
+                      required={true}
+                    />
+                    <Typography variant="h6" className={classes.inputLabel}>
+                      {t('views.login.newPasswordConfirm').toUpperCase()}
+                    </Typography>
+                    <TextField
+                      InputProps={{
+                        classes: {
+                          input: classes.filterInput
+                        }
+                      }}
+                      variant="outlined"
+                      margin="dense"
+                      type="password"
+                      name="newPasswordConfirm"
+                      value={values.newPasswordConfirm}
+                      onChange={e =>
+                        setFieldValue('newPasswordConfirm', e.target.value)
+                      }
+                      fullWidth
+                      className={classes.textField}
+                      required={true}
+                    />
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Typography variant="h6" className={classes.inputLabel}>
+                      {t('views.login.username').toUpperCase()}
+                    </Typography>
+                    <TextField
+                      InputProps={{
+                        classes: {
+                          input: classes.filterInput
+                        }
+                      }}
+                      variant="outlined"
+                      margin="dense"
+                      name="username"
+                      value={values.username}
+                      onChange={e => setFieldValue('username', e.target.value)}
+                      fullWidth
+                      className={classes.textField}
+                      required={true}
+                    />
+
+                    <Typography variant="h6" className={classes.inputLabel}>
+                      {resetPassword
+                        ? t('views.login.email').toUpperCase()
+                        : t('views.login.password').toUpperCase()}
+                    </Typography>
+
+                    {resetPassword ? (
+                      <TextField
+                        InputProps={{
+                          classes: {
+                            input: classes.filterInput
+                          }
+                        }}
+                        variant="outlined"
+                        margin="dense"
+                        id="email"
+                        value={values.email}
+                        onChange={e => setFieldValue('email', e.target.value)}
+                        fullWidth
+                        className={classes.textField}
+                        required={true}
+                      />
+                    ) : (
+                      <TextField
+                        InputProps={{
+                          classes: {
+                            input: classes.filterInput
+                          }
+                        }}
+                        variant="outlined"
+                        margin="dense"
+                        id="password"
+                        type="password"
+                        value={values.password}
+                        onChange={e =>
+                          setFieldValue('password', e.target.value)
+                        }
+                        fullWidth
+                        className={classes.textField}
+                        required={true}
+                      />
+                    )}
+                  </React.Fragment>
+                )}
+
+                <div className={classes.buttonContainerForm}>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    size="large"
+                    className={classes.button}
+                    disabled={loading}
+                  >
+                    {resetPassword || (!!token && !!id)
+                      ? t('views.login.resetPassword')
+                      : t('views.login.login')}
+                  </Button>
+                  <span
+                    className={classes.forgotPassword}
+                    onClick={() => handleBackToLogin(!!id)}
+                  >
+                    {resetPassword || (!!token && !!id)
+                      ? t('views.login.backLogin')
+                      : t('views.login.forgotPassword')}
+                  </span>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </Container>
+      <div className={classes.footer}>
+        <LanguageSelector />
         <Intercom />
       </div>
     </div>
