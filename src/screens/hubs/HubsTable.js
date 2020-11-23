@@ -2,7 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { Delete } from '@material-ui/icons';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EditIcon from '@material-ui/icons/Edit';
+import SettingsIcon from '@material-ui/icons/Settings';
 import MaterialTable from 'material-table';
 import { withSnackbar } from 'notistack';
 import React, { useState } from 'react';
@@ -12,7 +14,6 @@ import DefaultHubLogo from '../../assets/icon_logo_hub.png';
 import { theme } from '../../theme';
 import DeleteHubModal from './DeleteHubModal';
 import HubPermissionsModal from './HubPermissionsModal';
-import SettingsIcon from '@material-ui/icons/Settings';
 
 const showType = type => {
   const partnerTypeOptions = [
@@ -119,7 +120,8 @@ const HubsTable = ({
   tableRef,
   numberOfRows,
   loading,
-  toggleFormModal
+  toggleFormModal,
+  history
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -131,7 +133,7 @@ const HubsTable = ({
     const list = [];
     list.push(() => ({
       icon: SettingsIcon,
-      tooltip: t('views.hub.editButton'),
+      tooltip: t('views.hub.form.permissionTitle'),
       iconProps: {
         color: theme.palette.grey.middle
       },
@@ -166,6 +168,14 @@ const HubsTable = ({
         setOpenDeleteModal(true);
       }
     }));
+    list.push(() => ({
+      icon: ArrowForwardIosIcon,
+      tooltip: t('views.hub.list.show'),
+      iconProps: {
+        color: theme.palette.grey.middle
+      },
+      onClick: (event, rowData) => handleGoNext(rowData)
+    }));
 
     return list;
   };
@@ -182,6 +192,13 @@ const HubsTable = ({
     } else {
       return `${numberOfRows} ${t('views.hub.list.rows')}`;
     }
+  };
+
+  const handleGoNext = hub => {
+    history.push({
+      pathname: `/organizations`,
+      state: { hubId: hub.id }
+    });
   };
 
   return (

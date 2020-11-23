@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Hubs = ({ user }) => {
+const Hubs = ({ user, history }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -164,6 +164,7 @@ const Hubs = ({ user }) => {
             loadHubs={loadHubs}
             numberOfRows={totalRows}
             toggleFormModal={toggleFormModal}
+            history={history}
           />
         </Container>
         <BottomSpacer />
