@@ -653,7 +653,8 @@
         "noRows": "No se encontraron hubs",
         "search": "Buscar",
         "empty": "Sin Hubs que mostrar",
-        "type": "Tipo"
+        "type": "Tipo",
+        "show": "Mostrar organizaciones del hub"
       },
       "form": {
         "addTitle": "Agregar un Hub",
