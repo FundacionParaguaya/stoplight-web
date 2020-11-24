@@ -195,7 +195,13 @@ const EditEconomicForm = ({
     setLoading(true);
     let sanitazedDraft = draft;
     sanitazedDraft.economicSurveyDataList = sanitazedDraft.economicSurveyDataList
-      .filter(question => !!question.value || !!question.multipleValue)
+      .filter(
+        question =>
+          (question.value !== null &&
+            question.value !== undefined &&
+            question.value !== '') ||
+          (!!question.multipleValue && question.multipleValue.length > 0)
+      )
       .map(question => {
         !!question.value
           ? delete question.multipleValue
