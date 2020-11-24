@@ -13,6 +13,8 @@ import LeaveModal from '../../components/LeaveModal';
 import FooterPopup from '../../components/FooterPopup';
 import { updateDraft } from '../../redux/actions';
 import DimensionQuestion from '../../components/summary/DimensionQuestion';
+import SummaryBarChart from '../../components/SummaryBarChart';
+import SummaryDonut from '../../components/summary/SummaryDonut';
 
 export class Overview extends Component {
   state = {
@@ -159,7 +161,7 @@ export class Overview extends Component {
       forceHideStickyFooter,
       containerRef
     } = this.props;
-    // let groupedAnswers;
+    // let gr1oupedAnswers;
     const userAnswers = [];
 
     if (currentSurvey) {
@@ -203,6 +205,28 @@ export class Overview extends Component {
           leaveAction={this.toggleModal}
         />
         <TitleBar title={t('views.yourLifeMap')} progressBar />
+        <Container className={classes.countersContainer}>
+          <Container className={classes.containerInnerCounters}>
+            <SummaryDonut
+              greenIndicatorCount={this.state.greenIndicatorCount}
+              redIndicatorCount={this.state.redIndicatorCount}
+              yellowIndicatorCount={this.state.yellowIndicatorCount}
+              skippedIndicatorCount={this.state.skippedIndicatorCount}
+              isAnimationActive={false}
+              countingSection={false}
+              width="50%"
+              height={160}
+            />
+            <SummaryBarChart
+              greenIndicatorCount={this.state.greenIndicatorCount}
+              redIndicatorCount={this.state.redIndicatorCount}
+              yellowIndicatorCount={this.state.yellowIndicatorCount}
+              skippedIndicatorCount={this.state.skippedIndicatorCount}
+              isAnimationActive={false}
+              width="50%"
+            />
+          </Container>
+        </Container>
         <Container variant="stretch" ref={containerRef}>
           <IndicatorsFilter
             greenIndicatorCount={this.state.greenIndicatorCount}
@@ -268,6 +292,20 @@ const styles = theme => ({
   questionsContainer: {
     padding: '45px',
     paddingBottom: 0
+  },
+  countersContainer: {
+    paddingTop: '38px',
+    paddingBottom: '16px',
+    backgroundColor: theme.palette.background.default
+  },
+  containerInnerCounters: {
+    minHeight: 180,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
+    width: '100%'
   }
 });
 

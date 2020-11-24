@@ -14,6 +14,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import skippedLifemap from '../../assets/Family_center.png';
 import { upsertSnapshot, updateDraft } from '../../redux/actions';
+import Bugsnag from '@bugsnag/js';
 
 export class Final extends Component {
   state = {
@@ -80,6 +81,9 @@ export class Final extends Component {
       })
       .catch(e => {
         console.error(e);
+        Bugsnag.notify(e, event => {
+          event.addMetadata('draft', { draft: currentDraft });
+        });
         this.toggleModal(
           t('general.warning'),
           t('general.saveError').replace('%n', currentDraft.draftId),
@@ -168,9 +172,6 @@ export class Final extends Component {
         <TitleBar title={t('views.final.title')} progressBar />
         <Container variant="stretch">
           <Typography variant="h5" className={classes.subtitle}>
-            {t('views.final.congratulations')}
-          </Typography>
-          <Typography variant="h5" className={classes.surveyCompleted}>
             {t('views.final.surveyCompleted')}
           </Typography>
           {error && <Typography color="error">{error}</Typography>}
@@ -229,14 +230,6 @@ const styles = theme => ({
     justifyContent: 'center',
     textAlign: 'center',
     marginTop: theme.spacing(6)
-  },
-  surveyCompleted: {
-    display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
-    width: '55%',
-    margin: 'auto',
-    marginTop: theme.spacing()
   },
   saveButtonContainer: {
     display: 'flex',

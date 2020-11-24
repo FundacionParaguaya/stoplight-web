@@ -91,7 +91,8 @@ const EditEconomicForm = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { familyId, topic } = useParams();
+  let { familyId, topic } = useParams();
+  topic = topic.replace(/%2F/g, '/');
 
   const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState({
@@ -224,7 +225,13 @@ const EditEconomicForm = ({
     setLoading(true);
     let sanitazedDraft = draft;
     sanitazedDraft.economicSurveyDataList = sanitazedDraft.economicSurveyDataList
-      .filter(question => !!question.value || !!question.multipleValue)
+      .filter(
+        question =>
+          (question.value !== null &&
+            question.value !== undefined &&
+            question.value !== '') ||
+          (!!question.multipleValue && question.multipleValue.length > 0)
+      )
       .map(question => {
         !!question.value
           ? delete question.multipleValue

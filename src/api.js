@@ -668,14 +668,24 @@ export const getHubs = user =>
     })
   });
 
-export const getHubsPaginated = (user, page, filter) => {
-  let queryString = `page=${page}`;
-  if (filter) queryString = `filter=${filter}&${queryString}`;
+export const getHubsPaginated = (
+  user,
+  page,
+  filter,
+  orderBy,
+  orderDirection
+) => {
   return axios({
     method: 'get',
-    url: `${url[user.env]}/api/v1/applications?${queryString}`,
+    url: `${url[user.env]}/api/v1/applications`,
     headers: {
       Authorization: `Bearer ${user.token}`
+    },
+    params: {
+      page: page,
+      filter: filter,
+      sort_by: orderBy,
+      order: orderDirection
     }
   });
 };

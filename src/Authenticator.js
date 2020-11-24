@@ -8,6 +8,7 @@ import { capitalize } from 'lodash';
 import { updateUser } from './redux/actions';
 import { checkSessionToken, enviroments } from './api';
 import Login from './screens/Login';
+import Bugsnag from '@bugsnag/js';
 
 let LoadingAuth = ({ classes }) => (
   <div className={classes.container}>
@@ -66,6 +67,9 @@ const Authenticator = props => {
       env: envFromStorage,
       refreshToken: refreshTokenFromStorage
     } = user || {};
+
+    user && Bugsnag.setUser(user.username, user.email, user.name);
+
     return {
       localStorageToken: token,
       localStorageEnviroment: envFromStorage,

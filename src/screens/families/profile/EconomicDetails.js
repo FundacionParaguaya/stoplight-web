@@ -8,10 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import familyFaceIcon from '../../../assets/family_face_large.png';
+import { shouldShowQuestion } from '../../../utils/conditional-logic';
 import { ROLES_NAMES } from '../../../utils/role-utils';
-import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,6 +72,8 @@ const EconomicDetails = ({
   membersEconomicData,
   topics,
   history,
+  questionsPerTopics,
+  familyMembers,
   user
 }) => {
   const classes = useStyles();
@@ -82,13 +85,21 @@ const EconomicDetails = ({
   const [hasDataPerTopic, setHasDataPerTopic] = useState([]);
   const [dataByTopic, setDataByTopic] = useState([]);
   const [membersDataByTopic, setMembersDataByTopic] = useState([]);
+  const [draft, setDraft] = useState({
+    economicSurveyDataList: [],
+    familyData: {
+      familyMembersList: []
+    }
+  });
 
   const handleChange = (event, value) => {
     setValue(value);
   };
 
   useEffect(() => {
-    let questionByTopic = [];
+    let questionByTopic = questionsPerTopics.map(topicQuestions =>
+      topicQuestions.filter(question => !question.forFamilyMember)
+    );
 
     let memberQuestionByTopic = [];
 
@@ -104,36 +115,78 @@ const EconomicDetails = ({
     );
 
     !!economicData &&
+      topics.length > 0 &&
       economicData.forEach(question => {
         let index = topics.findIndex(t => t === question.topic);
+        let questionIndex = questionByTopic[index].findIndex(
+          q => q.codeName === question.codeName
+        );
 
-        questionByTopic[index] = !!questionByTopic[index]
-          ? [...questionByTopic[index], question]
-          : [question];
+        questionByTopic[index][questionIndex] = question;
 
         hasDataPerTopic[index] = true;
       });
 
     !!membersEconomicData &&
+      topics.length > 0 &&
       membersEconomicData.forEach((member, mIndex) => {
-        memberQuestionByTopic.push({ name: member.firstName, questions: [] });
+        let memberQuestions = questionsPerTopics.map(topicQuestions =>
+          topicQuestions.filter(question => question.forFamilyMember)
+        );
+        memberQuestionByTopic.push({
+          name: member.firstName,
+          questions: memberQuestions
+        });
 
         member.economic.forEach(question => {
           let index = topics.findIndex(t => t === question.topic);
 
-          memberQuestionByTopic[mIndex].questions[
+          let questionIndex = memberQuestionByTopic[mIndex].questions[
             index
-          ] = !!memberQuestionByTopic[mIndex].questions[index]
-            ? [...memberQuestionByTopic[mIndex].questions[index], question]
-            : [question];
+          ].findIndex(q => q.codeName === question.codeName);
+
+          memberQuestionByTopic[mIndex].questions[index][
+            questionIndex
+          ] = question;
 
           hasDataPerTopic[index] = true;
         });
       });
-
     setHasDataPerTopic(hasDataPerTopic);
     setDataByTopic(questionByTopic);
     setMembersDataByTopic(memberQuestionByTopic);
+    let familyMembersData = familyMembers.map(member => {
+      let memberAnswers =
+        !!membersEconomicData &&
+        membersEconomicData.find(
+          mEconomics => mEconomics.memberIdentifier === member.memberIdentifier
+        );
+      let memberDraft = !!memberAnswers
+        ? memberAnswers.economic.map(question => ({
+            key: question.codeName,
+            value: question.value,
+            multipleValue: question.multipleValue
+          }))
+        : [];
+      member.socioEconomicAnswers = memberDraft;
+      return member;
+    });
+
+    let economicDraft =
+      !!economicData &&
+      economicData.map(question => ({
+        key: question.codeName,
+        value: question.value,
+        multipleValue: question.multipleValueArray,
+        text: question.text
+      }));
+
+    setDraft({
+      economicSurveyDataList: economicDraft,
+      familyData: {
+        familyMembersList: familyMembersData
+      }
+    });
   }, [economicData, membersEconomicData, topics]);
 
   const showEditButtons = ({ role }) =>
@@ -177,7 +230,9 @@ const EconomicDetails = ({
                         className={classes.actionIcon}
                         onClick={() => {
                           history.push(
-                            `/family/${familyId}/edit-economic/${topics[value]}`
+                            `/family/${familyId}/edit-economic/${topics[
+                              value
+                            ].replace(/\//g, '%2F')}`
                           );
                         }}
                       >
@@ -188,31 +243,43 @@ const EconomicDetails = ({
                 )}
                 {!!dataByTopic[value] &&
                   dataByTopic[value].length > 0 &&
-                  dataByTopic[value].map((answer, index) => (
-                    <Grid key={index} item md={6}>
-                      <Typography variant="h6" className={classes.label}>
-                        {`${answer.questionText}:`}
-                      </Typography>
-                      {!!answer.text ? (
-                        <Typography variant="h6" className={classes.answer}>
-                          {answer.text}
-                        </Typography>
-                      ) : (
-                        <ul>
-                          {answer.multipleTextArray.map((answer, index) => (
-                            <Grid key={index}>
+                  dataByTopic[value].map((answer, index) => {
+                    return (
+                      <React.Fragment key={index}>
+                        {shouldShowQuestion(answer, draft) && (
+                          <Grid item md={6}>
+                            <Typography variant="h6" className={classes.label}>
+                              {`${answer.questionText}:`}
+                            </Typography>
+                            {!!answer.text && (
                               <Typography
                                 variant="h6"
                                 className={classes.answer}
                               >
-                                <li>{answer}</li>
+                                {answer.text}
                               </Typography>
-                            </Grid>
-                          ))}
-                        </ul>
-                      )}
-                    </Grid>
-                  ))}
+                            )}
+                            {!!answer.multipleTextArray && (
+                              <ul>
+                                {answer.multipleTextArray.map(
+                                  (answer, index) => (
+                                    <Grid key={index}>
+                                      <Typography
+                                        variant="h6"
+                                        className={classes.answer}
+                                      >
+                                        <li>{answer}</li>
+                                      </Typography>
+                                    </Grid>
+                                  )
+                                )}
+                              </ul>
+                            )}
+                          </Grid>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
 
                 {!!membersDataByTopic &&
                   membersDataByTopic.length > 0 &&
@@ -242,39 +309,46 @@ const EconomicDetails = ({
                               {member.name}
                             </Typography>
                           </Grid>
-                          {member.questions[value].map((answer, index) => (
-                            <Grid key={index} item md={6}>
-                              <Typography
-                                variant="h6"
-                                className={classes.label}
-                              >
-                                {`${answer.questionText}:`}
-                              </Typography>
-                              {!!answer.text ? (
-                                <Typography
-                                  variant="h6"
-                                  className={classes.answer}
-                                >
-                                  {answer.text}
-                                </Typography>
-                              ) : (
-                                <ul>
-                                  {answer.multipleTextArray.map(
-                                    (answer, index) => (
-                                      <Grid key={index}>
-                                        <Typography
-                                          variant="h6"
-                                          className={classes.answer}
-                                        >
-                                          <li>{answer}</li>
-                                        </Typography>
-                                      </Grid>
-                                    )
-                                  )}
-                                </ul>
-                              )}
-                            </Grid>
-                          ))}
+                          {member.questions[value].map((answer, index) => {
+                            return (
+                              <React.Fragment key={index}>
+                                {shouldShowQuestion(answer, draft, mIndex) && (
+                                  <Grid key={index} item md={6}>
+                                    <Typography
+                                      variant="h6"
+                                      className={classes.label}
+                                    >
+                                      {`${answer.questionText}:`}
+                                    </Typography>
+                                    {!!answer.text && (
+                                      <Typography
+                                        variant="h6"
+                                        className={classes.answer}
+                                      >
+                                        {answer.text}
+                                      </Typography>
+                                    )}
+                                    {!!answer.multipleTextArray && (
+                                      <ul>
+                                        {answer.multipleTextArray.map(
+                                          (answer, index) => (
+                                            <Grid key={index}>
+                                              <Typography
+                                                variant="h6"
+                                                className={classes.answer}
+                                              >
+                                                <li>{answer}</li>
+                                              </Typography>
+                                            </Grid>
+                                          )
+                                        )}
+                                      </ul>
+                                    )}
+                                  </Grid>
+                                )}
+                              </React.Fragment>
+                            );
+                          })}
                         </React.Fragment>
                       )
                   )}

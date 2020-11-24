@@ -313,8 +313,7 @@
     },
     "final": {
       "title": "Obrigada!",
-      "congratulations": "Parabéns!",
-      "surveyCompleted": "Você respondeu a todas as perguntas. Não se esqueça de terminar a sua pesquisa!",
+      "surveyCompleted": "Não se esqueça de terminar a sua pesquisa!",
       "print": "Imprimir",
       "email": "Email",
       "whatsapp": "Whatsapp",
@@ -646,11 +645,21 @@
       "search": "Buscar",
       "searchHub": "por nome",
       "addAHub": "Adicionar um Hub",
-      "editButton": "EDITAR",
-      "deleteButton": "ELIMINAR",
+      "editButton": "Editar",
+      "deleteButton": "Excluir",
+      "list": {
+        "rows": "Hubs encontrados",
+        "singleRow": "Hub encontrado",
+        "noRows": "Hubs não encontrados",
+        "search": "Buscar",
+        "empty": "Não há hubs para mostrar.",
+        "type": "Tipo",
+        "show": "Mostrar organizações Hub"
+      },
       "form": {
         "addTitle": "Adicionar um Hub",
         "editTitle": "Editar Hub",
+        "permissionTitle": "Permissões",
         "name": "Nome hub",
         "nameLengthExceeded": "O nome de hub deve ter no máximo 50 caracteres",
         "description": "Descrição",
@@ -664,6 +673,7 @@
         "allowSolutions": "Banco de solução:",
         "allowInteractiveHelp": "Ajuda interativa:",
         "allowProjects": "Projeto",
+        "allowMapRestriction": "Restrição de mapa:",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"

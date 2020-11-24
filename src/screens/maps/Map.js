@@ -192,6 +192,8 @@ const Map = ({
               }}
               onDragEnd={onDragEnd}
               options={{
+                maxZoom: !!user.hub && user.hub.zoomLimit === true ? 13 : '',
+                minZoom: 2,
                 mapTypeControlOptions: {
                   position: google.maps.ControlPosition.TOP_RIGHT
                 }

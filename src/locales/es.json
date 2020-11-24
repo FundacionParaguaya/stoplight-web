@@ -313,8 +313,7 @@
     },
     "final": {
       "title": "¡Gracias!",
-      "congratulations": "¡Felicidades!",
-      "surveyCompleted": "Ya respondiste todas las preguntas. ¡No te olvides de finalizar tu encuesta!",
+      "surveyCompleted": "¡No te olvides de finalizar tu encuesta!",
       "print": "Imprimir",
       "email": "Email",
       "whatsapp": "Whatsapp",
@@ -646,16 +645,26 @@
       "search": "Buscar",
       "searchHub": "por nombre",
       "addAHub": "Agregar un Hub",
-      "editButton": "EDITAR",
-      "deleteButton": "ELIMINAR",
+      "editButton": "Editar",
+      "deleteButton": "Eliminar",
+      "list": {
+        "rows": "Hubs encontrados",
+        "singleRow": "Hub encontrado",
+        "noRows": "No se encontraron hubs",
+        "search": "Buscar",
+        "empty": "Sin Hubs que mostrar",
+        "type": "Tipo",
+        "show": "Mostrar organizaciones del hub"
+      },
       "form": {
         "addTitle": "Agregar un Hub",
         "editTitle": "Editar Hub",
+        "permissionTitle": "Permisos",
         "name": "Nombre hub",
         "nameLengthExceeded": "El nombre de hub debe tener como máximo 50 caracteres",
         "description": "Descripción",
         "descriptionLengthExceeded": "La descripción debe tener como máximo 256 caracteres",
-        "language": "Languaje",
+        "language": "Idioma",
         "logoUpload": "Click para subir un logo",
         "changeLogo": "Click aquí para cambiar el logo",
         "fileUploadError": "¡Alcanzaste el límite de 10MB! Elige otra imagen.",
@@ -664,6 +673,7 @@
         "allowSolutions": "Banco de Soluciones:",
         "allowInteractiveHelp": "Ayuda interactiva:",
         "allowProjects": "Proyectos:",
+        "allowMapRestriction": "Restricción de mapa:",
         "save": {
           "success": "Hub guardado exitosamente",
           "failed": "El Hub ya existe"

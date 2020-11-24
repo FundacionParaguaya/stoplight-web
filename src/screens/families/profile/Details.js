@@ -69,6 +69,7 @@ const Details = ({
   const [openEconomicDetails, setOpenEconomicDetails] = useState(false);
   const [sanitazedFamilyMembers, setSanitazedFamilyMembers] = useState([]);
   const [topics, setTopics] = useState([]);
+  const [questionsPerTopics, setQuestionsPerTopic] = useState([]);
 
   useEffect(() => {
     let cleanfamilyMembers = familyMembers.filter(
@@ -80,6 +81,7 @@ const Details = ({
   useEffect(() => {
     let currentDimension = '';
     let topicsFounded = [];
+    let groupedQuestions = [];
 
     !!survey &&
       survey.surveyEconomicQuestions.forEach(question => {
@@ -87,9 +89,14 @@ const Details = ({
           currentDimension = question.topic;
           topicsFounded.push(question.topic);
         }
+        const index = topicsFounded.length - 1;
+        groupedQuestions[index] = !!groupedQuestions[index]
+          ? [...groupedQuestions[index], question]
+          : [question];
       });
 
     setTopics(topicsFounded);
+    setQuestionsPerTopic(groupedQuestions);
   }, [survey]);
 
   return (
@@ -146,6 +153,8 @@ const Details = ({
           membersEconomicData={membersEconomicData}
           topics={topics}
           history={history}
+          questionsPerTopics={questionsPerTopics}
+          familyMembers={familyMembers}
         />
       </AccordionItem>
     </Accordion>
