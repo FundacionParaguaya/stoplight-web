@@ -34,7 +34,8 @@ const SummaryBarChart = ({
   skippedIndicatorCount,
   isAnimationActive,
   t,
-  width
+  width,
+  height
 }) => {
   const data = [
     {
@@ -46,7 +47,7 @@ const SummaryBarChart = ({
     }
   ];
   return (
-    <ResponsiveContainer width={width} height={240}>
+    <ResponsiveContainer width={width} height={!!height ? height : 240}>
       <BarChart
         data={data}
         barGap={35}
@@ -91,18 +92,20 @@ const SummaryBarChart = ({
             content={e => renderCustomizedLabel(e, t('views.dashboard.red'))}
           />
         </Bar>
-        <Bar
-          isAnimationActive={isAnimationActive}
-          dataKey="skipped"
-          fill={COLORS.LIGHT_GREY}
-        >
-          <LabelList
+        {skippedIndicatorCount !== 0 && (
+          <Bar
+            isAnimationActive={isAnimationActive}
             dataKey="skipped"
-            content={e =>
-              renderCustomizedLabel(e, t('views.dashboard.skipped'))
-            }
-          />
-        </Bar>
+            fill={COLORS.LIGHT_GREY}
+          >
+            <LabelList
+              dataKey="skipped"
+              content={e =>
+                renderCustomizedLabel(e, t('views.dashboard.skipped'))
+              }
+            />
+          </Bar>
+        )}
       </BarChart>
     </ResponsiveContainer>
   );

@@ -207,24 +207,29 @@ export class Overview extends Component {
         <TitleBar title={t('views.yourLifeMap')} progressBar />
         <Container className={classes.countersContainer}>
           <Container className={classes.containerInnerCounters}>
-            <SummaryDonut
-              greenIndicatorCount={this.state.greenIndicatorCount}
-              redIndicatorCount={this.state.redIndicatorCount}
-              yellowIndicatorCount={this.state.yellowIndicatorCount}
-              skippedIndicatorCount={this.state.skippedIndicatorCount}
-              isAnimationActive={false}
-              countingSection={false}
-              width="50%"
-              height={160}
-            />
-            <SummaryBarChart
-              greenIndicatorCount={this.state.greenIndicatorCount}
-              redIndicatorCount={this.state.redIndicatorCount}
-              yellowIndicatorCount={this.state.yellowIndicatorCount}
-              skippedIndicatorCount={this.state.skippedIndicatorCount}
-              isAnimationActive={false}
-              width="50%"
-            />
+            <Container className={classes.donutChartContainer}>
+              <SummaryDonut
+                greenIndicatorCount={this.state.greenIndicatorCount}
+                redIndicatorCount={this.state.redIndicatorCount}
+                yellowIndicatorCount={this.state.yellowIndicatorCount}
+                skippedIndicatorCount={this.state.skippedIndicatorCount}
+                isAnimationActive={false}
+                countingSection={false}
+                width="100%"
+                height={160}
+              />
+            </Container>
+            <Container className={classes.barChartContainer}>
+              <SummaryBarChart
+                greenIndicatorCount={this.state.greenIndicatorCount}
+                redIndicatorCount={this.state.redIndicatorCount}
+                yellowIndicatorCount={this.state.yellowIndicatorCount}
+                skippedIndicatorCount={this.state.skippedIndicatorCount}
+                isAnimationActive={false}
+                width="100%"
+                height={this.state.skippedIndicatorCount !== 0 ? 240 : 180}
+              />
+            </Container>
           </Container>
         </Container>
         <Container variant="stretch" ref={containerRef}>
@@ -296,6 +301,14 @@ const styles = theme => ({
   countersContainer: {
     paddingTop: '38px',
     paddingBottom: '16px',
+    backgroundColor: theme.palette.background.default
+  },
+  donutChartContainer: {
+    paddingRight: '15px',
+    backgroundColor: theme.palette.background.default
+  },
+  barChartContainer: {
+    paddingLeft: '15px',
     backgroundColor: theme.palette.background.default
   },
   containerInnerCounters: {
