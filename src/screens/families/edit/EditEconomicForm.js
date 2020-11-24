@@ -91,7 +91,8 @@ const EditEconomicForm = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { familyId, topic } = useParams();
+  let { familyId, topic } = useParams();
+  topic = topic.replace(/%2F/g, '/');
 
   const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState({
