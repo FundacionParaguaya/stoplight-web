@@ -193,24 +193,26 @@ const EconomicDetails = ({
                       <Typography variant="h6" className={classes.label}>
                         {`${answer.questionText}:`}
                       </Typography>
-                      {!!answer.text ? (
+                      {!!answer.text && (
                         <Typography variant="h6" className={classes.answer}>
                           {answer.text}
                         </Typography>
-                      ) : (
-                        <ul>
-                          {answer.multipleTextArray.map((answer, index) => (
-                            <Grid key={index}>
-                              <Typography
-                                variant="h6"
-                                className={classes.answer}
-                              >
-                                <li>{answer}</li>
-                              </Typography>
-                            </Grid>
-                          ))}
-                        </ul>
                       )}
+                      {!!answer.multipleTextArray &&
+                        answer.multipleTextArray.length > 0 && (
+                          <ul>
+                            {answer.multipleTextArray.map((answer, index) => (
+                              <Grid key={index}>
+                                <Typography
+                                  variant="h6"
+                                  className={classes.answer}
+                                >
+                                  <li>{answer}</li>
+                                </Typography>
+                              </Grid>
+                            ))}
+                          </ul>
+                        )}
                     </Grid>
                   ))}
 
@@ -250,29 +252,31 @@ const EconomicDetails = ({
                               >
                                 {`${answer.questionText}:`}
                               </Typography>
-                              {!!answer.text ? (
+                              {!!answer.text && (
                                 <Typography
                                   variant="h6"
                                   className={classes.answer}
                                 >
                                   {answer.text}
                                 </Typography>
-                              ) : (
-                                <ul>
-                                  {answer.multipleTextArray.map(
-                                    (answer, index) => (
-                                      <Grid key={index}>
-                                        <Typography
-                                          variant="h6"
-                                          className={classes.answer}
-                                        >
-                                          <li>{answer}</li>
-                                        </Typography>
-                                      </Grid>
-                                    )
-                                  )}
-                                </ul>
                               )}
+                              {!!answer.multipleTextArray &&
+                                answer.multipleTextArray.length > 0 && (
+                                  <ul>
+                                    {answer.multipleTextArray.map(
+                                      (answer, index) => (
+                                        <Grid key={index}>
+                                          <Typography
+                                            variant="h6"
+                                            className={classes.answer}
+                                          >
+                                            <li>{answer}</li>
+                                          </Typography>
+                                        </Grid>
+                                      )
+                                    )}
+                                  </ul>
+                                )}
                             </Grid>
                           ))}
                         </React.Fragment>
