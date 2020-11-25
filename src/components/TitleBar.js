@@ -148,7 +148,7 @@ const styles = theme => ({
     zIndex: 1,
     textAlign: 'center',
     [theme.breakpoints.down('xs')]: {
-      fontSize: 16,
+      fontSize: 24,
       lineHeight: 1.2
     }
   },
@@ -156,7 +156,8 @@ const styles = theme => ({
     height: '70%',
     objectFit: 'contain',
     [theme.breakpoints.down('xs')]: {
-      height: '50%'
+      height: '50%',
+      paddingTop: '20px'
     }
   },
   textContainer: {
