@@ -423,7 +423,7 @@ class Surveys extends Component {
 
     return (
       <div className={classes.mainSurveyContainerBoss}>
-        {this.state.loadingSurvey && (
+        {(this.state.loadingSurvey || this.state.loading) && (
           <div className={classes.loadingSurveyContainer}>
             <CircularProgress />
           </div>
@@ -452,27 +452,44 @@ class Surveys extends Component {
           </div>
           <div className={classes.listContainer}>
             <Grid container spacing={3}>
-              {!this.state.draftsLoading && (
-                <>
-                  {!isSurveyTaker && (
-                    <Grid item sm={4} xs={12}>
-                      <FamiliesOverviewBlock
-                        withDetail={false}
-                        subtitle={t('general.drafts')}
-                        familiesCount={this.state.draftsNumber}
-                        innerRef={this.heightSurveysRef}
-                        loading={this.state.draftsLoading}
-                      />
-                    </Grid>
-                  )}
-                  <Grid item sm={isSurveyTaker ? 12 : 8} xs={12}>
+              {this.state.isSurveyTaker && (
+                <Grid item sm={12} xs={12}>
+                  <SurveysList
+                    surveys={this.state.surveys}
+                    heightRef={this.heightSurveysRef}
+                    handleSurveyClick={this.handleClickOnSurvey}
+                  />
+                </Grid>
+              )}
+              {!this.state.isSurveyTaker && !this.state.draftsLoading && (
+                <React.Fragment>
+                  <Grid
+                    item
+                    sm={4}
+                    xs={12}
+                    className={classes.draftsTotalContainer}
+                  >
+                    <FamiliesOverviewBlock
+                      withDetail={false}
+                      subtitle={t('general.drafts')}
+                      familiesCount={this.state.draftsNumber}
+                      innerRef={this.heightSurveysRef}
+                      loading={this.state.draftsLoading}
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    sm={8}
+                    xs={12}
+                    className={classes.surveyListContainer}
+                  >
                     <SurveysList
                       surveys={this.state.surveys}
                       heightRef={this.heightSurveysRef}
                       handleSurveyClick={this.handleClickOnSurvey}
                     />
                   </Grid>
-                </>
+                </React.Fragment>
               )}
             </Grid>
           </div>
@@ -501,7 +518,22 @@ const styles = theme => ({
     height: 240,
     right: 30,
     position: 'absolute',
-    top: 20
+    top: 20,
+    [theme.breakpoints.down('540')]: {
+      right: 5,
+      width: 280,
+      height: 165
+    },
+    [theme.breakpoints.down('400')]: {
+      right: 5,
+      width: 200,
+      height: 120
+    },
+    [theme.breakpoints.down('350')]: {
+      right: 5,
+      width: 200,
+      height: 120
+    }
   },
   titleContainer: {
     display: 'flex',
@@ -513,7 +545,13 @@ const styles = theme => ({
     justifyContent: 'center',
     flexDirection: 'column',
     height: 220,
-    zIndex: 1
+    zIndex: 1,
+    [theme.breakpoints.down('540')]: {
+      height: 195
+    },
+    [theme.breakpoints.down('400')]: {
+      height: 164
+    }
   },
   familiesSpinner: {
     padding: `50px 0px`,
@@ -550,6 +588,18 @@ const styles = theme => ({
     bottom: 0,
     top: 0,
     left: 0
+  },
+  draftsTotalContainer: {
+    order: 2,
+    [theme.breakpoints.up('sm')]: {
+      order: 1
+    }
+  },
+  surveyListContainer: {
+    order: 1,
+    [theme.breakpoints.up('sm')]: {
+      order: 2
+    }
   }
 });
 
