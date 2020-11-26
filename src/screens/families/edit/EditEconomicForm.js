@@ -139,7 +139,7 @@ const EditEconomicForm = ({
     let selectedValues;
     let answers = !question.forFamilyMember
       ? draft.economicSurveyDataList
-      : draft.familyData.familyMembersList[memberIndex];
+      : draft.familyData.familyMembersList[memberIndex].socioEconomicAnswers;
     let answer = answers.find(ans => ans.key === key);
 
     if (otherQuestion) {
@@ -162,7 +162,7 @@ const EditEconomicForm = ({
       };
     }
 
-    if (hasOtherValue && !otherQuestion) {
+    if (hasOtherValue && !otherQuestion && !!answer) {
       newAnswer = {
         key,
         [keyName]: value,
@@ -289,7 +289,8 @@ const EditEconomicForm = ({
             ? memberAnswers.economic.map(question => ({
                 key: question.codeName,
                 value: question.value,
-                multipleValue: question.multipleValue
+                multipleValue: question.multipleValueArray,
+                other: question.other
               }))
             : [];
           member.socioEconomicAnswers = memberDraft;
@@ -300,7 +301,8 @@ const EditEconomicForm = ({
           key: question.codeName,
           value: question.value,
           multipleValue: question.multipleValueArray,
-          text: question.text
+          text: question.text,
+          other: question.other
         }));
         setSnapshotId(family.lastSnapshot);
         setDraft({
@@ -667,6 +669,14 @@ const EditEconomicForm = ({
                                         index
                                       );
                                     };
+                                    const cleanUpMultipleValue = () => {
+                                      updateEconomicAnswerCascading(
+                                        modifiedQuestion,
+                                        '',
+                                        setFieldValue,
+                                        index || 0
+                                      );
+                                    };
                                     if (
                                       !shouldShowQuestion(
                                         question,
@@ -736,12 +746,18 @@ const EditEconomicForm = ({
                                                     question.codeName
                                                   )}]`}
                                                   required
-                                                  onChange={e =>
-                                                    setFieldValue(
-                                                      `forFamilyMember.[${index}].[${question.codeName}].otherValue`,
-                                                      e
-                                                    )
-                                                  }
+                                                  onChange={e => {
+                                                    updateEconomicAnswerCascading(
+                                                      modifiedQuestion,
+                                                      _.get(
+                                                        e,
+                                                        'target.value',
+                                                        ''
+                                                      ),
+                                                      setFieldValue,
+                                                      index
+                                                    );
+                                                  }}
                                                 />
                                               )
                                             }
@@ -795,12 +811,18 @@ const EditEconomicForm = ({
                                                     question.codeName
                                                   )}]`}
                                                   required
-                                                  onChange={e =>
-                                                    setFieldValue(
-                                                      `forFamilyMember.[${index}].[${question.codeName}].otherValue`,
-                                                      e
-                                                    )
-                                                  }
+                                                  onChange={e => {
+                                                    updateEconomicAnswerCascading(
+                                                      modifiedQuestion,
+                                                      _.get(
+                                                        e,
+                                                        'target.value',
+                                                        ''
+                                                      ),
+                                                      setFieldValue,
+                                                      index
+                                                    );
+                                                  }}
                                                 />
                                               )
                                             }
@@ -810,25 +832,69 @@ const EditEconomicForm = ({
                                     }
                                     if (question.answerType === 'checkbox') {
                                       return (
-                                        <CheckboxWithFormik
-                                          key={question.codeName}
-                                          label={question.questionText}
-                                          name={`forFamilyMember.[${index}].[${question.codeName}]`}
-                                          rawOptions={getConditionalOptions(
-                                            question,
-                                            draft,
-                                            index
-                                          )}
-                                          required={question.required}
-                                          onChange={multipleValue =>
-                                            updateEconomicAnswerCascading(
+                                        <React.Fragment key={question.codeName}>
+                                          <CheckboxWithFormik
+                                            key={question.codeName}
+                                            label={question.questionText}
+                                            name={`forFamilyMember.[${index}].[${question.codeName}]`}
+                                            rawOptions={getConditionalOptions(
                                               question,
-                                              multipleValue,
-                                              setFieldValue,
+                                              draft,
                                               index
-                                            )
-                                          }
-                                        />
+                                            )}
+                                            required={question.required}
+                                            onChange={multipleValue =>
+                                              updateEconomicAnswerCascading(
+                                                question,
+                                                multipleValue,
+                                                setFieldValue,
+                                                index
+                                              )
+                                            }
+                                          />
+                                          <InputWithDep
+                                            key={`custom${capitalize(
+                                              question.codeName
+                                            )}`}
+                                            dep={question.codeName}
+                                            index={index || 0}
+                                            from={draft}
+                                            fieldOptions={question.options}
+                                            target={`custom${capitalize(
+                                              question.codeName
+                                            )}`}
+                                            isEconomic
+                                            isMultiValue
+                                            cleanUp={cleanUpMultipleValue}
+                                          >
+                                            {(otherOption, value) =>
+                                              otherOption === value && (
+                                                <InputWithFormik
+                                                  type="text"
+                                                  label={t(
+                                                    'views.survey.specifyOther'
+                                                  )}
+                                                  name={`forFamilyMember.[${index}].[custom${capitalize(
+                                                    question.codeName
+                                                  )}]`}
+                                                  required
+                                                  onChange={e => {
+                                                    updateEconomicAnswerCascading(
+                                                      modifiedQuestion,
+                                                      _.get(
+                                                        e,
+                                                        'target.value',
+                                                        ''
+                                                      ),
+                                                      setFieldValue,
+                                                      index
+                                                    );
+                                                  }}
+                                                />
+                                              )
+                                            }
+                                          </InputWithDep>
+                                        </React.Fragment>
                                       );
                                     }
                                     return (
