@@ -26,16 +26,22 @@ const titleStyles = muiTheme => ({
     bottom: '-10%',
     width: '35%',
     [muiTheme.breakpoints.down('md')]: {
-      bottom: '50%',
       transform: 'translateY(50%)',
-      width: '60%',
+      width: '33%',
+      right: '10%',
       zIndex: 0
     },
     [muiTheme.breakpoints.down('xs')]: {
-      bottom: '25%',
+      bottom: '40%',
       left: '58%',
       transform: 'translateY(50%)',
-      width: '60%',
+      width: '35%',
+      zIndex: 0
+    },
+    [muiTheme.breakpoints.down('xl')]: {
+      bottom: '50%',
+      transform: 'translateY(50%)',
+      width: '35%',
       zIndex: 0
     }
   },
