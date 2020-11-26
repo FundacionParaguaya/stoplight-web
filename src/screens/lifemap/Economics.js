@@ -134,15 +134,14 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
       ) || {};
 
     if (question.options.find(o => o.otherOption)) {
-      forFamilyInitial[
-        `custom${capitalize(question.codeName)}`
-      ] = Object.prototype.hasOwnProperty.call(draftQuestion, 'other')
-        ? draftQuestion.other
-        : '';
+      forFamilyInitial[`custom${capitalize(question.codeName)}`] =
+        draftQuestion.hasOwnProperty('other') && !!draftQuestion.other
+          ? draftQuestion.other
+          : '';
     }
 
     forFamilyInitial[question.codeName] =
-      (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+      (draftQuestion.hasOwnProperty('value') && !!draftQuestion.value
         ? draftQuestion.value
         : draftQuestion.multipleValue) || '';
   });
@@ -161,8 +160,14 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
       const draftQuestion =
         socioEconomicAnswers.find(e => e.key === question.codeName) || {};
 
+      if (question.options.find(o => o.otherOption)) {
+        memberInitial[`custom${capitalize(question.codeName)}`] =
+          draftQuestion.hasOwnProperty('other') && !!draftQuestion.other
+            ? draftQuestion.other
+            : '';
+      }
       memberInitial[question.codeName] =
-        (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+        (draftQuestion.hasOwnProperty('value') && !!draftQuestion.value
           ? draftQuestion.value
           : draftQuestion.multipleValue) || '';
     });
@@ -297,7 +302,7 @@ export class Economics extends Component {
     let hasOtherValue;
     if (Array.isArray(value)) {
       keyName = 'multipleValue';
-      hasOtherValue = !!value.find(o => o.otherOption);
+      hasOtherValue = !!question.options.find(o => o.otherOption);
     }
     let newAnswer = {
       key,
@@ -307,9 +312,9 @@ export class Economics extends Component {
     let selectedValues;
     let answers = !question.forFamilyMember
       ? draftFromProps.economicSurveyDataList
-      : draftFromProps.familyData.familyMembersList[memberIndex];
-    let answer;
-
+      : draftFromProps.familyData.familyMembersList[memberIndex]
+          .socioEconomicAnswers;
+    let answer = (answers || []).find(ans => ans.key === key);
     if (otherQuestion) {
       key = _.camelCase(question.codeName.replace(/^custom/g, ''));
 
@@ -329,7 +334,7 @@ export class Economics extends Component {
       };
     }
 
-    if (hasOtherValue && !otherQuestion) {
+    if (hasOtherValue && !otherQuestion && !!answer) {
       newAnswer = {
         key,
         [keyName]: value,
@@ -482,14 +487,11 @@ export class Economics extends Component {
                         };
 
                         const cleanUpMultipleValue = () => {
-                          const thiz = this;
-                          setTimeout(function() {
-                            thiz.updateEconomicAnswerCascading(
-                              modifiedQuestion,
-                              '',
-                              setFieldValue
-                            );
-                          }, 1);
+                          this.updateEconomicAnswerCascading(
+                            modifiedQuestion,
+                            '',
+                            setFieldValue
+                          );
                         };
 
                         if (!shouldShowQuestion(question, currentDraft)) {
@@ -741,6 +743,14 @@ export class Economics extends Component {
                                           index
                                         );
                                       };
+                                      const cleanUpMultipleValue = () => {
+                                        this.updateEconomicAnswerCascading(
+                                          modifiedQuestion,
+                                          '',
+                                          setFieldValue,
+                                          index || 0
+                                        );
+                                      };
                                       if (
                                         !shouldShowQuestion(
                                           question,
@@ -924,10 +934,11 @@ export class Economics extends Component {
                                               from={currentDraft}
                                               fieldOptions={question.options}
                                               isEconomic
+                                              isMultiValue
                                               target={`forFamilyMember.[${index}].[custom${capitalize(
                                                 question.codeName
                                               )}]`}
-                                              cleanUp={cleanUp}
+                                              cleanUp={cleanUpMultipleValue}
                                             >
                                               {(otherOption, value) =>
                                                 otherOption === value && (
