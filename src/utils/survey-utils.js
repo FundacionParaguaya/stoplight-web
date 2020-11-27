@@ -213,7 +213,9 @@ export const buildInitialValuesForForm = (questions, draft) => {
 
     if (hasOtherOption) {
       forFamilyInitial[`custom${capitalize(question.codeName)}`] =
-        draftQuestion.value === hasOtherOption.value ? draftQuestion.text : '';
+        draftQuestion.hasOwnProperty('other') && !!draftQuestion.other
+          ? draftQuestion.other
+          : '';
     }
 
     forFamilyInitial[question.codeName] =
@@ -234,6 +236,13 @@ export const buildInitialValuesForForm = (questions, draft) => {
     familyMemberQuestions.forEach(question => {
       const draftQuestion =
         socioEconomicAnswers.find(e => e.key === question.codeName) || {};
+
+      if (question.options.find(o => o.otherOption)) {
+        memberInitial[`custom${capitalize(question.codeName)}`] =
+          draftQuestion.hasOwnProperty('other') && !!draftQuestion.other
+            ? draftQuestion.other
+            : '';
+      }
 
       memberInitial[question.codeName] =
         (Object.prototype.hasOwnProperty.call(draftQuestion, 'value') &&

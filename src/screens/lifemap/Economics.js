@@ -134,15 +134,14 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
       ) || {};
 
     if (question.options.find(o => o.otherOption)) {
-      forFamilyInitial[
-        `custom${capitalize(question.codeName)}`
-      ] = Object.prototype.hasOwnProperty.call(draftQuestion, 'other')
-        ? draftQuestion.other
-        : '';
+      forFamilyInitial[`custom${capitalize(question.codeName)}`] =
+        draftQuestion.hasOwnProperty('other') && !!draftQuestion.other
+          ? draftQuestion.other
+          : '';
     }
 
     forFamilyInitial[question.codeName] =
-      (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+      (draftQuestion.hasOwnProperty('value') && !!draftQuestion.value
         ? draftQuestion.value
         : draftQuestion.multipleValue) || '';
   });
@@ -161,8 +160,14 @@ const buildInitialValuesForForm = (questions, currentDraft) => {
       const draftQuestion =
         socioEconomicAnswers.find(e => e.key === question.codeName) || {};
 
+      if (question.options.find(o => o.otherOption)) {
+        memberInitial[`custom${capitalize(question.codeName)}`] =
+          draftQuestion.hasOwnProperty('other') && !!draftQuestion.other
+            ? draftQuestion.other
+            : '';
+      }
       memberInitial[question.codeName] =
-        (Object.prototype.hasOwnProperty.call(draftQuestion, 'value')
+        (draftQuestion.hasOwnProperty('value') && !!draftQuestion.value
           ? draftQuestion.value
           : draftQuestion.multipleValue) || '';
     });
@@ -288,23 +293,52 @@ export class Economics extends Component {
       elementsWithConditionsOnThem: { questionsWithConditionsOnThem }
     } = currentSurvey;
 
-    const hasOtherOption = question.codeName.match(/^custom/g);
+    const otherQuestion = question.codeName.match(/^custom/g);
 
     // We get a draft with updated answer
     let key = question.codeName;
     let currentDraft;
-    const keyName = !Array.isArray(value) ? 'value' : 'multipleValue';
+    let keyName = 'value';
+    let hasOtherValue;
+    if (Array.isArray(value)) {
+      keyName = 'multipleValue';
+      hasOtherValue = !!question.options.find(o => o.otherOption);
+    }
     let newAnswer = {
       key,
       [keyName]: value
     };
 
-    if (hasOtherOption) {
+    let selectedValues;
+    let answers = !question.forFamilyMember
+      ? draftFromProps.economicSurveyDataList
+      : draftFromProps.familyData.familyMembersList[memberIndex]
+          .socioEconomicAnswers;
+    let answer = (answers || []).find(ans => ans.key === key);
+    if (otherQuestion) {
       key = _.camelCase(question.codeName.replace(/^custom/g, ''));
+
+      answer = answers.find(ans => ans.key === key);
+      if (question.answerType === 'checkbox') {
+        selectedValues = !!answer ? answer.multipleValue : [];
+      } else {
+        selectedValues = question.options.find(o => o.otherOption).value;
+      }
+
+      keyName = !Array.isArray(selectedValues) ? 'value' : 'multipleValue';
+
       newAnswer = {
         key,
-        [keyName]: question.options.find(o => o.otherOption).value,
+        [keyName]: selectedValues,
         other: value
+      };
+    }
+
+    if (hasOtherValue && !otherQuestion && !!answer) {
+      newAnswer = {
+        key,
+        [keyName]: value,
+        other: answer.other
       };
     }
 
@@ -452,6 +486,14 @@ export class Economics extends Component {
                           );
                         };
 
+                        const cleanUpMultipleValue = () => {
+                          this.updateEconomicAnswerCascading(
+                            modifiedQuestion,
+                            '',
+                            setFieldValue
+                          );
+                        };
+
                         if (!shouldShowQuestion(question, currentDraft)) {
                           return <React.Fragment key={question.codeName} />;
                         }
@@ -572,23 +614,59 @@ export class Economics extends Component {
                         }
                         if (question.answerType === 'checkbox') {
                           return (
-                            <CheckboxWithFormik
-                              key={question.codeName}
-                              label={question.questionText}
-                              rawOptions={getConditionalOptions(
-                                question,
-                                currentDraft
-                              )}
-                              name={`forFamily.[${question.codeName}]`}
-                              required={question.required}
-                              onChange={multipleValue => {
-                                this.updateEconomicAnswerCascading(
+                            <React.Fragment key={question.codeName}>
+                              <CheckboxWithFormik
+                                key={question.codeName}
+                                label={question.questionText}
+                                rawOptions={getConditionalOptions(
                                   question,
-                                  multipleValue,
-                                  setFieldValue
-                                );
-                              }}
-                            />
+                                  currentDraft
+                                )}
+                                name={`forFamily.[${question.codeName}]`}
+                                required={question.required}
+                                onChange={multipleValue => {
+                                  this.updateEconomicAnswerCascading(
+                                    question,
+                                    multipleValue,
+                                    setFieldValue
+                                  );
+                                }}
+                              />
+                              <InputWithDep
+                                key={`custom${capitalize(question.codeName)}`}
+                                dep={question.codeName}
+                                from={currentDraft}
+                                fieldOptions={question.options}
+                                target={`custom${capitalize(
+                                  question.codeName
+                                )}`}
+                                isEconomic
+                                isMultiValue
+                                cleanUp={cleanUpMultipleValue}
+                              >
+                                {(otherOption, value) =>
+                                  otherOption === value && (
+                                    <InputWithFormik
+                                      key={`custom${capitalize(
+                                        question.codeName
+                                      )}`}
+                                      type="text"
+                                      label={t('views.survey.specifyOther')}
+                                      name={`forFamily.custom${capitalize(
+                                        question.codeName
+                                      )}`}
+                                      onChange={e => {
+                                        this.updateEconomicAnswerCascading(
+                                          modifiedQuestion,
+                                          _.get(e, 'target.value', ''),
+                                          setFieldValue
+                                        );
+                                      }}
+                                    />
+                                  )
+                                }
+                              </InputWithDep>
+                            </React.Fragment>
                           );
                         }
                         return (
@@ -663,6 +741,14 @@ export class Economics extends Component {
                                           value,
                                           setFieldValue,
                                           index
+                                        );
+                                      };
+                                      const cleanUpMultipleValue = () => {
+                                        this.updateEconomicAnswerCascading(
+                                          modifiedQuestion,
+                                          '',
+                                          setFieldValue,
+                                          index || 0
                                         );
                                       };
                                       if (
@@ -817,25 +903,71 @@ export class Economics extends Component {
                                       }
                                       if (question.answerType === 'checkbox') {
                                         return (
-                                          <CheckboxWithFormik
+                                          <React.Fragment
                                             key={question.codeName}
-                                            label={question.questionText}
-                                            name={`forFamilyMember.[${index}].[${question.codeName}]`}
-                                            rawOptions={getConditionalOptions(
-                                              question,
-                                              currentDraft,
-                                              index
-                                            )}
-                                            required={question.required}
-                                            onChange={multipleValue =>
-                                              this.updateEconomicAnswerCascading(
+                                          >
+                                            <CheckboxWithFormik
+                                              key={question.codeName}
+                                              label={question.questionText}
+                                              name={`forFamilyMember.[${index}].[${question.codeName}]`}
+                                              rawOptions={getConditionalOptions(
                                                 question,
-                                                multipleValue,
-                                                setFieldValue,
+                                                currentDraft,
                                                 index
-                                              )
-                                            }
-                                          />
+                                              )}
+                                              required={question.required}
+                                              onChange={multipleValue =>
+                                                this.updateEconomicAnswerCascading(
+                                                  question,
+                                                  multipleValue,
+                                                  setFieldValue,
+                                                  index
+                                                )
+                                              }
+                                            />
+                                            <InputWithDep
+                                              key={`custom${capitalize(
+                                                question.codeName
+                                              )}`}
+                                              dep={question.codeName}
+                                              index={index || 0}
+                                              from={currentDraft}
+                                              fieldOptions={question.options}
+                                              isEconomic
+                                              isMultiValue
+                                              target={`forFamilyMember.[${index}].[custom${capitalize(
+                                                question.codeName
+                                              )}]`}
+                                              cleanUp={cleanUpMultipleValue}
+                                            >
+                                              {(otherOption, value) =>
+                                                otherOption === value && (
+                                                  <InputWithFormik
+                                                    type="text"
+                                                    label={t(
+                                                      'views.survey.specifyOther'
+                                                    )}
+                                                    name={`forFamilyMember.[${index}].[custom${capitalize(
+                                                      question.codeName
+                                                    )}]`}
+                                                    required
+                                                    onChange={e => {
+                                                      this.updateEconomicAnswerCascading(
+                                                        modifiedQuestion,
+                                                        _.get(
+                                                          e,
+                                                          'target.value',
+                                                          ''
+                                                        ),
+                                                        setFieldValue,
+                                                        index
+                                                      );
+                                                    }}
+                                                  />
+                                                )
+                                              }
+                                            </InputWithDep>
+                                          </React.Fragment>
                                         );
                                       }
                                       return (
