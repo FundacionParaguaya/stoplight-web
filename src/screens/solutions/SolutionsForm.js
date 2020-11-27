@@ -331,7 +331,8 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
       setLoading(true);
       getSolutionById(user, id)
         .then(res => {
-          if (!canEdit(solution)) throw new Error();
+          const fetchedSolution = res.data.data.getSolutionById;
+          if (!canEdit(fetchedSolution)) throw new Error();
           getSolutionTypes(user, language).then(response => {
             const typeOptions = _.get(
               response,
@@ -345,7 +346,6 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
               require(`localized-countries/data/${language}`)
             ).array();
 
-            const fetchedSolution = res.data.data.getSolutionById;
             const updatedSolution = {
               ...fetchedSolution,
               dimension: {
@@ -386,7 +386,8 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
             setLoading(false);
           });
         })
-        .catch(() => {
+        .catch(e => {
+          console.error(e);
           enqueueSnackbar(t('views.solutions.form.userNotAllowed'), {
             variant: 'error',
             action: key => (
