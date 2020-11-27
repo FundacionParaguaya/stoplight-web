@@ -14,7 +14,10 @@ const titleStyles = muiTheme => ({
   title: {
     position: 'relative',
     top: '55%',
-    zIndex: 1
+    zIndex: 1,
+    [muiTheme.breakpoints.down('xs')]: {
+      width: '150px'
+    }
   },
   termsCheckboxImage: {
     margin: 'auto',
@@ -22,10 +25,23 @@ const titleStyles = muiTheme => ({
     right: 0,
     bottom: '-10%',
     width: '35%',
-    [muiTheme.breakpoints.down('sm')]: {
+    [muiTheme.breakpoints.down('md')]: {
+      transform: 'translateY(50%)',
+      width: '33%',
+      right: '10%',
+      zIndex: 0
+    },
+    [muiTheme.breakpoints.down('xs')]: {
+      bottom: '40%',
+      left: '58%',
+      transform: 'translateY(50%)',
+      width: '35%',
+      zIndex: 0
+    },
+    [muiTheme.breakpoints.down('xl')]: {
       bottom: '50%',
       transform: 'translateY(50%)',
-      width: '60%',
+      width: '35%',
       zIndex: 0
     }
   },
