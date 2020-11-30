@@ -72,6 +72,7 @@
       "continue": "Continue"
     },
     "toolbar": {
+      "dashboard": "Dashboard",
       "surveys": "Surveys",
       "surveysList": "Surveys",
       "analytics": "Analytics",
