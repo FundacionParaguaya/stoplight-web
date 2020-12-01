@@ -69,20 +69,12 @@ const useStyles = makeStyles(theme => ({
   menuLinkSolutions: {
     display: 'flex',
     justifyContent: 'flex-end',
-    flexDirection: 'column',
+    alignItems: 'center',
+    flexDirection: 'row',
     paddingLeft: 14,
     paddingRight: 14,
     textDecoration: 'none',
-    borderBottom: '4px solid transparent',
-
-    [theme.breakpoints.up('md')]: {
-      justifyContent: 'flex-end',
-      flexDirection: 'column'
-    },
-    [theme.breakpoints.down('md')]: {
-      alignItems: 'center',
-      flexDirection: 'row'
-    }
+    borderBottom: '4px solid transparent'
   },
   extraButtons: {
     marginLeft: 'auto',
@@ -126,6 +118,7 @@ const useStyles = makeStyles(theme => ({
   },
   extraButton: {
     backgroundColor: theme.palette.background.default,
+    textDecoration: 'none',
     '&:hover': {
       backgroundColor: theme.palette.background.default
     },
