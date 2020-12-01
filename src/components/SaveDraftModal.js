@@ -90,7 +90,8 @@ const SaveDraftModal = props => {
 
 const styles = theme => ({
   mainContainer: {
-    width: 470,
+    width: '80vw',
+    maxWidth: 470,
     backgroundColor: theme.palette.background.default,
     outline: 'none',
     position: 'absolute',
@@ -120,7 +121,11 @@ const styles = theme => ({
     textAlign: 'center',
     marginBottom: theme.spacing(1.5),
     color: '#6A6A6A',
-    fontSize: '24px'
+    fontSize: '24px',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 18,
+      lineHeight: 1.2
+    }
   },
   subtitle: {
     textAlign: 'center',

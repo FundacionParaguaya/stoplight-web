@@ -70,7 +70,8 @@ LeaveModal.defaultProps = {
 
 const styles = theme => ({
   leaveModal: {
-    width: 370,
+    width: '80vw',
+    maxWidth: 370,
     height: 330,
     backgroundColor: theme.palette.background.default,
     outline: 'none',
@@ -97,7 +98,11 @@ const styles = theme => ({
     justifyContent: 'space-around'
   },
   leaveModalTitle: {
-    textAlign: 'center'
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 18,
+      lineHeight: 1.2
+    }
   },
   leaveModalSubtitle: {
     textAlign: 'center'
