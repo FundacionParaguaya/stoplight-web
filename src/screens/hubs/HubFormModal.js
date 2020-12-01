@@ -160,9 +160,8 @@ const HubFormModal = ({
   });
 
   const onSubmit = values => {
-    values.labels = [];
     let sanitazedValues = values;
-    addOrUpdateHub(user, { ...sanitazedValues, file })
+    addOrUpdateHub(user, { ...hub, ...sanitazedValues, file })
       .then(() => {
         onClose(true);
         enqueueSnackbar(t('views.hub.form.save.success'), {
