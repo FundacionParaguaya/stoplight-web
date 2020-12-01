@@ -69,7 +69,13 @@ const SkippedIndicator = props => {
 
 const styles = theme => ({
   skippedQuestionsImg: {
-    height: '240px'
+    width: 350,
+    marginTop: 40,
+    marginBottom: 30,
+    alignSelf: 'center',
+    [theme.breakpoints.down('500')]: {
+      width: 285
+    }
   },
   imgContainer: {
     marginTop: theme.spacing(6),
