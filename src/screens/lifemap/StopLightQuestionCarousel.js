@@ -27,8 +27,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 20,
     height: '100%',
     minHeight: 530,
-    minWidth: 260,
-    width: 320,
+    width: '90%',
     boxShadow: `1px 2px 5px ${theme.palette.grey.main}`
   },
   description: {
@@ -89,6 +88,18 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '50%',
     justifyContent: 'center',
     alignItems: 'flex-start'
+  },
+  loadingContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%'
+  },
+  circularProgress: {
+    color: 'white',
+    height: 240,
+    position: 'absolute',
+    top: '50%'
   }
 }));
 
@@ -162,7 +173,6 @@ const StopLightQuestionCarousel = ({
     <div className={classes.container}>
       <Slider nextArrow={<NextArrow />} prevArrow={<PrevArrow />} {...settings}>
         {questions.map((question, index) => {
-          console.log(question);
           let color;
           let textColor = 'white';
           if (question.value === 3) {

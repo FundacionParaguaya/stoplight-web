@@ -316,7 +316,7 @@ const styles = theme => ({
   bottomContainer: {
     width: '100%',
     display: 'flex',
-    paddingLeft: 22
+    paddingLeft: 28
   },
   icon: {
     color: 'green',
