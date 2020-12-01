@@ -52,7 +52,11 @@ const styles = theme => ({
     marginRight: theme.spacing(4) - 8,
     marginTop: theme.spacing(4)
   },
-  saveButtonStyle: { marginTop: theme.spacing(6) },
+  saveButtonStyle: {
+    height: 'fit-content',
+    minHeight: 38,
+    marginTop: theme.spacing(6)
+  },
   leftIcon: {
     marginRight: theme.spacing(),
     fontSize: 20
