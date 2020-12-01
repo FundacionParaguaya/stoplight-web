@@ -530,7 +530,8 @@ const styles = theme => ({
     marginBottom: 20
   },
   infoModal: {
-    width: 500,
+    width: '80vw',
+    maxWidth: 500,
     maxHeight: 500,
     backgroundColor: '#fff',
     position: 'absolute',
@@ -541,7 +542,10 @@ const styles = theme => ({
     padding: theme.spacing(6),
     display: 'flex',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(3)
+    }
   },
   closeModalIcon: {
     alignSelf: 'flex-end'
@@ -549,7 +553,9 @@ const styles = theme => ({
   innerContainer: {
     height: '100%',
     width: '100%',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    textAlign: 'justify',
+    paddingRight: 10
   },
   playerContainer: {
     display: 'flex',

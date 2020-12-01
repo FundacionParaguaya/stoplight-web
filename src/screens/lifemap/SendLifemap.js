@@ -25,14 +25,22 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     textAlign: 'center',
-    marginTop: theme.spacing(6)
+    marginTop: theme.spacing(6),
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 18,
+      lineHeight: 1.2
+    }
   },
   chooseOption: {
     display: 'flex',
     justifyContent: 'center',
     textAlign: 'center',
     width: '65%',
-    margin: 'auto'
+    margin: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 18,
+      lineHeight: 1.2
+    }
   },
   saveButtonContainer: {
     display: 'flex',
@@ -44,7 +52,11 @@ const styles = theme => ({
     marginRight: theme.spacing(4) - 8,
     marginTop: theme.spacing(4)
   },
-  saveButtonStyle: { marginTop: theme.spacing(6) },
+  saveButtonStyle: {
+    height: 'fit-content',
+    minHeight: 38,
+    marginTop: theme.spacing(6)
+  },
   leftIcon: {
     marginRight: theme.spacing(),
     fontSize: 20
@@ -63,16 +75,6 @@ const styles = theme => ({
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center'
-  },
-  beginStopLightImage: {
-    marginTop: 40,
-    marginBottom: 80,
-    height: '15rem'
-  },
-  imageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
   }
 });
 

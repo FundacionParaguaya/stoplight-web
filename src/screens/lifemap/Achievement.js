@@ -138,20 +138,20 @@ class Achievements extends Component {
                 )}
               </React.Fragment>
             </div>
-            <div className={classes.answeredQuestion}>
-              <i
-                style={{
-                  backgroundColor: color
-                }}
-                className={`${classes.icon} material-icons`}
-              >
-                done
-              </i>
-            </div>
             <div
               className={classes.paragraphContainer}
               style={{ backgroundColor: color }}
             >
+              <div className={classes.answeredQuestion}>
+                <i
+                  style={{
+                    backgroundColor: color
+                  }}
+                  className={`${classes.icon} material-icons`}
+                >
+                  done
+                </i>
+              </div>
               <div className={classes.editContainer}>
                 <EditIcon className={classes.editIcon} />
               </div>
@@ -261,9 +261,13 @@ const styles = theme => ({
     alignItems: 'center',
     position: 'absolute',
     top: '50%',
-    left: '50%',
+    left: '0%',
     transform: 'translate(-50%,-50%)',
-    zIndex: 1
+    zIndex: 1,
+    [theme.breakpoints.down('xs')]: {
+      top: '0%',
+      left: '50%'
+    }
   },
   pinAndPriority: {
     marginTop: '40px',
@@ -276,14 +280,21 @@ const styles = theme => ({
     width: '100%',
     height: '307px',
     minHeight: '100%',
-    objectFit: 'cover'
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      height: 185
+    }
   },
   paragraphContainer: {
+    position: 'relative',
     margin: '0px',
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    minHeight: '307px'
+    minHeight: '307px',
+    [theme.breakpoints.down('xs')]: {
+      minHeight: 185
+    }
   },
   paragraphTypography: {
     fontSize: 16,
@@ -309,8 +320,5 @@ const styles = theme => ({
   }
 });
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withTranslation()(Achievements))
+  connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Achievements))
 );
