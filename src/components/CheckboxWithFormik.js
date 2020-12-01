@@ -56,7 +56,8 @@ const CheckboxWithFormik = ({
         {rawOptions.map(option => (
           <Grid
             item
-            xs={4}
+            xs={6}
+            sm={4}
             key={option.value}
             className={classes.gridCentering}
           >
