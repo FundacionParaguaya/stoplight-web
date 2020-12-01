@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import beginLifemap from '../../assets/begin_lifemap.png';
 import BottomSpacer from '../../components/BottomSpacer';
@@ -30,8 +30,6 @@ export class Begin extends Component {
       stoplightSkipped: true
     });
     if (this.props.currentSurvey.surveyConfig.pictureSupport) {
-      //TODO Push to Picture
-      console.log('Redirect to pictures view');
       this.props.history.push('/lifemap/upload-pictures');
     } else if (this.props.currentSurvey.surveyConfig.signSupport) {
       this.props.history.push('/lifemap/sign');
@@ -61,7 +59,7 @@ export class Begin extends Component {
           variant="stretch"
           className={classes.BeginStopLightContainer}
         >
-          <Typography variant="h5" className={classes.StopLightTitleContainer}>
+          <Typography variant="h5" className={classes.stopLightTitleContainer}>
             {stoplightOptional
               ? t('views.lifemap.thisLifeMapHasNoStoplight').replace(
                   '%n',
@@ -75,16 +73,9 @@ export class Begin extends Component {
             alt=""
           />
 
-          <div className={classes.buttonContainerForm}>
-            {/* <div style={{ display: 'flex', flex: 1 }}></div> */}
-            <div
-              style={{
-                display: 'flex',
-                flex: 1,
-                justifyContent: 'space-evenly'
-              }}
-            >
-              {stoplightOptional && (
+          <Grid container spacing={2} className={classes.buttonContainerForm}>
+            {stoplightOptional && (
+              <Grid item md={6} xs={12} container justify="center">
                 <Button
                   variant="outlined"
                   color="primary"
@@ -93,7 +84,9 @@ export class Begin extends Component {
                 >
                   {t('general.closeAndSign')}
                 </Button>
-              )}
+              </Grid>
+            )}
+            <Grid item md={6} xs={12} container justify="center">
               <Button
                 variant="contained"
                 color="primary"
@@ -104,8 +97,8 @@ export class Begin extends Component {
                   ? t('general.completeStoplight')
                   : t('general.continue')}
               </Button>
-            </div>
-          </div>
+            </Grid>
+          </Grid>
           <BottomSpacer />
         </Container>
       </div>
@@ -121,10 +114,10 @@ const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
 
 const styles = theme => ({
   buttonContainerForm: {
-    display: 'flex',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
     justifyContent: 'space-evenly',
+    flex: 1,
     width: '100%'
   },
   BeginStopLightContainer: {
@@ -132,21 +125,33 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
-  StopLightTitleContainer: {
+  stopLightTitleContainer: {
     width: '50%',
     margin: '50px auto 0 auto',
-    textAlign: 'center'
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 18,
+      lineHeight: 1.2
+    }
   },
   beginStopLightImage: {
     marginTop: 40,
     marginBottom: 80,
     position: 'relative',
-    left: -10
+    left: -10,
+    [theme.breakpoints.down('md')]: {
+      width: 400,
+      marginTop: 20,
+      marginBottom: 50
+    },
+    [theme.breakpoints.down('500')]: {
+      width: 300
+    }
   },
   labelGreenRight: {
     marginRight: 20,
     fontSize: 16,
-    color: '#309E43',
+    color: theme.palette.primary.dark,
     paddingLeft: '3rem',
     textAlign: 'right'
   }

@@ -264,7 +264,13 @@ const styles = theme => ({
   beginStopLightImage: {
     marginTop: 40,
     marginBottom: 80,
-    height: '15rem'
+    height: '15rem',
+    [theme.breakpoints.down('md')]: {
+      height: '10rem',
+      width: 400,
+      marginTop: 20,
+      marginBottom: 25
+    }
   },
   imageContainer: {
     display: 'flex',
