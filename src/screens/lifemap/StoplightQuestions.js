@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography, Modal, Box } from '@material-ui/core';
+import { Grid, Typography, Modal, Box } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
@@ -214,16 +214,10 @@ class StoplightQuestions extends Component {
               })}
             />
           )}
-
-          <div
+          <Grid
+            container
             className={classes.bottomContainer}
-            style={{
-              justifyContent:
-                question.definition || user.interative_help
-                  ? 'space-between'
-                  : 'flex-end',
-              alignItems: 'center'
-            }}
+            justify={'space-between'}
           >
             <div
               style={{
@@ -239,7 +233,6 @@ class StoplightQuestions extends Component {
                   info
                 </i>
               )}
-
               {user.interative_help && question && question.questionAudio && (
                 <React.Fragment>
                   <div style={{ width: '300px' }}>
@@ -255,7 +248,14 @@ class StoplightQuestions extends Component {
                 </React.Fragment>
               )}
             </div>
-            {question && !question.required && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                paddingLeft: 2,
+                paddingRight: 1
+              }}
+            >
               <span>
                 <Button
                   style={{
@@ -268,8 +268,8 @@ class StoplightQuestions extends Component {
                   {t('views.lifemap.skipThisQuestion')}
                 </Button>
               </span>
-            )}
-          </div>
+            </div>
+          </Grid>
           <Modal
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
