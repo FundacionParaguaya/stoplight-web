@@ -16,9 +16,19 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '2rem',
     paddingBottom: '2rem',
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    '& div > div > div:nth-child(1)': {
+      display: 'flex'
+    },
+    '& div > div > div:nth-child(2)': {
+      display: 'flex'
+    },
+    '& div > div > div:nth-child(3)': {
+      display: 'flex'
+    }
   },
   questionCard: {
+    display: 'block!important',
     backgroundColor: theme.palette.background.default,
     cursor: 'pointer',
     marginTop: 15,
@@ -26,7 +36,6 @@ const useStyles = makeStyles(theme => ({
     marginRight: 20,
     marginLeft: 20,
     height: '100%',
-    minHeight: 530,
     width: '90%',
     boxShadow: `1px 2px 5px ${theme.palette.grey.main}`
   },
