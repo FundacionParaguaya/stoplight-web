@@ -1,210 +1,16 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
-import { Typography, Grid, Modal, Box } from '@material-ui/core';
+import { Grid, Typography, Modal, Box } from '@material-ui/core';
 import TitleBar from '../../components/TitleBar';
 import { updateDraft } from '../../redux/actions';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
-import { COLORS } from '../../theme';
 import AudioHelp from '../../components/AudioHelp';
+import StopLightQuestionCarousel from './StopLightQuestionCarousel';
 
-const questionsWrapperStyles = {
-  questionContainer: {
-    cursor: 'pointer',
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: 20
-  },
-  questionImage: {
-    objectFit: 'cover',
-    width: '100%',
-    position: 'absolute',
-    top: 0
-  },
-  answeredQuestion: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    top: '-36px',
-    left: '50%',
-    transform: 'translate(-50%,0)',
-    zIndex: -1
-  },
-  questionDescription: {
-    position: 'relative',
-    zIndex: 22,
-    margin: 0,
-    textAlign: 'center',
-    color: 'white',
-    padding: '30px 20px',
-    height: '100%'
-  },
-  loadingContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%'
-  },
-  innerContainer: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden'
-  },
-  answeredIcon: {
-    color: 'white',
-    paddingTop: '3px',
-    fontSize: 39,
-    height: 70,
-    width: 70,
-    margin: 'auto',
-    display: 'flex',
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  },
-  imageContainer: {
-    position: 'relative'
-  },
-  circularProgress: {
-    color: 'white',
-    height: 240,
-    position: 'absolute',
-    top: '50%'
-  }
-};
-
-let QuestionsWrapper = ({
-  question,
-  answeredValue,
-  classes,
-  submitQuestion,
-  handleImageLoaded,
-  imageStatus,
-  setAspectRatio,
-  aspectRatio
-}) => {
-  const [showIcon, setShowIcon] = useState(0);
-  let sortedQuestions;
-
-  if (question) {
-    sortedQuestions = question.stoplightColors;
-    sortedQuestions.sort((a, b) => {
-      return b.value - a.value;
-    });
-  }
-
-  const handleLoad = e => {
-    const { width, height } = e.target;
-    setAspectRatio(width / height);
-    handleImageLoaded(e);
-  };
-
-  const getPaddingBottom = a => {
-    const paddingBottom = a !== null ? 100 / a : null;
-    return { paddingBottom: `${paddingBottom}%` };
-  };
-
-  return (
-    <Grid container spacing={2}>
-      {question &&
-        sortedQuestions.map(e => {
-          let color;
-          let textColor = 'white';
-          if (e.value === 3) {
-            color = COLORS.GREEN;
-          } else if (e.value === 2) {
-            color = COLORS.YELLOW;
-            textColor = 'black';
-          } else if (e.value === 1) {
-            color = COLORS.RED;
-          }
-
-          return (
-            <Grid
-              item
-              key={e.value}
-              onClick={() => submitQuestion(e.value)}
-              test-id={`stoplight-question-${e.value}`}
-              className={classes.questionContainer}
-              md={4}
-              onMouseEnter={() => setShowIcon(e.value)}
-              onMouseLeave={() => setShowIcon(0)}
-            >
-              <div
-                style={{
-                  borderTop: `5px solid ${color}`,
-                  borderRadius: 2,
-                  backgroundColor: color
-                }}
-                className={classes.innerContainer}
-              >
-                <React.Fragment>
-                  {imageStatus < sortedQuestions.length && (
-                    <div
-                      className={classes.imageContainer}
-                      style={getPaddingBottom(1)}
-                    >
-                      <div className={classes.loadingContainer}>
-                        {' '}
-                        <CircularProgress
-                          color="inherit"
-                          className={classes.circularProgress}
-                        />
-                      </div>
-                      <img
-                        onLoad={handleLoad}
-                        src={e.url}
-                        alt="surveyImg"
-                        style={{ display: 'none', height: 0 }}
-                      />
-                    </div>
-                  )}
-                  {imageStatus === sortedQuestions.length && (
-                    <div
-                      className={classes.imageContainer}
-                      style={getPaddingBottom(aspectRatio)}
-                    >
-                      <img
-                        className={classes.questionImage}
-                        src={e.url}
-                        alt="surveyImg"
-                      />
-                    </div>
-                  )}
-                </React.Fragment>
-
-                <div
-                  style={{ backgroundColor: color }}
-                  className={classes.questionDescription}
-                >
-                  {(answeredValue === e.value || showIcon === e.value) && (
-                    <div className={classes.answeredQuestion}>
-                      <i
-                        style={{ backgroundColor: color }}
-                        className={`material-icons ${classes.answeredIcon}`}
-                      >
-                        done
-                      </i>
-                    </div>
-                  )}
-                  <Typography style={{ color: textColor }}>
-                    {e.description}
-                  </Typography>
-                </div>
-              </div>
-            </Grid>
-          );
-        })}
-    </Grid>
-  );
-};
-
-QuestionsWrapper = withStyles(questionsWrapperStyles)(QuestionsWrapper);
 class StoplightQuestions extends Component {
   state = {
     imageStatus: null,
@@ -383,36 +189,35 @@ class StoplightQuestions extends Component {
                   answeredValue = ele.value;
                 }
               })}
-            {answered ? (
-              <QuestionsWrapper
-                question={question}
-                answeredValue={answeredValue}
-                submitQuestion={e => this.submitQuestion(e)}
-                handleImageLoaded={this.handleImageLoaded}
-                imageStatus={this.state.imageStatus}
-                setAspectRatio={this.setAspectRatio}
-                aspectRatio={this.state.aspectRatio}
-              />
-            ) : (
-              <QuestionsWrapper
-                question={question}
-                submitQuestion={e => this.submitQuestion(e)}
-                handleImageLoaded={this.handleImageLoaded}
-                imageStatus={this.state.imageStatus}
-                setAspectRatio={this.setAspectRatio}
-                aspectRatio={this.state.aspectRatio}
-              />
-            )}
           </div>
-          <div
+          {answered ? (
+            <StopLightQuestionCarousel
+              submitQuestion={e => this.submitQuestion(e)}
+              answeredValue={answeredValue}
+              handleImageLoaded={this.handleImageLoaded}
+              imageStatus={this.state.imageStatus}
+              setAspectRatio={this.setAspectRatio}
+              aspectRatio={this.state.aspectRatio}
+              questions={question.stoplightColors.sort((a, b) => {
+                return b.value - a.value;
+              })}
+            />
+          ) : (
+            <StopLightQuestionCarousel
+              submitQuestion={e => this.submitQuestion(e)}
+              handleImageLoaded={this.handleImageLoaded}
+              imageStatus={this.state.imageStatus}
+              setAspectRatio={this.setAspectRatio}
+              aspectRatio={this.state.aspectRatio}
+              questions={question.stoplightColors.sort((a, b) => {
+                return b.value - a.value;
+              })}
+            />
+          )}
+          <Grid
+            container
             className={classes.bottomContainer}
-            style={{
-              justifyContent:
-                question.definition || user.interative_help
-                  ? 'space-between'
-                  : 'flex-end',
-              alignItems: 'center'
-            }}
+            justify={'space-between'}
           >
             <div
               style={{
@@ -428,7 +233,6 @@ class StoplightQuestions extends Component {
                   info
                 </i>
               )}
-
               {user.interative_help && question && question.questionAudio && (
                 <React.Fragment>
                   <div style={{ width: '300px' }}>
@@ -444,17 +248,28 @@ class StoplightQuestions extends Component {
                 </React.Fragment>
               )}
             </div>
-            {question && !question.required && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                paddingLeft: 2,
+                paddingRight: 1
+              }}
+            >
               <span>
                 <Button
-                  style={{ textDecoration: 'none', padding: 0 }}
+                  style={{
+                    textDecoration: 'none',
+                    padding: 0,
+                    paddingRight: 20
+                  }}
                   onClick={() => this.submitQuestion(0)}
                 >
                   {t('views.lifemap.skipThisQuestion')}
                 </Button>
               </span>
-            )}
-          </div>
+            </div>
+          </Grid>
           <Modal
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
@@ -500,7 +315,8 @@ const styles = theme => ({
   },
   bottomContainer: {
     width: '100%',
-    display: 'flex'
+    display: 'flex',
+    paddingLeft: 28
   },
   icon: {
     color: 'green',
@@ -508,7 +324,8 @@ const styles = theme => ({
     fontSize: 30
   },
   skipButton: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    paddingRight: 22
   },
   questionTextTitle: {
     textAlign: 'center',
