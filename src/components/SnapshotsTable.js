@@ -22,7 +22,8 @@ import { COLORS } from '../theme';
 const useFilterStyles = makeStyles(theme => ({
   mainContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   statusFilterContainer: {
     display: 'flex',
@@ -84,8 +85,8 @@ const SnapshotsFilter = ({
   return (
     <React.Fragment>
       <div className={classes.mainContainer}>
-        <div className={classes.statusFilterContainer}>
-          {/* <div
+        {/*<div className={classes.statusFilterContainer}>
+          <div
             className={`${classes.filterElementContainer} ${
               statusFilter === '' ? classes.activeFilter : ''
             }`}
@@ -120,8 +121,8 @@ const SnapshotsFilter = ({
             <Typography variant="h6" className={classes.statusFilter}>
               {t('views.snapshotsTable.completed')}
             </Typography>
-          </div> */}
-        </div>
+          </div> 
+        </div>*/}
         <div className={classes.familiesFilterContainer}>
           <TextField
             InputProps={{
@@ -365,9 +366,7 @@ const SnapshotsTable = ({
             setFamiliesFilter={setFamiliesFilter}
           />
           <List
-            className={`${
-              classes.listStyle
-            } visible-scrollbar visible-scrollbar-thumb`}
+            className={`${classes.listStyle} visible-scrollbar visible-scrollbar-thumb`}
           >
             {filteredSnapshots.length === 0 && (
               <ListItem className={classes.listItemStyle}>
@@ -487,7 +486,4 @@ const mapStateToProps = ({ user }) => ({ user });
 
 const mapDispatchToProps = { updateSurvey };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SnapshotsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(SnapshotsTable);
