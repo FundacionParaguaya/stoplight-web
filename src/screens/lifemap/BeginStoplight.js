@@ -114,7 +114,6 @@ const mapStateToProps = ({ currentSurvey, currentDraft, user }) => ({
 
 const styles = theme => ({
   buttonContainerForm: {
-    marginTop: theme.spacing(4),
     marginBottom: theme.spacing(4),
     justifyContent: 'space-evenly',
     flex: 1,
@@ -130,19 +129,19 @@ const styles = theme => ({
     margin: '50px auto 0 auto',
     textAlign: 'center',
     [theme.breakpoints.down('xs')]: {
+      width: '80%',
       fontSize: 18,
       lineHeight: 1.2
     }
   },
   beginStopLightImage: {
-    marginTop: 40,
-    marginBottom: 80,
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(10),
     position: 'relative',
     left: -10,
     [theme.breakpoints.down('md')]: {
       width: 400,
-      marginTop: 20,
-      marginBottom: 50
+      marginBottom: theme.spacing(5)
     },
     [theme.breakpoints.down('500')]: {
       width: 300

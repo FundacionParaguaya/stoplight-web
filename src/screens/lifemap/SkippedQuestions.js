@@ -125,6 +125,10 @@ const styles = theme => ({
     alignSelf: 'center',
     [theme.breakpoints.down('500')]: {
       width: 285
+    },
+    [theme.breakpoints.down('400')]: {
+      width: 185,
+      height: 125
     }
   },
   container: {
