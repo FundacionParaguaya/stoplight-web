@@ -13,6 +13,7 @@ const CustomSnackbarProvider = props => (
     }}
     preventDuplicate
     classes={{
+      root: props.classes.containerRoot,
       variantSuccess: props.classes.success,
       variantError: props.classes.error,
       variantWarning: props.classes.warning,
@@ -23,10 +24,17 @@ const CustomSnackbarProvider = props => (
   </SnackbarProvider>
 );
 
-const styles = {
+const styles = theme => ({
+  containerRoot: {
+    '& .MuiSnackbarContent-message': {
+      [theme.breakpoints.down('md')]: {
+        width: '80%'
+      }
+    }
+  },
   success: { backgroundColor: COLORS.GREEN },
   error: { backgroundColor: COLORS.RED },
   warning: { backgroundColor: COLORS.YELLOW }
-};
+});
 
 export default withStyles(styles)(CustomSnackbarProvider);
