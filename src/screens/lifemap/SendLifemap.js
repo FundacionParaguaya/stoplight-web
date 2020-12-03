@@ -55,7 +55,10 @@ const styles = theme => ({
   saveButtonStyle: {
     height: 'fit-content',
     minHeight: 38,
-    marginTop: theme.spacing(6)
+    marginTop: theme.spacing(6),
+    [theme.breakpoints.between(350, 600)]: {
+      padding: 0
+    }
   },
   leftIcon: {
     marginRight: theme.spacing(),

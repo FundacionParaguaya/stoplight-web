@@ -16,7 +16,9 @@ const titleStyles = muiTheme => ({
     top: '55%',
     zIndex: 1,
     [muiTheme.breakpoints.down('xs')]: {
-      width: '150px'
+      width: '150px',
+      fontSize: 24,
+      lineHeight: 1.4
     }
   },
   termsCheckboxImage: {
