@@ -20,6 +20,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(4.5),
     marginBottom: theme.spacing(1.5),
     [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(1.5),
+      marginBottom: theme.spacing(1),
       justifyContent: 'center'
     }
   },
@@ -29,7 +31,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: '55px',
     fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 36
+    }
   },
   familiesStoplightCountStyle: {
     marginRight: 4,
@@ -39,7 +44,13 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexWrap: 'wrap'
   },
-  familiesLabel: { alignSelf: 'flex-end', marginLeft: 5 },
+  familiesLabel: {
+    alignSelf: 'flex-end',
+    marginLeft: 5,
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: 5
+    }
+  },
   peopleCountStyle: { fontSize: '16px' },
   menWomenCountStyle: { color: '#909090', fontSize: '14px' },
   economicInfoContainer: {
