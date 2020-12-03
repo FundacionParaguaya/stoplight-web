@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react';
 import {
-  Modal,
-  Typography,
   Button,
+  Checkbox,
   CircularProgress,
   IconButton,
-  Checkbox,
+  Modal,
+  Typography,
   withStyles
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import { withSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
+import { Form, Formik } from 'formik';
+import { withSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Formik, Form } from 'formik';
-import { ROLES_NAMES, checkAccessToProjects } from '../../utils/role-utils';
-import { getUserById, addOrUpdateUser, checkUserName } from '../../api';
-import InputWithFormik from '../../components/InputWithFormik';
-import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import * as Yup from 'yup';
-import UserOrgSelector from './form/UserOrgsSelector';
+import { addOrUpdateUser, checkUserName, getUserById } from '../../api';
+import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
+import ExitModal from '../../components/ExitModal';
+import InputWithFormik from '../../components/InputWithFormik';
 import ProjectsSelector from '../../components/selectors/ProjectsSelector';
+import { checkAccessToProjects, ROLES_NAMES } from '../../utils/role-utils';
+import UserOrgSelector from './form/UserOrgsSelector';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -100,6 +101,7 @@ const UserFormModal = ({
   const classes = useStyles();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [openExitModal, setOpenExitModal] = useState(false);
   const [userToEdit, setUserToEdit] = useState({});
   const [usernameChanged, setUsernameChanged] = useState(false);
   const [usernameAvailable, setUsernameAvailable] = useState(false);
@@ -280,7 +282,7 @@ const UserFormModal = ({
       disableAutoFocus
       className={classes.modal}
       open={open}
-      onClose={() => onClose(false)}
+      onClose={() => (isEdit ? onClose(false) : setOpenExitModal(true))}
     >
       {loading ? (
         <div className={classes.modalBody}>
@@ -290,6 +292,14 @@ const UserFormModal = ({
         </div>
       ) : (
         <div className={classes.modalBody}>
+          <ExitModal
+            open={openExitModal}
+            onDissmiss={() => setOpenExitModal(false)}
+            onClose={() => {
+              setOpenExitModal(false);
+              onClose(false);
+            }}
+          />
           <Typography
             variant="h5"
             test-id="title-bar"
@@ -303,7 +313,7 @@ const UserFormModal = ({
           <IconButton
             className={classes.closeIcon}
             key="dismiss"
-            onClick={() => onClose(false)}
+            onClick={() => (isEdit ? onClose(false) : setOpenExitModal(true))}
           >
             <CloseIcon style={{ color: 'green' }} />
           </IconButton>
