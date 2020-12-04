@@ -161,17 +161,16 @@ class StoplightQuestions extends Component {
     const { classes, t, currentDraft, user } = this.props;
     let answered = false;
     let answeredValue = null;
-    let sortedQuestions;
+    let sortedQuestion;
     if (question) {
-      sortedQuestions = question.stoplightColors;
+      sortedQuestion = question.stoplightColors;
       const compare = (a, b) => {
         if (a.value < b.value) return 1;
         if (a.value > b.value) return -1;
         return 0;
       };
-      sortedQuestions.sort(compare);
+      sortedQuestion.sort(compare);
     }
-
     return (
       <div>
         <TitleBar
@@ -198,9 +197,8 @@ class StoplightQuestions extends Component {
               imageStatus={this.state.imageStatus}
               setAspectRatio={this.setAspectRatio}
               aspectRatio={this.state.aspectRatio}
-              questions={question.stoplightColors.sort((a, b) => {
-                return b.value - a.value;
-              })}
+              options={sortedQuestion}
+              codeName={question.codeName}
             />
           ) : (
             <StopLightQuestionCarousel
@@ -209,9 +207,8 @@ class StoplightQuestions extends Component {
               imageStatus={this.state.imageStatus}
               setAspectRatio={this.setAspectRatio}
               aspectRatio={this.state.aspectRatio}
-              questions={question.stoplightColors.sort((a, b) => {
-                return b.value - a.value;
-              })}
+              options={sortedQuestion}
+              codeName={sortedQuestion.codeName}
             />
           )}
           <Grid

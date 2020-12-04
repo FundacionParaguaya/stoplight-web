@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Slider from 'react-slick';
@@ -132,15 +132,19 @@ const PrevArrow = ({ currentSlide, slideCount, ...props }) => {
 
 const StopLightQuestionCarousel = ({
   submitQuestion,
-  questions,
+  options,
   imageStatus,
   answeredValue,
   setAspectRatio,
   handleImageLoaded,
-  handleClick,
-  aspectRatio
+  aspectRatio,
+  codeName
 }) => {
   const classes = useStyles();
+  const [showIcon, setShowIcon] = useState(0);
+  useEffect(() => {
+    setShowIcon(0);
+  }, [codeName]);
 
   let settings = {
     infinite: false,
@@ -176,28 +180,31 @@ const StopLightQuestionCarousel = ({
     const paddingBottom = a !== null ? 100 / a : null;
     return { paddingBottom: `${paddingBottom}%` };
   };
-  const [showIcon, setShowIcon] = useState(0);
-
   return (
     <div className={classes.container}>
-      <Slider nextArrow={<NextArrow />} prevArrow={<PrevArrow />} {...settings}>
-        {questions.map((question, index) => {
+      <Slider
+        nextArrow={<NextArrow />}
+        prevArrow={<PrevArrow />}
+        {...settings}
+        key={codeName}
+      >
+        {options.map((option, index) => {
           let color;
           let textColor = 'white';
-          if (question.value === 3) {
+          if (option.value === 3) {
             color = COLORS.GREEN;
-          } else if (question.value === 2) {
+          } else if (option.value === 2) {
             color = COLORS.YELLOW;
             textColor = 'black';
-          } else if (question.value === 1) {
+          } else if (option.value === 1) {
             color = COLORS.RED;
           }
           return (
             <React.Fragment key={index}>
               <div
-                onMouseEnter={() => setShowIcon(question.value)}
+                onMouseEnter={() => setShowIcon(option.value)}
                 onMouseLeave={() => setShowIcon(0)}
-                onClick={() => submitQuestion(question.value)}
+                onClick={() => submitQuestion(option.value)}
                 style={{
                   borderTop: `5px solid ${color}`,
                   borderRadius: 2,
@@ -206,7 +213,7 @@ const StopLightQuestionCarousel = ({
                 className={classes.questionCard}
               >
                 <React.Fragment>
-                  {imageStatus < questions.length && (
+                  {imageStatus < options.length && (
                     <div
                       className={classes.imageContainer}
                       style={getPaddingBottom(1)}
@@ -220,20 +227,20 @@ const StopLightQuestionCarousel = ({
                       </div>
                       <img
                         onLoad={handleLoad}
-                        src={question.url}
+                        src={option.url}
                         alt="surveyImg"
                         style={{ display: 'none', height: 0, maxwidth: '100%' }}
                       />
                     </div>
                   )}
-                  {imageStatus === questions.length && (
+                  {imageStatus === options.length && (
                     <div
                       className={classes.imageContainer}
                       style={getPaddingBottom(aspectRatio)}
                     >
                       <img
                         className={classes.questionImage}
-                        src={question.url}
+                        src={option.url}
                         alt="surveyImg"
                       />
                     </div>
@@ -244,8 +251,8 @@ const StopLightQuestionCarousel = ({
                   style={{ backgroundColor: color }}
                   className={classes.questionDescription}
                 >
-                  {(answeredValue === question.value ||
-                    showIcon === question.value) && (
+                  {(answeredValue === option.value ||
+                    showIcon === option.value) && (
                     <div className={classes.answeredQuestion}>
                       <i
                         style={{ backgroundColor: color }}
@@ -256,7 +263,7 @@ const StopLightQuestionCarousel = ({
                     </div>
                   )}
                   <Typography style={{ color: textColor }}>
-                    {question.description}
+                    {option.description}
                   </Typography>
                 </div>
               </div>
