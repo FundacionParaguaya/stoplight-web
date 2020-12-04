@@ -19,6 +19,7 @@ import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import { useDropzone } from 'react-dropzone';
 import { MB_SIZE, toBase64 } from '../../utils/files-utils';
 import { addOrUpdateHub } from '../../api';
+import ExitModal from '../../components/ExitModal';
 
 const useStyles = makeStyles(theme => ({
   buttonContainerForm: {
@@ -114,6 +115,7 @@ const HubFormModal = ({
   const isCreate = !hub.id;
   const classes = useStyles();
   const { t } = useTranslation();
+  const [openExitModal, setOpenExitModal] = useState(false);
   const [error, setError] = useState(false);
   const [file, setFile] = useState('');
 
@@ -197,9 +199,17 @@ const HubFormModal = ({
       disableAutoFocus
       className={classes.modal}
       open={open}
-      onClose={() => onClose(false)}
+      onClose={() => (!isCreate ? onClose(false) : setOpenExitModal(true))}
     >
       <div className={classes.confirmationModal}>
+        <ExitModal
+          open={openExitModal}
+          onDissmiss={() => setOpenExitModal(false)}
+          onClose={() => {
+            setOpenExitModal(false);
+            onClose(false);
+          }}
+        />
         <Typography
           variant="h5"
           test-id="title-bar"
@@ -213,7 +223,7 @@ const HubFormModal = ({
         <IconButton
           className={classes.closeIcon}
           key="dismiss"
-          onClick={() => onClose(false)}
+          onClick={() => (!isCreate ? onClose(false) : setOpenExitModal(true))}
         >
           <CloseIcon style={{ color: 'green' }} />
         </IconButton>
