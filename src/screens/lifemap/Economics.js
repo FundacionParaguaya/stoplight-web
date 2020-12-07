@@ -541,7 +541,6 @@ export class Economics extends Component {
                                       name={`forFamily.custom${capitalize(
                                         question.codeName
                                       )}`}
-                                      required
                                       onChange={e =>
                                         this.updateEconomicAnswerCascading(
                                           modifiedQuestion,
@@ -814,7 +813,6 @@ export class Economics extends Component {
                                                     name={`forFamilyMember.[${index}].[custom${capitalize(
                                                       question.codeName
                                                     )}]`}
-                                                    required
                                                     onChange={e => {
                                                       this.updateEconomicAnswerCascading(
                                                         modifiedQuestion,
@@ -881,7 +879,6 @@ export class Economics extends Component {
                                                     name={`forFamilyMember.[${index}].[custom${capitalize(
                                                       question.codeName
                                                     )}]`}
-                                                    required
                                                     onChange={e => {
                                                       this.updateEconomicAnswerCascading(
                                                         modifiedQuestion,
@@ -950,7 +947,6 @@ export class Economics extends Component {
                                                     name={`forFamilyMember.[${index}].[custom${capitalize(
                                                       question.codeName
                                                     )}]`}
-                                                    required
                                                     onChange={e => {
                                                       this.updateEconomicAnswerCascading(
                                                         modifiedQuestion,

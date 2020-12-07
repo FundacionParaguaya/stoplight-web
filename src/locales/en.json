@@ -430,7 +430,7 @@
     "exitModal": {
       "confirmTitle": "Confirm Exit",
       "confirmText": "Are you sure you want to exit?",
-      "cannotUndo": "You will lose all your changes!!"
+      "cannotUndo": "You will lose all your changes!"
     },
     "nonProdWarning": {
       "title": "Hello!",
