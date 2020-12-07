@@ -31,7 +31,7 @@ const titleStyles = muiTheme => ({
     [muiTheme.breakpoints.down('md')]: {
       transform: 'translateY(50%)',
       width: '33%',
-      right: '10%',
+      right: '5%',
       zIndex: 0
     },
     [muiTheme.breakpoints.down('xs')]: {
@@ -133,7 +133,7 @@ export class Terms extends Component {
         )}
         <Container>
           <div className={classes.contentContainer}>
-            <Typography>{this.state.title}</Typography>
+            <Typography variant="h5">{this.state.title}</Typography>
             <br />
             {this.state.text &&
               this.state.text.split(/(?:\\n)/g).map((i, key) => (
