@@ -16,9 +16,10 @@ const titleStyles = muiTheme => ({
     top: '55%',
     zIndex: 1,
     [muiTheme.breakpoints.down('xs')]: {
-      width: '150px',
+      width: '180px',
       fontSize: 24,
-      lineHeight: 1.4
+      lineHeight: 1.4,
+      left: '10%'
     }
   },
   termsCheckboxImage: {
@@ -34,7 +35,7 @@ const titleStyles = muiTheme => ({
       zIndex: 0
     },
     [muiTheme.breakpoints.down('xs')]: {
-      bottom: '40%',
+      top: '45%',
       left: '58%',
       transform: 'translateY(50%)',
       width: '35%',
@@ -173,7 +174,7 @@ export class Terms extends Component {
     );
   }
 }
-const styles = {
+const styles = muiTheme => ({
   titleContainer: {
     height: 220,
     backgroundColor: theme.palette.background.paper,
@@ -216,7 +217,7 @@ const styles = {
     width: '100%',
     height: 20
   }
-};
+});
 
 const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
