@@ -15,21 +15,9 @@ const titleStyles = muiTheme => ({
     position: 'relative',
     top: '55%',
     zIndex: 1,
-    [muiTheme.breakpoints.down('xs')]: {
-      width: '180px',
-      fontSize: 24,
-      lineHeight: 1.4,
-      left: '10%'
-    },
     [muiTheme.breakpoints.down('sm')]: {
       width: '180px',
-      fontSize: 26,
-      lineHeight: 1.4,
-      left: '10%'
-    },
-    [muiTheme.breakpoints.down('md')]: {
-      width: '160px',
-      fontSize: 26,
+      fontSize: 24,
       lineHeight: 1.4,
       left: '10%'
     }
@@ -145,7 +133,7 @@ export class Terms extends Component {
         )}
         <Container>
           <div className={classes.contentContainer}>
-            <Typography variant="h5">{this.state.title}</Typography>
+            <Typography>{this.state.title}</Typography>
             <br />
             {this.state.text &&
               this.state.text.split(/(?:\\n)/g).map((i, key) => (
