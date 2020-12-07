@@ -345,6 +345,7 @@ const styles = theme => ({
   },
   infoModal: {
     width: '80vw',
+    height: '80vh',
     maxWidth: 500,
     maxHeight: 500,
     backgroundColor: '#fff',
