@@ -18,13 +18,16 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 10,
     paddingRight: 10,
     '& div > div > div:nth-child(1)': {
-      display: 'flex'
+      display: 'flex',
+      width: '100%'
     },
     '& div > div > div:nth-child(2)': {
-      display: 'flex'
+      display: 'flex',
+      width: '100%'
     },
     '& div > div > div:nth-child(3)': {
-      display: 'flex'
+      display: 'flex',
+      width: '100%'
     }
   },
   questionCard: {
