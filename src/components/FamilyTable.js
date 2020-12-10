@@ -243,7 +243,7 @@ const FamilyTable = ({
             color: '#626262'
           },
           actionsCellStyle: {
-            maxWidth: 50
+            maxWidth: 120
           }
         }}
         columns={[
