@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     padding: '1rem 20px 5px 20px',
     height: '100%',
     minHeight: 240,
-    width: '90%',
+    maxWidth: 300,
     [theme.breakpoints.down('xs')]: {
       width: '95%'
     },
