@@ -10,7 +10,8 @@ const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    overflowY: 'auto'
   },
   container: {
     paddingTop: '2em',
@@ -21,12 +22,13 @@ const useStyles = makeStyles(theme => ({
     outline: 'none',
     width: '80vw',
     minWidth: '80vw',
-    maxHeight: '65vh',
+    maxHeight: '80vh',
     minHeight: '45vh',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
       maxHeight: '85vh'
-    }
+    },
+    overflowY: 'auto'
   },
   title: {
     marginTop: 20,
@@ -42,10 +44,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     padding: 0,
     position: 'absolute',
-    bottom: 20,
-    [theme.breakpoints.down('xs')]: {
-      bottom: 15
-    },
+    paddingBottom: 20,
     right: 100
   }
 }));
