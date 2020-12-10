@@ -65,7 +65,10 @@ const useStyles = makeStyles(theme => ({
   nameLabelStyle: {
     fontSize: '14px',
     width: '100%',
-    maxWidth: '12vw',
+    maxWidth: '30vw',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '55vw'
+    },
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
@@ -75,7 +78,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: '14px',
     color: '#909090',
     textTransform: 'capitalize',
-    maxWidth: '12vw',
+    maxWidth: '30vw',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '55vw'
+    },
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap'
@@ -84,7 +90,10 @@ const useStyles = makeStyles(theme => ({
   birthDateStyle: {
     fontSize: '14px',
     color: '#909090',
-    maxWidth: '12vw',
+    maxWidth: '30vw',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '55vw'
+    },
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap'
@@ -234,11 +243,11 @@ const FamilyTable = ({
             color: '#626262'
           },
           actionsCellStyle: {
-            maxWidth: 50
+            maxWidth: 120
           }
         }}
         columns={[
-          //Column Avatar number of members
+          // Column Avatar number of members
           {
             field: 'id',
             Title: 'Avatar',
@@ -264,7 +273,7 @@ const FamilyTable = ({
             )
           },
 
-          //Column Family Name
+          // Column Family Name
           {
             title: t('views.familyList.familyName'),
             field: 'name',
@@ -274,7 +283,7 @@ const FamilyTable = ({
             readonly: true,
             width: '28%',
             render: rowData => {
-              let birthDateText = rowData.birthDate
+              const birthDateText = rowData.birthDate
                 ? `${t('views.snapshotsTable.dob')} ${moment
                     .unix(rowData.birthDate)
                     .utc(true)
@@ -302,7 +311,7 @@ const FamilyTable = ({
               );
             }
           },
-          //Column Document
+          // Column Document
           {
             title: t('views.familyList.document'),
             field: 'documentNumber',
@@ -334,7 +343,7 @@ const FamilyTable = ({
               </div>
             )
           },
-          //Column Family Code
+          // Column Family Code
           {
             title: t('views.familyList.familyCode'),
             field: 'code',
