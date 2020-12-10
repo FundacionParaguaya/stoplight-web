@@ -11,11 +11,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    maxHeight: '100vh'
   },
   container: {
-    paddingTop: '2em',
-    paddingBottom: '2em',
+    paddingTop: '3em',
+    paddingBottom: '3em',
     paddingRight: '1em',
     paddingLeft: '1em',
     backgroundColor: theme.palette.background.default,

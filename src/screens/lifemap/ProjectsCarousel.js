@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 20,
     padding: '1rem 20px 5px 20px',
     height: '100%',
-    minHeight: 240,
+    minHeight: 235,
     maxWidth: 300,
     [theme.breakpoints.down('xs')]: {
       width: '95%'
