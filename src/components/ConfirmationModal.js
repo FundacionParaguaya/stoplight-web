@@ -73,8 +73,10 @@ ConfirmationModal.defaultProps = {
 
 const styles = theme => ({
   confirmationModal: {
-    width: 370,
-    height: 330,
+    width: '90vw',
+    height: '80vh',
+    maxWidth: 370,
+    maxHeight: 330,
     backgroundColor: theme.palette.background.default,
     outline: 'none',
     position: 'absolute',

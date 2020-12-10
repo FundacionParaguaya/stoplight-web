@@ -77,14 +77,17 @@ CountDetail.defaultProps = {
   label: false
 };
 
-const styles = {
+const styles = theme => ({
   countContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
     flexDirection: 'column',
     width: '100%',
-    zIndex: 1
+    zIndex: 1,
+    [theme.breakpoints.down('sm')]: {
+      marginRight: '10px'
+    }
   },
   count: {
     minWidth: 15,
@@ -109,6 +112,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center'
   }
-};
+});
 
 export default withTranslation()(withStyles(styles)(CountDetail));
