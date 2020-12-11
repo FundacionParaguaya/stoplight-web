@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import chooseLifeMap from '../../assets/family.png';
@@ -9,7 +10,6 @@ import { checkAccessToProjects } from '../../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   titleContainer: {
-    display: 'flex',
     justifyContent: 'space-between',
     position: 'relative'
   },
@@ -74,13 +74,8 @@ const FamilyHeader = ({ family, user }) => {
   return (
     <Container variant="stretch">
       <NavigationBar options={navigationOptions}></NavigationBar>
-      <div className={classes.titleContainer}>
-        <img
-          src={chooseLifeMap}
-          alt="Choose Life Map"
-          className={classes.image}
-        />
-        <div className={classes.familyInfo}>
+      <Grid container className={classes.titleContainer}>
+        <Grid item md={4} sm={6} xs={12} className={classes.familyInfo}>
           <Typography variant="h4">{family.name}</Typography>
           <div className={classes.container}>
             <Typography variant="subtitle1" className={classes.subtitle}>
@@ -101,8 +96,15 @@ const FamilyHeader = ({ family, user }) => {
               </Typography>
             </div>
           )}
-        </div>
-      </div>
+        </Grid>
+        <Grid item md={4} sm={5}>
+          <img
+            src={chooseLifeMap}
+            alt="Choose Life Map"
+            className={classes.image}
+          />
+        </Grid>
+      </Grid>
     </Container>
   );
 };

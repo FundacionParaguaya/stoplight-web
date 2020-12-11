@@ -68,6 +68,7 @@ const styles = theme => ({
   },
   summaryIndicatorsBallsContainer: {
     display: 'flex',
+    justifyContent: 'center',
     flexWrap: 'wrap',
     margin: theme.spacing(2)
   }
