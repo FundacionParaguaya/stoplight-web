@@ -23,9 +23,11 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 20,
     padding: '1rem 20px 5px 20px',
     height: '100%',
-    minHeight: 240,
-    minWidth: 260,
-    width: 300,
+    minHeight: 235,
+    maxWidth: 300,
+    [theme.breakpoints.down('xs')]: {
+      width: '95%'
+    },
     boxShadow: `1px 2px 5px ${theme.palette.grey.main}`,
     marginRight: '20px'
   },
