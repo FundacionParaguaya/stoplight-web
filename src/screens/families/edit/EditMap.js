@@ -24,14 +24,19 @@ import LocationIcon from '../../../assets/location.png';
 import MarkerIcon from '../../../assets/marker.png';
 import Container from '../../../components/Container';
 import ExitModal from '../../../components/ExitModal';
+import { useWindowSize } from '../../../utils/hooks-helpers';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   inputContainer: {
     position: 'absolute',
     top: 56,
     left: 10,
-    width: '40%',
-    zIndex: 1
+    width: '80%',
+    maxWidth: 300,
+    zIndex: 1,
+    [theme.breakpoints.down('xs')]: {
+      width: '95%'
+    }
   },
   suggestionsContainer: {
     width: '100%',
@@ -103,6 +108,7 @@ const EditMap = ({ history, enqueueSnackbar, closeSnackbar, user }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { familyId, latitude, longitude } = useParams();
+  const windowSize = useWindowSize();
 
   const google = window.google;
 
@@ -227,7 +233,10 @@ const EditMap = ({ history, enqueueSnackbar, closeSnackbar, user }) => {
                 onDragEnd={onDragEnd}
                 options={{
                   mapTypeControlOptions: {
-                    position: google.maps.ControlPosition.TOP_RIGHT
+                    position:
+                      windowSize.width > 650
+                        ? google.maps.ControlPosition.TOP_RIGHT
+                        : 'hidden'
                   },
                   streetViewControlOptions: {
                     position: 'hidden'

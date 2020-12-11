@@ -28,14 +28,17 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10
   },
   tabsRoot: {
-    marginBottom: 20,
     '& $div > span': {
       backgroundColor: theme.palette.primary.dark,
       height: 4
+    },
+    '& $div >.MuiTabs-flexContainer': {
+      justifyContent: 'space-between'
     }
   },
   tabRoot: {
     minHeight: 50,
+    padding: '5px 15px',
     color: theme.typography.h4.color,
     height: 'auto',
     width: 'auto',
@@ -49,18 +52,15 @@ const useStyles = makeStyles(theme => ({
   tabTitle: {
     fontSize: 16,
     fontWeight: 500,
-    textTransform: 'none'
+    textTransform: 'none',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    }
   },
   label: {
     fontFamily: 'Open Sans',
     fontWeight: 500,
     margin: '0px 10px 0px 10px'
-  },
-  editIconContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    right: 120
   },
   actionIcon: {
     paddingLeft: 18,
@@ -141,8 +141,7 @@ const PersonalDetails = ({
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="secondary"
-          variant="fullWidth"
-          centered
+          variant="scrollable"
           scrollButtons="auto"
           classes={{ root: classes.tabsRoot }}
         >
@@ -181,9 +180,16 @@ const PersonalDetails = ({
         {value === 1 && (
           <Grid container>
             {showEditButtons(user) && (
-              <div className={classes.editIconContainer}>
+              <Grid
+                item
+                md={12}
+                container
+                justify="flex-end"
+                style={{ height: 30 }}
+              >
                 <Tooltip title={t('views.solutions.form.editButton')}>
                   <Button
+                    style={{ paddingTop: 4 }}
                     onClick={() => {
                       history.push(`/family/${familyId}/edit`);
                     }}
@@ -191,9 +197,9 @@ const PersonalDetails = ({
                     <EditIcon />
                   </Button>
                 </Tooltip>
-              </div>
+              </Grid>
             )}
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.firstName')}:`}
               </Typography>
@@ -201,7 +207,7 @@ const PersonalDetails = ({
                 {primaryParticipant.firstName}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.documentType')}:`}
               </Typography>
@@ -209,7 +215,7 @@ const PersonalDetails = ({
                 {primaryParticipant.documentTypeText}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.lastName')}:`}
               </Typography>
@@ -217,7 +223,7 @@ const PersonalDetails = ({
                 {primaryParticipant.lastName}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.documentNumber')}:`}
               </Typography>
@@ -225,7 +231,7 @@ const PersonalDetails = ({
                 {primaryParticipant.documentNumber}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.gender')}:`}
               </Typography>
@@ -233,7 +239,7 @@ const PersonalDetails = ({
                 {primaryParticipant.genderText}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.countryOfBirth')}:`}
               </Typography>
@@ -241,7 +247,7 @@ const PersonalDetails = ({
                 {getCountryByCode(primaryParticipant.birthCountry)}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.dateOfBirth')}:`}
               </Typography>
@@ -252,7 +258,7 @@ const PersonalDetails = ({
                   .format(dateFormat)}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.email')}:`}
               </Typography>
@@ -260,7 +266,7 @@ const PersonalDetails = ({
                 {primaryParticipant.email}
               </Typography>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6} sm={6} xs={12}>
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.phone')}:`}
               </Typography>
@@ -277,9 +283,16 @@ const PersonalDetails = ({
             {familyMembers.length > 0 ? (
               <React.Fragment>
                 {showEditButtons(user) && (
-                  <div className={classes.editIconContainer}>
+                  <Grid
+                    item
+                    md={12}
+                    container
+                    justify="flex-end"
+                    style={{ height: 30 }}
+                  >
                     <Tooltip title={t('views.solutions.form.editButton')}>
                       <Button
+                        style={{ paddingTop: 4 }}
                         onClick={() => {
                           history.push(`/family/${familyId}/edit-members`);
                         }}
@@ -287,13 +300,15 @@ const PersonalDetails = ({
                         <EditIcon />
                       </Button>
                     </Tooltip>
-                  </div>
+                  </Grid>
                 )}
                 {familyMembers.map((member, index) => (
                   <Grid
                     item
                     container
                     md={6}
+                    sm={6}
+                    xs={12}
                     spacing={2}
                     key={index}
                     style={{ marginTop: 10 }}
