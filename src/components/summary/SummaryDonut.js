@@ -143,9 +143,7 @@ SummaryDonut.defaultProps = {
 const styles = theme => ({
   mainContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4)
+    flexDirection: 'row'
   },
   donutContainer: {
     width: '100%',
