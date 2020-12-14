@@ -89,9 +89,9 @@ const LifemapDetailsTable = ({
           cellStyle: {
             borderBottom: '0px',
             borderRight: `1px solid ${theme.palette.grey.quarter}`,
-            width: '20%'
+            width: '100px'
           },
-          width: '20%',
+          width: '100px',
           render: rowData => {
             let indicator = rowData.values.find(d => d.column === i);
             indicator = indicator ? indicator : {};
@@ -145,6 +145,9 @@ const LifemapDetailsTable = ({
           pageSize: numberOfRows,
           pageSizeOptions: [],
           draggable: false,
+          fixedColumns: {
+            left: snapshots.length
+          },
           rowStyle: rowData => ({
             backgroundColor:
               rowData.tableData.id % 2 === 0
@@ -152,12 +155,18 @@ const LifemapDetailsTable = ({
                 : theme.palette.grey.light,
             height: 50
           }),
+          cellStyle: {
+            width: '100px',
+            minWidth: '100px'
+          },
           headerStyle: {
             backgroundColor: theme.palette.background.paper,
             height: 70,
             color: theme.typography.h4.color,
             fontSize: '14px',
-            borderRight: `1px solid ${theme.palette.grey.quarter}`
+            borderRight: `1px solid ${theme.palette.grey.quarter}`,
+            width: '100px',
+            minWidth: '100px'
           },
           searchFieldStyle: {
             backgroundColor: theme.palette.background.default,
