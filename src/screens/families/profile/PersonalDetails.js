@@ -25,9 +25,14 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '12%',
     position: 'relative',
     marginTop: 5,
-    marginBottom: 10
+    marginBottom: 10,
+    minHeight: 320,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   tabsRoot: {
+    width: '100%',
     '& $div > span': {
       backgroundColor: theme.palette.primary.dark,
       height: 4
@@ -135,7 +140,7 @@ const PersonalDetails = ({
 
   return (
     <React.Fragment>
-      <div className={classes.root} style={{ minHeight: 320 }}>
+      <div className={classes.root}>
         <Tabs
           value={value}
           onChange={handleChange}
