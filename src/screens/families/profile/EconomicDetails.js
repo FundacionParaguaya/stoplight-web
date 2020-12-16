@@ -48,7 +48,10 @@ const useStyles = makeStyles(theme => ({
   tabTitle: {
     fontSize: 16,
     fontWeight: 500,
-    textTransform: 'none'
+    textTransform: 'none',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    }
   },
   label: {
     fontFamily: 'Open Sans',
@@ -59,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   answer: {
     fontFamily: 'Open Sans',
     color: 'rgba(0,0,0,0.5)',
-    marginLeft: 10
+    marginLeft: 20
   },
   memberTitle: {
     marginLeft: 10,
@@ -242,7 +245,7 @@ const EconomicDetails = ({
                   return (
                     <React.Fragment key={index}>
                       {shouldShowQuestion(answer, draft) && (
-                        <Grid item md={6}>
+                        <Grid item md={6} sm={6} xs={12}>
                           <Typography variant="h6" className={classes.label}>
                             {answer.questionText}
                           </Typography>
@@ -282,6 +285,8 @@ const EconomicDetails = ({
                           item
                           container
                           md={12}
+                          sm={12}
+                          xs={12}
                           alignItems="center"
                           style={{ marginTop: 15 }}
                         >
@@ -303,7 +308,7 @@ const EconomicDetails = ({
                           return (
                             <React.Fragment key={index}>
                               {shouldShowQuestion(answer, draft, mIndex) && (
-                                <Grid key={index} item md={6}>
+                                <Grid key={index} item md={6} sm={6} xs={12}>
                                   <Typography
                                     variant="h6"
                                     className={classes.label}

@@ -34,7 +34,11 @@ const useStyles = makeStyles(theme => ({
     width: '80%',
     paddingLeft: '20%',
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16,
+      paddingLeft: '10%'
+    }
   },
   expandIcon: {
     color: theme.palette.primary.dark,
