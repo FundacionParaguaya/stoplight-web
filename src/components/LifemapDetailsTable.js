@@ -88,10 +88,9 @@ const LifemapDetailsTable = ({
           grouping: false,
           cellStyle: {
             borderBottom: '0px',
-            borderRight: `1px solid ${theme.palette.grey.quarter}`,
-            width: '100px'
+            borderRight: `1px solid ${theme.palette.grey.quarter}`
           },
-          width: '100px',
+          width: '120px',
           render: rowData => {
             let indicator = rowData.values.find(d => d.column === i);
             indicator = indicator ? indicator : {};
@@ -121,9 +120,7 @@ const LifemapDetailsTable = ({
       field: 'indicators',
       sorting: false,
       grouping: false,
-      cellStyle: {
-        borderBottom: '0px'
-      },
+      width: '180px',
       render: rowData => (
         <div style={{ textAlign: 'left' }}>
           <Typography variant="h6" style={{ textAlign: 'left' }}>
@@ -134,9 +131,58 @@ const LifemapDetailsTable = ({
     });
     return columns;
   };
-
   return (
     <div className={classes.familyContainer}>
+      <MaterialTable
+        title="Basic Fixed Columns Preview"
+        columns={[
+          { title: 'Name', field: 'name', width: 150 },
+          { title: 'Surname', field: 'surname', width: 150 },
+          {
+            title: 'Birth Year',
+            field: 'birthYear',
+            type: 'numeric',
+            width: 150
+          },
+          {
+            title: 'Birth Place',
+            field: 'birthCity',
+            lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+            width: 150
+          },
+          { title: 'Name', field: 'name', width: 150 },
+          { title: 'Surname', field: 'surname', width: 150 },
+          {
+            title: 'Birth Year',
+            field: 'birthYear',
+            type: 'numeric',
+            width: 150
+          },
+          {
+            title: 'Birth Place',
+            field: 'birthCity',
+            lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+            width: 150
+          }
+        ]}
+        data={[
+          { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+          {
+            name: 'Zerya Betül',
+            surname: 'Baran',
+            birthYear: 2017,
+            birthCity: 34
+          }
+        ]}
+        options={{
+          search: false,
+          toolbar: false,
+          draggable: false,
+          fixedColumns: {
+            right: 1
+          }
+        }}
+      />
       <MaterialTable
         tableRef={tableRef}
         options={{
@@ -146,7 +192,7 @@ const LifemapDetailsTable = ({
           pageSizeOptions: [],
           draggable: false,
           fixedColumns: {
-            left: snapshots.length
+            right: 1
           },
           rowStyle: rowData => ({
             backgroundColor:
