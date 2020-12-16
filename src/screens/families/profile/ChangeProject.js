@@ -93,7 +93,7 @@ const ChangeProject = ({
             spacing={2}
             className={classes.projectSelectorContainer}
           >
-            <Grid item md={6} sm={6} xs={12}>
+            <Grid item md={6} sm={12} xs={12}>
               <ProjectSelector
                 withTitle={true}
                 projectData={projectData}
@@ -106,7 +106,7 @@ const ChangeProject = ({
                 stacked={stackSelector}
               />
             </Grid>
-            <Grid item md={4} sm={5} xs={12} className={classes.button}>
+            <Grid item md={4} sm={12} xs={12} className={classes.button}>
               <Button
                 variant="contained"
                 onClick={toggleConfirmationModal}

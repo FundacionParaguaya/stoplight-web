@@ -108,7 +108,9 @@ const FamilyOverview = ({
         alignItems="center"
         style={{ flexDirection: 'column' }}
       >
-        <Typography variant="h5">{family ? family.name : ''}</Typography>
+        <Typography variant="h5" style={{ textAlign: 'center' }}>
+          {family ? family.name : ''}
+        </Typography>
         <div className={classes.horizontalAlign}>
           <MailIcon className={classes.iconGreen} />
           {firtsParticipant && firtsParticipant.email ? (
