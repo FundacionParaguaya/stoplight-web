@@ -6,8 +6,10 @@ import SummaryDonut from './summary/SummaryDonut';
 import SummaryBarChart from './SummaryBarChart';
 import CountDetail from './CountDetail';
 import Divider from './Divider';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import Tooltip from '@material-ui/core/Tooltip';
 
-const OverviewBlock = ({ classes, data, t, width }) => {
+const OverviewBlock = ({ classes, data, t, width, handleOnClick }) => {
   if (
     !data ||
     (data &&
@@ -67,6 +69,13 @@ const OverviewBlock = ({ classes, data, t, width }) => {
           isAnimationActive={false}
           width="40%"
         />
+        <Tooltip title={t('views.familiesOverviewBlock.download')}>
+          <CloudDownloadIcon
+            color="primary"
+            className={classes.icon}
+            onClick={handleOnClick}
+          />
+        </Tooltip>
       </div>
     </div>
   );
@@ -88,6 +97,10 @@ const styles = theme => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%!important'
     }
+  },
+  icon: {
+    alignSelf: 'flex-start',
+    cursor: 'pointer'
   }
 });
 

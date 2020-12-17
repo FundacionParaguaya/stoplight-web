@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Grid, Typography, CircularProgress, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
@@ -27,6 +27,7 @@ import DimensionsVisualisation from '../components/DimensionsVisualisation';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import DashboardFilters from '../components/DashboardFilters';
 import { ROLE_SURVEY_USER, ROLE_HUB_ADMIN } from '../utils/role-utils';
+import { exportComponentAsPNG } from 'react-component-export-image';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
@@ -61,6 +62,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const { role } = user;
   const isMentor = role === ROLE_SURVEY_USER;
   const lang = language;
+  let socioEconomicsRef = useRef();
   const setSelectedOrganizations = (selected, allOrganizations) => {
     if (selected.some(org => org.value === 'ALL')) {
       setOrganizations(allOrganizations);
@@ -217,6 +219,13 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       user.hub.logoUrl) ||
     '';
 
+  const downloadImage = (ref, fileName) => {
+    const options = {
+      fileName: fileName
+    };
+    exportComponentAsPNG(ref, options);
+  };
+
   return (
     <Container variant="fluid" className={classes.greyBackground}>
       <Grid container>
@@ -287,7 +296,11 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       </Container>
 
       {/* Social Economics */}
-      <Container className={classes.socialEconomics} variant="fluid">
+      <Container
+        className={classes.socialEconomics}
+        variant="fluid"
+        ref={socioEconomicsRef}
+      >
         <Container className={classes.containerInnerSocial}>
           {loadingEconomics && <LoadingContainer />}
           {!loadingEconomics && (
@@ -302,7 +315,18 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
           )}
           <div className={classes.spacingHelper} />
           {loadingOverview && <LoadingContainer />}
-          {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
+          {!loadingOverview && (
+            <OverviewBlock
+              handleOnClick={() =>
+                downloadImage(
+                  socioEconomicsRef,
+                  t('views.familiesOverviewBlock.overview')
+                )
+              }
+              data={overview}
+              width="70%"
+            />
+          )}
         </Container>
       </Container>
 
