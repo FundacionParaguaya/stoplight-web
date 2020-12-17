@@ -200,7 +200,7 @@ const FamilyAchievements = ({ classes, achievements, t }) => {
                       <div className={classes.achievementContent}>
                         <Grid container spacing={2}>
                           {/* Action */}
-                          <Grid item md={5} sm={5} xs={12}>
+                          <Grid item md={5} sm={12} xs={12}>
                             <Typography variant="subtitle1">
                               {t('views.familyAchievements.action')}
                             </Typography>
@@ -213,7 +213,7 @@ const FamilyAchievements = ({ classes, achievements, t }) => {
                           <div className={classes.divider}></div>
 
                           {/* Roadmap */}
-                          <Grid item md={5} sm={5} xs={12}>
+                          <Grid item md={5} sm={12} xs={12}>
                             <Typography variant="subtitle1">
                               {t('views.familyAchievements.roadmap')}
                             </Typography>

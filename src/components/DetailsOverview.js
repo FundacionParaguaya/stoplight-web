@@ -81,9 +81,51 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     paddingTop: 6
   },
-  mainLabel: {
+  titleLabel: {
     width: 'auto',
+    fontSize: 22,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16
+    },
+    fontWeight: 600,
+    letterSpacing: 0.24,
+    color: theme.palette.grey.middle,
+    fontFamily: 'Poppins'
+  },
+  subtitleLabel: {
+    width: 'auto',
+    fontSize: 18,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    },
     color: theme.palette.grey.middle
+  },
+  valueLabel: {
+    width: 'auto',
+    fontSize: 18,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 12
+    }
+  },
+  dimensionQuestionsContainer: {
+    marginTop: '20px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '60px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '120px'
+    }
   }
 }));
 
@@ -276,18 +318,18 @@ const DetailsOverview = ({
       />
       <div className={classes.headerContainer}>
         <div className={classes.textContainter}>
-          <Typography variant="h5">
+          <Typography className={classes.titleLabel}>
             {`${t('views.familyProfile.stoplight')} ${index + 1}`}
           </Typography>
           <div
             className={classes.labelContainer}
             style={{ justifyContent: 'flex-start' }}
           >
-            <Typography variant="h6" className={classes.mainLabel}>
+            <Typography className={classes.subtitleLabel}>
               {`${t('views.familyProfile.mentor')}: `}
             </Typography>
             &nbsp;&nbsp;
-            <Typography variant="h6" style={{ width: 'auto' }}>
+            <Typography className={classes.valueLabel}>
               {mentor.label}
             </Typography>
           </div>
@@ -298,7 +340,7 @@ const DetailsOverview = ({
           </div>
         )}
         <div className={classes.textContainter} style={{ textAlign: 'right' }}>
-          <Typography variant="h5">
+          <Typography className={classes.titleLabel}>
             {`${moment
               .unix(snapshot.snapshotDate)
               .utc(true)
@@ -308,11 +350,11 @@ const DetailsOverview = ({
             className={classes.labelContainer}
             style={{ justifyContent: 'flex-end' }}
           >
-            <Typography variant="h6" className={classes.mainLabel}>
+            <Typography className={classes.subtitleLabel}>
               {`${t('views.familyProfile.organization')} `}
             </Typography>
             &nbsp;&nbsp;
-            <Typography variant="h6" style={{ width: 'auto' }}>
+            <Typography className={classes.valueLabel}>
               {family.organization.name}
             </Typography>
           </div>
@@ -322,11 +364,11 @@ const DetailsOverview = ({
           >
             {checkAccessToProjects(user) && !!snapshot.projectTitle && (
               <React.Fragment>
-                <Typography variant="h6" className={classes.mainLabel}>
+                <Typography className={classes.subtitleLabel}>
                   {t('views.familyProfile.projectTitle')}
                 </Typography>
                 &nbsp;&nbsp;
-                <Typography variant="h6" style={{ width: 'auto' }}>
+                <Typography className={classes.valueLabel}>
                   {snapshot.projectTitle}
                 </Typography>
               </React.Fragment>
@@ -406,18 +448,20 @@ const DetailsOverview = ({
             )}
           </Grid>
         </div>
-        <DimensionQuestion
-          questions={stoplight}
-          priorities={priorities}
-          achievements={achievements}
-          isRetake={false}
-        />
+        <div className={classes.dimensionQuestionsContainer}>
+          <DimensionQuestion
+            questions={stoplight}
+            priorities={priorities}
+            achievements={achievements}
+            isRetake={false}
+          />
+        </div>
       </div>
       <FamilyPriorities
         stoplightSkipped={true}
         questions={snapshot}
         priorities={prioritiesList}
-      ></FamilyPriorities>
+      />
 
       <FamilyAchievements achievements={achievementsList} />
     </div>
