@@ -62,7 +62,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const { role } = user;
   const isMentor = role === ROLE_SURVEY_USER;
   const lang = language;
-  let socioEconomicsRef = useRef();
+  const socioEconomicsRef = useRef();
   const setSelectedOrganizations = (selected, allOrganizations) => {
     if (selected.some(org => org.value === 'ALL')) {
       setOrganizations(allOrganizations);

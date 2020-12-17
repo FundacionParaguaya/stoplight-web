@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles, Grid } from '@material-ui/core';
 import clsx from 'clsx';
 
-function Container(props) {
+const Container = React.forwardRef((props, ref) => {
   const {
     classes,
     children,
@@ -37,7 +37,7 @@ function Container(props) {
   });
 
   return (
-    <Grid container justify="center">
+    <Grid ref={ref} container justify="center">
       <Grid
         item
         xs={Number(xs)}
@@ -51,7 +51,7 @@ function Container(props) {
       </Grid>
     </Grid>
   );
-}
+});
 
 const styles = {
   root: {
