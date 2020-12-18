@@ -226,7 +226,7 @@ const FamilyPriorities = ({
 
                       <Grid container spacing={2}>
                         {/* Why Information*/}
-                        <Grid item md={5} sm={5} xs={12}>
+                        <Grid item md={5} sm={12} xs={12}>
                           <Typography variant="subtitle1">
                             {t('views.lifemap.whyDontYouHaveIt')}
                           </Typography>
@@ -239,7 +239,7 @@ const FamilyPriorities = ({
                         <div className={classes.divider}></div>
 
                         {/* What Information*/}
-                        <Grid item md={5} sm={5} xs={12}>
+                        <Grid item md={5} sm={12} xs={12}>
                           <Typography variant="subtitle1">
                             {t('views.lifemap.whatWillYouDoToGetIt')}
                           </Typography>
