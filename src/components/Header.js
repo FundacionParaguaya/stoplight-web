@@ -10,32 +10,34 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     position: 'relative'
   },
-  familyInfo: {
+  title: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
     height: 'fit-content',
     minHeight: 180,
     [theme.breakpoints.down('sm')]: {
-      minHeight: 150
+      minHeight: 150,
+      maxWidth: 200
     },
     [theme.breakpoints.down('xs')]: {
-      minHeight: 120
+      minHeight: 120,
+      maxWidth: 400
     }
   },
   image: {
     display: 'block',
     width: '40%',
-    right: 30,
+    right: 10,
     position: 'absolute',
-    top: -51,
+    top: -30,
     [theme.breakpoints.down('md')]: {
       width: '50%',
-      minHeight: 155
+      minHeight: 80
     },
     [theme.breakpoints.down('sm')]: {
       width: '60%',
-      minHeight: 155
+      minHeight: 80
     },
     [theme.breakpoints.down('xs')]: {
       display: 'none'
@@ -71,7 +73,7 @@ const Header = ({
       <NavigationBar options={navigationOptions}></NavigationBar>
       <div className={classes.titleContainer}>
         <img src={imageSource} alt={altTextImage} className={classes.image} />
-        <div className={classes.familyInfo}>
+        <div className={classes.title}>
           <Typography variant="h4">{title}</Typography>
           <div className={classes.container}>
             <Typography variant="subtitle1" className={classes.subtitle}>
