@@ -20,9 +20,12 @@ const useWindowSize = () => {
     function handleResize() {
       setWindowSize(getSize());
     }
-
+    window.addEventListener('orientationchange', handleResize);
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('orientationchange', handleResize);
+      window.removeEventListener('resize', handleResize);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
