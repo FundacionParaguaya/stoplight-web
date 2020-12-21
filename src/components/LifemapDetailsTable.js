@@ -88,10 +88,9 @@ const LifemapDetailsTable = ({
           grouping: false,
           cellStyle: {
             borderBottom: '0px',
-            borderRight: `1px solid ${theme.palette.grey.quarter}`,
-            width: '20%'
+            borderRight: `1px solid ${theme.palette.grey.quarter}`
           },
-          width: '20%',
+          width: '120px',
           render: rowData => {
             let indicator = rowData.values.find(d => d.column === i);
             indicator = indicator ? indicator : {};
@@ -121,9 +120,7 @@ const LifemapDetailsTable = ({
       field: 'indicators',
       sorting: false,
       grouping: false,
-      cellStyle: {
-        borderBottom: '0px'
-      },
+      width: '180px',
       render: rowData => (
         <div style={{ textAlign: 'left' }}>
           <Typography variant="h6" style={{ textAlign: 'left' }}>
@@ -134,7 +131,6 @@ const LifemapDetailsTable = ({
     });
     return columns;
   };
-
   return (
     <div className={classes.familyContainer}>
       <MaterialTable
