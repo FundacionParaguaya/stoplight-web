@@ -33,6 +33,7 @@ import FamilyPriorities from '../components/FamilyPriorities';
 import SignatureImage from '../components/SignatureImage';
 import withLayout from '../components/withLayout';
 import { updateDraft, updateSurvey } from '../redux/actions';
+import { useWindowSize } from '../utils/hooks-helpers';
 import { checkAccessToProjects, ROLES_NAMES } from '../utils/role-utils';
 import {
   getConditionalQuestions,
@@ -57,7 +58,7 @@ const FamilyProfile = ({
   updateDraft,
   history
 }) => {
-  //export class FamilyProfile extends Component {
+  const windowSize = useWindowSize();
   const [family, setFamily] = useState({});
   const [familyMembers, setFamilyMembers] = useState([]);
   const [firtsParticipant, setFirtsParticipant] = useState({});
@@ -318,6 +319,11 @@ const FamilyProfile = ({
       {/* Condition to hide the retake banner */}
       {showRetakeButton(user) && (
         <div className={classes.buttonContainer}>
+          {windowSize.width > 960 && (
+            <Typography variant="subtitle1" className={classes.retakeButton}>
+              {t('views.familyProfile.createNewSnapshot')}
+            </Typography>
+          )}
           <Button
             variant="contained"
             onClick={handleRetakeSurvey}
@@ -446,6 +452,11 @@ const styles = theme => ({
     color: theme.palette.primary.dark,
     '&:hover': {
       backgroundColor: theme.palette.background.default
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '20%',
+      minWidth: 350,
+      marginLeft: '20%'
     }
   },
   basicInfo: {

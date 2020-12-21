@@ -148,7 +148,7 @@ const FamilyOverview = ({
         </div>
       </Grid>
 
-      <Grid item md={12} container style={{ marginTop: 8 }}>
+      <Grid item md={12} container style={{ marginTop: 24 }}>
         <Grid item md={6} container justify="center">
           <Typography variant="h5" className={classes.subtitle}>
             {t('views.familyProfile.lifemapNumber')}

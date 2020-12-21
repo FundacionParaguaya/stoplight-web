@@ -355,7 +355,11 @@ const styles = theme => ({
     borderRadius: '50%',
     minWidth: 28,
     minHeight: 28,
-    marginRight: '1rem'
+    marginRight: '1rem',
+    [theme.breakpoints.down('xs')]: {
+      marginRight: 0,
+      marginLeft: theme.spacing(3.5)
+    }
   },
 
   priorityTitle: {
