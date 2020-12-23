@@ -3,8 +3,52 @@ import { makeStyles } from '@material-ui/core/styles';
 import { IconButton, Modal, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import ProjectsCarousel from './ProjectsCarousel';
 import Button from '@material-ui/core/Button';
+import ProjectsCarousel from './ProjectsCarousel';
+
+const useStyles = makeStyles(theme => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflowY: 'auto',
+    maxHeight: '100vh'
+  },
+  container: {
+    paddingTop: '3em',
+    paddingBottom: '3em',
+    paddingRight: '1em',
+    paddingLeft: '1em',
+    backgroundColor: theme.palette.background.default,
+    outline: 'none',
+    width: '80vw',
+    minWidth: '80vw',
+    maxHeight: '80vh',
+    minHeight: '45vh',
+    position: 'relative',
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: '85vh'
+    },
+    overflowY: 'auto'
+  },
+  title: {
+    marginTop: 20,
+    paddingBottom: 5
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    marginBottom: 15
+  },
+  skipProjectButton: {
+    textDecoration: 'none',
+    padding: 0,
+    position: 'absolute',
+    paddingBottom: 20,
+    right: 100
+  }
+}));
 
 const ProjectsModal = ({
   afterSelect,
@@ -47,13 +91,7 @@ const ProjectsModal = ({
         </Typography>
         <ProjectsCarousel projects={projects} handleClick={onClose} />
         <Button
-          style={{
-            textDecoration: 'none',
-            padding: 0,
-            position: 'absolute',
-            bottom: 20,
-            right: 100
-          }}
+          className={classes.skipProjectButton}
           onClick={() => onClose(true)}
         >
           {t('views.survey.skipProject')}
@@ -62,36 +100,5 @@ const ProjectsModal = ({
     </Modal>
   );
 };
-
-const useStyles = makeStyles(theme => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  container: {
-    paddingTop: '2em',
-    paddingBottom: '2em',
-    paddingRight: '1em',
-    paddingLeft: '1em',
-    backgroundColor: theme.palette.background.default,
-    outline: 'none',
-    width: '80vw',
-    minWidth: '80vw',
-    maxHeight: '65vh',
-    minHeight: '45vh',
-    position: 'relative'
-  },
-  title: {
-    marginTop: 20,
-    paddingBottom: 5
-  },
-  closeIcon: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    marginBottom: 15
-  }
-}));
 
 export default ProjectsModal;

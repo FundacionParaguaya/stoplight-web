@@ -7,14 +7,15 @@ import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { updateFamilyProject } from '../../../api';
+import { assignFacilitator } from '../../../api';
 import ConfirmationModal from '../../../components/ConfirmationModal';
-import ProjectSelector from '../../../components/selectors/ProjectsSelector';
+import FacilitatorFilter from '../../../components/FacilitatorFilter';
 import { ROLE_APP_ADMIN } from '../../../utils/role-utils';
 import { useWindowSize } from '../../../utils/hooks-helpers';
 
 const useStyles = makeStyles(theme => ({
-  projectSelectorContainer: {
+  facilitatorSelectorContainer: {
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2)
   },
   button: {
@@ -27,9 +28,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ChangeProject = ({
+const ChangeFacilitator = ({
   familyId,
-  currentProject,
+  currentFacilitator,
+  orgsId,
   enqueueSnackbar,
   closeSnackbar,
   user
@@ -42,25 +44,24 @@ const ChangeProject = ({
 
   const [openConfirmationModal, setConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [changedProject, setChangedProject] = useState(false);
-  const [projectData, setProjectData] = useState();
+  const [changedFacilitator, setChangedFacilitator] = useState(false);
+  const [facilitatorData, setFacilitatorData] = useState();
 
   useEffect(() => {
-    !!currentProject &&
-      setProjectData({ value: currentProject.id, label: currentProject.title });
-  }, [currentProject]);
+    !!currentFacilitator && setFacilitatorData(currentFacilitator);
+  }, [currentFacilitator]);
 
   const toggleConfirmationModal = () =>
     setConfirmationModal(!openConfirmationModal);
 
   const confirmAction = () => {
     setLoading(true);
-    updateFamilyProject(familyId, projectData.value, user)
+    assignFacilitator(familyId, facilitatorData.value, user)
       .then(() => {
         setLoading(false);
-        setChangedProject(false);
+        setChangedFacilitator(false);
         setConfirmationModal(false);
-        enqueueSnackbar(t('views.familyProfile.project.assignedCorrectly'), {
+        enqueueSnackbar(t('views.familyProfile.Mentorsuccess'), {
           variant: 'success',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -73,7 +74,7 @@ const ChangeProject = ({
         console.error(e);
         setLoading(false);
         setConfirmationModal(false);
-        enqueueSnackbar(t('views.familyProfile.project.assignError'), {
+        enqueueSnackbar(t('views.familyProfile.mentorError'), {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -91,34 +92,36 @@ const ChangeProject = ({
           <Grid
             container
             spacing={2}
-            className={classes.projectSelectorContainer}
+            className={classes.facilitatorSelectorContainer}
           >
             <Grid item md={6} sm={12} xs={12}>
-              <ProjectSelector
-                withTitle={true}
-                projectData={projectData}
-                onChangeProject={selected => {
-                  setChangedProject(true);
-                  setProjectData(selected);
-                }}
-                isMulti={false}
-                isClearable={true}
-                stacked={stackSelector}
-              />
+              {!!orgsId && (
+                <FacilitatorFilter
+                  data={facilitatorData}
+                  organizations={!!orgsId ? orgsId : null}
+                  isMulti={false}
+                  onChange={selected => {
+                    setChangedFacilitator(true);
+                    setFacilitatorData(selected);
+                  }}
+                  label={t('views.familyProfile.facilitator')}
+                  stacked={stackSelector}
+                />
+              )}
             </Grid>
             <Grid item md={4} sm={12} xs={12} className={classes.button}>
               <Button
                 variant="contained"
                 onClick={toggleConfirmationModal}
-                disabled={!changedProject || !projectData}
+                disabled={!changedFacilitator || !facilitatorData}
               >
-                {t('views.familyProfile.project.changeProject')}
+                {t('views.familyProfile.changeFacilitator')}
               </Button>
             </Grid>
           </Grid>
           <ConfirmationModal
-            title={t('views.familyProfile.project.changeProject')}
-            subtitle={t('views.familyProfile.project.changeProjectConfirm')}
+            title={t('views.familyProfile.changeFacilitator')}
+            subtitle={t('views.familyProfile.changeFacilitatorConfirm')}
             cancelButtonText={t('general.no')}
             continueButtonText={t('general.yes')}
             onClose={toggleConfirmationModal}
@@ -134,4 +137,4 @@ const ChangeProject = ({
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps)(withSnackbar(ChangeProject));
+export default connect(mapStateToProps)(withSnackbar(ChangeFacilitator));

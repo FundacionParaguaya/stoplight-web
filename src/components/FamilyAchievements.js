@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import Container from './Container';
 import { withSnackbar } from 'notistack';
 import iconAchivement from '../assets/imgAch.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { COLORS } from '../theme';
+import ExpandLess from '@material-ui/icons/ExpandLess';
 
 const styles = theme => ({
   basicInfo: {
@@ -89,7 +90,7 @@ const styles = theme => ({
     flexDirection: 'row',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-start'
   },
   achievementTitle: {
     paddingRight: '2rem',
@@ -98,6 +99,10 @@ const styles = theme => ({
     paddingBottom: '1.5rem',
     '&:nth-child(2n - 1)': {
       backgroundColor: theme.palette.background.paper
+    },
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1)
     }
   },
   iconStoplight: {
@@ -106,33 +111,30 @@ const styles = theme => ({
     borderRadius: '50%',
     minWidth: 28,
     minHeight: 28,
-    marginRight: '1rem'
+    marginRight: '1rem',
+    [theme.breakpoints.down('xs')]: {
+      marginRight: 0,
+      marginLeft: theme.spacing(3.5)
+    }
   },
   expandIcon: {
     color: '#626262'
   },
-  achievementContent: {
-    display: 'flex',
-    paddingTop: '2rem'
-  },
-  labelTitleDetailInfo: {
-    fontSize: 16,
-    color: theme.palette.grey.middle,
-    paddingBottom: '1rem'
-  },
-  labelDetailInfo: {
-    fontSize: 16,
-    color: theme.palette.text.primary,
-    paddingBottom: '1rem'
-  },
   divider: {
     flexGrow: 0,
-    border: '1px solid #DCDEE3',
-    width: 2,
-    marginLeft: 80
+    border: `1px solid ${theme.palette.grey.quarter}`,
+    width: 3,
+    marginLeft: 30,
+    marginRight: 30,
+    [theme.breakpoints.down('660')]: {
+      visibility: 'hidden'
+    }
   },
-  detailInfo: {
-    flexGrow: 1
+  achievementContent: {
+    paddingLeft: '2rem',
+    paddingRight: '2rem',
+    paddingTop: '1.5rem',
+    paddingBottom: '1rem'
   },
   emptyList: {
     paddingTop: '1rem',
@@ -141,15 +143,8 @@ const styles = theme => ({
   }
 });
 
-const FamilyAchievements = ({
-  classes,
-  familyId,
-  achievements,
-  user,
-  t,
-  i18n: { language },
-  history
-}) => {
+const FamilyAchievements = ({ classes, achievements, t }) => {
+  const [priorityOpen, setPriorityOpen] = useState();
   return (
     <div>
       <Container className={classes.basicInfo} variant="fluid">
@@ -175,14 +170,16 @@ const FamilyAchievements = ({
             </div>
             <Accordion className={classes.achievementsTable}>
               {achievements ? (
-                achievements.map(item => {
+                achievements.map((item, index) => {
                   return (
                     <AccordionItem
                       key={item.indicator}
                       className={classes.achievementTitle}
+                      onExpand={() => setPriorityOpen(index)}
+                      onClose={() => setPriorityOpen('')}
                       title={
                         <div className={classes.achievementItemHeader}>
-                          <div className={classes.indicatorBasicInfoLeft}>
+                          <div className={classes.indicatorBasicInfoRight}>
                             <div
                               className={classes.iconStoplight}
                               style={{ backgroundColor: COLORS.GREEN }}
@@ -196,46 +193,39 @@ const FamilyAchievements = ({
                               {item.indicator}
                             </Typography>
                           </div>
-                          <div className={classes.indicatorBasicInfoRight}>
+                          {priorityOpen !== index ? (
                             <ExpandMore className={classes.expandIcon} />
-                          </div>
+                          ) : (
+                            <ExpandLess className={classes.expandIcon} />
+                          )}
                         </div>
                       }
                     >
                       <div className={classes.achievementContent}>
-                        <div className={classes.detailInfo}>
-                          <Typography
-                            className={classes.labelTitleDetailInfo}
-                            variant="subtitle1"
-                          >
-                            {t('views.familyAchievements.action')}
-                          </Typography>
-                          <Typography
-                            className={classes.labelDetailInfo}
-                            variant="body1"
-                          >
-                            {item.action}
-                          </Typography>
-                        </div>
+                        <Grid container spacing={2}>
+                          {/* Action */}
+                          <Grid item md={5} sm={12} xs={12}>
+                            <Typography variant="subtitle1">
+                              {t('views.familyAchievements.action')}
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {item.action}
+                            </Typography>
+                          </Grid>
 
-                        <div className={classes.divider}></div>
-                        <div
-                          className={classes.detailInfo}
-                          style={{ marginLeft: 30 }}
-                        >
-                          <Typography
-                            className={classes.labelTitleDetailInfo}
-                            variant="subtitle1"
-                          >
-                            {t('views.familyAchievements.roadmap')}
-                          </Typography>
-                          <Typography
-                            className={classes.labelDetailInfo}
-                            variant="body1"
-                          >
-                            {item.roadmap}
-                          </Typography>
-                        </div>
+                          {/* Divider*/}
+                          <div className={classes.divider}></div>
+
+                          {/* Roadmap */}
+                          <Grid item md={5} sm={12} xs={12}>
+                            <Typography variant="subtitle1">
+                              {t('views.familyAchievements.roadmap')}
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {item.roadmap}
+                            </Typography>
+                          </Grid>
+                        </Grid>
                       </div>
                     </AccordionItem>
                   );

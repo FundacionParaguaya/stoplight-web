@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     color: '#6A6A6A',
+    minHeight: 159,
     [theme.breakpoints.down('xs')]: {
       width: '100%!important'
     }

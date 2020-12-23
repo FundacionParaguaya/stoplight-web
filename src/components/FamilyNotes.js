@@ -146,7 +146,10 @@ const styles = theme => ({
   note: {
     width: '60%',
     marginBottom: '2rem',
-    padding: '1.5rem 2rem'
+    padding: '1.5rem 2rem',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
   noteMsg: {
     fontSize: 16,
@@ -157,10 +160,14 @@ const styles = theme => ({
     marginTop: '1rem',
     marginBottom: '1rem',
     width: '60%',
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
   outlinedInput: {
-    padding: '1.5rem 1rem !important'
+    padding: '1.5rem 1rem !important',
+    textAlign: 'center'
   },
   buttonContained: {
     marginTop: 5,

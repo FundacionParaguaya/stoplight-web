@@ -5,16 +5,15 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import { Tab, Tabs } from '@material-ui/core';
-import Container from '../components/Container';
+import moment from 'moment';
 import chooseLifeMap from '../assets/begin_lifemap.png';
 import withLayout from '../components/withLayout';
 import { getFamily, getSnapshotsByFamily } from '../api';
 import { withSnackbar } from 'notistack';
-import NavigationBar from '../components/NavigationBar';
 import LifemapDetailsTable from '../components/LifemapDetailsTable';
 import DetailsOverview from '../components/DetailsOverview';
 import { getDateFormatByLocale } from '../utils/date-utils';
-import moment from 'moment';
+import Header from '../components/Header';
 
 const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   //export class LifemapDetail extends Component {
@@ -108,38 +107,22 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
-      <Container variant="stretch" key={1} className={classes.headerContainer}>
-        <NavigationBar options={navigationOptions}></NavigationBar>
-        <div className={classes.titleContainer}>
-          <div className={classes.surveyTopTitle}>
-            <img
-              src={chooseLifeMap}
-              alt="Choose Life Map"
-              className={classes.chooseLifeMapImage}
-            />
-            <Typography variant="h4" style={{ zIndex: 1 }}>
-              {family.name}
-            </Typography>
-            {/* Organization Name */}
-            <div className={classes.container}>
-              <Typography variant="subtitle1" className={classes.label}>
-                {t('views.familyProfile.organization')}
-              </Typography>
-              <span>&nbsp;</span>
-              <Typography variant="subtitle1" className={classes.label}>
-                {family.organization ? family.organization.name : ''}
-              </Typography>
-            </div>
-          </div>
-        </div>
-      </Container>
+      <Header
+        title={family.name}
+        subtitle1={t('views.familyProfile.organization').concat(
+          family.organization ? family.organization.name : ''
+        )}
+        imageSource={chooseLifeMap}
+        altTextImage="Choose Life Map"
+        navigationOptions={navigationOptions}
+      />
       <Tabs
         value={value}
         onChange={handleChange}
         indicatorColor="secondary"
         textColor="secondary"
-        variant="fullWidth"
         centered
+        variant="scrollable"
         scrollButtons="auto"
         classes={{ root: classes.tabsRoot }}
       >
@@ -256,7 +239,7 @@ const styles = theme => ({
     width: 'auto'
   },
   tabsRoot: {
-    minHeight: 84,
+    minHeight: 100,
     backgroundColor: theme.palette.background.default,
     paddingLeft: '12%',
     paddingRight: '12%',
@@ -266,7 +249,8 @@ const styles = theme => ({
     '& $div > span': {
       backgroundColor: theme.palette.primary.dark,
       height: 4
-    }
+    },
+    overflowX: 'auto'
   },
   tabRoot: {
     minHeight: 84,
@@ -274,6 +258,7 @@ const styles = theme => ({
     paddingBottom: 13,
     color: theme.typography.h4.color,
     height: 'auto',
+    minWidth: 180,
     width: 'auto',
     '&.MuiTab-textColorSecondary.Mui-selected': {
       color: theme.typography.h4.color

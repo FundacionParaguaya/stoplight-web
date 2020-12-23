@@ -48,7 +48,10 @@ const useStyles = makeStyles(theme => ({
   tabTitle: {
     fontSize: 16,
     fontWeight: 500,
-    textTransform: 'none'
+    textTransform: 'none',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    }
   },
   label: {
     fontFamily: 'Open Sans',
@@ -59,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   answer: {
     fontFamily: 'Open Sans',
     color: 'rgba(0,0,0,0.5)',
-    marginLeft: 10
+    marginLeft: 20
   },
   memberTitle: {
     marginLeft: 10,
@@ -81,7 +84,6 @@ const EconomicDetails = ({
   let { familyId } = useParams();
 
   const [value, setValue] = useState(0);
-  const [hasData, setHasData] = useState(false);
   const [hasDataPerTopic, setHasDataPerTopic] = useState([]);
   const [dataByTopic, setDataByTopic] = useState([]);
   const [membersDataByTopic, setMembersDataByTopic] = useState([]);
@@ -104,15 +106,6 @@ const EconomicDetails = ({
     let memberQuestionByTopic = [];
 
     let hasDataPerTopic = Array(topics.length).fill(false);
-
-    setHasData(
-      (!!economicData && economicData.length > 0) ||
-        (!!membersEconomicData &&
-          membersEconomicData.reduce(
-            (r, m) => m.economic.length > 0 || r,
-            false
-          ))
-    );
 
     !!economicData &&
       topics.length > 0 &&
@@ -196,163 +189,164 @@ const EconomicDetails = ({
 
   return (
     <React.Fragment>
-      {hasData ? (
-        <div className={classes.root}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="secondary"
-            textColor="secondary"
-            variant="scrollable"
-            scrollButtons="auto"
-            classes={{ root: classes.tabsRoot }}
-          >
-            {topics.map((topic, index) => (
-              <Tab
-                key={index}
-                classes={{ root: classes.tabRoot }}
-                label={
-                  <Typography variant="h6" className={classes.tabTitle}>
-                    {topic}
-                  </Typography>
-                }
-                value={index}
-              />
-            ))}
-          </Tabs>
+      <div className={classes.root}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="secondary"
+          textColor="secondary"
+          variant="scrollable"
+          scrollButtons="auto"
+          classes={{ root: classes.tabsRoot }}
+        >
+          {topics.map((topic, index) => (
+            <Tab
+              key={index}
+              classes={{ root: classes.tabRoot }}
+              label={
+                <Typography variant="h6" className={classes.tabTitle}>
+                  {topic}
+                </Typography>
+              }
+              value={index}
+            />
+          ))}
+        </Tabs>
+        <Grid container style={{ minHeight: 150 }}>
+          {showEditButtons(user) && (
+            <Grid
+              item
+              md={12}
+              container
+              justify="flex-end"
+              style={{ height: 30 }}
+            >
+              <Tooltip title={t('views.solutions.form.editButton')}>
+                <Button
+                  style={{ paddingTop: 4 }}
+                  onClick={() => {
+                    history.push(
+                      `/family/${familyId}/edit-economic/${topics[
+                        value
+                      ].replace(/\//g, '%2F')}`
+                    );
+                  }}
+                >
+                  <EditIcon />
+                </Button>
+              </Tooltip>
+            </Grid>
+          )}
           {hasDataPerTopic[value] ? (
             <React.Fragment>
-              <Grid container style={{ minHeight: 150 }}>
-                {showEditButtons(user) && (
-                  <Grid item md={12} container justify="flex-end">
-                    <Tooltip title={t('views.solutions.form.editButton')}>
-                      <Button
-                        className={classes.actionIcon}
-                        onClick={() => {
-                          history.push(
-                            `/family/${familyId}/edit-economic/${topics[
-                              value
-                            ].replace(/\//g, '%2F')}`
-                          );
-                        }}
-                      >
-                        <EditIcon />
-                      </Button>
-                    </Tooltip>
-                  </Grid>
-                )}
-                {!!dataByTopic[value] &&
-                  dataByTopic[value].length > 0 &&
-                  dataByTopic[value].map((answer, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        {shouldShowQuestion(answer, draft) && (
-                          <Grid item md={6}>
-                            <Typography variant="h6" className={classes.label}>
-                              {`${answer.questionText}:`}
+              {!!dataByTopic[value] &&
+                dataByTopic[value].length > 0 &&
+                dataByTopic[value].map((answer, index) => {
+                  return (
+                    <React.Fragment key={index}>
+                      {shouldShowQuestion(answer, draft) && (
+                        <Grid item md={6} sm={6} xs={12}>
+                          <Typography variant="h6" className={classes.label}>
+                            {answer.questionText}
+                          </Typography>
+                          {!!answer.text && (
+                            <Typography variant="h6" className={classes.answer}>
+                              {answer.text}
                             </Typography>
-                            {!!answer.text && (
-                              <Typography
-                                variant="h6"
-                                className={classes.answer}
-                              >
-                                {answer.text}
-                              </Typography>
-                            )}
-                            {!!answer.multipleTextArray && (
-                              <ul>
-                                {answer.multipleTextArray.map(
-                                  (answer, index) => (
-                                    <Grid key={index}>
-                                      <Typography
-                                        variant="h6"
-                                        className={classes.answer}
-                                      >
-                                        <li>{answer}</li>
-                                      </Typography>
-                                    </Grid>
-                                  )
-                                )}
-                              </ul>
-                            )}
-                          </Grid>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
+                          )}
+                          {!!answer.multipleTextArray && (
+                            <ul>
+                              {answer.multipleTextArray.map((answer, index) => (
+                                <Grid key={index}>
+                                  <Typography
+                                    variant="h6"
+                                    className={classes.answer}
+                                  >
+                                    <li>{answer}</li>
+                                  </Typography>
+                                </Grid>
+                              ))}
+                            </ul>
+                          )}
+                        </Grid>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
 
-                {!!membersDataByTopic &&
-                  membersDataByTopic.length > 0 &&
-                  membersDataByTopic.map(
-                    (member, mIndex) =>
-                      !!member.questions[value] &&
-                      member.questions[value].length > 0 && (
-                        <React.Fragment key={mIndex}>
-                          <Grid
-                            item
-                            container
-                            md={12}
-                            alignItems="center"
-                            style={{ marginTop: 15 }}
+              {!!membersDataByTopic &&
+                membersDataByTopic.length > 0 &&
+                membersDataByTopic.map(
+                  (member, mIndex) =>
+                    !!member.questions[value] &&
+                    member.questions[value].length > 0 && (
+                      <React.Fragment key={mIndex}>
+                        <Grid
+                          item
+                          container
+                          md={12}
+                          sm={12}
+                          xs={12}
+                          alignItems="center"
+                          style={{ marginTop: 15 }}
+                        >
+                          <img
+                            alt=""
+                            height={30}
+                            width={30}
+                            style={{ marginLeft: 10 }}
+                            src={familyFaceIcon}
+                          />
+                          <Typography
+                            variant="h6"
+                            className={classes.memberTitle}
                           >
-                            <img
-                              alt=""
-                              height={30}
-                              width={30}
-                              style={{ marginLeft: 10 }}
-                              src={familyFaceIcon}
-                            />
-                            <Typography
-                              variant="h6"
-                              className={classes.memberTitle}
-                            >
-                              {member.name}
-                            </Typography>
-                          </Grid>
-                          {member.questions[value].map((answer, index) => {
-                            return (
-                              <React.Fragment key={index}>
-                                {shouldShowQuestion(answer, draft, mIndex) && (
-                                  <Grid key={index} item md={6}>
+                            {member.name}
+                          </Typography>
+                        </Grid>
+                        {member.questions[value].map((answer, index) => {
+                          return (
+                            <React.Fragment key={index}>
+                              {shouldShowQuestion(answer, draft, mIndex) && (
+                                <Grid key={index} item md={6} sm={6} xs={12}>
+                                  <Typography
+                                    variant="h6"
+                                    className={classes.label}
+                                  >
+                                    {answer.questionText}
+                                  </Typography>
+                                  {!!answer.text && (
                                     <Typography
                                       variant="h6"
-                                      className={classes.label}
+                                      className={classes.answer}
                                     >
-                                      {`${answer.questionText}:`}
+                                      {answer.text}
                                     </Typography>
-                                    {!!answer.text && (
-                                      <Typography
-                                        variant="h6"
-                                        className={classes.answer}
-                                      >
-                                        {answer.text}
-                                      </Typography>
-                                    )}
-                                    {!!answer.multipleTextArray && (
-                                      <ul>
-                                        {answer.multipleTextArray.map(
-                                          (answer, index) => (
-                                            <Grid key={index}>
-                                              <Typography
-                                                variant="h6"
-                                                className={classes.answer}
-                                              >
-                                                <li>{answer}</li>
-                                              </Typography>
-                                            </Grid>
-                                          )
-                                        )}
-                                      </ul>
-                                    )}
-                                  </Grid>
-                                )}
-                              </React.Fragment>
-                            );
-                          })}
-                        </React.Fragment>
-                      )
-                  )}
-              </Grid>
+                                  )}
+                                  {!!answer.multipleTextArray && (
+                                    <ul>
+                                      {answer.multipleTextArray.map(
+                                        (answer, index) => (
+                                          <Grid key={index}>
+                                            <Typography
+                                              variant="h6"
+                                              className={classes.answer}
+                                            >
+                                              <li>{answer}</li>
+                                            </Typography>
+                                          </Grid>
+                                        )
+                                      )}
+                                    </ul>
+                                  )}
+                                </Grid>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </React.Fragment>
+                    )
+                )}
             </React.Fragment>
           ) : (
             <Grid
@@ -366,19 +360,8 @@ const EconomicDetails = ({
               </Typography>
             </Grid>
           )}
-        </div>
-      ) : (
-        <Grid
-          container
-          justify="center"
-          alignItems="center"
-          style={{ height: 250 }}
-        >
-          <Typography variant="h6" className={classes.memberTitle}>
-            {t('views.familyProfile.noEconomic')}
-          </Typography>
         </Grid>
-      )}
+      </div>
     </React.Fragment>
   );
 };
