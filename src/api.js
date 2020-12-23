@@ -1583,7 +1583,7 @@ export const getSolutionById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, contentText, country, showAuthor, organization, organizationName, hub, hubName, dimension,stoplightDimension,lang, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description, id}, createdBy} }',
+        'query getSolutionById($id: Long!){ getSolutionById(id: $id){id, title, description, contentRich, contentText, country, showAuthor, organization, organizationName, hub, hubName, dimension,stoplightDimension,lang, indicatorsNames, indicatorsCodeNames, contactInfo, type, resources{url type title description, id}, createdBy, createdAt} }',
       variables: {
         id: id
       }

@@ -19,6 +19,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 import { getSolutionById, updateSolutionView } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
@@ -59,6 +60,14 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10,
     marginBottom: 10,
     width: '100%'
+  },
+  dateLabel: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '100%',
+    fontSize: 14,
+    fontWeight: 500,
+    fontFamily: 'Poppins'
   },
   tag: {
     color: theme.palette.grey.middle,
@@ -155,7 +164,8 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     t,
     i18n: { language }
   } = useTranslation();
-  let { id } = useParams();
+  const dateFormat = 'MMM DD, yyyy';
+  const { id } = useParams();
   const navigationOptions = [
     { label: t('views.toolbar.solutions'), link: '/solutions' },
     { label: t('views.solutions.solution'), link: `/solution/${id}` }
@@ -195,7 +205,6 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     getSolutionById(user, id)
       .then(response => {
         let data = response.data.data.getSolutionById;
-
         setSolution(data);
         setCountry(
           countryOptions.find(country => country.code === data.country).label
@@ -224,7 +233,6 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
       role === ROLES_NAMES.ROLE_PS_TEAM
     );
   };
-
   return (
     <React.Fragment>
       {loading && (
@@ -250,6 +258,11 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
 
                 <Typography variant="h6" className={classes.label}>
                   {solution.description}
+                </Typography>
+                <Typography variant="h6" className={classes.dateLabel}>
+                  {`${moment(Date.parse(solution.createdAt)).format(
+                    dateFormat
+                  )}`}
                 </Typography>
               </Grid>
               {showButtons(user) && (
