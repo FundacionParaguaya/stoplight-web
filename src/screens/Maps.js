@@ -17,20 +17,27 @@ import InfoIcon from '@material-ui/icons/Info';
 const styles = theme => ({
   mainBody: {
     display: 'flex',
-    backgroundColor: theme.palette.primary.grey
+    backgroundColor: theme.palette.primary.grey,
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column'
+    }
   },
   filtersConatiner: {
     opacity: 1,
     padding: 20,
     paddingTop: 55,
-    width: 330
+    width: 330,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      padding: '0px 10px',
+      paddingTop: 10
+    }
   },
   container: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    width: '100%',
     height: 50,
     padding: 3
   },
@@ -59,16 +66,34 @@ const styles = theme => ({
   countLabel: {
     fontSize: 18,
     fontWeight: 500,
-    textAlign: 'left'
+    textAlign: 'left',
+    lineHeight: 1.2,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    }
   },
   messageIcon: {
     height: 40,
     width: 40,
-    padding: 5
+    padding: 5,
+    [theme.breakpoints.down('xs')]: {
+      width: 35
+    }
+  },
+  rootContainer: {
+    width: 'calc((100% - 330px))',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
   mapContainer: {
     height: '78vh',
-    maxHeight: '78vh'
+    maxHeight: '78vh',
+    position: 'relative',
+    [theme.breakpoints.down('sm')]: {
+      height: '68vh',
+      maxHeight: '68vh'
+    }
   }
 });
 
@@ -194,7 +219,7 @@ const Maps = ({ classes, user }) => {
           onChangeColors={colors => setFilterInput({ colors })}
         />
       </div>
-      <div style={{ width: 'calc((100% - 330px))' }}>
+      <div className={classes.rootContainer}>
         <div
           className={classes.container}
           style={{ justifyContent: 'space-between' }}

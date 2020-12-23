@@ -11,7 +11,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%'
+    justifyContent: 'center',
+    width: '100%',
+    [theme.breakpoints.between('sm', 'sm')]: {
+      paddingTop: theme.spacing(3)
+    }
   },
   gridAlignRight: {
     display: 'flex',
