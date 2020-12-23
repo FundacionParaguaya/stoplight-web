@@ -775,7 +775,8 @@
     },
     "map": {
       "filters": {
-        "displayClusters": "Mostrar agrupaciones"
+        "displayClusters": "Mostrar agrupaciones",
+        "moreFilters": "Más filtros"
       },
       "noRecords": "No se encontraron registros",
       "families": " familias",
