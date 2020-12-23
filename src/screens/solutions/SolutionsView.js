@@ -19,6 +19,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 import { getSolutionById, updateSolutionView } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
@@ -29,6 +30,8 @@ import {
   getIndicatorColorByDimension
 } from '../../utils/styles-utils';
 import DeleteSolutionModal from './DeleteSolutionModal';
+import { getDateFormatByLocale } from '../../utils/date-utils';
+import { format } from 'date-fns';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -163,7 +166,8 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     t,
     i18n: { language }
   } = useTranslation();
-  let { id } = useParams();
+  const dateFormat = 'MMM DD, yyyy';
+  const { id } = useParams();
   const navigationOptions = [
     { label: t('views.toolbar.solutions'), link: '/solutions' },
     { label: t('views.solutions.solution'), link: `/solution/${id}` }
@@ -203,7 +207,6 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     getSolutionById(user, id)
       .then(response => {
         let data = response.data.data.getSolutionById;
-        console.log(response.data); //TODO NO TRAE LA FECHA DE CREACION
         setSolution(data);
         setCountry(
           countryOptions.find(country => country.code === data.country).label
@@ -232,7 +235,6 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
       role === ROLES_NAMES.ROLE_PS_TEAM
     );
   };
-  //TODO NO TRAE LA FECHA EN EL OBJETO
   return (
     <React.Fragment>
       {loading && (
@@ -260,7 +262,9 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   {solution.description}
                 </Typography>
                 <Typography variant="h6" className={classes.dateLabel}>
-                  {JSON.stringify(solution)}
+                  {`${moment(Date.parse(solution.createdAt)).format(
+                    dateFormat
+                  )}`}
                 </Typography>
               </Grid>
               {showButtons(user) && (
