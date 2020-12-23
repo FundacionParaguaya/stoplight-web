@@ -60,6 +60,14 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 10,
     width: '100%'
   },
+  dateLabel: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '100%',
+    fontSize: 14,
+    fontWeight: 500,
+    fontFamily: 'Poppins'
+  },
   tag: {
     color: theme.palette.grey.middle,
     fontFamily: 'Poppins',
@@ -195,7 +203,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     getSolutionById(user, id)
       .then(response => {
         let data = response.data.data.getSolutionById;
-
+        console.log(response.data); //TODO NO TRAE LA FECHA DE CREACION
         setSolution(data);
         setCountry(
           countryOptions.find(country => country.code === data.country).label
@@ -224,7 +232,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
       role === ROLES_NAMES.ROLE_PS_TEAM
     );
   };
-
+  //TODO NO TRAE LA FECHA EN EL OBJETO
   return (
     <React.Fragment>
       {loading && (
@@ -250,6 +258,9 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
 
                 <Typography variant="h6" className={classes.label}>
                   {solution.description}
+                </Typography>
+                <Typography variant="h6" className={classes.dateLabel}>
+                  {JSON.stringify(solution)}
                 </Typography>
               </Grid>
               {showButtons(user) && (
