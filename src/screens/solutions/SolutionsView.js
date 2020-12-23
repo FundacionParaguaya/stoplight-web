@@ -30,8 +30,6 @@ import {
   getIndicatorColorByDimension
 } from '../../utils/styles-utils';
 import DeleteSolutionModal from './DeleteSolutionModal';
-import { getDateFormatByLocale } from '../../utils/date-utils';
-import { format } from 'date-fns';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
