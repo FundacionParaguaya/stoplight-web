@@ -28,11 +28,35 @@ const useStyles = makeStyles(theme => ({
   },
   columnHeader: {
     textAlign: 'center',
-    margin: 'auto'
+    margin: 'auto',
+    fontSize: 20,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 18
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 16
+    },
+    color: theme.palette.grey.middle,
+    textTransform: 'none'
   },
   indicatorsTitle: {
     fontSize: 22,
     fontWeight: 600
+  },
+  indicatorsData: {
+    textAlign: 'center',
+    margin: 'auto',
+    fontSize: 18,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    },
+    color: theme.palette.grey.middle,
+    textTransform: 'none'
   }
 }));
 
@@ -113,8 +137,10 @@ const LifemapDetailsTable = ({
 
     columns.push({
       title: (
-        <Typography variant="h6" className={classes.indicatorsTitle}>
-          {`${t('views.survey.indicators')}`}
+        <Typography variant="h6" className={classes.columnHeader}>
+          <div style={{ fontWeight: 600, marginBottom: -5 }}>
+            {`${t('views.survey.indicators')}`}
+          </div>
         </Typography>
       ),
       field: 'indicators',
@@ -123,7 +149,7 @@ const LifemapDetailsTable = ({
       width: '180px',
       render: rowData => (
         <div style={{ textAlign: 'left' }}>
-          <Typography variant="h6" style={{ textAlign: 'left' }}>
+          <Typography variant="h6" className={classes.indicatorsData}>
             {rowData.lifemapName}
           </Typography>
         </div>

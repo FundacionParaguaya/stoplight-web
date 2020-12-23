@@ -129,10 +129,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
           key={0}
           classes={{ root: classes.tabRoot }}
           label={
-            <Typography
-              variant="h6"
-              style={{ fontSize: 16, fontWeight: 500, textTransform: 'none' }}
-            >
+            <Typography className={classes.subtitleLabel}>
               {t('views.familiesOverviewBlock.overview')}
             </Typography>
           }
@@ -233,9 +230,17 @@ const styles = theme => ({
   columnHeader: {
     textAlign: 'center',
     margin: 'auto',
-    textTransform: 'none',
     height: 'auto',
-    width: 'auto'
+    fontSize: 16,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    },
+    color: theme.palette.grey.middle,
+    textTransform: 'none'
   },
   tabsRoot: {
     minHeight: 100,
@@ -265,6 +270,20 @@ const styles = theme => ({
     '&.MuiTab-textColorSecondary.MuiTab-fullWidth': {
       borderBottom: `1px solid ${theme.palette.grey.quarter}`
     }
+  },
+  subtitleLabel: {
+    width: 'auto',
+    fontSize: 16,
+    fontWeight: 500,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    },
+    color: theme.palette.grey.middle,
+    textTransform: 'none'
   }
 });
 
