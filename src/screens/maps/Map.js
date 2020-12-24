@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     top: 10,
     left: 10,
     width: '40%',
-    zIndex: 1,
+    zIndex: 0,
     [theme.breakpoints.down('sm')]: {
       left: '2vw',
       width: '60%'
