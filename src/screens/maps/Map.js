@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useReducer } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {
   withGoogleMap,
@@ -20,7 +21,6 @@ import yellow from '../../assets/yellow-dot.svg';
 import red from '../../assets/red-dot.svg';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/';
 import { useTranslation } from 'react-i18next';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -30,14 +30,22 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { ROLES_NAMES } from '../../utils/role-utils';
+import { useWindowSize } from '../../utils/hooks-helpers';
 
-const styles = () => ({
+const useStyles = makeStyles(theme => ({
   inputContainer: {
     position: 'absolute',
-    top: 130,
-    left: 340,
+    top: 10,
+    left: 10,
     width: '40%',
-    zIndex: 1
+    zIndex: 0,
+    [theme.breakpoints.down('sm')]: {
+      left: '2vw',
+      width: '60%'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '80%'
+    }
   },
   suggestionsContainer: {
     width: '100%',
@@ -79,17 +87,13 @@ const styles = () => ({
     justifyContent: 'center',
     marginTop: 40
   }
-});
+}));
 
-const Map = ({
-  classes,
-  mapRenderId,
-  markers,
-  isMarkerShown,
-  selectedColors,
-  user
-}) => {
+const Map = ({ mapRenderId, markers, isMarkerShown, selectedColors, user }) => {
   const { t } = useTranslation();
+  const classes = useStyles();
+  const { width } = useWindowSize();
+  const itsMobile = width < 600;
 
   const google = window.google;
 
@@ -195,7 +199,9 @@ const Map = ({
                 maxZoom: !!user.hub && user.hub.zoomLimit === true ? 13 : '',
                 minZoom: 2,
                 mapTypeControlOptions: {
-                  position: google.maps.ControlPosition.TOP_RIGHT
+                  position: itsMobile
+                    ? google.maps.ControlPosition.LEFT_BOTTOM
+                    : google.maps.ControlPosition.TOP_RIGHT
                 }
               }}
             >
@@ -394,4 +400,4 @@ const Map = ({
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default withStyles(styles)(connect(mapStateToProps)(withGoogleMap(Map)));
+export default connect(mapStateToProps)(withGoogleMap(Map));
