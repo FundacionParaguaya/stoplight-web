@@ -352,12 +352,9 @@ const FamilyProfile = ({
         stoplightSkipped={stoplightSkipped}
         questions={family.snapshotIndicators}
         priorities={priorities}
-      ></FamilyPriorities>
+      />
 
-      <FamilyAchievements
-        familyId={familyId}
-        achievements={achievements}
-      ></FamilyAchievements>
+      <FamilyAchievements familyId={familyId} achievements={achievements} />
 
       {/* Notes */}
 

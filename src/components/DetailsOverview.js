@@ -504,9 +504,10 @@ const DetailsOverview = ({
         stoplightSkipped={true}
         questions={snapshot}
         priorities={prioritiesList}
+        fullWidth={true}
       />
 
-      <FamilyAchievements achievements={achievementsList} />
+      <FamilyAchievements achievements={achievementsList} fullWidth={true} />
     </div>
   );
 };

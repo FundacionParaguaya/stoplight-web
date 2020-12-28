@@ -137,7 +137,12 @@ const styles = theme => ({
   }
 });
 
-const FamilyAchievements = ({ classes, achievements, t }) => {
+const FamilyAchievements = ({
+  classes,
+  achievements,
+  fullWidth = false,
+  t
+}) => {
   const [priorityOpen, setPriorityOpen] = useState();
   return (
     <div>
@@ -156,7 +161,13 @@ const FamilyAchievements = ({ classes, achievements, t }) => {
           {achievements ? achievements.length : 0}
         </Typography>
         {achievements && achievements.length > 0 ? (
-          <div className={classes.achievementsContainer}>
+          <div
+            style={{
+              paddingRight: fullWidth ? 0 : '12%',
+              paddingLeft: fullWidth ? 0 : '12%'
+            }}
+            className={classes.achievementsContainer}
+          >
             <div className={classes.columnHeaderContainer}>
               <Typography className={classes.labelRows} variant="subtitle1">
                 {t('views.familyAchievements.indicator')}
@@ -208,7 +219,7 @@ const FamilyAchievements = ({ classes, achievements, t }) => {
                           </Grid>
 
                           {/* Divider*/}
-                          <div className={classes.divider}></div>
+                          <div className={classes.divider} />
 
                           {/* Roadmap */}
                           <Grid item md={5} sm={12} xs={12}>
