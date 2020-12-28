@@ -2,11 +2,11 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import OrganizationsFilter from './OrganizationsFilter';
-import { ROLES_NAMES, checkAccessToProjects } from '../utils/role-utils';
 import TextField from '@material-ui/core/TextField';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
+import { ROLES_NAMES, checkAccessToProjects } from '../utils/role-utils';
+import OrganizationsFilter from './OrganizationsFilter';
 import FacilitatorFilter from './FacilitatorFilter';
 import HubsFilter from './HubsFilter';
 import ProjectSelector from './selectors/ProjectsSelector';
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    //padding: `${theme.spacing(4)}px 0`,
+    // padding: `${theme.spacing(4)}px 0`,
     paddingBottom: 20,
     position: 'relative'
   },
@@ -193,7 +193,7 @@ const FamilyFilter = ({
             </Typography>
             <TextField
               InputProps={{
-                //startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
+                // startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
                 classes: {
                   input: classes.familiesFilterInput
                 }

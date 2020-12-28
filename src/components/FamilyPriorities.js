@@ -26,6 +26,7 @@ const FamilyPriorities = ({
   questions,
   priorities,
   user,
+  fullWidth = false,
   t,
   i18n: { language },
   history
@@ -78,7 +79,13 @@ const FamilyPriorities = ({
         </Typography>
       </Container>
       {priorities && priorities.length > 0 ? (
-        <div className={classes.prioritiesContainer}>
+        <div
+          style={{
+            paddingRight: fullWidth ? 0 : '12%',
+            paddingLeft: fullWidth ? 0 : '12%'
+          }}
+          className={classes.prioritiesContainer}
+        >
           <div className={classes.columnHeaderContainer}>
             <Typography className={classes.labelRows} variant="subtitle1">
               {t('views.familyPriorities.indicator')}
@@ -236,7 +243,7 @@ const FamilyPriorities = ({
                         </Grid>
 
                         {/* Divider*/}
-                        <div className={classes.divider}></div>
+                        <div className={classes.divider} />
 
                         {/* What Information*/}
                         <Grid item md={5} sm={12} xs={12}>
@@ -411,8 +418,6 @@ const styles = theme => ({
     alignItems: 'center',
     width: '100%',
     paddingTop: '2rem',
-    paddingRight: '12%',
-    paddingLeft: '12%',
     paddingBottom: '2rem'
   },
   basicInfo: {

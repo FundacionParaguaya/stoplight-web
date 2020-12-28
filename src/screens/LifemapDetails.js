@@ -6,17 +6,17 @@ import { withTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import { Tab, Tabs } from '@material-ui/core';
 import moment from 'moment';
+import { withSnackbar } from 'notistack';
 import chooseLifeMap from '../assets/begin_lifemap.png';
 import withLayout from '../components/withLayout';
 import { getFamily, getSnapshotsByFamily } from '../api';
-import { withSnackbar } from 'notistack';
 import LifemapDetailsTable from '../components/LifemapDetailsTable';
 import DetailsOverview from '../components/DetailsOverview';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import Header from '../components/Header';
 
 const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
-  //export class LifemapDetail extends Component {
+  // export class LifemapDetail extends Component {
   const [family, setFamily] = useState({});
   const [firstParticipant, setFirstParticipant] = useState({});
   const [mentor, setMentor] = useState({});
@@ -121,7 +121,6 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
         onChange={handleChange}
         indicatorColor="secondary"
         textColor="secondary"
-        centered
         variant="scrollable"
         scrollButtons="auto"
         classes={{ root: classes.tabsRoot }}
@@ -131,10 +130,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
           style={{ width: `${100 / (snapshots.length + 1)}%` }}
           classes={{ root: classes.tabRoot }}
           label={
-            <Typography
-              variant="h6"
-              style={{ fontSize: 16, fontWeight: 500, textTransform: 'none' }}
-            >
+            <Typography className={classes.subtitleLabel}>
               {t('views.familiesOverviewBlock.overview')}
             </Typography>
           }
@@ -236,9 +232,17 @@ const styles = theme => ({
   columnHeader: {
     textAlign: 'center',
     margin: 'auto',
-    textTransform: 'none',
     height: 'auto',
-    width: 'auto'
+    fontSize: 16,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    },
+    color: theme.palette.grey.middle,
+    textTransform: 'none'
   },
   tabsRoot: {
     minHeight: 100,
@@ -268,6 +272,20 @@ const styles = theme => ({
     '&.MuiTab-textColorSecondary.MuiTab-fullWidth': {
       borderBottom: `1px solid ${theme.palette.grey.quarter}`
     }
+  },
+  subtitleLabel: {
+    width: 'auto',
+    fontSize: 16,
+    fontWeight: 500,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    },
+    color: theme.palette.grey.middle,
+    textTransform: 'none'
   }
 });
 
