@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { assignFacilitator } from '../../../api';
 import ConfirmationModal from '../../../components/ConfirmationModal';
 import FacilitatorFilter from '../../../components/FacilitatorFilter';
-import { ROLE_APP_ADMIN } from '../../../utils/role-utils';
+import { ROLE_APP_ADMIN, ROLE_ROOT } from '../../../utils/role-utils';
 import { useWindowSize } from '../../../utils/hooks-helpers';
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +38,8 @@ const ChangeFacilitator = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const display = user.role === ROLE_APP_ADMIN;
+  const canChangeFacilitator =
+    user.role === ROLE_APP_ADMIN || user.role === ROLE_ROOT;
   const windowSize = useWindowSize();
   const stackSelector = windowSize.width < 600;
 
@@ -87,50 +88,49 @@ const ChangeFacilitator = ({
 
   return (
     <React.Fragment>
-      {display && (
-        <React.Fragment>
-          <Grid
-            container
-            spacing={2}
-            className={classes.facilitatorSelectorContainer}
-          >
-            <Grid item md={6} sm={12} xs={12}>
-              {!!orgsId && (
-                <FacilitatorFilter
-                  data={facilitatorData}
-                  organizations={!!orgsId ? orgsId : null}
-                  isMulti={false}
-                  onChange={selected => {
-                    setChangedFacilitator(true);
-                    setFacilitatorData(selected);
-                  }}
-                  label={t('views.familyProfile.facilitator')}
-                  stacked={stackSelector}
-                />
-              )}
-            </Grid>
-            <Grid item md={4} sm={12} xs={12} className={classes.button}>
-              <Button
-                variant="contained"
-                onClick={toggleConfirmationModal}
-                disabled={!changedFacilitator || !facilitatorData}
-              >
-                {t('views.familyProfile.changeFacilitator')}
-              </Button>
-            </Grid>
+      <Grid
+        container
+        spacing={2}
+        className={classes.facilitatorSelectorContainer}
+      >
+        <Grid item md={6} sm={12} xs={12}>
+          {!!orgsId && (
+            <FacilitatorFilter
+              data={facilitatorData}
+              organizations={!!orgsId ? orgsId : null}
+              isMulti={false}
+              onChange={selected => {
+                setChangedFacilitator(true);
+                setFacilitatorData(selected);
+              }}
+              label={t('views.familyProfile.facilitator')}
+              stacked={stackSelector}
+              canChangeFacilitator={canChangeFacilitator}
+            />
+          )}
+        </Grid>
+        {canChangeFacilitator && (
+          <Grid item md={4} sm={12} xs={12} className={classes.button}>
+            <Button
+              variant="contained"
+              onClick={toggleConfirmationModal}
+              disabled={!changedFacilitator || !facilitatorData}
+            >
+              {t('views.familyProfile.changeFacilitator')}
+            </Button>
           </Grid>
-          <ConfirmationModal
-            title={t('views.familyProfile.changeFacilitator')}
-            subtitle={t('views.familyProfile.changeFacilitatorConfirm')}
-            cancelButtonText={t('general.no')}
-            continueButtonText={t('general.yes')}
-            onClose={toggleConfirmationModal}
-            disabledFacilitator={loading}
-            open={openConfirmationModal}
-            confirmAction={confirmAction}
-          />
-        </React.Fragment>
-      )}
+        )}
+      </Grid>
+      <ConfirmationModal
+        title={t('views.familyProfile.changeFacilitator')}
+        subtitle={t('views.familyProfile.changeFacilitatorConfirm')}
+        cancelButtonText={t('general.no')}
+        continueButtonText={t('general.yes')}
+        onClose={toggleConfirmationModal}
+        disabledFacilitator={loading}
+        open={openConfirmationModal}
+        confirmAction={confirmAction}
+      />
     </React.Fragment>
   );
 };

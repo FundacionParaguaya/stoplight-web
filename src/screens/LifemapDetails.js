@@ -128,6 +128,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
       >
         <Tab
           key={0}
+          style={{ width: `${100 / (snapshots.length + 1)}%` }}
           classes={{ root: classes.tabRoot }}
           label={
             <Typography
@@ -147,6 +148,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
               return (
                 <Tab
                   key={count}
+                  style={{ width: `${100 / (snapshots.length + 1)}%` }}
                   classes={{ root: classes.tabRoot }}
                   label={
                     <Typography variant="h6" className={classes.columnHeader}>
