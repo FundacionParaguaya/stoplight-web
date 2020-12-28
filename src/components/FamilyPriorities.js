@@ -407,8 +407,6 @@ const styles = theme => ({
     alignItems: 'center',
     width: '100%',
     paddingTop: '2rem',
-    paddingRight: '12%',
-    paddingLeft: '12%',
     paddingBottom: '2rem'
   },
   basicInfo: {

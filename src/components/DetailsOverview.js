@@ -76,6 +76,35 @@ const useStyles = makeStyles(theme => ({
     height: 60,
     width: '50%'
   },
+  textContainter2: {
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between'
+  },
+  headerDataContainerRight: {
+    display: 'flex',
+    flexDirection: 'row',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-end'
+    }
+  },
+  headerDataContainerLeft: {
+    display: 'flex',
+    flexDirection: 'row',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-start'
+    }
+  },
+  labelContainer2: {
+    margin: 'auto',
+    width: '100%',
+    display: 'flex',
+    overflowX: 'auto'
+  },
   labelContainer: {
     width: '100%',
     display: 'flex',
@@ -88,7 +117,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: 20
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: 16
+      fontSize: 14
     },
     fontWeight: 600,
     letterSpacing: 0.24,
@@ -103,29 +132,38 @@ const useStyles = makeStyles(theme => ({
       fontSize: 16
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: 14
+      fontSize: 12
     },
     color: theme.palette.grey.middle
   },
   valueLabel: {
     width: 'auto',
+    paddingLeft: 8,
     fontSize: 18,
     fontFamily: 'Poppins',
     [theme.breakpoints.down('sm')]: {
-      fontSize: 14
+      fontSize: 14,
+      paddingLeft: 0
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: 12
+      fontSize: 12,
+      paddingLeft: 0
     }
   },
   dimensionQuestionsContainer: {
-    marginTop: '20px',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: '60px'
-    },
+    marginTop: '30px',
     [theme.breakpoints.down('xs')]: {
-      marginTop: '120px'
+      marginTop: '90px'
     }
+  },
+  buttonLabel: {
+    fontWeight: 600,
+    fontSize: 16,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14
+    },
+    fontFamily: 'Poppins',
+    letterSpacing: 0.25
   }
 }));
 
@@ -316,58 +354,54 @@ const DetailsOverview = ({
         }}
         variant={modalVariant}
       />
-      <div className={classes.headerContainer}>
-        <div className={classes.textContainter}>
+      <div style={{ paddingTop: 45, paddingBottom: 45 }}>
+        <div className={classes.textContainter2}>
           <Typography className={classes.titleLabel}>
             {`${t('views.familyProfile.stoplight')} ${index + 1}`}
           </Typography>
-          <div
-            className={classes.labelContainer}
-            style={{ justifyContent: 'flex-start' }}
-          >
-            <Typography className={classes.subtitleLabel}>
-              {`${t('views.familyProfile.mentor')}: `}
-            </Typography>
-            &nbsp;&nbsp;
-            <Typography className={classes.valueLabel}>
-              {mentor.label}
-            </Typography>
-          </div>
-        </div>
-        {loading && (
-          <div className={classes.loadingContainer}>
-            <CircularProgress size={50} thickness={2} />
-          </div>
-        )}
-        <div className={classes.textContainter} style={{ textAlign: 'right' }}>
           <Typography className={classes.titleLabel}>
             {`${moment
               .unix(snapshot.snapshotDate)
               .utc(true)
               .format(dateFormat)}`}
           </Typography>
-          <div
-            className={classes.labelContainer}
-            style={{ justifyContent: 'flex-end' }}
-          >
+        </div>
+
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress size={50} thickness={2} />
+          </div>
+        )}
+
+        <div className={classes.textContainter2}>
+          <div className={classes.headerDataContainerLeft}>
+            <Typography className={classes.subtitleLabel}>
+              {`${t('views.familyProfile.mentor')}:`}
+            </Typography>
+            <Typography className={classes.valueLabel}>
+              {''.concat(mentor.label)}
+            </Typography>
+          </div>
+
+          <div className={classes.headerDataContainerRight}>
             <Typography className={classes.subtitleLabel}>
               {`${t('views.familyProfile.organization')} `}
             </Typography>
-            &nbsp;&nbsp;
             <Typography className={classes.valueLabel}>
               {family.organization.name}
             </Typography>
           </div>
-          <div
-            className={classes.labelContainer}
-            style={{ justifyContent: 'flex-end' }}
-          >
+        </div>
+        <div
+          style={{ justifyContent: 'flex-end' }}
+          className={classes.textContainter2}
+        >
+          <div className={classes.headerDataContainerRight}>
             {checkAccessToProjects(user) && !!snapshot.projectTitle && (
               <React.Fragment>
                 <Typography className={classes.subtitleLabel}>
                   {t('views.familyProfile.projectTitle')}
                 </Typography>
-                &nbsp;&nbsp;
                 <Typography className={classes.valueLabel}>
                   {snapshot.projectTitle}
                 </Typography>
@@ -377,77 +411,86 @@ const DetailsOverview = ({
         </div>
       </div>
 
-      <div className={classes.overviewContainer}>
-        <div className={classes.gridContainer}>
-          <Grid container spacing={4} className={classes.buttonsContainer}>
-            {firstParticipant.email && showButton('email', user) && (
-              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  style={{ margin: 'auto' }}
-                  fullWidth
-                  disabled={loading}
-                  onClick={() => {
-                    handleMailClick();
-                  }}
-                >
-                  <MailIcon className={classes.leftIcon} />
+      <div className={classes.gridContainer}>
+        <Grid container spacing={4} className={classes.buttonsContainer}>
+          {firstParticipant.email && showButton('email', user) && (
+            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{ margin: 'auto' }}
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  handleMailClick();
+                }}
+              >
+                <MailIcon className={classes.leftIcon} />
+                <Typography className={classes.buttonLabel}>
                   {t('views.final.email')}
-                </Button>
-              </Grid>
-            )}
-            {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
-              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={loading}
-                  onClick={() => {
-                    handleWhatsappClick();
-                  }}
-                >
-                  <WhatsAppIcon className={classes.leftIcon} />
+                </Typography>
+              </Button>
+            </Grid>
+          )}
+          {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
+            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  handleWhatsappClick();
+                }}
+              >
+                <WhatsAppIcon className={classes.leftIcon} />
+                <Typography className={classes.buttonLabel}>
                   {t('views.final.whatsapp')}
-                </Button>
-              </Grid>
-            )}
-            {showButton('download', user) && (
-              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  disabled={loading}
-                  onClick={() => {
-                    handleDownloadClick();
-                  }}
-                >
-                  <DownloadIcon className={classes.leftIcon} />
+                </Typography>
+              </Button>
+            </Grid>
+          )}
+          {showButton('download', user) && (
+            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  handleDownloadClick();
+                }}
+              >
+                <DownloadIcon className={classes.leftIcon} />
+                <Typography className={classes.buttonLabel}>
                   {t('views.final.download')}
-                </Button>
-              </Grid>
-            )}
+                </Typography>
+              </Button>
+            </Grid>
+          )}
 
-            {showButton('delete', user, family) && (
-              <Grid item xs={12} sm={4} className={classes.buttonContainer}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  disabled={loading}
-                  onClick={() => {
-                    toggleDeleteModal();
-                  }}
-                >
-                  <DeleteIcon className={classes.leftIcon} />
+          {showButton('delete', user, family) && (
+            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                fullWidth
+                disabled={loading}
+                onClick={() => {
+                  toggleDeleteModal();
+                }}
+              >
+                <DeleteIcon className={classes.leftIcon} />
+                <Typography className={classes.buttonLabel}>
                   {t('views.final.deleteSnapshot')}
-                </Button>
-              </Grid>
-            )}
-          </Grid>
-        </div>
+                </Typography>
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+      </div>
+
+      <div className={classes.overviewContainer}>
         <div className={classes.dimensionQuestionsContainer}>
           <DimensionQuestion
             questions={stoplight}
