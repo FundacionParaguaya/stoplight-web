@@ -93,8 +93,7 @@ const FamilyProfile = ({
     return (
       role === ROLES_NAMES.ROLE_HUB_ADMIN ||
       role === ROLES_NAMES.ROLE_APP_ADMIN ||
-      role === ROLES_NAMES.ROLE_ROOT ||
-      role === ROLES_NAMES.ROLE_PS_TEAM
+      role === ROLES_NAMES.ROLE_ROOT //role_admin
     );
   };
 
@@ -358,12 +357,9 @@ const FamilyProfile = ({
         stoplightSkipped={stoplightSkipped}
         questions={family.snapshotIndicators}
         priorities={priorities}
-      ></FamilyPriorities>
+      />
 
-      <FamilyAchievements
-        familyId={familyId}
-        achievements={achievements}
-      ></FamilyAchievements>
+      <FamilyAchievements familyId={familyId} achievements={achievements} />
 
       {/* Notes */}
 
