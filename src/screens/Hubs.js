@@ -23,13 +23,16 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     position: 'relative',
-    height: 175
+    height: 175,
+    [theme.breakpoints.down('xs')]: {
+      height: 120
+    }
   },
   hubTitle: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 180
+    height: '100%'
   },
   hubImage: {
     display: 'block',
@@ -39,6 +42,15 @@ const useStyles = makeStyles(theme => ({
     top: -10,
     zIndex: 0,
     objectFit: 'cover',
+    [theme.breakpoints.down('md')]: {
+      width: '40%',
+      minHeight: 155
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '50%',
+      right: -20,
+      minHeight: 155
+    },
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
@@ -142,7 +154,7 @@ const Hubs = ({ user, history }) => {
             maxHeight: React.useState('unset')
           }}
         >
-          <Grid container justify="space-between">
+          <Grid container justify="space-between" spacing={2}>
             <Grid item md={8} sm={8} xs={12}>
               <HubsSearchFilter onChangeHubFilter={onChangeHubFilter} />
             </Grid>
