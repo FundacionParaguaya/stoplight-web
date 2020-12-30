@@ -439,11 +439,15 @@ const styles = theme => ({
     height: 100,
     alignItems: 'center',
     justifyContent: 'center',
+
     backgroundColor: theme.palette.primary.dark
   },
   button: {
     ...theme.overrides.MuiButton.contained,
     margin: 30,
+    paddingTop: 10,
+    paddingBottom: 10,
+    height: 'fit-content',
     backgroundColor: theme.palette.background.default,
     color: theme.palette.primary.dark,
     '&:hover': {
