@@ -105,7 +105,7 @@ const ChangeFacilitator = ({
               }}
               label={t('views.familyProfile.facilitator')}
               stacked={stackSelector}
-              canChangeFacilitator={canChangeFacilitator}
+              isDisabled={!canChangeFacilitator}
             />
           )}
         </Grid>
