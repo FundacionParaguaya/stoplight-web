@@ -444,7 +444,7 @@ const styles = theme => ({
   },
   button: {
     ...theme.overrides.MuiButton.contained,
-    margin: 30,
+    margin: '10px 12%',
     paddingTop: 10,
     paddingBottom: 10,
     height: 'fit-content',
@@ -456,7 +456,8 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: '20%',
       minWidth: 350,
-      marginLeft: '20%'
+      marginLeft: '20%',
+      margin: 30
     }
   },
   basicInfo: {
