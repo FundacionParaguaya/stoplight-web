@@ -114,7 +114,7 @@ export class Overview extends Component {
   getFooterDescription = () => {
     const { t } = this.props;
     let description;
-    if (this.props.currentDraft.previousIndicatorPriorities === undefined)
+    if (!this.props.currentDraft.previousIndicatorPriorities)
       description = t('views.overview.footerDescriptionCase1');
     else {
       description =
