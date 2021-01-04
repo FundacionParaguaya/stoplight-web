@@ -55,7 +55,7 @@ export class Overview extends Component {
       pictureSupport
     } = this.props.currentSurvey.surveyConfig;
     if (pictureSupport) {
-      //TODO go to pictures
+      // TODO go to pictures
       this.props.history.push('/lifemap/upload-pictures');
     } else if (signSupport) {
       this.props.history.push('/lifemap/sign');
@@ -67,7 +67,7 @@ export class Overview extends Component {
   finishSurvey = () => {
     const { minimumPriorities } = this.props.currentSurvey;
 
-    //TODO logic to check sign in config
+    // TODO logic to check sign in config
     if (minimumPriorities === 0) {
       this.goToNextView();
     } else {
@@ -95,51 +95,32 @@ export class Overview extends Component {
   };
 
   getFooterTitle = () => {
-    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
     const { t } = this.props;
-    const prioritiesCount = this.props.currentDraft.priorities
-      ? this.props.currentDraft.priorities.length
-      : 0;
     let title;
-    if (minimumPriorities === 0) {
-      title = t('views.overview.noPriorityRequiredTitle');
-    } else if (prioritiesCount === 0) {
-      title = t('views.overview.allPrioritiesRemainingTitle');
-    } else if (minimumPriorities - prioritiesCount > 1) {
-      title = `${minimumPriorities - prioritiesCount} ${t(
-        'views.overview.somePrioritiesRemainingTitle'
-      )}`;
-    } else if (minimumPriorities - prioritiesCount === 1) {
-      title = t('views.overview.onePriorityRemainingTitle');
-    } else {
-      title = t('views.overview.noPriorityRemainingTitle');
+    if (!this.props.currentDraft.previousIndicatorPriorities)
+      title = t('views.overview.footerTitleCase1');
+    else {
+      title =
+        this.props.currentDraft.previousIndicatorPriorities.length > 0
+          ? t('views.overview.footerTitleCase2').replace(
+              'XX',
+              this.props.currentDraft.previousIndicatorPriorities.length.toString()
+            )
+          : t('views.overview.footerTitleCase3');
     }
     return title;
   };
 
   getFooterDescription = () => {
-    const minimumPriorities = this.props.currentSurvey.minimumPriorities || 0;
     const { t } = this.props;
-    const prioritiesCount = this.props.currentDraft.priorities
-      ? this.props.currentDraft.priorities.length
-      : 0;
     let description;
-    if (minimumPriorities === 0) {
-      description = t('views.overview.noPriorityRequiredDescription');
-    } else if (prioritiesCount === 0) {
-      description = `${t(
-        'views.overview.allPrioritiesRemainingDescription'
-      )} ${minimumPriorities} ${
-        minimumPriorities === 1
-          ? t('views.overview.priority')
-          : t('views.overview.priorities')
-      }`;
-    } else if (minimumPriorities - prioritiesCount > 1) {
-      description = t('views.overview.somePrioritiesRemainingDescription');
-    } else if (minimumPriorities - prioritiesCount === 1) {
-      description = t('views.overview.onePriorityRemainingDescription');
-    } else {
-      description = t('views.overview.noPriorityRemainingDescription');
+    if (!this.props.currentDraft.previousIndicatorPriorities)
+      description = t('views.overview.footerDescriptionCase1');
+    else {
+      description =
+        this.props.currentDraft.previousIndicatorPriorities.length > 0
+          ? t('views.overview.footerDescriptionCase2')
+          : t('views.overview.footerDescriptionCase3');
     }
     return description;
   };

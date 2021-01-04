@@ -291,7 +291,13 @@
       "noPriorityRemainingTitle": "Great! You created all the required priorities",
       "noPriorityRemainingDescription": "You can make as many more as you want.",
       "noPriorityRequiredTitle": "To complete the Life Map...",
-      "noPriorityRequiredDescription": "Create priorities by clicking on the red and yellow circles!"
+      "noPriorityRequiredDescription": "Create priorities by clicking on the red and yellow circles!",
+      "footerTitleCase1": "To complete the Life Map...",
+      "footerTitleCase2": "You prioritized XX indicators last time!",
+      "footerTitleCase3": "Last time you didn't prioritize any indicators!",
+      "footerDescriptionCase1": "Create the priorities you want to focus on by clicking on the red and yellow indicators!",
+      "footerDescriptionCase2": "Continue adding new priorities! You may select previously prioritized indicators as well. Don’t forget to add your achievements by clicking on your green indicators.",
+      "footerDescriptionCase3": "Create the priorities you want to focus on by clicking on the red and yellow indicators! You may also add achievements by clicking on the green indicators."
     },
     "indicatorsFilter": {
       "red": "Red",

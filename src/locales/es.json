@@ -292,7 +292,13 @@
       "noPriorityRemainingTitle": "¡Genial! Creaste todas las prioridades requeridas",
       "noPriorityRemainingDescription": "Puedes seguir creando cuantas quieras.",
       "noPriorityRequiredTitle": "Para completar tu Mapa de Vida...",
-      "noPriorityRequiredDescription": "¡Crea prioridades al seleccionar los círculos rojos y amarillos!"
+      "noPriorityRequiredDescription": "¡Crea prioridades al seleccionar los círculos rojos y amarillos!",
+      "footerTitleCase1": "Para completar el Mapa de Vida...",
+      "footerTitleCase2": "Priorizaste XX indicadores la última vez.",
+      "footerTitleCase3": "La última vez no priorizaste ningún indicador.",
+      "footerDescriptionCase1": "¡Crea las prioridades en las cuales quieres trabajar al seleccionar los indicadores rojos y amarillos!",
+      "footerDescriptionCase2": "¡Continúa agregando nuevas prioridades! Podrás seleccionar indicadores previamente priorizados también. No olvides de agregar logros al seleccionar los indicadores verdes.",
+      "footerDescriptionCase3": "¡Crea las prioridades en las cuales quieres trabajar al seleccionar los indicadores rojos y amarillos! También podrás agregar logros al seleccionar los indicadores verdes."
     },
     "indicatorsFilter": {
       "red": "Rojo",
