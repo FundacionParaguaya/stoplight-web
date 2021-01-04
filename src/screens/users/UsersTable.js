@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap'
   },
   name: {
-    maxWidth: '12vw',
+    maxWidth: '45vw',
     fontSize: '14px',
     textOverflow: 'ellipsis',
     overflow: 'hidden',

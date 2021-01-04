@@ -34,9 +34,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    padding: '40px 40px',
+    padding: '40px 50px',
+    minHeight: '35vh',
     height: '85vh',
-    width: 500,
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none'
