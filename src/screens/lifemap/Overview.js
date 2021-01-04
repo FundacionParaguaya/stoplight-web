@@ -97,7 +97,7 @@ export class Overview extends Component {
   getFooterTitle = () => {
     const { t } = this.props;
     let title;
-    if (this.props.currentDraft.previousIndicatorPriorities === undefined)
+    if (!this.props.currentDraft.previousIndicatorPriorities)
       title = t('views.overview.footerTitleCase1');
     else {
       title =
