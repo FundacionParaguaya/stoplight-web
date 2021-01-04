@@ -29,13 +29,13 @@ const useStyles = makeStyles(theme => ({
   columnHeader: {
     textAlign: 'center',
     margin: 'auto',
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: 'Poppins',
     [theme.breakpoints.down('sm')]: {
-      fontSize: 18
+      fontSize: 16
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: 16
+      fontSize: 14
     },
     color: theme.palette.grey.middle,
     textTransform: 'none'
