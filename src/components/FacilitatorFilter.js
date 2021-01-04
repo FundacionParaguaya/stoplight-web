@@ -73,7 +73,7 @@ const FacilitatorFilter = ({
   isMulti,
   label,
   stacked,
-  canChangeFacilitator
+  isDisabled
 }) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -120,7 +120,7 @@ const FacilitatorFilter = ({
           loadingMessage={() => t('views.facilitatorFilter.loading')}
           noOptionsMessage={() => t('views.facilitatorFilter.noOption')}
           options={facilitators}
-          isDisabled={!canChangeFacilitator}
+          isDisabled={isDisabled}
           components={{
             DropdownIndicator: () => <div />,
             IndicatorSeparator: () => <div />,
