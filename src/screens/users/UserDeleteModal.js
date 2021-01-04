@@ -16,7 +16,8 @@ import face from '../../assets/serious_face.png';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
-    width: 470,
+    width: '85vw',
+    maxWidth: 500,
     backgroundColor: theme.palette.background.default,
     outline: 'none',
     position: 'absolute',
