@@ -165,25 +165,12 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Poppins',
     letterSpacing: 0.25
   },
-  leftActionButtonContainer: {
+  actionButtonContainer: {
     '&:first-child:nth-last-child(1)': {
       margin: 'auto'
     },
     display: 'flex',
-    justifyContent: 'flex-start',
-    [theme.breakpoints.down('sm')]: {
-      justifyContent: 'center'
-    }
-  },
-  rightActionButtonContainer: {
-    '&:first-child:nth-last-child(1)': {
-      margin: 'auto'
-    },
-    display: 'flex',
-    justifyContent: 'flex-end',
-    [theme.breakpoints.down('sm')]: {
-      justifyContent: 'center'
-    }
+    justifyContent: 'center'
   },
   actionButton: {
     width: 300,
@@ -438,12 +425,7 @@ const DetailsOverview = ({
       <div className={classes.gridContainer}>
         <Grid container spacing={4} className={classes.buttonsContainer}>
           {firstParticipant.email && showButton('email', user) && (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              className={classes.leftActionButtonContainer}
-            >
+            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
               <Button
                 variant="outlined"
                 color="primary"
@@ -461,12 +443,7 @@ const DetailsOverview = ({
             </Grid>
           )}
           {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              className={classes.rightActionButtonContainer}
-            >
+            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
               <Button
                 variant="outlined"
                 color="primary"
@@ -484,12 +461,7 @@ const DetailsOverview = ({
             </Grid>
           )}
           {showButton('download', user) && (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              className={classes.leftActionButtonContainer}
-            >
+            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
               <Button
                 variant="outlined"
                 color="primary"
@@ -508,12 +480,7 @@ const DetailsOverview = ({
           )}
 
           {showButton('delete', user, family) && (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              className={classes.rightActionButtonContainer}
-            >
+            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
               <Button
                 variant="outlined"
                 color="secondary"
