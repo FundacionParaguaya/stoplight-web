@@ -153,7 +153,7 @@ const useStyles = makeStyles(theme => ({
   dimensionQuestionsContainer: {
     marginTop: '30px',
     [theme.breakpoints.down('xs')]: {
-      marginTop: '90px'
+      marginTop: '150px'
     }
   },
   buttonLabel: {
@@ -164,6 +164,30 @@ const useStyles = makeStyles(theme => ({
     },
     fontFamily: 'Poppins',
     letterSpacing: 0.25
+  },
+  leftActionButtonContainer: {
+    '&:first-child:nth-last-child(1)': {
+      margin: 'auto'
+    },
+    display: 'flex',
+    justifyContent: 'flex-start',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center'
+    }
+  },
+  rightActionButtonContainer: {
+    '&:first-child:nth-last-child(1)': {
+      margin: 'auto'
+    },
+    display: 'flex',
+    justifyContent: 'flex-end',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center'
+    }
+  },
+  actionButton: {
+    width: 300,
+    height: 34
   }
 }));
 
@@ -414,12 +438,16 @@ const DetailsOverview = ({
       <div className={classes.gridContainer}>
         <Grid container spacing={4} className={classes.buttonsContainer}>
           {firstParticipant.email && showButton('email', user) && (
-            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              className={classes.leftActionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="primary"
-                style={{ margin: 'auto' }}
-                fullWidth
+                className={classes.actionButton}
                 disabled={loading}
                 onClick={() => {
                   handleMailClick();
@@ -433,11 +461,16 @@ const DetailsOverview = ({
             </Grid>
           )}
           {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
-            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              className={classes.rightActionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="primary"
-                fullWidth
+                className={classes.actionButton}
                 disabled={loading}
                 onClick={() => {
                   handleWhatsappClick();
@@ -451,11 +484,16 @@ const DetailsOverview = ({
             </Grid>
           )}
           {showButton('download', user) && (
-            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              className={classes.leftActionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="primary"
-                fullWidth
+                className={classes.actionButton}
                 disabled={loading}
                 onClick={() => {
                   handleDownloadClick();
@@ -470,11 +508,16 @@ const DetailsOverview = ({
           )}
 
           {showButton('delete', user, family) && (
-            <Grid item xs={12} sm={6} className={classes.buttonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              className={classes.rightActionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="secondary"
-                fullWidth
+                className={classes.actionButton}
                 disabled={loading}
                 onClick={() => {
                   toggleDeleteModal();
