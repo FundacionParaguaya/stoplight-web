@@ -241,9 +241,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: '40px 50px',
-    maxHeight: '65vh',
     minHeight: '45vh',
-    width: '500px',
+    width: '85vw',
+    maxWidth: 500,
     overflow: 'auto',
     position: 'relative',
     outline: 'none'
