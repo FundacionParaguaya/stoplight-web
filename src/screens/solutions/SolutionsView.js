@@ -260,9 +260,10 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   {solution.description}
                 </Typography>
                 <Typography variant="h6" className={classes.dateLabel}>
-                  {`${moment(Date.parse(solution.createdAt)).format(
-                    dateFormat
-                  )}`}
+                  {solution.createdAt &&
+                    `${moment(Date.parse(solution.createdAt)).format(
+                      dateFormat
+                    )}`}
                 </Typography>
               </Grid>
               {showButtons(user) && (
