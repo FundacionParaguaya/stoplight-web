@@ -140,20 +140,12 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
           spacing={2}
           className={classes.searchContainer}
         >
-          <Grid item xs={12} md={12} sm={12} lg={6}>
+          <Grid item xs={12} md={6} sm={6} lg={6}>
             <OrganizationSearchFilter
               onChangeOrganizationFilter={onChangeOrganizationFilter}
             />
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            sm={12}
-            lg={6}
-            container
-            justify="flex-end"
-          >
+          <Grid item xs={12} md={6} sm={6} lg={6} container justify="flex-end">
             {!readOnly && (
               <Button
                 variant="contained"
