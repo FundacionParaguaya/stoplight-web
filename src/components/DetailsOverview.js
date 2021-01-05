@@ -425,7 +425,13 @@ const DetailsOverview = ({
       <div className={classes.gridContainer}>
         <Grid container spacing={4} className={classes.buttonsContainer}>
           {firstParticipant.email && showButton('email', user) && (
-            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              lg={4}
+              className={classes.actionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="primary"
@@ -443,7 +449,13 @@ const DetailsOverview = ({
             </Grid>
           )}
           {firstParticipant.phoneNumber && showButton('whatsapp', user) && (
-            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              lg={4}
+              className={classes.actionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="primary"
@@ -461,7 +473,13 @@ const DetailsOverview = ({
             </Grid>
           )}
           {showButton('download', user) && (
-            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              lg={4}
+              className={classes.actionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="primary"
@@ -480,7 +498,13 @@ const DetailsOverview = ({
           )}
 
           {showButton('delete', user, family) && (
-            <Grid item xs={12} sm={6} className={classes.actionButtonContainer}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              lg={4}
+              className={classes.actionButtonContainer}
+            >
               <Button
                 variant="outlined"
                 color="secondary"
