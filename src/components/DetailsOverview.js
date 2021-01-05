@@ -531,6 +531,7 @@ const DetailsOverview = ({
             priorities={priorities}
             achievements={achievements}
             isRetake={false}
+            onClickIndicator={() => {}}
           />
         </div>
       </div>

@@ -158,7 +158,7 @@ const LifemapDetailsTable = ({
     columns.push({
       title: (
         <Typography variant="h6" className={classes.indicatorColumnHeader}>
-          <div style={{ fontWeight: 600, marginBottom: -5 }}>
+          <div style={{ fontWeight: 600, marginBottom: -5, textAlign: 'left' }}>
             {`${t('views.survey.indicators')}`}
           </div>
         </Typography>
