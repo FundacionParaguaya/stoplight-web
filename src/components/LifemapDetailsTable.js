@@ -29,13 +29,27 @@ const useStyles = makeStyles(theme => ({
   columnHeader: {
     textAlign: 'center',
     margin: 'auto',
+    fontSize: 16,
+    fontFamily: 'Poppins',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14
+    },
+    color: theme.palette.grey.middle,
+    textTransform: 'none'
+  },
+  indicatorColumnHeader: {
+    textAlign: 'center',
+    margin: 'auto',
     fontSize: 20,
     fontFamily: 'Poppins',
     [theme.breakpoints.down('sm')]: {
-      fontSize: 18
+      fontSize: 20
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: 16
+      fontSize: 18
     },
     color: theme.palette.grey.middle,
     textTransform: 'none'
@@ -45,9 +59,9 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600
   },
   indicatorsData: {
-    textAlign: 'center',
+    textAlign: 'left',
     margin: 'auto',
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Poppins',
     [theme.breakpoints.down('sm')]: {
       fontSize: 16
@@ -55,7 +69,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       fontSize: 14
     },
-    color: theme.palette.grey.middle,
     textTransform: 'none'
   }
 }));
@@ -110,11 +123,18 @@ const LifemapDetailsTable = ({
           field: `column ${i}`,
           sorting: false,
           grouping: false,
+          width: '210px',
           cellStyle: {
-            borderBottom: '0px',
-            borderRight: `1px solid ${theme.palette.grey.quarter}`
+            minWidth: 210,
+            borderBottom: `1px solid ${theme.palette.grey.quarter}`,
+            borderRight: `1px solid ${theme.palette.grey.quarter}`,
+            borderLeft: `1px solid ${theme.palette.grey.quarter}`
           },
-          width: '120px',
+          headerStyle: {
+            minWidth: 210,
+            borderLeft: `1px solid ${theme.palette.grey.quarter}`,
+            borderTop: `1px solid ${theme.palette.grey.quarter}`
+          },
           render: rowData => {
             let indicator = rowData.values.find(d => d.column === i);
             indicator = indicator ? indicator : {};
@@ -137,8 +157,8 @@ const LifemapDetailsTable = ({
 
     columns.push({
       title: (
-        <Typography variant="h6" className={classes.columnHeader}>
-          <div style={{ fontWeight: 600, marginBottom: -5 }}>
+        <Typography variant="h6" className={classes.indicatorColumnHeader}>
+          <div style={{ fontWeight: 600, marginBottom: -5, textAlign: 'left' }}>
             {`${t('views.survey.indicators')}`}
           </div>
         </Typography>
@@ -146,7 +166,17 @@ const LifemapDetailsTable = ({
       field: 'indicators',
       sorting: false,
       grouping: false,
-      width: '180px',
+      cellStyle: {
+        minWidth: 260,
+        borderBottom: `1px solid ${theme.palette.grey.quarter}`,
+        borderRight: `1px solid ${theme.palette.grey.quarter}`,
+        borderLeft: `1px solid ${theme.palette.grey.quarter}`
+      },
+      headerStyle: {
+        minWidth: 260,
+        borderLeft: `1px solid ${theme.palette.grey.quarter}`,
+        borderTop: `1px solid ${theme.palette.grey.quarter}`
+      },
       render: rowData => (
         <div style={{ textAlign: 'left' }}>
           <Typography variant="h6" className={classes.indicatorsData}>
