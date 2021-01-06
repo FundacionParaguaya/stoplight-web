@@ -130,21 +130,32 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
             <Typography variant="h4">{t('views.toolbar.projects')}</Typography>
           </div>
         </div>
-        <Container variant="fluid" className={classes.searchContainer}>
-          <ProjectSearchFilter onChangeProjectFilter={onChangeProjectFilter} />
-          {!readOnly && (
-            <Button
-              variant="contained"
-              className={classes.addProject}
-              onClick={() => {
-                setSelectedProject({});
-                toggleFormModal();
-              }}
-            >
-              {t('views.projects.addProject')}
-            </Button>
-          )}
-        </Container>
+        <Grid
+          container
+          justify="space-between"
+          spacing={2}
+          className={classes.searchContainer}
+        >
+          <Grid item xs={12} md={6} sm={6} lg={6}>
+            <ProjectSearchFilter
+              onChangeProjectFilter={onChangeProjectFilter}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} sm={6} lg={6} container justify="flex-end">
+            {!readOnly && (
+              <Button
+                variant="contained"
+                className={classes.addProject}
+                onClick={() => {
+                  setSelectedProject({});
+                  toggleFormModal();
+                }}
+              >
+                {t('views.projects.addProject')}
+              </Button>
+            )}
+          </Grid>
+        </Grid>
         <div className={classes.listContainer}>
           {loading && (
             <div className={classes.spinnerWrapper}>
@@ -247,7 +258,11 @@ const styles = theme => ({
   titleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
+    height: 175,
+    [theme.breakpoints.down('xs')]: {
+      height: 120
+    }
   },
   projectTopTitle: {
     display: 'flex',

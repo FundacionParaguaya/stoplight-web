@@ -77,7 +77,6 @@ const useStyles = makeStyles(theme => ({
   containerProjectSearch: {
     display: 'flex',
     flexDirection: 'row',
-    width: '50%',
     alignItems: 'center'
   }
 }));
