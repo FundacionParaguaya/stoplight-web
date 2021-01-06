@@ -10,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import GroupIcon from '@material-ui/icons/Group';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 import LabelIcon from '@material-ui/icons/Label';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import clsx from 'clsx';
@@ -25,6 +26,7 @@ import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
 import { getPreviewForFile } from '../../utils/files-utils';
 import { ROLES_NAMES } from '../../utils/role-utils';
+import { COLORS } from '../../theme';
 import {
   getDimensionColor,
   getIndicatorColorByDimension
@@ -155,6 +157,11 @@ const useStyles = makeStyles(theme => ({
   },
   defaultContentRich: {
     fontFamily: 'Open sans'
+  },
+  solutionDetails: {
+    color: COLORS.TEXT_GREY,
+    fontSize: 14,
+    paddingRight: 30
   }
 }));
 
@@ -164,7 +171,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     t,
     i18n: { language }
   } = useTranslation();
-  const dateFormat = 'MMM DD, yyyy';
+  const dateFormat = language === 'en' ? 'MMM D, yyyy' : 'MMM DD, yyyy';
   const { id } = useParams();
   const navigationOptions = [
     { label: t('views.toolbar.solutions'), link: '/solutions' },
@@ -249,7 +256,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
         />
         <div className={classes.headInputs}>
           <div className={classes.innerFrom}>
-            <NavigationBar options={navigationOptions}></NavigationBar>
+            <NavigationBar options={navigationOptions} />
             <Grid container spacing={1} style={{ paddingTop: '2rem' }}>
               <Grid item md={8} container>
                 <Typography variant="h4" className={classes.label}>
@@ -259,70 +266,115 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                 <Typography variant="h6" className={classes.label}>
                   {solution.description}
                 </Typography>
-                <Typography variant="h6" className={classes.dateLabel}>
-                  {solution.createdAt &&
-                    `${moment(Date.parse(solution.createdAt)).format(
-                      dateFormat
-                    )}`}
-                </Typography>
               </Grid>
-              {showButtons(user) && (
+              <Grid container>
                 <Grid
                   item
-                  md={4}
+                  lg={9}
+                  md={9}
                   container
-                  justify="flex-end"
-                  alignContent="flex-end"
+                  style={{ alignItems: 'center' }}
                 >
-                  <Tooltip title={t('views.solutions.form.deleteButton')}>
-                    <Button
-                      className={classes.actionIcon}
-                      onClick={() => {
-                        setDeleteData({
-                          openModal: true,
-                          solutionId: solution.id
-                        });
-                      }}
+                  {solution.showAuthor && (
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <GroupIcon className={classes.icon} />
+                      <Typography
+                        variant="h6"
+                        className={classes.solutionDetails}
+                      >
+                        {solution.organizationName ||
+                          solution.hubName ||
+                          'Fundacion Paraguaya'}
+                      </Typography>
+                    </div>
+                  )}
+
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <LocationOnIcon className={classes.icon} />
+                    <Typography
+                      variant="h6"
+                      className={classes.solutionDetails}
                     >
-                      <DeleteIcon />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title={t('views.solutions.form.editButton')}>
-                    <Button
-                      className={classes.actionIcon}
-                      onClick={() => {
-                        history.push(`edit/${solution.id}`);
-                      }}
+                      {country}
+                    </Typography>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <DateRangeIcon className={classes.icon} />
+                    <Typography
+                      variant="h6"
+                      className={classes.solutionDetails}
                     >
-                      <EditIcon />
-                    </Button>
-                  </Tooltip>
+                      {solution.createdAt &&
+                        `${moment(Date.parse(solution.createdAt)).format(
+                          dateFormat
+                        )}`}
+                    </Typography>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    {solution.type && (
+                      <Typography
+                        variant="caption"
+                        className={clsx(classes.tag, classes.solutionType)}
+                      >
+                        <LabelIcon className={classes.solutionTypeIcon} />
+                        {solution.type}
+                      </Typography>
+                    )}
+                  </div>
                 </Grid>
-              )}
+                {solution.type && (
+                  <Grid item lg={3} md={3}>
+                    <Typography
+                      variant="caption"
+                      className={clsx(classes.tag, classes.solutionType)}
+                    >
+                      <LabelIcon className={classes.solutionTypeIcon} />
+                      {solution.type}
+                    </Typography>
+                  </Grid>
+                )}
+                {showButtons(user) && (
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end'
+                      }}
+                    >
+                      <Tooltip title={t('views.solutions.form.deleteButton')}>
+                        <Button
+                          className={classes.actionIcon}
+                          onClick={() => {
+                            setDeleteData({
+                              openModal: true,
+                              solutionId: solution.id
+                            });
+                          }}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </Tooltip>
+                      <Tooltip title={t('views.solutions.form.editButton')}>
+                        <Button
+                          className={classes.actionIcon}
+                          onClick={() => {
+                            history.push(`edit/${solution.id}`);
+                          }}
+                        >
+                          <EditIcon />
+                        </Button>
+                      </Tooltip>
+                    </div>
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
           </div>
         </div>
         <div className={classes.innerFrom}>
           <Grid container>
-            <Grid item md={8} container justify="space-between">
-              <Grid item lg={5} md={6} xs={8} container>
-                {solution.showAuthor && (
-                  <>
-                    <GroupIcon className={classes.icon} />
-                    <Typography variant="h6">
-                      {solution.organizationName ||
-                        solution.hubName ||
-                        'Fundacion Paraguaya'}
-                    </Typography>
-                  </>
-                )}
-              </Grid>
-
-              <Grid item lg={3} md={4} container justify="flex-end">
-                <LocationOnIcon className={classes.icon} />
-                <Typography variant="h6">{country}</Typography>
-              </Grid>
-            </Grid>
             <Grid item md={4}>
               <Grid item md={12} container justify="flex-end">
                 {solution.type && (
