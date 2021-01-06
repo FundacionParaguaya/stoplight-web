@@ -21,13 +21,16 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     position: 'relative',
-    height: 175
+    height: 175,
+    [theme.breakpoints.down('xs')]: {
+      height: 120
+    }
   },
   userTitle: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 180
+    height: '100%'
   },
   userImage: {
     display: 'block',
@@ -37,6 +40,15 @@ const styles = theme => ({
     top: -10,
     zIndex: 0,
     objectFit: 'cover',
+    [theme.breakpoints.down('md')]: {
+      width: '40%',
+      minHeight: 155
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '50%',
+      right: -20,
+      minHeight: 155
+    },
     [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
