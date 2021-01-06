@@ -134,22 +134,31 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
             )}
           />
         </div>
-        <Container variant="fluid" className={classes.searchContainer}>
-          <OrganizationSearchFilter
-            onChangeOrganizationFilter={onChangeOrganizationFilter}
-          />
-          {!readOnly && (
-            <Button
-              variant="contained"
-              className={classes.addOrganization}
-              onClick={() => {
-                history.push(`/organization/create`);
-              }}
-            >
-              {t('views.organization.addOrganization')}
-            </Button>
-          )}
-        </Container>
+        <Grid
+          container
+          justify="space-between"
+          spacing={2}
+          className={classes.searchContainer}
+        >
+          <Grid item xs={12} md={6} sm={6} lg={6}>
+            <OrganizationSearchFilter
+              onChangeOrganizationFilter={onChangeOrganizationFilter}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} sm={6} lg={6} container justify="flex-end">
+            {!readOnly && (
+              <Button
+                variant="contained"
+                className={classes.addOrganization}
+                onClick={() => {
+                  history.push(`/organization/create`);
+                }}
+              >
+                {t('views.organization.addOrganization')}
+              </Button>
+            )}
+          </Grid>
+        </Grid>
         <div className={classes.listContainer}>
           {loading && (
             <div className={classes.spinnerWrapper}>
@@ -301,10 +310,8 @@ const styles = theme => ({
   },
 
   searchContainer: {
-    display: 'flex',
     paddingTop: 20,
-    paddingBottom: 40,
-    justifyContent: 'space-between'
+    paddingBottom: 40
   },
   organizationTitleContainer: {
     height: '20%',
@@ -317,7 +324,11 @@ const styles = theme => ({
   titleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    position: 'relative'
+    position: 'relative',
+    height: 175,
+    [theme.breakpoints.down('xs')]: {
+      height: 120
+    }
   },
   organizationTopTitle: {
     display: 'flex',

@@ -594,7 +594,7 @@
         "failed": "The Organization could not be deleted"
       },
       "form": {
-        "addTitle": "Add a Organization",
+        "addTitle": "Add an Organization",
         "editTitle": "Edit Organization",
         "name": "Organization name",
         "nameLengthExceeded": "Organization name must have a maximum of 50 characters",
