@@ -90,7 +90,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
         break;
       case 'total':
         tooltipLabel = `${payload[dataKey]} ${t(
-          'views.survey.surveys'
+          'views.survey.totalSurveys'
         )} - ${moment(payload['date']).format('MMMM YYYY')} `;
         setToltipText(tooltipLabel);
         break;
