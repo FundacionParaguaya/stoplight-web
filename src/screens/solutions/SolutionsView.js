@@ -272,11 +272,19 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   item
                   lg={9}
                   md={9}
+                  sm={12}
+                  xs={12}
                   container
                   style={{ alignItems: 'center' }}
                 >
                   {solution.showAuthor && (
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingBottom: 10
+                      }}
+                    >
                       <GroupIcon className={classes.icon} />
                       <Typography
                         variant="h6"
@@ -289,7 +297,13 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                     </div>
                   )}
 
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      paddingBottom: 10
+                    }}
+                  >
                     <LocationOnIcon className={classes.icon} />
                     <Typography
                       variant="h6"
@@ -299,7 +313,13 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                     </Typography>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      paddingBottom: 10
+                    }}
+                  >
                     <DateRangeIcon className={classes.icon} />
                     <Typography
                       variant="h6"
@@ -311,7 +331,13 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                         )}`}
                     </Typography>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      paddingBottom: 10
+                    }}
+                  >
                     {solution.type && (
                       <Typography
                         variant="caption"
@@ -323,17 +349,6 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                     )}
                   </div>
                 </Grid>
-                {solution.type && (
-                  <Grid item lg={3} md={3}>
-                    <Typography
-                      variant="caption"
-                      className={clsx(classes.tag, classes.solutionType)}
-                    >
-                      <LabelIcon className={classes.solutionTypeIcon} />
-                      {solution.type}
-                    </Typography>
-                  </Grid>
-                )}
                 {showButtons(user) && (
                   <Grid item lg={3} md={3} sm={12} xs={12}>
                     <div
@@ -374,21 +389,6 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
           </div>
         </div>
         <div className={classes.innerFrom}>
-          <Grid container>
-            <Grid item md={4}>
-              <Grid item md={12} container justify="flex-end">
-                {solution.type && (
-                  <Typography
-                    variant="caption"
-                    className={clsx(classes.tag, classes.solutionType)}
-                  >
-                    <LabelIcon className={classes.solutionTypeIcon} />
-                    {solution.type}
-                  </Typography>
-                )}
-              </Grid>
-            </Grid>
-          </Grid>
           <Grid container spacing={2}>
             <Grid item md={8} style={{ overflowWrap: 'break-word' }}>
               {
