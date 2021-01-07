@@ -195,12 +195,14 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 .splice(2, 1)
                 .join();
 
+              // Store data from Snapshot number 1 of that month
               if (snapShotNumber == 1) {
                 let finalData = {
                   date: moment(date, 'MM-YYYY').format(),
                   first: surveys
                 };
 
+                // Create an array of number of retakes by Snapshot number of that month
                 let retakesBySnapNumber = [];
                 retakesBySnapNumber = Object.entries(surveysByMonth)
                   .map(([date, survey]) => {
@@ -218,10 +220,12 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                   })
                   .filter(item => item);
 
+                // sum all retakes of all snapshot number of that month
                 const totalRetakes = retakesBySnapNumber.length
                   ? retakesBySnapNumber.reduce((a, b) => a + b)
                   : 0;
 
+                // Return data by month
                 return {
                   ...finalData,
                   totalRetakes: totalRetakes,
