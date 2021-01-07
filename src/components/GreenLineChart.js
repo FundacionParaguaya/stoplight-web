@@ -78,14 +78,12 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
         )} - ${moment(payload['date']).format('MMMM YYYY')} `;
         setToltipText(tooltipLabel);
         break;
-
-      case 'retakes':
-        const retakesList = payload.retakesArray
+      case 'totalRetakes':
+        const retakesList = payload.retakesBySnapNumber
           .map((number, index) => {
             return `• ${number} N˚${index + 2} ${t('views.survey.followUp')}`;
           })
           .join(' \n ');
-        console.log(retakesList);
         tooltipLabel = `${payload[dataKey]} ${t(
           'views.survey.followUp'
         )} - ${moment(payload['date']).format('MMMM YYYY')} ${'\n' +
@@ -98,13 +96,11 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
         )} - ${moment(payload['date']).format('MMMM YYYY')} `;
         setToltipText(tooltipLabel);
         break;
-
       default:
         return;
     }
   };
 
-  console.log('la data', data);
   return (
     <ResponsiveContainer width={width || '100%'} height={height || 250}>
       <LineChart data={data} margin={{ bottom: 5, left: 0, right: 25, top: 5 }}>
@@ -138,14 +134,12 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
                 </Typography>
               </li>
               <li className={classes.legendItem}>
-                {' '}
                 <span className={classes.greyDot}></span>
                 <Typography variant="subtitle2">
                   {t('views.survey.baseLine')}
                 </Typography>
               </li>
               <li className={classes.legendItem}>
-                {' '}
                 <span className={classes.ligthDot}></span>
                 <Typography variant="subtitle2">
                   {t('views.survey.followUp')}
@@ -156,20 +150,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
         />
 
         <Tooltip
-          content={
-            <CustomTooltip
-              format={
-                () => tooltipText
-
-                /*  `${total} ${t('views.survey.surveys')} - ${moment(
-                   date
-                 ).format('MMMM YYYY')} ` + "\n" +
-                 `${first} ${'Baseline surveys'}`
-                 + "\n" +
-                 `${retakes} ${'Follow-up surveys'}` */
-              }
-            />
-          }
+          content={<CustomTooltip format={() => tooltipText} />}
           cursor={false}
         />
 
@@ -195,7 +176,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
         <Line
           isAnimationActive={false}
           type="linear"
-          dataKey="retakes"
+          dataKey="totalRetakes"
           stroke={LIGHT_GREY}
           strokeWidth="2"
           dot={{ fill: LIGHT_GREY, strokeWidth: 2 }}
