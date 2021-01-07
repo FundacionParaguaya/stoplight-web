@@ -196,7 +196,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 .join();
 
               // Store data from Snapshot number 1 of that month
-              if (snapShotNumber == 1) {
+              if (snapShotNumber === '1') {
+                console.log('entro');
                 let finalData = {
                   date: moment(date, 'MM-YYYY').format(),
                   first: surveys
@@ -214,9 +215,11 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                       .split('-')
                       .splice(0, 2)
                       .join('-');
-                    if (itemSnapNumber != 1 && itemDate == dateData) {
+
+                    if (itemSnapNumber !== '1' && itemDate === dateData) {
                       return survey;
                     }
+                    return null;
                   })
                   .filter(item => item);
 
@@ -233,6 +236,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                   total: finalData.first + totalRetakes
                 };
               }
+              return null;
             })
             .filter(item => item)
             .sort((a, b) => getTime(a.date) - getTime(b.date));

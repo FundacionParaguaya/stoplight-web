@@ -67,6 +67,16 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
     );
   }
 
+  const showRetakeLine = data => {
+    return (
+      data
+        .map(item => {
+          return item.totalRetakes;
+        })
+        .reduce((a, b) => a + b) > 0
+    );
+  };
+
   const calculateTooltipInfo = ({ dataKey, payload }) => {
     let tooltipLabel;
     switch (dataKey) {
@@ -137,12 +147,14 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
                   {t('views.survey.baseLine')}
                 </Typography>
               </li>
-              <li className={classes.legendItem}>
-                <span className={classes.ligthDot}></span>
-                <Typography variant="subtitle2">
-                  {t('views.survey.followUp')}
-                </Typography>
-              </li>
+              {showRetakeLine(data) && (
+                <li className={classes.legendItem}>
+                  <span className={classes.ligthDot}></span>
+                  <Typography variant="subtitle2">
+                    {t('views.survey.followUp')}
+                  </Typography>
+                </li>
+              )}
             </ul>
           )}
         />
@@ -158,7 +170,6 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
           dataKey="total"
           stroke={GREEN}
           strokeWidth="2"
-          activeDot={true}
           dot={{ fill: GREEN, strokeWidth: 2 }}
           activeDot={{ onMouseEnter: event => calculateTooltipInfo(event) }}
         />
