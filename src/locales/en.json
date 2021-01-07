@@ -119,6 +119,7 @@
       "welcome": "Welcome",
       "contains": "Contains",
       "createdOn": "Created on",
+      "loading": "Loading...",
       "surveys": "Surveys",
       "baseLine": "Baseline surveys",
       "followUp": "Follow-up surveys",

@@ -13,10 +13,8 @@ import { withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
 import { COLORS } from '../theme';
 import CustomTooltip from './CustomTooltip';
-
 import { makeStyles } from '@material-ui/core/styles';
-
-const { GREEN, RED, YELLOW, GREY, LIGHT_GREY } = COLORS;
+const { GREEN, GREY, LIGHT_GREY } = COLORS;
 
 const useStyles = makeStyles(theme => ({
   greenDot: {
@@ -59,7 +57,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
-  const [tooltipText, setToltipText] = useState('');
+  const [tooltipText, setToltipText] = useState(t('views.survey.loading'));
   const classes = useStyles();
   if (!data) {
     return (
@@ -125,7 +123,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
           padding={{ bottom: 5 }}
         />
         <Legend
-          content={
+          content={() => (
             <ul className={classes.legendContainer}>
               <li className={classes.legendItem}>
                 <span className={classes.greenDot}></span>
@@ -146,7 +144,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
                 </Typography>
               </li>
             </ul>
-          }
+          )}
         />
 
         <Tooltip
