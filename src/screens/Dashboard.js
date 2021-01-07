@@ -183,6 +183,67 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         const getTime = date => new Date(date).getTime();
 
         if (surveysByMonth) {
+          const chartData2 = Object.entries(surveysByMonth)
+            .map(([date, surveys]) => {
+              const dateSplited = date.split('-');
+              const dateData = dateSplited[0] + '-' + dateSplited[1];
+              const snapShotNumber = dateSplited[2];
+              let finalData = {};
+
+              if (snapShotNumber == 1) {
+                let finalData = {
+                  date: moment(date, 'MM-YYYY').format(),
+                  first: surveys
+                };
+                let retakes = [];
+                let retakesArray = [];
+                retakesArray = Object.entries(surveysByMonth)
+                  .map(([date, survey]) => {
+                    const transfSnapNumber = date
+                      .split('-')
+                      .splice(2, 1)
+                      .join();
+                    const transfDate = date
+                      .split('-')
+                      .splice(0, 2)
+                      .join('-');
+                    if (transfSnapNumber != 1 && transfDate == dateData) {
+                      return survey;
+                    }
+                  })
+                  .filter(item => item);
+
+                retakes = retakesArray.length
+                  ? retakesArray.reduce((a, b) => a + b)
+                  : 0;
+                /* .reduce((a,b) => a + b); */
+
+                console.log('retakes', retakes);
+                return {
+                  ...finalData,
+                  retakes: retakes,
+                  retakesArray: retakesArray,
+                  total: finalData.first + retakes
+                };
+              }
+            })
+            .filter(item => item)
+            .sort((a, b) => getTime(a.date) - getTime(b.date));
+          /*   const chartData2 = Object.entries(surveysByMonth).map(([date,surveys],index)=> {
+            if
+            console.log(index)
+          }) */
+          console.log(chartData2);
+          setChart(chartData2);
+        } else {
+          setChart(null);
+        }
+
+        /* if (surveysByMonth) {
+        
+
+          
+
           const chartData = Object.entries(surveysByMonth)
             .map(([date, surveys]) => ({
               date: moment(date, 'MM-YYYY').format(),
@@ -193,7 +254,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
           setChart(chartData);
         } else {
           setChart(null);
-        }
+        } */
       })
       .finally(() => setLoadingChart(false));
   }, [
