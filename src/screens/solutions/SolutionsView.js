@@ -162,6 +162,22 @@ const useStyles = makeStyles(theme => ({
     color: COLORS.TEXT_GREY,
     fontSize: 14,
     paddingRight: 30
+  },
+  actionButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      justifyContent: 'flex-end'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      justifyContent: 'flex-end'
+    },
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'flex-end'
+    }
   }
 }));
 
@@ -270,12 +286,15 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
               <Grid container>
                 <Grid
                   item
-                  lg={9}
-                  md={9}
+                  lg={8}
+                  md={8}
                   sm={12}
                   xs={12}
                   container
-                  style={{ alignItems: 'center' }}
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}
                 >
                   {solution.showAuthor && (
                     <div
@@ -331,33 +350,8 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                         )}`}
                     </Typography>
                   </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      paddingBottom: 10
-                    }}
-                  >
-                    {solution.type && (
-                      <Typography
-                        variant="caption"
-                        className={clsx(classes.tag, classes.solutionType)}
-                      >
-                        <LabelIcon className={classes.solutionTypeIcon} />
-                        {solution.type}
-                      </Typography>
-                    )}
-                  </div>
-                </Grid>
-                {showButtons(user) && (
-                  <Grid item lg={3} md={3} sm={12} xs={12}>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end'
-                      }}
-                    >
+                  {showButtons(user) && (
+                    <div className={classes.actionButtons}>
                       <Tooltip title={t('views.solutions.form.deleteButton')}>
                         <Button
                           className={classes.actionIcon}
@@ -382,8 +376,8 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                         </Button>
                       </Tooltip>
                     </div>
-                  </Grid>
-                )}
+                  )}
+                </Grid>
               </Grid>
             </Grid>
           </div>
@@ -400,6 +394,17 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
               }
             </Grid>
             <Grid item md={4} style={{ marginTop: 8 }}>
+              <Grid item md={12} container justify="flex-end">
+                {solution.type && (
+                  <Typography
+                    variant="caption"
+                    className={clsx(classes.tag, classes.solutionType)}
+                  >
+                    <LabelIcon className={classes.solutionTypeIcon} />
+                    {solution.type}
+                  </Typography>
+                )}
+              </Grid>
               <Grid item md={12} container justify="flex-end">
                 <Typography
                   variant="caption"
