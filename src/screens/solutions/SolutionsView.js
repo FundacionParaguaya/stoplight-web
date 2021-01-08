@@ -167,15 +167,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-      justifyContent: 'flex-end'
-    },
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       justifyContent: 'flex-end'
     },
     [theme.breakpoints.down('sm')]: {
+      width: '100%',
       justifyContent: 'flex-end'
     }
   }
@@ -286,8 +283,8 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
               <Grid container>
                 <Grid
                   item
-                  lg={8}
-                  md={8}
+                  lg={12}
+                  md={12}
                   sm={12}
                   xs={12}
                   container
