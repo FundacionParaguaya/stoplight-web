@@ -184,12 +184,62 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
         if (surveysByMonth) {
           const chartData = Object.entries(surveysByMonth)
-            .map(([date, surveys]) => ({
-              date: moment(date, 'MM-YYYY').format(),
-              surveys
-            }))
-            .sort((a, b) => getTime(a.date) - getTime(b.date));
+            .map(([date, surveys]) => {
+              const dateData = date
+                .split('-')
+                .splice(0, 2)
+                .join('-');
 
+              const snapShotNumber = date
+                .split('-')
+                .splice(2, 1)
+                .join();
+
+              // Store data from Snapshot number 1 of that month
+              if (snapShotNumber === '1') {
+                console.log('entro');
+                let finalData = {
+                  date: moment(date, 'MM-YYYY').format(),
+                  first: surveys
+                };
+
+                // Create an array of number of retakes by Snapshot number of that month
+                let retakesBySnapNumber = [];
+                retakesBySnapNumber = Object.entries(surveysByMonth)
+                  .map(([date, survey]) => {
+                    const itemSnapNumber = date
+                      .split('-')
+                      .splice(2, 1)
+                      .join();
+                    const itemDate = date
+                      .split('-')
+                      .splice(0, 2)
+                      .join('-');
+
+                    if (itemSnapNumber !== '1' && itemDate === dateData) {
+                      return survey;
+                    }
+                    return null;
+                  })
+                  .filter(item => item);
+
+                // sum all retakes of all snapshot number of that month
+                const totalRetakes = retakesBySnapNumber.length
+                  ? retakesBySnapNumber.reduce((a, b) => a + b)
+                  : 0;
+
+                // Return data by month
+                return {
+                  ...finalData,
+                  totalRetakes: totalRetakes,
+                  retakesBySnapNumber: retakesBySnapNumber,
+                  total: finalData.first + totalRetakes
+                };
+              }
+              return null;
+            })
+            .filter(item => item)
+            .sort((a, b) => getTime(a.date) - getTime(b.date));
           setChart(chartData);
         } else {
           setChart(null);
