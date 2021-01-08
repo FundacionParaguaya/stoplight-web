@@ -67,7 +67,7 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
     );
   }
 
-  const showRetakeLine = data => {
+  const showLines = data => {
     return (
       data
         .map(item => {
@@ -141,13 +141,15 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
                   {t('views.survey.totalSurveys')}
                 </Typography>
               </li>
-              <li className={classes.legendItem}>
-                <span className={classes.greyDot}></span>
-                <Typography variant="subtitle2">
-                  {t('views.survey.baseLine')}
-                </Typography>
-              </li>
-              {showRetakeLine(data) && (
+              {showLines(data) && (
+                <li className={classes.legendItem}>
+                  <span className={classes.greyDot}></span>
+                  <Typography variant="subtitle2">
+                    {t('views.survey.baseLine')}
+                  </Typography>
+                </li>
+              )}
+              {showLines(data) && (
                 <li className={classes.legendItem}>
                   <span className={classes.ligthDot}></span>
                   <Typography variant="subtitle2">
@@ -173,24 +175,30 @@ const GreenLineChart = withTranslation()(({ data, width, height, t }) => {
           dot={{ fill: GREEN, strokeWidth: 2 }}
           activeDot={{ onMouseEnter: event => calculateTooltipInfo(event) }}
         />
-        <Line
-          isAnimationActive={false}
-          type="linear"
-          dataKey="first"
-          stroke={GREY}
-          strokeWidth="2"
-          dot={{ fill: GREY, strokeWidth: 2 }}
-          activeDot={{ onMouseEnter: event => calculateTooltipInfo(event) }}
-        />
-        <Line
-          isAnimationActive={false}
-          type="linear"
-          dataKey="totalRetakes"
-          stroke={LIGHT_GREY}
-          strokeWidth="2"
-          dot={{ fill: LIGHT_GREY, strokeWidth: 2 }}
-          activeDot={{ onMouseEnter: event => calculateTooltipInfo(event) }}
-        />
+
+        {showLines(data) && (
+          <Line
+            isAnimationActive={false}
+            type="linear"
+            dataKey="first"
+            stroke={GREY}
+            strokeWidth="2"
+            dot={{ fill: GREY, strokeWidth: 2 }}
+            activeDot={{ onMouseEnter: event => calculateTooltipInfo(event) }}
+          />
+        )}
+
+        {showLines(data) && (
+          <Line
+            isAnimationActive={false}
+            type="linear"
+            dataKey="totalRetakes"
+            stroke={LIGHT_GREY}
+            strokeWidth="2"
+            dot={{ fill: LIGHT_GREY, strokeWidth: 2 }}
+            activeDot={{ onMouseEnter: event => calculateTooltipInfo(event) }}
+          />
+        )}
       </LineChart>
     </ResponsiveContainer>
   );
