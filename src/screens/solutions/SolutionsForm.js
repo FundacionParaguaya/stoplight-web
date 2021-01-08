@@ -71,12 +71,18 @@ const useStyles = makeStyles(theme => ({
   inputTypeOne: {
     ...inputStyle,
     fontSize: 30,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 24
+    },
     fontWeight: 600,
     color: theme.typography.h4.color
   },
   inputTypeTwo: {
     ...inputStyle,
     fontSize: 16,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14
+    },
     fontWeight: 500,
     color: theme.typography.h4.color
   },
@@ -204,6 +210,12 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: -5,
     right: -6
+  },
+  switches: {
+    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'center'
+    }
   }
 }));
 
@@ -486,18 +498,25 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
             </div>
             <div className={classes.innerFrom}>
               {/* Show organizations switch and country selector */}
-              <Grid item md={8} sm={8} xs={12} container>
+              <Grid container>
                 <Grid item md={8} sm={8} xs={12} container>
-                  <Grid item lg={'auto'} md={3} sm={4} xs={4}>
-                    <Switch
-                      checked={values.showOrg}
-                      onChange={() => setFieldValue('showOrg', !values.showOrg)}
-                      color="primary"
-                    />
-                  </Grid>
-                  <Grid item lg={8} md={8} container alignItems="center">
+                  <Grid
+                    item
+                    lg={8}
+                    md={8}
+                    xs={12}
+                    container
+                    className={classes.switches}
+                  >
                     {values.showOrg && (
                       <>
+                        <Switch
+                          checked={values.showOrg}
+                          onChange={() =>
+                            setFieldValue('showOrg', !values.showOrg)
+                          }
+                          color="primary"
+                        />
                         <Typography variant="subtitle1" align="center">
                           {getOrganizationsName(user)}
                         </Typography>
@@ -511,9 +530,9 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   lg={4}
                   md={4}
                   sm={4}
-                  xs={4}
+                  xs={12}
                   container
-                  justify="flex-end"
+                  className={classes.switches}
                 >
                   <SolutionLangPicker
                     language={values.language}
@@ -524,7 +543,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                 </Grid>
               </Grid>
               <Grid container spacing={2} style={{ minHeight: '40vh' }}>
-                <Grid item md={8} sm={8} xs={12}>
+                <Grid item md={8} sm={12} xs={12}>
                   <Editor
                     data={values.contentRich}
                     handleData={editorData =>
@@ -544,7 +563,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   />
                 </Grid>
                 {/* Show organizations switch and country selector */}
-                <Grid item md={4} sm={4} xs={12}>
+                <Grid item md={4} sm={12} xs={12}>
                   <Grid item md={12} sm={12} xs={12}>
                     <CountrySelector
                       withTitle={false}
@@ -621,7 +640,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md={8} sm={8} xs={12}>
+              <Grid item md={8} sm={12} xs={12}>
                 <FileUploader files={files} setFiles={setFiles} />
 
                 {!!solution.resources && solution.resources.length > 0 && (
