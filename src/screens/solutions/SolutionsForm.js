@@ -80,9 +80,6 @@ const useStyles = makeStyles(theme => ({
   inputTypeTwo: {
     ...inputStyle,
     fontSize: 16,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 14
-    },
     fontWeight: 500,
     color: theme.typography.h4.color
   },

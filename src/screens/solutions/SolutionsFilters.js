@@ -12,7 +12,7 @@ import { ROLES_NAMES } from '../../utils/role-utils';
 
 import SolutionTypeSelector from './SolutionTypeSelector';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
@@ -38,6 +38,17 @@ const useStyles = makeStyles(() => ({
   typeSelector: {
     marginTop: 20,
     alignItems: 'flex-start'
+  },
+  solutionTypeFilter: {
+    marginTop: 0,
+    marginBottom: 0,
+    [theme.breakpoints.down('md')]: {
+      marginTop: -20
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 0,
+      marginBottom: 40
+    }
   }
 }));
 
@@ -72,7 +83,7 @@ const SolutionFilters = ({
         spacing={1}
       >
         {showCountryFilters(user) && (
-          <Grid item lg={2} md={2} sm={2} xs={12}>
+          <Grid item lg={3} md={4} sm={3} xs={12}>
             <CountrySelector
               withTitle={false}
               countryData={countryData}
@@ -83,7 +94,7 @@ const SolutionFilters = ({
             />
           </Grid>
         )}
-        <Grid item lg={4} md={4} sm={4} xs={12}>
+        <Grid item lg={3} md={4} sm={5} xs={12}>
           <DimensionSelector
             withTitle={false}
             dimensionData={dimensionData}
@@ -94,7 +105,7 @@ const SolutionFilters = ({
             isClearable={true}
           />
         </Grid>
-        <Grid item lg={3} md={3} sm={4} xs={12}>
+        <Grid item lg={3} md={4} sm={4} xs={12}>
           <IndicatorSelector
             withTitle={false}
             indicatorsData={indicatorsData}
@@ -110,8 +121,8 @@ const SolutionFilters = ({
         <Grid
           item
           lg={3}
-          md={3}
-          sm={3}
+          md={4}
+          sm={5}
           xs={12}
           className={classes.typeSelector}
           container
@@ -124,10 +135,10 @@ const SolutionFilters = ({
             onChangeSolutionType={onChangeSolutionType}
             parentLang={language}
             isClearable={true}
-            className={classes.filter}
+            className={classes.solutionTypeFilter}
           />
         </Grid>
-        <Grid item md={6} sm={6} xs={12}>
+        <Grid item md={4} sm={7} xs={12} lg={6}>
           <SearchTextFilter
             onChangeInput={onChangeFilterText}
             searchLabel={t('views.solutions.search')}
@@ -138,7 +149,7 @@ const SolutionFilters = ({
           item
           lg={3}
           md={4}
-          sm={4}
+          sm={12}
           xs={12}
           className={classes.gridAlignRight}
         >
