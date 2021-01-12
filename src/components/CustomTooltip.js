@@ -12,6 +12,7 @@ const tooltipStyles = {
     padding: '7px 10px'
   },
   label: {
+    whiteSpace: 'pre-line',
     margin: 0
   }
 };
