@@ -25,7 +25,7 @@ const showType = type => {
 };
 
 const useStyles = makeStyles(theme => ({
-  userListContainer: {
+  hubListContainer: {
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     flexDirection: 'column',
@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap'
   },
   name: {
-    maxWidth: '12vw',
+    maxWidth: 200,
     fontSize: '14px',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -83,17 +83,16 @@ const useStyles = makeStyles(theme => ({
     height: 60,
     objectFit: 'contain'
   },
-  badgeNumberContainer: {
+  logoContainer: {
     justifyContent: 'center',
     display: 'flex',
     margin: 'auto'
   },
-  email: {
-    maxWidth: '15vw',
+  description: {
     textOverflow: 'ellipsis',
     overflow: 'hidden'
   },
-  userCountContainer: {
+  hubCountContainer: {
     height: 37,
     width: '100%',
     opacity: 1,
@@ -202,7 +201,7 @@ const HubsTable = ({
   };
 
   return (
-    <div className={classes.userListContainer}>
+    <div className={classes.hubListContainer}>
       <HubPermissionsModal
         hub={selectedHub}
         open={openPermissionsModal}
@@ -215,7 +214,7 @@ const HubsTable = ({
         afterSubmit={afterSubmit}
         toggleModal={() => setOpenDeleteModal(!openDeleteModal)}
       />
-      <div className={classes.userCountContainer}>
+      <div className={classes.hubCountContainer}>
         <Typography className={classes.labelRows} variant="subtitle1">
           {showCountLabel(numberOfRows)}
         </Typography>
@@ -246,7 +245,7 @@ const HubsTable = ({
           }
         }}
         columns={[
-          //Column User avatar
+          //Logo column
           {
             field: 'id',
             Title: 'Logo',
@@ -254,7 +253,7 @@ const HubsTable = ({
             grouping: false,
             width: '15%',
             render: rowData => (
-              <div className={classes.badgeNumberContainer}>
+              <div className={classes.logoContainer}>
                 <img
                   src={!!rowData.logoUrl ? rowData.logoUrl : DefaultHubLogo}
                   className={classes.hubLogo}
@@ -272,6 +271,12 @@ const HubsTable = ({
             sorting: true,
             defaultSort: 'asc',
             width: '25%',
+            cellStyle: {
+              minWidth: 200
+            },
+            headerStyle: {
+              minWidth: 200
+            },
             render: rowData => (
               <React.Fragment>
                 <Tooltip title={rowData.name} aria-label="title">
@@ -288,9 +293,15 @@ const HubsTable = ({
             field: 'description',
             sorting: false,
             width: '30%',
+            cellStyle: {
+              minWidth: 200
+            },
+            headerStyle: {
+              minWidth: 200
+            },
             render: rowData => (
               <Tooltip title={rowData.description} aria-label="description">
-                <Typography variant="subtitle2" className={classes.email}>
+                <Typography variant="subtitle2" className={classes.description}>
                   {rowData.description}
                 </Typography>
               </Tooltip>
