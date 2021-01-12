@@ -702,24 +702,49 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   )}
                 />
                 <div className={classes.buttonContainer}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => {
-                      setOpenExitModal(true);
-                    }}
-                    disabled={isSubmitting}
-                  >
-                    {t('general.cancel')}
-                  </Button>
-
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                    disabled={isSubmitting}
-                  >
-                    {t('general.publish')}
-                  </Button>
+                  <Grid container>
+                    <Grid
+                      item
+                      lg={6}
+                      md={6}
+                      sm={6}
+                      xs={12}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          setOpenExitModal(true);
+                        }}
+                        disabled={isSubmitting}
+                      >
+                        {t('general.cancel')}
+                      </Button>
+                    </Grid>
+                    <Grid
+                      item
+                      lg={6}
+                      md={6}
+                      sm={6}
+                      xs={12}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Button
+                        type="submit"
+                        color="primary"
+                        variant="contained"
+                        disabled={isSubmitting}
+                      >
+                        {t('general.publish')}
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </div>
               </Grid>
             </div>

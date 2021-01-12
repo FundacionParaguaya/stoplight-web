@@ -37,7 +37,10 @@ const useStyles = makeStyles(theme => ({
   },
   typeSelector: {
     marginTop: 20,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 0
+    }
   },
   solutionTypeFilter: {
     marginTop: 0,
@@ -47,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       marginTop: 0,
-      marginBottom: 40
+      marginBottom: 20
     }
   }
 }));

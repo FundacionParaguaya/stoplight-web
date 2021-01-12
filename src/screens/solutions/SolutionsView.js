@@ -488,7 +488,12 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                 <Typography variant="h5" className={classes.label}>
                   {`${t('views.solutions.form.contact')}:`}
                 </Typography>
-                <Typography variant="h6">{solution.contactInfo}</Typography>
+                <Typography
+                  style={{ overflow: 'auto', textOverflow: 'ellipsis' }}
+                  variant="h6"
+                >
+                  {solution.contactInfo}
+                </Typography>
               </>
             )}
           </Grid>
