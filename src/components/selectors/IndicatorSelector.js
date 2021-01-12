@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     alignItems: 'flex-start',
     [theme.breakpoints.down('xs')]: {
-      marginTop: 0
+      marginTop: 0,
+      marginBottom: 10
     }
   },
   label: {

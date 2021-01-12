@@ -7,14 +7,18 @@ import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { selectStyle } from '../../utils/styles-utils';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   container: {
     marginTop: 20,
     marginBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 0,
+      marginBottom: 10
+    }
   },
   label: {
     marginBottom: 5,

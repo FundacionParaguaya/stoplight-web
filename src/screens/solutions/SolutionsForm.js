@@ -213,6 +213,18 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       justifyContent: 'center'
     }
+  },
+  buttonGrid: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  publishButtonGrid: {
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: '20px',
+      paddingBottom: '20px'
+    }
   }
 }));
 
@@ -709,10 +721,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       md={6}
                       sm={6}
                       xs={12}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                      }}
+                      className={classes.buttonGrid}
                     >
                       <Button
                         variant="outlined"
@@ -730,10 +739,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                       md={6}
                       sm={6}
                       xs={12}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                      }}
+                      className={classes.publishButtonGrid}
                     >
                       <Button
                         type="submit"

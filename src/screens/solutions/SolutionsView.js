@@ -489,7 +489,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   {`${t('views.solutions.form.contact')}:`}
                 </Typography>
                 <Typography
-                  style={{ overflow: 'auto', textOverflow: 'ellipsis' }}
+                  style={{ overflowWrap: 'break-word', wordWrap: 'break-word' }}
                   variant="h6"
                 >
                   {solution.contactInfo}
