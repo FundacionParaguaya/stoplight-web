@@ -36,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 16,
-    marginBottom: 16
+    marginBottom: 16,
+    justifyContent: 'center'
   },
   preview: {
     display: 'flex',

@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Typography, Button, IconButton } from '@material-ui/core';
+import {
+  TextField,
+  Typography,
+  Button,
+  IconButton,
+  InputAdornment
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { Formik, Form } from 'formik';
 import { useTranslation } from 'react-i18next';
-import logo from '../assets/header_logo.png';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+import Alert from '@material-ui/lab/Alert';
 import { connect } from 'react-redux';
+import { withSnackbar } from 'notistack';
+import logo from '../assets/header_logo.png';
 import {
   getToken,
   resetPasswordService,
@@ -13,8 +22,6 @@ import {
   enviroments
 } from '../api';
 import { getHomePage } from '../utils/role-utils';
-import { withSnackbar } from 'notistack';
-import Alert from '@material-ui/lab/Alert';
 import LanguageSelector from '../components/LanguageSelector';
 import Intercom from '../components/Intercom';
 import Container from '../components/Container';
@@ -156,6 +163,9 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
   const [loading, setLoading] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
     !!errorMessage && setTimeout(() => setErrorMessage(''), 6000);
@@ -413,12 +423,27 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
                         InputProps={{
                           classes: {
                             input: classes.filterInput
-                          }
+                          },
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          )
                         }}
                         variant="outlined"
                         margin="dense"
                         id="password"
-                        type="password"
+                        type={showPassword ? null : 'password'}
                         value={values.password}
                         onChange={e =>
                           setFieldValue('password', e.target.value)

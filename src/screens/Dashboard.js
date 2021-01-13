@@ -220,7 +220,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
               // Store data from Snapshot number 1 of that month
               if (snapShotNumber === '1') {
-                console.log('entro');
                 let finalData = {
                   date: moment(date, 'MM-YYYY').format(),
                   first: surveys
@@ -330,15 +329,15 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       <Container className={classes.operations} variant="fluid">
         <Container className={classes.operationsInner}>
           <div className={classes.chartContainer}>
-            <Typography variant="h5">
-              {isMentor
-                ? t('views.dashboard.yourProgress')
-                : t('views.operations')}
-            </Typography>
             <Box mt={3} />
             {loadingChart && <LoadingContainer />}
             {!loadingChart && (
-              <GreenLineChart width="100%" height={300} data={chart} />
+              <GreenLineChart
+                isMentor={isMentor}
+                width="100%"
+                height={300}
+                data={chart}
+              />
             )}
           </div>
           <div className={classes.feedContainer}>
