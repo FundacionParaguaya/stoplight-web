@@ -84,6 +84,10 @@ const InputWithFormik = ({
         ...(textFieldProps.InputProps || {})
       }}
       autoComplete="off"
+      multiline
+      InputLabelProps={{
+        shrink: true
+      }}
     />
   );
 };

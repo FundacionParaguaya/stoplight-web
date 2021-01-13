@@ -306,7 +306,15 @@ const Solutions = ({ classes, user, history }) => {
           <Grid container spacing={2}>
             {solutions.map(solution => {
               return (
-                <Grid item key={solution.id} xs={12} sm={4} md={4} xl={3}>
+                <Grid
+                  item
+                  key={solution.id}
+                  xs={12}
+                  sm={6}
+                  md={6}
+                  lg={4}
+                  xl={3}
+                >
                   <div className={classes.cardContainer}>
                     <Typography
                       variant="h6"
