@@ -225,7 +225,7 @@ export const getEconomicOverview = (
     },
     data: JSON.stringify({
       query:
-        'query economicOverview($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount familiesWithStoplightCount} }',
+        'query economicOverview($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toDate: $toDate, fromDate: $fromDate){ familiesCount peopleCount familiesWithStoplightCount peopleByCountries {country people }  snapshotsCount followupsCount membersAverage genders {male female others} } }',
       variables: {
         hub,
         organizations,
