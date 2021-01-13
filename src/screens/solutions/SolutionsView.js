@@ -175,6 +175,13 @@ const useStyles = makeStyles(theme => ({
       width: '100%',
       justifyContent: 'flex-end'
     }
+  },
+  headerInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    [theme.breakpoints.down('700')]: {
+      flexDirection: 'column'
+    }
   }
 }));
 
@@ -293,7 +300,27 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                     justifyContent: 'space-between'
                   }}
                 >
-                  {solution.showAuthor && (
+                  <div className={classes.headerInfo}>
+                    {solution.showAuthor && (
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          paddingBottom: 10
+                        }}
+                      >
+                        <GroupIcon className={classes.icon} />
+                        <Typography
+                          variant="h6"
+                          className={classes.solutionDetails}
+                        >
+                          {solution.organizationName ||
+                            solution.hubName ||
+                            'Fundacion Paraguaya'}
+                        </Typography>
+                      </div>
+                    )}
+
                     <div
                       style={{
                         display: 'flex',
@@ -301,52 +328,35 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                         paddingBottom: 10
                       }}
                     >
-                      <GroupIcon className={classes.icon} />
+                      <LocationOnIcon className={classes.icon} />
                       <Typography
                         variant="h6"
                         className={classes.solutionDetails}
                       >
-                        {solution.organizationName ||
-                          solution.hubName ||
-                          'Fundacion Paraguaya'}
+                        {country}
                       </Typography>
                     </div>
-                  )}
 
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      paddingBottom: 10
-                    }}
-                  >
-                    <LocationOnIcon className={classes.icon} />
-                    <Typography
-                      variant="h6"
-                      className={classes.solutionDetails}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingBottom: 10
+                      }}
                     >
-                      {country}
-                    </Typography>
+                      <DateRangeIcon className={classes.icon} />
+                      <Typography
+                        variant="h6"
+                        className={classes.solutionDetails}
+                      >
+                        {solution.createdAt &&
+                          `${moment(Date.parse(solution.createdAt)).format(
+                            dateFormat
+                          )}`}
+                      </Typography>
+                    </div>
                   </div>
 
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      paddingBottom: 10
-                    }}
-                  >
-                    <DateRangeIcon className={classes.icon} />
-                    <Typography
-                      variant="h6"
-                      className={classes.solutionDetails}
-                    >
-                      {solution.createdAt &&
-                        `${moment(Date.parse(solution.createdAt)).format(
-                          dateFormat
-                        )}`}
-                    </Typography>
-                  </div>
                   {showButtons(user) && (
                     <div className={classes.actionButtons}>
                       <Tooltip title={t('views.solutions.form.deleteButton')}>
