@@ -432,9 +432,9 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
                                 onMouseDown={handleMouseDownPassword}
                               >
                                 {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
                                   <Visibility />
+                                ) : (
+                                  <VisibilityOff />
                                 )}
                               </IconButton>
                             </InputAdornment>
