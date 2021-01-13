@@ -1,0 +1,438 @@
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Accordion, AccordionItem } from 'react-sanfona';
+import CountriesChart from './CountriesChart';
+import houseIcon from '../../assets/house.png';
+import stoplightIcon from '../../assets/stoplight-icon.png';
+import membersIcon from '../../assets/members-icon.png';
+import coupleIcon from '../../assets/couple-icon.png';
+
+const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(2),
+    color: theme.palette.grey.middle,
+    minHeight: 159,
+    justifyContent: 'space-between'
+  },
+  familiesCountStyle: {
+    fontSize: 34,
+    fontWeight: theme.typography.fontWeightMedium,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 25
+    }
+  },
+  primaryLabel: {
+    fontSize: 34,
+    fontWeight: theme.typography.fontWeightMedium,
+    width: '100%',
+    textAlign: 'left'
+  },
+  secondaryLabel: {
+    alignSelf: 'flex-end',
+    marginLeft: 5,
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: 5
+    }
+  },
+  labelWithIcon: {
+    fontSize: 34,
+    fontWeight: theme.typography.fontWeightMedium,
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  peopleCountStyle: {
+    fontSize: 16,
+    width: '100%'
+  },
+  tooltip: {
+    whiteSpace: 'pre-line'
+  },
+  expandIcon: {
+    marginTop: 6
+  },
+  img: {
+    maxWidth: 55,
+    maxHeight: 55
+  },
+  coupleImg: {
+    maxWidth: 51,
+    maxHeight: 41
+  },
+  countContainer: {
+    minHeight: 160,
+    paddingTop: 13
+  }
+}));
+
+const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
+  const classes = useStyles();
+  const { t } = useTranslation();
+
+  const totalFamilies = data.snapshotsCount + data.followupsCount;
+  const withOutStoplight = totalFamilies - data.familiesWithStoplightCount;
+
+  const [expandData, setExpandData] = useState(false);
+  const [countriesCode, setCountriesCode] = useState([]);
+  const [countriesCount, setCountriesCount] = useState([{}]);
+  const [countriesTotal, setCountriesTotal] = useState();
+
+  useEffect(() => {
+    if (peopleByCountries.length > 0) {
+      let names = peopleByCountries.map(country => country.country);
+      setCountriesCode(names);
+      let counts = [
+        {
+          name: 'data',
+          first: !!peopleByCountries[0] && peopleByCountries[0].people,
+          second: !!peopleByCountries[1] && peopleByCountries[1].people,
+          third: !!peopleByCountries[2] && peopleByCountries[2].people
+        }
+      ];
+      setCountriesCount(counts);
+      let total = peopleByCountries.reduce((acc, x) => acc + x.people, 0);
+      setCountriesTotal(total);
+    }
+  }, [peopleByCountries]);
+
+  return (
+    <Grid container spacing={2} className={classes.mainContainer}>
+      <Grid item md={12} sm={12} xs={12} style={{ height: 'fit-content' }}>
+        <Typography variant="h5">
+          {t('views.familiesOverviewBlock.overview')}
+        </Typography>
+      </Grid>
+
+      {/* First column */}
+      <Grid item md={4} sm={6} xs={12} spacing={2}>
+        <Grid
+          item
+          md={12}
+          sm={12}
+          xs={12}
+          container
+          spacing={1}
+          style={{ minHeight: 113 }}
+        >
+          <Grid
+            item
+            xl={2}
+            lg={3}
+            md={4}
+            sm={4}
+            xs={4}
+            container
+            justify="center"
+          >
+            <img alt="house" src={houseIcon} className={classes.img} />
+          </Grid>
+          <Grid
+            item
+            xl={10}
+            lg={9}
+            md={8}
+            sm={8}
+            xs={8}
+            container
+            justify="flex-start"
+          >
+            <Typography
+              component="p"
+              variant="h4"
+              className={classes.familiesCountStyle}
+            >
+              {data.familiesCount}
+              <Typography
+                component="span"
+                variant="h6"
+                className={classes.secondaryLabel}
+              >
+                {data.familiesCount !== 1
+                  ? t('views.familiesOverviewBlock.families')
+                  : t('views.familiesOverviewBlock.family')}
+              </Typography>
+            </Typography>
+            <Typography className={classes.peopleCountStyle} variant="h6">
+              {`
+                        ${t('views.familiesOverviewBlock.including')}
+                        ${data.peopleCount} ${t(
+                'views.familiesOverviewBlock.people'
+              )}`}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          md={12}
+          sm={12}
+          xs={12}
+          container
+          spacing={1}
+          className={classes.countContainer}
+        >
+          <Grid
+            item
+            xl={2}
+            lg={3}
+            md={4}
+            sm={4}
+            xs={4}
+            container
+            justify="center"
+          >
+            <img alt="stoplight" src={stoplightIcon} className={classes.img} />
+          </Grid>
+          <Grid
+            item
+            xl={10}
+            lg={9}
+            md={8}
+            sm={8}
+            xs={8}
+            container
+            justify="flex-start"
+          >
+            <Accordion>
+              <AccordionItem
+                onExpand={() => setExpandData(!expandData)}
+                onClose={() => setExpandData(!expandData)}
+                title={
+                  <Typography variant="h5" className={classes.labelWithIcon}>
+                    {totalFamilies}
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      className={classes.secondaryLabel}
+                      style={{ marginBottom: 3 }}
+                    >
+                      {totalFamilies !== 1
+                        ? t('views.familiesOverviewBlock.tookSnapshots')
+                        : t('views.familiesOverviewBlock.tookSnapshot')}
+                    </Typography>
+                    {!expandData ? (
+                      <KeyboardArrowDown className={classes.expandIcon} />
+                    ) : (
+                      <KeyboardArrowUp className={classes.expandIcon} />
+                    )}
+                  </Typography>
+                }
+              >
+                <React.Fragment>
+                  <Typography
+                    component="p"
+                    variant="h5"
+                    className={classes.primaryLabel}
+                    style={{ fontSize: 22 }}
+                  >
+                    {data.snapshotsCount}
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      className={classes.secondaryLabel}
+                    >
+                      {data.snapshotsCount !== 1
+                        ? t('views.familiesOverviewBlock.baseLine')
+                        : t('views.familiesOverviewBlock.baseLine')}
+                    </Typography>
+                  </Typography>
+                  {!!data.followupsCount && (
+                    <Typography
+                      component="p"
+                      variant="h5"
+                      className={classes.primaryLabel}
+                      style={{ fontSize: 22 }}
+                    >
+                      {data.followupsCount}
+                      <Typography
+                        component="span"
+                        variant="h6"
+                        className={classes.secondaryLabel}
+                      >
+                        {data.snapshotsCount !== 1
+                          ? t('views.familiesOverviewBlock.followUp')
+                          : t('views.familiesOverviewBlock.followUp')}
+                      </Typography>
+                    </Typography>
+                  )}
+                  {withOutStoplight !== 0 && (
+                    <Typography
+                      component="p"
+                      variant="h5"
+                      className={classes.primaryLabel}
+                      style={{ fontSize: 22 }}
+                    >
+                      {withOutStoplight}
+                      <Typography
+                        component="span"
+                        variant="h6"
+                        className={classes.secondaryLabel}
+                      >
+                        {data.snapshotsCount !== 1
+                          ? t(
+                              'views.familiesOverviewBlock.tookWhitoutStoplights'
+                            )
+                          : t(
+                              'views.familiesOverviewBlock.tookWhitoutStoplight'
+                            )}
+                      </Typography>
+                    </Typography>
+                  )}
+                </React.Fragment>
+              </AccordionItem>
+            </Accordion>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {/* Second column */}
+      <Grid item md={4} sm={6} xs={12} container spacing={2}>
+        <Grid item md={12} sm={12} xs={12} container spacing={1}>
+          <Grid
+            item
+            xl={2}
+            lg={3}
+            md={4}
+            sm={4}
+            xs={4}
+            container
+            justify="center"
+          >
+            <img alt="members" src={membersIcon} className={classes.img} />
+          </Grid>
+          <Grid
+            item
+            xl={8}
+            lg={8}
+            md={8}
+            sm={8}
+            xs={8}
+            container
+            justify="flex-start"
+          >
+            <Typography
+              component="p"
+              variant="h5"
+              className={classes.primaryLabel}
+            >
+              {data.membersAverage}
+              <Typography
+                component="span"
+                variant="h6"
+                className={classes.secondaryLabel}
+              >
+                {t('views.familiesOverviewBlock.averageMembers')}
+              </Typography>
+            </Typography>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          md={12}
+          sm={12}
+          xs={12}
+          container
+          spacing={1}
+          style={{ minHeight: 160 }}
+        >
+          <Grid
+            item
+            xl={2}
+            lg={3}
+            md={4}
+            sm={4}
+            xs={4}
+            container
+            justify="center"
+          >
+            <img alt="gender" src={coupleIcon} className={classes.coupleImg} />
+          </Grid>
+          <Grid
+            item
+            xl={10}
+            lg={9}
+            md={8}
+            sm={8}
+            xs={8}
+            container
+            justify="flex-start"
+          >
+            <Typography
+              component="p"
+              variant="h5"
+              className={classes.primaryLabel}
+            >
+              {data.genders.male}
+              <Typography
+                component="span"
+                variant="h6"
+                className={classes.secondaryLabel}
+              >
+                {t('views.familiesOverviewBlock.men')}
+              </Typography>
+            </Typography>
+            <Typography
+              component="p"
+              variant="h5"
+              className={classes.primaryLabel}
+            >
+              {data.genders.female}
+              <Typography
+                component="span"
+                variant="h6"
+                className={classes.secondaryLabel}
+              >
+                {t('views.familiesOverviewBlock.women')}
+              </Typography>
+            </Typography>
+            <Tooltip
+              title={data.genders.otherTooltipText}
+              aria-label="other"
+              classes={{ tooltip: classes.tooltip }}
+              placement="bottom-start"
+            >
+              <Typography
+                component="p"
+                variant="h5"
+                className={classes.primaryLabel}
+              >
+                {data.genders.otherGendersCount}
+                <Typography
+                  component="span"
+                  variant="h6"
+                  className={classes.secondaryLabel}
+                >
+                  {t('views.familiesOverviewBlock.other')}
+                </Typography>
+              </Typography>
+            </Tooltip>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {/* Third column */}
+      <Grid item md={3} sm={5} xs={12}>
+        <Typography
+          component="span"
+          variant="h6"
+          className={classes.secondaryLabel}
+          style={{ marginLeft: 0 }}
+        >
+          {t('views.familiesOverviewBlock.topCountries')}
+        </Typography>
+        <CountriesChart
+          countriesCode={countriesCode}
+          countriesCount={countriesCount}
+          countriesTotal={countriesTotal}
+        />
+      </Grid>
+    </Grid>
+  );
+};
+
+export default DashboardOverviewBlock;
