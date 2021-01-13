@@ -268,11 +268,10 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
-    height: 180
+    height: '100%'
   },
   searchContainer: {
     display: 'flex',
-    paddingTop: 20,
     paddingBottom: 40,
     justifyContent: 'space-between'
   },

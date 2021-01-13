@@ -108,7 +108,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 16,
-    marginBottom: 16
+    marginBottom: 16,
+    justifyContent: 'center'
   },
   thumb: {
     position: 'relative',
@@ -181,6 +182,12 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     [theme.breakpoints.down('700')]: {
       flexDirection: 'column'
+    }
+  },
+  tags: {
+    justifyContent: 'flex-end',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'flex-start'
     }
   }
 }));
@@ -401,7 +408,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
               }
             </Grid>
             <Grid item md={4} style={{ marginTop: 8 }}>
-              <Grid item md={12} container justify="flex-end">
+              <Grid item md={12} container className={classes.tags}>
                 {solution.type && (
                   <Typography
                     variant="caption"
@@ -412,7 +419,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   </Typography>
                 )}
               </Grid>
-              <Grid item md={12} container justify="flex-end">
+              <Grid item md={12} container className={classes.tags}>
                 <Typography
                   variant="caption"
                   className={classes.tag}
@@ -423,7 +430,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   {solution.dimension}
                 </Typography>
               </Grid>
-              <Grid item md={12} container justify="flex-end">
+              <Grid item md={12} container className={classes.tags}>
                 {solution.indicatorsNames.map((indicator, index) => {
                   return (
                     <Typography
@@ -488,7 +495,12 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                 <Typography variant="h5" className={classes.label}>
                   {`${t('views.solutions.form.contact')}:`}
                 </Typography>
-                <Typography variant="h6">{solution.contactInfo}</Typography>
+                <Typography
+                  style={{ overflowWrap: 'break-word', wordWrap: 'break-word' }}
+                  variant="h6"
+                >
+                  {solution.contactInfo}
+                </Typography>
               </>
             )}
           </Grid>
