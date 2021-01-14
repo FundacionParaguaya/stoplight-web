@@ -103,6 +103,7 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   }, [filter]);
 
   const navigationOptions = [
+    { label: t('views.toolbar.hubs'), link: '/hubs' },
     { label: t('views.toolbar.organizations'), link: '/organizations' },
     { label: t('views.toolbar.projects'), link: '/projects' }
   ];
