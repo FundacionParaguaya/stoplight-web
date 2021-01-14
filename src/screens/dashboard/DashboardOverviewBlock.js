@@ -16,7 +16,6 @@ import coupleIcon from '../../assets/couple-icon.png';
 const useStyles = makeStyles(theme => ({
   mainContainer: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(2),
     color: theme.palette.grey.middle,
     minHeight: 159,
     justifyContent: 'space-between'
@@ -63,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   },
   coupleImg: {
     maxWidth: 51,
-    maxHeight: 41
+    maxHeight: 37
   },
   countContainer: {
     minHeight: 160,
@@ -110,7 +109,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
       </Grid>
 
       {/* First column */}
-      <Grid item md={4} sm={6} xs={12} spacing={2}>
+      <Grid item md={4} sm={6} xs={12} container spacing={2}>
         <Grid
           item
           md={12}
@@ -118,7 +117,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
           xs={12}
           container
           spacing={1}
-          style={{ minHeight: 113 }}
+          style={{ minHeight: 113, maxHeight: 113 }}
         >
           <Grid
             item
@@ -273,13 +272,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
                         variant="h6"
                         className={classes.secondaryLabel}
                       >
-                        {data.snapshotsCount !== 1
-                          ? t(
-                              'views.familiesOverviewBlock.tookWhitoutStoplights'
-                            )
-                          : t(
-                              'views.familiesOverviewBlock.tookWhitoutStoplight'
-                            )}
+                        {t('views.familiesOverviewBlock.tookWhitoutStoplight')}
                       </Typography>
                     </Typography>
                   )}

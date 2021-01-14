@@ -45,7 +45,7 @@ const OverviewBlock = ({ classes, data, t, width }) => {
         </Typography>
       </Grid>
 
-      <Grid item md={5} xs={6} style={{ order: 2 }}>
+      <Grid item md={4} xs={6} style={{ order: 2 }}>
         <SummaryDonut
           greenIndicatorCount={data.stoplightOverview.greens}
           redIndicatorCount={data.stoplightOverview.reds}
@@ -61,14 +61,14 @@ const OverviewBlock = ({ classes, data, t, width }) => {
           type="priority"
           count={data.priorities}
           label
-          countVariant="h5"
+          countVariant="h4"
         />
         <Divider height={1} />
         <CountDetail
           type="achievement"
           count={data.achievements}
           label
-          countVariant="h5"
+          countVariant="h4"
         />
       </Grid>
       <Grid item md={5} xs={6} className={classes.barchart}>
@@ -78,7 +78,7 @@ const OverviewBlock = ({ classes, data, t, width }) => {
           yellowIndicatorCount={data.stoplightOverview.yellows}
           skippedIndicatorCount={data.stoplightOverview.skipped}
           isAnimationActive={false}
-          width="100%"
+          width="90%"
         />
       </Grid>
     </Grid>
@@ -104,6 +104,8 @@ const styles = theme => ({
     }
   },
   barchart: {
+    display: 'flex',
+    justifyContent: 'flex-end',
     order: 4,
     [theme.breakpoints.down('sm')]: {
       order: 3
