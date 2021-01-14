@@ -177,18 +177,16 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'flex-end'
     }
   },
-  headerInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    [theme.breakpoints.down('700')]: {
-      flexDirection: 'column'
-    }
-  },
   tags: {
     justifyContent: 'flex-end',
     [theme.breakpoints.down('sm')]: {
       justifyContent: 'flex-start'
     }
+  },
+  headerInfoItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingBottom: 10
   }
 }));
 
@@ -294,77 +292,69 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                   {solution.description}
                 </Typography>
               </Grid>
-              <Grid container>
+              <Grid container style={{ justifyContent: 'space-between' }}>
                 <Grid
                   item
-                  lg={12}
-                  md={12}
-                  sm={12}
+                  lg={9}
+                  md={9}
+                  sm={9}
                   xs={12}
                   container
                   style={{
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
+                    justifyContent: 'flex-start'
                   }}
                 >
-                  <div className={classes.headerInfo}>
-                    {solution.showAuthor && (
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          paddingBottom: 10
-                        }}
-                      >
-                        <GroupIcon className={classes.icon} />
-                        <Typography
-                          variant="h6"
-                          className={classes.solutionDetails}
-                        >
-                          {solution.organizationName ||
-                            solution.hubName ||
-                            'Fundacion Paraguaya'}
-                        </Typography>
-                      </div>
-                    )}
-
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        paddingBottom: 10
-                      }}
-                    >
-                      <LocationOnIcon className={classes.icon} />
+                  {solution.showAuthor && (
+                    <div className={classes.headerInfoItem}>
+                      <GroupIcon className={classes.icon} />
                       <Typography
                         variant="h6"
                         className={classes.solutionDetails}
                       >
-                        {country}
+                        {solution.organizationName ||
+                          solution.hubName ||
+                          'Fundacion Paraguaya'}
                       </Typography>
                     </div>
+                  )}
 
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        paddingBottom: 10
-                      }}
+                  <div className={classes.headerInfoItem}>
+                    <LocationOnIcon className={classes.icon} />
+                    <Typography
+                      variant="h6"
+                      className={classes.solutionDetails}
                     >
-                      <DateRangeIcon className={classes.icon} />
-                      <Typography
-                        variant="h6"
-                        className={classes.solutionDetails}
-                      >
-                        {solution.createdAt &&
-                          `${moment(Date.parse(solution.createdAt)).format(
-                            dateFormat
-                          )}`}
-                      </Typography>
-                    </div>
+                      {country}
+                    </Typography>
                   </div>
 
-                  {showButtons(user) && (
+                  <div className={classes.headerInfoItem}>
+                    <DateRangeIcon className={classes.icon} />
+                    <Typography
+                      variant="h6"
+                      className={classes.solutionDetails}
+                    >
+                      {solution.createdAt &&
+                        `${moment(Date.parse(solution.createdAt)).format(
+                          dateFormat
+                        )}`}
+                    </Typography>
+                  </div>
+                </Grid>
+
+                {showButtons(user) && (
+                  <Grid
+                    item
+                    lg={3}
+                    md={3}
+                    sm={3}
+                    xs={12}
+                    container
+                    style={{
+                      alignItems: 'flex-end',
+                      justifyContent: 'flex-end'
+                    }}
+                  >
                     <div className={classes.actionButtons}>
                       <Tooltip title={t('views.solutions.form.deleteButton')}>
                         <Button
@@ -390,8 +380,8 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                         </Button>
                       </Tooltip>
                     </div>
-                  )}
-                </Grid>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           </div>
