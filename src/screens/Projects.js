@@ -12,7 +12,11 @@ import ProjectFormModal from './projects/ProjectFormModal';
 import DeleteProjectModal from './projects/DeleteProjectModal';
 import { getProjectsPaginated } from '../api';
 import BottomSpacer from '../components/BottomSpacer';
-import { ROLES_NAMES } from '../utils/role-utils';
+import {
+  ROLE_HUB_ADMIN,
+  ROLES_NAMES,
+  ROLE_APP_ADMIN
+} from '../utils/role-utils';
 import NavigationBar from '../components/NavigationBar';
 
 const Projects = ({ history, classes, t, user, i18n: { language } }) => {
@@ -30,6 +34,10 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
     totalElements: 0,
     prevPage: 0
   });
+  const { role } = user;
+
+  const isHub = role === ROLE_HUB_ADMIN;
+  const isOrgAdmin = role === ROLE_APP_ADMIN;
 
   const onChangeProjectFilter = e => {
     if (e.key === 'Enter') {
@@ -102,11 +110,14 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
     !openDeleteModal && !openFormModal && !loading && loadProjects(true);
   }, [filter]);
 
-  const navigationOptions = [
+  let navigationOptions = [
     { label: t('views.toolbar.hubs'), link: '/hubs' },
     { label: t('views.toolbar.organizations'), link: '/organizations' },
     { label: t('views.toolbar.projects'), link: '/projects' }
   ];
+
+  if (isHub) navigationOptions = navigationOptions.slice(1);
+  if (isOrgAdmin) navigationOptions = navigationOptions.slice(2);
 
   return (
     <div className={classes.mainProjectsContainerBoss}>
