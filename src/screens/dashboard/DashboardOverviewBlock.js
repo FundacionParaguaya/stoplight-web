@@ -2,16 +2,12 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Accordion, AccordionItem } from 'react-sanfona';
-import CountriesChart from './CountriesChart';
-import houseIcon from '../../assets/house.png';
-import stoplightIcon from '../../assets/stoplight-icon.png';
-import membersIcon from '../../assets/members-icon.png';
 import coupleIcon from '../../assets/couple-icon.png';
+import houseIcon from '../../assets/house.png';
+import membersIcon from '../../assets/members-icon.png';
+import CountriesChart from './CountriesChart';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -74,10 +70,6 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const totalFamilies = data.snapshotsCount + data.followupsCount;
-  const withOutStoplight = totalFamilies - data.familiesWithStoplightCount;
-
-  const [expandData, setExpandData] = useState(false);
   const [countriesCode, setCountriesCode] = useState([]);
   const [countriesCount, setCountriesCount] = useState([{}]);
   const [countriesTotal, setCountriesTotal] = useState();
@@ -109,14 +101,16 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
       </Grid>
 
       {/* First column */}
-      <Grid item md={4} sm={6} xs={12} container spacing={2}>
+      <Grid item xl={4} lg={5} md={5} sm={6} xs={12} container spacing={2}>
         <Grid
           item
-          md={12}
-          sm={12}
-          xs={12}
+          xl={10}
+          lg={9}
+          md={8}
+          sm={8}
+          xs={8}
           container
-          spacing={1}
+          justify="flex-start"
           style={{ minHeight: 113, maxHeight: 113 }}
         >
           <Grid
@@ -133,8 +127,8 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
           </Grid>
           <Grid
             item
-            xl={10}
-            lg={9}
+            xl={8}
+            lg={8}
             md={8}
             sm={8}
             xs={8}
@@ -177,18 +171,6 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
         >
           <Grid
             item
-            xl={2}
-            lg={3}
-            md={4}
-            sm={4}
-            xs={4}
-            container
-            justify="center"
-          >
-            <img alt="stoplight" src={stoplightIcon} className={classes.img} />
-          </Grid>
-          <Grid
-            item
             xl={10}
             lg={9}
             md={8}
@@ -197,133 +179,49 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
             container
             justify="flex-start"
           >
-            <Accordion>
-              <AccordionItem
-                onExpand={() => setExpandData(!expandData)}
-                onClose={() => setExpandData(!expandData)}
-                title={
-                  <Typography variant="h5" className={classes.labelWithIcon}>
-                    {totalFamilies}
-                    <Typography
-                      component="span"
-                      variant="h6"
-                      className={classes.secondaryLabel}
-                      style={{ marginBottom: 3 }}
-                    >
-                      {totalFamilies !== 1
-                        ? t('views.familiesOverviewBlock.tookSnapshots')
-                        : t('views.familiesOverviewBlock.tookSnapshot')}
-                    </Typography>
-                    {!expandData ? (
-                      <KeyboardArrowDown className={classes.expandIcon} />
-                    ) : (
-                      <KeyboardArrowUp className={classes.expandIcon} />
-                    )}
-                  </Typography>
-                }
+            <Grid
+              item
+              xl={2}
+              lg={3}
+              md={4}
+              sm={4}
+              xs={4}
+              container
+              justify="center"
+            >
+              <img alt="members" src={membersIcon} className={classes.img} />
+            </Grid>
+            <Grid
+              item
+              xl={8}
+              lg={8}
+              md={8}
+              sm={8}
+              xs={8}
+              container
+              justify="flex-start"
+            >
+              <Typography
+                component="p"
+                variant="h5"
+                className={classes.primaryLabel}
               >
-                <React.Fragment>
-                  <Typography
-                    component="p"
-                    variant="h5"
-                    className={classes.primaryLabel}
-                    style={{ fontSize: 22 }}
-                  >
-                    {data.snapshotsCount}
-                    <Typography
-                      component="span"
-                      variant="h6"
-                      className={classes.secondaryLabel}
-                    >
-                      {data.snapshotsCount !== 1
-                        ? t('views.familiesOverviewBlock.baseLine')
-                        : t('views.familiesOverviewBlock.baseLine')}
-                    </Typography>
-                  </Typography>
-                  {!!data.followupsCount && (
-                    <Typography
-                      component="p"
-                      variant="h5"
-                      className={classes.primaryLabel}
-                      style={{ fontSize: 22 }}
-                    >
-                      {data.followupsCount}
-                      <Typography
-                        component="span"
-                        variant="h6"
-                        className={classes.secondaryLabel}
-                      >
-                        {data.snapshotsCount !== 1
-                          ? t('views.familiesOverviewBlock.followUp')
-                          : t('views.familiesOverviewBlock.followUp')}
-                      </Typography>
-                    </Typography>
-                  )}
-                  {withOutStoplight !== 0 && (
-                    <Typography
-                      component="p"
-                      variant="h5"
-                      className={classes.primaryLabel}
-                      style={{ fontSize: 22 }}
-                    >
-                      {withOutStoplight}
-                      <Typography
-                        component="span"
-                        variant="h6"
-                        className={classes.secondaryLabel}
-                      >
-                        {t('views.familiesOverviewBlock.tookWhitoutStoplight')}
-                      </Typography>
-                    </Typography>
-                  )}
-                </React.Fragment>
-              </AccordionItem>
-            </Accordion>
+                {data.membersAverage}
+                <Typography
+                  component="span"
+                  variant="h6"
+                  className={classes.secondaryLabel}
+                >
+                  {t('views.familiesOverviewBlock.averageMembers')}
+                </Typography>
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
 
       {/* Second column */}
-      <Grid item md={4} sm={6} xs={12} container spacing={2}>
-        <Grid item md={12} sm={12} xs={12} container spacing={1}>
-          <Grid
-            item
-            xl={2}
-            lg={3}
-            md={4}
-            sm={4}
-            xs={4}
-            container
-            justify="center"
-          >
-            <img alt="members" src={membersIcon} className={classes.img} />
-          </Grid>
-          <Grid
-            item
-            xl={8}
-            lg={8}
-            md={8}
-            sm={8}
-            xs={8}
-            container
-            justify="flex-start"
-          >
-            <Typography
-              component="p"
-              variant="h5"
-              className={classes.primaryLabel}
-            >
-              {data.membersAverage}
-              <Typography
-                component="span"
-                variant="h6"
-                className={classes.secondaryLabel}
-              >
-                {t('views.familiesOverviewBlock.averageMembers')}
-              </Typography>
-            </Typography>
-          </Grid>
-        </Grid>
+      <Grid item md={3} sm={6} xs={12} container spacing={2}>
         <Grid
           item
           md={12}
@@ -331,7 +229,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
           xs={12}
           container
           spacing={1}
-          style={{ minHeight: 160 }}
+          style={{ maxHeight: 160 }}
         >
           <Grid
             item
