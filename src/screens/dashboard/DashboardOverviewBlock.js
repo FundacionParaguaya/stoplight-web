@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: 55
   },
   coupleImg: {
-    maxWidth: 51,
+    maxWidth: 62,
     maxHeight: 37
   },
   countContainer: {
@@ -111,6 +111,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
           xs={8}
           container
           justify="flex-start"
+          spacing={1}
           style={{ minHeight: 113, maxHeight: 113 }}
         >
           <Grid
@@ -228,7 +229,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
           sm={12}
           xs={12}
           container
-          spacing={1}
+          spacing={2}
           style={{ maxHeight: 160 }}
         >
           <Grid
