@@ -21,12 +21,12 @@ import withLayout from '../components/withLayout';
 import Container from '../components/Container';
 import GreenLineChart from '../components/GreenLineChart';
 import ActivityFeed from '../components/ActivityFeed';
-import FamilyOverviewBlock from '../components/FamiliesOverviewBlock';
 import OverviewBlock from '../components/OverviewBlock';
 import DimensionsVisualisation from '../components/DimensionsVisualisation';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import DashboardFilters from '../components/DashboardFilters';
 import { ROLE_SURVEY_USER, ROLE_HUB_ADMIN } from '../utils/role-utils';
+import DashboardOverviewBlock from './dashboard/DashboardOverviewBlock';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
@@ -162,6 +162,29 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     )
       .then(data => {
         const { economicOverview } = getData(data);
+        let otherGenders = economicOverview.genders.others;
+        let otherGendersCount = 0;
+        let otherTooltipText = '';
+        for (const gender in otherGenders) {
+          otherGendersCount += otherGenders[gender];
+          otherTooltipText =
+            otherTooltipText +
+            ' - ' +
+            economicOverview.genders.others[gender] +
+            ' ' +
+            gender +
+            ' \n ';
+        }
+        economicOverview.peopleByCountries = isArray(
+          economicOverview.peopleByCountries
+        )
+          ? economicOverview.peopleByCountries
+              .sort((a, b) => b.people - a.people)
+              .slice(0, 3)
+          : [];
+
+        economicOverview.genders.otherGendersCount = otherGendersCount;
+        economicOverview.genders.otherTooltipText = otherTooltipText;
         setEconomic(economicOverview);
       })
       .finally(() => setLoadingEconomics(false));
@@ -340,18 +363,19 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         <Container className={classes.containerInnerSocial}>
           {loadingEconomics && <LoadingContainer />}
           {!loadingEconomics && (
-            <FamilyOverviewBlock
-              familiesCount={economic.familiesCount}
-              peopleCount={economic.peopleCount}
-              familiesWithStoplightCount={economic.familiesWithStoplightCount}
-              noPadding
-              width="30%"
-              includeEconomics
+            <DashboardOverviewBlock
+              data={economic}
+              peopleByCountries={economic.peopleByCountries}
             />
           )}
-          <div className={classes.spacingHelper} />
+        </Container>
+      </Container>
+
+      {/* Stoplight Overview */}
+      <Container className={classes.socialEconomics} variant="fluid">
+        <Container className={classes.containerInnerSocial}>
           {loadingOverview && <LoadingContainer />}
-          {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
+          {!loadingOverview && <OverviewBlock data={overview} width="100%" />}
         </Container>
       </Container>
 

@@ -6,6 +6,7 @@ import SummaryDonut from './summary/SummaryDonut';
 import SummaryBarChart from './SummaryBarChart';
 import CountDetail from './CountDetail';
 import Divider from './Divider';
+import Grid from '@material-ui/core/Grid';
 
 const OverviewBlock = ({ classes, data, t, width }) => {
   if (
@@ -30,11 +31,21 @@ const OverviewBlock = ({ classes, data, t, width }) => {
   }
 
   return (
-    <div className={classes.mainContainer} style={{ width }}>
-      <Typography variant="h5">
-        {t('views.familiesOverviewBlock.overview')}
-      </Typography>
-      <div className={classes.container}>
+    <Grid
+      item
+      md={12}
+      xs={12}
+      container
+      spacing={2}
+      className={classes.mainContainer}
+    >
+      <Grid item md={12} xs={12} style={{ order: 1 }}>
+        <Typography variant="h5">
+          {t('views.familiesOverviewBlock.stoplightOverview')}
+        </Typography>
+      </Grid>
+
+      <Grid item md={4} xs={6} style={{ order: 2 }}>
         <SummaryDonut
           greenIndicatorCount={data.stoplightOverview.greens}
           redIndicatorCount={data.stoplightOverview.reds}
@@ -42,51 +53,62 @@ const OverviewBlock = ({ classes, data, t, width }) => {
           skippedIndicatorCount={data.stoplightOverview.skipped}
           isAnimationActive={false}
           countingSection={false}
-          width="35%"
+          width="100%"
         />
-        <div className={classes.prioritiesAndAchievements}>
-          <CountDetail
-            type="priority"
-            count={data.priorities}
-            label
-            countVariant="h5"
-          />
-          <Divider height={1} />
-          <CountDetail
-            type="achievement"
-            count={data.achievements}
-            label
-            countVariant="h5"
-          />
-        </div>
+      </Grid>
+      <Grid item md={2} xs={4} className={classes.indicators}>
+        <CountDetail
+          type="priority"
+          count={data.priorities}
+          label
+          countVariant="h4"
+        />
+        <Divider height={1} />
+        <CountDetail
+          type="achievement"
+          count={data.achievements}
+          label
+          countVariant="h4"
+        />
+      </Grid>
+      <Grid item md={5} xs={6} className={classes.barchart}>
         <SummaryBarChart
           greenIndicatorCount={data.stoplightOverview.greens}
           redIndicatorCount={data.stoplightOverview.reds}
           yellowIndicatorCount={data.stoplightOverview.yellows}
           skippedIndicatorCount={data.stoplightOverview.skipped}
           isAnimationActive={false}
-          width="40%"
+          width="90%"
         />
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 
 const styles = theme => ({
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%'
-  },
-  prioritiesAndAchievements: {
-    width: '25%'
-  },
   mainContainer: {
     display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'center'
+    }
+  },
+  indicators: {
+    display: 'flex',
+    justifyContent: 'center',
     flexDirection: 'column',
-    [theme.breakpoints.down('xs')]: {
-      width: '100%!important'
+    order: 3,
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'row',
+      order: 4
+    }
+  },
+  barchart: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    order: 4,
+    [theme.breakpoints.down('sm')]: {
+      order: 3
     }
   }
 });

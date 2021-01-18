@@ -356,15 +356,21 @@
       "economics": "Socioeconômicos",
       "averageIncome": "Renda anual média per capita",
       "overview": "Vista geral",
+      "stoplightOverview": "Visualização do semáforo",
       "families": "famílias",
       "family": "família",
       "including": "Incluindo",
+      "baseLine": "Pesquisas de linha de base",
+      "followUp": "Pesquisas de acompanhamento",
       "people": "pessoas",
       "men": "Homens",
       "and": "y",
       "women": "Mulheres",
-      "tookSnapshots": "Famílias com Semáforo",
-      "tookSnapshot": "Famílias com Semáforo"
+      "tookSnapshots": " Stoplights",
+      "tookSnapshot": " Stoplight",
+      "tookWhitoutStoplight": " Só socioeconômico",
+      "averageMembers": " Número médio de membros na família",
+      "topCountries": "Principais países de nascimento"
     },
     "saveDraftModal": {
       "lifemapNotComplete": "Seu Mapa de Vida não está completo",
