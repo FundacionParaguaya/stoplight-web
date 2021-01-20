@@ -27,7 +27,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: 34,
     fontWeight: theme.typography.fontWeightMedium,
     width: '100%',
-    textAlign: 'left'
+    textAlign: 'left',
+    lineHeight: '0.85'
   },
   secondaryLabel: {
     alignSelf: 'flex-end',
@@ -104,11 +105,11 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
       <Grid item xl={4} lg={5} md={5} sm={6} xs={12} container spacing={2}>
         <Grid
           item
-          xl={10}
-          lg={9}
-          md={8}
-          sm={8}
-          xs={8}
+          xl={12}
+          lg={12}
+          md={12}
+          sm={12}
+          xs={12}
           container
           justify="flex-start"
           spacing={1}
@@ -135,6 +136,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
             xs={8}
             container
             justify="flex-start"
+            direction="column"
           >
             <Typography
               component="p"
@@ -172,11 +174,11 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
         >
           <Grid
             item
-            xl={10}
-            lg={9}
-            md={8}
-            sm={8}
-            xs={8}
+            xl={12}
+            lg={12}
+            md={12}
+            sm={12}
+            xs={12}
             container
             justify="flex-start"
           >
@@ -206,6 +208,7 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
                 component="p"
                 variant="h5"
                 className={classes.primaryLabel}
+                style={{ marginTop: 20 }}
               >
                 {data.membersAverage}
                 <Typography
@@ -222,9 +225,11 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
       </Grid>
 
       {/* Second column */}
-      <Grid item md={3} sm={6} xs={12} container spacing={2}>
+      <Grid item md={4} sm={6} xs={12} container spacing={2}>
         <Grid
           item
+          xl={12}
+          lg={12}
           md={12}
           sm={12}
           xs={12}
@@ -308,20 +313,32 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
       </Grid>
 
       {/* Third column */}
-      <Grid item md={3} sm={5} xs={12}>
-        <Typography
-          component="span"
-          variant="h6"
-          className={classes.secondaryLabel}
-          style={{ marginLeft: 0 }}
+      <Grid item md={3} sm={5} xs={12} container spacing={2}>
+        <Grid
+          item
+          xl={12}
+          lg={12}
+          md={12}
+          sm={12}
+          xs={12}
+          container
+          spacing={2}
+          style={{ maxHeight: 160 }}
         >
-          {t('views.familiesOverviewBlock.topCountries')}
-        </Typography>
-        <CountriesChart
-          countriesCode={countriesCode}
-          countriesCount={countriesCount}
-          countriesTotal={countriesTotal}
-        />
+          <Typography
+            component="span"
+            variant="h5"
+            className={classes.secondaryLabel}
+            style={{ marginLeft: 0 }}
+          >
+            {t('views.familiesOverviewBlock.topCountries')}
+          </Typography>
+          <CountriesChart
+            countriesCode={countriesCode}
+            countriesCount={countriesCount}
+            countriesTotal={countriesTotal}
+          />
+        </Grid>
       </Grid>
     </Grid>
   );
