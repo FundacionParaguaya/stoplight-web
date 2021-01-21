@@ -175,6 +175,37 @@ export const getIndicatorsBySurveyId = (user, surveyId) =>
     })
   });
 
+export const getTotalFamilies = (
+  user,
+  hub,
+  organizations,
+  surveys,
+  projects,
+  fromDate,
+  toDate,
+  lang
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
+    },
+    data: JSON.stringify({
+      query:
+        'query totalFamilies($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount peopleWithStoplightCount familiesWithStoplightCount  snapshotsCount followupsCount} }',
+      variables: {
+        hub,
+        organizations,
+        surveys,
+        projects,
+        fromDate,
+        toDate
+      }
+    })
+  });
+
 export const getOverviewBlock = (
   user,
   hub,

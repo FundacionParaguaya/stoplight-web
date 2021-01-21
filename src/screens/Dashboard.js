@@ -10,7 +10,8 @@ import {
   getDimensionIndicators,
   getEconomicOverview,
   getOverviewBlock,
-  getOperationsOverview
+  getOperationsOverview,
+  getTotalFamilies
 } from '../api';
 import {
   ORDERED_DIMENSIONS,
@@ -27,11 +28,18 @@ import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
 import DashboardFilters from '../components/DashboardFilters';
 import { ROLE_SURVEY_USER, ROLE_HUB_ADMIN } from '../utils/role-utils';
 import DashboardOverviewBlock from './dashboard/DashboardOverviewBlock';
+import DashboardGeneralData from './dashboard/DashboardGeneralData';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 
 const LoadingContainer = () => (
   <div style={{ height: 300, margin: 'auto', display: 'flex' }}>
+    <CircularProgress style={{ margin: 'auto' }} />
+  </div>
+);
+
+const GeneralDataLoadingContainer = () => (
+  <div style={{ height: 120, margin: 'auto', display: 'flex' }}>
     <CircularProgress style={{ margin: 'auto' }} />
   </div>
 );
@@ -53,6 +61,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     loadingDimensionsIndicators,
     setLoadingDimensionsIndicators
   ] = useState(true);
+  const [generalData, setGeneralData] = useState(null);
+  const [loadingGeneralData, setLoadingGeneralData] = useState(true);
   const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
@@ -93,6 +103,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   useEffect(() => {
     setLoadingDimensionsIndicators(true);
     setLoadingOverview(true);
+    setLoadingGeneralData(true);
     setLoadingEconomics(true);
     setLoadingChart(true);
     const sanitizedOrganizations = selectedOrganizations.map(
@@ -149,6 +160,24 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         setOverview(blockOverview);
       })
       .finally(() => setLoadingOverview(false));
+
+    getTotalFamilies(
+      user,
+      hubId,
+      sanitizedOrganizations,
+      sanitizedSurveys,
+      sanitizedProjects,
+      fromDate,
+      toDate,
+      lang
+    )
+      .then(data => {
+        const totalFamilies = data.data.data
+          ? data.data.data.economicOverview
+          : null;
+        setGeneralData(totalFamilies);
+      })
+      .finally(() => setLoadingGeneralData(false));
 
     getEconomicOverview(
       user,
@@ -325,6 +354,18 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         </Grid>
       </Grid>
 
+      {/* General Data */}
+      <Container
+        style={{ padding: 20 }}
+        className={classes.socialEconomics}
+        variant="fluid"
+      >
+        <Container className={classes.containerGeneralData}>
+          {loadingGeneralData && <GeneralDataLoadingContainer />}
+          {!loadingGeneralData && <DashboardGeneralData data={generalData} />}
+        </Container>
+      </Container>
+
       {/* Operations */}
       <Container className={classes.operations} variant="fluid">
         <Container className={classes.operationsInner}>
@@ -471,6 +512,18 @@ const styles = theme => ({
   },
   containerInnerSocial: {
     minHeight: 250,
+    display: 'flex',
+    justifyContent: 'flex-start',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      justifyContent: 'center',
+      width: '100%'
+    }
+  },
+  containerGeneralData: {
+    minHeight: 140,
     display: 'flex',
     justifyContent: 'flex-start',
     [theme.breakpoints.down('xs')]: {
