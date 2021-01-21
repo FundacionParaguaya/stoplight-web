@@ -523,7 +523,7 @@ const styles = theme => ({
     }
   },
   containerGeneralData: {
-    minHeight: 120,
+    minHeight: 140,
     display: 'flex',
     justifyContent: 'flex-start',
     [theme.breakpoints.down('xs')]: {
