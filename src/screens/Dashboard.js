@@ -355,7 +355,11 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       </Grid>
 
       {/* General Data */}
-      <Container className={classes.socialEconomics} variant="fluid">
+      <Container
+        style={{ padding: 20 }}
+        className={classes.socialEconomics}
+        variant="fluid"
+      >
         <Container className={classes.containerGeneralData}>
           {loadingGeneralData && <GeneralDataLoadingContainer />}
           {!loadingGeneralData && <DashboardGeneralData data={generalData} />}

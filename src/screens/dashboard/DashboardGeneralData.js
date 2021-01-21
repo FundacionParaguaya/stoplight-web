@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     marginRight: 50,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     [theme.breakpoints.down('xs')]: {
       marginRight: 0
     }
@@ -87,7 +87,6 @@ const DashboardGeneralData = ({ data }) => {
   const [expandData, setExpandData] = useState(false);
   return (
     <Grid container spacing={2} className={classes.mainContainer}>
-      {/* Testing */}
       <Grid
         item
         md={12}
@@ -97,9 +96,11 @@ const DashboardGeneralData = ({ data }) => {
         spacing={1}
         style={{
           minHeight: 113,
-          maxHeight: 113,
           alignContent: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          placeContent: 'start',
+          paddingTop: 26,
+          marginBottom: expandData ? 5 : 0
         }}
       >
         <Grid
@@ -146,7 +147,7 @@ const DashboardGeneralData = ({ data }) => {
             style={{
               display: 'flex',
               flexDirection: 'row',
-              alignItems: 'center'
+              alignItems: 'flex-start'
             }}
           >
             <img alt="stoplight" src={stoplightIcon} className={classes.img} />
