@@ -57,6 +57,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [chart, setChart] = useState(null);
+  const [selectedSnapshot, setSelectedSnapshot] = useState(0);
+  const [snapShotOptions, setSnapShotsOptions] = useState([]);
   const [
     loadingDimensionsIndicators,
     setLoadingDimensionsIndicators
@@ -121,6 +123,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       sanitizedProjects,
       fromDate,
       toDate,
+      selectedSnapshot,
       lang
     )
       .then(data => {
@@ -153,6 +156,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       sanitizedOrganizations,
       sanitizedSurveys,
       sanitizedProjects,
+      selectedSnapshot,
       lang
     )
       .then(data => {
@@ -169,6 +173,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       sanitizedProjects,
       fromDate,
       toDate,
+      selectedSnapshot,
       lang
     )
       .then(data => {
@@ -187,6 +192,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       sanitizedOrganizations,
       sanitizedSurveys,
       sanitizedProjects,
+      selectedSnapshot,
       lang
     )
       .then(data => {
@@ -291,6 +297,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
             })
             .filter(item => item)
             .sort((a, b) => getTime(a.date) - getTime(b.date));
+          const numberOfTakes = calculateNumberOfSnaps(chartData);
+          setSnapShotsOptions(numberOfTakes);
           setChart(chartData);
         } else {
           setChart(null);
@@ -303,10 +311,24 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     selectedOrganizations,
     selectedSurveys,
     selectedProjects,
+    selectedSnapshot,
     fromDate,
     toDate,
     lang
   ]);
+
+  const calculateNumberOfSnaps = snapShotsData => {
+    let first = 0;
+    let maxRetakes = 0;
+    snapShotsData.forEach(el => {
+      first = el.first && !first ? 1 : 0;
+      maxRetakes =
+        el.retakesBySnapNumber.length > maxRetakes
+          ? el.retakesBySnapNumber.length
+          : maxRetakes;
+    });
+    return first + maxRetakes;
+  };
 
   const getLogoImg = user =>
     (!!user.organization &&
@@ -407,6 +429,9 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
             <DashboardOverviewBlock
               data={economic}
               peopleByCountries={economic.peopleByCountries}
+              snapShotOptions={snapShotOptions}
+              onFilterChanged={value => setSelectedSnapshot(value)}
+              snapShotNumber={selectedSnapshot}
             />
           )}
         </Container>

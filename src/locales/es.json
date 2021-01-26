@@ -444,6 +444,11 @@
       "noMatchFilters": "No hay resultados para los filtros aplicados",
       "allProjects": "Todos los proyectos"
     },
+    "snapShotFilter": {
+      "allSnapShots": "Total de encuestas",
+      "baseLine": "Encuesta de base",
+      "followUp": "Encuesta de seguimiento"
+    },
     "exitModal": {
       "confirmTitle": "Confirmación de salida",
       "confirmText": "¿Está seguro que desea salir?",

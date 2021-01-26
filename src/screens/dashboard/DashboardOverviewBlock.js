@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import coupleIcon from '../../assets/couple-icon.png';
 import houseIcon from '../../assets/house.png';
 import membersIcon from '../../assets/members-icon.png';
+import SnapShotsFilters from '../../components/summary/SnapshotsFilter';
 import CountriesChart from './CountriesChart';
 
 const useStyles = makeStyles(theme => ({
@@ -64,10 +65,21 @@ const useStyles = makeStyles(theme => ({
   countContainer: {
     minHeight: 160,
     paddingTop: 13
+  },
+  snapFilterContainer: {
+    width: '40%',
+    marginLeft: 10,
+    maxWidth: '250px'
   }
 }));
 
-const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
+const DashboardOverviewBlock = ({
+  data,
+  peopleByCountries,
+  snapShotOptions,
+  onFilterChanged,
+  snapShotNumber
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -95,10 +107,26 @@ const DashboardOverviewBlock = ({ data, peopleByCountries }) => {
 
   return (
     <Grid container spacing={2} className={classes.mainContainer}>
-      <Grid item md={12} sm={12} xs={12} style={{ height: 'fit-content' }}>
+      <Grid
+        item
+        md={12}
+        sm={12}
+        xs={12}
+        style={{
+          height: 'fit-content',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between'
+        }}
+      >
         <Typography variant="h5">
           {t('views.familiesOverviewBlock.overview')}
         </Typography>
+        <SnapShotsFilters
+          snapShotOptions={snapShotOptions}
+          onFilterChanged={onFilterChanged}
+          snapShotNumber={snapShotNumber}
+        />
       </Grid>
 
       {/* First column */}
