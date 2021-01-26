@@ -268,7 +268,7 @@ export const getOperationsOverview = (
     })
   });
 
-export const getFamilies = (user, lang) =>
+export const getLastestActivity = (user, lang) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -279,7 +279,7 @@ export const getFamilies = (user, lang) =>
     },
     data: JSON.stringify({
       query:
-        'query { feed { activityId, activityKey, activityParams, activityType, username, createdAt, familyId, familyName, stoplightClient } }'
+        'query { recentActivity { id, activityType, username, createdAt, familyId, familyName, stoplightClient, message, referenceId } }'
     })
   });
 

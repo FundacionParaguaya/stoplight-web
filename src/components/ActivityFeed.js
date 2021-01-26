@@ -4,18 +4,38 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 import { COLORS } from '../theme';
+import { redirectUrlPerType, activityTypes } from './../utils/activities-utils';
+import stoplightImg from '../assets/stoplight-taken.png';
+import solutionImg from '../assets/solution.png';
+import priorityImg from '../assets/priority.png';
 
 const ActivityFeed = ({
   classes,
   data,
   width = '40%',
   height = 200,
-  user: { env },
   t,
   history
 }) => {
-  const handleClick = (e, familyId) => {
-    history.push(`/family/${familyId}`);
+  const handleClick = (activityType, referenceId, familyId) => {
+    let id = !!referenceId ? referenceId : familyId;
+    history.push(redirectUrlPerType[activityType].replace('$referenceId', id));
+  };
+
+  const getTitle = (activityType, familyName) => {
+    let title = t(`views.activityFeed.title.${activityType}`);
+    title = title.replace('$familyName', familyName);
+    return title;
+  };
+
+  const getImage = activityType => {
+    if (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION) {
+      return solutionImg;
+    } else if (activityType === activityTypes.PRIORITY) {
+      return priorityImg;
+    } else {
+      return stoplightImg;
+    }
   };
 
   if (!data || data.length <= 0) {
@@ -25,7 +45,7 @@ const ActivityFeed = ({
   }
 
   return (
-    <div className={classes.container} style={{ width, minHeight: height }}>
+    <div className={classes.container} style={{ width, height: height }}>
       <div className={classes.overlay} />
       <div className={classes.childrenContainer}>
         {data.map(
@@ -33,11 +53,14 @@ const ActivityFeed = ({
             familyName,
             createdAt,
             username,
-            activityId,
+            id,
             familyId,
-            stoplightClient
+            stoplightClient,
+            activityType,
+            referenceId
           }) => {
-            const createdDaysAgo = moment().diff(createdAt, 'days');
+            let date = moment(createdAt).format('YYYY-DD-MMTHH:MM:SS');
+            const createdDaysAgo = moment().diff(date, 'days');
             let daysAgoLabel = t('views.activityFeed.today');
             if (createdDaysAgo === 1) {
               daysAgoLabel = t('views.activityFeed.dayAgo');
@@ -50,29 +73,33 @@ const ActivityFeed = ({
 
             return (
               <div
-                key={activityId}
+                key={id}
                 className={`${classes.children} ${
                   familyId ? classes.clickable : null
                 }`}
-                onClick={() => (familyId ? handleClick(env, familyId) : null)}
+                onClick={() => handleClick(activityType, referenceId, familyId)}
               >
                 <div className={classes.iconContainer}>
-                  <i className={`material-icons ${classes.primaryIcon}`}>
-                    swap_calls
-                  </i>
+                  <img alt="icon" src={getImage(activityType)} width="48px" />
                 </div>
                 <div className={classes.content}>
                   <Typography className={classes.title}>
-                    {familyName}
+                    {getTitle(activityType, familyName)}
                   </Typography>
                   {username && (
-                    <Typography className={classes.subtitle}>
-                      {`${t('views.activityFeed.facilitator')}: ${username}`}
+                    <Typography className={classes.label}>
+                      <span className={classes.subtitle}>
+                        {t('views.activityFeed.facilitator')}
+                      </span>
+                      {`: ${username}`}
                     </Typography>
                   )}
                   {stoplightClient && (
-                    <Typography className={classes.subtitle}>
-                      {`${t('views.activityFeed.origin')}: ${stoplightClient}`}
+                    <Typography className={classes.label}>
+                      <span className={classes.subtitle}>
+                        {t('views.activityFeed.origin')}
+                      </span>
+                      {`: ${stoplightClient}`}
                     </Typography>
                   )}
                   <Typography className={classes.date}>
@@ -105,7 +132,7 @@ const styles = theme => ({
   },
   container: {
     width: '40%',
-    maxHeight: 200,
+    maxHeight: '80vh',
     borderLeft: `1px solid ${theme.palette.grey.light}`,
     position: 'relative'
   },
@@ -129,7 +156,9 @@ const styles = theme => ({
   },
   children: {
     width: '100%',
-    display: 'flex'
+    display: 'flex',
+    marginTop: 10,
+    marginBottom: 10
   },
   clickable: {
     cursor: 'pointer',
@@ -138,7 +167,7 @@ const styles = theme => ({
     }
   },
   iconContainer: {
-    width: 60,
+    width: 65,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -157,15 +186,23 @@ const styles = theme => ({
     flexDirection: 'column'
   },
   title: {
-    fontSize: 14
+    fontSize: 13,
+    fontFamily: 'Poppins',
+    fontWeight: 500
   },
-  subtitle: {
-    fontSize: 14,
+  label: {
+    fontSize: 12,
+    fontFamily: 'Poppins',
     color: COLORS.TEXT_GREY,
     textTransform: 'capitalize'
   },
+  subtitle: {
+    fontWeight: 500,
+    color: 'black'
+  },
   date: {
-    fontSize: 13,
+    fontSize: 12,
+    fontFamily: 'Poppins',
     color: COLORS.TEXT_GREY,
     right: 25,
     lineHeight: '14px',
