@@ -96,7 +96,7 @@
       "dimensions": "Dimensions",
       "achievements": "Achievements",
       "priorities": "Priorities",
-      "latestActivity": "Latest Activity",
+      "latestActivity": "Activity Feed",
       "red": "Red",
       "yellow": "Yellow",
       "green": "Green",
@@ -400,7 +400,14 @@
       "dayAgo": "1 day ago",
       "daysAgo": "$dd days ago",
       "facilitator": "Facilitator",
-      "origin": "Origin"
+      "origin": "Origin",
+      "title": {
+        "SNAPSHOTS": "$familyName took a Stoplight Survey",
+        "BASELINE_SURVEY": "$familyName took a baseline survey!",
+        "FOLLOWUP_SURVEY": "$familyName took a follow-up survey!",
+        "NEW_STOPLIGHT_SOLUTION": "Threre's a new solution",
+        "NEW_STOPLIGHT_PRIORITY": "$familyName has a new priority"
+      }
     },
     "organizationsFilter": {
       "label": "Organizations",
