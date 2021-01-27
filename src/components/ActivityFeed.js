@@ -59,7 +59,7 @@ const ActivityFeed = ({
             activityType,
             referenceId
           }) => {
-            let date = moment(createdAt).format('YYYY-DD-MMTHH:MM:SS');
+            let date = moment(createdAt, 'DD/MM/YYYY HH:SS');
             const createdDaysAgo = moment().diff(date, 'days');
             let daysAgoLabel = t('views.activityFeed.today');
             if (createdDaysAgo === 1) {
