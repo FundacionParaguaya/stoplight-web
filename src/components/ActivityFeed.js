@@ -31,7 +31,7 @@ const ActivityFeed = ({
   const getImage = activityType => {
     if (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION) {
       return solutionImg;
-    } else if (activityType === activityTypes.PRIORITY) {
+    } else if (activityType === activityTypes.NEW_STOPLIGHT_PRIORITY) {
       return priorityImg;
     } else {
       return stoplightImg;
@@ -74,9 +74,7 @@ const ActivityFeed = ({
             return (
               <div
                 key={id}
-                className={`${classes.children} ${
-                  familyId ? classes.clickable : null
-                }`}
+                className={`${classes.children} ${classes.clickable}`}
                 onClick={() => handleClick(activityType, referenceId, familyId)}
               >
                 <div className={classes.iconContainer}>
@@ -105,11 +103,6 @@ const ActivityFeed = ({
                   <Typography className={classes.date}>
                     {daysAgoLabel}
                   </Typography>
-                  {familyId && (
-                    <i className={`material-icons ${classes.arrowIcon}`}>
-                      keyboard_arrow_right
-                    </i>
-                  )}
                 </div>
               </div>
             );
@@ -142,8 +135,6 @@ const styles = theme => ({
     position: 'absolute',
     top: 0,
     left: 0,
-    background:
-      'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(46,46,46,0) 30%)',
     zIndex: 1,
     pointerEvents: 'none'
   },
@@ -207,7 +198,8 @@ const styles = theme => ({
     right: 25,
     lineHeight: '14px',
     position: 'absolute',
-    bottom: 10
+    bottom: 10,
+    fontStyle: 'italic'
   },
   arrowIcon: {
     position: 'absolute',

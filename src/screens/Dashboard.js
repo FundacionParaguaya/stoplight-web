@@ -326,7 +326,10 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <div className={classes.feedContainer}>
+      <div
+        className={classes.feedContainer}
+        style={{ width: showFeed ? '22%' : 50 }}
+      >
         <Accordion>
           <AccordionItem
             easing="ease"
@@ -339,10 +342,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
               <div
                 className={classes.moreFilter}
                 style={{
-                  top: 83,
-                  left: showFeed ? 300 : '',
-                  position: showFeed ? 'fixed' : 'fixed',
-                  zIndex: 101
+                  left: showFeed ? 283 : ''
                 }}
               >
                 <HistoryIcon className={classes.notificacionIcon} />
@@ -355,16 +355,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
             }
           >
             <div
-              style={{
-                position: showFeed ? 'fixed' : null,
-                width: '100%',
-                height: '100vh',
-                maxWidth: 370,
-                zIndex: showFeed ? 100 : 0,
-                backgroundColor: 'white',
-                padding: 16,
-                paddingRight: 2
-              }}
+              className={classes.feedContent}
+              style={{ position: showFeed ? 'fixed' : null }}
             >
               <Typography variant="h5">
                 {t('views.dashboard.latestActivity')}
@@ -385,7 +377,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       </div>
 
       <Container variant="fluid" className={classes.greyBackground}>
-        <Grid container>
+        <Grid container className={classes.whiteBackground}>
           <Grid item md={2} className={classes.logoContainer}>
             {!!getLogoImg(user) && (
               <img alt="logo" className={classes.img} src={getLogoImg(user)} />
@@ -425,7 +417,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
         {/* General Data */}
         <Container
-          style={{ padding: 20 }}
+          style={{ padding: 20, marginTop: 2 }}
           className={classes.socialEconomics}
           variant="fluid"
         >
@@ -567,7 +559,7 @@ const styles = theme => ({
   operations: {
     padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: theme.spacing(5)
+    marginBottom: 2
   },
   operationsInner: {
     display: 'flex'
@@ -577,14 +569,21 @@ const styles = theme => ({
   },
   feedContainer: {
     position: 'relative',
-    maxWidth: 380,
-    width: '35%',
-    paddingRight: '2px'
+    maxWidth: 380
+  },
+  feedContent: {
+    width: '100%',
+    height: '100vh',
+    maxWidth: 340,
+    padding: 16,
+    paddingRight: 2,
+    backgroundColor: theme.palette.background.paper,
+    zIndex: 100
   },
   socialEconomics: {
     padding: `${theme.spacing(6)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: theme.spacing(5)
+    marginBottom: 2
   },
   containerInnerSocial: {
     minHeight: 250,
@@ -619,7 +618,7 @@ const styles = theme => ({
   whiteContainer: {
     padding: `${theme.spacing(6)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: theme.spacing(5)
+    marginBottom: 2
   },
   loadingContainer: {
     backgroundColor: theme.palette.grey.light,
@@ -630,12 +629,14 @@ const styles = theme => ({
     width: '100%'
   },
   moreFilter: {
-    position: 'absolute',
     display: 'flex',
     alignItems: 'center',
     height: 40,
     cursor: 'pointer',
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
+    top: 83,
+    zIndex: 101,
+    position: 'fixed'
   },
   notificacionIcon: {
     color: theme.palette.primary.dark
