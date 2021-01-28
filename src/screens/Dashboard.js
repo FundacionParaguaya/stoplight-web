@@ -1,38 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, Typography, CircularProgress, Box } from '@material-ui/core';
+import { Box, CircularProgress, Grid, Typography } from '@material-ui/core';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import HistoryIcon from '@material-ui/icons/History';
 import { withStyles } from '@material-ui/styles';
-import { connect } from 'react-redux';
 import { isArray } from 'lodash';
 import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { Accordion, AccordionItem } from 'react-sanfona';
 import {
-  getLastestActivity,
   getDimensionIndicators,
   getEconomicOverview,
-  getOverviewBlock,
+  getLastestActivity,
   getOperationsOverview,
   getTotalFamilies
 } from '../api';
-import {
-  ORDERED_DIMENSIONS,
-  normalizeDimension
-} from '../utils/parametric_data';
 import ballstoit from '../assets/ballstoit.png';
-import withLayout from '../components/withLayout';
-import Container from '../components/Container';
-import GreenLineChart from '../components/GreenLineChart';
 import ActivityFeed from '../components/ActivityFeed';
-import OverviewBlock from '../components/OverviewBlock';
-import DimensionsVisualisation from '../components/DimensionsVisualisation';
-import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
+import Container from '../components/Container';
 import DashboardFilters from '../components/DashboardFilters';
-import { ROLE_SURVEY_USER, ROLE_HUB_ADMIN } from '../utils/role-utils';
-import DashboardOverviewBlock from './dashboard/DashboardOverviewBlock';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import HistoryIcon from '@material-ui/icons/History';
+import DimensionsVisualisation from '../components/DimensionsVisualisation';
+import GreenLineChart from '../components/GreenLineChart';
+import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
+import withLayout from '../components/withLayout';
+import {
+  normalizeDimension,
+  ORDERED_DIMENSIONS
+} from '../utils/parametric_data';
+import { ROLE_HUB_ADMIN, ROLE_SURVEY_USER } from '../utils/role-utils';
 import DashboardGeneralData from './dashboard/DashboardGeneralData';
-import { Accordion, AccordionItem } from 'react-sanfona';
+import DashboardOverviewBlock from './dashboard/DashboardOverviewBlock';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 const LoadingContainer = () => (
@@ -50,7 +48,6 @@ const GeneralDataLoadingContainer = () => (
 const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const [activityFeed, setActivityFeed] = useState(null);
   const [showFeed, setShowFeed] = useState(false);
-  const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
@@ -69,7 +66,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   ] = useState(true);
   const [generalData, setGeneralData] = useState(null);
   const [loadingGeneralData, setLoadingGeneralData] = useState(true);
-  const [loadingOverview, setLoadingOverview] = useState(true);
   const [loadingEconomics, setLoadingEconomics] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
   const [loadingChart, setLoadingChart] = useState(true);
@@ -108,7 +104,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
   useEffect(() => {
     setLoadingDimensionsIndicators(true);
-    setLoadingOverview(true);
     setLoadingGeneralData(true);
     setLoadingEconomics(true);
     setLoadingChart(true);
@@ -151,23 +146,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         setDimensions(sortedDimensions);
       })
       .finally(() => setLoadingDimensionsIndicators(false));
-
-    getOverviewBlock(
-      user,
-      hubId,
-      fromDate,
-      toDate,
-      sanitizedOrganizations,
-      sanitizedSurveys,
-      sanitizedProjects,
-      selectedSnapshot,
-      lang
-    )
-      .then(data => {
-        const { blockOverview } = getData(data);
-        setOverview(blockOverview);
-      })
-      .finally(() => setLoadingOverview(false));
 
     getTotalFamilies(
       user,
@@ -446,24 +424,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
           <Container className={classes.containerGeneralData}>
             {loadingGeneralData && <GeneralDataLoadingContainer />}
             {!loadingGeneralData && <DashboardGeneralData data={generalData} />}
-          </Container>
-        </Container>
-
-        {/* Operations */}
-        <Container className={classes.operations} variant="fluid">
-          <Container className={classes.operationsInner}>
-            <div className={classes.chartContainer}>
-              <Box mt={3} />
-              {loadingChart && <LoadingContainer />}
-              {!loadingChart && (
-                <GreenLineChart
-                  isMentor={isMentor}
-                  width="100%"
-                  height={300}
-                  data={chart}
-                />
-              )}
-            </div>
           </Container>
         </Container>
 
