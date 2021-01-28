@@ -144,7 +144,7 @@ const DashboardGeneralData = ({ data }) => {
           }}
         >
           <img alt="stoplight" src={stoplightIcon} className={classes.img} />
-          <Accordion>
+          <Accordion style={{ paddingTop: 7 }}>
             <AccordionItem
               onExpand={() => setExpandData(!expandData)}
               onClose={() => setExpandData(!expandData)}
