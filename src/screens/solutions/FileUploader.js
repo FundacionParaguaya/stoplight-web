@@ -37,7 +37,10 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     marginTop: 16,
     marginBottom: 16,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'flex-start'
+    }
   },
   preview: {
     display: 'flex',

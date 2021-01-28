@@ -52,7 +52,11 @@ const useStyles = makeStyles(theme => ({
   },
   innerFrom: {
     paddingLeft: '20vw',
-    paddingRight: '20vw'
+    paddingRight: '20vw',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: '10vw',
+      paddingRight: '10vw'
+    }
   },
   headInputs: {
     backgroundColor: theme.palette.background.paper,
@@ -109,7 +113,10 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     marginTop: 16,
     marginBottom: 16,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: 'flex-start'
+    }
   },
   thumb: {
     position: 'relative',
