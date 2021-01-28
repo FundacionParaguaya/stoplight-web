@@ -450,6 +450,11 @@
       "noMatchFilters": "Não há resultados para os filtros aplicados",
       "allProjects": "Todo o projeto"
     },
+    "snapShotFilter": {
+      "allSnapShots": "Todos os últimos instantâneos",
+      "baseLine": "Linha de base",
+      "followUp": "Pesquisa"
+    },
     "exitModal": {
       "confirmTitle": "Confirmação de partida",
       "confirmText": "Tem certeza que quer sair?",

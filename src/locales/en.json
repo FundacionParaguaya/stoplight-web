@@ -451,6 +451,11 @@
       "noMatchFilters": "No results matching your filters",
       "allProjects": "All Projects"
     },
+    "snapShotFilter": {
+      "allSnapShots": "All last snapshots",
+      "baseLine": "Baseline",
+      "followUp": "Follow-up"
+    },
     "exitModal": {
       "confirmTitle": "Confirm Exit",
       "confirmText": "Are you sure you want to exit?",
