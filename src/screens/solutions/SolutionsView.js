@@ -113,9 +113,9 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     marginTop: 16,
     marginBottom: 16,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     [theme.breakpoints.down('xs')]: {
-      justifyContent: 'flex-start'
+      justifyContent: 'center'
     }
   },
   thumb: {
