@@ -155,16 +155,22 @@ const DashboardGeneralData = ({ data }) => {
                     component="span"
                     variant="h6"
                     className={classes.secondaryLabel}
-                    style={{ marginBottom: 3 }}
+                    style={{ marginBottom: 3, paddingTop: 10 }}
                   >
                     {stoplights !== 1
                       ? t('views.familiesOverviewBlock.tookSnapshots')
                       : t('views.familiesOverviewBlock.tookSnapshot')}
                   </Typography>
                   {!expandData ? (
-                    <KeyboardArrowDown className={classes.expandIcon} />
+                    <KeyboardArrowDown
+                      style={{ paddingTop: 10 }}
+                      className={classes.expandIcon}
+                    />
                   ) : (
-                    <KeyboardArrowUp className={classes.expandIcon} />
+                    <KeyboardArrowUp
+                      style={{ paddingTop: 10 }}
+                      className={classes.expandIcon}
+                    />
                   )}
                 </Typography>
               }
