@@ -13,7 +13,11 @@ export const toBase64 = file =>
   });
 
 export const getPreviewForFile = resource => {
-  if (resource.type === 'image/jpeg' || resource.type === 'image/png')
+  if (
+    resource.type === 'image/jpeg' ||
+    resource.type === 'image/png' ||
+    resource.category === 'picture'
+  )
     return resource.url || resource.preview;
   if (resource.type === 'application/pdf') return pdfPreview;
   if (

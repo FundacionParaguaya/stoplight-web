@@ -562,7 +562,16 @@
       "noAchievements": "This family has no achievements."
     },
     "familyImages": {
-      "title": "Images"
+      "title": "Images",
+      "addImages": "Add Images",
+      "uploadImages": "Upload Images",
+      "placeholder": "Here you can add  your images, please consider downloading images you intend to remove",
+      "uploadError": "You reached the 10MB limit! Please delete a image to continue.",
+      "typeError": "Image extension not supported",
+      "save": {
+        "success": "Family's images updated successfully",
+        "failed": "Could not update family's images"
+      }
     },
     "familySignature": {
       "title": "Signature"

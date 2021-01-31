@@ -561,7 +561,16 @@
       "noAchievements": "Esta família não tem conquistas."
     },
     "familyImages": {
-      "title": "Imagens"
+      "title": "Imagens",
+      "addImages": "Adicione imagens",
+      "uploadImages": "Enviar imagens",
+      "placeholder": "Aqui você pode adicionar suas imagens, por favor, considere fazer o download das imagens que você planeja excluir",
+      "uploadError": "*Você atingiu o limite de 10MB! Elimine uma imagem para continuar.",
+      "typeError": "Extensão de imagem não compatível",
+      "save": {
+        "success": "Fotos de família atualizadas",
+        "failed": "Não foi possível atualizar fotos de família"
+      }
     },
     "familySignature": {
       "title": "Assinatura"
