@@ -374,7 +374,18 @@ const FamilyProfile = ({
       />
 
       {/* Images */}
-      <FamilyImages showImage={handleOpenImage} images={images} />
+      {!!survey &&
+        !!survey.surveyConfig &&
+        survey.surveyConfig.pictureSupport && (
+          <FamilyImages
+            showImage={handleOpenImage}
+            images={images}
+            familyId={family.familyId}
+            snapshotId={family.lastSnapshot}
+            history={history}
+            user={user}
+          />
+        )}
 
       {/* Signature Image */}
       <SignatureImage

@@ -1,11 +1,14 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { withTranslation } from 'react-i18next';
 import Container from './Container';
 import iconCamera from '../assets/icon_camera.png';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from 'react-slick';
+import Tooltip from '@material-ui/core/Tooltip';
+import EditIcon from '@material-ui/icons/Edit';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   img: {
@@ -97,7 +100,15 @@ const PrevArrow = ({ currentSlide, slideCount, ...props }) => {
   );
 };
 
-const FamilyImages = ({ t, images, showImage }) => {
+const FamilyImages = ({
+  t,
+  images,
+  showImage,
+  familyId,
+  snapshotId,
+  history,
+  user
+}) => {
   const classes = useStyles();
   const settings = {
     infinite: false,
@@ -121,26 +132,49 @@ const FamilyImages = ({ t, images, showImage }) => {
       }
     ]
   };
+
+  const showEditButtons = ({ role }) =>
+    role === ROLES_NAMES.ROLE_APP_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER ||
+    role === ROLES_NAMES.ROLE_ROOT ||
+    role === ROLES_NAMES.ROLE_PS_TEAM;
+
   return (
     <>
-      {images && images.length > 0 && (
+      <Container className={classes.basicInfo} variant="fluid">
+        <div className={classes.iconBaiconCameraBorder}>
+          <img
+            src={iconCamera}
+            className={classes.iconCamera}
+            alt="Family Images"
+          />
+        </div>
+      </Container>
+      <Container className={classes.basicInfoText} variant="fluid">
+        <Typography variant="h5">
+          {t('views.familyImages.title')} · {images ? images.length : 0}
+        </Typography>
+      </Container>
+      {images && images.length > 0 ? (
         <>
-          <Container className={classes.basicInfo} variant="fluid">
-            <div className={classes.iconBaiconCameraBorder}>
-              <img
-                src={iconCamera}
-                className={classes.iconCamera}
-                alt="Family Images"
-              />
-            </div>
-          </Container>
-
-          <Container className={classes.basicInfoText} variant="fluid">
-            <Typography variant="h5">
-              {t('views.familyImages.title')} · {images ? images.length : 0}
-            </Typography>
-          </Container>
           <div className={classes.familyImagesContainer}>
+            {showEditButtons(user) && (
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Tooltip title={t('views.solutions.form.editButton')}>
+                  <Button
+                    style={{ paddingTop: 4, marginRight: '12vw' }}
+                    onClick={() =>
+                      history.push(
+                        `/family/${familyId}/edit-images/${snapshotId}`
+                      )
+                    }
+                  >
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+              </div>
+            )}
             <div>
               <Slider
                 nextArrow={<NextArrow />}
@@ -162,6 +196,25 @@ const FamilyImages = ({ t, images, showImage }) => {
               </Slider>
             </div>
           </div>
+        </>
+      ) : (
+        <>
+          {showEditButtons(user) && (
+            <Container
+              className={classes.basicInfoText}
+              variant="fluid"
+              style={{ paddingTop: '2rem', paddingBottom: '2rem' }}
+            >
+              <Button
+                variant="contained"
+                onClick={() => {
+                  history.push(`/family/${familyId}/edit-images/${snapshotId}`);
+                }}
+              >
+                {t('views.familyImages.addImages')}
+              </Button>
+            </Container>
+          )}
         </>
       )}
     </>
