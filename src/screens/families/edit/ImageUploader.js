@@ -100,20 +100,14 @@ const ImageUploader = ({ files, setFiles, fileError, setFileError }) => {
   const { t } = useTranslation();
 
   const [filesSize, setFilesSize] = useState(0);
-
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    },
-    [files]
-  );
+  const [typeError, setTypeError] = useState(false);
 
   useEffect(() => {
     setFileError(filesSize > maxSize);
   }, [filesSize]);
 
   const onDropAccepted = acceptedFiles => {
+    setTypeError(false);
     let dropSize = 0;
     let accepted = acceptedFiles.map(file => {
       dropSize += file.size;
@@ -131,28 +125,26 @@ const ImageUploader = ({ files, setFiles, fileError, setFileError }) => {
   const { getRootProps, getInputProps } = useDropzone({
     maxSize: maxSize,
     onDropAccepted,
-    onDropRejected: () => setFileError(true),
-    accept: ['.png', '.jpg', '.heic', '.heif']
+    onDropRejected: () => setTypeError(true),
+    accept: ['.png', '.jpg', '.jpeg', '.heic', '.heif']
   });
 
-  const removeItem = name => {
-    let deletedSize = 0;
-    let updatedFiles = files.filter(file => {
-      if (file.name === name) deletedSize = file.size;
-      return file.name !== name;
-    });
+  const removeItem = index => {
+    let deletedSize = files[index].size;
+    let updatedFiles = files;
+    updatedFiles.splice(index, 1);
     updatedFiles ? setFiles([...updatedFiles]) : setFiles([]);
     setFilesSize(filesSize - deletedSize);
   };
 
-  const thumbs = files.map(file => (
-    <div className={classes.preview} key={file.name} data-testid={file.name}>
+  const thumbs = files.map((file, index) => (
+    <div className={classes.preview} key={index} data-testid={file.name}>
       <div className={classes.thumb}>
         <div className={classes.thumbInner}>
           <IconButton
             className={classes.closeButton}
             key="clear"
-            onClick={() => removeItem(file.name)}
+            onClick={() => removeItem(index)}
           >
             <CloseIcon className={classes.color} />
           </IconButton>
@@ -195,6 +187,11 @@ const ImageUploader = ({ files, setFiles, fileError, setFileError }) => {
       {fileError && (
         <FormHelperText error={fileError} style={{ textAlign: 'center' }}>
           {t('views.familyImages.uploadError')}
+        </FormHelperText>
+      )}
+      {typeError && (
+        <FormHelperText error={typeError} style={{ textAlign: 'center' }}>
+          {t('views.familyImages.typeError')}
         </FormHelperText>
       )}
     </React.Fragment>
