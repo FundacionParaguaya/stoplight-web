@@ -547,7 +547,15 @@
       "noAchievements": "Esta familia no tiene logros."
     },
     "familyImages": {
-      "title": "Imágenes"
+      "title": "Imágenes",
+      "addImages": "Agregar Imágenes",
+      "uploadImages": "Subir Imágenes",
+      "placeholder": "Aquí puedes agregar tus imágenes, por favor considera descargar las imágenes que piensas eliminar",
+      "uploadError": "¡Alcanzaste el límite de 10MB! Elimina una imagen para poder continuar.",
+      "save": {
+        "success": "Se actualizaron las imágenes de la familia",
+        "failed": "No se pudieron actualizar las imágenes de la familia"
+      }
     },
     "familySignature": {
       "title": "Firma"
