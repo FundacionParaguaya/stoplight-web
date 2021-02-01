@@ -1681,3 +1681,40 @@ export const updateLocation = (user, familyId, lat, lng) =>
       }
     })
   });
+
+// submit files
+export const savePictures = (user, images) => {
+  const formData = new FormData();
+  images.forEach(image => {
+    formData.append('pictures', image);
+  });
+
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/snapshots/files/pictures/upload`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  });
+};
+
+export const updateFamilyImages = (user, snapshotId, pictures) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateSnapshotPictures($snapshot: SnapshotUpdateModelInput) {updateSnapshotPictures(snapshot: $snapshot){successful}}',
+      variables: {
+        snapshot: {
+          id: snapshotId,
+          pictures: pictures
+        }
+      }
+    })
+  });

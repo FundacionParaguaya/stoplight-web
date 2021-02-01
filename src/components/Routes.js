@@ -37,6 +37,7 @@ const EditFamilyMembersForm = lazy(() =>
 const EditLocation = lazy(() =>
   import('../screens/families/edit/EditLocation')
 );
+const EditImages = lazy(() => import('../screens/families/edit/EditImages'));
 const OrganizationForm = lazy(() =>
   import('../screens/organizations/OrganizationForm')
 );
@@ -121,6 +122,12 @@ const Routes = ({ user }) => {
             <Route
               path="/family/:familyId/edit-location/:latitude/:longitude"
               component={EditLocation}
+            />
+          )}
+          {checkAccess(user, 'editFamilyImages') && (
+            <Route
+              path="/family/:familyId/edit-images/:snapshotId"
+              component={EditImages}
             />
           )}
           {checkAccess(user, 'detail') && (
