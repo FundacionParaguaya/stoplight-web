@@ -696,6 +696,7 @@
         "allowInteractiveHelp": "Interactive Help:",
         "allowProjects": "Projects:",
         "allowMapRestriction": "Map restriction:",
+        "allowFamilyUsers": "Family users",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
@@ -905,6 +906,7 @@
     "ROLE_SURVEY_USER_ADMIN": "Facilitator Admin",
     "ROLE_SURVEY_USER": "Facilitator",
     "ROLE_HUB_ADMIN": "Hub Admin",
-    "ROLE_SURVEY_TAKER": "Surveyor"
+    "ROLE_SURVEY_TAKER": "Surveyor",
+    "ROLE_FAMILY_USER": "Family"
   }
 }
