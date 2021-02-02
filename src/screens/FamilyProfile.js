@@ -388,10 +388,17 @@ const FamilyProfile = ({
         )}
 
       {/* Signature Image */}
-      <SignatureImage
-        showImage={handleOpenImage}
-        image={signatureImg ? signatureImg.url : ''}
-      />
+      {/* Images */}
+      {!!survey && !!survey.surveyConfig && survey.surveyConfig.signSupport && (
+        <SignatureImage
+          showImage={handleOpenImage}
+          image={signatureImg ? signatureImg.url : ''}
+          familyId={familyId}
+          snapshotId={family.lastSnapshot}
+          history={history}
+          user={user}
+        />
+      )}
 
       <Dialog
         open={imagePreview}
