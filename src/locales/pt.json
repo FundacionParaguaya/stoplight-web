@@ -558,7 +558,12 @@
       }
     },
     "familySignature": {
-      "title": "Assinatura"
+      "title": "Assinatura",
+      "addSign": "Adicionar assinatura",
+      "save": {
+        "success": "Assinatura atualizada corretamentee",
+        "failed": "Não foi possível atualizar a assinatura"
+      }
     },
     "projects": {
       "search": "Pesquisa",

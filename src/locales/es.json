@@ -559,7 +559,12 @@
       }
     },
     "familySignature": {
-      "title": "Firma"
+      "title": "Firma",
+      "addSign": "Agregar Firma",
+      "save": {
+        "success": "Firma actualizada correctamente",
+        "failed": "No se pudo actualizar la firma"
+      }
     },
     "projects": {
       "search": "Buscar",
