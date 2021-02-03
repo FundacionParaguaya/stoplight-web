@@ -400,7 +400,14 @@
       "dayAgo": "Hace 1 día",
       "daysAgo": "Hace $dd días",
       "facilitator": "Facilitador",
-      "origin": "Origen"
+      "origin": "Origen",
+      "title": {
+        "SNAPSHOTS": "$familyName completó una encuesta",
+        "BASELINE_SURVEY": "$familyName completó su línea de base!",
+        "FOLLOWUP_SURVEY": "$familyName completó su encuesta de seguimiento!",
+        "NEW_STOPLIGHT_SOLUTION": "Se creó una nueva solución",
+        "NEW_STOPLIGHT_PRIORITY": "$familyName tiene una nueva prioridad"
+      }
     },
     "organizationsFilter": {
       "label": "Organizaciones",
