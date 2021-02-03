@@ -558,7 +558,12 @@
       }
     },
     "familySignature": {
-      "title": "Signature"
+      "title": "Signature",
+      "addSign": "Add Sign",
+      "save": {
+        "success": "Sign updated successfully",
+        "failed": "Could not update sign"
+      }
     },
     "projects": {
       "search": "Search",

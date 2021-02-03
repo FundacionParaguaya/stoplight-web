@@ -1,9 +1,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import { withTranslation } from 'react-i18next';
 import Container from '../components/Container';
 import iconPen from '../assets/pen_icon.png';
+import Tooltip from '@material-ui/core/Tooltip';
+import EditIcon from '@material-ui/icons/Edit';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const styles = theme => ({
   image: {
@@ -54,38 +57,92 @@ const styles = theme => ({
     maxWidth: 50,
     maxHeight: 50,
     objectFit: 'contain'
+  },
+  editButtonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    backgroundColor: theme.palette.background.default
+  },
+  editButton: {
+    paddingTop: 4,
+    marginRight: '22vw'
   }
 });
 
-const SignatureImage = ({ classes, t, image, showImage }) => {
+const SignatureImage = ({
+  classes,
+  t,
+  image,
+  showImage,
+  familyId,
+  snapshotId,
+  history,
+  user
+}) => {
+  const showEditButtons = ({ role }) =>
+    role === ROLES_NAMES.ROLE_APP_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+    role === ROLES_NAMES.ROLE_SURVEY_USER ||
+    role === ROLES_NAMES.ROLE_ROOT ||
+    role === ROLES_NAMES.ROLE_PS_TEAM;
+
   return (
     <>
-      {!!image && (
-        <>
-          <Container className={classes.basicInfo} variant="fluid">
-            <div className={classes.iconBaiconPenBorder}>
-              <img
-                src={iconPen}
-                className={classes.iconPen}
-                alt="Family Signature"
-              />
-            </div>
-          </Container>
+      <Container className={classes.basicInfo} variant="fluid">
+        <div className={classes.iconBaiconPenBorder}>
+          <img
+            src={iconPen}
+            className={classes.iconPen}
+            alt="Family Signature"
+          />
+        </div>
+      </Container>
 
-          <Container className={classes.basicInfoText} variant="fluid">
-            <Typography variant="h5">
-              {t('views.familySignature.title')}
-            </Typography>
-          </Container>
-          <div className={classes.signatureContainer}>
-            <img
-              src={image}
-              onClick={() => showImage(image)}
-              data-testid="signature-image"
-              className={classes.image}
-              alt="Signature"
-            />
-          </div>
+      <Container className={classes.basicInfoText} variant="fluid">
+        <Typography variant="h5">{t('views.familySignature.title')}</Typography>
+      </Container>
+      {showEditButtons(user) && !!image && (
+        <div className={classes.editButtonContainer}>
+          <Tooltip title={t('views.solutions.form.editButton')}>
+            <Button
+              className={classes.editButton}
+              onClick={() =>
+                history.push(`/family/${familyId}/edit-sign/${snapshotId}`)
+              }
+            >
+              <EditIcon />
+            </Button>
+          </Tooltip>
+        </div>
+      )}
+      {!!image ? (
+        <div className={classes.signatureContainer}>
+          <img
+            src={image}
+            onClick={() => showImage(image)}
+            data-testid="signature-image"
+            className={classes.image}
+            alt="Signature"
+          />
+        </div>
+      ) : (
+        <>
+          {showEditButtons(user) && (
+            <Container
+              className={classes.basicInfoText}
+              variant="fluid"
+              style={{ paddingTop: '2rem', paddingBottom: '2rem' }}
+            >
+              <Button
+                variant="contained"
+                onClick={() => {
+                  history.push(`/family/${familyId}/edit-sign/${snapshotId}`);
+                }}
+              >
+                {t('views.familySignature.addSign')}
+              </Button>
+            </Container>
+          )}
         </>
       )}
     </>
