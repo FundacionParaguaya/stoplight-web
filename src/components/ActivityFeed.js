@@ -171,7 +171,7 @@ const styles = theme => ({
     position: 'relative',
     paddingTop: 15,
     paddingBottom: 20,
-    paddingRigth: 5,
+    paddingRight: 5,
     borderBottom: '1px solid #E6E4E2',
     width: 'calc(100% - 60px)',
     display: 'flex',
