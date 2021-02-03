@@ -2,6 +2,7 @@ import { Box, CircularProgress, Grid, Typography } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import HistoryIcon from '@material-ui/icons/History';
+import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/styles';
 import { isArray } from 'lodash';
 import moment from 'moment';
@@ -339,19 +340,21 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
               setTimeout(() => setShowFeed(!showFeed), animationDuration + 40);
             }}
             title={
-              <div
-                className={classes.moreFilter}
-                style={{
-                  left: showFeed ? 283 : ''
-                }}
-              >
-                <HistoryIcon className={classes.notificacionIcon} />
-                {!showFeed ? (
-                  <ExpandMore className={classes.expandIcon} />
-                ) : (
-                  <ExpandLess className={classes.expandIcon} />
-                )}
-              </div>
+              <Tooltip title={t('views.dashboard.latestActivity')}>
+                <div
+                  className={classes.moreFilter}
+                  style={{
+                    left: showFeed ? 283 : ''
+                  }}
+                >
+                  <HistoryIcon className={classes.notificacionIcon} />
+                  {!showFeed ? (
+                    <ExpandMore className={classes.expandIcon} />
+                  ) : (
+                    <ExpandLess className={classes.expandIcon} />
+                  )}
+                </div>
+              </Tooltip>
             }
           >
             <div
