@@ -83,6 +83,10 @@ export const ROLES = {
   ROLE_SURVEY_TAKER: [
     // Surveyor  user
     { item: 'surveys', platform: NEW }
+  ],
+  ROLE_FAMILY_USER: [
+    // Family  user
+    { item: 'surveys', platform: NEW }
   ]
 };
 
