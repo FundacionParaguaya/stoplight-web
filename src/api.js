@@ -35,8 +35,8 @@ axios.interceptors.response.use(
   }
 );
 
-const clientid = 'mobileClientId';
-const clientsecret = 'mobileClientSecret';
+const clientid = 'barClientIdPassword';
+const clientsecret = 'secret';
 const normalizeLang = lang => (lang === 'en' ? 'en_US' : 'es_PY');
 
 export const sendMail = (document, mail, user, lang) => {
