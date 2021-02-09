@@ -717,6 +717,7 @@
         "allowInteractiveHelp": "Ayuda interactiva:",
         "allowProjects": "Proyectos:",
         "allowMapRestriction": "Restricción de mapa:",
+        "allowFamilyUsers": "Usuarios familia",
         "save": {
           "success": "Hub guardado exitosamente",
           "failed": "El Hub ya existe"
@@ -927,6 +928,7 @@
     "ROLE_SURVEY_USER_ADMIN": "Facilitador Admin",
     "ROLE_SURVEY_USER": "Facilitador",
     "ROLE_HUB_ADMIN": "Hub Admin",
-    "ROLE_SURVEY_TAKER": "Encuestador"
+    "ROLE_SURVEY_TAKER": "Encuestador",
+    "ROLE_FAMILY_USER": "Familia"
   }
 }

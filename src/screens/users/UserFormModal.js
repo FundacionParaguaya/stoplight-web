@@ -20,7 +20,11 @@ import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import ExitModal from '../../components/ExitModal';
 import InputWithFormik from '../../components/InputWithFormik';
 import ProjectsSelector from '../../components/selectors/ProjectsSelector';
-import { checkAccessToProjects, ROLES_NAMES } from '../../utils/role-utils';
+import {
+  checkAccessToProjects,
+  ROLES_NAMES,
+  checkAccessToFamilyUsers
+} from '../../utils/role-utils';
 import UserOrgSelector from './form/UserOrgsSelector';
 
 const useStyles = makeStyles(theme => ({
@@ -249,7 +253,7 @@ const UserFormModal = ({
         { label: t('role.ROLE_APP_ADMIN'), value: ROLES_NAMES.ROLE_APP_ADMIN }
       ];
     } else if (role === ROLES_NAMES.ROLE_APP_ADMIN) {
-      return [
+      const roles = [
         {
           label: t('role.ROLE_SURVEY_USER_ADMIN'),
           value: ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
@@ -263,6 +267,13 @@ const UserFormModal = ({
           value: ROLES_NAMES.ROLE_SURVEY_TAKER
         }
       ];
+      if (checkAccessToFamilyUsers(user))
+        roles.push({
+          label: t('role.ROLE_FAMILY_USER'),
+          value: ROLES_NAMES.ROLE_FAMILY_USER
+        });
+
+      return roles;
     }
   };
 
