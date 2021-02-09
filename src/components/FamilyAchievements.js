@@ -88,7 +88,7 @@ const styles = theme => ({
     flexDirection: 'row',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   achievementTitle: {
     paddingRight: '2rem',
@@ -201,12 +201,12 @@ const FamilyAchievements = ({
                             >
                               {item.indicator}
                             </Typography>
-                            {priorityOpen !== index ? (
-                              <ExpandMore className={classes.expandIcon} />
-                            ) : (
-                              <ExpandLess className={classes.expandIcon} />
-                            )}
                           </div>
+                          {priorityOpen !== index ? (
+                            <ExpandMore className={classes.expandIcon} />
+                          ) : (
+                            <ExpandLess className={classes.expandIcon} />
+                          )}
                         </div>
                       }
                     >
