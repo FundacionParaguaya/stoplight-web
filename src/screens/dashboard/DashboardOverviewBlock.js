@@ -238,7 +238,7 @@ const DashboardOverviewBlock = ({
                 className={classes.primaryLabel}
                 style={{ marginTop: 20 }}
               >
-                {data.membersAverage}
+                {Math.round(data.membersAverage * 10) / 10}
                 <Typography
                   component="span"
                   variant="h6"
