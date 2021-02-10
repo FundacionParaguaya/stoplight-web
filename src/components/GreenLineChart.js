@@ -91,7 +91,9 @@ const GreenLineChart = withTranslation()(
         case 'totalRetakes':
           const retakesList = payload.retakesBySnapNumber
             .map((number, index) => {
-              return `• ${number} N˚${index + 2} ${t('views.survey.followUp')}`;
+              return `• ${number} - N˚${index + 2} ${t(
+                'views.survey.followUp'
+              )}`;
             })
             .join(' \n ');
           tooltipLabel = `${payload[dataKey]} ${t(
