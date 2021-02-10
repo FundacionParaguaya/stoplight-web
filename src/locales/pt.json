@@ -400,14 +400,7 @@
       "daysAgo": "Fazem $dd dias",
       "facilitator": "Facilitador",
       "origin": "Origem",
-      "uploadedBy": "Enviado por",
-      "title": {
-        "SNAPSHOTS": "$familyName completou uma pesquisa",
-        "BASELINE_SURVEY": "$familyName completou sua linha de base!",
-        "FOLLOWUP_SURVEY": "$familyName completou sua pesquisa de acompanhamento",
-        "NEW_STOPLIGHT_SOLUTION": "Uma nova solução foi criada",
-        "NEW_STOPLIGHT_PRIORITY": "$familyName tem uma nova prioridade"
-      }
+      "uploadedBy": "Enviado por"
     },
     "organizationsFilter": {
       "label": "Organizações",
