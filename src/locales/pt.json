@@ -400,6 +400,7 @@
       "daysAgo": "Fazem $dd dias",
       "facilitator": "Facilitador",
       "origin": "Origem",
+      "uploadedBy": "Enviado por",
       "title": {
         "SNAPSHOTS": "$familyName completou uma pesquisa",
         "BASELINE_SURVEY": "$familyName completou sua linha de base!",

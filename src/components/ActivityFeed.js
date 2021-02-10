@@ -22,12 +22,6 @@ const ActivityFeed = ({
     history.push(redirectUrlPerType[activityType].replace('$referenceId', id));
   };
 
-  const getTitle = (activityType, familyName) => {
-    let title = t(`views.activityFeed.title.${activityType}`);
-    title = title.replace('$familyName', familyName);
-    return title;
-  };
-
   const getImage = activityType => {
     if (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION) {
       return solutionImg;
@@ -50,9 +44,9 @@ const ActivityFeed = ({
       <div className={classes.childrenContainer}>
         {data.map(
           ({
-            familyName,
             createdAt,
             username,
+            message,
             id,
             familyId,
             stoplightClient,
@@ -81,25 +75,26 @@ const ActivityFeed = ({
                   <img alt="icon" src={getImage(activityType)} width="48px" />
                 </div>
                 <div className={classes.content}>
-                  <Typography className={classes.title}>
-                    {getTitle(activityType, familyName)}
-                  </Typography>
+                  <Typography className={classes.title}>{message}</Typography>
                   {username && (
                     <Typography className={classes.label}>
                       <span className={classes.subtitle}>
-                        {t('views.activityFeed.facilitator')}
+                        {activityType !== activityTypes.NEW_STOPLIGHT_SOLUTION
+                          ? t('views.activityFeed.facilitator')
+                          : t('views.activityFeed.uploadedBy')}
                       </span>
                       {`: ${username}`}
                     </Typography>
                   )}
-                  {stoplightClient && (
-                    <Typography className={classes.label}>
-                      <span className={classes.subtitle}>
-                        {t('views.activityFeed.origin')}
-                      </span>
-                      {`: ${stoplightClient}`}
-                    </Typography>
-                  )}
+                  {stoplightClient &&
+                    activityType !== activityTypes.NEW_STOPLIGHT_SOLUTION && (
+                      <Typography className={classes.label}>
+                        <span className={classes.subtitle}>
+                          {t('views.activityFeed.origin')}
+                        </span>
+                        {`: ${stoplightClient}`}
+                      </Typography>
+                    )}
                   <Typography className={classes.date}>
                     {daysAgoLabel}
                   </Typography>
@@ -161,7 +156,7 @@ const styles = theme => ({
     width: 65,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   primaryIcon: {
     color: theme.palette.grey.main,

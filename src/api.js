@@ -181,8 +181,8 @@ export const getTotalFamilies = (
   organizations,
   surveys,
   projects,
-  fromDate,
-  toDate,
+  fromTime,
+  toTime,
   lang
 ) =>
   axios({
@@ -194,14 +194,14 @@ export const getTotalFamilies = (
     },
     data: JSON.stringify({
       query:
-        'query totalFamilies($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount peopleWithStoplightCount familiesWithStoplightCount  snapshotsCount followupsCount} }',
+        'query totalFamilies($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toTime: Long, $fromTime: Long) { totalFamilies(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toTime: $toTime, fromTime: $fromTime){familiesCount peopleCount peopleWithStoplightCount familiesWithStoplightCount  snapshotsCount followupsCount} }',
       variables: {
         hub,
         organizations,
         surveys,
         projects,
-        fromDate,
-        toDate
+        fromTime,
+        toTime
       }
     })
   });

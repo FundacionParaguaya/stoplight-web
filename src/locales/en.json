@@ -401,6 +401,7 @@
       "daysAgo": "$dd days ago",
       "facilitator": "Facilitator",
       "origin": "Origin",
+      "uploadedBy": "Uploaded by",
       "title": {
         "SNAPSHOTS": "$familyName took a Stoplight Survey",
         "BASELINE_SURVEY": "$familyName took a baseline survey!",

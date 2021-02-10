@@ -401,6 +401,7 @@
       "daysAgo": "Hace $dd días",
       "facilitator": "Facilitador",
       "origin": "Origen",
+      "uploadedBy": "Subido por",
       "title": {
         "SNAPSHOTS": "$familyName completó una encuesta",
         "BASELINE_SURVEY": "$familyName completó su línea de base!",
