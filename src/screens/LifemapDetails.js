@@ -175,10 +175,8 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
       )}
       {value !== 1 && (
         <DetailsOverview
-          familyId={familyId}
           firstParticipant={firstParticipant}
           family={family}
-          mentor={mentor}
           index={value - 2}
           snapshot={snapshotsWithStoplight[value - 2]}
           reloadPage={reloadPage}
