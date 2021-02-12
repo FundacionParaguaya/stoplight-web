@@ -96,7 +96,7 @@ const ActivityFeed = ({
                       <span className={classes.subtitle}>
                         {t('views.activityFeed.indicator')}
                       </span>
-                      {`: ${params[0]}`}
+                      {`: ${params[1]}`}
                     </Typography>
                   )}
                   {username && !isPriority && (
