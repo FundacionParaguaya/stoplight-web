@@ -19,7 +19,6 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   // export class LifemapDetail extends Component {
   const [family, setFamily] = useState({});
   const [firstParticipant, setFirstParticipant] = useState({});
-  const [mentor, setMentor] = useState({});
   let { familyId } = useParams();
   const tableRef = useRef();
   const [value, setValue] = useState(1);
@@ -48,13 +47,6 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
       setFamily(response.data.data.familyById);
       setFirstParticipant(firtsParticipantMap);
-
-      let mentor = {
-        label: response.data.data.familyById.user.username,
-        value: response.data.data.familyById.user.userId
-      };
-
-      setMentor(mentor);
     });
   };
 
@@ -175,10 +167,8 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
       )}
       {value !== 1 && (
         <DetailsOverview
-          familyId={familyId}
           firstParticipant={firstParticipant}
           family={family}
-          mentor={mentor}
           index={value - 2}
           snapshot={snapshotsWithStoplight[value - 2]}
           reloadPage={reloadPage}
