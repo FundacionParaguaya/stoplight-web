@@ -160,7 +160,6 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       lang
     )
       .then(data => {
-        console.log(data);
         const totalFamilies = data.data.data
           ? data.data.data.totalFamilies
           : null;

@@ -401,6 +401,8 @@
       "dayAgo": "Hace 1 día",
       "daysAgo": "Hace $dd días",
       "facilitator": "Facilitador",
+      "indicator": "Indicador",
+      "title": "Título",
       "origin": "Origen",
       "uploadedBy": "Subido por"
     },

@@ -8,6 +8,7 @@ import { redirectUrlPerType, activityTypes } from './../utils/activities-utils';
 import stoplightImg from '../assets/stoplight-taken.png';
 import solutionImg from '../assets/solution.png';
 import priorityImg from '../assets/priority.png';
+import clsx from 'clsx';
 
 const ActivityFeed = ({
   classes,
@@ -47,6 +48,7 @@ const ActivityFeed = ({
             createdAt,
             username,
             message,
+            params,
             id,
             familyId,
             stoplightClient,
@@ -64,7 +66,10 @@ const ActivityFeed = ({
                 createdDaysAgo
               );
             }
-
+            const isSolution =
+              activityType === activityTypes.NEW_STOPLIGHT_SOLUTION;
+            const isPriority =
+              activityType === activityTypes.NEW_STOPLIGHT_PRIORITY;
             return (
               <div
                 key={id}
@@ -76,25 +81,42 @@ const ActivityFeed = ({
                 </div>
                 <div className={classes.content}>
                   <Typography className={classes.title}>{message}</Typography>
-                  {username && (
+                  {isSolution && (
+                    <Typography
+                      className={clsx(classes.label, classes.solutionTitle)}
+                    >
+                      <span className={classes.subtitle}>
+                        {t('views.activityFeed.title')}
+                      </span>
+                      {`: ${params[0]}`}
+                    </Typography>
+                  )}
+                  {isPriority && (
                     <Typography className={classes.label}>
                       <span className={classes.subtitle}>
-                        {activityType !== activityTypes.NEW_STOPLIGHT_SOLUTION
+                        {t('views.activityFeed.indicator')}
+                      </span>
+                      {`: ${params[0]}`}
+                    </Typography>
+                  )}
+                  {username && !isPriority && (
+                    <Typography className={classes.label}>
+                      <span className={classes.subtitle}>
+                        {!isSolution
                           ? t('views.activityFeed.facilitator')
                           : t('views.activityFeed.uploadedBy')}
                       </span>
                       {`: ${username}`}
                     </Typography>
                   )}
-                  {stoplightClient &&
-                    activityType !== activityTypes.NEW_STOPLIGHT_SOLUTION && (
-                      <Typography className={classes.label}>
-                        <span className={classes.subtitle}>
-                          {t('views.activityFeed.origin')}
-                        </span>
-                        {`: ${stoplightClient}`}
-                      </Typography>
-                    )}
+                  {stoplightClient && !isSolution && (
+                    <Typography className={classes.label}>
+                      <span className={classes.subtitle}>
+                        {t('views.activityFeed.origin')}
+                      </span>
+                      {`: ${stoplightClient}`}
+                    </Typography>
+                  )}
                   <Typography className={classes.date}>
                     {daysAgoLabel}
                   </Typography>
@@ -176,6 +198,12 @@ const styles = theme => ({
     fontSize: 13,
     fontFamily: 'Poppins',
     fontWeight: 500
+  },
+  solutionTitle: {
+    maxWidth: 210,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   },
   label: {
     fontSize: 12,

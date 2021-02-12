@@ -400,6 +400,8 @@
       "dayAgo": "Faz 1 dia",
       "daysAgo": "Fazem $dd dias",
       "facilitator": "Facilitador",
+      "indicator": "Indicador",
+      "title": "Título",
       "origin": "Origem",
       "uploadedBy": "Enviado por"
     },

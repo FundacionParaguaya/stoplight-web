@@ -400,6 +400,8 @@
       "dayAgo": "1 day ago",
       "daysAgo": "$dd days ago",
       "facilitator": "Facilitator",
+      "indicator": "Indicator",
+      "title": "Title",
       "origin": "Origin",
       "uploadedBy": "Uploaded by"
     },

@@ -310,11 +310,11 @@ export const getLastestActivity = (user, lang) =>
     headers: {
       Authorization: `Bearer ${user.token}`,
       'Content-Type': 'application/json',
-      'X-locale': normalizeLang(lang)
+      'X-locale': normalizeLanguages(lang)
     },
     data: JSON.stringify({
       query:
-        'query { recentActivity { id, activityType, username, createdAt, familyId, familyName, stoplightClient, message, referenceId } }'
+        'query { recentActivity { id, activityType, params, username, createdAt, familyId, familyName, stoplightClient, message, referenceId } }'
     })
   });
 
