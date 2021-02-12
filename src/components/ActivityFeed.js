@@ -8,6 +8,7 @@ import { redirectUrlPerType, activityTypes } from './../utils/activities-utils';
 import stoplightImg from '../assets/stoplight-taken.png';
 import solutionImg from '../assets/solution.png';
 import priorityImg from '../assets/priority.png';
+import clsx from 'clsx';
 
 const ActivityFeed = ({
   classes,
@@ -20,12 +21,6 @@ const ActivityFeed = ({
   const handleClick = (activityType, referenceId, familyId) => {
     let id = !!referenceId ? referenceId : familyId;
     history.push(redirectUrlPerType[activityType].replace('$referenceId', id));
-  };
-
-  const getTitle = (activityType, familyName) => {
-    let title = t(`views.activityFeed.title.${activityType}`);
-    title = title.replace('$familyName', familyName);
-    return title;
   };
 
   const getImage = activityType => {
@@ -50,9 +45,10 @@ const ActivityFeed = ({
       <div className={classes.childrenContainer}>
         {data.map(
           ({
-            familyName,
             createdAt,
             username,
+            message,
+            params,
             id,
             familyId,
             stoplightClient,
@@ -70,7 +66,10 @@ const ActivityFeed = ({
                 createdDaysAgo
               );
             }
-
+            const isSolution =
+              activityType === activityTypes.NEW_STOPLIGHT_SOLUTION;
+            const isPriority =
+              activityType === activityTypes.NEW_STOPLIGHT_PRIORITY;
             return (
               <div
                 key={id}
@@ -81,18 +80,36 @@ const ActivityFeed = ({
                   <img alt="icon" src={getImage(activityType)} width="48px" />
                 </div>
                 <div className={classes.content}>
-                  <Typography className={classes.title}>
-                    {getTitle(activityType, familyName)}
-                  </Typography>
-                  {username && (
+                  <Typography className={classes.title}>{message}</Typography>
+                  {isSolution && (
+                    <Typography
+                      className={clsx(classes.label, classes.solutionTitle)}
+                    >
+                      <span className={classes.subtitle}>
+                        {t('views.activityFeed.title')}
+                      </span>
+                      {`: ${params[0]}`}
+                    </Typography>
+                  )}
+                  {isPriority && (
                     <Typography className={classes.label}>
                       <span className={classes.subtitle}>
-                        {t('views.activityFeed.facilitator')}
+                        {t('views.activityFeed.indicator')}
+                      </span>
+                      {`: ${params[1]}`}
+                    </Typography>
+                  )}
+                  {username && !isPriority && (
+                    <Typography className={classes.label}>
+                      <span className={classes.subtitle}>
+                        {!isSolution
+                          ? t('views.activityFeed.facilitator')
+                          : t('views.activityFeed.uploadedBy')}
                       </span>
                       {`: ${username}`}
                     </Typography>
                   )}
-                  {stoplightClient && (
+                  {stoplightClient && !isSolution && (
                     <Typography className={classes.label}>
                       <span className={classes.subtitle}>
                         {t('views.activityFeed.origin')}
@@ -161,7 +178,7 @@ const styles = theme => ({
     width: 65,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   primaryIcon: {
     color: theme.palette.grey.main,
@@ -181,6 +198,12 @@ const styles = theme => ({
     fontSize: 13,
     fontFamily: 'Poppins',
     fontWeight: 500
+  },
+  solutionTitle: {
+    maxWidth: 210,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
   },
   label: {
     fontSize: 12,
