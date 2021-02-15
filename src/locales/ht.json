@@ -1,0 +1,936 @@
+{
+  "general": {
+    "welcome": "Byenvini!",
+    "thankYou": "Mèsi!",
+    "disagree": "Pa dakò",
+    "agree": "Dakò",
+    "day": "Jou",
+    "month": "Mwa",
+    "year": "Ane",
+    "continue": "Kontinye",
+    "gotIt": "Mwen konprann",
+    "save": "anrejistre",
+    "close": "Fini",
+    "closeWithoutStoplight": "Fini",
+    "closeAndSign": "Anrejistre Ankèt la",
+    "yes": "Wi",
+    "no": "Non",
+    "delete": "Efase",
+    "warning": "Atansyon",
+    "cancel": "Retire",
+    "ok": "OK",
+    "drafts": "Bwouyon",
+    "resumeDraft": "repran bwouyon a",
+    "lifeMaps": "Kat lavi",
+    "family": "Fanmi",
+    "familyInfo": "Enfòmasyon sou fanmi",
+    "cachedData": "cached data",
+    "chooseView": "Chwazi sa ou vle wè",
+    "create": "Kreye",
+    "saveError": "Erè nan sove Kat Lavi ou a.  Tanpri eseye ankò osinon kontakte ekip sipò nou an ak nimewo ID erè sa a: %n",
+    "savePdfError": "Erè nan anrejistre Kat Lavi ou a.  pdf pou Whatsapp.",
+    "noOptionsToShow": "Pa genyen opsyon pou ou chwazi.",
+    "clear": "Retire",
+    "showMore": "Montre plis",
+    "continueStoplight": "Kontinye",
+    "yourStoplight": "Chimen Pwogrè pa w",
+    "completeStoplight": "Fen Chime Pwogrè a",
+    "publish": "pibliye"
+  },
+  "validation": {
+    "fieldIsRequired": "Chan sa a obligatwa.",
+    "validEmailAddress": "Tanpri antre yon adrès imel valid.",
+    "lessThan250Characters": "Fòk li mwens ke 250 karaktè.",
+    "lessThan50Characters": "Fòk li mwens ke 50 karaktè",
+    "lessThan64Characters": "Fòk li mwens ke 64 karaktè",
+    "lessThan200Characters": "Fòk li mwens ke 200 karaktè",
+    "alphabeticCharacters": "Tanpri mete karaktè alfabetik",
+    "validPhoneNumber": "Tanpri antre yon nimewo telefòn valid",
+    "validNumber": "Tanpri antre yon nimewo valid.",
+    "formWithErrors": "Fòm sa a genyen kèk repons ki pa valid.",
+    "validDate": "Tanpri antre yon dat ki valid"
+  },
+  "months": {
+    "january": "Janvye",
+    "february": "Fevriye",
+    "march": "Mas",
+    "april": "Avril",
+    "may": "Me",
+    "june": "Jen",
+    "july": "Jiyè",
+    "august": "Out",
+    "september": "Sektanm",
+    "october": "Oktòb",
+    "november": "Novanm",
+    "december": "Desanm"
+  },
+  "views": {
+    "sign": {
+      "addSign": "Mete siyati ou",
+      "signHere": "Siyati",
+      "erase": "Efase",
+      "continue": "Kontinye"
+    },
+    "toolbar": {
+      "dashboard": "Tablo bò",
+      "surveys": "Ankèt",
+      "surveysList": "Ankèt",
+      "analytics": "Analiz",
+      "households": "Menaj",
+      "hubs": "Hub",
+      "map": "Kat",
+      "organizations": "Oganizasyon",
+      "users": "Itilizatè",
+      "reports": "Rapò",
+      "families": "menaj",
+      "logout": "sòti",
+      "support": "Sipò",
+      "projects": "Pwojè",
+      "solutions": "Bank solisyon"
+    },
+    "synced": "Sync",
+    "dashboard": {
+      "welcome": "Byenvini",
+      "dashboard": "Tablo bò",
+      "indicators": "Endikatè",
+      "dimensions": "Kategori",
+      "achievements": "Akonplisman",
+      "priorities": "Priyorite",
+      "latestActivity": "Dènye Aktivite",
+      "red": "Wouj",
+      "yellow": "Jòn",
+      "green": "Vèt",
+      "skipped": "Pase",
+      "yourProgress": "Pwogrè pa w"
+    },
+    "families": "Fanmi",
+    "createLifemap": "Kreye yon kat lavi",
+    "latestDrafts": "Dènye kat lavi yo",
+    "noDrafts": "Pa gen bwouyon pou montre",
+    "termsConditions": "Tèm ak kondisyon",
+    "privacyPolicy": "Politik pwoteksyon vi prive w",
+    "operations": "Operasyon",
+    "survey": {
+      "audioHelp": "Sipò Odyo",
+      "chooseSurvey": "Chwazi yon ankèt",
+      "chooseProjectTitle": "Chwazi yon pwojè",
+      "chooseProjectSubtitle": "Chwazi pwojè ki matche ak fanmi a",
+      "skipProject": "Pase pwojè a",
+      "welcome": "Byenvini",
+      "contains": "Li genyen ladann",
+      "createdOn": "Fèt jou ki",
+      "loading": "Loading...",
+      "surveys": "ankèt yo",
+      "baseLine": "Baseline surveys",
+      "followUp": "Follow-up surveys",
+      "totalSurveys": "Total surveys",
+      "indicators": "Endikatè",
+      "createSurvey": "Derape ak ankèt Chimen Pwogrè",
+      "specifyOther": "Esplike sa “lòt vle di",
+      "assignSurvey": {
+        "hubs": "Hub",
+        "orgs": "Oganizasyon yo",
+        "assignSurvey": "Asiye ankèt la",
+        "surveyAssigned": "Byen anrejistre",
+        "surveyAssignError": "Te gen yon erè nan asiye ankèt la. Eseye ankò"
+      },
+      "filter": {
+        "search": "Chache",
+        "searchBy": "Pa tit"
+      }
+    },
+    "analytics": {
+      "title": "Analize",
+      "subtitle": "N ap travay pou n amelyore platfòm nan",
+      "description": "Nan zòn sa ou kapab wè kèk nan dènye amelyorasyon nou fè pou analiz yo"
+    },
+    "location": {
+      "title": "Kote a",
+      "mapLoading": "Tanpri fè yon ti tann pandan kat la ap monte",
+      "searchBoxPlaceholder": "Chache sou ri osinon kòd postal",
+      "loadingOptionsLabel": "L ap monte..."
+    },
+    "socioEconomic": "Sosyo-Ekonomik",
+    "yourLifeMap": "Kat lavi pa w",
+    "yourPictures": "Chaje foto pa w yo",
+    "uploadFiles": "Klike isit pou ou ajoute dosye pa w yo, osinon jis rale epi lage yo!",
+    "fileUploadError": "Ou atenn limit 10MB la!  Tanpri efase yon foto pou ou ka kontinye.",
+    "primaryParticipant": "Premye patisipan",
+    "familyMembers": "Manm fanmi yo",
+    "gendersBirthDates": "sèks ak dat nesans",
+    "skippedIndicators": "kesyon ou pase",
+    "skippedIndicator": {
+      "subtitle": "ou pase endikatè sa a",
+      "buttonLabel": "Reponn konye a"
+    },
+    "readCarefully": "Tanpri li teks sa byen anvan ou kreye  yon kat lavi.",
+    "family": {
+      "firstName": "Non",
+      "lastName": "Siyati",
+      "selectGender": "Ki sèks ou",
+      "documentType": "Kalite dokiman",
+      "documentNumber": "Nimewo dokiman",
+      "selectACountry": "Ki peyi ou",
+      "email": "Imel",
+      "phone": "Telefòn",
+      "gender": "Sèks",
+      "dateOfBirth": "Dat nesans",
+      "documentType": "Kalite dokiman",
+      "phoneCode": "Nimewo kòd peyi a",
+      "countryOfBirth": "Peyi kote ou te fèt",
+      "selectMonth": "Chwazi mwa a",
+      "selectValidDate": "Mete yon dat ki valid",
+      "specify": "Bay plis esplikasyon",
+      "name": "Non",
+      "peopleLivingInThisHousehold": "Kantite moun k ap viv nan menaj sa a",
+      "household": "Menaj",
+      "household": "household",
+      "onlyPerson": "1 - Se mwen sèlman",
+      "preferNotToSay": "M pito pa reponn",
+      "familyMember": "Manm",
+      "participant": "Patisipan",
+      "gender": "Sèks",
+      "selectGender": "Ki sèks",
+      "country": "Peyi kote ou rete",
+      "selectACountry": "Chwazi peyi a",
+      "postcode": "Kòd postal",
+      "streetOrHouseDescription": "Lari osinon deskripsyon kay la",
+      "gpsAccurate": "GPS:  li korèk nan %n m",
+      "somethingIsNotWorking": "Genyen yon bagay ki pa mache.",
+      "cannotFindLocation": "kat la pa ka jwenn kote sa a.",
+      "checkLocationServicesTurnedOn": "Verifye si ou mete sèvis lokalizasyon sou telefòn ou an sou “on",
+      "giveDetailInTheFormBelow": "Yon lòt fason se pou ou bay plis detay posib sou kote kay la ye nan fòm k ap swiv la.",
+      "searchByStreetOrPostalCode": "Chache sou lari osinon kòd postal.",
+      "gettingYourLocation": "N ap pran lokalizasyon ou a...",
+      "mapUnavailavleOffline": "Malerezman nou pa kapab chaje kat la paske ou pa sou entènèt.",
+      "weHaveLocation": "Sèlman nou te kapab pran lokalizasyon aparèy la.",
+      "neitherMapNorLocation": "Malerezman nou pa kapab chaje kat la ni nou pa kapab jwenn lokalizasyon aparèy la.",
+      "describeLocation": "Tanpri dekri kote ou ye a pi byen posib.",
+      "error": "Pa kapab montre pwofil fanmi a",
+      "details": "Detay",
+      "lifemap": "Kat Lavi",
+      "lifeMapCreatedOn": "Bwouyon kat lavi ki kreye nan dat",
+      "created": "Kreye nan dat",
+      "formWithErrors": "Revize %chif erè nan fòm la",
+      "formWithError": "Revize yon erè nan fòm nan",
+      "amountOfMembers": " Kantite manm pa matche.  Tanpri verifye kantite ou te ekri a",
+      "decreasingMembers": " Retire manm ki pa nan menaj la ankò."
+    },
+    "lifemap": {
+      "thisLifeMapHas": "Mèsi!  Seksyon Chimen Pwogrè sa a genyen %n endikatè.",
+      "thisLifeMapHasNoStoplight": "Mèsi!  Seksyon Chimen Pwogrè sa a genyen %n endikatè. Chwazi si ou vle anrejistre ankèt ou a konye a osinon fini Chimen Pwogrè ou a.",
+      "responseRequired": "*Tanpri reponn.",
+      "responseRequired": "*Response required",
+      "skipThisQuestion": "Sote kesyon sa a.",
+      "youSkipped": "Ou sote endikatè sa yo.",
+      "whyNotTryAgain": "Pou ki w’ pa eseye ankò epi reponn sa yo konye a.",
+      "allIndicators": "Tout endikatè",
+      "allIndicators": "All indicators",
+      "priority": "Priyorite",
+      "writeYourAnswerHere": "Ekri repons ou a la ...",
+      "whyDontYouHaveIt": "kisa ki fè ou pa genyen?",
+      "whatWillYouDoToGetIt": "Sa w ap fè pou ou jwenn li",
+      "howManyMonthsWillItTake": "Konbyen mwa l ap pran?",
+      "markAchievement": "Note akonplisman ou!",
+      "achievement": "Akonplisman",
+      "howDidYouGetIt": "Kisa osinon kilès ki te motive ou pou ou rive la?",
+      "whatDidItTakeToAchieveThis": "Kisa ou te fè pou ou reyisi sa?",
+      "great": "Bèl bagay!",
+      "youHaveCompletedTheLifemap": "Ou konplete kat lavi a",
+      "youNeedToAddPriotity": "Fòk ou ajoute yon priyorite",
+      "youNeedToAddPriorities": "Fòk ou ajoute %n priyorite",
+      "beforeTheLifeMapIsCompleted": "Anvan ou konplete kat lavi ou ...",
+      "green": "Vèt",
+      "yellow": "Jòn",
+      "red": "Wouj",
+      "makeThisAPriority": "N ap fè l vin yon priyorite!",
+      "priorities": "Priyorite yo",
+      "achievements": "Akonplisman",
+      "toComplete": "Pou fini ak Kat Lavi sa a, ...",
+      "indicatorDefinition": "Definisyon endikatè a"
+    },
+    "priority": {
+      "month": "Mwa",
+      "months": "Mwa"
+    },
+    "modals": {
+      "lifeMapWillNotBeSaved": "Si ou pa mete tout detay sou paj sa a, Kat Lavi a pap ka anrejistre.",
+      "weCannotContinueToCreateTheLifeMap": "Si ou pa dakò, nou pa p ka kontinye kreye kat lavi a.",
+      "areYouSureYouWantToExit": "Eske ou vle sòti vre?",
+      "yourLifemapIsNotComplete": "W ap pèdi tout done ou yo.  Eske ou vle sòti vre?",
+      "thisWillBeSavedAsADraft": "N ap anrejistre sa tankou yon bwouyon."
+    },
+    "logout": {
+      "logout": "Sòti",
+      "youHaveUnsynchedData": "Ou genyen done ki pa senkronize.",
+      "thisDataWillBeLost": "Done sa yo ap pèdi.",
+      "weWillMissYou": "W ap manke nou.",
+      "comeBackSoon": "Tounen byen vit!",
+      "looseYourData": "W ap pèdi done ki pa senkronize yo.",
+      "cannotUndo": "Sa pa p ka defèt.",
+      "areYouSureYouWantToLogOut": "Eske ou vle sòti vre?"
+    },
+    "sync": {
+      "upToDate": "Ou ajou.",
+      "lastSync": "Dènye senkronizasyon.",
+      "syncStatus": "Estati Senkronizasyon",
+      "offline": "Ou pa sou entènèt",
+      "updatesPending": "%n mizajou k ap tann.",
+      "updatePending": "1 mizajou k ap tann.",
+      "inProgress": "Senkronizasyon ap fèt.",
+      "of": "of",
+      "updates": "Mizajou"
+    },
+    "overview": {
+      "red": "Wouj",
+      "yellow": "Jòn",
+      "green": "Vèt",
+      "skipped": "Kesyon ou sote yo",
+      "priorityFooterButton": "Mwen konprann.",
+      "allPrioritiesRemainingTitle": "Anvan ou konplete kat la ...",
+      "allPrioritiesRemainingDescription": "Fòk ou fè",
+      "priorities": "Priyorite",
+      "priority": "Priyorite",
+      "somePrioritiesRemainingTitle": "Priyorite ki rete pou kreye!",
+      "somePrioritiesRemainingDescription": "Preske rive ...",
+      "onePriorityRemainingTitle": "Yon priyorite ki rete pou kreye!",
+      "onePriorityRemainingDescription": "Preske rive ...",
+      "noPriorityRemainingTitle": "Bon bagay ba. Ou fin kreye tout priryorite nesesè yo.",
+      "noPriorityRemainingDescription": "Ou kapab kreye plis si ou vle.",
+      "noPriorityRequiredTitle": "Pou ou finalize Kat Lavi a",
+      "noPriorityRequiredDescription": "Klike sou wonn wouj ak jòn pou ou kreye priyorite yo.",
+      "footerTitleCase1": "To complete the Life Map...",
+      "footerTitleCase2": "You prioritized XX indicators last time!",
+      "footerTitleCase3": "Last time you didn't prioritize any indicators!",
+      "footerDescriptionCase1": "Create the priorities you want to focus on by clicking on the red and yellow indicators!",
+      "footerDescriptionCase2": "Continue adding new priorities! You may select previously prioritized indicators as well. Don’t forget to add your achievements by clicking on your green indicators.",
+      "footerDescriptionCase3": "Create the priorities you want to focus on by clicking on the red and yellow indicators! You may also add achievements by clicking on the green indicators."
+    },
+    "indicatorsFilter": {
+      "red": "Wouj",
+      "yellow": "Jòn",
+      "green": "Vèt",
+      "skipped": "Pase",
+      "allIndicators": "Tout endikatè",
+      "sort": {
+        "MOST_GREENS": "Plis vèt",
+        "MOST_REDS": "Plis wouj",
+        "MOST_YELLOWS": "Plis jòn",
+        "MOST_SKIPPED": "Plis pase",
+        "MOST_PRIORITIZED": "Plis Priyorite",
+        "LESS_PRIORITIZED": "Mwens Priyorite",
+        "MOST_ACHIEVED": "Plis akonplisman",
+        "LESS_ACHIEVED": "Mwens akonplisman",
+        "DEFAULT": "Tout"
+      }
+    },
+    "final": {
+      "title": "Mèsi",
+      "surveyCompleted": "Pa bliye konplete ankèt ou a.",
+      "print": "Enprime",
+      "email": "Imel",
+      "whatsapp": "Whatsapp",
+      "download": "Telechaje",
+      "deleteSnapshot": "Efase foto sa a",
+      "downloadError": "Erè nan telechaje kat lavi ou",
+      "lifemapSaved": "Yo voye ankèt ou a ale.",
+      "clickSafe": "Konye a jis klike “anrejistre",
+      "clickSafeWithoutStoplight": "Konye a jis klike “fini",
+      "emailSent": "Yo voye ankèt ou a pa imel.",
+      "whatsappSent": "W ap jwenn yon mesaj sou Whatsapp.  Si ou vle jwenn Kat Lavi ou reponn \"Wi\".",
+      "whatsappSentOverview": "W ap jwenn yon mesaj sou Whatsapp.  Si ou vle jwenn Kat Lavi ou reponn \"Wi\".",
+      "emailError": "Erè nan voye Kat Lavi ou a pa imel.",
+      "confirmYourMail": "Voye l pa imel:...",
+      "delete": {
+        "confirmTitle": "Eske ou vle efase l vre?",
+        "confirmText": "Eske ou vle efase foto sa a vre?",
+        "cannotUndo": "Ou pap ka defèt aksyon sa a.",
+        "success": "Foto a efase.",
+        "failed": "Foto a pa t ka efase."
+      }
+    },
+    "send": {
+      "title": "Voye Kat lavi ou a",
+      "subtitle": "Bon bagay!  Ou fini ak ankèt ou a.",
+      "chooseOption": "Si ou vle jwenn osinon telechaje Kat Lavi ou, klike sou youn nan opsyon sa yo.",
+      "goTo": "Tounen nan paj “Lakay"
+    },
+    "familiesOverviewBlock": {
+      "economics": "Ekonomi Sosyal",
+      "averageIncome": "Mwayèn revni anyèl pa abitan",
+      "overview": "Apèsi Jeneral",
+      "stoplightOverview": "Stoplight Overview",
+      "families": "Fanmi",
+      "family": "Fanmi",
+      "including": "Ki genyen ladann li",
+      "baseLine": "Baseline surveys",
+      "followUp": "Follow-up surveys",
+      "people": "moun",
+      "men": "Gason",
+      "and": "ak",
+      "women": "Fi",
+      "other": "Other",
+      "tookSnapshots": "Fanmi ak Chimen Pwogrè",
+      "tookSnapshot": "Fanmi ak Chimen Pwogrè",
+      "tookWhitoutStoplight": " Only socioeconomic",
+      "averageMembers": " average members",
+      "topCountries": "Top countries of birth"
+    },
+    "saveDraftModal": {
+      "lifemapNotComplete": "Kat lavi ou pa fini",
+      "willSaveDraft": "L ap sove tankou yon bwouyon",
+      "sureWantToExit": "Eske ou vle sòti vre?",
+      "cannotSave": "Te genyen yon pwoblèm nan anrejistreman bwouyon sa a. Eseye ankò."
+    },
+    "snapshotsTable": {
+      "title": "Bwouyon",
+      "dob": "DOB:",
+      "today": "Jodi a",
+      "dayAgo": "Ayè",
+      "daysAgo": "$dd jou pase",
+      "draft": "Bwouyon",
+      "completed": "Konplete",
+      "drafts": "Bwouyon",
+      "all": "Tout",
+      "searchFamily": "Chache fanmi",
+      "noSnapshotsAvailable": "Pa genyen bwouyon ki disponib",
+      "noMatchFilters": "Pa gen rezilta pou filtè sa yo",
+      "loadingSnapshots": "N ap chaje bwouyon"
+    },
+    "activityFeed": {
+      "by": "Pa",
+      "today": "Jodi a",
+      "dayAgo": "Ayè",
+      "daysAgo": "$dd jou pase",
+      "facilitator": "Fasilitatè",
+      "origin": "Orijin",
+      "title": {
+        "SNAPSHOTS": "$familyName took a Stoplight Survey",
+        "BASELINE_SURVEY": "$familyName took a baseline survey!",
+        "FOLLOWUP_SURVEY": "$familyName took a follow-up survey!",
+        "NEW_STOPLIGHT_SOLUTION": "Threre's a new solution",
+        "NEW_STOPLIGHT_PRIORITY": "$familyName has a new priority"
+      }
+    },
+    "organizationsFilter": {
+      "label": "Oganizasyon",
+      "loading": "Chaje",
+      "noOption": "Pa gen òganizasyon ki rete",
+      "noMatchFilters": "Pa gen rezilta ki matche filtè ou yo",
+      "allOrganizations": "Tout òganizasyon yo"
+    },
+    "hubsFilter": {
+      "label": "Hub",
+      "loading": "L ap chaje",
+      "noOption": "Pa gen lòt hub",
+      "noMatchFilters": "Pa gen rezilta ki matche filtè ou yo"
+    },
+    "surveysFilter": {
+      "label": "ankèt",
+      "loading": "L ap chaje...",
+      "noOption": "Pa gen ankèt ki rete",
+      "noMatchFilters": "Pa gen rezilta ki matche filtè ou yo"
+    },
+    "dateRangeFilter": {
+      "from": "Sòti",
+      "to": "Pou"
+    },
+    "indicatorFilter": {
+      "label": "Endikate",
+      "loading": "L ap chaje",
+      "noOption": "Pa gen endikatè ki rete",
+      "noMatchFilters": "Pa gen rezilta ki matche filtè ou yo"
+    },
+    "dimensionFilter": {
+      "label": "Kategori",
+      "loading": "L ap chaje...",
+      "noOption": "Pa gen kategori ki rete",
+      "noMatchFilters": "Pa gen rezilta ki matche filtè ou yo"
+    },
+    "projectFilter": {
+      "label": "Pwojè",
+      "loading": "L ap chage...",
+      "noOption": "Pa gen pwojè ki rete",
+      "noMatchFilters": "Pa gen rezilta ki matche filtè ou yo",
+      "allProjects": "Tout pwojè yo"
+    },
+    "snapShotFilter": {
+      "allSnapShots": "All last snapshots",
+      "baseLine": "Baseline",
+      "followUp": "Follow-up"
+    },
+    "exitModal": {
+      "confirmTitle": "Konfime sòti a",
+      "confirmText": "Eske ou vle sòti vre?",
+      "cannotUndo": "W ap pèdi tout chanjman yo!"
+    },
+    "nonProdWarning": {
+      "title": "Helo!",
+      "subtitle": "Byenvini nan anviwònman demonstrasyon an.",
+      "bottom": "Pa bliye; tout done ou antre la piblik epi l ap efase otomatikman."
+    },
+    "deleteDraft": {
+      "confirmDeletion": "Eske ou vle efase l vre?",
+      "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
+      "areYouSure": "Eske ou vle efase bwouyon sa a vre?",
+      "cannotDelete": "Te genyen yon erè nan efase bwouyon sa a.  Tanpri eseye ankò."
+    },
+    "deleteFamily": {
+      "confirmDeletion": "Eske ou vle efase l vre?",
+      "cannotUndo": "Ou pa p ka defèt aksyon sa a!",
+      "areYouSure": "Eske ou vle efase fanmi sa a vre?",
+      "cannotDelete": "Te genyen yon erè nan efase fanmi sa a, eseye ankò."
+    },
+    "familyList": {
+      "errorLoadingFamilies": "Te genyen yon erè nan chaje fanmi yo. Tanpri eseye ankò.",
+      "familyName": "Siyati",
+      "document": "Dokiman",
+      "familyCode": "Kòd fanmi an",
+      "search": "Chache",
+      "empty": "Pa genyen fanmi konsa.",
+      "searchFamily": "Non osinon nimewo dokiman an.",
+      "delete": "Efase fanmi an",
+      "show": "Montre fanmi an",
+      "rows": "Fanmi nou jwenn"
+    },
+    "facilitatorFilter": {
+      "label": "Fasilitatè",
+      "loading": "L ap chaje...",
+      "noOption": "Pa genyen fasilitatè ki rete",
+      "noMatchFilters": "Pa gen rezilta ki matche filtè ou yo",
+      "allFacilitators": "Tout fasilitatè yo"
+    },
+    "familyProfile": {
+      "organization": "Oganizasyon: ",
+      "projectTitle": "Pwojè: ",
+      "lifemapNumber": "Kat lavi – nimewo",
+      "familyDetails": "Detay fanmi yo",
+      "economicDetails": "Detay Sosyo-Ekonomik yo",
+      "noMember": "Fanmi sa pa genyen lòt manm",
+      "noEconomic": "Fanmi sa a pa genyen done sosyo-ekonomik",
+      "noDataInTopic": "Fanmi sa a pa konplete seksyon sosyo-ekonomik sa a.",
+      "continueWithStoplight": "Pran yon ankèt swivi.",
+      "viewLifeMap": "Gade Kat lavi ak tout detay yo",
+      "mentor": "Fasilitatè",
+      "Mentorsuccess": "Asiye korekteman",
+      "mentorError": "Te genyen yon erè nan asiye fasilitatè a.  Eseye ankò.",
+      "changeFacilitator": "Chanje fasilitatè a",
+      "changeFacilitatorConfirm": "Eske ou vle chanje fasilitatè fanmi sa a vre?",
+      "facilitator": "Fasilitatè asiye",
+      "administration": "Administrasyon",
+      "families": "Menaj",
+      "family": "Fanmi",
+      "profile": "Pwofil",
+      "createNewSnapshot": "Kreye yon nouvo ankèt pou fanmi an.",
+      "stoplight": "Chimen Pwogrè",
+      "loadingSnapshots": "Chimen pwogrè ap chaje..",
+      "familyNoteSuccess": "Nòt sou fanmi an ale korekteman",
+      "familyNoteError": "Nou pa t ka voye nòt sou fanmi an ale.",
+      "download": "Telechaje",
+      "project": {
+        "assignedCorrectly": "Pwojè a asiye korèkteman.",
+        "assignError": "Te genyen yon erè nan asiye pwojè a. Eseye ankò.",
+        "changeProject": "Chanje pwojè a.",
+        "changeProjectConfirm": "Eske ou vle chanje pwojè fanmi a vre?"
+      },
+      "form": {
+        "save": {
+          "success": "Mizajou fanmi a reyisi",
+          "failed": "Mizajou fanmi a pa t ka fèt."
+        },
+        "saveEconomic": {
+          "success": "Mizajou done sosyo-ekonomik yo reyisi",
+          "failed": "Mizajou done sosyo-ekonomik yo pa t ka fèt."
+        }
+      }
+    },
+    "familyNotes": {
+      "by": "Pa",
+      "Notes": "Nòt",
+      "EmptyNotesList": "Pa gen nòt pou fanmi a",
+      "NotePlaceHolder": "Ekri nòt fanmi w"
+    },
+    "familyPriorities": {
+      "priorities": "Priyorite",
+      "indicator": "Endikatè",
+      "review": "Dat revizyon",
+      "months": "Kantite mwa ou bezwen",
+      "errorLoading": "Te genyen yon erè nan chaje priyorite yo. Tanpri eseye ankò.",
+      "noPriorities": "Fanmi sa a pa chwazi priyorite li.",
+      "prioritySaved": "Priyorite yo anrejistre",
+      "errorSaving": "Te genyen yon erè nan sove priyorite yo. Tanpri eseye ankò.",
+      "selectIndicator": "Chwazi yon endikatè",
+      "backToProfile": "Tounen nan Pwofil Fanmi an",
+      "addPriority": "Ajoute yon priyorite",
+      "updatedAt": "Dat kreyasyon"
+    },
+    "familyAchievements": {
+      "achievements": "Akonplisman",
+      "indicator": "Endikatè",
+      "action": "Kisa ou fè pou ou akonpli sa?",
+      "roadmap": "Kisa osinon kilès ki motive ou pou ou rive fè l?",
+      "noAchievements": "Fanmi sa a pa genyen akonplisman"
+    },
+    "familyImages": {
+      "title": "Imaj",
+      "addImages": "Add Images",
+      "uploadImages": "Upload Images",
+      "placeholder": "Here you can add  your images, please consider downloading images you intend to remove",
+      "uploadError": "You reached the 10MB limit! Please delete a image to continue.",
+      "typeError": "Image extension not supported",
+      "save": {
+        "success": "Family's images updated successfully",
+        "failed": "Could not update family's images"
+      }
+    },
+    "familySignature": {
+      "title": "Siyati",
+      "addSign": "Add Sign",
+      "save": {
+        "success": "Sign updated successfully",
+        "failed": "Could not update sign"
+      }
+    },
+    "projects": {
+      "search": "Chache",
+      "searchProject": "Pa non",
+      "addProject": "Ajoute yon pwojè",
+      "editButton": "Chanje",
+      "deleteButton": "Efase",
+      "form": {
+        "addTitle": "Add a Project",
+        "editTitle": "Chanje yon pwojè",
+        "active": "Aktif",
+        "color": "Chanje koulè a",
+        "name": "Non pwojè a",
+        "nameLengthExceeded": "Non pwoje a pa ka genyen plis pase 50 karaktè.",
+        "description": "Deskripsyon",
+        "descriptionLengthExceeded": "Deskripsyon an pa ka genyen plis pase 80 karaktè.",
+        "save": {
+          "success": "Pwojè a byen anrejistre.",
+          "failed": "Pwojè sa a deja egziste"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Eske ou vle efase sa vre?",
+        "confirmText": "Eske ou vle efase pwojè sa a vre?",
+        "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
+        "success": "Pwojè sa a efase.",
+        "failed": "Pwojè sa a pa kapab efase paske genyen done ki makonnen avè l."
+      }
+    },
+    "organization": {
+      "addOrganization": "Ajoute yon òganizasyon.",
+      "editButton": "Chanje",
+      "deleteButton": "Efase",
+      "search": "Chache",
+      "searchOrganization": "Sou non",
+      "projectsList": "Lis pwojè yo",
+      "delete": {
+        "confirmTitle": "Eske ou vle efase l vre?",
+        "confirmText": "Eske ou vle efase òganizasyon sa vre?",
+        "cannotUndo": "Ou pap ka defèt aksyon sa a.",
+        "success": "Oganizasyon sa a efase.",
+        "failed": "Oganizasyon sa a pa t ka efase."
+      },
+      "form": {
+        "addTitle": "Ajoute yon òganizasyon.",
+        "editTitle": "Chanje yon òganizasyon",
+        "name": "Non òganizasyon an",
+        "nameLengthExceeded": "Non òganizasyon an pa ka genyen plis pase 50 karaktè.",
+        "description": "Deskripsyon",
+        "descriptionLengthExceeded": "Deskripsyon an pa ka genyen plis pase 140 karaktè.",
+        "allowProjects": "Pwojè:",
+        "save": {
+          "success": "Oganizasyon sa a anrejistre.",
+          "failed": "Oganizasyon sa a deja egziste."
+        },
+        "get": {
+          "failed": "Oganizasyon sa a pa t ka chaje. Tanpri eseye ankò."
+        },
+        "email": "imel pou voye Kat Lavi a",
+        "typeOfOrganization": "Kalite òganizasyon",
+        "subOrg": "Sou-òganizasyon",
+        "organizationType": {
+          "ngo": "ONG",
+          "government": "Leta",
+          "academia": "Akademik/enstitisyon rechèch",
+          "company": "Antrepriz",
+          "social": "Antrepriz sosyal",
+          "microfinance": "Mikwofinans",
+          "other": "Lòt"
+        },
+        "areaOfExpertise": "Sektè (chwazi nan ki sektè òganizasyon an travay pi plis)",
+        "areaOfExpertiseOptions": {
+          "agriculture": "Agrikilti",
+          "commerce": "Komès",
+          "construction": "Konstriksyon",
+          "education": "Edikasyon",
+          "finance": "Finans",
+          "health": "Sante",
+          "socialDevelopment": "Devlopman sosyal",
+          "technology": "Teknoloji",
+          "other": "Lòt"
+        },
+        "finalUserType": "Itilizatè final (kilès ki sijè ankèt la)",
+        "finalUserTypeOptions": {
+          "clients": "Kliyan",
+          "companyEmployees": "Anplwaye",
+          "programBeneficiaries": "Patisipan nan pwogram",
+          "other": "Lòt"
+        },
+        "endSurveyType": "Kalite ankèt final",
+        "endSurveyTypeOptions": {
+          "facilitation": "Fasilitasyon",
+          "sendingUniqueLink": "Voye yon lyen inik"
+        },
+        "solutionAccessType": "Bank solisyon"
+      }
+    },
+    "hub": {
+      "search": "chache",
+      "searchHub": "sou non",
+      "addAHub": "ajoute yon hub",
+      "editButton": "Chanje",
+      "deleteButton": "efase",
+      "list": {
+        "rows": "Hub nou jwenn",
+        "singleRow": "Hub nou jwenn",
+        "noRows": "Nou pa jwenn hub",
+        "search": "Chache",
+        "empty": "Pa genyen hub",
+        "type": "Kalite",
+        "show": "Show hub's organizations"
+      },
+      "form": {
+        "addTitle": "ajoute yon hub",
+        "editTitle": "chanje yon hub",
+        "permissionTitle": "Pèmisyon",
+        "name": "Non hub la",
+        "nameLengthExceeded": "Non hub la pa ka genyen plis pase 50 karaktè.",
+        "description": "Deskripsyon",
+        "descriptionLengthExceeded": "Deskripsyon an pa ka genyen plis pase 256 karaktè.",
+        "language": "lang",
+        "logoUpload": "Klike pou ou chaje yon logo.",
+        "changeLogo": "Klike la pou ou chanje logo a.",
+        "fileUploadError": "Ou atenn limit 10MB la. Chwazi yon lòt imaj.",
+        "partnerType": "Kalite patnè.",
+        "allowRetake": "Repran foto a.:",
+        "allowSolutions": "Bank solisyon yo:",
+        "allowInteractiveHelp": "Sipò entèaktif la.:",
+        "allowProjects": "Pwojè:",
+        "allowMapRestriction": "Restriksyon kat:",
+        "allowFamilyUsers": "Family users",
+        "save": {
+          "success": "Hub la byen anrejistre",
+          "failed": "Hub sa egziste deja."
+        }
+      },
+      "delete": {
+        "confirmTitle": "Eske ou vle efase l vre?",
+        "confirmText": "Eske ou vle efase hub sa vre?",
+        "cannotUndo": "Ou pa p ka defèt aksyon sa a!",
+        "success": "Hub la efase.",
+        "failed": "Hub sa a pa ka efase paske genyen done ki makonnen avè l."
+      }
+    },
+    "user": {
+      "search": "chache",
+      "searchUser": "Sou non itilizatè, siyati osinon imel",
+      "addUser": "Ajoute yon itilizatè",
+      "userList": {
+        "rows": "Itilizatè nou jwenn",
+        "singleRow": "Itilizatè nou jwenn",
+        "username": "Non itilizatè",
+        "noRows": "Nou pa jwenn itilizatè",
+        "name": "Non",
+        "email": "imel",
+        "organization": "Oganizasyon",
+        "hub": "hub",
+        "role": "Wòl",
+        "edit": "Chanje itilizatè",
+        "delete": "Efase itilizatè",
+        "search": "Chache",
+        "empty": "Pa gen itilizatè konsa"
+      },
+      "form": {
+        "addTitle": "Ajoute yon itilizatè",
+        "editTitle": "Chanje itilizatè",
+        "role": "Wòl",
+        "active": "Aktif",
+        "name": "Non",
+        "username": "Non itilizatè",
+        "usernameInvalid": "Itilize sèlman lèt (a-z), chif (0-9) epi (.) (_) pou separe mo yo",
+        "usernameUsed": "Non itilizatè sa a egziste deja",
+        "email": "Imel",
+        "emailNotValid": "Imel sa a pa valid",
+        "password": "Modpas",
+        "passwordTooShort": "Modpas la twò kout",
+        "confirmPassword": "Konfime modpas la",
+        "passwordConfirmFailed": "Modpas la pa konfime",
+        "selectHub": "Chwazi yon hub",
+        "selectOrganization": "Chwazi yon òganizasyon",
+        "selectRole": "Chwazi yon wòl",
+        "save": {
+          "success": "Itilizatè a anrejistre",
+          "failed": "Itilizatè a pa t ka anrejistre"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Eske ou vle efase l vre?",
+        "confirmText": "Eske ou vle efase itilizatè sa a vre?",
+        "cannotUndo": "Ou pa p ka defèt aksyon sa a!",
+        "success": "Itilizatè a efase",
+        "failed": "Itilizatè sa a pa ka efase paske li makonnen ak kèk done"
+      }
+    },
+    "report": {
+      "filters": {
+        "followUpSurvey": "Mete ankèt swivi fanmi yo ladan l",
+        "surveyRequired": "Filtè sa a egzijib",
+        "advancedOptions": "Opsyon avanse",
+        "indicator": "Endikatè",
+        "red": "Wouj",
+        "yellow": "Jòn",
+        "green": "Vèt"
+      },
+      "table": {
+        "surveys": "ankèt",
+        "singleSurvey": "ankèt",
+        "families": "fanmi",
+        "singleFamily": "fanmi",
+        "represents": "reprezante",
+        "represent": "reprezante",
+        "familyName": "Siyati",
+        "familyCode": "Kòd fanmi a",
+        "surveyDate": "Dat ankèt la",
+        "surveyNumber": "Nimewo ankèt la",
+        "noRecords": "Nou pa jwenn fichye sou sa",
+        "chooseFilters": "Chwazi kèk filtè epi klike",
+        "chooseFiltersEnd": " pou telechaje rezilta yo!",
+        "empty": "Pa gen rezilta ki matche filtè ou yo"
+      },
+      "buttons": {
+        "applyFilters": "Aplike",
+        "resetFilters": "Rekòmanse",
+        "downloadReport": "Telechaje rapò a",
+        "pleaseWait": "Tanpri, tann jiskaske rapò a fin telechaje.",
+        "downloadSemaforito": "Semaforito",
+        "somethingWrong": "Te gen yon pwoblèm"
+      }
+    },
+    "map": {
+      "filters": {
+        "displayClusters": "Montre gwoup yo",
+        "moreFilters": "More filters"
+      },
+      "noRecords": "Nou pa jwenn fichye konsa",
+      "families": " Fanmi",
+      "singleFamily": " fanmi"
+    },
+    "login": {
+      "welcomeToPlatform": "Byenvini nan Chimen Pwogrè",
+      "welcomeToDemo": "Byenvini nan platfòm demo a",
+      "switchTo": "Chanje",
+      "username": "Non itilizatè",
+      "password": "Modpas",
+      "login": "Login",
+      "forgotPassword": "Ou bliye modpas ou?",
+      "goForm": "Antre",
+      "email": "Imel",
+      "newPassword": "Nouvo modpas",
+      "newPasswordConfirm": "Konfime nouvo modpas la",
+      "newPasswordConfirmFailed": "Nouvo modpas la pa konfime",
+      "resetPassword": "Refè modpas la",
+      "backLogin": "Tounen nan login",
+      "resetTitle": "Tanpri mete non itilizatè ou ak imel ou pou refè modpas ou a",
+      "connectionError": "Ou pa konekte ak entènèt.",
+      "unauthorizedError": "Pa otorize",
+      "wrongCredentials": "Move kalifikasyon. Tanpri eseye ankò.",
+      "mailResetSuccess": "Mèsi! Tanpri verifye imel ou pou yon lyen k ap ede w’ ou refè modpas ou.",
+      "passwordReseted": "Modpas la refèt!",
+      "mailNotFound": "Non ak imel itilizatè sa a pa disponib."
+    },
+    "solutions": {
+      "solutions": "Solisyon",
+      "solution": "Solisyon",
+      "addSolution": "Ajoute yon nouvo solisyon",
+      "search": "Chache",
+      "searchBy": "pa tit",
+      "noSolutionFound": "Nou pa jwenn solisyon",
+      "solutionFound": "Solisyon nou jwenn",
+      "solutionsFound": "Solisyon nou jwenn",
+      "viewmore": "GADE PLIS",
+      "failUpdateView": "Te genyen yon erè nan mizajou kantite vizit yo.",
+      "form": {
+        "editButton": "CHANJE",
+        "deleteButton": "EFASE",
+        "userNotAllowed": "Operasyon sa entèdi",
+        "title": "Tit solisyon an",
+        "subtitle": "Ajoute yon deskripsyon solisyon ou an.",
+        "subtitleLabel": "Soutit",
+        "contentLabel": "Kontni",
+        "content": "Koumanse ekri kontni ou a.",
+        "country": "Peyi",
+        "solutionType": "Kalite solisyon",
+        "resource": "Resous",
+        "resourcePlaceholder": "Isit la ou ka ajoute fichye tankou pdf, imaj ak lòt.",
+        "resourceUploadError": "Ou atenn limit 10MB! Tanpri efase yon fichye pou ou ka kontinye.",
+        "contact": "Enfòmasyon kontak",
+        "contactPlaceHolder": "Isit la ou kapab ajoute yon adrès imel osinon nimewo telefòn pou lòt kontak.",
+        "reference": "Referans",
+        "save": {
+          "success": "Solisyon an byen anrejistre",
+          "failed": "Solisyon an pa t ka anrejistre"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Eske ou vle efase l vre?",
+        "confirmText": "Eske ou vle efase solisyon sa a vre?",
+        "cannotUndo": "Ou pa ka defèt aksyon sa a!",
+        "success": "Solisyon sa a efase",
+        "failed": "Solisyon sa a pa t ka efase"
+      }
+    },
+    "404": {
+      "missing": "Gen yon bagay ki manke.",
+      "pageNotFound": "Paj sa manke osinon nou pa jwenn li.",
+      "toHomePage": "Tounen nan paj Lakay"
+    },
+    "error": {
+      "subtitle": "Te genyen yon pwoblèm sou bò pa nou. Tanpri eseye “refresh osinon ...",
+      "toHomePage": "Tounen nan sit prensipal la."
+    }
+  },
+  "reports": {
+    "indicators": {
+      "myLifeMap": "Kat Lavi"
+    },
+    "priorities": {
+      "myPriorities": "Priyorite m yo",
+      "status": "Sitiyasyon",
+      "indicator": "Endikatè",
+      "whyDontYouHaveIt": "Sa ki fè ou pa genyen l?",
+      "whatWillYouDoToGetIt": "Sa w ap fè pou ou jwenn li?",
+      "howManyMonthsWillItTake": "Kantite mwa w ap bezwen?",
+      "reviewDate": "Dat revizyon"
+    },
+    "achievements": {
+      "myAchievements": "Akonplisman mwen",
+      "status": "Sitiyasyon",
+      "indicator": "Endikatè",
+      "roadmap": "Kisa osinon kilès ki motive ou pou ou rive la?",
+      "action": "Sa ou te fè pou ou atenn rezilta sa a?"
+    }
+  },
+  "role": {
+    "ROLE_APP_ADMIN": "Admin òganizasyon an",
+    "ROLE_ROOT": "Admin",
+    "ROLE_PS_TEAM": "Ekip",
+    "ROLE_SURVEY_USER_ADMIN": "Admin fasilitatè a",
+    "ROLE_SURVEY_USER": "Fasilitatè",
+    "ROLE_HUB_ADMIN": "Admin Hub la",
+    "ROLE_SURVEY_TAKER": "Anketè",
+    "ROLE_FAMILY_USER": "Family"
+  }
+}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import i18n from '../i18n';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -9,9 +8,11 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import i18n from '../i18n';
 import englishLogo from '../assets/english.png';
 import paragLogo from '../assets/paraguay.png';
 import portugueseLogo from '../assets/portuguese.png';
+import creoleLogo from '../assets/creole.png';
 
 const useStyles = makeStyles(theme => ({
   menuList: {
@@ -42,7 +43,8 @@ const normalizeLanguages = lang => {
   const languages = {
     en: 'en',
     es: 'es',
-    pt: 'pt'
+    pt: 'pt',
+    ht: 'ht'
   };
   return languages[shortLang] || languages['en'];
 };
@@ -86,6 +88,7 @@ const LanguageSelector = () => {
           {language === 'en' && 'English'}
           {language === 'es' && 'Español'}
           {language === 'pt' && 'Português'}
+          {language === 'ht' && 'Creole'}
         </Typography>
       </Button>
       <Popper open={open} anchorEl={anchorEl} transition disablePortal>
@@ -133,6 +136,17 @@ const LanguageSelector = () => {
                       alt="eng"
                     />
                     Português
+                  </MenuItem>
+                  <MenuItem
+                    className={classes.menuItem}
+                    onClick={() => handleClose('ht')}
+                  >
+                    <img
+                      className={classes.imgLogo}
+                      src={creoleLogo}
+                      alt="eng"
+                    />
+                    Creole
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

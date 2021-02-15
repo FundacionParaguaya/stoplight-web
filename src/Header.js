@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { enviroments, logout } from './api';
 import englishLogo from './assets/english.png';
+import creoleLogo from './assets/creole.png';
 import logo from './assets/header_logo.png';
 import paragLogo from './assets/paraguay.png';
 import portugueseLogo from './assets/portuguese.png';
@@ -262,6 +263,7 @@ const Header = ({ path, updateUser, user }) => {
               {menuLanguage === 'en' && 'English'}
               {menuLanguage === 'es' && 'Español'}
               {menuLanguage === 'pt' && 'Português'}
+              {menuLanguage === 'ht' && 'Creole'}
             </Typography>
           </Button>
           <div className={classes.verticalDivider} />
@@ -331,6 +333,17 @@ const Header = ({ path, updateUser, user }) => {
                         alt="eng"
                       />
                       Português
+                    </MenuItem>
+                    <MenuItem
+                      className={classes.menuItem}
+                      onClick={() => handleClose('ht')}
+                    >
+                      <img
+                        className={classes.imgLogo}
+                        src={creoleLogo}
+                        alt="eng"
+                      />
+                      Creole
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
