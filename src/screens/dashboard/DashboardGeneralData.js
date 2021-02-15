@@ -78,11 +78,10 @@ const DashboardGeneralData = ({ data }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const totalFamilies = data.familiesCount;
-  const stoplights = data.snapshotsCount + data.followupsCount;
-  const baselineSurveys = data.snapshotsCount;
+  const stoplights = data.snapshotsCount;
+  const baselineSurveys = data.snapshotsCount - data.followupsCount;
   const followUpSurveys = data.followupsCount;
-  const onlySocioEconomic =
-    data.snapshotsCount - data.familiesWithStoplightCount;
+  const onlySocioEconomic = data.snaspshotsWithoutStoplight;
 
   const [expandData, setExpandData] = useState(false);
   return (

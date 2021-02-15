@@ -194,7 +194,7 @@ export const getTotalFamilies = (
     },
     data: JSON.stringify({
       query:
-        'query totalFamilies($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toTime: Long, $fromTime: Long) { totalFamilies(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toTime: $toTime, fromTime: $fromTime){familiesCount peopleCount peopleWithStoplightCount familiesWithStoplightCount  snapshotsCount followupsCount} }',
+        'query totalFamilies($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toTime: Long, $fromTime: Long) { totalFamilies(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toTime: $toTime, fromTime: $fromTime){familiesCount peopleCount peopleWithStoplightCount familiesWithStoplightCount  snapshotsCount followupsCount snaspshotsWithoutStoplight} }',
       variables: {
         hub,
         organizations,
