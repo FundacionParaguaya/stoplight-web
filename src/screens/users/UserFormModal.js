@@ -370,6 +370,7 @@ const UserFormModal = ({
                 <InputWithFormik
                   label={t('views.user.form.username')}
                   name="username"
+                  notAutoFill
                   onChange={e => {
                     let value = e.target.value || '';
                     value = value.toLowerCase().trim();
@@ -398,6 +399,7 @@ const UserFormModal = ({
                     name="password"
                     required
                     type="password"
+                    notAutoFill
                     className={classes.input}
                   />
                 )}

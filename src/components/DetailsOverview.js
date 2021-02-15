@@ -179,9 +179,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DetailsOverview = ({
-  familyId,
   family,
-  mentor,
   index,
   snapshot,
   firstParticipant,
@@ -390,7 +388,7 @@ const DetailsOverview = ({
               {`${t('views.familyProfile.mentor')}:`}
             </Typography>
             <Typography className={classes.valueLabel}>
-              {''.concat(mentor.label)}
+              {''.concat(snapshot.surveyUser)}
             </Typography>
           </div>
 

@@ -14,6 +14,7 @@ const styles = theme => ({
     height: 'auto',
     width: '50%',
     minWidth: 300,
+    maxWidth: 200,
     cursor: 'pointer'
   },
   basicInfo: {

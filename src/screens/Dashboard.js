@@ -165,7 +165,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     )
       .then(data => {
         const totalFamilies = data.data.data
-          ? data.data.data.economicOverview
+          ? data.data.data.totalFamilies
           : null;
         setGeneralData(totalFamilies);
       })
@@ -401,10 +401,19 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       </div>
 
       <Container variant="fluid" className={classes.greyBackground}>
-        <Grid container className={classes.whiteBackground}>
+        <Grid
+          container
+          className={classes.whiteBackground}
+          style={{ paddingLeft: showFeed ? '10%' : null }}
+        >
           <Grid item md={2} className={classes.logoContainer}>
             {!!getLogoImg(user) && (
-              <img alt="logo" className={classes.img} src={getLogoImg(user)} />
+              <img
+                alt="logo"
+                className={classes.img}
+                src={getLogoImg(user)}
+                style={{ marginRight: showFeed ? 25 : 0 }}
+              />
             )}
           </Grid>
           <Grid item md={8}>
