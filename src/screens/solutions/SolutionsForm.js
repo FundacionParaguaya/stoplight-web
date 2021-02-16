@@ -491,6 +491,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                 <InputWithFormik
                   placeholder={t('views.solutions.form.subtitle')}
                   required
+                  multiline
                   name="subtitle"
                   variant="outlined"
                   InputProps={{
@@ -703,6 +704,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                   placeholder={t('views.solutions.form.contactPlaceHolder')}
                   name="contact"
                   variant="outlined"
+                  multiline
                   InputProps={{
                     classes: {
                       input: classes.inputTypeThree

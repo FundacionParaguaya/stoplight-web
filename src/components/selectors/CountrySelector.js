@@ -52,7 +52,7 @@ const CountrySelector = ({
     setLoading(true);
     let lang = !!parentLang ? parentLang : language;
     let countriesOptions = countries(
-      require(`localized-countries/data/${lang}`)
+      require(`localized-countries/data/${lang === 'ht' ? 'en' : lang}`)
     ).array();
     setCountryOptions(
       countriesOptions.map(country => ({

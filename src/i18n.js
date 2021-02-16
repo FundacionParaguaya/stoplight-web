@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import es from './locales/es.json';
 import pt from './locales/pt.json';
+import ht from './locales/ht.json';
 
 // the translations
 // (tip move them in a JSON file and import them)
@@ -15,6 +16,9 @@ const resources = {
   },
   pt: {
     translation: pt
+  },
+  ht: {
+    translation: ht
   }
 };
 

@@ -49,6 +49,7 @@ const InputWithFormik = ({
   name,
   t,
   i18n,
+  notAutoFill = false,
   tReady,
   ...props
 }) => {
@@ -83,8 +84,7 @@ const InputWithFormik = ({
         inputComponent: inputType === 'number' ? NumberFormatCustom : undefined,
         ...(textFieldProps.InputProps || {})
       }}
-      autoComplete="off"
-      multiline
+      autoComplete={notAutoFill ? 'new-password' : 'on'}
       InputLabelProps={{
         shrink: true
       }}

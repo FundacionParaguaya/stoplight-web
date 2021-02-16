@@ -366,6 +366,7 @@
       "men": "Homens",
       "and": "y",
       "women": "Mulheres",
+      "other": "Outros",
       "tookSnapshots": " Stoplights",
       "tookSnapshot": " Stoplight",
       "tookWhitoutStoplight": " Só socioeconômico",
@@ -399,14 +400,10 @@
       "dayAgo": "Faz 1 dia",
       "daysAgo": "Fazem $dd dias",
       "facilitator": "Facilitador",
+      "indicator": "Indicador",
+      "title": "Título",
       "origin": "Origem",
-      "title": {
-        "SNAPSHOTS": "$familyName completou uma pesquisa",
-        "BASELINE_SURVEY": "$familyName completou sua linha de base!",
-        "FOLLOWUP_SURVEY": "$familyName completou sua pesquisa de acompanhamento",
-        "NEW_STOPLIGHT_SOLUTION": "Uma nova solução foi criada",
-        "NEW_STOPLIGHT_PRIORITY": "$familyName tem uma nova prioridade"
-      }
+      "uploadedBy": "Enviado por"
     },
     "organizationsFilter": {
       "label": "Organizações",
@@ -717,6 +714,7 @@
         "allowInteractiveHelp": "Ajuda interativa:",
         "allowProjects": "Projeto",
         "allowMapRestriction": "Restrição de mapa:",
+        "allowFamilyUsers": "Usuários família",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"
@@ -927,6 +925,7 @@
     "ROLE_SURVEY_USER_ADMIN": "Facilitador Admin",
     "ROLE_SURVEY_USER": "Facilitador",
     "ROLE_HUB_ADMIN": "Hub Admin",
-    "ROLE_SURVEY_TAKER": "Pesquisador"
+    "ROLE_SURVEY_TAKER": "Pesquisador",
+    "ROLE_FAMILY_USER": "Família"
   }
 }

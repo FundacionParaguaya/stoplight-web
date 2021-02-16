@@ -128,6 +128,9 @@ const HubPermissionsModal = ({
     if (values.zoomLimit) {
       labels.push('zoomLimit');
     }
+    if (values.allowFamilyUsers) {
+      labels.push('allowFamilyUsers');
+    }
     addOrUpdateHub(user, { ...hub, labels })
       .then(() => {
         onClose(true);
@@ -191,7 +194,9 @@ const HubPermissionsModal = ({
               !!hub.labels && hub.labels.includes('interactiveHelp'),
             projectsSupport:
               !!hub.projectsSupport && hub.labels.includes('projectsSupport'),
-            zoomLimit: !!hub.zoomLimit && hub.labels.includes('zoomLimit')
+            zoomLimit: !!hub.zoomLimit && hub.labels.includes('zoomLimit'),
+            allowFamilyUsers:
+              !!hub.labels && hub.labels.includes('allowFamilyUsers')
           }}
           onSubmit={values => {
             onSubmit(values);
@@ -266,6 +271,20 @@ const HubPermissionsModal = ({
                     setFieldValue('zoomLimit', !values.zoomLimit);
                   }}
                   checked={values.zoomLimit}
+                  color="primary"
+                />
+              </div>
+              <div className={classes.switchOptionsContainer}>
+                <Typography variant="subtitle1" className={classes.allowRetake}>
+                  {t('views.hub.form.allowFamilyUsers')}
+                </Typography>
+                <Switch
+                  name={'allowFamilyUsers'}
+                  value={'allowFamilyUsers'}
+                  onChange={e => {
+                    setFieldValue('allowFamilyUsers', !values.allowFamilyUsers);
+                  }}
+                  checked={values.allowFamilyUsers}
                   color="primary"
                 />
               </div>

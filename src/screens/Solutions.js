@@ -168,7 +168,7 @@ const Solutions = ({ classes, user, history }) => {
     i18n: { language }
   } = useTranslation();
   const countryOptions = countries(
-    require(`localized-countries/data/${language}`)
+    require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
   ).array();
 
   const [loading, setLoading] = useState(true);

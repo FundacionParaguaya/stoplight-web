@@ -88,6 +88,10 @@ export const ROLES = {
   ROLE_SURVEY_TAKER: [
     // Surveyor  user
     { item: 'surveys', platform: NEW }
+  ],
+  ROLE_FAMILY_USER: [
+    // Family  user
+    { item: 'surveys', platform: NEW }
   ]
 };
 
@@ -98,6 +102,8 @@ export const ROLE_APP_ADMIN = 'ROLE_APP_ADMIN';
 export const ROLE_SURVEY_USER = 'ROLE_SURVEY_USER';
 export const ROLE_SURVEY_USER_ADMIN = 'ROLE_SURVEY_USER_ADMIN';
 export const ROLE_SURVEY_TAKER = 'ROLE_SURVEY_TAKER';
+export const ROLE_FAMILY_USER = 'ROLE_FAMILY_USER';
+
 export const ROLES_NAMES = {
   ROLE_ROOT,
   ROLE_HUB_ADMIN,
@@ -105,7 +111,8 @@ export const ROLES_NAMES = {
   ROLE_APP_ADMIN,
   ROLE_SURVEY_USER,
   ROLE_SURVEY_USER_ADMIN,
-  ROLE_SURVEY_TAKER
+  ROLE_SURVEY_TAKER,
+  ROLE_FAMILY_USER
 };
 
 export const checkAccess = ({ role }, item) => {
@@ -149,5 +156,13 @@ export const checkAccessToProjects = ({ role, hub, organization }) => {
   )
     return true;
 
+  return false;
+};
+
+export const checkAccessToFamilyUsers = ({ role, hub }) => {
+  if (!role) return false;
+  else if (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM)
+    return true;
+  else if (!!hub && hub.labels.includes('allowFamilyUsers')) return true;
   return false;
 };

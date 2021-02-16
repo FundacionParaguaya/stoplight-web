@@ -400,14 +400,10 @@
       "dayAgo": "1 day ago",
       "daysAgo": "$dd days ago",
       "facilitator": "Facilitator",
+      "indicator": "Indicator",
+      "title": "Title",
       "origin": "Origin",
-      "title": {
-        "SNAPSHOTS": "$familyName took a Stoplight Survey",
-        "BASELINE_SURVEY": "$familyName took a baseline survey!",
-        "FOLLOWUP_SURVEY": "$familyName took a follow-up survey!",
-        "NEW_STOPLIGHT_SOLUTION": "Threre's a new solution",
-        "NEW_STOPLIGHT_PRIORITY": "$familyName has a new priority"
-      }
+      "uploadedBy": "Uploaded by"
     },
     "organizationsFilter": {
       "label": "Organizations",
@@ -717,6 +713,7 @@
         "allowInteractiveHelp": "Interactive Help:",
         "allowProjects": "Projects:",
         "allowMapRestriction": "Map restriction:",
+        "allowFamilyUsers": "Family users",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
@@ -926,6 +923,7 @@
     "ROLE_SURVEY_USER_ADMIN": "Facilitator Admin",
     "ROLE_SURVEY_USER": "Facilitator",
     "ROLE_HUB_ADMIN": "Hub Admin",
-    "ROLE_SURVEY_TAKER": "Surveyor"
+    "ROLE_SURVEY_TAKER": "Surveyor",
+    "ROLE_FAMILY_USER": "Family"
   }
 }
