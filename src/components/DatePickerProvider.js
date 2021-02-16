@@ -19,7 +19,7 @@ moment.updateLocale('es', {
   weekdaysMin: [...moment.weekdaysMin().map(day => capitalize(day))]
 });
 const DatePickerProvider = ({ i18n: { language }, children }) => {
-  moment.locale(language);
+  moment.locale(language === 'ht' ? 'en' : language);
 
   return (
     <MuiPickersUtilsProvider
