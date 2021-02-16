@@ -117,7 +117,7 @@ const PersonalDetails = ({
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   let countryOptions = countries(
-    require(`localized-countries/data/${language}`)
+    require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
   ).array();
   let { familyId } = useParams();
 
