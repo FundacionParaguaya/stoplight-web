@@ -125,8 +125,8 @@ const FamilyPriorities = ({
                         </div>
 
                         {/* Date*/}
-                        <div className={classes.indicatorBasicInfoLeft}>
-                          {showReviewDate && (
+                        {showReviewDate && (
+                          <div className={classes.indicatorBasicInfoLeft}>
                             <div className={classes.dateContainer}>
                               <div className={classes.monthContainer}>
                                 <Typography className={classes.labelMonth}>
@@ -148,13 +148,13 @@ const FamilyPriorities = ({
                                 </Typography>
                               </div>
                             </div>
-                          )}
-                          {priorityOpen !== index ? (
-                            <ExpandMore className={classes.expandIcon} />
-                          ) : (
-                            <ExpandLess className={classes.expandIcon} />
-                          )}
-                        </div>
+                          </div>
+                        )}
+                        {priorityOpen !== index ? (
+                          <ExpandMore className={classes.expandIcon} />
+                        ) : (
+                          <ExpandLess className={classes.expandIcon} />
+                        )}
                       </div>
                     }
                   >
@@ -340,14 +340,14 @@ const styles = theme => ({
     flexDirection: 'row',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   indicatorBasicInfoLeft: {
     flex: '1 1 0%',
     flexDirection: 'row',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-end'
   },
   priorityContent: {
     paddingLeft: '2rem',
