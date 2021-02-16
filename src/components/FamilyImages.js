@@ -199,12 +199,12 @@ const FamilyImages = ({
         </>
       ) : (
         <>
-          {showEditButtons(user) && (
-            <Container
-              className={classes.basicInfoText}
-              variant="fluid"
-              style={{ paddingTop: '2rem', paddingBottom: '2rem' }}
-            >
+          <Container
+            className={classes.basicInfoText}
+            variant="fluid"
+            style={{ paddingTop: '2rem', paddingBottom: '2rem' }}
+          >
+            {showEditButtons(user) && (
               <Button
                 variant="contained"
                 onClick={() => {
@@ -213,8 +213,8 @@ const FamilyImages = ({
               >
                 {t('views.familyImages.addImages')}
               </Button>
-            </Container>
-          )}
+            )}
+          </Container>
         </>
       )}
     </>
