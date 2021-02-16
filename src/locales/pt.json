@@ -714,7 +714,7 @@
         "allowInteractiveHelp": "Ajuda interativa:",
         "allowProjects": "Projeto",
         "allowMapRestriction": "Restrição de mapa:",
-        "allowFamilyUsers": "Usuários família",
+        "allowFamilyUsers": "Usuário família",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"

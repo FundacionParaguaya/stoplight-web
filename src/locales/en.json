@@ -713,7 +713,7 @@
         "allowInteractiveHelp": "Interactive Help:",
         "allowProjects": "Projects:",
         "allowMapRestriction": "Map restriction:",
-        "allowFamilyUsers": "Family users",
+        "allowFamilyUsers": "Family user",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
