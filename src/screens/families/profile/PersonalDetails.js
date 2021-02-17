@@ -11,12 +11,12 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import { Gmaps } from 'react-gmaps';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import familyFaceIcon from '../../../assets/family_face_large.png';
 import MarkerIcon from '../../../assets/marker.png';
 import { getDateFormatByLocale } from '../../../utils/date-utils';
 import { ROLES_NAMES } from '../../../utils/role-utils';
-import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -116,10 +116,10 @@ const PersonalDetails = ({
     i18n: { language }
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
-  let countryOptions = countries(
+  const countryOptions = countries(
     require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
   ).array();
-  let { familyId } = useParams();
+  const { familyId } = useParams();
 
   const [value, setValue] = useState(1);
 

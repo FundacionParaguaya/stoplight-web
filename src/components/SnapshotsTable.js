@@ -74,55 +74,12 @@ const useFilterStyles = makeStyles(theme => ({
     transform: 'translate(14px, -6px) scale(0.75)!important'
   }
 }));
-const SnapshotsFilter = ({
-  // statusFilter,
-  // setStatusFilter,
-  familiesFilter,
-  setFamiliesFilter
-}) => {
+const SnapshotsFilter = ({ familiesFilter, setFamiliesFilter }) => {
   const classes = useFilterStyles();
   const { t } = useTranslation();
   return (
     <React.Fragment>
       <div className={classes.mainContainer}>
-        {/*<div className={classes.statusFilterContainer}>
-          <div
-            className={`${classes.filterElementContainer} ${
-              statusFilter === '' ? classes.activeFilter : ''
-            }`}
-            onClick={() => setStatusFilter('')}
-          >
-            <Typography variant="h6" className={classes.statusFilter}>
-              {t('views.snapshotsTable.all')}
-            </Typography>
-          </div>
-          <div className={classes.sideSpacer} />
-          <div
-            className={`${classes.filterElementContainer} ${
-              statusFilter === SNAPSHOTS_STATUS.DRAFT
-                ? classes.activeFilter
-                : ''
-            }`}
-            onClick={() => setStatusFilter(SNAPSHOTS_STATUS.DRAFT)}
-          >
-            <Typography variant="h6" className={classes.statusFilter}>
-              {t('views.snapshotsTable.drafts')}
-            </Typography>
-          </div>
-          <div className={classes.sideSpacer} />
-          <div
-            className={`${classes.filterElementContainer} ${
-              statusFilter === SNAPSHOTS_STATUS.COMPLETED
-                ? classes.activeFilter
-                : ''
-            }`}
-            onClick={() => setStatusFilter(SNAPSHOTS_STATUS.COMPLETED)}
-          >
-            <Typography variant="h6" className={classes.statusFilter}>
-              {t('views.snapshotsTable.completed')}
-            </Typography>
-          </div> 
-        </div>*/}
         <div className={classes.familiesFilterContainer}>
           <TextField
             InputProps={{

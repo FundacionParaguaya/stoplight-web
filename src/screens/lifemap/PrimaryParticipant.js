@@ -34,6 +34,7 @@ import {
 } from '../../utils/conditional-logic';
 
 const countryList = countries(require('localized-countries/data/en')).array();
+
 const phoneCodes = CallingCodes.map(element => ({
   ...element,
   country: `${element.country} - (+${element.value})`

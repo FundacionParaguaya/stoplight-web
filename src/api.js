@@ -1361,7 +1361,8 @@ const normalizeLanguages = lang => {
   const languages = {
     en: 'en_US',
     es: 'es_PY',
-    pt: 'pt_BR'
+    pt: 'pt_BR',
+    ht: 'ht_HT'
   };
   return languages[lang] || languages['en'];
 };
