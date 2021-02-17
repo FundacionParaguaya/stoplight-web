@@ -106,7 +106,7 @@ const ActivityFeed = ({
                           ? t('views.activityFeed.facilitator')
                           : t('views.activityFeed.uploadedBy')}
                       </span>
-                      {`: ${username}`}
+                      {`: ${isSolution && !!params[1] ? params[1] : username}`}
                     </Typography>
                   )}
                   {stoplightClient && !isSolution && (
@@ -222,7 +222,7 @@ const styles = theme => ({
     right: 25,
     lineHeight: '14px',
     position: 'absolute',
-    bottom: 10,
+    bottom: 3,
     fontStyle: 'italic'
   },
   arrowIcon: {
