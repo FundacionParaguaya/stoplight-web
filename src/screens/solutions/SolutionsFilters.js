@@ -90,7 +90,7 @@ const SolutionFilters = ({
             <CountrySelector
               withTitle={false}
               countryData={countryData}
-              parentLang={language}
+              parentLang={language === 'ht' ? 'fr' : language}
               onChangeCountry={onChangeCountry}
               error={false}
               required={false}

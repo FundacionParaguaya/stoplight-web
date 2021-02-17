@@ -273,7 +273,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
       role === ROLES_NAMES.ROLE_PS_TEAM
     );
   };
-  if (language === 'ht') moment.locale('fr');
+  // if (language === 'ht') moment.locale('fr');
   return (
     <React.Fragment>
       {loading && (

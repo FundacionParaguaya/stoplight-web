@@ -342,7 +342,7 @@ const SnapshotsTable = ({
     }
     return filtered;
   }, [snapshots, familiesFilter, statusFilter]);
-  if (language === 'ht') moment.locale('fr');
+  // if (language === 'ht') moment.locale('fr');
   return (
     <>
       {loadingSnapshots && (

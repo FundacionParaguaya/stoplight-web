@@ -23,7 +23,7 @@
     "localized-countries": "^1.0.2",
     "lodash": "4.17.14",
     "material-table": "1.68.0",
-    "moment": "^2.8.0",
+    "moment": "^2.27.0",
     "notistack": "^0.8.2",
     "pdfmake": "^0.1.57",
     "prop-types": "^15.7.2",

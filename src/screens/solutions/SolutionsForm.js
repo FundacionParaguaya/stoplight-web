@@ -590,7 +590,9 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                           })
                         )
                       }
-                      parentLang={values.language}
+                      parentLang={
+                        values.language === 'ht' ? 'fr' : values.language
+                      }
                       error={touched.country && !values.country}
                       required={true}
                     />

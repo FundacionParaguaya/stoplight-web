@@ -206,7 +206,7 @@ const FamilyTable = ({
       role === ROLES_NAMES.ROLE_ROOT
     );
   };
-  if (language === 'ht') moment.locale('fr');
+  // if (language === 'ht') moment.locale('fr');
   return (
     <div className={classes.familyContainer}>
       <DeleteFamilyModal
