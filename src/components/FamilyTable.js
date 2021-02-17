@@ -8,7 +8,6 @@ import { Delete } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
-import 'moment/locale/fr';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import familyFace from '../assets/family_face_large.png';
 import { updateSurvey } from '../redux/actions';
@@ -206,7 +205,6 @@ const FamilyTable = ({
       role === ROLES_NAMES.ROLE_ROOT
     );
   };
-  // if (language === 'ht') moment.locale('fr');
   return (
     <div className={classes.familyContainer}>
       <DeleteFamilyModal

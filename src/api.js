@@ -181,8 +181,8 @@ export const getTotalFamilies = (
   organizations,
   surveys,
   projects,
-  fromDate,
-  toDate,
+  fromTime,
+  toTime,
   lang
 ) =>
   axios({
@@ -194,14 +194,14 @@ export const getTotalFamilies = (
     },
     data: JSON.stringify({
       query:
-        'query totalFamilies($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toDate: Long, $fromDate: Long) { economicOverview(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toDate: $toDate, fromDate: $fromDate){familiesCount peopleCount peopleWithStoplightCount familiesWithStoplightCount  snapshotsCount followupsCount} }',
+        'query totalFamilies($hub: Long, $organizations: [Long], $surveys: [Long], $projects: [Long], $toTime: Long, $fromTime: Long) { totalFamilies(hub: $hub, organizations: $organizations, surveys: $surveys, projects: $projects, toTime: $toTime, fromTime: $fromTime){familiesCount peopleCount peopleWithStoplightCount familiesWithStoplightCount  snapshotsCount followupsCount snaspshotsWithoutStoplight} }',
       variables: {
         hub,
         organizations,
         surveys,
         projects,
-        fromDate,
-        toDate
+        fromTime,
+        toTime
       }
     })
   });
@@ -310,11 +310,11 @@ export const getLastestActivity = (user, lang) =>
     headers: {
       Authorization: `Bearer ${user.token}`,
       'Content-Type': 'application/json',
-      'X-locale': normalizeLang(lang)
+      'X-locale': normalizeLanguages(lang)
     },
     data: JSON.stringify({
       query:
-        'query { recentActivity { id, activityType, username, createdAt, familyId, familyName, stoplightClient, message, referenceId } }'
+        'query { recentActivity { id, activityType, params, username, createdAt, familyId, familyName, stoplightClient, message, referenceId } }'
     })
   });
 

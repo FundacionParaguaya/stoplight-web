@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import {
   getDimensionIndicators,
+  getOverviewBlock,
   getEconomicOverview,
   getLastestActivity,
   getOperationsOverview,
@@ -21,6 +22,7 @@ import ballstoit from '../assets/ballstoit.png';
 import ActivityFeed from '../components/ActivityFeed';
 import Container from '../components/Container';
 import DashboardFilters from '../components/DashboardFilters';
+import OverviewBlock from '../components/OverviewBlock';
 import DimensionsVisualisation from '../components/DimensionsVisualisation';
 import GreenLineChart from '../components/GreenLineChart';
 import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
@@ -49,6 +51,7 @@ const GeneralDataLoadingContainer = () => (
 const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const [activityFeed, setActivityFeed] = useState(null);
   const [showFeed, setShowFeed] = useState(false);
+  const [overview, setOverview] = useState(null);
   const [indicators, setIndicators] = useState(null);
   const [dimensions, setDimensions] = useState(null);
   const [economic, setEconomic] = useState(null);
@@ -70,6 +73,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const [loadingEconomics, setLoadingEconomics] = useState(true);
   const [loadingFeed, setLoadingFeed] = useState(true);
   const [loadingChart, setLoadingChart] = useState(true);
+  const [loadingOverview, setLoadingOverview] = useState(true);
   // TODO: If we have more conditions make an Authorize component
   const { role } = user;
   const isMentor = role === ROLE_SURVEY_USER;
@@ -161,11 +165,28 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     )
       .then(data => {
         const totalFamilies = data.data.data
-          ? data.data.data.economicOverview
+          ? data.data.data.totalFamilies
           : null;
         setGeneralData(totalFamilies);
       })
       .finally(() => setLoadingGeneralData(false));
+
+    getOverviewBlock(
+      user,
+      hubId,
+      fromDate,
+      toDate,
+      sanitizedOrganizations,
+      sanitizedSurveys,
+      sanitizedProjects,
+      selectedSnapshot,
+      lang
+    )
+      .then(data => {
+        const { blockOverview } = getData(data);
+        setOverview(blockOverview);
+      })
+      .finally(() => setLoadingOverview(false));
 
     getEconomicOverview(
       user,
@@ -380,10 +401,19 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       </div>
 
       <Container variant="fluid" className={classes.greyBackground}>
-        <Grid container className={classes.whiteBackground}>
+        <Grid
+          container
+          className={classes.whiteBackground}
+          style={{ paddingLeft: showFeed ? '10%' : null }}
+        >
           <Grid item md={2} className={classes.logoContainer}>
             {!!getLogoImg(user) && (
-              <img alt="logo" className={classes.img} src={getLogoImg(user)} />
+              <img
+                alt="logo"
+                className={classes.img}
+                src={getLogoImg(user)}
+                style={{ marginRight: showFeed ? 25 : 0 }}
+              />
             )}
           </Grid>
           <Grid item md={8}>
@@ -461,6 +491,14 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 snapShotNumber={selectedSnapshot}
               />
             )}
+          </Container>
+        </Container>
+
+        {/* Stoplight Overview */}
+        <Container className={classes.socialEconomics} variant="fluid">
+          <Container className={classes.containerInnerSocial}>
+            {loadingOverview && <LoadingContainer />}
+            {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
           </Container>
         </Container>
 

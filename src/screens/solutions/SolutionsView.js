@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
-import 'moment/locale/fr';
 import { getSolutionById, updateSolutionView } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
 import withLayout from '../../components/withLayout';
@@ -273,7 +272,6 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
       role === ROLES_NAMES.ROLE_PS_TEAM
     );
   };
-  // if (language === 'ht') moment.locale('fr');
   return (
     <React.Fragment>
       {loading && (
