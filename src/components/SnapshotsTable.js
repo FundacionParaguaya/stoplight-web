@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
+import 'moment/locale/fr';
 import Fuse from 'fuse.js';
 import { CircularProgress } from '@material-ui/core';
 import { get } from 'lodash';
@@ -85,7 +86,7 @@ const SnapshotsFilter = ({
   return (
     <React.Fragment>
       <div className={classes.mainContainer}>
-        {/*<div className={classes.statusFilterContainer}>
+        {/* <div className={classes.statusFilterContainer}>
           <div
             className={`${classes.filterElementContainer} ${
               statusFilter === '' ? classes.activeFilter : ''
@@ -122,7 +123,7 @@ const SnapshotsFilter = ({
               {t('views.snapshotsTable.completed')}
             </Typography>
           </div> 
-        </div>*/}
+        </div> */}
         <div className={classes.familiesFilterContainer}>
           <TextField
             InputProps={{
@@ -341,6 +342,7 @@ const SnapshotsTable = ({
     }
     return filtered;
   }, [snapshots, familiesFilter, statusFilter]);
+  if (language === 'ht') moment.locale('fr');
   return (
     <>
       {loadingSnapshots && (

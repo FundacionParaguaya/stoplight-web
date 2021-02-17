@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { updateSurvey } from '../redux/actions';
 import MaterialTable from 'material-table';
 import { withSnackbar } from 'notistack';
-import familyFace from '../assets/family_face_large.png';
 import { Delete } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
-import { getDateFormatByLocale } from '../utils/date-utils';
+import 'moment/locale/fr';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import familyFace from '../assets/family_face_large.png';
+import { updateSurvey } from '../redux/actions';
+import { getDateFormatByLocale } from '../utils/date-utils';
 import DeleteFamilyModal from './DeleteFamilyModal';
 import { ROLES_NAMES } from '../utils/role-utils';
 
@@ -20,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
-    //padding: theme.spacing(2),
+    // padding: theme.spacing(2),
     width: '100%',
     zIndex: 0,
     '& .overflow-y': {
@@ -205,7 +206,7 @@ const FamilyTable = ({
       role === ROLES_NAMES.ROLE_ROOT
     );
   };
-
+  if (language === 'ht') moment.locale('fr');
   return (
     <div className={classes.familyContainer}>
       <DeleteFamilyModal
