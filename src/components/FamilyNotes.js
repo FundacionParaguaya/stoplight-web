@@ -8,7 +8,6 @@ import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import 'moment/locale/fr';
 import Button from '@material-ui/core/Button';
 import { withSnackbar } from 'notistack';
 import iconNotes from '../assets/pen_icon.png';
