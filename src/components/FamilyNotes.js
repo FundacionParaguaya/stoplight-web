@@ -2,17 +2,17 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from '@material-ui/core/Card';
-import Container from '../components/Container';
 import Typography from '@material-ui/core/Typography';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-import iconNotes from '../assets/pen_icon.png';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
-import { getDateFormatByLocale } from '../utils/date-utils';
 import Button from '@material-ui/core/Button';
 import { withSnackbar } from 'notistack';
+import iconNotes from '../assets/pen_icon.png';
+import Container from './Container';
+import { getDateFormatByLocale } from '../utils/date-utils';
 
 const FamilyNotes = ({
   classes,
