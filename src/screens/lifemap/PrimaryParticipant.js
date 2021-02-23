@@ -437,6 +437,7 @@ export class PrimaryParticipant extends Component {
                     name="firstName"
                     test-id="firstName"
                     required
+                    className={classes.nameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `firstName`, setFieldValue)
                     }
@@ -446,6 +447,7 @@ export class PrimaryParticipant extends Component {
                     name="lastName"
                     test-id="lastName"
                     required
+                    className={classes.nameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `lastName`, setFieldValue)
                     }
@@ -691,6 +693,11 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2)
+  },
+  nameField: {
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
   },
   buttonContainerForm: {
     display: 'flex',

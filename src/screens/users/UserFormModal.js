@@ -82,6 +82,16 @@ const useStyles = makeStyles(theme => ({
     padding: 11,
     paddingLeft: 14,
     font: 'Roboto'
+  },
+  nameField: {
+    marginBottom: 10,
+    marginTop: 10,
+    '& .MuiFilledInput-root.Mui-disabled': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)'
+    },
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
   }
 }));
 
@@ -385,7 +395,7 @@ const UserFormModal = ({
                   label={t('views.user.form.name')}
                   name="name"
                   required
-                  className={classes.input}
+                  className={classes.nameField}
                 />
                 <InputWithFormik
                   label={t('views.user.form.email')}

@@ -262,6 +262,7 @@ export class FamilyMembers extends Component {
                               label={t('views.family.firstName')}
                               name={`members[${index}].firstName`}
                               required
+                              className={classes.nameField}
                               onChange={e =>
                                 this.syncDraft(
                                   e.target.value,
@@ -440,6 +441,11 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
+  },
+  nameField: {
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
   }
 });
 
