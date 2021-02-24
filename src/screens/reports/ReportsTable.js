@@ -57,6 +57,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '14px',
     width: '100%',
     fontWeight: 500,
+    textTransform: 'capitalize',
     color: theme.palette.grey.middle,
     textDecoration: 'none',
     '&:hover': {
