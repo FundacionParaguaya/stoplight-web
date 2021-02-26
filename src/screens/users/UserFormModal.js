@@ -20,6 +20,8 @@ import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import ExitModal from '../../components/ExitModal';
 import InputWithFormik from '../../components/InputWithFormik';
 import ProjectsSelector from '../../components/selectors/ProjectsSelector';
+import { capitalize } from '../../utils/form-utils';
+
 import {
   checkAccessToProjects,
   ROLES_NAMES,
@@ -214,6 +216,7 @@ const UserFormModal = ({
       values.organization = user.organization.id;
     if (values.organization) values.hub = user.hub.id;
     else values.organization = null;
+    values.name = capitalize(values.name);
 
     const projects = values.projects.map(project => ({ id: project.value }));
 
@@ -345,7 +348,7 @@ const UserFormModal = ({
               id: userId || null,
               username: (isEdit && userToEdit.username) || '',
               email: (isEdit && userToEdit.email) || '',
-              name: (isEdit && userToEdit.name) || '',
+              name: (isEdit && capitalize(userToEdit.name)) || '',
               password: '',
               confirmPassword: '',
               role: (isEdit && !!userToEdit && userToEdit.role) || '',

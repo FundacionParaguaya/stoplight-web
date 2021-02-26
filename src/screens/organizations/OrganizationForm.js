@@ -99,11 +99,6 @@ const useStyles = makeStyles(theme => ({
     padding: 11,
     paddingLeft: 14,
     font: 'Roboto'
-  },
-  nameField: {
-    '& .MuiInputBase-input': {
-      textTransform: 'capitalize'
-    }
   }
 }));
 
@@ -399,7 +394,6 @@ const OrganizationFormModal = ({
                   label={t('views.organization.form.name')}
                   name="name"
                   required
-                  className={classes.nameField}
                 />
                 <InputWithFormik
                   label={t('views.organization.form.description')}

@@ -101,13 +101,6 @@ const useStyles = makeStyles(theme => ({
     padding: 11,
     paddingLeft: 14,
     font: 'Roboto'
-  },
-  nameField: {
-    marginBottom: 10,
-    marginTop: 10,
-    '& .MuiInputBase-input': {
-      textTransform: 'capitalize'
-    }
   }
 }));
 
@@ -255,7 +248,7 @@ const HubFormModal = ({
                 label={t('views.hub.form.name')}
                 name="name"
                 required
-                className={classes.nameField}
+                className={classes.input}
               />
               <InputWithFormik
                 label={t('views.hub.form.description')}

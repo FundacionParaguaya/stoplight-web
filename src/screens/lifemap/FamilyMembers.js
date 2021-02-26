@@ -27,6 +27,7 @@ import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
+import { capitalize } from '../../utils/form-utils';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const validDate = 'validation.validDate';
@@ -87,7 +88,7 @@ export class FamilyMembers extends Component {
     let newDraft = getDraftWithUpdatedMember(
       currentDraft,
       property,
-      value,
+      property === 'firstName' ? capitalize(value) : value,
       memberIndex
     );
     if (memberKeysWithConditionsOnThem.includes(property)) {

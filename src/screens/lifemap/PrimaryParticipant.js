@@ -32,6 +32,7 @@ import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
+import { capitalize } from '../../utils/form-utils';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -223,7 +224,12 @@ export class PrimaryParticipant extends Component {
       elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
     } = currentSurvey;
 
-    let newDraft = getDraftWithUpdatedMember(currentDraft, field, value, 0);
+    let newDraft = getDraftWithUpdatedMember(
+      currentDraft,
+      field,
+      field === 'firstName' || field === 'lastName' ? capitalize(value) : value,
+      0
+    );
     if (memberKeysWithConditionsOnThem.includes(field)) {
       console.log(
         `Will evaluate cascading after updating family key ${field} on member 0`
