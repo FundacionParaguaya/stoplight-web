@@ -32,6 +32,7 @@ import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
+import { capitalize } from '../../utils/form-utils';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -223,7 +224,12 @@ export class PrimaryParticipant extends Component {
       elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
     } = currentSurvey;
 
-    let newDraft = getDraftWithUpdatedMember(currentDraft, field, value, 0);
+    let newDraft = getDraftWithUpdatedMember(
+      currentDraft,
+      field,
+      field === 'firstName' || field === 'lastName' ? capitalize(value) : value,
+      0
+    );
     if (memberKeysWithConditionsOnThem.includes(field)) {
       console.log(
         `Will evaluate cascading after updating family key ${field} on member 0`
@@ -437,6 +443,7 @@ export class PrimaryParticipant extends Component {
                     name="firstName"
                     test-id="firstName"
                     required
+                    className={classes.nameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `firstName`, setFieldValue)
                     }
@@ -446,6 +453,7 @@ export class PrimaryParticipant extends Component {
                     name="lastName"
                     test-id="lastName"
                     required
+                    className={classes.nameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `lastName`, setFieldValue)
                     }
@@ -691,6 +699,11 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2)
+  },
+  nameField: {
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
   },
   buttonContainerForm: {
     display: 'flex',

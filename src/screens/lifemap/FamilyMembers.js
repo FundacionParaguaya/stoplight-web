@@ -27,6 +27,7 @@ import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
+import { capitalize } from '../../utils/form-utils';
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 const validDate = 'validation.validDate';
@@ -87,7 +88,7 @@ export class FamilyMembers extends Component {
     let newDraft = getDraftWithUpdatedMember(
       currentDraft,
       property,
-      value,
+      property === 'firstName' ? capitalize(value) : value,
       memberIndex
     );
     if (memberKeysWithConditionsOnThem.includes(property)) {
@@ -262,6 +263,7 @@ export class FamilyMembers extends Component {
                               label={t('views.family.firstName')}
                               name={`members[${index}].firstName`}
                               required
+                              className={classes.nameField}
                               onChange={e =>
                                 this.syncDraft(
                                   e.target.value,
@@ -440,6 +442,11 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: 40
+  },
+  nameField: {
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
   }
 });
 

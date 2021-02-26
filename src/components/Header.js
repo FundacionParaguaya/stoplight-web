@@ -64,17 +64,23 @@ const Header = ({
   altTextImage,
   title,
   subtitle1,
-  subtitle2
+  subtitle2,
+  titleTextTransform = 'none'
 }) => {
   const classes = useStyles();
 
   return (
     <Container variant="stretch">
-      <NavigationBar options={navigationOptions}></NavigationBar>
+      <NavigationBar options={navigationOptions} />
       <div className={classes.titleContainer}>
         <img src={imageSource} alt={altTextImage} className={classes.image} />
         <div className={classes.title}>
-          <Typography variant="h4">{title}</Typography>
+          <Typography
+            variant="h4"
+            style={{ textTransform: titleTextTransform }}
+          >
+            {title}
+          </Typography>
           <div className={classes.container}>
             <Typography variant="subtitle1" className={classes.subtitle}>
               {subtitle1}

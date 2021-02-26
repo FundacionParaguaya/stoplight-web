@@ -108,7 +108,10 @@ const FamilyOverview = ({
         alignItems="center"
         style={{ flexDirection: 'column' }}
       >
-        <Typography variant="h5" style={{ textAlign: 'center' }}>
+        <Typography
+          variant="h5"
+          style={{ textAlign: 'center', textTransform: 'capitalize' }}
+        >
           {family ? family.name : ''}
         </Typography>
         <div className={classes.horizontalAlign}>

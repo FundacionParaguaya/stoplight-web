@@ -22,4 +22,14 @@ const constructEstimatedMonthsOptions = t => {
 
   return monthsArray;
 };
-export { getErrorLabelForPath, pathHasError, constructEstimatedMonthsOptions };
+
+const capitalize = (str, lower = false) =>
+  (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match =>
+    match.toUpperCase()
+  );
+export {
+  getErrorLabelForPath,
+  pathHasError,
+  constructEstimatedMonthsOptions,
+  capitalize
+};

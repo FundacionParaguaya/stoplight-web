@@ -208,7 +208,11 @@ const PersonalDetails = ({
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.firstName')}:`}
               </Typography>
-              <Typography variant="h6" className={classes.answer}>
+              <Typography
+                variant="h6"
+                className={classes.answer}
+                style={{ textTransform: 'capitalize' }}
+              >
                 {primaryParticipant.firstName}
               </Typography>
             </Grid>
@@ -224,7 +228,11 @@ const PersonalDetails = ({
               <Typography variant="h6" className={classes.label}>
                 {`${t('views.family.lastName')}:`}
               </Typography>
-              <Typography variant="h6" className={classes.answer}>
+              <Typography
+                variant="h6"
+                className={classes.answer}
+                style={{ textTransform: 'capitalize' }}
+              >
                 {primaryParticipant.lastName}
               </Typography>
             </Grid>
