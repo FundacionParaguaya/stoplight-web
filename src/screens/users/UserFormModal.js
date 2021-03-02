@@ -397,6 +397,7 @@ const UserFormModal = ({
                 <InputWithFormik
                   label={t('views.user.form.name')}
                   name="name"
+                  notAutoFill
                   required
                   className={classes.nameField}
                 />

@@ -443,6 +443,7 @@ export class PrimaryParticipant extends Component {
                     name="firstName"
                     test-id="firstName"
                     required
+                    notAutoFill
                     className={classes.nameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `firstName`, setFieldValue)
@@ -453,6 +454,7 @@ export class PrimaryParticipant extends Component {
                     name="lastName"
                     test-id="lastName"
                     required
+                    notAutoFill
                     className={classes.nameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `lastName`, setFieldValue)
@@ -612,6 +614,7 @@ export class PrimaryParticipant extends Component {
                   <InputWithFormik
                     label={t('views.family.email')}
                     name="email"
+                    notAutoFill={true}
                     onChange={e =>
                       this.syncDraft(e.target.value, 'email', setFieldValue)
                     }
