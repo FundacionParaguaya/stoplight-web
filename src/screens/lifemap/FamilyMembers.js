@@ -444,6 +444,8 @@ const styles = theme => ({
     marginTop: 40
   },
   nameField: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
     '& .MuiInputBase-input': {
       textTransform: 'capitalize'
     }
