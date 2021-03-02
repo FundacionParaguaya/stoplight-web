@@ -248,8 +248,6 @@ export class PrimaryParticipant extends Component {
 
     // Covering the case where user does not want to specify
     if (value === 1 || value === -1) {
-      //const name = currentDraft.familyData.familyMembersList;
-      //name.splice(1);
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -282,11 +280,6 @@ export class PrimaryParticipant extends Component {
         }
       });
     } else if (currentDraft.familyData.familyMembersList.length > value) {
-      /*const names3 = currentDraft.familyData.familyMembersList;
-      const deleteFrom =
-        currentDraft.familyData.familyMembersList.length - value;
-      names3.splice(-deleteFrom, deleteFrom);*/
-
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -443,6 +436,7 @@ export class PrimaryParticipant extends Component {
                     name="firstName"
                     test-id="firstName"
                     required
+                    notAutoFill
                     className={classes.firstNameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `firstName`, setFieldValue)
@@ -453,6 +447,7 @@ export class PrimaryParticipant extends Component {
                     name="lastName"
                     test-id="lastName"
                     required
+                    notAutoFill
                     className={classes.lastNameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `lastName`, setFieldValue)
@@ -612,6 +607,7 @@ export class PrimaryParticipant extends Component {
                   <InputWithFormik
                     label={t('views.family.email')}
                     name="email"
+                    notAutoFill={true}
                     onChange={e =>
                       this.syncDraft(e.target.value, 'email', setFieldValue)
                     }
