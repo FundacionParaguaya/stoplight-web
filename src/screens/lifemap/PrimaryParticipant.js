@@ -248,8 +248,6 @@ export class PrimaryParticipant extends Component {
 
     // Covering the case where user does not want to specify
     if (value === 1 || value === -1) {
-      //const name = currentDraft.familyData.familyMembersList;
-      //name.splice(1);
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -282,11 +280,6 @@ export class PrimaryParticipant extends Component {
         }
       });
     } else if (currentDraft.familyData.familyMembersList.length > value) {
-      /*const names3 = currentDraft.familyData.familyMembersList;
-      const deleteFrom =
-        currentDraft.familyData.familyMembersList.length - value;
-      names3.splice(-deleteFrom, deleteFrom);*/
-
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -444,7 +437,7 @@ export class PrimaryParticipant extends Component {
                     test-id="firstName"
                     required
                     notAutoFill
-                    className={classes.nameField}
+                    className={classes.firstNameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `firstName`, setFieldValue)
                     }
@@ -455,7 +448,7 @@ export class PrimaryParticipant extends Component {
                     test-id="lastName"
                     required
                     notAutoFill
-                    className={classes.nameField}
+                    className={classes.lastNameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `lastName`, setFieldValue)
                     }
@@ -703,7 +696,14 @@ const styles = theme => ({
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2)
   },
-  nameField: {
+  firstNameField: {
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
+  },
+  lastNameField: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
     '& .MuiInputBase-input': {
       textTransform: 'capitalize'
     }
