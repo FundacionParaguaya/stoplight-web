@@ -23,7 +23,7 @@ const constructEstimatedMonthsOptions = t => {
   return monthsArray;
 };
 
-const capitalize = (str, lower = false) =>
+const capitalize = (str = '', lower = false) =>
   (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match =>
     match.toUpperCase()
   );
