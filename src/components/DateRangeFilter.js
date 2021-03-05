@@ -12,7 +12,10 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column'
+    }
   },
   fromLabel: {
     marginRight: theme.spacing(1),
@@ -127,19 +130,40 @@ const DateRangeFilter = ({ from, setFrom, to, setTo }) => {
   };
   return (
     <div className={classes.container}>
-      <Typography variant="subtitle1" className={classes.fromLabel}>
-        {t('views.dateRangeFilter.from')}
-      </Typography>
       <MuiPickersUtilsProvider
         libInstance={moment}
         utils={MomentUtils}
         locale={language}
       >
-        <DatePicker clearLabel={t('general.clear')} clearable {...fromProps} />
-        <Typography variant="subtitle1" className={classes.toLabel}>
-          {t('views.dateRangeFilter.to')}
-        </Typography>
-        <DatePicker clearLabel={t('general.clear')} clearable {...toProps} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center'
+          }}
+        >
+          f
+          <Typography variant="subtitle1" className={classes.fromLabel}>
+            {t('views.dateRangeFilter.from')}
+          </Typography>
+          <DatePicker
+            clearLabel={t('general.clear')}
+            clearable
+            {...fromProps}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center'
+          }}
+        >
+          <Typography variant="subtitle1" className={classes.toLabel}>
+            {t('views.dateRangeFilter.to')}
+          </Typography>
+          <DatePicker clearLabel={t('general.clear')} clearable {...toProps} />
+        </div>
       </MuiPickersUtilsProvider>
     </div>
   );

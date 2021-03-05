@@ -460,72 +460,69 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
           </Container>
         </Container>
 
-        {/* Operations */}
-        <Container className={classes.operations} variant="fluid">
-          <Container className={classes.operationsInner}>
-            <div className={classes.chartContainer}>
-              <Box mt={3} />
-              {loadingChart && <LoadingContainer />}
-              {!loadingChart && (
-                <GreenLineChart
-                  isMentor={isMentor}
-                  width="100%"
-                  height={300}
-                  data={chart}
-                />
-              )}
-            </div>
-          </Container>
-        </Container>
+        {/*/!* Operations *!/*/}
+        {/*<Container className={classes.operations} variant="fluid">*/}
+        {/*  <Container className={classes.operationsInner}>*/}
+        {/*    <div className={classes.chartContainer}>*/}
+        {/*      <Box mt={3} />*/}
+        {/*      {loadingChart && <LoadingContainer />}*/}
+        {/*      {!loadingChart && (*/}
+        {/*        <GreenLineChart*/}
+        {/*          isMentor={isMentor}*/}
+        {/*          width="100%"*/}
+        {/*          height={300}*/}
+        {/*          data={chart}*/}
+        {/*        />*/}
+        {/*      )}*/}
+        {/*    </div>*/}
+        {/*  </Container>*/}
+        {/*</Container>*/}
 
-        {/* Social Economics */}
-        <Container className={classes.socialEconomics} variant="fluid">
-          <Container className={classes.containerInnerSocial}>
-            {loadingEconomics && <LoadingContainer />}
-            {!loadingEconomics && (
-              <DashboardOverviewBlock
-                data={economic}
-                peopleByCountries={economic.peopleByCountries}
-                snapShotOptions={snapShotOptions}
-                onFilterChanged={value => setSelectedSnapshot(value)}
-                snapShotNumber={selectedSnapshot}
-              />
-            )}
-          </Container>
-        </Container>
+        {/*/!* Social Economics *!/*/}
+        {/*<Container className={classes.socialEconomics} variant="fluid">*/}
+        {/*  <Container className={classes.containerInnerSocial}>*/}
+        {/*    {loadingEconomics && <LoadingContainer />}*/}
+        {/*    {!loadingEconomics && (*/}
+        {/*      <DashboardOverviewBlock*/}
+        {/*        data={economic}*/}
+        {/*        peopleByCountries={economic.peopleByCountries}*/}
+        {/*        snapShotOptions={snapShotOptions}*/}
+        {/*        onFilterChanged={value => setSelectedSnapshot(value)}*/}
+        {/*        snapShotNumber={selectedSnapshot}*/}
+        {/*      />*/}
+        {/*    )}*/}
+        {/*  </Container>*/}
+        {/*</Container>*/}
 
-        {/* Stoplight Overview */}
-        <Container className={classes.socialEconomics} variant="fluid">
-          <Container className={classes.containerInnerSocial}>
-            {loadingOverview && <LoadingContainer />}
-            {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
-          </Container>
-        </Container>
+        {/*/!* Stoplight Overview *!/*/}
+        {/*<Container className={classes.socialEconomics} variant="fluid">*/}
+        {/*  <Container className={classes.containerInnerSocial}>*/}
+        {/*    {loadingOverview && <LoadingContainer />}*/}
+        {/*    {!loadingOverview && <OverviewBlock data={overview} width="70%" />}*/}
+        {/*  </Container>*/}
+        {/*</Container>*/}
 
-        {/* Dimensions */}
-        {!isMentor && (
-          <Container className={classes.whiteContainer} variant="fluid">
-            <Container>
-              <DimensionsVisualisation
-                data={dimensions}
-                loading={loadingDimensionsIndicators}
-              />
-            </Container>
-          </Container>
-        )}
+        {/*/!* Dimensions *!/*/}
+        {/*{!isMentor && (*/}
+        {/*  <Container className={classes.whiteContainer} variant="fluid">*/}
+        {/*    <Container>*/}
+        {/*      <DimensionsVisualisation*/}
+        {/*        data={dimensions}*/}
+        {/*        loading={loadingDimensionsIndicators}*/}
+        {/*      />*/}
+        {/*    </Container>*/}
+        {/*  </Container>*/}
+        {/*)}*/}
 
-        {/* Indicators */}
-        <Container className={classes.whiteContainer} variant="fluid">
-          <Container>
-            <IndicatorsVisualisation
-              /* data={[...(indicators || [])].sort((a, b) =>
-                a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-              )}*/
-              data={indicators}
-              loading={loadingDimensionsIndicators}
-            />
-          </Container>
-        </Container>
+        {/*/!* Indicators *!/*/}
+        {/*<Container className={classes.whiteContainer} variant="fluid">*/}
+        {/*  <Container>*/}
+        {/*    <IndicatorsVisualisation*/}
+        {/*      data={indicators}*/}
+        {/*      loading={loadingDimensionsIndicators}*/}
+        {/*    />*/}
+        {/*  </Container>*/}
+        {/*</Container>*/}
       </Container>
     </div>
   );
