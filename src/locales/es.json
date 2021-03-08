@@ -65,6 +65,11 @@
     "december": "Diciembre"
   },
   "views": {
+    "404": {
+      "missing": "¡Algo está perdido!",
+      "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
+      "toHomePage": "Volver a la Página de Inicio"
+    },
     "sign": {
       "addSign": "Agrega tu firma",
       "signHere": "Firma",
@@ -170,13 +175,12 @@
       "selectGender": "Seleccione género",
       "documentType": "Tipo de documento",
       "documentNumber": "Número de documento",
-      "selectACountry": "Seleccione un/tu país",
+      "selectACountry": "Seleccione un país",
       "email": "Correo electrónico",
       "phoneCode": "Código de teléfono",
       "phone": "Teléfono",
       "gender": "Género",
       "dateOfBirth": "Fecha de nacimiento",
-      "documentType": "Tipo de documento",
       "countryOfBirth": "País de nacimiento",
       "selectMonth": "Seleccione mes",
       "selectValidDate": "Favor ingrese una fecha válida",
@@ -189,10 +193,7 @@
       "preferNotToSay": "Prefiero no responder",
       "familyMember": "Miembro",
       "participant": "Participante",
-      "gender": "Género",
-      "selectGender": "Seleccione género",
       "country": "País de residencia",
-      "selectACountry": "Seleccione un país",
       "postcode": "Código postal",
       "streetOrHouseDescription": "Descripción de la casa o calle",
       "gpsAccurate": "GPS: Preciso hasta %n m",
@@ -887,14 +888,18 @@
         "failed": "No es posible eliminar la solución"
       }
     },
-    "404": {
-      "missing": "¡Algo está perdido!",
-      "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
-      "toHomePage": "Volver a la Página de Inicio"
-    },
     "error": {
       "subtitle": "Algo salió mal de nuestro lado. Intenta actualizar o",
       "toHomePage": " Regrese al sitio principal."
+    },
+    "myProfile": {
+      "completeLifemap": "Completa tu mapa de vida",
+      "error": {
+        "loadingSurvey": "Error al cargar la encuesta",
+        "loadingFamily": "Error al cargar los datos familiares",
+        "loadingNotes": "Error al cargar la nota de la familia"
+      },
+      "resumeDraft": "Reanudar borrador"
     }
   },
   "reports": {

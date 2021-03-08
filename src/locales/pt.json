@@ -65,6 +65,11 @@
     "december": "Dezembro"
   },
   "views": {
+    "404": {
+      "missing": "Algo está faltando!",
+      "pageNotFound": "Esta página está faltando ou não pode ser encontrada.",
+      "toHomePage": "Voltar para a Página Inicial"
+    },
     "sign": {
       "addSign": "Agregar Assinatura",
       "signHere": "Assinatura",
@@ -170,13 +175,12 @@
       "selectGender": "Selecione gênero",
       "documentType": "Tipo de documento",
       "documentNumber": "Número de documento",
-      "selectACoumtry": "Selecione o país",
+      "selectACoumtry": "Celecione um país",
       "email": "E-mail",
       "phoneCode": "Código de teléfono",
       "phone": "Telefone",
       "gender": "Gênero",
       "dateOfBirth": "Data de nascimento",
-      "documentType": "Tipo de documento",
       "countryOfBirth": "País de nascimento",
       "selectMonth": "Selecione mês",
       "selectValidDate": "Favor insira uma data válida",
@@ -189,10 +193,7 @@
       "preferNotToSay": "Prefiro não responder",
       "familyMember": "Membro da família",
       "participant": "Participante",
-      "gender": "Gênero",
-      "selectGender": "Selecione gênero",
       "coumtry": "País de residência",
-      "selectACoumtry": "Celecione um país",
       "postcode": "Código postal",
       "streetOrHouseDescription": "Descrição da casa ou rua",
       "gpsAccurate": "GPS: Preciso até %n m",
@@ -887,14 +888,18 @@
         "failed": "Solução não pôde ser removida"
       }
     },
-    "404": {
-      "missing": "Algo está faltando!",
-      "pageNotFound": "Esta página está faltando ou não pode ser encontrada.",
-      "toHomePage": "Voltar para a Página Inicial"
-    },
     "error": {
       "subtitle": "Algo deu errado do nosso lado. Tente atualizar ou",
       "toHomePage": " Volte para o site principal."
+    },
+    "myProfile": {
+      "completeLifemap": "Complete seu mapa de vida",
+      "error": {
+        "loadingSurvey": "Erro ao carregar pesquisa",
+        "loadingFamily": "Erro ao carregar os dados da família",
+        "loadingNotes": "Erro ao carregar a nota da família"
+      },
+      "resumeDraft": "Retomar o rascunho"
     }
   },
   "reports": {
