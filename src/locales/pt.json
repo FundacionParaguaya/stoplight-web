@@ -802,7 +802,8 @@
         "noRecords": "Não foi possível encontrar registro",
         "chooseFilters": "Escolha alguns filtros e clique em ",
         "chooseFiltersEnd": "  para baixar os resultados!",
-        "empty": "Não há resultados correspondentes aos seus filtros"
+        "empty": "Não há resultados correspondentes aos seus filtros",
+        "move": "Enviar"
       },
       "buttons": {
         "applyFilters": "Aplique",

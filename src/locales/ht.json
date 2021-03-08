@@ -808,7 +808,8 @@
         "noRecords": "Nou pa jwenn fichye sou sa",
         "chooseFilters": "Chwazi kèk filtè epi klike",
         "chooseFiltersEnd": " pou telechaje rezilta yo!",
-        "empty": "Pa gen rezilta ki matche filtè ou yo"
+        "empty": "Pa gen rezilta ki matche filtè ou yo",
+        "move": "Deplase"
       },
       "buttons": {
         "applyFilters": "Aplike",

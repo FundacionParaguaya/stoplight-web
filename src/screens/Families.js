@@ -124,6 +124,10 @@ const Families = ({
     return total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
+  const handleMoveSelected = elements => {
+    console.log('elements', elements);
+  };
+
   useEffect(() => setDidMount(true), []);
 
   // Clearing selected organizations when the hub filter changes
@@ -190,6 +194,7 @@ const Families = ({
             loadFamilies={loadFamilies}
             numberOfRows={numberOfRows}
             redirectToFamily={redirectToFamily}
+            handleMoveSelected={handleMoveSelected}
           />
         </div>
       </Container>

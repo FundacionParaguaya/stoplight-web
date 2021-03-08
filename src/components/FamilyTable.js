@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import familyFace from '../assets/family_face_large.png';
 import { updateSurvey } from '../redux/actions';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -60,6 +61,9 @@ const useStyles = makeStyles(theme => ({
     },
     '& .MuiPaper-root > div > div:first-of-type': {
       backgroundColor: '#fff'
+    },
+    '& .MuiCheckbox-root': {
+      color: '#909090'
     }
   },
   nameLabelStyle: {
@@ -136,13 +140,21 @@ const useStyles = makeStyles(theme => ({
     opacity: 1,
     backgroundColor: '#f3f4f687',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: 45
   },
   labelRows: {
     marginRight: 10,
     marginLeft: 10,
     fontSize: 14,
     height: 20
+  },
+  icon: {
+    borderRadius: 50,
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper
+    }
   }
 }));
 
@@ -151,7 +163,8 @@ const FamilyTable = ({
   loadFamilies,
   tableRef,
   numberOfRows,
-  redirectToFamily
+  redirectToFamily,
+  handleMoveSelected
 }) => {
   const {
     t,
@@ -162,6 +175,7 @@ const FamilyTable = ({
     open: false,
     family: null
   });
+  const [selectedElements, setSelectedElements] = useState([]);
   const dateFormat = getDateFormatByLocale(language);
 
   const actionList = () => {
@@ -169,6 +183,7 @@ const FamilyTable = ({
     if (showDeleteAction(user)) {
       list.push({
         icon: Delete,
+        position: 'row',
         iconProps: {
           color: '#6A6A6A'
         },
@@ -181,12 +196,14 @@ const FamilyTable = ({
     }
     list.push({
       icon: ArrowForwardIosIcon,
+      position: 'row',
       tooltip: t('views.familyList.show'),
       iconProps: {
         color: '#6A6A6A'
       },
       onClick: (event, rowData) => redirectToFamily(event, rowData.familyId)
     });
+
     return list;
   };
 
@@ -197,6 +214,14 @@ const FamilyTable = ({
       .toLowerCase();
 
     return type;
+  };
+
+  const showMoveAction = ({ role }, selectedElements) => {
+    return (
+      (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_HUB_ADMIN) &&
+      selectedElements &&
+      selectedElements.length > 0
+    );
   };
 
   const showDeleteAction = ({ role }) => {
@@ -218,10 +243,19 @@ const FamilyTable = ({
         <Typography className={classes.labelRows} variant="subtitle1">
           {numberOfRows} {t('views.familyList.rows')}
         </Typography>
+        {showMoveAction(user, selectedElements) && (
+          <Tooltip title={'Move'} aria-label="name">
+            <SwapHorizIcon
+              className={classes.icon}
+              onClick={() => handleMoveSelected(selectedElements)}
+            />
+          </Tooltip>
+        )}
       </div>
       <MaterialTable
         tableRef={tableRef}
         options={{
+          selection: true,
           search: false,
           toolbar: false,
           actionsColumnIndex: 4,
@@ -377,6 +411,7 @@ const FamilyTable = ({
         data={loadFamilies}
         actions={actionList()}
         title=""
+        onSelectionChange={elements => setSelectedElements(elements)}
       />
     </div>
   );

@@ -801,7 +801,8 @@
         "noRecords": "No records found",
         "chooseFilters": "Choose some filters and then click on ",
         "chooseFiltersEnd": " to download the results!",
-        "empty": "No results matching your filters"
+        "empty": "No results matching your filters",
+        "move": "Move"
       },
       "buttons": {
         "applyFilters": "Apply",
