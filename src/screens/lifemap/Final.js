@@ -8,12 +8,17 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import Container from '../../components/Container';
 import LeaveModal from '../../components/LeaveModal';
-import { submitDraft, submitPictures } from '../../api';
+import {
+  submitDraft,
+  submitPictures,
+  attachSnapshotStoplight
+} from '../../api';
 import TitleBar from '../../components/TitleBar';
 import BottomSpacer from '../../components/BottomSpacer';
 import { ProgressBarContext } from '../../components/ProgressBar';
 import skippedLifemap from '../../assets/Family_center.png';
 import { upsertSnapshot, updateDraft } from '../../redux/actions';
+import { ROLES_NAMES } from '../../utils/role-utils';
 import Bugsnag from '@bugsnag/js';
 
 export class Final extends Component {
@@ -74,7 +79,12 @@ export class Final extends Component {
         this.props.updateDraft({ ...currentDraft, snapshotId });
 
         const familyId = response.data.data.addSnapshot.family.familyId;
-        this.handleRedirect(familyId, currentDraft.isRetake, stoplightSkipped);
+        this.handleRedirect(
+          familyId,
+          currentDraft.isRetake,
+          stoplightSkipped,
+          currentDraft.justStoplight
+        );
 
         // Reset ProgressBar Context
         this.context.setRouteTree = {};
@@ -99,35 +109,58 @@ export class Final extends Component {
       loading: true
     });
 
-    const draft = this.props.currentDraft;
-    if (
-      (this.props.currentDraft.pictures &&
-        this.props.currentDraft.pictures.length > 0) ||
-      this.props.currentDraft.sign
+    const { currentDraft, t } = this.props;
+
+    if (currentDraft.justStoplight) {
+      attachSnapshotStoplight(this.props.user, currentDraft)
+        .then(() => {
+          this.handleRedirect('', '', '', true);
+          // Reset ProgressBar Context
+          this.context.setRouteTree = {};
+        })
+        .catch(e => {
+          Bugsnag.notify(e, event => {
+            event.addMetadata('draft', { draft: currentDraft });
+          });
+          this.toggleModal(
+            t('general.warning'),
+            t('general.saveError').replace('%n', currentDraft.draftId),
+            t('general.gotIt'),
+            'warning',
+            () => this.toggleModal()
+          );
+        });
+    } else if (
+      (currentDraft.pictures && currentDraft.pictures.length > 0) ||
+      currentDraft.sign
     ) {
-      submitPictures(this.props.user, this.props.currentDraft)
+      submitPictures(this.props.user, currentDraft)
         .then(response => {
           const pictures = response.data;
-          draft.pictures = pictures.filter(picture => picture.type !== 'sign');
+          currentDraft.pictures = pictures.filter(
+            picture => picture.type !== 'sign'
+          );
           const sign = pictures.find(picture => picture.type === 'sign');
-          draft.signFile = sign;
-          delete draft.sign;
-          this.handleSnapshotSubmit(this.props.user, { ...draft });
+          currentDraft.signFile = sign;
+          delete currentDraft.sign;
+          this.handleSnapshotSubmit(this.props.user, { ...currentDraft });
         })
         .catch(() => {
-          delete draft.pictures;
-          this.handleSnapshotSubmit(this.props.user, { ...draft });
+          delete currentDraft.pictures;
+          this.handleSnapshotSubmit(this.props.user, { ...currentDraft });
         });
     } else {
-      this.handleSnapshotSubmit(this.props.user, this.props.currentDraft);
+      this.handleSnapshotSubmit(this.props.user, currentDraft);
     }
   };
 
-  handleRedirect = (familyId, isRetake, stoplightSkipped) => {
+  handleRedirect = (familyId, isRetake, stoplightSkipped, justStoplight) => {
     if (!stoplightSkipped) {
       this.redirectToSendLifeMap();
     } else {
-      if (isRetake) {
+      if (this.props.user.role === ROLES_NAMES.ROLE_FAMILY_USER) {
+        this.props.history.history.push(`/my-profile`);
+      } else if (isRetake || justStoplight) {
         this.redirectToFamilyProfile(familyId);
       } else {
         this.redirectToSurveys();
@@ -199,7 +232,9 @@ export class Final extends Component {
                   fullWidth
                   className={classes.saveButtonStyle}
                   disabled={
-                    this.state.loading || !!this.props.currentDraft.snapshotId
+                    this.state.loading ||
+                    (!!this.props.currentDraft.snapshotId &&
+                      !this.props.currentDraft.justStoplight)
                   }
                   test-id="close"
                 >
