@@ -84,7 +84,7 @@ const InputWithFormik = ({
         inputComponent: inputType === 'number' ? NumberFormatCustom : undefined,
         ...(textFieldProps.InputProps || {})
       }}
-      autoComplete={notAutoFill ? 'new-password' : 'on'}
+      autoComplete={notAutoFill ? 'new-password' : 'off'}
       InputLabelProps={{
         shrink: true
       }}

@@ -141,6 +141,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 8,
     fontSize: 18,
     fontFamily: 'Poppins',
+    textTransform: 'capitalize',
     [theme.breakpoints.down('sm')]: {
       fontSize: 14,
       paddingLeft: 0

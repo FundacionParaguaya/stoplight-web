@@ -73,16 +73,21 @@ const FamilyHeader = ({ family, user }) => {
 
   return (
     <Container variant="stretch">
-      <NavigationBar options={navigationOptions}></NavigationBar>
+      <NavigationBar options={navigationOptions} />
       <Grid container className={classes.titleContainer}>
         <Grid item md={4} sm={6} xs={12} className={classes.familyInfo}>
-          <Typography variant="h4">{family.name}</Typography>
+          <Typography variant="h4" style={{ textTransform: 'capitalize' }}>
+            {family.name}
+          </Typography>
           <div className={classes.container}>
             <Typography variant="subtitle1" className={classes.subtitle}>
               {t('views.familyProfile.organization')}
             </Typography>
 
-            <Typography variant="subtitle1">
+            <Typography
+              variant="subtitle1"
+              style={{ textTransform: 'capitalize' }}
+            >
               {family.organization ? family.organization.name : ''}
             </Typography>
           </div>

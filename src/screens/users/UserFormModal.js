@@ -20,6 +20,8 @@ import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import ExitModal from '../../components/ExitModal';
 import InputWithFormik from '../../components/InputWithFormik';
 import ProjectsSelector from '../../components/selectors/ProjectsSelector';
+import { capitalize } from '../../utils/form-utils';
+
 import {
   checkAccessToProjects,
   ROLES_NAMES,
@@ -82,6 +84,16 @@ const useStyles = makeStyles(theme => ({
     padding: 11,
     paddingLeft: 14,
     font: 'Roboto'
+  },
+  nameField: {
+    marginBottom: 10,
+    marginTop: 10,
+    '& .MuiFilledInput-root.Mui-disabled': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)'
+    },
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
   }
 }));
 
@@ -204,6 +216,7 @@ const UserFormModal = ({
       values.organization = user.organization.id;
     if (values.organization) values.hub = user.hub.id;
     else values.organization = null;
+    values.name = capitalize(values.name);
 
     const projects = values.projects.map(project => ({ id: project.value }));
 
@@ -335,7 +348,7 @@ const UserFormModal = ({
               id: userId || null,
               username: (isEdit && userToEdit.username) || '',
               email: (isEdit && userToEdit.email) || '',
-              name: (isEdit && userToEdit.name) || '',
+              name: (isEdit && capitalize(userToEdit.name)) || '',
               password: '',
               confirmPassword: '',
               role: (isEdit && !!userToEdit && userToEdit.role) || '',
@@ -384,8 +397,9 @@ const UserFormModal = ({
                 <InputWithFormik
                   label={t('views.user.form.name')}
                   name="name"
+                  notAutoFill
                   required
-                  className={classes.input}
+                  className={classes.nameField}
                 />
                 <InputWithFormik
                   label={t('views.user.form.email')}

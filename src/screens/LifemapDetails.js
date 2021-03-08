@@ -128,6 +128,7 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
         imageSource={chooseLifeMap}
         altTextImage="Choose Life Map"
         navigationOptions={navigationOptions}
+        titleTextTransform="capitalize"
       />
       <Tabs
         value={value}

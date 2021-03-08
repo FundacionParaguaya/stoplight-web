@@ -70,6 +70,7 @@ const useStyles = makeStyles(theme => ({
       minWidth: '55vw'
     },
     textOverflow: 'ellipsis',
+    textTransform: 'capitalize',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     cursor: 'pointer'

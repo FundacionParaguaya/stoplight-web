@@ -32,6 +32,7 @@ import {
   getDraftWithUpdatedMember,
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
+import { capitalize } from '../../utils/form-utils';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -223,7 +224,12 @@ export class PrimaryParticipant extends Component {
       elementsWithConditionsOnThem: { memberKeysWithConditionsOnThem }
     } = currentSurvey;
 
-    let newDraft = getDraftWithUpdatedMember(currentDraft, field, value, 0);
+    let newDraft = getDraftWithUpdatedMember(
+      currentDraft,
+      field,
+      field === 'firstName' || field === 'lastName' ? capitalize(value) : value,
+      0
+    );
     if (memberKeysWithConditionsOnThem.includes(field)) {
       console.log(
         `Will evaluate cascading after updating family key ${field} on member 0`
@@ -242,8 +248,6 @@ export class PrimaryParticipant extends Component {
 
     // Covering the case where user does not want to specify
     if (value === 1 || value === -1) {
-      //const name = currentDraft.familyData.familyMembersList;
-      //name.splice(1);
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -276,11 +280,6 @@ export class PrimaryParticipant extends Component {
         }
       });
     } else if (currentDraft.familyData.familyMembersList.length > value) {
-      /*const names3 = currentDraft.familyData.familyMembersList;
-      const deleteFrom =
-        currentDraft.familyData.familyMembersList.length - value;
-      names3.splice(-deleteFrom, deleteFrom);*/
-
       this.props.updateDraft({
         ...currentDraft,
         familyData: {
@@ -437,6 +436,8 @@ export class PrimaryParticipant extends Component {
                     name="firstName"
                     test-id="firstName"
                     required
+                    notAutoFill
+                    className={classes.firstNameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `firstName`, setFieldValue)
                     }
@@ -446,6 +447,8 @@ export class PrimaryParticipant extends Component {
                     name="lastName"
                     test-id="lastName"
                     required
+                    notAutoFill
+                    className={classes.lastNameField}
                     onChange={e =>
                       this.syncDraft(e.target.value, `lastName`, setFieldValue)
                     }
@@ -604,6 +607,7 @@ export class PrimaryParticipant extends Component {
                   <InputWithFormik
                     label={t('views.family.email')}
                     name="email"
+                    notAutoFill={true}
                     onChange={e =>
                       this.syncDraft(e.target.value, 'email', setFieldValue)
                     }
@@ -691,6 +695,18 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2)
+  },
+  firstNameField: {
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
+  },
+  lastNameField: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    '& .MuiInputBase-input': {
+      textTransform: 'capitalize'
+    }
   },
   buttonContainerForm: {
     display: 'flex',
