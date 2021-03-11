@@ -105,12 +105,15 @@ DimensionTitle.defaultProps = {
   excludeIcon: false
 };
 
-const dimensionTitleStyle = () => ({
+const dimensionTitleStyle = theme => ({
   mainContainer: {
     flexBasis: '25%',
     width: '25%',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: '20%'
+    }
   },
   title: {
     display: 'flex'
@@ -176,7 +179,13 @@ const dimensionIndicatorStyle = theme => ({
     width: '60%',
     alignItems: 'center',
     paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3)
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      width: '50%'
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 70
+    }
   },
   rightSpaceFiller: { display: 'flex', flexBasis: '15%', width: '15%' }
 });
@@ -209,13 +218,22 @@ const dimensionStyles = theme => ({
     width: '60%',
     flexBasis: '60%',
     paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3)
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      width: '50%'
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 70
+    }
   },
   priorAndAchievem: {
-    width: '15%',
+    width: '25%',
     display: 'flex',
-    flexBasis: '15%',
-    alignItems: 'center'
+    flexBasis: '25%',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: '20%'
+    }
   },
   innerPriorAndAchievem: {
     width: '40%',

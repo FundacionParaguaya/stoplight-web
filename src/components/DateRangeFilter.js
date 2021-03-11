@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as moment from 'moment';
-import { getDateFormatByLocale } from '../utils/date-utils';
 import MomentUtils from '@date-io/moment';
+import { getDateFormatByLocale } from '../utils/date-utils';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -14,17 +14,37 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column'
+      flexDirection: 'column',
+      alignItems: 'flex-start'
+    }
+  },
+  fromContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      paddingBottom: 4
     }
   },
   fromLabel: {
     marginRight: theme.spacing(1),
     fontSize: 14
   },
+  toContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: 4
+    }
+  },
   toLabel: {
     marginRight: theme.spacing(1),
     marginLeft: theme.spacing(1),
-    fontSize: 14
+    fontSize: 14,
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 0
+    }
   },
   familiesFilterInput: {
     paddingTop: '12.0px!important',
@@ -135,14 +155,7 @@ const DateRangeFilter = ({ from, setFrom, to, setTo }) => {
         utils={MomentUtils}
         locale={language}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center'
-          }}
-        >
-          f
+        <div className={classes.fromContainer}>
           <Typography variant="subtitle1" className={classes.fromLabel}>
             {t('views.dateRangeFilter.from')}
           </Typography>
@@ -152,13 +165,7 @@ const DateRangeFilter = ({ from, setFrom, to, setTo }) => {
             {...fromProps}
           />
         </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center'
-          }}
-        >
+        <div className={classes.toContainer}>
           <Typography variant="subtitle1" className={classes.toLabel}>
             {t('views.dateRangeFilter.to')}
           </Typography>

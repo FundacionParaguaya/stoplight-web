@@ -76,7 +76,10 @@ const indicatorsStyles = theme => ({
     zIndex: 1
   },
   stackedBarContainer: {
-    width: '75%'
+    width: '75%',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 60
+    }
   }
 });
 

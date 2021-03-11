@@ -449,80 +449,76 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         </Grid>
 
         {/* General Data */}
-        <Container
-          style={{ padding: 20, marginTop: 2 }}
-          className={classes.socialEconomics}
-          variant="fluid"
-        >
+        <Container className={classes.generalData} variant="fluid">
           <Container className={classes.containerGeneralData}>
             {loadingGeneralData && <GeneralDataLoadingContainer />}
             {!loadingGeneralData && <DashboardGeneralData data={generalData} />}
           </Container>
         </Container>
 
-        {/*/!* Operations *!/*/}
-        {/*<Container className={classes.operations} variant="fluid">*/}
-        {/*  <Container className={classes.operationsInner}>*/}
-        {/*    <div className={classes.chartContainer}>*/}
-        {/*      <Box mt={3} />*/}
-        {/*      {loadingChart && <LoadingContainer />}*/}
-        {/*      {!loadingChart && (*/}
-        {/*        <GreenLineChart*/}
-        {/*          isMentor={isMentor}*/}
-        {/*          width="100%"*/}
-        {/*          height={300}*/}
-        {/*          data={chart}*/}
-        {/*        />*/}
-        {/*      )}*/}
-        {/*    </div>*/}
-        {/*  </Container>*/}
-        {/*</Container>*/}
+        {/* Operations */}
+        <Container className={classes.operations} variant="fluid">
+          <Container className={classes.operationsInner}>
+            <div className={classes.chartContainer}>
+              <Box mt={3} />
+              {loadingChart && <LoadingContainer />}
+              {!loadingChart && (
+                <GreenLineChart
+                  isMentor={isMentor}
+                  width="100%"
+                  height={300}
+                  data={chart}
+                />
+              )}
+            </div>
+          </Container>
+        </Container>
 
-        {/*/!* Social Economics *!/*/}
-        {/*<Container className={classes.socialEconomics} variant="fluid">*/}
-        {/*  <Container className={classes.containerInnerSocial}>*/}
-        {/*    {loadingEconomics && <LoadingContainer />}*/}
-        {/*    {!loadingEconomics && (*/}
-        {/*      <DashboardOverviewBlock*/}
-        {/*        data={economic}*/}
-        {/*        peopleByCountries={economic.peopleByCountries}*/}
-        {/*        snapShotOptions={snapShotOptions}*/}
-        {/*        onFilterChanged={value => setSelectedSnapshot(value)}*/}
-        {/*        snapShotNumber={selectedSnapshot}*/}
-        {/*      />*/}
-        {/*    )}*/}
-        {/*  </Container>*/}
-        {/*</Container>*/}
+        {/* Social Economics */}
+        <Container className={classes.socialEconomics} variant="fluid">
+          <Container className={classes.containerInnerSocial}>
+            {loadingEconomics && <LoadingContainer />}
+            {!loadingEconomics && (
+              <DashboardOverviewBlock
+                data={economic}
+                peopleByCountries={economic.peopleByCountries}
+                snapShotOptions={snapShotOptions}
+                onFilterChanged={value => setSelectedSnapshot(value)}
+                snapShotNumber={selectedSnapshot}
+              />
+            )}
+          </Container>
+        </Container>
 
-        {/*/!* Stoplight Overview *!/*/}
-        {/*<Container className={classes.socialEconomics} variant="fluid">*/}
-        {/*  <Container className={classes.containerInnerSocial}>*/}
-        {/*    {loadingOverview && <LoadingContainer />}*/}
-        {/*    {!loadingOverview && <OverviewBlock data={overview} width="70%" />}*/}
-        {/*  </Container>*/}
-        {/*</Container>*/}
+        {/* Stoplight Overview */}
+        <Container className={classes.overview} variant="fluid">
+          <Container className={classes.containerInnerSocial}>
+            {loadingOverview && <LoadingContainer />}
+            {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
+          </Container>
+        </Container>
 
-        {/*/!* Dimensions *!/*/}
-        {/*{!isMentor && (*/}
-        {/*  <Container className={classes.whiteContainer} variant="fluid">*/}
-        {/*    <Container>*/}
-        {/*      <DimensionsVisualisation*/}
-        {/*        data={dimensions}*/}
-        {/*        loading={loadingDimensionsIndicators}*/}
-        {/*      />*/}
-        {/*    </Container>*/}
-        {/*  </Container>*/}
-        {/*)}*/}
+        {/* Dimensions */}
+        {!isMentor && (
+          <Container className={classes.whiteContainer} variant="fluid">
+            <Container>
+              <DimensionsVisualisation
+                data={dimensions}
+                loading={loadingDimensionsIndicators}
+              />
+            </Container>
+          </Container>
+        )}
 
-        {/*/!* Indicators *!/*/}
-        {/*<Container className={classes.whiteContainer} variant="fluid">*/}
-        {/*  <Container>*/}
-        {/*    <IndicatorsVisualisation*/}
-        {/*      data={indicators}*/}
-        {/*      loading={loadingDimensionsIndicators}*/}
-        {/*    />*/}
-        {/*  </Container>*/}
-        {/*</Container>*/}
+        {/* Indicators */}
+        <Container className={classes.whiteContainer} variant="fluid">
+          <Container>
+            <IndicatorsVisualisation
+              data={indicators}
+              loading={loadingDimensionsIndicators}
+            />
+          </Container>
+        </Container>
       </Container>
     </div>
   );
@@ -543,7 +539,10 @@ const styles = theme => ({
   titleBar: {
     paddingTop: theme.spacing(8),
     position: 'relative',
-    paddingBottom: theme.spacing(5)
+    paddingBottom: theme.spacing(5),
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: 0
+    }
   },
   ballsContainer: {
     position: 'absolute',
@@ -574,13 +573,19 @@ const styles = theme => ({
   operations: {
     padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: 2
+    marginBottom: 2,
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: 0
+    }
   },
   operationsInner: {
     display: 'flex'
   },
   chartContainer: {
-    width: '100%'
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      paddingRight: 20
+    }
   },
   feedContainer: {
     position: 'relative',
@@ -598,12 +603,38 @@ const styles = theme => ({
   socialEconomics: {
     padding: `${theme.spacing(6)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: 2
+    marginBottom: 2,
+    [theme.breakpoints.down('sm')]: {
+      minHeight: 630
+    },
+    [theme.breakpoints.down('xs')]: {
+      minHeight: 710
+    }
+  },
+  overview: {
+    padding: `${theme.spacing(6)}px 0`,
+    backgroundColor: theme.palette.background.default,
+    marginBottom: 2,
+    [theme.breakpoints.down('sm')]: {
+      minHeight: 500
+    },
+    [theme.breakpoints.down('xs')]: {
+      minHeight: 710
+    }
+  },
+  generalData: {
+    backgroundColor: theme.palette.background.default,
+    marginBottom: 2,
+    padding: 20,
+    marginTop: 2
   },
   containerInnerSocial: {
     minHeight: 250,
     display: 'flex',
     justifyContent: 'flex-start',
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 50
+    },
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'center',
