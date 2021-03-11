@@ -128,7 +128,6 @@ const UploadImageModal = ({
   }, [filesSize]);
 
   const onDropAccepted = acceptedFiles => {
-    console.log(acceptedFiles);
     setTypeError(false);
     let dropSize = 0;
     let accepted = acceptedFiles.map(file => {
@@ -159,7 +158,7 @@ const UploadImageModal = ({
         updateFamilyProfilePicture(familyId, response.data[0].url, user)
           .then(() => {
             showSuccessMessage(t('views.myProfile.picture.save.success'));
-            toggleModal();
+            toggleModal(true);
             setLoading(false);
           })
           .catch(() => {
@@ -221,7 +220,7 @@ const UploadImageModal = ({
         <div className={classes.buttonContainerForm}>
           <Button
             variant="outlined"
-            onClick={() => toggleModal(true)}
+            onClick={() => toggleModal()}
             disabled={loading}
           >
             {t('general.cancel')}
