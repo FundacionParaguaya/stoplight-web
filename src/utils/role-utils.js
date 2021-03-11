@@ -91,7 +91,8 @@ export const ROLES = {
   ],
   ROLE_FAMILY_USER: [
     // Family  user
-    { item: 'my-profile', platform: NEW }
+    { item: 'my-profile', platform: NEW },
+    { item: 'detail', platform: ACCESS }
   ]
 };
 
