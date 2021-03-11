@@ -96,10 +96,10 @@ const Routes = ({ user }) => {
             />
           )}
           {checkAccess(user, 'hubs') && <Route path="/hubs" component={Hubs} />}
-          {checkAccess(user, 'surveys') ||
-            (checkAccess(user, 'my-profile') && (
-              <Route path="/lifemap" component={Lifemap} />
-            ))}
+          {(checkAccess(user, 'surveys') ||
+            checkAccess(user, 'my-profile')) && (
+            <Route path="/lifemap" component={Lifemap} />
+          )}
           {checkAccess(user, 'families') && (
             <Route path="/families" component={Families} />
           )}
