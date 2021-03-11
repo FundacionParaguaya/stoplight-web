@@ -898,7 +898,15 @@
         "loadingFamily": "Error loading family data",
         "loadingNotes": "Error loading family's note"
       },
-      "resumeDraft": "Resume draft"
+      "resumeDraft": "Resume draft",
+      "picture": {
+        "placeholder": "Add your new profile picture here",
+        "uploadError": "You reached the 10MB limit! Please select another image.",
+        "save": {
+          "success": "Successfully updated profile picture",
+          "error": "Could not update profile picture"
+        }
+      }
     }
   },
   "reports": {
