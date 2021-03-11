@@ -124,11 +124,11 @@
       "welcome": "Byenvini",
       "contains": "Li genyen ladann",
       "createdOn": "Fèt jou ki",
-      "loading": "Loading...",
+      "loading": "Chajman...",
       "surveys": "ankèt yo",
-      "baseLine": "Baseline surveys",
-      "followUp": "Follow-up surveys",
-      "totalSurveys": "Total surveys",
+      "baseLine": "Ankèt debaz",
+      "followUp": "Ankèt swivi",
+      "totalSurveys": "Total sondaj",
       "indicators": "Endikatè",
       "createSurvey": "Derape ak ankèt Chimen Pwogrè",
       "specifyOther": "Esplike sa “lòt vle di",
@@ -187,7 +187,7 @@
       "specify": "Bay plis esplikasyon",
       "name": "Non",
       "peopleLivingInThisHousehold": "Kantite moun k ap viv nan menaj sa a",
-      "household": "household",
+      "household": "Fwaye",
       "onlyPerson": "1 - Se mwen sèlman",
       "preferNotToSay": "M pito pa reponn",
       "familyMember": "Manm",
@@ -219,11 +219,11 @@
     "lifemap": {
       "thisLifeMapHas": "Mèsi!  Seksyon Chimen Pwogrè sa a genyen %n endikatè.",
       "thisLifeMapHasNoStoplight": "Mèsi!  Seksyon Chimen Pwogrè sa a genyen %n endikatè. Chwazi si ou vle anrejistre ankèt ou a konye a osinon fini Chimen Pwogrè ou a.",
-      "responseRequired": "*Response required",
+      "responseRequired": "*Repons obligatwa",
       "skipThisQuestion": "Sote kesyon sa a.",
       "youSkipped": "Ou sote endikatè sa yo.",
       "whyNotTryAgain": "Pou ki w’ pa eseye ankò epi reponn sa yo konye a.",
-      "allIndicators": "All indicators",
+      "allIndicators": "Tout endikatè",
       "priority": "Priyorite",
       "writeYourAnswerHere": "Ekri repons ou a la ...",
       "whyDontYouHaveIt": "kisa ki fè ou pa genyen?",
@@ -297,12 +297,12 @@
       "noPriorityRemainingDescription": "Ou kapab kreye plis si ou vle.",
       "noPriorityRequiredTitle": "Pou ou finalize Kat Lavi a",
       "noPriorityRequiredDescription": "Klike sou wonn wouj ak jòn pou ou kreye priyorite yo.",
-      "footerTitleCase1": "To complete the Life Map...",
-      "footerTitleCase2": "You prioritized XX indicators last time!",
-      "footerTitleCase3": "Last time you didn't prioritize any indicators!",
-      "footerDescriptionCase1": "Create the priorities you want to focus on by clicking on the red and yellow indicators!",
-      "footerDescriptionCase2": "Continue adding new priorities! You may select previously prioritized indicators as well. Don’t forget to add your achievements by clicking on your green indicators.",
-      "footerDescriptionCase3": "Create the priorities you want to focus on by clicking on the red and yellow indicators! You may also add achievements by clicking on the green indicators."
+      "footerTitleCase1": "Pou ranpli kat lavi a...",
+      "footerTitleCase2": "Ou te chwazi pou amelyore endikatè XX fwa pase!",
+      "footerTitleCase3": "Fwa pase, ou pa te chwazi okenn endikatè pou te amelyore!",
+      "footerDescriptionCase1": "Tape sou yon endikatè wouj oubyen jòn ou ta renmen travay pou amelyore kounye a!",
+      "footerDescriptionCase2": "Kontinye chwazi nouvo endikatè pou amelyore! Ou ka chwazi endikatè ke w’ te deja ap travay sou yo. Pa bliye ajoute reyalizasyon w’ yo lè ou klike sou youn nan endikatè vèt yo.",
+      "footerDescriptionCase3": "Chwazi endikatè ou vle konsantre w’ sou yo lè ou tape sou endikatè wouj ou jòn! Ou ka ajoute reyalizasyon w’ yo tou lè ou tape sou endikatè vèt yo."
     },
     "indicatorsFilter": {
       "red": "Wouj",
@@ -357,22 +357,22 @@
       "economics": "Ekonomi Sosyal",
       "averageIncome": "Mwayèn revni anyèl pa abitan",
       "overview": "Apèsi Jeneral",
-      "stoplightOverview": "Stoplight Overview",
+      "stoplightOverview": "Rezime Chemin pwogrè a",
       "families": "Fanmi",
       "family": "Fanmi",
       "including": "Ki genyen ladann li",
-      "baseLine": "Baseline surveys",
-      "followUp": "Follow-up surveys",
+      "baseLine": "Ankèt debaz",
+      "followUp": "Ankèt swivi",
       "people": "moun",
       "men": "Gason",
       "and": "ak",
       "women": "Fi",
-      "other": "Other",
+      "other": "Lòt",
       "tookSnapshots": "Fanmi ak Chimen Pwogrè",
       "tookSnapshot": "Fanmi ak Chimen Pwogrè",
-      "tookWhitoutStoplight": " Only socioeconomic",
-      "averageMembers": " average members",
-      "topCountries": "Top countries of birth"
+      "tookWhitoutStoplight": " Sèlman kesyon sosyoekonomik yo",
+      "averageMembers": " kantite manm an mwayèn",
+      "topCountries": "Peyi kote w fèt"
     },
     "saveDraftModal": {
       "lifemapNotComplete": "Kat lavi ou pa fini",
@@ -403,11 +403,11 @@
       "facilitator": "Fasilitatè",
       "origin": "Orijin",
       "title": {
-        "SNAPSHOTS": "$familyName took a Stoplight Survey",
-        "BASELINE_SURVEY": "$familyName took a baseline survey!",
-        "FOLLOWUP_SURVEY": "$familyName took a follow-up survey!",
-        "NEW_STOPLIGHT_SOLUTION": "Threre's a new solution",
-        "NEW_STOPLIGHT_PRIORITY": "$familyName has a new priority"
+        "SNAPSHOTS": "$familyName te pase yon kesyonè chimen pwogrè",
+        "BASELINE_SURVEY": "$familyName pase yon kesyonè debaz!",
+        "FOLLOWUP_SURVEY": "$familyName tpase yon kesyonè swivi!",
+        "NEW_STOPLIGHT_SOLUTION": "Genyen yon nouvo solisyon",
+        "NEW_STOPLIGHT_PRIORITY": "$familyName genyen yon nouvo priyorite"
       }
     },
     "organizationsFilter": {
@@ -453,9 +453,9 @@
       "allProjects": "Tout pwojè yo"
     },
     "snapShotFilter": {
-      "allSnapShots": "All last snapshots",
-      "baseLine": "Baseline",
-      "followUp": "Follow-up"
+      "allSnapShots": "Dènye imaj yo",
+      "baseLine": "Liy deBaz",
+      "followUp": "Swivi"
     },
     "exitModal": {
       "confirmTitle": "Konfime sòti a",
@@ -571,22 +571,22 @@
     },
     "familyImages": {
       "title": "Imaj",
-      "addImages": "Add Images",
-      "uploadImages": "Upload Images",
-      "placeholder": "Here you can add  your images, please consider downloading images you intend to remove",
-      "uploadError": "You reached the 10MB limit! Please delete a image to continue.",
-      "typeError": "Image extension not supported",
+      "addImages": "Ajoute imaj",
+      "uploadImages": "chajman imaj",
+      "placeholder": "Ou ka ajoute imaj ou yo la, Fòk telechaje imaj ou gen entansyon chanje",
+      "uploadError": "Ou rive nan limit 10MB! Tanpri efase yon imaj pou kapab kontinye.",
+      "typeError": "Tip imaj sa pa konpatib",
       "save": {
-        "success": "Family's images updated successfully",
-        "failed": "Could not update family's images"
+        "success": "Imaj fanmi an’ aktyalize avèk siksè",
+        "failed": "Ou paka aktyalize imaj fanmi an"
       }
     },
     "familySignature": {
       "title": "Siyati",
-      "addSign": "Add Sign",
+      "addSign": "Ajoute yon siyal",
       "save": {
-        "success": "Sign updated successfully",
-        "failed": "Could not update sign"
+        "success": "Siyal la aktyalize avèk siksè",
+        "failed": "Pa ka aktyalize siyal la"
       }
     },
     "projects": {
@@ -698,7 +698,7 @@
         "search": "Chache",
         "empty": "Pa genyen hub",
         "type": "Kalite",
-        "show": "Show hub's organizations"
+        "show": "Montre òganizasyon santral yo"
       },
       "form": {
         "addTitle": "ajoute yon hub",
@@ -718,7 +718,7 @@
         "allowInteractiveHelp": "Sipò entèaktif la.:",
         "allowProjects": "Pwojè:",
         "allowMapRestriction": "Restriksyon kat:",
-        "allowFamilyUsers": "Family users",
+        "allowFamilyUsers": "Itilizatè fanmi yo",
         "save": {
           "success": "Hub la byen anrejistre",
           "failed": "Hub sa egziste deja."
@@ -820,7 +820,7 @@
     "map": {
       "filters": {
         "displayClusters": "Montre gwoup yo",
-        "moreFilters": "More filters"
+        "moreFilters": "Plis filtè"
       },
       "noRecords": "Nou pa jwenn fichye konsa",
       "families": " Fanmi",
@@ -933,6 +933,6 @@
     "ROLE_SURVEY_USER": "Fasilitatè",
     "ROLE_HUB_ADMIN": "Admin Hub la",
     "ROLE_SURVEY_TAKER": "Anketè",
-    "ROLE_FAMILY_USER": "Family"
+    "ROLE_FAMILY_USER": "Fanmi"
   }
 }
