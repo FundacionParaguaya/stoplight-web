@@ -65,6 +65,11 @@
     "december": "Desanm"
   },
   "views": {
+    "404": {
+      "missing": "Gen yon bagay ki manke.",
+      "pageNotFound": "Paj sa manke osinon nou pa jwenn li.",
+      "toHomePage": "Tounen nan paj Lakay"
+    },
     "sign": {
       "addSign": "Mete siyati ou",
       "signHere": "Siyati",
@@ -167,15 +172,14 @@
     "family": {
       "firstName": "Non",
       "lastName": "Siyati",
-      "selectGender": "Ki sèks ou",
+      "selectGender": "Ki sèks",
       "documentType": "Kalite dokiman",
       "documentNumber": "Nimewo dokiman",
-      "selectACountry": "Ki peyi ou",
+      "selectACountry": "Chwazi peyi a",
       "email": "Imel",
       "phone": "Telefòn",
       "gender": "Sèks",
       "dateOfBirth": "Dat nesans",
-      "documentType": "Kalite dokiman",
       "phoneCode": "Nimewo kòd peyi a",
       "countryOfBirth": "Peyi kote ou te fèt",
       "selectMonth": "Chwazi mwa a",
@@ -183,16 +187,12 @@
       "specify": "Bay plis esplikasyon",
       "name": "Non",
       "peopleLivingInThisHousehold": "Kantite moun k ap viv nan menaj sa a",
-      "household": "Menaj",
       "household": "household",
       "onlyPerson": "1 - Se mwen sèlman",
       "preferNotToSay": "M pito pa reponn",
       "familyMember": "Manm",
       "participant": "Patisipan",
-      "gender": "Sèks",
-      "selectGender": "Ki sèks",
       "country": "Peyi kote ou rete",
-      "selectACountry": "Chwazi peyi a",
       "postcode": "Kòd postal",
       "streetOrHouseDescription": "Lari osinon deskripsyon kay la",
       "gpsAccurate": "GPS:  li korèk nan %n m",
@@ -219,12 +219,10 @@
     "lifemap": {
       "thisLifeMapHas": "Mèsi!  Seksyon Chimen Pwogrè sa a genyen %n endikatè.",
       "thisLifeMapHasNoStoplight": "Mèsi!  Seksyon Chimen Pwogrè sa a genyen %n endikatè. Chwazi si ou vle anrejistre ankèt ou a konye a osinon fini Chimen Pwogrè ou a.",
-      "responseRequired": "*Tanpri reponn.",
       "responseRequired": "*Response required",
       "skipThisQuestion": "Sote kesyon sa a.",
       "youSkipped": "Ou sote endikatè sa yo.",
       "whyNotTryAgain": "Pou ki w’ pa eseye ankò epi reponn sa yo konye a.",
-      "allIndicators": "Tout endikatè",
       "allIndicators": "All indicators",
       "priority": "Priyorite",
       "writeYourAnswerHere": "Ekri repons ou a la ...",
@@ -892,14 +890,18 @@
         "failed": "Solisyon sa a pa t ka efase"
       }
     },
-    "404": {
-      "missing": "Gen yon bagay ki manke.",
-      "pageNotFound": "Paj sa manke osinon nou pa jwenn li.",
-      "toHomePage": "Tounen nan paj Lakay"
-    },
     "error": {
       "subtitle": "Te genyen yon pwoblèm sou bò pa nou. Tanpri eseye “refresh osinon ...",
       "toHomePage": "Tounen nan sit prensipal la."
+    },
+    "myProfile": {
+      "completeLifemap": "Complete your lifemap",
+      "error": {
+        "loadingSurvey": "Error loading survey",
+        "loadingFamily": "Error loading family data",
+        "loadingNotes": "Error loading family's note"
+      },
+      "resumeDraft": "Resume draft"
     }
   },
   "reports": {

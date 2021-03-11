@@ -19,6 +19,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { withSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const styles = theme => ({
   subtitle: {
@@ -103,8 +104,10 @@ const SendLifemap = ({
     setEmailData({ openEmail: false, email: primaryParticipant.email });
   }, []);
 
-  const handleContinue = (familyId, isRetake) => {
-    if (isRetake) {
+  const handleContinue = (familyId, isRetake, justStoplight, { role }) => {
+    if (role === ROLES_NAMES.ROLE_FAMILY_USER) {
+      history.push(`/my-profile`);
+    } else if (isRetake || justStoplight) {
       redirectToFamilyProfile(familyId);
     } else {
       redirectToSurveys();
@@ -303,7 +306,9 @@ const SendLifemap = ({
                 onClick={() => {
                   handleContinue(
                     currentDraft.familyData.familyId,
-                    currentDraft.isRetake
+                    currentDraft.isRetake,
+                    currentDraft.justStoplight,
+                    user
                   );
                 }}
                 fullWidth

@@ -436,6 +436,7 @@ export const submitDraft = (user, snapshot, surveyLocation) => {
   delete sanitizedSnapshot.previousIndicatorAchivements;
   delete sanitizedSnapshot.isRetake;
   delete sanitizedSnapshot.snapshotId;
+  delete sanitizedSnapshot.justStoplight;
   let { economicSurveyDataList } = snapshot;
   const validEconomicIndicator = ec =>
     (ec.value !== null && ec.value !== undefined && ec.value !== '') ||
@@ -768,7 +769,7 @@ export const getDrafts = user =>
     },
     data: JSON.stringify({
       query:
-        'query { getSnapshotDraft{ snapshotDraftDate draftId lifemapNavHistory { url state } surveyId project surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value multipleValue other} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
+        'query { getSnapshotDraft{ snapshotDraftDate draftId lifemapNavHistory { url state } surveyId project justStoplight surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } indicatorSurveyDataList {key value} economicSurveyDataList {key value multipleValue other} familyDataDTO { countFamilyMembers latitude longitude country familyMemberDTOList { firstParticipant firstName lastName birthCountry gender customGender birthDate documentType customDocumentType documentNumber email phoneCode phoneNumber socioEconomicAnswers {key value other multipleValue} } } } }'
     })
   });
 
@@ -1792,6 +1793,41 @@ export const updateSign = (user, id, sign) =>
         snapshot: {
           id: id,
           sign
+        }
+      }
+    })
+  });
+
+export const familyUserData = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query { familyUserData {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot allowRetake organization { id, name } country{country} project {id title}familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} snapshotEconomics { codeName value multipleValueArray questionText text multipleText multipleTextArray other topic} membersEconomic{ memberIdentifier firstName economic{codeName value multipleValue multipleValueArray questionText text multipleText multipleTextArray other topic} } snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} } }'
+    })
+  });
+
+export const attachSnapshotStoplight = (user, draft) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation attachSnapshotStoplight($snapshot: SnapshotUpdateModelInput) {attachSnapshotStoplight(snapshot: $snapshot){successful}}',
+      variables: {
+        snapshot: {
+          id: draft.snapshotId,
+          draftId: draft.draftId,
+          indicatorSurveyDataList: draft.indicatorSurveyDataList,
+          priorities: draft.priorities,
+          achievements: draft.achievements
         }
       }
     })

@@ -15,6 +15,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { saveDraft } from '../api';
 import face from '../assets/serious_face.png';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const SaveDraftModal = props => {
   const { classes, open, onClose, currentDraft, user, history } = props;
@@ -31,7 +32,9 @@ const SaveDraftModal = props => {
       }))
     })
       .then(() => {
-        history.push('/surveys');
+        user.role === ROLES_NAMES.ROLE_FAMILY_USER
+          ? history.push('/my-profile')
+          : history.push('/surveys');
       })
       .catch(() => {
         props.enqueueSnackbar(t('views.saveDraftModal.cannotSave'), {
