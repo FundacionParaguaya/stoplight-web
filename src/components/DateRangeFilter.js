@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
-      paddingBottom: 4
+      paddingBottom: 4,
+      width: '100%'
     }
   },
   fromLabel: {
@@ -35,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     [theme.breakpoints.down('xs')]: {
-      paddingTop: 4
+      paddingTop: 4,
+      width: '100%'
     }
   },
   toLabel: {

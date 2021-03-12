@@ -17,7 +17,7 @@ const styles = theme => ({
     alignItems: 'center',
     width: '100%',
     [theme.breakpoints.down('xs')]: {
-      width: '85%'
+      width: '70%'
     }
   },
   loadingContainer: {
@@ -48,7 +48,9 @@ function withControllers(title, sorting) {
             style={{ width: '100%', display: 'flex', flexDirection: 'column' }}
           >
             <div className={classes.innerContainer}>
-              <Typography variant="h5">{t(title)}</Typography>
+              <Typography variant="h5" style={{ paddingRight: 10 }}>
+                {t(title)}
+              </Typography>
               <Controllers
                 type={type}
                 setIndicatorsType={setType}
