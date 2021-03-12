@@ -87,9 +87,6 @@ const styles = theme => ({
     zIndex: 1,
     [theme.breakpoints.down('sm')]: {
       marginRight: '10px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginRight: '2px'
     }
   },
   count: {

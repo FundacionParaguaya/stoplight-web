@@ -113,9 +113,6 @@ const dimensionTitleStyle = theme => ({
     alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       width: '20%'
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '50%'
     }
   },
   title: {
@@ -187,8 +184,7 @@ const dimensionIndicatorStyle = theme => ({
       width: '50%'
     },
     [theme.breakpoints.down('xs')]: {
-      paddingLeft: 70,
-      paddingRight: 0
+      paddingLeft: 70
     }
   },
   rightSpaceFiller: { display: 'flex', flexBasis: '15%', width: '15%' }
@@ -219,18 +215,15 @@ const dimensionStyles = theme => ({
   stackbarContainer: {
     display: 'flex',
     alignItems: 'center',
-    width: '50%',
-    flexBasis: '50%',
+    width: '60%',
+    flexBasis: '60%',
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
     [theme.breakpoints.down('sm')]: {
       width: '50%'
     },
     [theme.breakpoints.down('xs')]: {
-      paddingLeft: 24,
-      width: '20%',
-      flexBasis: '20%',
-      paddingRight: 5
+      paddingLeft: 70
     }
   },
   priorAndAchievem: {
