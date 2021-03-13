@@ -64,6 +64,9 @@ const useStyles = makeStyles(theme => ({
     },
     '& .MuiCheckbox-root': {
       color: '#909090'
+    },
+    '& .MuiTableCell-root:first-of-type': {
+      textAlign: 'center'
     }
   },
   nameLabelStyle: {
@@ -164,6 +167,7 @@ const FamilyTable = ({
   tableRef,
   numberOfRows,
   redirectToFamily,
+  toggleMoveModal,
   handleMoveSelected
 }) => {
   const {
@@ -247,7 +251,7 @@ const FamilyTable = ({
           <Tooltip title={'Move'} aria-label="name">
             <SwapHorizIcon
               className={classes.icon}
-              onClick={() => handleMoveSelected(selectedElements)}
+              onClick={() => toggleMoveModal(selectedElements)}
             />
           </Tooltip>
         )}
@@ -258,7 +262,7 @@ const FamilyTable = ({
           selection: true,
           search: false,
           toolbar: false,
-          actionsColumnIndex: 4,
+          actionsColumnIndex: 5,
           pageSize: 10,
           pageSizeOptions: [10],
           initialPage: 0,
@@ -287,7 +291,7 @@ const FamilyTable = ({
             Title: 'Avatar',
             sorting: false,
             grouping: false,
-            width: '12%',
+            width: '6%',
             render: rowData => (
               <div className={classes.badgeNumberContainer}>
                 {rowData.countFamilyMembers > 1 && (
@@ -387,6 +391,20 @@ const FamilyTable = ({
               <Tooltip title={rowData.code} aria-label="code">
                 <Typography className={classes.nameLabelStyle} variant="h6">
                   {rowData.code ? rowData.code : ''}
+                </Typography>
+              </Tooltip>
+            )
+          },
+          // Column Family Code
+          {
+            title: t('views.familyList.organization'),
+            field: 'org',
+            sorting: false,
+            width: '20%',
+            render: rowData => (
+              <Tooltip title={rowData.organizationName} aria-label="org">
+                <Typography className={classes.nameLabelStyle} variant="h6">
+                  {rowData.organizationName ? rowData.organizationName : ''}
                 </Typography>
               </Tooltip>
             )

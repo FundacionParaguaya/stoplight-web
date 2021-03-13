@@ -479,12 +479,20 @@
       "familyName": "Family Name",
       "document": "Document",
       "familyCode": "Family Code",
+      "organization": "Organization",
       "search": "Search",
       "empty": "No Family to show",
       "searchFamily": "Name or Document Number",
       "delete": "Delete Family",
       "show": "Show Family",
-      "rows": "Families Found"
+      "rows": "Families Found",
+      "moveFamily": {
+        "moveOfOrg": "Move to other organization",
+        "organization": "Organization",
+        "facilitator": "Facilitator",
+        "projects": "Projects",
+        "confirm": "Are you sure you want to move these families to another organization?"
+      }
     },
     "facilitatorFilter": {
       "label": "Facilitators",

@@ -479,6 +479,7 @@
       "familyName": "Família",
       "document": "Documento",
       "familyCode": "Código",
+      "organization": "Organização",
       "search": "Pesquisa",
       "empty": "Não há famílias para mostrar.",
       "searchFamily": "Nome ou número do documento",

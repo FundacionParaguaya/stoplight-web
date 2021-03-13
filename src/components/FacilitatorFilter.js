@@ -6,11 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
 import { getMentors } from '../api';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
     ...styles,
-    backgroundColor: '#FFFFFF;',
+    //backgroundColor: '#FFFFFF;',
     borderRadius: 2,
     '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
     border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
@@ -73,7 +74,10 @@ const FacilitatorFilter = ({
   isMulti,
   label,
   stacked,
-  isDisabled
+  isDisabled,
+  isClearable,
+  required,
+  error
 }) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -108,7 +112,7 @@ const FacilitatorFilter = ({
         variant="subtitle1"
         className={stacked ? classes.stackedLabel : classes.label}
       >
-        {label}
+        {required ? `${label} *` : `${label}`}
       </Typography>
 
       <div className={classes.selector}>
@@ -129,8 +133,14 @@ const FacilitatorFilter = ({
           closeMenuOnSelect={false}
           isMulti={isMulti}
           styles={selectStyle}
+          isClearable={isClearable}
         />
       </div>
+      {error && (
+        <FormHelperText error={error}>
+          {t('validation.fieldIsRequired')}
+        </FormHelperText>
+      )}
     </div>
   );
 };

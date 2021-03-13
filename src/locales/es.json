@@ -480,12 +480,19 @@
       "familyName": "Familia",
       "document": "Documento",
       "familyCode": "Código",
+      "organization": "Organización",
       "search": "Buscar",
       "empty": "No hay familias para mostrar",
       "searchFamily": "Nombre o número de documento",
       "delete": "Borrar Familia",
       "show": "Mostrar Familia",
-      "rows": "Familias Encontradas"
+      "rows": "Familias Encontradas",
+      "moveFamily": {
+        "moveOfOrg": "Mover a otra organización",
+        "organization": "Organización",
+        "facilitator": "Facilitador",
+        "projects": "Proyectos"
+      }
     },
     "facilitatorFilter": {
       "label": "Facilitadores",

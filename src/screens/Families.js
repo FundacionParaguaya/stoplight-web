@@ -13,6 +13,7 @@ import FamilyTable from '../components/FamilyTable';
 import FamilyFilter from '../components/FamilyFilter';
 import { getFamiliesList } from '../api';
 import { withSnackbar } from 'notistack';
+import MoveFamilyModal from './families/MoveFamilyModal';
 
 const Families = ({
   classes,
@@ -34,6 +35,8 @@ const Families = ({
   const [families, setFamilies] = useState([]);
   const [numberOfRows, setNumberOfRows] = useState(0);
   const [resetPagination, setResetPagination] = useState(false);
+  const [openMoveModal, setOpenMoveModal] = useState(false);
+  const [selectedtFamilies, setSelectedFamilies] = useState([]);
 
   const setSelectedOrganizations = (selected, allOrganizations) => {
     setResetPagination(true);
@@ -124,8 +127,9 @@ const Families = ({
     return total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
-  const handleMoveSelected = elements => {
-    console.log('elements', elements);
+  const toggleMoveModal = families => {
+    setSelectedFamilies(families);
+    setOpenMoveModal(!openMoveModal);
   };
 
   useEffect(() => setDidMount(true), []);
@@ -153,6 +157,7 @@ const Families = ({
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
+      <MoveFamilyModal toggleModal={toggleMoveModal} open={openMoveModal} />
       <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
@@ -194,7 +199,7 @@ const Families = ({
             loadFamilies={loadFamilies}
             numberOfRows={numberOfRows}
             redirectToFamily={redirectToFamily}
-            handleMoveSelected={handleMoveSelected}
+            toggleMoveModal={toggleMoveModal}
           />
         </div>
       </Container>

@@ -11,7 +11,7 @@ axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
-  testing: 'https://testing.backend.povertystoplight.org',
+  testing: 'http://localhost:8080',
   development: 'http://localhost:8080'
 };
 
@@ -828,7 +828,7 @@ export const getFamiliesList = (
     data: JSON.stringify({
       query:
         'query families($facilitators: [Long], $hub: Long, $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String, $projects: [Long]) ' +
-        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, projects: $projects, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
+        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, projects: $projects, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers organizationName  } totalPages totalElements }}',
       variables: {
         facilitators,
         hub,
