@@ -58,7 +58,8 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginBottom: 4
   },
   stackedLabel: {
     marginBottom: 5,

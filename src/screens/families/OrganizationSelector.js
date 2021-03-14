@@ -19,7 +19,8 @@ const styles = () => ({
   },
   label: {
     margin: 'auto',
-    fontSize: 14
+    fontSize: 14,
+    marginBottom: 5
   },
   selector: {
     width: '100%'
@@ -62,7 +63,9 @@ const OrganizationSelector = ({
       className={classes.mainContainer}
     >
       <Grid item md={12} sm={12} xs={12}>
-        <Typography>{t('views.familyList.moveFamily.organization')}</Typography>
+        <Typography className={classes.label} variant="subtitle1">
+          {`${t('views.familyList.moveFamily.organization')} *`}
+        </Typography>
         <div className={classes.selector}>
           <Select
             value={data}

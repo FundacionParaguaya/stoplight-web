@@ -841,6 +841,32 @@ export const getFamiliesList = (
       }
     })
   });
+
+export const migrateFamilies = (
+  user,
+  families,
+  facilitator,
+  project,
+  organization
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation migrateFamilies($families: [FamilyModelInput], $organization: Long, $user: Long, $project: Long ) { migrateFamilies(families: $families, organization: $organization, user: $user, project: $project) {successful} }}',
+      variables: {
+        families,
+        organization,
+        user: facilitator,
+        project
+      }
+    })
+  });
+
 export const getMentors = (user, organizations) =>
   axios({
     method: 'post',

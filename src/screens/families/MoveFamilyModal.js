@@ -46,21 +46,22 @@ const useStyles = makeStyles(theme => ({
   confirmModal: {
     display: 'flex',
     alignItems: 'center',
-    flexDirection: 'column'
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    height: '100%'
   },
   confirmButtonContainer: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    marginTop: 20
+    marginTop: 40
   }
 }));
 
 const MoveFamilyModal = ({ open, toggleModal, user }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [selectedOrg, setSelectedOrg] = useState({});
   const [confirmSubmit, setConfirmSubmit] = useState(false);
 
   const fieldIsRequired = 'validation.fieldIsRequired';
@@ -83,6 +84,10 @@ const MoveFamilyModal = ({ open, toggleModal, user }) => {
   const onSubmit = values => {
     console.log(values);
     setConfirmSubmit(true);
+  };
+
+  const handleMoveFamilies = values => {
+    console.log(values);
   };
   return (
     <Modal
@@ -128,21 +133,21 @@ const MoveFamilyModal = ({ open, toggleModal, user }) => {
                       className={classes.button}
                       variant="outlined"
                       color="primary"
-                      onClick={() => onClose()}
+                      onClick={() => handleMoveFamilies(values)}
                     >
                       {t('general.yes')}
                     </Button>
                     <Button
                       variant="outlined"
                       color="primary"
-                      //onClick={() => onDissmiss()}
+                      onClick={() => setConfirmSubmit(false)}
                     >
                       {t('general.no')}
                     </Button>
                   </div>
                 </div>
               ) : (
-                <>
+                <div className={classes.selectorsContainer}>
                   <Typography
                     variant="h5"
                     align="center"
@@ -197,7 +202,7 @@ const MoveFamilyModal = ({ open, toggleModal, user }) => {
                       </div>
                     </>
                   )}
-                </>
+                </div>
               )}
             </Form>
           )}
