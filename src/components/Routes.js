@@ -130,13 +130,15 @@ const Routes = ({ user }) => {
               component={EditLocation}
             />
           )}
-          {checkAccess(user, 'editFamilyImages') && (
+          {(checkAccess(user, 'editFamilyImages') ||
+            checkAccess(user, 'my-profile')) && (
             <Route
               path="/family/:familyId/edit-images/:snapshotId"
               component={EditImages}
             />
           )}
-          {checkAccess(user, 'editFamilyImages') && (
+          {(checkAccess(user, 'editFamilyImages') ||
+            checkAccess(user, 'my-profile')) && (
             <Route
               path="/family/:familyId/edit-sign/:snapshotId"
               component={EditSign}
