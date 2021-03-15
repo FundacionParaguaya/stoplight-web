@@ -484,12 +484,25 @@
       "familyName": "Siyati",
       "document": "Dokiman",
       "familyCode": "Kòd fanmi an",
+      "organization": "Organizationganizasyon",
       "search": "Chache",
       "empty": "Pa genyen fanmi konsa.",
       "searchFamily": "Non osinon nimewo dokiman an.",
       "delete": "Efase fanmi an",
       "show": "Montre fanmi an",
-      "rows": "Fanmi nou jwenn"
+      "rows": "Fanmi nou jwenn",
+      "moveFamily": {
+        "moveOfOrg": "Deplase nan yon lòt òganizasyon",
+        "organization": "Organizationganizasyon",
+        "facilitator": "Fasilitatè",
+        "projects": "Pwojè",
+        "success": "Migrasyon siksè",
+        "error": "Pa t 'kapab emigre avèk siksè"
+      }
+    },
+    "organizationFilter": {
+      "loading": "L ap chaje...",
+      "noOption": "Pa gen okenn òganizasyon"
     },
     "facilitatorFilter": {
       "label": "Fasilitatè",
@@ -806,7 +819,8 @@
         "noRecords": "Nou pa jwenn fichye sou sa",
         "chooseFilters": "Chwazi kèk filtè epi klike",
         "chooseFiltersEnd": " pou telechaje rezilta yo!",
-        "empty": "Pa gen rezilta ki matche filtè ou yo"
+        "empty": "Pa gen rezilta ki matche filtè ou yo",
+        "move": "Deplase"
       },
       "buttons": {
         "applyFilters": "Aplike",

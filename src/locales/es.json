@@ -481,12 +481,25 @@
       "familyName": "Familia",
       "document": "Documento",
       "familyCode": "Código",
+      "organization": "Organización",
       "search": "Buscar",
       "empty": "No hay familias para mostrar",
       "searchFamily": "Nombre o número de documento",
       "delete": "Borrar Familia",
       "show": "Mostrar Familia",
-      "rows": "Familias Encontradas"
+      "rows": "Familias Encontradas",
+      "moveFamily": {
+        "moveOfOrg": "Mover a otra organización",
+        "organization": "Organización",
+        "facilitator": "Facilitador",
+        "projects": "Proyectos",
+        "success": "Migración exitosa",
+        "error": "No se pudo migrar correctamente"
+      }
+    },
+    "organizationFilter": {
+      "loading": "Cargando...",
+      "noOption": "No hay organizaciones"
     },
     "facilitatorFilter": {
       "label": "Facilitadores",
@@ -803,7 +816,8 @@
         "noRecords": "No se encontraron registros",
         "chooseFilters": "¡Elija algunos filtros y luego haga click en ",
         "chooseFiltersEnd": " para descargar los resultados!",
-        "empty": "No hay resultados que coincidan con tus filtros"
+        "empty": "No hay resultados que coincidan con tus filtros",
+        "move": "Mover"
       },
       "buttons": {
         "applyFilters": "Aplicar",

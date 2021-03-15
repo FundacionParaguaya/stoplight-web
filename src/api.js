@@ -829,7 +829,7 @@ export const getFamiliesList = (
     data: JSON.stringify({
       query:
         'query families($facilitators: [Long], $hub: Long, $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String, $projects: [Long]) ' +
-        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, projects: $projects, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
+        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, projects: $projects, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers organizationName  } totalPages totalElements }}',
       variables: {
         facilitators,
         hub,
@@ -842,6 +842,32 @@ export const getFamiliesList = (
       }
     })
   });
+
+export const migrateFamilies = (
+  user,
+  families,
+  organization,
+  facilitator,
+  project
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation migrateFamilies($families: [FamilyModelInput], $organization: Long, $user: Long, $project: Long ) { migrateFamilies(families: $families, organization: $organization, user: $user, project: $project) {successful} }',
+      variables: {
+        families,
+        organization,
+        user: facilitator,
+        project: project
+      }
+    })
+  });
+
 export const getMentors = (user, organizations) =>
   axios({
     method: 'post',
