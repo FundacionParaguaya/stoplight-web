@@ -9,7 +9,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import OrganizationSelector from '../families/OrganizationSelector';
+import OrganizationSelector from '../../components/selectors/OrganizationSelector';
 import FacilitatorFilter from '../../components/FacilitatorFilter';
 import ProjectsSelector from '../../components/selectors/ProjectsSelector';
 import { Formik, Form } from 'formik';

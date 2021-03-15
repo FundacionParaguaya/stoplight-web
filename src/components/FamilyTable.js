@@ -67,6 +67,9 @@ const useStyles = makeStyles(theme => ({
     },
     '& .MuiTableCell-root:first-of-type': {
       textAlign: 'center'
+    },
+    '& .MuiTableCell-root > span': {
+      padding: '0px 0px 0px 8px'
     }
   },
   nameLabelStyle: {
