@@ -16,7 +16,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     width: '100%',
     padding: `${theme.spacing(8)}px 0`,
-    paddingBottom: 0
+    paddingBottom: 0,
+    [theme.breakpoints.down('sm')]: {
+      paddingRight: 20,
+      paddingTop: 25
+    }
   },
   innerContainer: {
     zIndex: 2,

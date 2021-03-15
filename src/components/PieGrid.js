@@ -98,7 +98,8 @@ const PieGrid = ({ classes, items }) => {
           return (
             <Grid
               item
-              xs={4}
+              xs={6}
+              sm={4}
               md={3}
               key={`donut${name || dimension}`}
               className={classes.pieContainer}
@@ -166,7 +167,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    width: 200,
+    width: 180,
     textAlign: 'center',
     position: 'relative'
   },
