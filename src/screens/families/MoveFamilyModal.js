@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: '40px 50px',
     minHeight: '35vh',
-    //height: 'vh',
     maxHeight: '55vh',
     width: '85vw',
     maxWidth: 500,
