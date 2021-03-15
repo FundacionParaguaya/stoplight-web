@@ -899,7 +899,15 @@
         "loadingFamily": "Erro ao carregar os dados da família",
         "loadingNotes": "Erro ao carregar a nota da família"
       },
-      "resumeDraft": "Retomar o rascunho"
+      "resumeDraft": "Retomar o rascunho",
+      "picture": {
+        "placeholder": "Adicione sua nova foto de perfil aqui",
+        "uploadError": "Você atingiu o limite de 10 MB! \nSelecione outra imagem.",
+        "save": {
+          "success": "Imagem do perfil atualizada com sucesso",
+          "error": "Não foi possível atualizar a foto do perfil"
+        }
+      }
     }
   },
   "reports": {

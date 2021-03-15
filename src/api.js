@@ -1807,7 +1807,7 @@ export const familyUserData = user =>
     },
     data: JSON.stringify({
       query:
-        'query { familyUserData {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot allowRetake organization { id, name } country{country} project {id title}familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} snapshotEconomics { codeName value multipleValueArray questionText text multipleText multipleTextArray other topic} membersEconomic{ memberIdentifier firstName economic{codeName value multipleValue multipleValueArray questionText text multipleText multipleTextArray other topic} } snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} } }'
+        'query { familyUserData {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot profilePictureUrl allowRetake organization { id, name } country{country} project {id title}familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} snapshotEconomics { codeName value multipleValueArray questionText text multipleText multipleTextArray other topic} membersEconomic{ memberIdentifier firstName economic{codeName value multipleValue multipleValueArray questionText text multipleText multipleTextArray other topic} } snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} } }'
     })
   });
 
@@ -1829,6 +1829,28 @@ export const attachSnapshotStoplight = (user, draft) =>
           priorities: draft.priorities,
           achievements: draft.achievements
         }
+      }
+    })
+  });
+
+export const updateFamilyProfilePicture = (
+  familyId,
+  familyProfilePicture,
+  user
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateFamilyProfilePicture($familyId: Long, $familyProfilePicture: String) ' +
+        '{  updateFamilyProfilePicture(familyId: $familyId, familyProfilePicture: $familyProfilePicture) { familyId name } }',
+      variables: {
+        familyId,
+        familyProfilePicture
       }
     })
   });

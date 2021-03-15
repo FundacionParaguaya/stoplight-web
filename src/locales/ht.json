@@ -901,7 +901,15 @@
         "loadingFamily": "Error loading family data",
         "loadingNotes": "Error loading family's note"
       },
-      "resumeDraft": "Resume draft"
+      "resumeDraft": "Resume draft",
+      "picture": {
+        "placeholder": "Ajoute nouvo foto pwofil ou isit la",
+        "uploadError": "Ou rive nan limit 10MB! \nTanpri chwazi yon lòt imaj.",
+        "save": {
+          "success": "Successfully updated profile picture",
+          "error": "Could not update profile picture"
+        }
+      }
     }
   },
   "reports": {
