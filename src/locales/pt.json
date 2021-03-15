@@ -485,7 +485,19 @@
       "searchFamily": "Nome ou número do documento",
       "delete": "Eliminar Família",
       "show": "Mostrar Família",
-      "rows": "Famílias Encontradas"
+      "rows": "Famílias Encontradas",
+      "moveFamily": {
+        "moveOfOrg": "Mude para outra organização",
+        "organization": "Organização",
+        "facilitator": "Facilitador",
+        "projects": "Projetos",
+        "success": "Migración exitosa",
+        "error": "No se pudo migrar correctamente"
+      }
+    },
+    "organizationFilter": {
+      "loading": "Carregando...",
+      "noOption": "Não há organizações"
     },
     "facilitatorFilter": {
       "label": "Facilitadores",

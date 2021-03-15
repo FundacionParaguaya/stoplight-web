@@ -491,8 +491,14 @@
         "organization": "Organization",
         "facilitator": "Facilitator",
         "projects": "Projects",
-        "confirm": "Are you sure you want to move these families to another organization?"
+        "confirm": "Are you sure you want to move these families to another organization?",
+        "success": "Successfully migration",
+        "error": " Could not migrate successfully"
       }
+    },
+    "organizationFilter": {
+      "loading": "Loading...",
+      "noOption": "No organizations"
     },
     "facilitatorFilter": {
       "label": "Facilitators",

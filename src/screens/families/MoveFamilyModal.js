@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Modal, Typography, Button, IconButton } from '@material-ui/core';
+import {
+  Modal,
+  Typography,
+  Button,
+  IconButton,
+  CircularProgress
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +16,8 @@ import { Formik, Form } from 'formik';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import CloseIcon from '@material-ui/icons/Close';
 import * as Yup from 'yup';
+import { migrateFamilies } from '../../api';
+import { withSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -59,10 +67,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MoveFamilyModal = ({ open, toggleModal, user }) => {
+const MoveFamilyModal = ({
+  open,
+  toggleModal,
+  user,
+  selectedFamilies,
+  enqueueSnackbar,
+  closeSnackbar,
+  afterSubmit
+}) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [confirmSubmit, setConfirmSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fieldIsRequired = 'validation.fieldIsRequired';
 
@@ -72,22 +89,59 @@ const MoveFamilyModal = ({ open, toggleModal, user }) => {
   });
 
   const onClose = submitted => {
+    submitted && afterSubmit();
+    setConfirmSubmit(false);
     toggleModal();
   };
 
-  const showFacilitatorSelector = () => {};
-
   const showProjectsSelector = ({ hub, role }) => {
-    return hub.projectsSupport || role == ROLES_NAMES.ROLE_ROOT;
+    return (!!hub && hub.projectsSupport) || role === ROLES_NAMES.ROLE_ROOT;
   };
 
   const onSubmit = values => {
-    console.log(values);
     setConfirmSubmit(true);
   };
 
   const handleMoveFamilies = values => {
-    console.log(values);
+    const families = selectedFamilies.map(family => {
+      return { familyId: family.familyId };
+    });
+    setLoading(true);
+
+    migrateFamilies(
+      user,
+      families,
+      values.organization ? values.organization.value : null,
+      values.facilitator ? values.facilitator.value : null,
+      values.project ? values.project.value : null
+    )
+      .then(res => {
+        onClose(true);
+        enqueueSnackbar(t('views.familyList.moveFamily.success'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.user.form.save.failed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        //setLoading(false);
+        onClose(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <Modal
@@ -128,23 +182,27 @@ const MoveFamilyModal = ({ open, toggleModal, user }) => {
                   >
                     {t('views.familyList.moveFamily.confirm')}
                   </Typography>
-                  <div className={classes.confirmButtonContainer}>
-                    <Button
-                      className={classes.button}
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => handleMoveFamilies(values)}
-                    >
-                      {t('general.yes')}
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => setConfirmSubmit(false)}
-                    >
-                      {t('general.no')}
-                    </Button>
-                  </div>
+                  {loading ? (
+                    <CircularProgress className={classes.loadingContainer} />
+                  ) : (
+                    <div className={classes.confirmButtonContainer}>
+                      <Button
+                        className={classes.button}
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleMoveFamilies(values)}
+                      >
+                        {t('general.yes')}
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => setConfirmSubmit(false)}
+                      >
+                        {t('general.no')}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className={classes.selectorsContainer}>
@@ -185,6 +243,8 @@ const MoveFamilyModal = ({ open, toggleModal, user }) => {
                           projectData={values.project}
                           organizationData={values.organization}
                           stacked
+                          noDropdownArrow
+                          renderIfOptions
                           onChangeProject={value =>
                             setFieldValue('project', value)
                           }
@@ -216,4 +276,4 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(MoveFamilyModal);
+export default connect(mapStateToProps)(withSnackbar(MoveFamilyModal));

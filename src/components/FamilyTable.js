@@ -235,6 +235,12 @@ const FamilyTable = ({
       role === ROLES_NAMES.ROLE_ROOT
     );
   };
+
+  const showSelectionCheckbox = ({ role }) => {
+    return (
+      role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_HUB_ADMIN
+    );
+  };
   return (
     <div className={classes.familyContainer}>
       <DeleteFamilyModal
@@ -259,7 +265,7 @@ const FamilyTable = ({
       <MaterialTable
         tableRef={tableRef}
         options={{
-          selection: true,
+          selection: showSelectionCheckbox(user),
           search: false,
           toolbar: false,
           actionsColumnIndex: 5,

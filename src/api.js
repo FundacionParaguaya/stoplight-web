@@ -11,7 +11,7 @@ axios.defaults.headers.post['Stoplight-Client-Id'] = 'stoplight-web';
 export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
-  testing: 'http://localhost:8080',
+  testing: 'https://testing.backend.povertystoplight.org',
   development: 'http://localhost:8080'
 };
 
@@ -845,9 +845,9 @@ export const getFamiliesList = (
 export const migrateFamilies = (
   user,
   families,
+  organization,
   facilitator,
-  project,
-  organization
+  project
 ) =>
   axios({
     method: 'post',
@@ -857,12 +857,12 @@ export const migrateFamilies = (
     },
     data: JSON.stringify({
       query:
-        'mutation migrateFamilies($families: [FamilyModelInput], $organization: Long, $user: Long, $project: Long ) { migrateFamilies(families: $families, organization: $organization, user: $user, project: $project) {successful} }}',
+        'mutation migrateFamilies($families: [FamilyModelInput], $organization: Long, $user: Long, $project: Long ) { migrateFamilies(families: $families, organization: $organization, user: $user, project: $project) {successful} }',
       variables: {
         families,
         organization,
         user: facilitator,
-        project
+        project: project
       }
     })
   });

@@ -491,8 +491,14 @@
         "moveOfOrg": "Mover a otra organización",
         "organization": "Organización",
         "facilitator": "Facilitador",
-        "projects": "Proyectos"
+        "projects": "Proyectos",
+        "success": "Migración exitosa",
+        "error": "No se pudo migrar correctamente"
       }
+    },
+    "organizationFilter": {
+      "loading": "Cargando...",
+      "noOption": "No hay organizaciones"
     },
     "facilitatorFilter": {
       "label": "Facilitadores",

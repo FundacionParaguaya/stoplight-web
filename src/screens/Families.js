@@ -36,7 +36,7 @@ const Families = ({
   const [numberOfRows, setNumberOfRows] = useState(0);
   const [resetPagination, setResetPagination] = useState(false);
   const [openMoveModal, setOpenMoveModal] = useState(false);
-  const [selectedtFamilies, setSelectedFamilies] = useState([]);
+  const [selectedFamilies, setSelectedFamilies] = useState([]);
 
   const setSelectedOrganizations = (selected, allOrganizations) => {
     setResetPagination(true);
@@ -127,6 +127,11 @@ const Families = ({
     return total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
+  const afterSubmit = () => {
+    setSelectedFamilies([]);
+    tableRef.current.onQueryChange();
+  };
+
   const toggleMoveModal = families => {
     setSelectedFamilies(families);
     setOpenMoveModal(!openMoveModal);
@@ -157,7 +162,12 @@ const Families = ({
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
-      <MoveFamilyModal toggleModal={toggleMoveModal} open={openMoveModal} />
+      <MoveFamilyModal
+        toggleModal={toggleMoveModal}
+        open={openMoveModal}
+        selectedFamilies={selectedFamilies}
+        afterSubmit={afterSubmit}
+      />
       <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>

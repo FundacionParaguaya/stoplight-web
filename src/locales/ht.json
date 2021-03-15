@@ -492,7 +492,19 @@
       "searchFamily": "Non osinon nimewo dokiman an.",
       "delete": "Efase fanmi an",
       "show": "Montre fanmi an",
-      "rows": "Fanmi nou jwenn"
+      "rows": "Fanmi nou jwenn",
+      "moveFamily": {
+        "moveOfOrg": "Deplase nan yon lòt òganizasyon",
+        "organization": "Organizationganizasyon",
+        "facilitator": "Fasilitatè",
+        "projects": "Pwojè",
+        "success": "Migrasyon siksè",
+        "error": "Pa t 'kapab emigre avèk siksè"
+      }
+    },
+    "organizationFilter": {
+      "loading": "L ap chaje...",
+      "noOption": "Pa gen okenn òganizasyon"
     },
     "facilitatorFilter": {
       "label": "Fasilitatè",

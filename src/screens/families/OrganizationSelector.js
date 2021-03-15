@@ -70,10 +70,13 @@ const OrganizationSelector = ({
           <Select
             value={data}
             onChange={value => onChange(value)}
+            loadingMessage={() => t('views.organizationFilter.loading')}
+            noOptionsMessage={() => t('views.organizationFilter.noOption')}
             placeholder=""
             options={options}
             isMulti={isMulti}
             isClearable={isClearable}
+            isLoading={optionsLoading}
             styles={selectStyle}
             components={{
               DropdownIndicator: () => <div />,
