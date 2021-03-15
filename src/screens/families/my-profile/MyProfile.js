@@ -237,6 +237,7 @@ const MyProfile = ({
         setFamilyNote('');
         showSuccessMessage(t('views.familyProfile.familyNoteSuccess'));
         loadFamilyNotes(family.familyId, user);
+        setLoading(false);
       })
       .catch(e => {
         setLoading(false);
@@ -248,7 +249,8 @@ const MyProfile = ({
     return (
       role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
       role === ROLES_NAMES.ROLE_SURVEY_USER ||
-      role === ROLES_NAMES.ROLE_APP_ADMIN
+      role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_FAMILY_USER
     );
   };
 

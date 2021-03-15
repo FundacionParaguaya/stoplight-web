@@ -1,6 +1,6 @@
 import { Button, Typography } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
@@ -10,10 +10,11 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import SignatureCanvas from 'react-signature-canvas';
 import { saveSign, updateSign } from '../../../api';
-import withLayout from '../../../components/withLayout';
 import iconPen from '../../../assets/pen_icon.png';
 import Container from '../../../components/Container';
 import ExitModal from '../../../components/ExitModal';
+import withLayout from '../../../components/withLayout';
+import { ROLES_NAMES } from '../../../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingSurveyContainer: {
@@ -108,6 +109,10 @@ const EditSign = ({ history, user, enqueueSnackbar, closeSnackbar }) => {
   const classes = useStyles();
   const { familyId, snapshotId } = useParams();
   const { t } = useTranslation();
+  const redirectionPath =
+    user.role === ROLES_NAMES.ROLE_FAMILY_USER
+      ? `/my-profile`
+      : `/family/${familyId}`;
 
   const [empty, setEmpty] = useState(true);
   const [openExitModal, setOpenExitModal] = useState(false);
@@ -143,7 +148,7 @@ const EditSign = ({ history, user, enqueueSnackbar, closeSnackbar }) => {
             });
           })
           .finally(() => {
-            history.push(`/family/${familyId}`);
+            history.push(redirectionPath);
           });
       })
       .catch(() => {
@@ -174,7 +179,7 @@ const EditSign = ({ history, user, enqueueSnackbar, closeSnackbar }) => {
       <ExitModal
         open={openExitModal}
         onDissmiss={() => setOpenExitModal(false)}
-        onClose={() => history.push(`/family/${familyId}`)}
+        onClose={() => history.push(redirectionPath)}
       />
       <Container className={classes.basicInfo} variant="stretch">
         <div className={classes.iconPriorityBorder}>
