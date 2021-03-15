@@ -400,7 +400,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         </Accordion>
       </div>
 
-      <Container variant="fluid" className={classes.greyBackground}>
+      <div className={classes.greyBackground}>
         <Grid
           container
           className={classes.whiteBackground}
@@ -519,7 +519,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
             />
           </Container>
         </Container>
-      </Container>
+      </div>
     </div>
   );
 };
@@ -561,7 +561,11 @@ const styles = theme => ({
     }
   },
   greyBackground: {
-    backgroundColor: theme.palette.background.paper
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.down('xs')]: {
+      width: '85%'
+    }
   },
   whiteBackground: {
     backgroundColor: theme.palette.background.default

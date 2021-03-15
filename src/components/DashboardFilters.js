@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme => ({
     padding: `${theme.spacing(8)}px 0`,
     paddingBottom: 0,
     [theme.breakpoints.down('sm')]: {
-      paddingRight: 50
+      paddingRight: 20,
+      paddingTop: 25
     }
   },
   innerContainer: {

@@ -32,7 +32,10 @@ const useStyles = makeStyles(theme => ({
     fontWeight: theme.typography.fontWeightMedium,
     width: '100%',
     textAlign: 'left',
-    lineHeight: '0.85'
+    lineHeight: '0.85',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    }
   },
   secondaryLabel: {
     alignSelf: 'flex-end',
@@ -55,7 +58,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 34,
     fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    }
   },
   peopleCountStyle: {
     fontSize: 16,

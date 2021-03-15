@@ -12,13 +12,19 @@ import stoplightIcon from '../../assets/stoplight-icon.png';
 const useStyles = makeStyles(theme => ({
   familiesCountStyle: {
     fontSize: 34,
-    fontWeight: theme.typography.fontWeightMedium
+    fontWeight: theme.typography.fontWeightMedium,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    }
   },
   primaryLabel: {
     fontSize: 34,
     fontWeight: theme.typography.fontWeightMedium,
     width: '100%',
-    textAlign: 'left'
+    textAlign: 'left',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    }
   },
   secondaryLabel: {
     alignSelf: 'flex-end',
@@ -27,14 +33,30 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 5
     }
   },
+  stoplightsLabel: {
+    alignSelf: 'flex-end',
+    marginLeft: 5,
+    marginBottom: 3,
+    paddingTop: 10,
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: 0
+    }
+  },
   labelWithIcon: {
     fontSize: 34,
     fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    }
   },
   expandIcon: {
-    marginTop: 6
+    paddingTop: 10,
+    marginTop: 6,
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: 0
+    }
   },
   img: {
     maxWidth: 55,
@@ -198,23 +220,17 @@ const DashboardGeneralData = ({ data }) => {
                       <Typography
                         component="span"
                         variant="h6"
-                        className={classes.secondaryLabel}
-                        style={{ marginBottom: 3, paddingTop: 10 }}
+                        className={classes.stoplightsLabel}
+                        style={{}}
                       >
                         {stoplights !== 1
                           ? t('views.familiesOverviewBlock.tookSnapshots')
                           : t('views.familiesOverviewBlock.tookSnapshot')}
                       </Typography>
                       {!expandData ? (
-                        <KeyboardArrowDown
-                          style={{ paddingTop: 10 }}
-                          className={classes.expandIcon}
-                        />
+                        <KeyboardArrowDown className={classes.expandIcon} />
                       ) : (
-                        <KeyboardArrowUp
-                          style={{ paddingTop: 10 }}
-                          className={classes.expandIcon}
-                        />
+                        <KeyboardArrowUp className={classes.expandIcon} />
                       )}
                     </Typography>
                   }
