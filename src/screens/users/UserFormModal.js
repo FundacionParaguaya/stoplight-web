@@ -379,7 +379,7 @@ const UserFormModal = ({
               setTouched,
               isSubmitting
             }) => (
-              <Form noValidate>
+              <Form noValidate autoComplete={'off'}>
                 <InputWithFormik
                   label={t('views.user.form.username')}
                   name="username"
