@@ -10,6 +10,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import { ROLES_NAMES } from '../utils/role-utils';
 
+// Import css files
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 const useStyles = makeStyles(theme => ({
   img: {
     padding: 30,

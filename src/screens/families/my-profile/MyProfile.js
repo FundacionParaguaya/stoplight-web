@@ -121,6 +121,21 @@ const useStyles = makeStyles(theme => ({
       minWidth: 350,
       margin: 30
     }
+  },
+  imagePreview: {
+    width: '100%'
+  },
+  previewContent: {
+    overflowY: 'hidden'
+  },
+  btnDialog: {
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'none'
+    }
+  },
+  btnContainer: {
+    padding: '8px 24px'
   }
 }));
 
