@@ -83,7 +83,12 @@ const ActivityFeed = ({
             return (
               <div
                 key={id}
-                className={`${classes.children} ${classes.clickable}`}
+                className={clsx(
+                  classes.children,
+                  (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION ||
+                    checkAccess(user, 'families')) &&
+                    classes.clickable
+                )}
                 onClick={() => handleClick(activityType, referenceId, familyId)}
               >
                 <div className={classes.iconContainer}>
