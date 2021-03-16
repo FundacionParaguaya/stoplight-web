@@ -8,6 +8,9 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import moment from 'moment';
 import Fuse from 'fuse.js';
 import { CircularProgress } from '@material-ui/core';
@@ -18,12 +21,14 @@ import { getDrafts } from '../api';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
+import Grid from '@material-ui/core/Grid';
 
 const useFilterStyles = makeStyles(theme => ({
   mainContainer: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    width: '100%'
   },
   statusFilterContainer: {
     display: 'flex',
@@ -50,7 +55,7 @@ const useFilterStyles = makeStyles(theme => ({
   },
   familiesFilterContainer: {
     display: 'flex',
-    width: '35%',
+    width: '100%',
     [theme.breakpoints.down('xs')]: {
       width: '100%'
     }
@@ -200,6 +205,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  toolbarContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 }));
 
@@ -223,6 +233,7 @@ const SnapshotsTable = ({
     open: false,
     draft: null
   });
+  const [selectedSnapShots, setSelectedSnapshots] = useState([]);
   const reloadDrafts = useCallback(() => {
     setSnapshots([]);
     setLoadingSnapshots(true);
@@ -298,6 +309,29 @@ const SnapshotsTable = ({
     }
     return filtered;
   }, [snapshots, familiesFilter, statusFilter]);
+
+  const onSelect = (snap, action) => {
+    console.log('onSelect', action);
+    let newSelectedSnapShots;
+    switch (action) {
+      case 'ADD':
+        newSelectedSnapShots = [...selectedSnapShots, snap];
+        setSelectedSnapshots(newSelectedSnapShots);
+        break;
+      case 'REMOVE':
+        newSelectedSnapShots = selectedSnapShots.filter(
+          selected => selected.draftId !== snap.draftId
+        );
+        setSelectedSnapshots(newSelectedSnapShots);
+        break;
+      case 'ADD_ALL':
+        break;
+      case 'REMOVE_ALL':
+        setSelectedSnapshots([]);
+        break;
+    }
+  };
+  console.log('selected', selectedSnapShots);
   return (
     <>
       {loadingSnapshots && (
@@ -316,12 +350,40 @@ const SnapshotsTable = ({
           <Typography variant="h5">
             {t('views.snapshotsTable.title')}
           </Typography>
-          <SnapshotsFilter
-            statusFilter={statusFilter}
-            setStatusFilter={setStatusFilter}
-            familiesFilter={familiesFilter}
-            setFamiliesFilter={setFamiliesFilter}
-          />
+          <Grid justify="center" container>
+            <Grid
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+              item
+              container
+              md={8}
+              sm={12}
+              xs={12}
+            >
+              <CheckBoxOutlineBlankIcon />
+            </Grid>
+
+            <Grid
+              item
+              className={classes.toolbarContainer}
+              md={4}
+              sm={12}
+              xs={12}
+            >
+              <Delete
+                className={classes.deleteStyle}
+                style={{ marginRight: 13 }}
+              />
+              <SnapshotsFilter
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                familiesFilter={familiesFilter}
+                setFamiliesFilter={setFamiliesFilter}
+              />
+            </Grid>
+          </Grid>
+
           <List
             className={`${classes.listStyle} visible-scrollbar visible-scrollbar-thumb`}
           >
@@ -367,6 +429,7 @@ const SnapshotsTable = ({
                 snapshot.status === SNAPSHOTS_STATUS.DRAFT
                   ? t('views.snapshotsTable.draft')
                   : t('views.snapshotsTable.completed');
+
               return (
                 <React.Fragment key={snapshot.draftId}>
                   <ListItem
@@ -377,6 +440,26 @@ const SnapshotsTable = ({
                     }
                   >
                     <div className={classes.itemContainer}>
+                      <div>
+                        {selectedSnapShots.find(
+                          selected => selected.draftId == snapshot.draftId
+                        ) ? (
+                          <CheckBoxIcon
+                            onClick={e => {
+                              e.stopPropagation();
+                              onSelect(snapshot, 'REMOVE');
+                            }}
+                          />
+                        ) : (
+                          <CheckBoxOutlineBlankIcon
+                            onClick={e => {
+                              e.stopPropagation();
+                              onSelect(snapshot, 'ADD');
+                            }}
+                          />
+                        )}
+                      </div>
+                      <div></div>
                       <Typography
                         className={classes.nameLabelStyle}
                         variant="subtitle1"
