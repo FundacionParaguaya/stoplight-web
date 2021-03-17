@@ -493,8 +493,9 @@
         "organization": "Organization",
         "facilitator": "Facilitator",
         "projects": "Projects",
-        "confirm": "Are you sure you want to move these families to another organization?",
-        "success": "Successfully migration",
+        "confirm": "Confirm migration",
+        "confirmSubtitle": " Are you sure you want to move these families to another organization?",
+        "success": "Families successfully migrated",
         "error": " Could not migrate successfully"
       }
     },

@@ -177,9 +177,16 @@ const MoveFamilyModal = ({
                   <Typography
                     variant="h5"
                     align="center"
-                    style={{ marginBottom: 10 }}
+                    style={{ marginTop: 10, marginBottom: 10 }}
                   >
                     {t('views.familyList.moveFamily.confirm')}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    align="center"
+                    style={{ marginBottom: 10 }}
+                  >
+                    {t('views.familyList.moveFamily.confirmSubtitle')}
                   </Typography>
                   {loading ? (
                     <CircularProgress className={classes.loadingContainer} />
@@ -235,6 +242,7 @@ const MoveFamilyModal = ({
                         stacked={true}
                         error={touched.organization && !values.facilitator}
                         required={true}
+                        closeMenuOnSelect
                       />
                       {showProjectsSelector(user) && (
                         <ProjectsSelector

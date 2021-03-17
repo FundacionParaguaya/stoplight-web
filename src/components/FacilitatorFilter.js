@@ -77,6 +77,7 @@ const FacilitatorFilter = ({
   stacked,
   isDisabled,
   isClearable,
+  closeMenuOnSelect,
   required,
   error
 }) => {
@@ -131,7 +132,7 @@ const FacilitatorFilter = ({
             IndicatorSeparator: () => <div />,
             ClearIndicator: () => <div />
           }}
-          closeMenuOnSelect={false}
+          closeMenuOnSelect={closeMenuOnSelect}
           isMulti={isMulti}
           styles={selectStyle}
           isClearable={isClearable}
