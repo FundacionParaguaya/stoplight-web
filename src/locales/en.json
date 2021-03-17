@@ -496,7 +496,7 @@
         "confirm": "Confirm migration",
         "confirmSubtitle": " Are you sure you want to move these families to another organization?",
         "success": "Families successfully migrated",
-        "error": " Could not migrate successfully"
+        "error": "Families could not be migrated"
       }
     },
     "organizationFilter": {

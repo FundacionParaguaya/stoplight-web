@@ -499,7 +499,7 @@
         "confirm": "Konfime migrasyon",
         "confirmSubtitle": "Èske ou sèten ou vle deplase fanmi sa yo nan yon lòt òganizasyon?",
         "success": "Fanmi imigre avèk siksè",
-        "error": "Pa t 'kapab emigre avèk siksè"
+        "error": "Fanmi yo pa t 'kapab imigre"
       }
     },
     "organizationFilter": {
