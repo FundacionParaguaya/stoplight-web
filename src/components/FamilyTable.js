@@ -254,7 +254,10 @@ const FamilyTable = ({
   return (
     <div className={classes.familyContainer}>
       <DeleteFamilyModal
-        onClose={() => setDeletingFamily({ open: false, family: null })}
+        onClose={() => {
+          setSelectedElements([]);
+          setDeletingFamily({ open: false, family: null });
+        }}
         open={deletingFamily.open}
         family={deletingFamily.family}
         tableRef={tableRef}
@@ -264,7 +267,10 @@ const FamilyTable = ({
           {numberOfRows} {t('views.familyList.rows')}
         </Typography>
         {showMoveAction(user, selectedElements) && (
-          <Tooltip title={'Move'} aria-label="name">
+          <Tooltip
+            title={t('views.familyList.moveFamily.move')}
+            aria-label="name"
+          >
             <SwapHorizIcon
               className={classes.icon}
               onClick={() => toggleMoveModal(selectedElements)}

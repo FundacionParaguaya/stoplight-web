@@ -490,6 +490,7 @@
       "rows": "Families Found",
       "moveFamily": {
         "moveOfOrg": "Move to other organization",
+        "move": "Move",
         "organization": "Organization",
         "facilitator": "Facilitator",
         "projects": "Projects",

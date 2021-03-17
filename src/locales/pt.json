@@ -489,6 +489,7 @@
       "rows": "Famílias Encontradas",
       "moveFamily": {
         "moveOfOrg": "Mude para outra organização",
+        "move": "Mude",
         "organization": "Organização",
         "facilitator": "Facilitador",
         "projects": "Projetos",
