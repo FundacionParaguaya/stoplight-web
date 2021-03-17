@@ -122,7 +122,7 @@ const DashboardGeneralData = ({ data }) => {
         >
           <Grid
             item
-            xl={6}
+            xl={3}
             lg={6}
             md={6}
             sm={12}
@@ -130,12 +130,16 @@ const DashboardGeneralData = ({ data }) => {
             container
             justify="center"
             spacing={1}
-            style={{ minHeight: 113, maxHeight: 113 }}
+            style={{
+              minHeight: 113,
+              maxHeight: 113,
+              justifyContent: 'flex-end'
+            }}
           >
             <Grid
               item
               xl={2}
-              lg={3}
+              lg={2}
               md={4}
               sm={4}
               xs={4}
@@ -146,8 +150,8 @@ const DashboardGeneralData = ({ data }) => {
             </Grid>
             <Grid
               item
-              xl={8}
-              lg={8}
+              xl={4}
+              lg={4}
               md={8}
               sm={8}
               xs={8}
@@ -176,7 +180,7 @@ const DashboardGeneralData = ({ data }) => {
           </Grid>
           <Grid
             item
-            xl={6}
+            xl={3}
             lg={6}
             md={6}
             sm={12}
@@ -187,7 +191,7 @@ const DashboardGeneralData = ({ data }) => {
             <Grid
               item
               xl={2}
-              lg={3}
+              lg={2}
               md={4}
               sm={4}
               xs={4}
@@ -202,8 +206,8 @@ const DashboardGeneralData = ({ data }) => {
             </Grid>
             <Grid
               item
-              xl={8}
-              lg={8}
+              xl={4}
+              lg={6}
               md={8}
               sm={8}
               xs={8}
