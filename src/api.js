@@ -412,6 +412,22 @@ export const deleteSnapshot = (user, snapshot) =>
     })
   });
 
+export const deleteDrafts = (user, drafts) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `mutation deleteDrafts($drafts: [String]) {deleteDrafts(drafts: $drafts)}`,
+      variables: {
+        drafts: drafts
+      }
+    })
+  });
+
 const formatPhone = (code, phone, surveyLocation) => {
   const phoneUtil = PhoneNumberUtil.getInstance();
   if (phone && phone.length > 0) {

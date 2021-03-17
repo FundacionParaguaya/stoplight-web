@@ -79,7 +79,7 @@ const useFilterStyles = makeStyles(theme => ({
     transform: 'translate(14px, -6px) scale(0.75)!important'
   }
 }));
-const SnapshotsFilter = ({ familiesFilter, setFamiliesFilter }) => {
+const SnapshotsFilter = ({ familiesFilter, onChangeFilter }) => {
   const classes = useFilterStyles();
   const { t } = useTranslation();
   return (
@@ -103,7 +103,7 @@ const SnapshotsFilter = ({ familiesFilter, setFamiliesFilter }) => {
             margin="dense"
             value={familiesFilter}
             fullWidth
-            onChange={e => setFamiliesFilter(e.target.value)}
+            onChange={e => onChangeFilter(e.target.value)}
           />
         </div>
       </div>
@@ -210,6 +210,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  checkboxStyle: {
+    cursor: 'pointer',
+    fontSize: '24px',
+    color: '#6A6A6A',
+    marginRight: 14
   }
 }));
 
@@ -229,13 +235,16 @@ const SnapshotsTable = ({
   const [familiesFilter, setFamiliesFilter] = useState('');
   const [snapshots, setSnapshots] = useState([]);
   const [loadingSnapshots, setLoadingSnapshots] = useState(false);
-  const [deletingDraft, setDeletingDraft] = useState({
+  // Type can be 'single' or 'multi' for the case of delete one draft or for the case of deleting multiple drafts
+  const [deletingDrafts, setDeletingDrafts] = useState({
     open: false,
-    draft: null
+    drafts: null,
+    type: null
   });
   const [selectedSnapShots, setSelectedSnapshots] = useState([]);
   const reloadDrafts = useCallback(() => {
     setSnapshots([]);
+    setSelectedSnapshots([]);
     setLoadingSnapshots(true);
     Promise.all([
       getDrafts(user).then(response => {
@@ -310,8 +319,12 @@ const SnapshotsTable = ({
     return filtered;
   }, [snapshots, familiesFilter, statusFilter]);
 
+  const onChangeFamilyFilter = value => {
+    setSelectedSnapshots([]);
+    setFamiliesFilter(value);
+  };
+
   const onSelect = (snap, action) => {
-    console.log('onSelect', action);
     let newSelectedSnapShots;
     switch (action) {
       case 'ADD':
@@ -325,13 +338,16 @@ const SnapshotsTable = ({
         setSelectedSnapshots(newSelectedSnapShots);
         break;
       case 'ADD_ALL':
+        setSelectedSnapshots(snap);
         break;
       case 'REMOVE_ALL':
         setSelectedSnapshots([]);
         break;
+      default:
+        setSelectedSnapshots([]);
     }
   };
-  console.log('selected', selectedSnapShots);
+
   return (
     <>
       {loadingSnapshots && (
@@ -342,10 +358,13 @@ const SnapshotsTable = ({
       {!loadingSnapshots && (
         <div className={classes.mainContainer}>
           <DeleteDraftModal
-            onClose={() => setDeletingDraft({ open: false, draft: null })}
-            open={deletingDraft.open}
-            draft={deletingDraft.draft}
+            onClose={() =>
+              setDeletingDrafts({ open: false, drafts: null, type: null })
+            }
+            open={deletingDrafts.open}
+            drafts={deletingDrafts.drafts}
             reloadDrafts={reloadDrafts}
+            type={deletingDrafts.type}
           />
           <Typography variant="h5">
             {t('views.snapshotsTable.title')}
@@ -361,7 +380,25 @@ const SnapshotsTable = ({
               sm={12}
               xs={12}
             >
-              <CheckBoxOutlineBlankIcon />
+              {filteredSnapshots.length === selectedSnapShots.length && (
+                <CheckBoxIcon
+                  className={classes.checkboxStyle}
+                  onClick={() => onSelect([], 'REMOVE_ALL')}
+                />
+              )}
+              {selectedSnapShots.length > 0 &&
+                selectedSnapShots.length !== filteredSnapshots.length && (
+                  <IndeterminateCheckBoxIcon
+                    className={classes.checkboxStyle}
+                    onClick={() => onSelect([], 'REMOVE_ALL')}
+                  />
+                )}
+              {selectedSnapShots.length === 0 && (
+                <CheckBoxOutlineBlankIcon
+                  className={classes.checkboxStyle}
+                  onClick={() => onSelect(filteredSnapshots, 'ADD_ALL')}
+                />
+              )}
             </Grid>
 
             <Grid
@@ -371,15 +408,27 @@ const SnapshotsTable = ({
               sm={12}
               xs={12}
             >
-              <Delete
-                className={classes.deleteStyle}
-                style={{ marginRight: 13 }}
-              />
+              {selectedSnapShots.length > 0 && (
+                <Delete
+                  className={classes.deleteStyle}
+                  style={{ marginRight: 13 }}
+                  onClick={() =>
+                    setDeletingDrafts({
+                      open: true,
+                      drafts: selectedSnapShots.map(snap => {
+                        return snap.draftId;
+                      }),
+                      type: 'multi'
+                    })
+                  }
+                />
+              )}
+
               <SnapshotsFilter
                 statusFilter={statusFilter}
                 setStatusFilter={setStatusFilter}
                 familiesFilter={familiesFilter}
-                setFamiliesFilter={setFamiliesFilter}
+                onChangeFilter={onChangeFamilyFilter}
               />
             </Grid>
           </Grid>
@@ -440,26 +489,26 @@ const SnapshotsTable = ({
                     }
                   >
                     <div className={classes.itemContainer}>
-                      <div>
-                        {selectedSnapShots.find(
-                          selected => selected.draftId == snapshot.draftId
-                        ) ? (
-                          <CheckBoxIcon
-                            onClick={e => {
-                              e.stopPropagation();
-                              onSelect(snapshot, 'REMOVE');
-                            }}
-                          />
-                        ) : (
-                          <CheckBoxOutlineBlankIcon
-                            onClick={e => {
-                              e.stopPropagation();
-                              onSelect(snapshot, 'ADD');
-                            }}
-                          />
-                        )}
-                      </div>
-                      <div></div>
+                      {selectedSnapShots.find(
+                        selected => selected.draftId === snapshot.draftId
+                      ) ? (
+                        <CheckBoxIcon
+                          className={classes.checkboxStyle}
+                          onClick={e => {
+                            e.stopPropagation();
+                            onSelect(snapshot, 'REMOVE');
+                          }}
+                        />
+                      ) : (
+                        <CheckBoxOutlineBlankIcon
+                          className={classes.checkboxStyle}
+                          onClick={e => {
+                            e.stopPropagation();
+                            onSelect(snapshot, 'ADD');
+                          }}
+                        />
+                      )}
+
                       <Typography
                         className={classes.nameLabelStyle}
                         variant="subtitle1"
@@ -505,7 +554,11 @@ const SnapshotsTable = ({
                           className={classes.deleteStyle}
                           onClick={e => {
                             e.stopPropagation();
-                            setDeletingDraft({ open: true, draft: snapshot });
+                            setDeletingDrafts({
+                              open: true,
+                              drafts: snapshot,
+                              type: 'single'
+                            });
                           }}
                         />
                       </div>
