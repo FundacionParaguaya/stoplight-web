@@ -29,6 +29,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
     minHeight: '35vh',
