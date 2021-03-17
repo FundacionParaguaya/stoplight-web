@@ -92,7 +92,7 @@ const FamilyNotes = ({
               placeholder={t('views.familyNotes.NotePlaceHolder')}
               multiline={true}
               value={note}
-              inputProps={{ maxLength: '350' }}
+              inputProps={{ maxLength: '10000' }}
               onChange={handleInput}
               margin="dense"
             />

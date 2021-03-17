@@ -16,6 +16,8 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import DeleteFamilyModal from './DeleteFamilyModal';
 import { ROLES_NAMES } from '../utils/role-utils';
 
+//background-color: rgba(0, 0, 0, 0.04);}
+
 const useStyles = makeStyles(theme => ({
   familyContainer: {
     backgroundColor: '#fff',
@@ -69,7 +71,11 @@ const useStyles = makeStyles(theme => ({
       textAlign: 'center'
     },
     '& .MuiTableCell-root > span': {
-      padding: '0px 0px 0px 8px'
+      padding: 8,
+      marginLeft: '16px !important'
+    },
+    '& .MuiTableCell-root > span:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)'
     }
   },
   nameLabelStyle: {
@@ -159,7 +165,8 @@ const useStyles = makeStyles(theme => ({
   icon: {
     borderRadius: 50,
     '&:hover': {
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: theme.palette.background.paper,
+      cursor: 'pointer'
     }
   }
 }));

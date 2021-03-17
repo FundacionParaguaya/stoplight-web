@@ -493,9 +493,10 @@
         "organization": "Organization",
         "facilitator": "Facilitator",
         "projects": "Projects",
-        "confirm": "Are you sure you want to move these families to another organization?",
-        "success": "Successfully migration",
-        "error": " Could not migrate successfully"
+        "confirm": "Confirm migration",
+        "confirmSubtitle": " Are you sure you want to move these families to another organization?",
+        "success": "Families successfully migrated",
+        "error": "Families could not be migrated"
       }
     },
     "organizationFilter": {
