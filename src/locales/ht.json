@@ -471,7 +471,9 @@
       "confirmDeletion": "Eske ou vle efase l vre?",
       "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
       "areYouSure": "Eske ou vle efase bwouyon sa a vre?",
-      "cannotDelete": "Te genyen yon erè nan efase bwouyon sa a.  Tanpri eseye ankò."
+      "areYouSureMulti": "Eske ou vle efase bwouyon sa yo vre?",
+      "cannotDelete": "Te genyen yon erè nan efase bwouyon sa a.  Tanpri eseye ankò.",
+      "cannotDeleteMulti": "Te genyen yon erè nan efase bwouyon sa yo.  Tanpri eseye ankò."
     },
     "deleteFamily": {
       "confirmDeletion": "Eske ou vle efase l vre?",

@@ -51,7 +51,7 @@ const DeleteDraftModal = props => {
           onClose();
         })
         .catch(() => {
-          props.enqueueSnackbar(t('views.deleteDraft.cannotDelete'), {
+          props.enqueueSnackbar(t('views.deleteDraft.cannotDeleteMulti'), {
             variant: 'error',
             action: key => (
               <IconButton
@@ -78,7 +78,10 @@ const DeleteDraftModal = props => {
           {t('views.deleteDraft.cannotUndo')}
         </Typography>
         <Typography className={classes.areYouSureLabel} variant="h5">
-          {t('views.deleteDraft.areYouSure')}
+          {type === 'single'
+            ? t('views.deleteDraft.areYouSure')
+            : t('views.deleteDraft.areYouSureMulti')}
+          {}
         </Typography>
         {deletingDraft && (
           <div className={classes.loadingContainer}>

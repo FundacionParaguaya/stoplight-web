@@ -446,7 +446,6 @@ const FamilyTable = ({
         actions={actionList()}
         title=""
         onSelectionChange={elements => {
-          console.log('elements', elements);
           setSelectedElements(elements);
         }}
       />
