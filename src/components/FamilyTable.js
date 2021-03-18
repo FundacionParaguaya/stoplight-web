@@ -451,7 +451,9 @@ const FamilyTable = ({
         data={loadFamilies}
         actions={actionList()}
         title=""
-        onSelectionChange={elements => setSelectedElements(elements)}
+        onSelectionChange={elements => {
+          setSelectedElements(elements);
+        }}
       />
     </div>
   );
