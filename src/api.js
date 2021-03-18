@@ -1880,3 +1880,19 @@ export const updateFamilyProfilePicture = (
       }
     })
   });
+
+export const picturesSignaturesBySnapshot = (snapshotId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query picturesSignaturesBySnapshot($snapshotId: Long!) { picturesSignaturesBySnapshot (snapshotId: $snapshotId) { category url } }',
+      variables: {
+        snapshotId
+      }
+    })
+  });
