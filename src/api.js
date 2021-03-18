@@ -2,6 +2,7 @@ import axios from 'axios';
 import store from './redux';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import CallingCodes from './screens/lifemap/CallingCodes';
+import imageCompression from 'browser-image-compression';
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -473,6 +474,12 @@ export const submitDraft = (user, snapshot, surveyLocation) => {
   });
 };
 
+const compressionOptions = {
+  maxSizeMB: 1,
+  maxWidthOrHeight: 1920,
+  useWebWorker: true
+};
+
 const dataURItoBlob = dataURI =>
   new Promise((resolve, reject) => {
     // convert base64 to raw binary data held in a string
@@ -502,7 +509,7 @@ const dataURItoBlob = dataURI =>
     resolve(blob);
   });
 
-export const submitPictures = (user, snapshot) => {
+export const submitPictures = async (user, snapshot) => {
   var formData = new FormData();
 
   const signProcess = async base64Sign => {
@@ -510,10 +517,11 @@ export const submitPictures = (user, snapshot) => {
     formData.append('sign', sign);
   };
 
-  snapshot.pictures.forEach(async pic => {
-    const picture = await dataURItoBlob(pic.base64.content);
-    formData.append('pictures', picture);
-  });
+  for (const pic of snapshot.pictures) {
+    const image = await dataURItoBlob(pic.base64.content);
+    const compressedImage = await imageCompression(image, compressionOptions);
+    formData.append('pictures', compressedImage);
+  }
 
   !!snapshot.sign && signProcess(snapshot.sign);
 
@@ -1469,11 +1477,21 @@ export const getIndicatorsByUser = (user, dimension, lang) =>
   });
 
 // submit resources
-export const submitResources = (user, resources) => {
+export const submitResources = async (user, resources) => {
   const formData = new FormData();
-  resources.forEach(resource => {
-    formData.append('resources', resource);
-  });
+
+  for (const resource of resources) {
+    if (resource.type === 'image/jpeg' || resource.type === 'image/png') {
+      const compressedImage = await imageCompression(
+        resource,
+        compressionOptions
+      );
+      compressedImage.path = compressedImage.name;
+      formData.append('resources', resource);
+    } else {
+      formData.append('resources', resource);
+    }
+  }
 
   return axios({
     method: 'post',
@@ -1722,11 +1740,13 @@ export const updateLocation = (user, familyId, lat, lng) =>
   });
 
 // submit files
-export const savePictures = (user, images) => {
+export const savePictures = async (user, images) => {
   const formData = new FormData();
-  images.forEach(image => {
-    formData.append('pictures', image);
-  });
+
+  for (const image of images) {
+    const compressedImage = await imageCompression(image, compressionOptions);
+    formData.append('pictures', compressedImage);
+  }
 
   return axios({
     method: 'post',
