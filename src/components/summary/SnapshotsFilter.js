@@ -68,7 +68,7 @@ const SnapShotsFilters = ({
                       }}
                       key={index}
                     >
-                      <Typography variant="subtitle1">
+                      <Typography variant="subtitle1" style={{ fontSize: 12 }}>
                         {index === 0 &&
                           `${t('views.snapShotFilter.allSnapShots')}`}
                         {index === 1 &&
@@ -88,7 +88,7 @@ const SnapShotsFilters = ({
   );
 };
 
-const styles = () => ({
+const styles = theme => ({
   mainContainer: {
     width: '100%',
     maxWidth: 300,
@@ -99,7 +99,13 @@ const styles = () => ({
     backgroundColor: '#FAFBFC',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 200
+    },
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: 120
+    }
   },
   button: {
     height: 'fit-content',

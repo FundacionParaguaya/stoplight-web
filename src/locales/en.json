@@ -65,6 +65,11 @@
     "december": "December"
   },
   "views": {
+    "404": {
+      "missing": "Something’s missing!",
+      "pageNotFound": "This page is missing or could not be found.",
+      "toHomePage": "Return to Home Page"
+    },
     "sign": {
       "addSign": "Add your signature",
       "signHere": "Signature",
@@ -86,7 +91,8 @@
       "logout": "Logout",
       "support": "Support",
       "projects": "Projects",
-      "solutions": "Bank of Solutions"
+      "solutions": "Bank of Solutions",
+      "my-profile": "My profile"
     },
     "synced": "Sync",
     "dashboard": {
@@ -175,7 +181,6 @@
       "phone": "Phone",
       "gender": "Gender",
       "dateOfBirth": "Date of birth",
-      "documentType": "Document type",
       "phoneCode": "Country Code Number",
       "countryOfBirth": "Country of birth",
       "selectMonth": "Select month",
@@ -188,10 +193,7 @@
       "preferNotToSay": "I prefer not to answer",
       "familyMember": "Member",
       "participant": "Participant",
-      "gender": "Gender",
-      "selectGender": "Select gender",
       "country": "Country of residence",
-      "selectACountry": "Select a country",
       "postcode": "Postcode",
       "streetOrHouseDescription": "Street or house description",
       "gpsAccurate": "GPS: Accurate to %n m",
@@ -479,12 +481,28 @@
       "familyName": "Family Name",
       "document": "Document",
       "familyCode": "Family Code",
+      "organization": "Organization",
       "search": "Search",
       "empty": "No Family to show",
       "searchFamily": "Name or Document Number",
       "delete": "Delete Family",
       "show": "Show Family",
-      "rows": "Families Found"
+      "rows": "Families Found",
+      "moveFamily": {
+        "moveOfOrg": "Move to other organization",
+        "move": "Move",
+        "organization": "Organization",
+        "facilitator": "Facilitator",
+        "projects": "Projects",
+        "confirm": "Confirm migration",
+        "confirmSubtitle": " Are you sure you want to move these families to another organization?",
+        "success": "Families successfully migrated",
+        "error": "Families could not be migrated"
+      }
+    },
+    "organizationFilter": {
+      "loading": "Loading...",
+      "noOption": "No organizations"
     },
     "facilitatorFilter": {
       "label": "Facilitators",
@@ -801,7 +819,8 @@
         "noRecords": "No records found",
         "chooseFilters": "Choose some filters and then click on ",
         "chooseFiltersEnd": " to download the results!",
-        "empty": "No results matching your filters"
+        "empty": "No results matching your filters",
+        "move": "Move"
       },
       "buttons": {
         "applyFilters": "Apply",
@@ -885,14 +904,26 @@
         "failed": "Could not delete solution"
       }
     },
-    "404": {
-      "missing": "Something’s missing!",
-      "pageNotFound": "This page is missing or could not be found.",
-      "toHomePage": "Return to Home Page"
-    },
     "error": {
       "subtitle": "Something went wrong on our end. Please try refreshing or",
       "toHomePage": " Go back to the main site."
+    },
+    "myProfile": {
+      "completeLifemap": "Complete your lifemap",
+      "error": {
+        "loadingSurvey": "Error loading survey",
+        "loadingFamily": "Error loading family data",
+        "loadingNotes": "Error loading family's note"
+      },
+      "resumeDraft": "Resume draft",
+      "picture": {
+        "placeholder": "Add your new profile picture here",
+        "uploadError": "You reached the 10MB limit! Please select another image.",
+        "save": {
+          "success": "Successfully updated profile picture",
+          "error": "Could not update profile picture"
+        }
+      }
     }
   },
   "reports": {

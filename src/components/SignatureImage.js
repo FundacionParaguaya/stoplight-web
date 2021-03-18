@@ -84,6 +84,7 @@ const SignatureImage = ({
     role === ROLES_NAMES.ROLE_APP_ADMIN ||
     role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
     role === ROLES_NAMES.ROLE_SURVEY_USER ||
+    role === ROLES_NAMES.ROLE_FAMILY_USER ||
     role === ROLES_NAMES.ROLE_ROOT ||
     role === ROLES_NAMES.ROLE_PS_TEAM;
 

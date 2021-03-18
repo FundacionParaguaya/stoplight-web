@@ -13,22 +13,24 @@ const Controllers = ({
 }) => {
   return (
     <div className={classes.iconsContainer}>
-      <i
-        className={`material-icons ${
-          type === PIE ? classes.iconActive : null
-        } ${classes.icon}`}
-        onClick={() => setIndicatorsType(PIE)}
-      >
-        trip_origin
-      </i>
-      <i
-        className={`material-icons ${
-          type === BAR ? classes.iconActive : null
-        } ${classes.icon}`}
-        onClick={() => setIndicatorsType(BAR)}
-      >
-        view_headline
-      </i>
+      <div className={classes.typesSelectorContainer}>
+        <i
+          className={`material-icons ${
+            type === PIE ? classes.iconActive : null
+          } ${classes.icon}`}
+          onClick={() => setIndicatorsType(PIE)}
+        >
+          trip_origin
+        </i>
+        <i
+          className={`material-icons ${
+            type === BAR ? classes.iconActive : null
+          } ${classes.icon}`}
+          onClick={() => setIndicatorsType(BAR)}
+        >
+          view_headline
+        </i>
+      </div>
       {sorting && (
         <div className={classes.indicatorsFilterContainer}>
           <IndicatorsFilter
@@ -42,7 +44,7 @@ const Controllers = ({
   );
 };
 
-const styles = {
+const styles = theme => ({
   icon: {
     color: '#E5E4E2',
     cursor: 'pointer',
@@ -60,12 +62,30 @@ const styles = {
     paddingBottom: 10,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column'
+    }
+  },
+  typesSelectorContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 32
+    }
   },
   iconActive: {
     color: '#626262'
   },
-  indicatorsFilterContainer: { width: '40%', marginLeft: 10, maxWidth: '250px' }
-};
+  indicatorsFilterContainer: {
+    width: '40%',
+    marginLeft: 10,
+    maxWidth: '250px',
+    [theme.breakpoints.down('xs')]: {
+      width: '60%',
+      marginTop: 10
+    }
+  }
+});
 
 export default withStyles(styles)(Controllers);

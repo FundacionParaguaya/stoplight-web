@@ -54,8 +54,7 @@ export class Overview extends Component {
       signSupport,
       pictureSupport
     } = this.props.currentSurvey.surveyConfig;
-    if (pictureSupport) {
-      // TODO go to pictures
+    if (pictureSupport && !this.props.currentDraft.justStoplight) {
       this.props.history.push('/lifemap/upload-pictures');
     } else if (signSupport) {
       this.props.history.push('/lifemap/sign');

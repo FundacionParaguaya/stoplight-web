@@ -65,6 +65,11 @@
     "december": "Diciembre"
   },
   "views": {
+    "404": {
+      "missing": "¡Algo está perdido!",
+      "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
+      "toHomePage": "Volver a la Página de Inicio"
+    },
     "sign": {
       "addSign": "Agrega tu firma",
       "signHere": "Firma",
@@ -170,13 +175,12 @@
       "selectGender": "Seleccione género",
       "documentType": "Tipo de documento",
       "documentNumber": "Número de documento",
-      "selectACountry": "Seleccione un/tu país",
+      "selectACountry": "Seleccione un país",
       "email": "Correo electrónico",
       "phoneCode": "Código de teléfono",
       "phone": "Teléfono",
       "gender": "Género",
       "dateOfBirth": "Fecha de nacimiento",
-      "documentType": "Tipo de documento",
       "countryOfBirth": "País de nacimiento",
       "selectMonth": "Seleccione mes",
       "selectValidDate": "Favor ingrese una fecha válida",
@@ -189,10 +193,7 @@
       "preferNotToSay": "Prefiero no responder",
       "familyMember": "Miembro",
       "participant": "Participante",
-      "gender": "Género",
-      "selectGender": "Seleccione género",
       "country": "País de residencia",
-      "selectACountry": "Seleccione un país",
       "postcode": "Código postal",
       "streetOrHouseDescription": "Descripción de la casa o calle",
       "gpsAccurate": "GPS: Preciso hasta %n m",
@@ -480,12 +481,28 @@
       "familyName": "Familia",
       "document": "Documento",
       "familyCode": "Código",
+      "organization": "Organización",
       "search": "Buscar",
       "empty": "No hay familias para mostrar",
       "searchFamily": "Nombre o número de documento",
       "delete": "Borrar Familia",
       "show": "Mostrar Familia",
-      "rows": "Familias Encontradas"
+      "rows": "Familias Encontradas",
+      "moveFamily": {
+        "moveOfOrg": "Mover a otra organización",
+        "move": "Mover",
+        "organization": "Organización",
+        "facilitator": "Facilitador",
+        "projects": "Proyectos",
+        "confirm": "Confirmar la migración",
+        "confirmSubtitle": "¿Está seguro de que desea trasladar estas familias a otra organización?",
+        "success": "Familias migradas exitosamente",
+        "error": "No se pudieron migrar familias"
+      }
+    },
+    "organizationFilter": {
+      "loading": "Cargando...",
+      "noOption": "No hay organizaciones"
     },
     "facilitatorFilter": {
       "label": "Facilitadores",
@@ -802,7 +819,8 @@
         "noRecords": "No se encontraron registros",
         "chooseFilters": "¡Elija algunos filtros y luego haga click en ",
         "chooseFiltersEnd": " para descargar los resultados!",
-        "empty": "No hay resultados que coincidan con tus filtros"
+        "empty": "No hay resultados que coincidan con tus filtros",
+        "move": "Mover"
       },
       "buttons": {
         "applyFilters": "Aplicar",
@@ -887,14 +905,26 @@
         "failed": "No es posible eliminar la solución"
       }
     },
-    "404": {
-      "missing": "¡Algo está perdido!",
-      "pageNotFound": "Esta página ha desaparecido o no se ha podido encontrar.",
-      "toHomePage": "Volver a la Página de Inicio"
-    },
     "error": {
       "subtitle": "Algo salió mal de nuestro lado. Intenta actualizar o",
       "toHomePage": " Regrese al sitio principal."
+    },
+    "myProfile": {
+      "completeLifemap": "Completa tu mapa de vida",
+      "error": {
+        "loadingSurvey": "Error al cargar la encuesta",
+        "loadingFamily": "Error al cargar los datos familiares",
+        "loadingNotes": "Error al cargar la nota de la familia"
+      },
+      "resumeDraft": "Reanudar borrador",
+      "picture": {
+        "placeholder": "Agrega tu nueva foto de perfil aquí",
+        "uploadError": "¡Has alcanzado el límite de 10 MB! \nSeleccione otra imagen.",
+        "save": {
+          "success": "Imagen de perfil actualizada con éxito",
+          "error": "No se pudo actualizar la foto de perfil"
+        }
+      }
     }
   },
   "reports": {

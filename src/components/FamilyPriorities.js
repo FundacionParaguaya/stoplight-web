@@ -48,6 +48,7 @@ const FamilyPriorities = ({
   const showAdministrationOptions = ({ role }) => {
     return (
       role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_FAMILY_USER ||
       role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
     );
   };

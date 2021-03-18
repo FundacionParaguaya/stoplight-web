@@ -47,6 +47,10 @@ const EditEconomicForm = lazy(() =>
   import('../screens/families/edit/EditEconomicForm')
 );
 
+const MyProfile = lazy(() =>
+  import('../screens/families/my-profile/MyProfile')
+);
+
 const Routes = ({ user }) => {
   return (
     <Suspense
@@ -92,7 +96,8 @@ const Routes = ({ user }) => {
             />
           )}
           {checkAccess(user, 'hubs') && <Route path="/hubs" component={Hubs} />}
-          {checkAccess(user, 'surveys') && (
+          {(checkAccess(user, 'surveys') ||
+            checkAccess(user, 'my-profile')) && (
             <Route path="/lifemap" component={Lifemap} />
           )}
           {checkAccess(user, 'families') && (
@@ -125,13 +130,15 @@ const Routes = ({ user }) => {
               component={EditLocation}
             />
           )}
-          {checkAccess(user, 'editFamilyImages') && (
+          {(checkAccess(user, 'editFamilyImages') ||
+            checkAccess(user, 'my-profile')) && (
             <Route
               path="/family/:familyId/edit-images/:snapshotId"
               component={EditImages}
             />
           )}
-          {checkAccess(user, 'editFamilyImages') && (
+          {(checkAccess(user, 'editFamilyImages') ||
+            checkAccess(user, 'my-profile')) && (
             <Route
               path="/family/:familyId/edit-sign/:snapshotId"
               component={EditSign}
@@ -145,6 +152,9 @@ const Routes = ({ user }) => {
               path="/priorities/:familyId"
               component={SelectIndicatorPriority}
             />
+          )}
+          {checkAccess(user, 'my-profile') && (
+            <Route path="/my-profile" component={MyProfile} />
           )}
           {checkAccess(user, 'dashboard') && (
             <Route

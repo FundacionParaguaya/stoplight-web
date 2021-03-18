@@ -24,7 +24,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: GREEN,
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight: 5
+    marginRight: 5,
+    [theme.breakpoints.down('sm')]: {
+      height: '15px',
+      width: '20px'
+    }
   },
   greyDot: {
     textDecoration: 'none',
@@ -33,7 +37,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: GREY,
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight: 5
+    marginRight: 5,
+    [theme.breakpoints.down('sm')]: {
+      height: '14px',
+      width: '25px'
+    }
   },
   ligthDot: {
     textDecoration: 'none',
@@ -42,7 +50,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: LIGHT_GREY,
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight: 5
+    marginRight: 5,
+    [theme.breakpoints.down('sm')]: {
+      height: '15px',
+      width: '27px'
+    }
   },
   legendContainer: {
     listStyleType: 'none',

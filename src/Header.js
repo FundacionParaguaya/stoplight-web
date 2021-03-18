@@ -32,7 +32,8 @@ import {
   checkAccessToSolution,
   NEW,
   ROLES,
-  ROLE_SURVEY_TAKER
+  checkAccess,
+  getHomePage
 } from './utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
@@ -133,7 +134,6 @@ const Header = ({ path, updateUser, user }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const windowSize = useWindowSize();
-  const isSurveyor = user.role === ROLE_SURVEY_TAKER;
 
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState({});
@@ -183,7 +183,7 @@ const Header = ({ path, updateUser, user }) => {
     });
   };
 
-  //Min wid calc is based on 105px widht per tab plus three fixed options
+  //Min width calc is based on 105px width per tab plus three fixed options
   const showFullNavbar = windowSize.width > (tabs.length + 3) * 105;
 
   return (
@@ -193,7 +193,11 @@ const Header = ({ path, updateUser, user }) => {
           <React.Fragment>
             {/* Logo to dashboard */}
             <NavLink
-              to={`/${!isSurveyor ? `dashboard` : `surveys`}`}
+              to={`/${
+                checkAccess(user, 'dashboard')
+                  ? `dashboard`
+                  : getHomePage(user.role)
+              }`}
               className={
                 path === `/dashboard`
                   ? `${classes.menuLink} ${classes.surveyLink}`

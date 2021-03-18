@@ -14,28 +14,49 @@ import LifemapDetailsTable from '../components/LifemapDetailsTable';
 import DetailsOverview from '../components/DetailsOverview';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import Header from '../components/Header';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
-  // export class LifemapDetail extends Component {
+  const { familyId } = useParams();
+  const tableRef = useRef();
+  const dateFormat = getDateFormatByLocale(language);
+
   const [family, setFamily] = useState({});
   const [firstParticipant, setFirstParticipant] = useState({});
-  let { familyId } = useParams();
-  const tableRef = useRef();
   const [value, setValue] = useState(1);
   const [snapshots, setSnapshots] = useState([]);
   const [numberOfRows, setNumberOfRows] = useState(0);
   const [snapshotsWithStoplight, setSnapshotsWithStoplight] = useState(0);
+  const [navigationOptions, setNavigationOptions] = useState([]);
+
   let count = 0;
-  const navigationOptions = [
-    { label: t('views.familyProfile.families'), link: '/families' },
-    { label: t('views.familyProfile.profile'), link: `/family/${familyId}` },
-    { label: t('general.lifeMaps'), link: `/detail/${familyId}` }
-  ];
-  const dateFormat = getDateFormatByLocale(language);
 
   useEffect(() => {
+    getNavigationOptions(user);
     loadFamilyData();
   }, []);
+
+  const getNavigationOptions = ({ role }) => {
+    let options = [];
+
+    if (role === ROLES_NAMES.ROLE_FAMILY_USER) {
+      options = [
+        { label: t('views.toolbar.my-profile'), link: `/my-profile` },
+        { label: t('general.lifeMaps'), link: `/detail/${familyId}` }
+      ];
+    } else {
+      options = [
+        { label: t('views.familyProfile.families'), link: '/families' },
+        {
+          label: t('views.familyProfile.profile'),
+          link: `/family/${familyId}`
+        },
+        { label: t('general.lifeMaps'), link: `/detail/${familyId}` }
+      ];
+    }
+
+    setNavigationOptions(options);
+  };
 
   const loadFamilyData = () => {
     getFamily(familyId, user).then(response => {

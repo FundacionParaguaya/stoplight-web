@@ -17,7 +17,9 @@ const ProjectsSelector = ({
   onBlur,
   projectData,
   organizationData,
-  stacked
+  stacked,
+  noDropdownArrow,
+  renderIfOptions
 }) => {
   const { t } = useTranslation();
 
@@ -70,31 +72,43 @@ const ProjectsSelector = ({
     projectsToShow = [...projectsOptions];
   }
 
+  const conditionalComponents = noDropdownArrow
+    ? {
+        DropdownIndicator: () => <div />,
+        IndicatorSeparator: () => <div />
+      }
+    : null;
+
   return (
     <div className={stacked ? classes.stackedContainer : classes.container}>
-      <Typography
-        variant="subtitle1"
-        className={stacked ? classes.stackedLabel : classes.label}
-      >
-        {label}
-      </Typography>
-      <div className={classes.selector}>
-        <Select
-          value={projectData}
-          onChange={value => onChangeProject(value, projectsOptions)}
-          onBlur={onBlur}
-          placeholder={withTitle ? '' : label}
-          isLoading={loading}
-          loadingMessage={() => t('views.projectFilter.loading')}
-          noOptionsMessage={() => t('views.projectFilter.noOption')}
-          options={projectsToShow}
-          styles={selectStyle}
-          closeMenuOnSelect={true}
-          isClearable={isClearable}
-          hideSelectedOptions
-          isMulti={isMulti}
-        />
-      </div>
+      {((renderIfOptions && projectsToShow.length) || !renderIfOptions) && (
+        <>
+          <Typography
+            variant="subtitle1"
+            className={stacked ? classes.stackedLabel : classes.label}
+          >
+            {label}
+          </Typography>
+          <div className={classes.selector}>
+            <Select
+              value={projectData}
+              onChange={value => onChangeProject(value, projectsOptions)}
+              onBlur={onBlur}
+              placeholder={withTitle ? '' : label}
+              isLoading={loading}
+              loadingMessage={() => t('views.projectFilter.loading')}
+              noOptionsMessage={() => t('views.projectFilter.noOption')}
+              options={projectsToShow}
+              styles={selectStyle}
+              closeMenuOnSelect={true}
+              isClearable={isClearable}
+              hideSelectedOptions
+              components={conditionalComponents}
+              isMulti={isMulti}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

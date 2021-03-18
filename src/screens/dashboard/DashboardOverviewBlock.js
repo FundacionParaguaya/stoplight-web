@@ -15,7 +15,10 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     color: theme.palette.grey.middle,
     minHeight: 159,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 20
+    }
   },
   familiesCountStyle: {
     fontSize: 34,
@@ -29,7 +32,10 @@ const useStyles = makeStyles(theme => ({
     fontWeight: theme.typography.fontWeightMedium,
     width: '100%',
     textAlign: 'left',
-    lineHeight: '0.85'
+    lineHeight: '0.85',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    }
   },
   secondaryLabel: {
     alignSelf: 'flex-end',
@@ -38,15 +44,32 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 5
     }
   },
+  familyCountSecondLine: {
+    alignSelf: 'flex-start',
+    marginLeft: 5,
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'left'
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: 5
+    }
+  },
   labelWithIcon: {
     fontSize: 34,
     fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20
+    }
   },
   peopleCountStyle: {
     fontSize: 16,
-    width: '100%'
+    width: '100%',
+    display: 'flex',
+    [theme.breakpoints.down('xs')]: {
+      alignItems: 'flex-start'
+    }
   },
   tooltip: {
     whiteSpace: 'pre-line'
@@ -64,12 +87,23 @@ const useStyles = makeStyles(theme => ({
   },
   countContainer: {
     minHeight: 160,
-    paddingTop: 13
+    paddingTop: 13,
+    [theme.breakpoints.down('xs')]: {
+      minHeight: 140
+    }
   },
   snapFilterContainer: {
     width: '40%',
     marginLeft: 10,
     maxWidth: '250px'
+  },
+  topCountriesLabel: {
+    alignSelf: 'flex-end',
+    marginLeft: 0,
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: 5,
+      marginTop: 10
+    }
   }
 }));
 
@@ -164,6 +198,7 @@ const DashboardOverviewBlock = ({
             xs={8}
             container
             justify="flex-start"
+            alignItems="flex-start"
             direction="column"
           >
             <Typography
@@ -182,7 +217,7 @@ const DashboardOverviewBlock = ({
                   : t('views.familiesOverviewBlock.family')}
               </Typography>
             </Typography>
-            <Typography className={classes.peopleCountStyle} variant="h6">
+            <Typography className={classes.familyCountSecondLine} variant="h6">
               {`
                         ${t('views.familiesOverviewBlock.including')}
                         ${data.peopleCount} ${t(
@@ -356,8 +391,7 @@ const DashboardOverviewBlock = ({
           <Typography
             component="span"
             variant="h5"
-            className={classes.secondaryLabel}
-            style={{ marginLeft: 0 }}
+            className={classes.topCountriesLabel}
           >
             {t('views.familiesOverviewBlock.topCountries')}
           </Typography>

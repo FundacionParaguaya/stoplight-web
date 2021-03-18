@@ -19,6 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { addPriority } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
 import { CircularProgress } from '@material-ui/core';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const styles = theme => ({
   backButton: {
@@ -224,7 +225,12 @@ const SelectIndicatorPriority = ({
   };
 
   const goToFamilyProfile = e => {
-    history.push(`/family/${familyId}`);
+    const redirectionPath =
+      user.role === ROLES_NAMES.ROLE_FAMILY_USER
+        ? `/my-profile`
+        : `/family/${familyId}`;
+
+    history.push(redirectionPath);
   };
 
   return (

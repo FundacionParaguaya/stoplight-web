@@ -281,6 +281,14 @@ const FamilyProfile = ({
     );
   };
 
+  const updateProject = project => {
+    let updatedFamily = {
+      ...family,
+      project: { id: project.value, title: project.label }
+    };
+    setFamily(updatedFamily);
+  };
+
   return (
     <div className={classes.mainSurveyContainerBoss}>
       <FamilyHeader family={family} user={user} />
@@ -442,7 +450,11 @@ const FamilyProfile = ({
           </React.Fragment>
         )}
         {checkAccessToProjects(user) && (
-          <ChangeProject familyId={familyId} currentProject={family.project} />
+          <ChangeProject
+            familyId={familyId}
+            currentProject={family.project}
+            updateProject={updateProject}
+          />
         )}
       </Container>
     </div>
