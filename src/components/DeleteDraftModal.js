@@ -20,7 +20,7 @@ const DeleteDraftModal = props => {
   const { t } = useTranslation();
   const onDeleteClicked = () => {
     setDeletingDraft(true);
-    if (type == 'single') {
+    if (type === 'single') {
       deleteDraft(user, drafts.draftId)
         .then(() => {
           setDeletingDraft(false);
@@ -42,7 +42,7 @@ const DeleteDraftModal = props => {
           onClose();
           setDeletingDraft(false);
         });
-    } else if (type == 'multi') {
+    } else if (type === 'multi') {
       console.log(drafts);
       deleteDrafts(user, drafts)
         .then(() => {

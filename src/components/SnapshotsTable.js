@@ -22,6 +22,7 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
 import Grid from '@material-ui/core/Grid';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const useFilterStyles = makeStyles(theme => ({
   mainContainer: {
@@ -348,6 +349,13 @@ const SnapshotsTable = ({
     }
   };
 
+  const showSelectionCheckbox = ({ role }) => {
+    return (
+      role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+    );
+  };
+
   return (
     <>
       {loadingSnapshots && (
@@ -380,25 +388,30 @@ const SnapshotsTable = ({
               sm={12}
               xs={12}
             >
-              {filteredSnapshots.length === selectedSnapShots.length && (
-                <CheckBoxIcon
-                  className={classes.checkboxStyle}
-                  onClick={() => onSelect([], 'REMOVE_ALL')}
-                />
-              )}
-              {selectedSnapShots.length > 0 &&
+              {showSelectionCheckbox(user) &&
+                filteredSnapshots.length > 0 &&
+                filteredSnapshots.length === selectedSnapShots.length && (
+                  <CheckBoxIcon
+                    className={classes.checkboxStyle}
+                    onClick={() => onSelect([], 'REMOVE_ALL')}
+                  />
+                )}
+              {showSelectionCheckbox(user) &&
+                selectedSnapShots.length > 0 &&
                 selectedSnapShots.length !== filteredSnapshots.length && (
                   <IndeterminateCheckBoxIcon
                     className={classes.checkboxStyle}
                     onClick={() => onSelect([], 'REMOVE_ALL')}
                   />
                 )}
-              {selectedSnapShots.length === 0 && (
-                <CheckBoxOutlineBlankIcon
-                  className={classes.checkboxStyle}
-                  onClick={() => onSelect(filteredSnapshots, 'ADD_ALL')}
-                />
-              )}
+              {showSelectionCheckbox(user) &&
+                filteredSnapshots.length > 0 &&
+                selectedSnapShots.length === 0 && (
+                  <CheckBoxOutlineBlankIcon
+                    className={classes.checkboxStyle}
+                    onClick={() => onSelect(filteredSnapshots, 'ADD_ALL')}
+                  />
+                )}
             </Grid>
 
             <Grid
@@ -489,24 +502,28 @@ const SnapshotsTable = ({
                     }
                   >
                     <div className={classes.itemContainer}>
-                      {selectedSnapShots.find(
-                        selected => selected.draftId === snapshot.draftId
-                      ) ? (
-                        <CheckBoxIcon
-                          className={classes.checkboxStyle}
-                          onClick={e => {
-                            e.stopPropagation();
-                            onSelect(snapshot, 'REMOVE');
-                          }}
-                        />
-                      ) : (
-                        <CheckBoxOutlineBlankIcon
-                          className={classes.checkboxStyle}
-                          onClick={e => {
-                            e.stopPropagation();
-                            onSelect(snapshot, 'ADD');
-                          }}
-                        />
+                      {showSelectionCheckbox(user) && (
+                        <>
+                          {selectedSnapShots.find(
+                            selected => selected.draftId === snapshot.draftId
+                          ) ? (
+                            <CheckBoxIcon
+                              className={classes.checkboxStyle}
+                              onClick={e => {
+                                e.stopPropagation();
+                                onSelect(snapshot, 'REMOVE');
+                              }}
+                            />
+                          ) : (
+                            <CheckBoxOutlineBlankIcon
+                              className={classes.checkboxStyle}
+                              onClick={e => {
+                                e.stopPropagation();
+                                onSelect(snapshot, 'ADD');
+                              }}
+                            />
+                          )}
+                        </>
                       )}
 
                       <Typography
