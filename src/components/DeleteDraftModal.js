@@ -43,7 +43,6 @@ const DeleteDraftModal = props => {
           setDeletingDraft(false);
         });
     } else if (type === 'multi') {
-      console.log(drafts);
       deleteDrafts(user, drafts)
         .then(() => {
           setDeletingDraft(false);
