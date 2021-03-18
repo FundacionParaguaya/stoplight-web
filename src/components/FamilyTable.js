@@ -254,10 +254,8 @@ const FamilyTable = ({
   return (
     <div className={classes.familyContainer}>
       <DeleteFamilyModal
-        onClose={() => {
-          setSelectedElements([]);
-          setDeletingFamily({ open: false, family: null });
-        }}
+        onClose={() => setDeletingFamily({ open: false, family: null })}
+        resetSelection={() => setSelectedElements([])}
         open={deletingFamily.open}
         family={deletingFamily.family}
         tableRef={tableRef}
