@@ -32,6 +32,11 @@ const styles = theme => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center'
+  },
+  generalContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
 
@@ -44,9 +49,7 @@ function withControllers(title, sorting) {
         const [sortingBy, setSortingBy] = useState(SORT_BY_OPTIONS.DEFAULT);
 
         return (
-          <div
-            style={{ width: '100%', display: 'flex', flexDirection: 'column' }}
-          >
+          <div className={classes.generalContainer}>
             <div className={classes.innerContainer}>
               <Typography variant="h5" style={{ paddingRight: 10 }}>
                 {t(title)}
