@@ -10,11 +10,10 @@ import { ROLES_NAMES } from '../utils/role-utils';
 
 const styles = theme => ({
   image: {
-    borderRadius: 50,
-    height: 'auto',
     width: '50%',
-    minWidth: 300,
-    maxWidth: 200,
+    minHeight: 200,
+    maxHeight: 500,
+    minWidth: 200,
     cursor: 'pointer'
   },
   basicInfo: {
@@ -77,16 +76,18 @@ const SignatureImage = ({
   showImage,
   familyId,
   snapshotId,
+  readOnly,
   history,
   user
 }) => {
   const showEditButtons = ({ role }) =>
-    role === ROLES_NAMES.ROLE_APP_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER ||
-    role === ROLES_NAMES.ROLE_FAMILY_USER ||
-    role === ROLES_NAMES.ROLE_ROOT ||
-    role === ROLES_NAMES.ROLE_PS_TEAM;
+    (role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_FAMILY_USER ||
+      role === ROLES_NAMES.ROLE_ROOT ||
+      role === ROLES_NAMES.ROLE_PS_TEAM) &&
+    !readOnly;
 
   return (
     <>
