@@ -555,7 +555,9 @@
           "success": "Socio Economic data updated successfully",
           "failed": "Could not update Socio Economic data"
         }
-      }
+      },
+      "survey": "Survey",
+      "surveyError": "Make sure your organization has access to the survey version before viewing the Family Profile."
     },
     "familyNotes": {
       "by": "by",
