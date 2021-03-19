@@ -48,18 +48,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     width: '100%',
     alignItems: 'center',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    [theme.breakpoints.down('xs')]: {
-      marginTop: 0
-    }
+    marginBottom: theme.spacing(1)
   },
   subtitle: {
     marginRight: theme.spacing(1)
   }
 }));
 
-const FamilyHeader = ({ family, user }) => {
+const FamilyHeader = ({ family, survey, user }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -75,7 +71,7 @@ const FamilyHeader = ({ family, user }) => {
     <Container variant="stretch">
       <NavigationBar options={navigationOptions} />
       <Grid container className={classes.titleContainer}>
-        <Grid item md={4} sm={6} xs={12} className={classes.familyInfo}>
+        <Grid item md={8} sm={6} xs={12} className={classes.familyInfo}>
           <Typography variant="h4" style={{ textTransform: 'capitalize' }}>
             {family.name}
           </Typography>
@@ -99,6 +95,14 @@ const FamilyHeader = ({ family, user }) => {
               <Typography variant="subtitle1">
                 {family.project.title}
               </Typography>
+            </div>
+          )}
+          {!!survey && survey.title && (
+            <div className={classes.container}>
+              <Typography variant="subtitle1" className={classes.subtitle}>
+                {t('views.familyProfile.survey')}
+              </Typography>
+              <Typography variant="subtitle1">{survey.title}</Typography>
             </div>
           )}
         </Grid>
