@@ -35,7 +35,8 @@ const OrganizationSelector = ({
   t,
   onChange,
   isMulti,
-  isClearable
+  isClearable,
+  maxMenuHeight
 }) => {
   const [options, setOptions] = useState([]);
   const [optionsLoading, setOptionsLoading] = useState(false);
@@ -75,6 +76,7 @@ const OrganizationSelector = ({
             placeholder=""
             options={options}
             isMulti={isMulti}
+            maxMenuHeight={maxMenuHeight}
             isClearable={isClearable}
             isLoading={optionsLoading}
             styles={selectStyle}

@@ -19,7 +19,8 @@ const ProjectsSelector = ({
   organizationData,
   stacked,
   noDropdownArrow,
-  renderIfOptions
+  renderIfOptions,
+  maxMenuHeight
 }) => {
   const { t } = useTranslation();
 
@@ -99,6 +100,7 @@ const ProjectsSelector = ({
               loadingMessage={() => t('views.projectFilter.loading')}
               noOptionsMessage={() => t('views.projectFilter.noOption')}
               options={projectsToShow}
+              maxMenuHeight={maxMenuHeight}
               styles={selectStyle}
               closeMenuOnSelect={true}
               isClearable={isClearable}

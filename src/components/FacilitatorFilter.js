@@ -78,6 +78,7 @@ const FacilitatorFilter = ({
   isDisabled,
   isClearable,
   closeMenuOnSelect,
+  maxMenuHeight,
   required,
   error
 }) => {
@@ -125,6 +126,7 @@ const FacilitatorFilter = ({
           isLoading={loading}
           loadingMessage={() => t('views.facilitatorFilter.loading')}
           noOptionsMessage={() => t('views.facilitatorFilter.noOption')}
+          maxMenuHeight={maxMenuHeight}
           options={facilitators}
           isDisabled={isDisabled}
           components={{
