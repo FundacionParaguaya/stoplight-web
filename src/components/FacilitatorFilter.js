@@ -80,6 +80,7 @@ const FacilitatorFilter = ({
   closeMenuOnSelect,
   maxMenuHeight,
   required,
+  orgRequired,
   error
 }) => {
   const [facilitators, setFacilitators] = useState([]);
@@ -93,20 +94,24 @@ const FacilitatorFilter = ({
     let orgIds = !(organizations || []).some(org => org.value === 'ALL')
       ? (organizations || []).map(o => o.value)
       : [];
-
-    getMentors(user, orgIds)
-      .then(response => {
-        const mentors = _.get(
-          response,
-          'data.data.getMentorsByOrganizations',
-          []
-        ).map(m => ({
-          label: m.username,
-          value: m.userId
-        }));
-        setFacilitators(mentors);
-      })
-      .finally(() => setLoading(false));
+    if (orgRequired && orgIds.length === 0) {
+      setFacilitators([]);
+      setLoading(false);
+    } else {
+      getMentors(user, orgIds)
+        .then(response => {
+          const mentors = _.get(
+            response,
+            'data.data.getMentorsByOrganizations',
+            []
+          ).map(m => ({
+            label: m.username,
+            value: m.userId
+          }));
+          setFacilitators(mentors);
+        })
+        .finally(() => setLoading(false));
+    }
   }, [user, organizations]);
 
   return (

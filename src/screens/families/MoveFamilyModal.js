@@ -238,6 +238,7 @@ const MoveFamilyModal = ({
                     organizations={
                       values.organization ? [values.organization] : null
                     }
+                    orgRequired
                     onChange={value => setFieldValue('facilitator', value)}
                     isClearable={true}
                     stacked={true}
