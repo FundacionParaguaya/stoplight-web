@@ -558,7 +558,9 @@
           "success": "Mizajou done sosyo-ekonomik yo reyisi",
           "failed": "Mizajou done sosyo-ekonomik yo pa t ka fèt."
         }
-      }
+      },
+      "survey": "Sondaj:",
+      "surveyError": "Asire w ke òganizasyon ou an gen aksè a vèsyon sondaj la anvan ou gade Profile Fanmi an."
     },
     "familyNotes": {
       "by": "Pa",

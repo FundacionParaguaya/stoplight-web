@@ -77,6 +77,16 @@ const FamilyProfile = ({
   const [projects, setProjects] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
+  const showErrorMessage = message =>
+    enqueueSnackbar(message, {
+      variant: 'error',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
+
   const handleOpenImage = image => {
     setImagePreview(true);
     setImageUrl(image);
@@ -135,6 +145,7 @@ const FamilyProfile = ({
           setSurvey(response.data.data.surveyById);
         })
         .catch(() => {
+          showErrorMessage(t('views.familyProfile.surveyError'));
           setLoadingSurvey(false);
         });
     });
@@ -153,14 +164,7 @@ const FamilyProfile = ({
       .catch(e => {
         console.log(e);
         setLoadingSurvey(false);
-        enqueueSnackbar(t('views.familyPriorities.errorLoading'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showErrorMessage(t('views.familyPriorities.errorLoading'));
       });
   };
 
@@ -207,14 +211,7 @@ const FamilyProfile = ({
       })
       .catch(e => {
         setLoading(false);
-        enqueueSnackbar(t('views.familyProfile.familyNoteError'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showErrorMessage(t('views.familyProfile.familyNoteError'));
       });
   };
 
@@ -284,7 +281,7 @@ const FamilyProfile = ({
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
-      <FamilyHeader family={family} user={user} />
+      <FamilyHeader family={family} survey={survey} user={user} />
 
       {/* Firts Participant Information */}
       <Container className={classes.basicInfo} variant="fluid">

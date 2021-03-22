@@ -554,7 +554,9 @@
           "success": "Dados socioeconômicos atualizados corretamente",
           "failed": "Os dados socioeconômicos não puderam ser atualizados"
         }
-      }
+      },
+      "survey": "Pesquisa:",
+      "surveyError": "Certifique-se de que sua organização tenha acesso à versão da pesquisa antes de visualizar o Perfil da Família."
     },
     "familyNotes": {
       "by": "por",
