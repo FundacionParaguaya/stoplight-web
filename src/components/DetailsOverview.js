@@ -568,6 +568,7 @@ const DetailsOverview = ({
         questions={snapshot}
         priorities={prioritiesList}
         fullWidth={true}
+        readOnly
       />
 
       <FamilyAchievements achievements={achievementsList} fullWidth={true} />
