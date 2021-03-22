@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import englishLogo from '../../assets/english.png';
 import paragLogo from '../../assets/paraguay.png';
 import portugueseLogo from '../../assets/portuguese.png';
+import creoleLogo from '../../assets/creole.png';
 
 const useStyles = makeStyles(theme => ({
   menuList: {
@@ -72,6 +73,9 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
     case 'pt':
       logo = portugueseLogo;
       break;
+    case 'ht':
+      logo = creoleLogo;
+      break;
     default:
   }
 
@@ -98,6 +102,7 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
           {language === 'en' && 'English'}
           {language === 'es' && 'Español'}
           {language === 'pt' && 'Português'}
+          {language === 'ht' && 'Creole'}
         </Typography>
         <KeyboardArrowDown className={classes.rightIcon} />
       </Button>
@@ -151,6 +156,17 @@ const SolutionLangPicker = ({ setLanguage, language }) => {
                       alt="eng"
                     />
                     Português
+                  </MenuItem>
+                  <MenuItem
+                    className={classes.menuItem}
+                    onClick={() => handleClose('ht')}
+                  >
+                    <img
+                      className={classes.imgLogo}
+                      src={creoleLogo}
+                      alt="eng"
+                    />
+                    Creole
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>
