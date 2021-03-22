@@ -556,7 +556,7 @@
           "failed": "No se pudieron actualizar los datos socioeconómicos"
         }
       },
-      "survey": "Encuesta",
+      "survey": "Encuesta:",
       "surveyError": "Asegúrese de que su organización tenga acceso a la versión de la encuesta antes de ver el perfil familiar."
     },
     "familyNotes": {
