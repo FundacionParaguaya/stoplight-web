@@ -973,7 +973,7 @@ export const getPrioritiesAchievementByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
+        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
       variables: {
         familyId: familyId
       }
@@ -1909,6 +1909,24 @@ export const picturesSignaturesBySnapshot = (snapshotId, user) =>
         'query picturesSignaturesBySnapshot($snapshotId: Long!) { picturesSignaturesBySnapshot (snapshotId: $snapshotId) { category url } }',
       variables: {
         snapshotId
+      }
+    })
+  });
+
+export const deletePriority = (id, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteSnapshotStoplightPriority($priority: PriorityDtoInput) {deleteSnapshotStoplightPriority(priority: $priority){successful}}',
+      variables: {
+        priority: {
+          id
+        }
       }
     })
   });

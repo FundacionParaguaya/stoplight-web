@@ -576,7 +576,14 @@
       "selectIndicator": "Selecione um Indicador",
       "backToProfile": "Regressar ao Perfil da Família",
       "addPriority": "Adicionar Prioridade",
-      "updatedAt": "Data de Criação"
+      "updatedAt": "Data de Criação",
+      "delete": {
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "confirmText": "Tem certeza de que deseja excluir esta Prioridade?",
+        "confirmTitle": "Confirmar exclusão",
+        "failed": "Não foi possível excluir a prioridade",
+        "success": "A prioridade foi excluída"
+      }
     },
     "familyAchievements": {
       "achievements": "Conquistas",
