@@ -274,18 +274,20 @@ const FamilyPriorities = ({
                           container
                           justify="flex-end"
                         >
-                          <Tooltip
-                            title={t('views.solutions.form.deleteButton')}
-                          >
-                            <Button
-                              onClick={() => {
-                                setSelectedPriority(item);
-                                setOpenDeleteModal(true);
-                              }}
+                          {showAdministrationOptions(user) && (
+                            <Tooltip
+                              title={t('views.solutions.form.deleteButton')}
                             >
-                              <Delete />
-                            </Button>
-                          </Tooltip>
+                              <Button
+                                onClick={() => {
+                                  setSelectedPriority(item);
+                                  setOpenDeleteModal(true);
+                                }}
+                              >
+                                <Delete />
+                              </Button>
+                            </Tooltip>
+                          )}
                         </Grid>
                       </Grid>
                     </div>
