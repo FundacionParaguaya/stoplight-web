@@ -107,7 +107,6 @@ const DeletePriorityModal = ({
             </IconButton>
           )
         });
-        setDeletingPriority(false);
         toggleModal();
       });
   };
