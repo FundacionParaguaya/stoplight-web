@@ -580,7 +580,14 @@
       "selectIndicator": "Chwazi yon endikatè",
       "backToProfile": "Tounen nan Pwofil Fanmi an",
       "addPriority": "Ajoute yon priyorite",
-      "updatedAt": "Dat kreyasyon"
+      "updatedAt": "Dat kreyasyon",
+      "delete": {
+        "cannotUndo": "Ou pa ka defèt aksyon sa a!",
+        "confirmText": "Èske ou sèten ou vle efase priyorite sa a?",
+        "confirmTitle": "Konfime sipresyon",
+        "failed": "Pa t 'kapab efase Priyorite",
+        "success": "Priyorite a te efase"
+      }
     },
     "familyAchievements": {
       "achievements": "Akonplisman",
