@@ -18,8 +18,9 @@ const renderCustomizedLabel = (
   language,
   countriesTotal
 ) => {
+  const lang = getLanguageByCode(language);
   let countryOptions = countries(
-    require(`localized-countries/data/${getLanguageByCode(language, false)}`)
+    require(`localized-countries/data/${lang}`)
   ).array();
   let country = countryOptions.find(country => country.code === countryCode);
 

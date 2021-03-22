@@ -51,9 +51,10 @@ const CountrySelector = ({
 
   useEffect(() => {
     setLoading(true);
-    let lang = !!parentLang ? parentLang : language;
+    const lang = !!parentLang ? parentLang : language;
+    const languag = getLanguageByCode(lang);
     let countriesOptions = countries(
-      require(`localized-countries/data/${getLanguageByCode(lang, false)}`)
+      require(`localized-countries/data/${languag}`)
     ).array();
     setCountryOptions(
       countriesOptions.map(country => ({

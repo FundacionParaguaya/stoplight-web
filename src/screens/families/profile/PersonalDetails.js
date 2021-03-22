@@ -117,8 +117,9 @@ const PersonalDetails = ({
     i18n: { language }
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
+  const lang = getLanguageByCode(language);
   const countryOptions = countries(
-    require(`localized-countries/data/${getLanguageByCode(language, false)}`)
+    require(`localized-countries/data/${lang}`)
   ).array();
   const { familyId } = useParams();
 

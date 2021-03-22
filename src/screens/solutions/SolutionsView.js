@@ -240,7 +240,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     updateSolution(id);
 
     let countryOptions = countries(
-      require(`localized-countries/data/${getLanguageByCode(language, false)}`)
+      require(`localized-countries/data/${getLanguageByCode(language)}`)
     ).array();
     getSolutionById(user, id)
       .then(response => {

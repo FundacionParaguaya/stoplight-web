@@ -168,8 +168,9 @@ const Solutions = ({ classes, user, history }) => {
     t,
     i18n: { language }
   } = useTranslation();
+  const lang = getLanguageByCode(language);
   const countryOptions = countries(
-    require(`localized-countries/data/${getLanguageByCode(language, false)}`)
+    require(`localized-countries/data/${lang}`)
   ).array();
 
   const [loading, setLoading] = useState(true);
