@@ -19,10 +19,7 @@ export const getDecimalSeparatorByLang = lang => {
   return conf.DECIMAL;
 };
 
-export const getLanguageByCodeForDates = langCode => {
-  return langCode === 'ht' ? 'fr' : langCode;
-};
-
-export const getLanguageByCodeCreoleExceptions = langCode => {
+export const getLanguageByCode = (langCode, dateCase = true) => {
+  if (dateCase) return langCode === 'ht' ? 'fr' : langCode;
   return langCode === 'ht' ? 'en' : langCode;
 };

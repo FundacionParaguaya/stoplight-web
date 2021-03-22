@@ -6,7 +6,7 @@ import moment from 'moment';
 import 'moment/locale/pt';
 import 'moment/locale/fr';
 import 'moment/locale/es';
-import { getLanguageByCodeForDates } from '../utils/lang-utils';
+import { getLanguageByCode } from '../utils/lang-utils';
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 const removePeriod = str => str.replace('.', '');
@@ -21,12 +21,12 @@ moment.updateLocale('es', {
   weekdaysMin: [...moment.weekdaysMin().map(day => capitalize(day))]
 });
 const DatePickerProvider = ({ i18n: { language }, children }) => {
-  moment.locale(getLanguageByCodeForDates(language));
+  moment.locale(getLanguageByCode(language));
 
   return (
     <MuiPickersUtilsProvider
       utils={MomentUtils}
-      locale={getLanguageByCodeForDates(language)}
+      locale={getLanguageByCode(language)}
       moment={moment}
     >
       {children}

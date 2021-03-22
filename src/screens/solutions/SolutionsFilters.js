@@ -11,7 +11,7 @@ import SearchTextFilter from '../../components/filters/SearchTextFilter';
 import { ROLES_NAMES } from '../../utils/role-utils';
 
 import SolutionTypeSelector from './SolutionTypeSelector';
-import { getLanguageByCodeForDates } from '../../utils/lang-utils';
+import { getLanguageByCode } from '../../utils/lang-utils';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -91,7 +91,7 @@ const SolutionFilters = ({
             <CountrySelector
               withTitle={false}
               countryData={countryData}
-              parentLang={getLanguageByCodeForDates(language)}
+              parentLang={getLanguageByCode(language)}
               onChangeCountry={onChangeCountry}
               error={false}
               required={false}

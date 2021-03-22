@@ -36,10 +36,7 @@ import ExitSolutionModal from '../../components/ExitModal';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
 import SolutionTypeSelector from './SolutionTypeSelector';
-import {
-  getLanguageByCodeForDates,
-  getLanguageByCodeCreoleExceptions
-} from '../../utils/lang-utils';
+import { getLanguageByCode } from '../../utils/lang-utils';
 
 const inputStyle = {
   height: 25,
@@ -368,8 +365,9 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
               value: type.code
             }));
             let countryOptions = countries(
-              require(`localized-countries/data/${getLanguageByCodeCreoleExceptions(
-                language
+              require(`localized-countries/data/${getLanguageByCode(
+                language,
+                false
               )}`)
             ).array();
 
@@ -594,7 +592,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                           })
                         )
                       }
-                      parentLang={getLanguageByCodeForDates(values.language)}
+                      parentLang={getLanguageByCode(values.language)}
                       error={touched.country && !values.country}
                       required={true}
                     />

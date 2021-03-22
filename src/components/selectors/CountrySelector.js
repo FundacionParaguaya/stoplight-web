@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { selectStyle } from '../../utils/styles-utils';
-import { getLanguageByCodeCreoleExceptions } from '../../utils/lang-utils';
+import { getLanguageByCode } from '../../utils/lang-utils';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -53,9 +53,7 @@ const CountrySelector = ({
     setLoading(true);
     let lang = !!parentLang ? parentLang : language;
     let countriesOptions = countries(
-      require(`localized-countries/data/${getLanguageByCodeCreoleExceptions(
-        lang
-      )}`)
+      require(`localized-countries/data/${getLanguageByCode(lang, false)}`)
     ).array();
     setCountryOptions(
       countriesOptions.map(country => ({
