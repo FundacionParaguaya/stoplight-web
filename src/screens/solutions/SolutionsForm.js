@@ -364,8 +364,9 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
               label: type.description,
               value: type.code
             }));
+            const lang = getLanguageByCode(language);
             let countryOptions = countries(
-              require(`localized-countries/data/${getLanguageByCode(language)}`)
+              require(`localized-countries/data/${lang}`)
             ).array();
 
             const updatedSolution = {
