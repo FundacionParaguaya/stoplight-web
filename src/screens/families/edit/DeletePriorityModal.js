@@ -99,6 +99,7 @@ const DeletePriorityModal = ({
       })
       .catch(e => {
         console.log(e);
+        setDeletingPriority(false);
         enqueueSnackbar(t('views.familyPriorities.delete.failed'), {
           variant: 'error',
           action: key => (
