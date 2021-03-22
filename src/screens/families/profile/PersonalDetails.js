@@ -17,6 +17,7 @@ import familyFaceIcon from '../../../assets/family_face_large.png';
 import MarkerIcon from '../../../assets/marker.png';
 import { getDateFormatByLocale } from '../../../utils/date-utils';
 import { ROLES_NAMES } from '../../../utils/role-utils';
+import { getLanguageByCodeCreoleExceptions } from '../../../utils/lang-utils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -117,7 +118,9 @@ const PersonalDetails = ({
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   const countryOptions = countries(
-    require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
+    require(`localized-countries/data/${getLanguageByCodeCreoleExceptions(
+      language
+    )}`)
   ).array();
   const { familyId } = useParams();
 

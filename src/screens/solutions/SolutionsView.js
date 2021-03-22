@@ -32,6 +32,7 @@ import {
   getIndicatorColorByDimension
 } from '../../utils/styles-utils';
 import DeleteSolutionModal from './DeleteSolutionModal';
+import { getLanguageByCodeCreoleExceptions } from '../../utils/lang-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -239,7 +240,9 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
     updateSolution(id);
 
     let countryOptions = countries(
-      require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
+      require(`localized-countries/data/${getLanguageByCodeCreoleExceptions(
+        language
+      )}`)
     ).array();
     getSolutionById(user, id)
       .then(response => {
