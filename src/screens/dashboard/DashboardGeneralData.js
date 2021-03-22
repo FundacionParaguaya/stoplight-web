@@ -123,7 +123,7 @@ const DashboardGeneralData = ({ data }) => {
         >
           <Grid
             item
-            xl={3}
+            xl={6}
             lg={6}
             md={6}
             sm={12}
@@ -181,7 +181,7 @@ const DashboardGeneralData = ({ data }) => {
           </Grid>
           <Grid
             item
-            xl={3}
+            xl={6}
             lg={6}
             md={6}
             sm={12}
