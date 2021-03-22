@@ -28,6 +28,7 @@ const FamilyPriorities = ({
   stoplightSkipped,
   questions,
   priorities,
+  readOnly,
   user,
   fullWidth = false,
   t,
@@ -52,9 +53,10 @@ const FamilyPriorities = ({
 
   const showAdministrationOptions = ({ role }) => {
     return (
-      role === ROLES_NAMES.ROLE_SURVEY_USER ||
-      role === ROLES_NAMES.ROLE_FAMILY_USER ||
-      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+      (role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        role === ROLES_NAMES.ROLE_FAMILY_USER ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
+      !readOnly
     );
   };
 
