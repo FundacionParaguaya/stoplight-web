@@ -1252,6 +1252,22 @@ export const getProjectsByOrganization = (user, orgsId) =>
     })
   });
 
+export const projectsBySurveyUser = (user, surveyUserId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query projectsBySurveyUser($user: Long) { projectsBySurveyUser (user: $user) { id, title, description, color, active} }',
+      variables: {
+        user: surveyUserId
+      }
+    })
+  });
+
 export const getProjectsPaginated = (
   user,
   { page, filter, organizations, sortBy, sortDirection, organization }
