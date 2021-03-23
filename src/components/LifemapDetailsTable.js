@@ -10,7 +10,7 @@ import IndicatorBall from './summary/IndicatorBall';
 import { theme } from '../theme';
 
 const useStyles = makeStyles(theme => ({
-  familyContainer: {
+  tableContainer: {
     zIndex: 2,
     backgroundColor: theme.palette.background.default,
     display: 'flex',
@@ -188,13 +188,13 @@ const LifemapDetailsTable = ({
     return columns;
   };
   return (
-    <div className={classes.familyContainer}>
+    <div className={classes.tableContainer}>
       <MaterialTable
         tableRef={tableRef}
         options={{
           search: false,
           toolbar: false,
-          pageSize: numberOfRows,
+          pageSize: numberOfRows > 0 ? numberOfRows : 10,
           pageSizeOptions: [],
           draggable: false,
           rowStyle: rowData => ({
