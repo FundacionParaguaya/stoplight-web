@@ -59,7 +59,9 @@ const LanguageSelector = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
-    const language = normalizeLanguages(window.navigator.language);
+    const language =
+      localStorage.getItem('language') ||
+      normalizeLanguages(window.navigator.language);
     localStorage.setItem('language', language);
     setLanguage(language);
   }, []);
