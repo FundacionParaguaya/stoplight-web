@@ -112,7 +112,7 @@ const FacilitatorFilter = ({
         })
         .finally(() => setLoading(false));
     }
-  }, [user, organizations]);
+  }, [user, JSON.stringify(organizations)]);
 
   return (
     <div className={stacked ? classes.stackedContainer : classes.container}>

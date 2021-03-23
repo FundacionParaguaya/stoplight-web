@@ -1,13 +1,9 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import * as _ from 'lodash';
 import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
@@ -29,6 +25,7 @@ import Container from '../components/Container';
 import FamilyAchievements from '../components/FamilyAchievements';
 import FamilyImages from '../components/FamilyImages';
 import FamilyNotes from '../components/FamilyNotes';
+import ImagePreview from '../components/ImagePreview';
 import FamilyPriorities from '../components/FamilyPriorities';
 import SignatureImage from '../components/SignatureImage';
 import withLayout from '../components/withLayout';
@@ -80,13 +77,19 @@ const FamilyProfile = ({
   const [projects, setProjects] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
+  const showErrorMessage = message =>
+    enqueueSnackbar(message, {
+      variant: 'error',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
+
   const handleOpenImage = image => {
     setImagePreview(true);
     setImageUrl(image);
-  };
-
-  const handleCloseImage = () => {
-    setImagePreview(false);
   };
 
   const showAdministrationOptions = ({ role }) => {
@@ -142,6 +145,7 @@ const FamilyProfile = ({
           setSurvey(response.data.data.surveyById);
         })
         .catch(() => {
+          showErrorMessage(t('views.familyProfile.surveyError'));
           setLoadingSurvey(false);
         });
     });
@@ -160,14 +164,7 @@ const FamilyProfile = ({
       .catch(e => {
         console.log(e);
         setLoadingSurvey(false);
-        enqueueSnackbar(t('views.familyPriorities.errorLoading'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showErrorMessage(t('views.familyPriorities.errorLoading'));
       });
   };
 
@@ -214,14 +211,7 @@ const FamilyProfile = ({
       })
       .catch(e => {
         setLoading(false);
-        enqueueSnackbar(t('views.familyProfile.familyNoteError'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showErrorMessage(t('views.familyProfile.familyNoteError'));
       });
   };
 
@@ -291,7 +281,7 @@ const FamilyProfile = ({
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
-      <FamilyHeader family={family} user={user} />
+      <FamilyHeader family={family} survey={survey} user={user} />
 
       {/* Firts Participant Information */}
       <Container className={classes.basicInfo} variant="fluid">
@@ -408,31 +398,11 @@ const FamilyProfile = ({
         />
       )}
 
-      <Dialog
+      <ImagePreview
         open={imagePreview}
-        onClose={handleCloseImage}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent className={classes.previewContent}>
-          <img
-            className={classes.imagePreview}
-            src={imageUrl}
-            alt={'Family gallery or signature'}
-          />
-        </DialogContent>
-        <DialogActions className={classes.btnContainer}>
-          <Button
-            href={imageUrl}
-            className={classes.btnDialog}
-            download
-            color="primary"
-          >
-            <GetAppIcon />
-            {t('views.familyProfile.download')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        togglePreview={setImagePreview}
+        imageUrl={imageUrl}
+      />
 
       <Container className={classes.administratorContainer} variant="fluid">
         {/* AssignFacilitator */}
@@ -562,21 +532,6 @@ const styles = theme => ({
   retakeButton: {
     ...theme.overrides.label,
     color: theme.palette.background.paper
-  },
-  imagePreview: {
-    width: '100%'
-  },
-  previewContent: {
-    overflowY: 'hidden'
-  },
-  btnDialog: {
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'none'
-    }
-  },
-  btnContainer: {
-    padding: '8px 24px'
   },
   facilitatorButton: {
     marginLeft: '2rem',

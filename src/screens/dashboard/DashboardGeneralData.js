@@ -37,8 +37,8 @@ const useStyles = makeStyles(theme => ({
     alignSelf: 'flex-end',
     marginLeft: 5,
     marginBottom: 3,
-    paddingTop: 10,
-    [theme.breakpoints.down('xs')]: {
+    paddingTop: 8,
+    [theme.breakpoints.down('sm')]: {
       paddingTop: 0
     }
   },
@@ -47,12 +47,13 @@ const useStyles = makeStyles(theme => ({
     fontWeight: theme.typography.fontWeightMedium,
     display: 'flex',
     flexWrap: 'wrap',
+    paddingTop: 7,
     [theme.breakpoints.down('sm')]: {
       fontSize: 20
     }
   },
   expandIcon: {
-    paddingTop: 10,
+    paddingTop: 0,
     marginTop: 6,
     [theme.breakpoints.down('sm')]: {
       paddingTop: 0
@@ -122,7 +123,7 @@ const DashboardGeneralData = ({ data }) => {
         >
           <Grid
             item
-            xl={3}
+            xl={6}
             lg={6}
             md={6}
             sm={12}
@@ -180,7 +181,7 @@ const DashboardGeneralData = ({ data }) => {
           </Grid>
           <Grid
             item
-            xl={3}
+            xl={6}
             lg={6}
             md={6}
             sm={12}
@@ -214,86 +215,90 @@ const DashboardGeneralData = ({ data }) => {
               container
               justify="flex-start"
             >
-              <Accordion style={{ paddingTop: 7 }}>
-                <AccordionItem
-                  onExpand={() => setExpandData(!expandData)}
-                  onClose={() => setExpandData(!expandData)}
-                  title={
-                    <Typography variant="h5" className={classes.labelWithIcon}>
-                      {stoplights}
+              <div onClick={() => setExpandData(!expandData)}>
+                <Accordion>
+                  <AccordionItem
+                    title={
                       <Typography
-                        component="span"
-                        variant="h6"
-                        className={classes.stoplightsLabel}
-                        style={{}}
+                        variant="h5"
+                        className={classes.labelWithIcon}
                       >
-                        {stoplights !== 1
-                          ? t('views.familiesOverviewBlock.tookSnapshots')
-                          : t('views.familiesOverviewBlock.tookSnapshot')}
+                        {stoplights}
+                        <Typography
+                          component="span"
+                          variant="h6"
+                          className={classes.stoplightsLabel}
+                          style={{}}
+                        >
+                          {stoplights !== 1
+                            ? t('views.familiesOverviewBlock.tookSnapshots')
+                            : t('views.familiesOverviewBlock.tookSnapshot')}
+                        </Typography>
+                        {!expandData ? (
+                          <KeyboardArrowDown className={classes.expandIcon} />
+                        ) : (
+                          <KeyboardArrowUp className={classes.expandIcon} />
+                        )}
                       </Typography>
-                      {!expandData ? (
-                        <KeyboardArrowDown className={classes.expandIcon} />
-                      ) : (
-                        <KeyboardArrowUp className={classes.expandIcon} />
+                    }
+                    expanded={expandData}
+                  >
+                    <div>
+                      <Typography
+                        component="p"
+                        variant="h5"
+                        className={classes.primaryLabel}
+                        style={{ fontSize: 22 }}
+                      >
+                        {baselineSurveys}
+                        <Typography
+                          component="span"
+                          variant="h6"
+                          className={classes.secondaryLabel}
+                        >
+                          {t('views.familiesOverviewBlock.baseLine')}
+                        </Typography>
+                      </Typography>
+                      {!!followUpSurveys && (
+                        <Typography
+                          component="p"
+                          variant="h5"
+                          className={classes.primaryLabel}
+                          style={{ fontSize: 22 }}
+                        >
+                          {followUpSurveys}
+                          <Typography
+                            component="span"
+                            variant="h6"
+                            className={classes.secondaryLabel}
+                          >
+                            {t('views.familiesOverviewBlock.followUp')}
+                          </Typography>
+                        </Typography>
                       )}
-                    </Typography>
-                  }
-                >
-                  <React.Fragment>
-                    <Typography
-                      component="p"
-                      variant="h5"
-                      className={classes.primaryLabel}
-                      style={{ fontSize: 22 }}
-                    >
-                      {baselineSurveys}
-                      <Typography
-                        component="span"
-                        variant="h6"
-                        className={classes.secondaryLabel}
-                      >
-                        {t('views.familiesOverviewBlock.baseLine')}
-                      </Typography>
-                    </Typography>
-                    {!!followUpSurveys && (
-                      <Typography
-                        component="p"
-                        variant="h5"
-                        className={classes.primaryLabel}
-                        style={{ fontSize: 22 }}
-                      >
-                        {followUpSurveys}
+                      {onlySocioEconomic !== 0 && (
                         <Typography
-                          component="span"
-                          variant="h6"
-                          className={classes.secondaryLabel}
+                          component="p"
+                          variant="h5"
+                          className={classes.primaryLabel}
+                          style={{ fontSize: 22 }}
                         >
-                          {t('views.familiesOverviewBlock.followUp')}
+                          {onlySocioEconomic}
+                          <Typography
+                            component="span"
+                            variant="h6"
+                            className={classes.secondaryLabel}
+                          >
+                            {t(
+                              'views.familiesOverviewBlock.tookWhitoutStoplight'
+                            )}
+                          </Typography>
                         </Typography>
-                      </Typography>
-                    )}
-                    {onlySocioEconomic !== 0 && (
-                      <Typography
-                        component="p"
-                        variant="h5"
-                        className={classes.primaryLabel}
-                        style={{ fontSize: 22 }}
-                      >
-                        {onlySocioEconomic}
-                        <Typography
-                          component="span"
-                          variant="h6"
-                          className={classes.secondaryLabel}
-                        >
-                          {t(
-                            'views.familiesOverviewBlock.tookWhitoutStoplight'
-                          )}
-                        </Typography>
-                      </Typography>
-                    )}
-                  </React.Fragment>
-                </AccordionItem>
-              </Accordion>
+                      )}
+                    </div>
+                  </AccordionItem>
+                </Accordion>
+              </div>
             </Grid>
           </Grid>
         </Grid>

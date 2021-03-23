@@ -32,6 +32,7 @@ import {
   getIndicatorColorByDimension
 } from '../../utils/styles-utils';
 import DeleteSolutionModal from './DeleteSolutionModal';
+import { getLanguageByCode } from '../../utils/lang-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -237,9 +238,9 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
   useEffect(() => {
     setLoading(true);
     updateSolution(id);
-
+    const lang = getLanguageByCode(language);
     let countryOptions = countries(
-      require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
+      require(`localized-countries/data/${lang}`)
     ).array();
     getSolutionById(user, id)
       .then(response => {

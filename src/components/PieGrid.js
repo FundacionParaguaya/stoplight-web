@@ -90,7 +90,7 @@ const parseStoplights = stoplights => {
 
 const PieGrid = ({ classes, items }) => {
   return (
-    <Grid container>
+    <Grid container className={classes.generalContainer}>
       {items.map(
         ({ stoplights, name, dimension, icon, priorities, achievements }) => {
           const [green, yellow, red, skipped] = parseStoplights(stoplights);
@@ -138,6 +138,12 @@ const PieGrid = ({ classes, items }) => {
 };
 
 const styles = theme => ({
+  generalContainer: {
+    [theme.breakpoints.down('sm')]: {
+      alignItems: 'end',
+      paddingRight: 35
+    }
+  },
   barContainer: {
     padding: `${theme.spacing()}px ${theme.spacing(3)}px`,
     display: 'flex',
@@ -149,7 +155,10 @@ const styles = theme => ({
   },
   title: {
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: 80
+    }
   },
   titleContainer: {
     width: '25%',
@@ -167,7 +176,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    width: 180,
+    width: 200,
     textAlign: 'center',
     position: 'relative'
   },

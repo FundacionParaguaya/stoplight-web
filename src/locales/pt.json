@@ -467,7 +467,9 @@
       "confirmDeletion": "Confirme a eliminação",
       "cannotUndo": "Não é possível desfazer essa ação!",
       "areYouSure": "Tem certeza que deseja apagar esse rascunho?",
-      "cannotDelete": "Ocorreu um erro ao apagar o rascunho. Por favor, tente novamente."
+      "areYouSureMulti": "Tem certeza que deseja apagar essas rascunho?",
+      "cannotDelete": "Ocorreu um erro ao apagar o rascunho. Por favor, tente novamente.",
+      "cannotDeleteMulti": "Ocorreu um erro ao apagar os rascunhos. Por favor, tente novamente."
     },
     "deleteFamily": {
       "confirmDeletion": "Confirme a eliminação",
@@ -552,7 +554,9 @@
           "success": "Dados socioeconômicos atualizados corretamente",
           "failed": "Os dados socioeconômicos não puderam ser atualizados"
         }
-      }
+      },
+      "survey": "Pesquisa:",
+      "surveyError": "Certifique-se de que sua organização tenha acesso à versão da pesquisa antes de visualizar o Perfil da Família."
     },
     "familyNotes": {
       "by": "por",
@@ -572,7 +576,14 @@
       "selectIndicator": "Selecione um Indicador",
       "backToProfile": "Regressar ao Perfil da Família",
       "addPriority": "Adicionar Prioridade",
-      "updatedAt": "Data de Criação"
+      "updatedAt": "Data de Criação",
+      "delete": {
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "confirmText": "Tem certeza de que deseja excluir esta Prioridade?",
+        "confirmTitle": "Confirmar exclusão",
+        "failed": "Não foi possível excluir a prioridade",
+        "success": "A prioridade foi excluída"
+      }
     },
     "familyAchievements": {
       "achievements": "Conquistas",

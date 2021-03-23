@@ -5,8 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { withSnackbar } from 'notistack';
 import DimensionQuestion from './summary/DimensionQuestion';
+import FamilyAchievements from './FamilyAchievements';
+import FamilyImages from './FamilyImages';
 import FamilyPriorities from './FamilyPriorities';
-import FamilyAchievements from '../components/FamilyAchievements';
+import SignatureImage from './SignatureImage';
 import DeleteSnapshotModal from '../components/DeleteSnapshotModal';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -23,8 +25,10 @@ import {
   sendLifemapPdfv2,
   downloadPdf,
   sendWhatsappMessage,
-  getPrioritiesAchievementsBySnapshot
+  getPrioritiesAchievementsBySnapshot,
+  picturesSignaturesBySnapshot
 } from '../api';
+import ImagePreview from './ImagePreview';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -197,6 +201,10 @@ const DetailsOverview = ({
   const [achievements, setAchievements] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [prioritiesList, setPrioritiesList] = useState([]);
+  const [images, setImages] = useState([]);
+  const [signatureImg, setSignatureImg] = useState({});
+  const [imagePreview, setImagePreview] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   const [loading, setLoading] = useState(false);
 
@@ -220,6 +228,7 @@ const DetailsOverview = ({
     });
     setStoplight(stoplight);
     loadPrioritiesAchievements(user, snapshot.snapshotId);
+    loadPictures(snapshot.snapshotId, user);
   }, [snapshot.snapshotId]);
 
   const toggleModal = (
@@ -246,6 +255,26 @@ const DetailsOverview = ({
         );
       }
     );
+  };
+
+  const loadPictures = (snapshotId, user) => {
+    picturesSignaturesBySnapshot(snapshotId, user)
+      .then(response => {
+        let files = response.data.data.picturesSignaturesBySnapshot;
+        const pictures = files.filter(el => el.category === 'picture');
+        const signature = files.filter(el => el.category === 'signature').pop();
+
+        setImages(pictures);
+        setSignatureImg(signature);
+      })
+      .catch(e => {
+        console.error(e);
+      });
+  };
+
+  const handleOpenImage = image => {
+    setImagePreview(true);
+    setImageUrl(image);
   };
 
   const handleWhatsappClick = () => {
@@ -539,9 +568,36 @@ const DetailsOverview = ({
         questions={snapshot}
         priorities={prioritiesList}
         fullWidth={true}
+        readOnly
       />
 
       <FamilyAchievements achievements={achievementsList} fullWidth={true} />
+
+      {/* Images */}
+      {images.length > 0 && (
+        <FamilyImages
+          showImage={handleOpenImage}
+          images={images}
+          readOnly
+          user={user}
+        />
+      )}
+
+      {/* Signature Image */}
+      {!!signatureImg && !!signatureImg.url && (
+        <SignatureImage
+          showImage={handleOpenImage}
+          image={signatureImg ? signatureImg.url : ''}
+          readOnly
+          user={user}
+        />
+      )}
+
+      <ImagePreview
+        open={imagePreview}
+        togglePreview={setImagePreview}
+        imageUrl={imageUrl}
+      />
     </div>
   );
 };

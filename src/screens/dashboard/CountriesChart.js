@@ -10,6 +10,7 @@ import {
 import { COLORS } from '../../theme';
 import countries from 'localized-countries';
 import { useTranslation } from 'react-i18next';
+import { getLanguageByCode } from '../../utils/lang-utils';
 
 const renderCustomizedLabel = (
   { value, x, y },
@@ -17,8 +18,9 @@ const renderCustomizedLabel = (
   language,
   countriesTotal
 ) => {
+  const lang = getLanguageByCode(language);
   let countryOptions = countries(
-    require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
+    require(`localized-countries/data/${lang}`)
   ).array();
   let country = countryOptions.find(country => country.code === countryCode);
 

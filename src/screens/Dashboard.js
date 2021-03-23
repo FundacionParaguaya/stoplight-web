@@ -534,7 +534,10 @@ const styles = theme => ({
   img: {
     maxWidth: 180,
     maxHeight: 85,
-    marginTop: 48
+    marginTop: 48,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 0
+    }
   },
   titleBar: {
     paddingTop: theme.spacing(8),

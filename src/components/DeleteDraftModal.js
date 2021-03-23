@@ -11,33 +11,60 @@ import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { deleteDraft } from '../api';
+import { deleteDraft, deleteDrafts } from '../api';
 import face from '../assets/serious_face.png';
 
 const DeleteDraftModal = props => {
-  const { classes, open, onClose, user, draft, reloadDrafts } = props;
+  const { classes, open, onClose, user, drafts, reloadDrafts, type } = props;
   const [deletingDraft, setDeletingDraft] = useState(false);
   const { t } = useTranslation();
   const onDeleteClicked = () => {
     setDeletingDraft(true);
-    deleteDraft(user, draft.draftId)
-      .then(() => {
-        setDeletingDraft(false);
-        reloadDrafts();
-        onClose();
-      })
-      .catch(() => {
-        props.enqueueSnackbar(t('views.deleteDraft.cannotDelete'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => props.closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
+    if (type === 'single') {
+      deleteDraft(user, drafts.draftId)
+        .then(() => {
+          setDeletingDraft(false);
+          reloadDrafts();
+          onClose();
+        })
+        .catch(() => {
+          props.enqueueSnackbar(t('views.deleteDraft.cannotDelete'), {
+            variant: 'error',
+            action: key => (
+              <IconButton
+                key="dismiss"
+                onClick={() => props.closeSnackbar(key)}
+              >
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+          onClose();
+          setDeletingDraft(false);
         });
-        onClose();
-        setDeletingDraft(false);
-      });
+    } else if (type === 'multi') {
+      deleteDrafts(user, drafts)
+        .then(() => {
+          setDeletingDraft(false);
+          reloadDrafts();
+          onClose();
+        })
+        .catch(() => {
+          props.enqueueSnackbar(t('views.deleteDraft.cannotDeleteMulti'), {
+            variant: 'error',
+            action: key => (
+              <IconButton
+                key="dismiss"
+                onClick={() => props.closeSnackbar(key)}
+              >
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+          onClose();
+          setDeletingDraft(false);
+        });
+    }
   };
   return (
     <Modal open={open} onClose={deletingDraft ? null : onClose}>
@@ -50,7 +77,10 @@ const DeleteDraftModal = props => {
           {t('views.deleteDraft.cannotUndo')}
         </Typography>
         <Typography className={classes.areYouSureLabel} variant="h5">
-          {t('views.deleteDraft.areYouSure')}
+          {type === 'single'
+            ? t('views.deleteDraft.areYouSure')
+            : t('views.deleteDraft.areYouSureMulti')}
+          {}
         </Typography>
         {deletingDraft && (
           <div className={classes.loadingContainer}>

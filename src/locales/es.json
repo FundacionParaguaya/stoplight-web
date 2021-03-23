@@ -468,7 +468,9 @@
       "confirmDeletion": "Confirme la eliminación",
       "cannotUndo": "¡No puedes deshacer esta acción!",
       "areYouSure": "¿Estás seguro de que quieres eliminar este borrador?",
-      "cannotDelete": "Ha ocurrido un error al eliminar el borrador. Por favor inténtelo de nuevo."
+      "areYouSureMulti": "¿Estás seguro de que quieres eliminar estos borradores?",
+      "cannotDelete": "Ha ocurrido un error al eliminar el borrador. Por favor inténtelo de nuevo.",
+      "cannotDeleteMulti": "Ha ocurrido un error al eliminar estos borradores. Por favor inténtelo de nuevo."
     },
     "deleteFamily": {
       "confirmDeletion": "Confirme la eliminación",
@@ -553,7 +555,9 @@
           "success": "Datos socioeconómicos actualizados correctamente",
           "failed": "No se pudieron actualizar los datos socioeconómicos"
         }
-      }
+      },
+      "survey": "Encuesta:",
+      "surveyError": "Asegúrese de que su organización tenga acceso a la versión de la encuesta antes de ver el perfil familiar."
     },
     "familyNotes": {
       "by": "por",
@@ -573,7 +577,14 @@
       "selectIndicator": "Seleccione un Indicador",
       "backToProfile": "Volver a Perfil de la Familia",
       "addPriority": "Agregar Prioridad",
-      "updatedAt": "Fecha de Creación"
+      "updatedAt": "Fecha de Creación",
+      "delete": {
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "confirmText": "¿Está seguro de que desea eliminar esta prioridad?",
+        "confirmTitle": "Confirmar la eliminación",
+        "failed": "No se pudo borrar la prioridad",
+        "success": "La prioridad ha sido eliminada"
+      }
     },
     "familyAchievements": {
       "achievements": "Logros",
