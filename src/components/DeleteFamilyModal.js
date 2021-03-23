@@ -15,7 +15,15 @@ import { deleteFamily } from '../api';
 import face from '../assets/serious_face.png';
 
 const DeleteFamilyModal = props => {
-  const { classes, open, onClose, user, family, tableRef } = props;
+  const {
+    classes,
+    open,
+    onClose,
+    user,
+    family,
+    tableRef,
+    resetSelection
+  } = props;
   const [deletingDraft, setDeletingDraft] = useState(false);
   const { t } = useTranslation();
   const onDeleteClicked = () => {
@@ -23,6 +31,7 @@ const DeleteFamilyModal = props => {
     deleteFamily(user, family)
       .then(() => {
         setDeletingDraft(false);
+        resetSelection();
         tableRef.current.onQueryChange();
         onClose();
       })

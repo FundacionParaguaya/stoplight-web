@@ -32,8 +32,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    minHeight: '35vh',
-    maxHeight: '55vh',
+    minHeight: '50vh',
+    maxHeight: '85vh',
     width: '85vw',
     maxWidth: 500,
     overflowY: 'auto',
@@ -222,6 +222,7 @@ const MoveFamilyModal = ({
                   </Typography>
                   <OrganizationSelector
                     data={values.organization}
+                    maxMenuHeight="120"
                     onChange={value => {
                       resetForm();
                       setFieldValue('organization', value);
@@ -230,46 +231,48 @@ const MoveFamilyModal = ({
                     }}
                     isClearable={true}
                   />
-                  {values.organization && (
-                    <>
-                      <FacilitatorFilter
-                        label={t('views.familyList.moveFamily.facilitator')}
-                        data={values.facilitator}
-                        organizations={
-                          values.organization ? [values.organization] : null
-                        }
-                        onChange={value => setFieldValue('facilitator', value)}
-                        isClearable={true}
-                        stacked={true}
-                        error={touched.organization && !values.facilitator}
-                        required={true}
-                        closeMenuOnSelect
-                      />
-                      {showProjectsSelector(user) && (
-                        <ProjectsSelector
-                          withTitle
-                          projectData={values.project}
-                          organizationData={values.organization}
-                          stacked
-                          noDropdownArrow
-                          renderIfOptions
-                          onChangeProject={value =>
-                            setFieldValue('project', value)
-                          }
-                        />
-                      )}
-                      <div className={classes.buttonContainer}>
-                        <Button
-                          className={classes.button}
-                          type="submit"
-                          color="primary"
-                          variant="contained"
-                        >
-                          {t('general.save')}
-                        </Button>
-                      </div>
-                    </>
+
+                  <FacilitatorFilter
+                    label={t('views.familyList.moveFamily.facilitator')}
+                    data={values.facilitator}
+                    organizations={
+                      values.organization ? [values.organization] : null
+                    }
+                    orgRequired
+                    onChange={value => setFieldValue('facilitator', value)}
+                    isClearable={true}
+                    stacked={true}
+                    error={touched.organization && !values.facilitator}
+                    required={true}
+                    maxMenuHeight="120"
+                    closeMenuOnSelect
+                  />
+                  {showProjectsSelector(user) && (
+                    <ProjectsSelector
+                      withTitle
+                      projectData={values.project}
+                      byFacilitator
+                      surveyUser={
+                        values.facilitator && values.facilitator.value
+                      }
+                      stacked
+                      noDropdownArrow
+                      renderIfOptions
+                      maxMenuHeight="90"
+                      onChangeProject={value => setFieldValue('project', value)}
+                    />
                   )}
+
+                  <div className={classes.buttonContainer}>
+                    <Button
+                      className={classes.button}
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                    >
+                      {t('general.save')}
+                    </Button>
+                  </div>
                 </div>
               )}
             </Form>
