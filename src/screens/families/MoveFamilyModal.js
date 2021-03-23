@@ -251,7 +251,10 @@ const MoveFamilyModal = ({
                     <ProjectsSelector
                       withTitle
                       projectData={values.project}
-                      organizationData={values.organization}
+                      byFacilitator
+                      surveyUser={
+                        values.facilitator && values.facilitator.value
+                      }
                       stacked
                       noDropdownArrow
                       renderIfOptions
