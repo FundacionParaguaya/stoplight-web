@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     padding: '10px 12% 10px 12%',
     backgroundColor: theme.palette.background.default
   },
+  readOnlyContainer: {
+    padding: 0
+  },
   advancedContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -64,7 +67,8 @@ const Details = ({
   economicData,
   membersEconomicData,
   survey,
-  history
+  history,
+  readOnly
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -104,7 +108,9 @@ const Details = ({
   }, [survey]);
 
   return (
-    <Accordion className={classes.container}>
+    <Accordion
+      className={clsx(classes.container, readOnly && classes.readOnlyContainer)}
+    >
       <AccordionItem
         key={1}
         onExpand={() => setOpenFamilyDetails(!openFamilyDetails)}
@@ -128,6 +134,7 @@ const Details = ({
           latitude={latitude}
           longitude={longitude}
           history={history}
+          readOnly={readOnly}
         />
       </AccordionItem>
 
@@ -159,6 +166,7 @@ const Details = ({
           history={history}
           questionsPerTopics={questionsPerTopics}
           familyMembers={familyMembers}
+          readOnly={readOnly}
         />
       </AccordionItem>
     </Accordion>
