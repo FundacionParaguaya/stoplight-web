@@ -36,6 +36,7 @@ import ExitSolutionModal from '../../components/ExitModal';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';
 import SolutionTypeSelector from './SolutionTypeSelector';
+import { getLanguageByCode } from '../../utils/lang-utils';
 
 const inputStyle = {
   height: 25,
@@ -363,10 +364,9 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
               label: type.description,
               value: type.code
             }));
+            const lang = getLanguageByCode(language);
             let countryOptions = countries(
-              require(`localized-countries/data/${
-                language === 'ht' ? 'en' : language
-              }`)
+              require(`localized-countries/data/${lang}`)
             ).array();
 
             const updatedSolution = {
@@ -590,9 +590,7 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                           })
                         )
                       }
-                      parentLang={
-                        values.language === 'ht' ? 'fr' : values.language
-                      }
+                      parentLang={getLanguageByCode(values.language)}
                       error={touched.country && !values.country}
                       required={true}
                     />

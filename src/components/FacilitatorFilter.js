@@ -6,11 +6,12 @@ import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
 import { getMentors } from '../api';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
     ...styles,
-    backgroundColor: '#FFFFFF;',
+    //backgroundColor: '#FFFFFF;',
     borderRadius: 2,
     '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
     border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
@@ -57,7 +58,8 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginBottom: 4
   },
   stackedLabel: {
     marginBottom: 5,
@@ -73,7 +75,13 @@ const FacilitatorFilter = ({
   isMulti,
   label,
   stacked,
-  isDisabled
+  isDisabled,
+  isClearable,
+  closeMenuOnSelect,
+  maxMenuHeight,
+  required,
+  orgRequired,
+  error
 }) => {
   const [facilitators, setFacilitators] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,21 +94,25 @@ const FacilitatorFilter = ({
     let orgIds = !(organizations || []).some(org => org.value === 'ALL')
       ? (organizations || []).map(o => o.value)
       : [];
-
-    getMentors(user, orgIds)
-      .then(response => {
-        const mentors = _.get(
-          response,
-          'data.data.getMentorsByOrganizations',
-          []
-        ).map(m => ({
-          label: m.username,
-          value: m.userId
-        }));
-        setFacilitators(mentors);
-      })
-      .finally(() => setLoading(false));
-  }, [user, organizations]);
+    if (orgRequired && orgIds.length === 0) {
+      setFacilitators([]);
+      setLoading(false);
+    } else {
+      getMentors(user, orgIds)
+        .then(response => {
+          const mentors = _.get(
+            response,
+            'data.data.getMentorsByOrganizations',
+            []
+          ).map(m => ({
+            label: m.username,
+            value: m.userId
+          }));
+          setFacilitators(mentors);
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [user, JSON.stringify(organizations)]);
 
   return (
     <div className={stacked ? classes.stackedContainer : classes.container}>
@@ -108,7 +120,7 @@ const FacilitatorFilter = ({
         variant="subtitle1"
         className={stacked ? classes.stackedLabel : classes.label}
       >
-        {label}
+        {required ? `${label} *` : `${label}`}
       </Typography>
 
       <div className={classes.selector}>
@@ -119,6 +131,7 @@ const FacilitatorFilter = ({
           isLoading={loading}
           loadingMessage={() => t('views.facilitatorFilter.loading')}
           noOptionsMessage={() => t('views.facilitatorFilter.noOption')}
+          maxMenuHeight={maxMenuHeight}
           options={facilitators}
           isDisabled={isDisabled}
           components={{
@@ -126,11 +139,17 @@ const FacilitatorFilter = ({
             IndicatorSeparator: () => <div />,
             ClearIndicator: () => <div />
           }}
-          closeMenuOnSelect={false}
+          closeMenuOnSelect={closeMenuOnSelect}
           isMulti={isMulti}
           styles={selectStyle}
+          isClearable={isClearable}
         />
       </div>
+      {error && (
+        <FormHelperText error={error}>
+          {t('validation.fieldIsRequired')}
+        </FormHelperText>
+      )}
     </div>
   );
 };

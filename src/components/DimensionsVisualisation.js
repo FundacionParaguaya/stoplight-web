@@ -105,12 +105,16 @@ DimensionTitle.defaultProps = {
   excludeIcon: false
 };
 
-const dimensionTitleStyle = () => ({
+const dimensionTitleStyle = theme => ({
   mainContainer: {
     flexBasis: '25%',
     width: '25%',
+    minWidth: 100,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: '20%'
+    }
   },
   title: {
     display: 'flex'
@@ -168,15 +172,22 @@ let DimensionIndicator = ({ classes, dimension: { indicators } }) => (
 );
 
 const dimensionIndicatorStyle = theme => ({
-  listItem: { paddingTop: 0, paddingBottom: 0 },
+  listItem: { paddingTop: 0, paddingBottom: 0, overflow: 'scroll' },
   mainItemContainer: { display: 'flex', flexBasis: '100%', width: '100%' },
   stackbarContainer: {
     display: 'flex',
     flexBasis: '60%',
     width: '60%',
+    minWidth: 200,
     alignItems: 'center',
     paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3)
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      width: '50%'
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 70
+    }
   },
   rightSpaceFiller: { display: 'flex', flexBasis: '15%', width: '15%' }
 });
@@ -195,7 +206,10 @@ const dimensionStyles = theme => ({
   },
   listItem: {
     paddingTop: 12.5,
-    paddingBottom: 12.5
+    paddingBottom: 12.5,
+    [theme.breakpoints.down('sm')]: {
+      overflow: 'scroll'
+    }
   },
   row: {
     '&:nth-child(2n - 1)': {
@@ -208,14 +222,24 @@ const dimensionStyles = theme => ({
     alignItems: 'center',
     width: '60%',
     flexBasis: '60%',
+    minWidth: 200,
     paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3)
+    paddingRight: theme.spacing(3),
+    [theme.breakpoints.down('sm')]: {
+      width: '50%'
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 70
+    }
   },
   priorAndAchievem: {
-    width: '15%',
+    width: '25%',
     display: 'flex',
-    flexBasis: '15%',
-    alignItems: 'center'
+    flexBasis: '25%',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      width: '20%'
+    }
   },
   innerPriorAndAchievem: {
     width: '40%',

@@ -17,6 +17,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import countries from 'localized-countries';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SolutionLangPicker from './solutions/SolutionLangPicker';
+import { getLanguageByCode } from '../utils/lang-utils';
 
 const styles = theme => ({
   titleContainer: {
@@ -167,8 +168,9 @@ const Solutions = ({ classes, user, history }) => {
     t,
     i18n: { language }
   } = useTranslation();
+  const lang = getLanguageByCode(language);
   const countryOptions = countries(
-    require(`localized-countries/data/${language === 'ht' ? 'en' : language}`)
+    require(`localized-countries/data/${lang}`)
   ).array();
 
   const [loading, setLoading] = useState(true);

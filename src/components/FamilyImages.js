@@ -10,6 +10,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import { ROLES_NAMES } from '../utils/role-utils';
 
+// Import css files
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 const useStyles = makeStyles(theme => ({
   img: {
     padding: 30,
@@ -106,6 +110,7 @@ const FamilyImages = ({
   showImage,
   familyId,
   snapshotId,
+  readOnly,
   history,
   user
 }) => {
@@ -134,12 +139,12 @@ const FamilyImages = ({
   };
 
   const showEditButtons = ({ role }) =>
-    role === ROLES_NAMES.ROLE_APP_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER ||
-    role === ROLES_NAMES.ROLE_FAMILY_USER ||
-    role === ROLES_NAMES.ROLE_ROOT ||
-    role === ROLES_NAMES.ROLE_PS_TEAM;
+    (role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_ROOT ||
+      role === ROLES_NAMES.ROLE_PS_TEAM) &&
+    !readOnly;
 
   return (
     <>

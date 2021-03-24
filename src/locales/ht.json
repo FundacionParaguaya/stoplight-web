@@ -471,7 +471,9 @@
       "confirmDeletion": "Eske ou vle efase l vre?",
       "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
       "areYouSure": "Eske ou vle efase bwouyon sa a vre?",
-      "cannotDelete": "Te genyen yon erè nan efase bwouyon sa a.  Tanpri eseye ankò."
+      "areYouSureMulti": "Eske ou vle efase bwouyon sa yo vre?",
+      "cannotDelete": "Te genyen yon erè nan efase bwouyon sa a.  Tanpri eseye ankò.",
+      "cannotDeleteMulti": "Te genyen yon erè nan efase bwouyon sa yo.  Tanpri eseye ankò."
     },
     "deleteFamily": {
       "confirmDeletion": "Eske ou vle efase l vre?",
@@ -484,12 +486,28 @@
       "familyName": "Siyati",
       "document": "Dokiman",
       "familyCode": "Kòd fanmi an",
+      "organization": "Organizationganizasyon",
       "search": "Chache",
       "empty": "Pa genyen fanmi konsa.",
       "searchFamily": "Non osinon nimewo dokiman an.",
       "delete": "Efase fanmi an",
       "show": "Montre fanmi an",
-      "rows": "Fanmi nou jwenn"
+      "rows": "Fanmi nou jwenn",
+      "moveFamily": {
+        "moveOfOrg": "Deplase nan yon lòt òganizasyon",
+        "move": "Deplase",
+        "organization": "Organizationganizasyon",
+        "facilitator": "Fasilitatè",
+        "projects": "Pwojè",
+        "confirm": "Konfime migrasyon",
+        "confirmSubtitle": "Èske ou sèten ou vle deplase fanmi sa yo nan yon lòt òganizasyon?",
+        "success": "Fanmi imigre avèk siksè",
+        "error": "Fanmi yo pa t 'kapab imigre"
+      }
+    },
+    "organizationFilter": {
+      "loading": "L ap chaje...",
+      "noOption": "Pa gen okenn òganizasyon"
     },
     "facilitatorFilter": {
       "label": "Fasilitatè",
@@ -540,7 +558,9 @@
           "success": "Mizajou done sosyo-ekonomik yo reyisi",
           "failed": "Mizajou done sosyo-ekonomik yo pa t ka fèt."
         }
-      }
+      },
+      "survey": "Sondaj:",
+      "surveyError": "Asire w ke òganizasyon ou an gen aksè a vèsyon sondaj la anvan ou gade Profile Fanmi an."
     },
     "familyNotes": {
       "by": "Pa",
@@ -560,7 +580,14 @@
       "selectIndicator": "Chwazi yon endikatè",
       "backToProfile": "Tounen nan Pwofil Fanmi an",
       "addPriority": "Ajoute yon priyorite",
-      "updatedAt": "Dat kreyasyon"
+      "updatedAt": "Dat kreyasyon",
+      "delete": {
+        "cannotUndo": "Ou pa ka defèt aksyon sa a!",
+        "confirmText": "Èske ou sèten ou vle efase priyorite sa a?",
+        "confirmTitle": "Konfime sipresyon",
+        "failed": "Pa t 'kapab efase Priyorite",
+        "success": "Priyorite a te efase"
+      }
     },
     "familyAchievements": {
       "achievements": "Akonplisman",
@@ -806,7 +833,8 @@
         "noRecords": "Nou pa jwenn fichye sou sa",
         "chooseFilters": "Chwazi kèk filtè epi klike",
         "chooseFiltersEnd": " pou telechaje rezilta yo!",
-        "empty": "Pa gen rezilta ki matche filtè ou yo"
+        "empty": "Pa gen rezilta ki matche filtè ou yo",
+        "move": "Deplase"
       },
       "buttons": {
         "applyFilters": "Aplike",
@@ -901,7 +929,15 @@
         "loadingFamily": "Error loading family data",
         "loadingNotes": "Error loading family's note"
       },
-      "resumeDraft": "Resume draft"
+      "resumeDraft": "Resume draft",
+      "picture": {
+        "placeholder": "Ajoute nouvo foto pwofil ou isit la",
+        "uploadError": "Ou rive nan limit 10MB! \nTanpri chwazi yon lòt imaj.",
+        "save": {
+          "success": "Successfully updated profile picture",
+          "error": "Could not update profile picture"
+        }
+      }
     }
   },
   "reports": {

@@ -16,6 +16,7 @@ import {
 } from '../../../api';
 import ExitModal from '../../../components/ExitModal';
 import withLayout from '../../../components/withLayout';
+import { ROLES_NAMES } from '../../../utils/role-utils';
 import ImageUploader from './ImageUploader';
 
 const useStyles = makeStyles(theme => ({
@@ -48,6 +49,10 @@ const EditIamges = ({ enqueueSnackbar, closeSnackbar, user, history }) => {
   const classes = useStyles();
   const { familyId, snapshotId } = useParams();
   const { t } = useTranslation();
+  const redirectionPath =
+    user.role === ROLES_NAMES.ROLE_FAMILY_USER
+      ? `/my-profile`
+      : `/family/${familyId}`;
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -125,7 +130,7 @@ const EditIamges = ({ enqueueSnackbar, closeSnackbar, user, history }) => {
         });
       })
       .finally(() => {
-        history.push(`/family/${familyId}`);
+        history.push(redirectionPath);
       });
   };
 
@@ -143,7 +148,7 @@ const EditIamges = ({ enqueueSnackbar, closeSnackbar, user, history }) => {
       <ExitModal
         open={openExitModal}
         onDissmiss={() => setOpenExitModal(false)}
-        onClose={() => history.push(`/family/${familyId}`)}
+        onClose={() => history.push(redirectionPath)}
       />
       <div className={classes.mainContainer}>
         <Typography variant="h4" className={classes.title}>

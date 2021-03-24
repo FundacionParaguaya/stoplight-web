@@ -45,7 +45,7 @@ const OverviewBlock = ({ classes, data, t, width }) => {
         </Typography>
       </Grid>
 
-      <Grid item md={4} xs={6} style={{ order: 2 }}>
+      <Grid item md={4} sm={4} xs={12} style={{ order: 2 }}>
         <SummaryDonut
           greenIndicatorCount={data.stoplightOverview.greens}
           redIndicatorCount={data.stoplightOverview.reds}
@@ -56,7 +56,7 @@ const OverviewBlock = ({ classes, data, t, width }) => {
           width="100%"
         />
       </Grid>
-      <Grid item md={2} xs={4} className={classes.indicators}>
+      <Grid item md={2} sm={12} className={classes.indicators}>
         <CountDetail
           type="priority"
           count={data.priorities}
@@ -71,7 +71,7 @@ const OverviewBlock = ({ classes, data, t, width }) => {
           countVariant="h4"
         />
       </Grid>
-      <Grid item md={5} xs={6} className={classes.barchart}>
+      <Grid item md={4} sm={4} xs={12} className={classes.barchart}>
         <SummaryBarChart
           greenIndicatorCount={data.stoplightOverview.greens}
           redIndicatorCount={data.stoplightOverview.reds}

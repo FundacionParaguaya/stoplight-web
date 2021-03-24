@@ -13,6 +13,7 @@ import FamilyTable from '../components/FamilyTable';
 import FamilyFilter from '../components/FamilyFilter';
 import { getFamiliesList } from '../api';
 import { withSnackbar } from 'notistack';
+import MoveFamilyModal from './families/MoveFamilyModal';
 
 const Families = ({
   classes,
@@ -34,6 +35,8 @@ const Families = ({
   const [families, setFamilies] = useState([]);
   const [numberOfRows, setNumberOfRows] = useState(0);
   const [resetPagination, setResetPagination] = useState(false);
+  const [openMoveModal, setOpenMoveModal] = useState(false);
+  const [selectedFamilies, setSelectedFamilies] = useState([]);
 
   const setSelectedOrganizations = (selected, allOrganizations) => {
     setResetPagination(true);
@@ -124,6 +127,16 @@ const Families = ({
     return total.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
+  const afterSubmit = () => {
+    setSelectedFamilies([]);
+    tableRef.current.onQueryChange();
+  };
+
+  const toggleMoveModal = families => {
+    setSelectedFamilies(families);
+    setOpenMoveModal(!openMoveModal);
+  };
+
   useEffect(() => setDidMount(true), []);
 
   // Clearing selected organizations when the hub filter changes
@@ -149,6 +162,12 @@ const Families = ({
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
+      <MoveFamilyModal
+        toggleModal={toggleMoveModal}
+        open={openMoveModal}
+        selectedFamilies={selectedFamilies}
+        afterSubmit={afterSubmit}
+      />
       <Container variant="stretch">
         <div className={classes.titleContainer}>
           <div className={classes.surveyTopTitle}>
@@ -190,6 +209,7 @@ const Families = ({
             loadFamilies={loadFamilies}
             numberOfRows={numberOfRows}
             redirectToFamily={redirectToFamily}
+            toggleMoveModal={toggleMoveModal}
           />
         </div>
       </Container>

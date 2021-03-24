@@ -430,7 +430,7 @@ export class PrimaryParticipant extends Component {
           >
             {({ isSubmitting, setFieldValue, validateForm }) => {
               return (
-                <Form noValidate>
+                <Form noValidate autoComplete={'off'}>
                   <InputWithFormik
                     label={t('views.family.firstName')}
                     name="firstName"

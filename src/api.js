@@ -413,6 +413,22 @@ export const deleteSnapshot = (user, snapshot) =>
     })
   });
 
+export const deleteDrafts = (user, drafts) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+
+    data: JSON.stringify({
+      query: `mutation deleteDrafts($drafts: [String]) {deleteDrafts(drafts: $drafts)}`,
+      variables: {
+        drafts: drafts
+      }
+    })
+  });
+
 const formatPhone = (code, phone, surveyLocation) => {
   const phoneUtil = PhoneNumberUtil.getInstance();
   if (phone && phone.length > 0) {
@@ -837,7 +853,7 @@ export const getFamiliesList = (
     data: JSON.stringify({
       query:
         'query families($facilitators: [Long], $hub: Long, $organizations: [Long], $name: String, $page: Int, $sortBy: String, $sortDirection: String, $projects: [Long]) ' +
-        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, projects: $projects, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers} totalPages totalElements }}',
+        '{ families(facilitators:$facilitators, hub: $hub, organizations: $organizations, name:$name, projects: $projects, page:$page, sortBy:$sortBy, sortDirection:$sortDirection ){content {familyId name code birthDate documentTypeText  documentNumber countFamilyMembers organizationName  } totalPages totalElements }}',
       variables: {
         facilitators,
         hub,
@@ -850,6 +866,32 @@ export const getFamiliesList = (
       }
     })
   });
+
+export const migrateFamilies = (
+  user,
+  families,
+  organization,
+  facilitator,
+  project
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation migrateFamilies($families: [FamilyModelInput], $organization: Long, $user: Long, $project: Long ) { migrateFamilies(families: $families, organization: $organization, user: $user, project: $project) {successful} }',
+      variables: {
+        families,
+        organization,
+        user: facilitator,
+        project: project
+      }
+    })
+  });
+
 export const getMentors = (user, organizations) =>
   axios({
     method: 'post',
@@ -939,7 +981,7 @@ export const getPrioritiesAchievementByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
+        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
       variables: {
         familyId: familyId
       }
@@ -1214,6 +1256,22 @@ export const getProjectsByOrganization = (user, orgsId) =>
         'query projectsByOrganization($organizations: [Long]) { projectsByOrganization (organizations: $organizations) { id, title, description, color, active} }',
       variables: {
         organizations: orgsId
+      }
+    })
+  });
+
+export const projectsBySurveyUser = (user, surveyUserId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query projectsBySurveyUser($user: Long) { projectsBySurveyUser (user: $user) { id, title, description, color, active} }',
+      variables: {
+        user: surveyUserId
       }
     })
   });
@@ -1827,7 +1885,7 @@ export const familyUserData = user =>
     },
     data: JSON.stringify({
       query:
-        'query { familyUserData {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot allowRetake organization { id, name } country{country} project {id title}familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} snapshotEconomics { codeName value multipleValueArray questionText text multipleText multipleTextArray other topic} membersEconomic{ memberIdentifier firstName economic{codeName value multipleValue multipleValueArray questionText text multipleText multipleTextArray other topic} } snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} } }'
+        'query { familyUserData {user{userId username} familyId name code latitude longitude numberOfSnapshots lastSnapshot profilePictureUrl allowRetake organization { id, name } country{country} project {id title}familyMemberDTOList { memberIdentifier firstParticipant firstName lastName gender genderText customGender birthDate documentType documentTypeText customDocumentType documentNumber birthCountry email phoneNumber phoneCode} snapshotEconomics { codeName value multipleValueArray questionText text multipleText multipleTextArray other topic} membersEconomic{ memberIdentifier firstName economic{codeName value multipleValue multipleValueArray questionText text multipleText multipleTextArray other topic} } snapshotIndicators{ createdAt  stoplightSkipped surveyId indicatorSurveyDataList{value shortName dimension key snapshotStoplightId} priorities{key} achievements{key} countRedIndicators countYellowIndicators countGreenIndicators countSkippedIndicators countIndicatorsAchievements countIndicatorsPriorities indicatorsPriorities{indicator}} } }'
     })
   });
 
@@ -1848,6 +1906,62 @@ export const attachSnapshotStoplight = (user, draft) =>
           indicatorSurveyDataList: draft.indicatorSurveyDataList,
           priorities: draft.priorities,
           achievements: draft.achievements
+        }
+      }
+    })
+  });
+
+export const updateFamilyProfilePicture = (
+  familyId,
+  familyProfilePicture,
+  user
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateFamilyProfilePicture($familyId: Long, $familyProfilePicture: String) ' +
+        '{  updateFamilyProfilePicture(familyId: $familyId, familyProfilePicture: $familyProfilePicture) { familyId name } }',
+      variables: {
+        familyId,
+        familyProfilePicture
+      }
+    })
+  });
+
+export const picturesSignaturesBySnapshot = (snapshotId, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query picturesSignaturesBySnapshot($snapshotId: Long!) { picturesSignaturesBySnapshot (snapshotId: $snapshotId) { category url } }',
+      variables: {
+        snapshotId
+      }
+    })
+  });
+
+export const deletePriority = (id, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteSnapshotStoplightPriority($priority: PriorityDtoInput) {deleteSnapshotStoplightPriority(priority: $priority){successful}}',
+      variables: {
+        priority: {
+          id
         }
       }
     })

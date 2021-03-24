@@ -467,7 +467,9 @@
       "confirmDeletion": "Confirme a eliminação",
       "cannotUndo": "Não é possível desfazer essa ação!",
       "areYouSure": "Tem certeza que deseja apagar esse rascunho?",
-      "cannotDelete": "Ocorreu um erro ao apagar o rascunho. Por favor, tente novamente."
+      "areYouSureMulti": "Tem certeza que deseja apagar essas rascunho?",
+      "cannotDelete": "Ocorreu um erro ao apagar o rascunho. Por favor, tente novamente.",
+      "cannotDeleteMulti": "Ocorreu um erro ao apagar os rascunhos. Por favor, tente novamente."
     },
     "deleteFamily": {
       "confirmDeletion": "Confirme a eliminação",
@@ -480,12 +482,28 @@
       "familyName": "Família",
       "document": "Documento",
       "familyCode": "Código",
+      "organization": "Organização",
       "search": "Pesquisa",
       "empty": "Não há famílias para mostrar.",
       "searchFamily": "Nome ou número do documento",
       "delete": "Eliminar Família",
       "show": "Mostrar Família",
-      "rows": "Famílias Encontradas"
+      "rows": "Famílias Encontradas",
+      "moveFamily": {
+        "moveOfOrg": "Mude para outra organização",
+        "move": "Mude",
+        "organization": "Organização",
+        "facilitator": "Facilitador",
+        "projects": "Projetos",
+        "confirm": "Confirme a migração",
+        "confirmSubtitle": "Tem certeza de que deseja mover essas famílias para outra organização?",
+        "success": "Famílias migradas com sucesso",
+        "error": "As famílias não puderam ser migradas"
+      }
+    },
+    "organizationFilter": {
+      "loading": "Carregando...",
+      "noOption": "Não há organizações"
     },
     "facilitatorFilter": {
       "label": "Facilitadores",
@@ -536,7 +554,9 @@
           "success": "Dados socioeconômicos atualizados corretamente",
           "failed": "Os dados socioeconômicos não puderam ser atualizados"
         }
-      }
+      },
+      "survey": "Pesquisa:",
+      "surveyError": "Certifique-se de que sua organização tenha acesso à versão da pesquisa antes de visualizar o Perfil da Família."
     },
     "familyNotes": {
       "by": "por",
@@ -556,7 +576,14 @@
       "selectIndicator": "Selecione um Indicador",
       "backToProfile": "Regressar ao Perfil da Família",
       "addPriority": "Adicionar Prioridade",
-      "updatedAt": "Data de Criação"
+      "updatedAt": "Data de Criação",
+      "delete": {
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "confirmText": "Tem certeza de que deseja excluir esta Prioridade?",
+        "confirmTitle": "Confirmar exclusão",
+        "failed": "Não foi possível excluir a prioridade",
+        "success": "A prioridade foi excluída"
+      }
     },
     "familyAchievements": {
       "achievements": "Conquistas",
@@ -803,7 +830,8 @@
         "noRecords": "Não foi possível encontrar registro",
         "chooseFilters": "Escolha alguns filtros e clique em ",
         "chooseFiltersEnd": "  para baixar os resultados!",
-        "empty": "Não há resultados correspondentes aos seus filtros"
+        "empty": "Não há resultados correspondentes aos seus filtros",
+        "move": "Enviar"
       },
       "buttons": {
         "applyFilters": "Aplique",
@@ -899,7 +927,15 @@
         "loadingFamily": "Erro ao carregar os dados da família",
         "loadingNotes": "Erro ao carregar a nota da família"
       },
-      "resumeDraft": "Retomar o rascunho"
+      "resumeDraft": "Retomar o rascunho",
+      "picture": {
+        "placeholder": "Adicione sua nova foto de perfil aqui",
+        "uploadError": "Você atingiu o limite de 10 MB! \nSelecione outra imagem.",
+        "save": {
+          "success": "Imagem do perfil atualizada com sucesso",
+          "error": "Não foi possível atualizar a foto do perfil"
+        }
+      }
     }
   },
   "reports": {

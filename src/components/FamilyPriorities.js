@@ -1,23 +1,26 @@
+import { Button, Grid, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import { Delete } from '@material-ui/icons';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import moment from 'moment';
+import { withSnackbar } from 'notistack';
 import React, { useState } from 'react';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import { withTranslation } from 'react-i18next';
-import { Typography, Button, Grid } from '@material-ui/core';
-import Container from '../components/Container';
-import { withSnackbar } from 'notistack';
-import iconPriority from '../assets/icon_priority.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import {
-  getMonthFormatByLocale,
-  getDateFormatByLocale
-} from '../utils/date-utils';
-import moment from 'moment';
+import iconPriority from '../assets/icon_priority.png';
+import Container from '../components/Container';
+import DeletePriorityModal from '../screens/families/edit/DeletePriorityModal';
 import { COLORS } from '../theme';
-import { ROLES_NAMES } from '../utils/role-utils';
+import {
+  getDateFormatByLocale,
+  getMonthFormatByLocale
+} from '../utils/date-utils';
 import { useWindowSize } from '../utils/hooks-helpers';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const FamilyPriorities = ({
   classes,
@@ -25,6 +28,7 @@ const FamilyPriorities = ({
   stoplightSkipped,
   questions,
   priorities,
+  readOnly,
   user,
   fullWidth = false,
   t,
@@ -36,6 +40,8 @@ const FamilyPriorities = ({
   const windowSize = useWindowSize();
   const showReviewDate = windowSize.width > 600;
   const [priorityOpen, setPriorityOpen] = useState();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedPriority, setSelectedPriority] = useState();
 
   const getColor = stopligh => {
     if (stopligh === 2) {
@@ -47,8 +53,10 @@ const FamilyPriorities = ({
 
   const showAdministrationOptions = ({ role }) => {
     return (
-      role === ROLES_NAMES.ROLE_SURVEY_USER ||
-      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+      (role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        role === ROLES_NAMES.ROLE_FAMILY_USER ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
+      !readOnly
     );
   };
 
@@ -61,6 +69,12 @@ const FamilyPriorities = ({
 
   return (
     <React.Fragment>
+      <DeletePriorityModal
+        priorityToDelete={selectedPriority}
+        open={openDeleteModal}
+        afterSubmit={() => window.location.reload()}
+        toggleModal={() => setOpenDeleteModal(!openDeleteModal)}
+      />
       {/* Header */}
       <Container className={classes.basicInfo} variant="fluid">
         <div className={classes.iconBaiconFamilyBorder}>
@@ -253,6 +267,29 @@ const FamilyPriorities = ({
                           <Typography variant="subtitle2">
                             {item.action}
                           </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          md={1}
+                          sm={12}
+                          xs={12}
+                          container
+                          justify="flex-end"
+                        >
+                          {showAdministrationOptions(user) && (
+                            <Tooltip
+                              title={t('views.solutions.form.deleteButton')}
+                            >
+                              <Button
+                                onClick={() => {
+                                  setSelectedPriority(item);
+                                  setOpenDeleteModal(true);
+                                }}
+                              >
+                                <Delete />
+                              </Button>
+                            </Tooltip>
+                          )}
                         </Grid>
                       </Grid>
                     </div>

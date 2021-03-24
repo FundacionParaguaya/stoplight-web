@@ -400,7 +400,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         </Accordion>
       </div>
 
-      <Container variant="fluid" className={classes.greyBackground}>
+      <div className={classes.greyBackground}>
         <Grid
           container
           className={classes.whiteBackground}
@@ -449,11 +449,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         </Grid>
 
         {/* General Data */}
-        <Container
-          style={{ padding: 20, marginTop: 2 }}
-          className={classes.socialEconomics}
-          variant="fluid"
-        >
+        <Container className={classes.generalData} variant="fluid">
           <Container className={classes.containerGeneralData}>
             {loadingGeneralData && <GeneralDataLoadingContainer />}
             {!loadingGeneralData && <DashboardGeneralData data={generalData} />}
@@ -495,7 +491,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         </Container>
 
         {/* Stoplight Overview */}
-        <Container className={classes.socialEconomics} variant="fluid">
+        <Container className={classes.overview} variant="fluid">
           <Container className={classes.containerInnerSocial}>
             {loadingOverview && <LoadingContainer />}
             {!loadingOverview && <OverviewBlock data={overview} width="70%" />}
@@ -518,15 +514,12 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         <Container className={classes.whiteContainer} variant="fluid">
           <Container>
             <IndicatorsVisualisation
-              /* data={[...(indicators || [])].sort((a, b) =>
-                a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-              )}*/
               data={indicators}
               loading={loadingDimensionsIndicators}
             />
           </Container>
         </Container>
-      </Container>
+      </div>
     </div>
   );
 };
@@ -541,12 +534,18 @@ const styles = theme => ({
   img: {
     maxWidth: 180,
     maxHeight: 85,
-    marginTop: 48
+    marginTop: 48,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 0
+    }
   },
   titleBar: {
     paddingTop: theme.spacing(8),
     position: 'relative',
-    paddingBottom: theme.spacing(5)
+    paddingBottom: theme.spacing(5),
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: 0
+    }
   },
   ballsContainer: {
     position: 'absolute',
@@ -565,7 +564,11 @@ const styles = theme => ({
     }
   },
   greyBackground: {
-    backgroundColor: theme.palette.background.paper
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.down('xs')]: {
+      width: '85%'
+    }
   },
   whiteBackground: {
     backgroundColor: theme.palette.background.default
@@ -577,13 +580,19 @@ const styles = theme => ({
   operations: {
     padding: `${theme.spacing(5)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: 2
+    marginBottom: 2,
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: 0
+    }
   },
   operationsInner: {
     display: 'flex'
   },
   chartContainer: {
-    width: '100%'
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      paddingRight: 20
+    }
   },
   feedContainer: {
     position: 'relative',
@@ -601,12 +610,38 @@ const styles = theme => ({
   socialEconomics: {
     padding: `${theme.spacing(6)}px 0`,
     backgroundColor: theme.palette.background.default,
-    marginBottom: 2
+    marginBottom: 2,
+    [theme.breakpoints.down('sm')]: {
+      minHeight: 630
+    },
+    [theme.breakpoints.down('xs')]: {
+      minHeight: 710
+    }
+  },
+  overview: {
+    padding: `${theme.spacing(6)}px 0`,
+    backgroundColor: theme.palette.background.default,
+    marginBottom: 2,
+    [theme.breakpoints.down('sm')]: {
+      minHeight: 500
+    },
+    [theme.breakpoints.down('xs')]: {
+      minHeight: 710
+    }
+  },
+  generalData: {
+    backgroundColor: theme.palette.background.default,
+    marginBottom: 2,
+    padding: 20,
+    marginTop: 2
   },
   containerInnerSocial: {
     minHeight: 250,
     display: 'flex',
     justifyContent: 'flex-start',
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 50
+    },
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'center',

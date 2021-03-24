@@ -27,7 +27,7 @@ const CustomSnackbarProvider = props => (
 const styles = theme => ({
   containerRoot: {
     '& .MuiSnackbarContent-message': {
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         width: '80%'
       }
     }

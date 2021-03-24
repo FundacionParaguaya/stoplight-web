@@ -30,6 +30,7 @@ const indicatorsStyles = theme => ({
   barContainer: {
     padding: `${theme.spacing()}px ${theme.spacing(3)}px`,
     display: 'flex',
+    paddingRight: 50,
     justifyContent: 'space-between',
     alignItems: 'center',
     '&:nth-child(2n)': {
@@ -76,7 +77,10 @@ const indicatorsStyles = theme => ({
     zIndex: 1
   },
   stackedBarContainer: {
-    width: '75%'
+    width: '75%',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 60
+    }
   }
 });
 

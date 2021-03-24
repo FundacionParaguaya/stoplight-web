@@ -1,14 +1,15 @@
-import React from 'react';
 import { Typography, withStyles } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import moment from 'moment';
-import { COLORS } from '../theme';
-import { redirectUrlPerType, activityTypes } from './../utils/activities-utils';
-import stoplightImg from '../assets/stoplight-taken.png';
-import solutionImg from '../assets/solution.png';
-import priorityImg from '../assets/priority.png';
 import clsx from 'clsx';
+import moment from 'moment';
+import React from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import priorityImg from '../assets/priority.png';
+import solutionImg from '../assets/solution.png';
+import stoplightImg from '../assets/stoplight-taken.png';
+import { COLORS } from '../theme';
+import { checkAccess } from '../utils/role-utils';
+import { activityTypes, redirectUrlPerType } from './../utils/activities-utils';
 
 const ActivityFeed = ({
   classes,
@@ -16,11 +17,20 @@ const ActivityFeed = ({
   width = '40%',
   height = 200,
   t,
-  history
+  history,
+  user
 }) => {
   const handleClick = (activityType, referenceId, familyId) => {
     let id = !!referenceId ? referenceId : familyId;
-    history.push(redirectUrlPerType[activityType].replace('$referenceId', id));
+    if (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION) {
+      history.push(
+        redirectUrlPerType[activityType].replace('$referenceId', id)
+      );
+    } else if (checkAccess(user, 'families')) {
+      history.push(
+        redirectUrlPerType[activityType].replace('$referenceId', id)
+      );
+    }
   };
 
   const getImage = activityType => {
@@ -73,7 +83,12 @@ const ActivityFeed = ({
             return (
               <div
                 key={id}
-                className={`${classes.children} ${classes.clickable}`}
+                className={clsx(
+                  classes.children,
+                  (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION ||
+                    checkAccess(user, 'families')) &&
+                    classes.clickable
+                )}
                 onClick={() => handleClick(activityType, referenceId, familyId)}
               >
                 <div className={classes.iconContainer}>

@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 const ChangeProject = ({
   familyId,
   currentProject,
+  updateProject,
   enqueueSnackbar,
   closeSnackbar,
   user
@@ -57,6 +58,7 @@ const ChangeProject = ({
     setLoading(true);
     updateFamilyProject(familyId, projectData.value, user)
       .then(() => {
+        updateProject(projectData);
         setLoading(false);
         setChangedProject(false);
         setConfirmationModal(false);

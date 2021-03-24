@@ -1,13 +1,9 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +24,7 @@ import FamilyAchievements from '../../../components/FamilyAchievements';
 import FamilyImages from '../../../components/FamilyImages';
 import FamilyNotes from '../../../components/FamilyNotes';
 import FamilyPriorities from '../../../components/FamilyPriorities';
+import ImagePreview from '../../../components/ImagePreview';
 import SignatureImage from '../../../components/SignatureImage';
 import withLayout from '../../../components/withLayout';
 import { updateDraft, updateSurvey } from '../../../redux/actions';
@@ -40,8 +37,8 @@ import {
 } from '../../../utils/survey-utils';
 import Details from '../profile/Details';
 import FamilyOverview from '../profile/FamilyOverview';
-import MyProfileHeader from './MyProfileHeader';
 import DraftItem from './DraftItem';
+import MyProfileHeader from './MyProfileHeader';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -237,6 +234,7 @@ const MyProfile = ({
         setFamilyNote('');
         showSuccessMessage(t('views.familyProfile.familyNoteSuccess'));
         loadFamilyNotes(family.familyId, user);
+        setLoading(false);
       })
       .catch(e => {
         setLoading(false);
@@ -248,7 +246,8 @@ const MyProfile = ({
     return (
       role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
       role === ROLES_NAMES.ROLE_SURVEY_USER ||
-      role === ROLES_NAMES.ROLE_APP_ADMIN
+      role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_FAMILY_USER
     );
   };
 
@@ -460,31 +459,11 @@ const MyProfile = ({
         />
       )}
 
-      <Dialog
+      <ImagePreview
         open={imagePreview}
-        onClose={() => setImagePreview(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent className={classes.previewContent}>
-          <img
-            className={classes.imagePreview}
-            src={imageUrl}
-            alt={'Family gallery or signature'}
-          />
-        </DialogContent>
-        <DialogActions className={classes.btnContainer}>
-          <Button
-            href={imageUrl}
-            className={classes.btnDialog}
-            download
-            color="primary"
-          >
-            <GetAppIcon />
-            {t('views.familyProfile.download')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        togglePreview={setImagePreview}
+        imageUrl={imageUrl}
+      />
     </div>
   );
 };
