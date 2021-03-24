@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
-import { Delete } from '@material-ui/icons';
+import { Delete, Edit } from '@material-ui/icons';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import moment from 'moment';
@@ -12,8 +12,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import iconPriority from '../assets/icon_priority.png';
-import Container from '../components/Container';
+import Container from './Container';
 import DeletePriorityModal from '../screens/families/edit/DeletePriorityModal';
+import EditPriorityModal from '../screens/families/edit/EditPriorityModal';
 import { COLORS } from '../theme';
 import {
   getDateFormatByLocale,
@@ -41,6 +42,7 @@ const FamilyPriorities = ({
   const showReviewDate = windowSize.width > 600;
   const [priorityOpen, setPriorityOpen] = useState();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState();
 
   const getColor = stopligh => {
@@ -60,10 +62,10 @@ const FamilyPriorities = ({
     );
   };
 
-  const handleAddPriority = e => {
+  const handleAddPriority = () => {
     history.push({
       pathname: `/priorities/${familyId}`,
-      state: { questions: questions }
+      state: { questions }
     });
   };
 
@@ -74,6 +76,12 @@ const FamilyPriorities = ({
         open={openDeleteModal}
         afterSubmit={() => window.location.reload()}
         toggleModal={() => setOpenDeleteModal(!openDeleteModal)}
+      />
+      <EditPriorityModal
+        priorityToEdit={selectedPriority}
+        open={openEditModal}
+        afterSubmit={() => window.location.reload()}
+        toggleModal={() => setOpenEditModal(!openEditModal)}
       />
       {/* Header */}
       <Container className={classes.basicInfo} variant="fluid">
@@ -122,7 +130,7 @@ const FamilyPriorities = ({
                     className={classes.priorityTitle}
                     title={
                       <div className={classes.priorityItemHeader}>
-                        {/* Indicator Info*/}
+                        {/* Indicator Info */}
                         <div className={classes.indicatorBasicInfoRight}>
                           <div
                             className={classes.iconStoplight}
@@ -138,7 +146,7 @@ const FamilyPriorities = ({
                           </Typography>
                         </div>
 
-                        {/* Date*/}
+                        {/* Date */}
                         {showReviewDate && (
                           <div className={classes.indicatorBasicInfoLeft}>
                             <div className={classes.dateContainer}>
@@ -172,7 +180,7 @@ const FamilyPriorities = ({
                       </div>
                     }
                   >
-                    {/* Priority Details*/}
+                    {/* Priority Details */}
                     <div className={classes.priorityContent}>
                       <Grid container spacing={2}>
                         {!showReviewDate && (
@@ -200,7 +208,7 @@ const FamilyPriorities = ({
                           </Grid>
                         )}
 
-                        {/* Created At*/}
+                        {/* Created At */}
                         <Grid
                           item
                           md={12}
@@ -224,7 +232,7 @@ const FamilyPriorities = ({
                           </Typography>
                         </Grid>
 
-                        {/* Month*/}
+                        {/* Month */}
                         <Grid
                           item
                           md={12}
@@ -246,28 +254,34 @@ const FamilyPriorities = ({
                       </Grid>
 
                       <Grid container spacing={2}>
-                        {/* Why Information*/}
-                        <Grid item md={5} sm={12} xs={12}>
-                          <Typography variant="subtitle1">
-                            {t('views.lifemap.whyDontYouHaveIt')}
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            {item.reason}
-                          </Typography>
-                        </Grid>
+                        {/* Why Information */}
+                        {!!item.reason && (
+                          <Grid item md={5} sm={12} xs={12}>
+                            <Typography variant="subtitle1">
+                              {t('views.lifemap.whyDontYouHaveIt')}
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {item.reason}
+                            </Typography>
+                          </Grid>
+                        )}
 
-                        {/* Divider*/}
-                        <div className={classes.divider} />
+                        {/* Divider */}
+                        {!(!item.action || !item.reason) && (
+                          <div className={classes.divider} />
+                        )}
 
-                        {/* What Information*/}
-                        <Grid item md={5} sm={12} xs={12}>
-                          <Typography variant="subtitle1">
-                            {t('views.lifemap.whatWillYouDoToGetIt')}
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            {item.action}
-                          </Typography>
-                        </Grid>
+                        {/* What Information */}
+                        {!!item.action && (
+                          <Grid item md={5} sm={12} xs={12}>
+                            <Typography variant="subtitle1">
+                              {t('views.lifemap.whatWillYouDoToGetIt')}
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {item.action}
+                            </Typography>
+                          </Grid>
+                        )}
                         <Grid
                           item
                           md={1}
@@ -277,18 +291,34 @@ const FamilyPriorities = ({
                           justify="flex-end"
                         >
                           {showAdministrationOptions(user) && (
-                            <Tooltip
-                              title={t('views.solutions.form.deleteButton')}
+                            <div
+                              style={{ display: 'flex', flexDirection: 'row' }}
                             >
-                              <Button
-                                onClick={() => {
-                                  setSelectedPriority(item);
-                                  setOpenDeleteModal(true);
-                                }}
+                              <Tooltip
+                                title={t('views.solutions.form.editButton')}
                               >
-                                <Delete />
-                              </Button>
-                            </Tooltip>
+                                <Button
+                                  onClick={() => {
+                                    setSelectedPriority(item);
+                                    setOpenEditModal(true);
+                                  }}
+                                >
+                                  <Edit />
+                                </Button>
+                              </Tooltip>
+                              <Tooltip
+                                title={t('views.solutions.form.deleteButton')}
+                              >
+                                <Button
+                                  onClick={() => {
+                                    setSelectedPriority(item);
+                                    setOpenDeleteModal(true);
+                                  }}
+                                >
+                                  <Delete />
+                                </Button>
+                              </Tooltip>
+                            </div>
                           )}
                         </Grid>
                       </Grid>
@@ -422,7 +452,7 @@ const styles = theme => ({
   priorityTable: {
     width: '100%',
     mixBlendMode: 'normal',
-    //opacity: '0.5',
+    // opacity: '0.5',
     paddingBotton: '2rem'
   },
   labelRows: {
@@ -462,7 +492,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: '3rem'
-    //position: 'relative'
+    // position: 'relative'
   },
 
   administratorContainer: {

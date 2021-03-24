@@ -163,9 +163,7 @@ const SelectIndicatorPriority = ({
 
   //Validation criterias
   const validationSchema = Yup.object().shape({
-    estimatedDate: Yup.string().required(fieldIsRequired),
-    reason: Yup.string().required(fieldIsRequired),
-    action: Yup.string().required(fieldIsRequired)
+    estimatedDate: Yup.string().required(fieldIsRequired)
   });
 
   // on save priority
@@ -241,7 +239,7 @@ const SelectIndicatorPriority = ({
           paddingRight: '12%'
         }}
       >
-        <NavigationBar options={navigationOptions}></NavigationBar>
+        <NavigationBar options={navigationOptions} />
       </div>
 
       <Container className={classes.basicInfo} variant="stretch">
@@ -306,6 +304,10 @@ const SelectIndicatorPriority = ({
             </Typography>
 
             <Formik
+              initialValues={{
+                reason: '',
+                action: ''
+              }}
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 setLoading(true);
@@ -316,12 +318,10 @@ const SelectIndicatorPriority = ({
                 <InputWithFormik
                   label={t('views.lifemap.whyDontYouHaveIt')}
                   name="reason"
-                  required
                 />
                 <InputWithFormik
                   label={t('views.lifemap.whatWillYouDoToGetIt')}
                   name="action"
-                  required
                 />
                 <AutocompleteWithFormik
                   label={t('views.lifemap.howManyMonthsWillItTake')}
