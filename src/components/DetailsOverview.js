@@ -29,6 +29,7 @@ import {
   picturesSignaturesBySnapshot
 } from '../api';
 import ImagePreview from './ImagePreview';
+import Details from '../screens/families/profile/Details';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -46,11 +47,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: 20
   },
   gridContainer: {
-    height: 80,
+    marginBottom: 5,
     backgroundColor: theme.palette.background.default
   },
   buttonsContainer: {
-    height: 80,
     display: 'flex',
     justifyContent: 'space-between'
   },
@@ -156,10 +156,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   dimensionQuestionsContainer: {
-    marginTop: '30px',
-    [theme.breakpoints.down('xs')]: {
-      marginTop: '150px'
-    }
+    marginTop: '30px'
   },
   buttonLabel: {
     fontWeight: 600,
@@ -189,7 +186,8 @@ const DetailsOverview = ({
   snapshot,
   firstParticipant,
   user,
-  reloadPage
+  reloadPage,
+  survey
 }) => {
   const {
     t,
@@ -341,23 +339,26 @@ const DetailsOverview = ({
   const showButton = (button, { role }, family) => {
     if (button === 'whatsapp') {
       return (
-        role === ROLES_NAMES.ROLE_SURVEY_USER ||
-        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+        (role === ROLES_NAMES.ROLE_SURVEY_USER ||
+          role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
+        !snapshot.stoplightSkipped
       );
     } else if (button === 'email') {
       return (
-        role === ROLES_NAMES.ROLE_SURVEY_USER ||
-        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
-        role === ROLES_NAMES.ROLE_APP_ADMIN
+        (role === ROLES_NAMES.ROLE_SURVEY_USER ||
+          role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+          role === ROLES_NAMES.ROLE_APP_ADMIN) &&
+        !snapshot.stoplightSkipped
       );
     } else if (button === 'download') {
       return (
-        role === ROLES_NAMES.ROLE_HUB_ADMIN ||
-        role === ROLES_NAMES.ROLE_APP_ADMIN ||
-        role === ROLES_NAMES.ROLE_ROOT ||
-        role === ROLES_NAMES.ROLE_PS_TEAM ||
-        role === ROLES_NAMES.ROLE_SURVEY_USER ||
-        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN
+        (role === ROLES_NAMES.ROLE_HUB_ADMIN ||
+          role === ROLES_NAMES.ROLE_APP_ADMIN ||
+          role === ROLES_NAMES.ROLE_ROOT ||
+          role === ROLES_NAMES.ROLE_PS_TEAM ||
+          role === ROLES_NAMES.ROLE_SURVEY_USER ||
+          role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
+        !snapshot.stoplightSkipped
       );
     } else if (button === 'delete') {
       return (
@@ -552,6 +553,16 @@ const DetailsOverview = ({
         </Grid>
       </div>
 
+      <Details
+        primaryParticipant={firstParticipant}
+        familyMembers={family.familyMemberDTOList}
+        latitude={family.latitude}
+        longitude={family.longitude}
+        economicData={snapshot.economic}
+        membersEconomicData={snapshot.membersEconomic}
+        survey={survey}
+      />
+
       <div className={classes.overviewContainer}>
         <div className={classes.dimensionQuestionsContainer}>
           <DimensionQuestion
@@ -563,15 +574,20 @@ const DetailsOverview = ({
           />
         </div>
       </div>
-      <FamilyPriorities
-        stoplightSkipped={true}
-        questions={snapshot}
-        priorities={prioritiesList}
-        fullWidth={true}
-        readOnly
-      />
 
-      <FamilyAchievements achievements={achievementsList} fullWidth={true} />
+      {!snapshot.stoplightSkipped && (
+        <FamilyPriorities
+          stoplightSkipped={false}
+          questions={snapshot}
+          priorities={prioritiesList}
+          fullWidth={true}
+          readOnly
+        />
+      )}
+
+      {!snapshot.stoplightSkipped && (
+        <FamilyAchievements achievements={achievementsList} fullWidth={true} />
+      )}
 
       {/* Images */}
       {images.length > 0 && (

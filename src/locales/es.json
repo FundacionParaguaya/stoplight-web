@@ -536,7 +536,7 @@
       "profile": "Perfil",
       "createNewSnapshot": "¡Crea una nueva encuesta para la familia!",
       "stoplight": "Semáforo",
-      "loadingSnapshots": "Cargando semáforos...",
+      "loadingSnapshots": "Esta familia no tiene semáforos ...",
       "familyNoteSuccess": "Nota de familia enviada correctamente",
       "familyNoteError": "No se pudo enviar la nota familiar",
       "download": "Descargar",
