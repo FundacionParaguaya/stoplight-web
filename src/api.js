@@ -1545,7 +1545,7 @@ export const submitResources = async (user, resources) => {
         compressionOptions
       );
       compressedImage.path = compressedImage.name;
-      formData.append('resources', resource);
+      formData.append('resources', compressedImage);
     } else {
       formData.append('resources', resource);
     }
