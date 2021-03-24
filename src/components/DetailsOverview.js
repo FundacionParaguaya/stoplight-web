@@ -561,6 +561,7 @@ const DetailsOverview = ({
         economicData={snapshot.economic}
         membersEconomicData={snapshot.membersEconomic}
         survey={survey}
+        readOnly
       />
 
       <div className={classes.overviewContainer}>

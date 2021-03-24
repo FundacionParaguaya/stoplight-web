@@ -109,7 +109,8 @@ const PersonalDetails = ({
   latitude,
   longitude,
   user,
-  history
+  history,
+  readOnly
 }) => {
   const classes = useStyles();
   const {
@@ -136,9 +137,10 @@ const PersonalDetails = ({
   };
 
   const showEditButtons = ({ role }) =>
-    role === ROLES_NAMES.ROLE_APP_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER;
+    (role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER) &&
+    !readOnly;
 
   return (
     <React.Fragment>
