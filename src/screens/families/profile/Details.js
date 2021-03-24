@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
     padding: '10px 12% 10px 12%',
     backgroundColor: theme.palette.background.default
   },
+  readOnlyContainer: {
+    padding: 0
+  },
   advancedContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -105,7 +108,9 @@ const Details = ({
   }, [survey]);
 
   return (
-    <Accordion className={classes.container}>
+    <Accordion
+      className={clsx(classes.container, readOnly && classes.readOnlyContainer)}
+    >
       <AccordionItem
         key={1}
         onExpand={() => setOpenFamilyDetails(!openFamilyDetails)}
