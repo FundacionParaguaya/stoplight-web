@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'rgba(0, 0, 0, 0.04)'
     }
   },
-  nameLabelStyle: {
+  familyNameLabelStyle: {
     fontSize: '14px',
     width: '100%',
     maxWidth: '30vw',
@@ -91,6 +91,19 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
     cursor: 'pointer'
   },
+  nameLabelStyle: {
+    fontSize: '14px',
+    width: '100%',
+    maxWidth: '30vw',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '55vw'
+    },
+    textOverflow: 'ellipsis',
+    textTransform: 'capitalize',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    cursor: 'auto'
+  },
   documentLabel: {
     fontSize: '14px',
     color: '#909090',
@@ -101,7 +114,8 @@ const useStyles = makeStyles(theme => ({
     },
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    cursor: 'auto'
   },
 
   birthDateStyle: {
@@ -113,7 +127,8 @@ const useStyles = makeStyles(theme => ({
     },
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    cursor: 'auto'
   },
   deleteStyle: {
     cursor: 'pointer',
@@ -351,7 +366,10 @@ const FamilyTable = ({
                 <div>
                   <Tooltip title={rowData.name} aria-label="name">
                     <Typography
-                      className={classes.nameLabelStyle}
+                      className={[
+                        classes.familyNameLabelStyle,
+                        { cursor: 'pointer' }
+                      ]}
                       variant="subtitle1"
                       onClick={event =>
                         redirectToFamily(event, rowData.familyId)
