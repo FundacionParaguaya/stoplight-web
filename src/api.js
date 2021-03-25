@@ -1051,14 +1051,15 @@ export const addPriority = (
     },
     data: JSON.stringify({
       query:
-        'mutation addPriority($newPriority : PriorityDtoInput) {addPriority(newPriority: $newPriority)  {  indicator, reviewDate, reason, action, indicator, months, snapshotStoplightId } }',
+        'mutation addPriority($newPriority : PriorityDtoInput, $client : String) {addPriority(newPriority: $newPriority, client: $client)  {  indicator, reviewDate, reason, action, indicator, months, snapshotStoplightId } }',
       variables: {
         newPriority: {
           reason: reason,
           action: action,
           months: months,
           snapshotStoplightId: snapshotStoplightId
-        }
+        },
+        client: 'WEB'
       }
     })
   });
