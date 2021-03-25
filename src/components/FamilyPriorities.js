@@ -255,36 +255,31 @@ const FamilyPriorities = ({
 
                       <Grid container spacing={2}>
                         {/* Why Information */}
-                        {!!item.reason && (
-                          <Grid item md={5} sm={12} xs={12}>
-                            <Typography variant="subtitle1">
-                              {t('views.lifemap.whyDontYouHaveIt')}
-                            </Typography>
-                            <Typography variant="subtitle2">
-                              {item.reason}
-                            </Typography>
-                          </Grid>
-                        )}
+                        <Grid item md={5} sm={12} xs={12}>
+                          <Typography variant="subtitle1">
+                            {t('views.lifemap.whyDontYouHaveIt')}
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            {item.reason}
+                          </Typography>
+                        </Grid>
 
                         {/* Divider */}
-                        {!(!item.action || !item.reason) && (
-                          <div className={classes.divider} />
-                        )}
+                        <div className={classes.divider} />
 
                         {/* What Information */}
-                        {!!item.action && (
-                          <Grid item md={5} sm={12} xs={12}>
-                            <Typography variant="subtitle1">
-                              {t('views.lifemap.whatWillYouDoToGetIt')}
-                            </Typography>
-                            <Typography variant="subtitle2">
-                              {item.action}
-                            </Typography>
-                          </Grid>
-                        )}
+                        <Grid item md={5} sm={12} xs={12}>
+                          <Typography variant="subtitle1">
+                            {t('views.lifemap.whatWillYouDoToGetIt')}
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            {item.action}
+                          </Typography>
+                        </Grid>
                         <Grid
                           item
-                          md={1}
+                          lg={1}
+                          md={12}
                           sm={12}
                           xs={12}
                           container
