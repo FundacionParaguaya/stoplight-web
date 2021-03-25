@@ -1,6 +1,6 @@
 import axios from 'axios';
-import store from './redux';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import store from './redux';
 import CallingCodes from './screens/lifemap/CallingCodes';
 
 // Send correct encoding in all POST requests
@@ -1050,6 +1050,27 @@ export const addPriority = (
           action: action,
           months: months,
           snapshotStoplightId: snapshotStoplightId
+        }
+      }
+    })
+  });
+
+export const editPriority = (user, id, reason, action, months) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateSnapshotStoplightPriority($priority: PriorityDtoInput) {updateSnapshotStoplightPriority(priority: $priority){successful}}',
+      variables: {
+        priority: {
+          id,
+          reason,
+          action,
+          months
         }
       }
     })
