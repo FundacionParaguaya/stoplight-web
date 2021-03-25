@@ -166,8 +166,7 @@ const styles = theme => ({
     }
   },
   outlinedInput: {
-    padding: '1.5rem 1rem !important',
-    textAlign: 'center'
+    padding: '1.5rem 1rem !important'
   },
   buttonContained: {
     marginTop: 5,
