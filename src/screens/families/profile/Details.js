@@ -16,7 +16,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default
   },
   readOnlyContainer: {
-    padding: 0
+    padding: 0,
+    marginTop: 0,
+    marginBottom: 15
   },
   advancedContainer: {
     display: 'flex',
