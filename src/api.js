@@ -872,17 +872,19 @@ export const migrateFamilies = (
   families,
   organization,
   facilitator,
-  project
+  project,
+  lang
 ) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
     },
     data: JSON.stringify({
       query:
-        'mutation migrateFamilies($families: [FamilyModelInput], $organization: Long, $user: Long, $project: Long ) { migrateFamilies(families: $families, organization: $organization, user: $user, project: $project) {successful} }',
+        'mutation migrateFamilies($families: [FamilyModelInput], $organization: Long, $user: Long, $project: Long ) { migrateFamilies(families: $families, organization: $organization, user: $user, project: $project) {successful errors} }',
       variables: {
         families,
         organization,
