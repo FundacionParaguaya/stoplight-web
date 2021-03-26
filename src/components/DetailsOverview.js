@@ -451,6 +451,17 @@ const DetailsOverview = ({
         </div>
       </div>
 
+      <Details
+        primaryParticipant={firstParticipant}
+        familyMembers={snapshot.familyData.familyMembersList}
+        latitude={snapshot.familyData.latitude}
+        longitude={snapshot.familyData.longitude}
+        economicData={snapshot.economic}
+        membersEconomicData={snapshot.membersEconomic}
+        survey={survey}
+        readOnly
+      />
+
       <div className={classes.gridContainer}>
         <Grid container spacing={4} className={classes.buttonsContainer}>
           {firstParticipant.email && showButton('email', user) && (
@@ -552,17 +563,6 @@ const DetailsOverview = ({
           )}
         </Grid>
       </div>
-
-      <Details
-        primaryParticipant={firstParticipant}
-        familyMembers={family.familyMemberDTOList}
-        latitude={family.latitude}
-        longitude={family.longitude}
-        economicData={snapshot.economic}
-        membersEconomicData={snapshot.membersEconomic}
-        survey={survey}
-        readOnly
-      />
 
       <div className={classes.overviewContainer}>
         <div className={classes.dimensionQuestionsContainer}>
