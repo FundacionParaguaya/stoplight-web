@@ -556,7 +556,7 @@
         }
       },
       "survey": "Pesquisa:",
-      "surveyError": "Certifique-se de que sua organização tenha acesso à versão da pesquisa antes de visualizar o Perfil da Família."
+      "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa."
     },
     "familyNotes": {
       "by": "por",
