@@ -557,7 +557,7 @@
         }
       },
       "survey": "Survey:",
-      "surveyError": "Make sure your organization has access to the survey version before viewing the Family Profile."
+      "surveyError": "The survey version is not available. To take a follow-up survey, request access to the survey version."
     },
     "familyNotes": {
       "by": "by",
