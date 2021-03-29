@@ -421,28 +421,32 @@ const SnapshotsTable = ({
               sm={12}
               xs={12}
             >
-              {selectedSnapShots.length > 0 && (
-                <Delete
-                  className={classes.deleteStyle}
-                  style={{ marginRight: 13 }}
-                  onClick={() =>
-                    setDeletingDrafts({
-                      open: true,
-                      drafts: selectedSnapShots.map(snap => {
-                        return snap.draftId;
-                      }),
-                      type: 'multi'
-                    })
-                  }
-                />
-              )}
+              <Grid container md={2} sm={2} xs={2} alignItems="flex-end">
+                {selectedSnapShots.length > 0 && (
+                  <Delete
+                    className={classes.deleteStyle}
+                    style={{ marginRight: 13 }}
+                    onClick={() =>
+                      setDeletingDrafts({
+                        open: true,
+                        drafts: selectedSnapShots.map(snap => {
+                          return snap.draftId;
+                        }),
+                        type: 'multi'
+                      })
+                    }
+                  />
+                )}
+              </Grid>
 
-              <SnapshotsFilter
-                statusFilter={statusFilter}
-                setStatusFilter={setStatusFilter}
-                familiesFilter={familiesFilter}
-                onChangeFilter={onChangeFamilyFilter}
-              />
+              <Grid md={10} sm={10} xs={10}>
+                <SnapshotsFilter
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                  familiesFilter={familiesFilter}
+                  onChangeFilter={onChangeFamilyFilter}
+                />
+              </Grid>
             </Grid>
           </Grid>
 

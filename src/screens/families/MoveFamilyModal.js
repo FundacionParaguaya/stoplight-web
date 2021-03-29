@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     padding: '40px 50px',
     minHeight: '50vh',
     maxHeight: '85vh',
-    width: '85vw',
+    width: '95vw',
     maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
