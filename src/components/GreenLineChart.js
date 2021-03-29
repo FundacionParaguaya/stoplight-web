@@ -26,8 +26,8 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     marginRight: 5,
     [theme.breakpoints.down('sm')]: {
-      height: '15px',
-      width: '20px'
+      height: '14px',
+      width: '19px'
     }
   },
   greyDot: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: 5,
     [theme.breakpoints.down('sm')]: {
       height: '14px',
-      width: '25px'
+      width: '19px'
     }
   },
   ligthDot: {
