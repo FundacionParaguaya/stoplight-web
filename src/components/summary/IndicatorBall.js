@@ -59,8 +59,7 @@ const accentStyle = () => ({
   mediumAccent: {
     position: 'absolute',
     top: 10,
-    right: 10,
-    zIndex: 2
+    right: 10
   },
   priorityOrAchievementAccent: {
     position: 'absolute',
