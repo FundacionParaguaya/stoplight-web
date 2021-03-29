@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation, useTranslation } from 'react-i18next';
 import { Grid, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -423,11 +422,6 @@ class Surveys extends Component {
 
     return (
       <div className={classes.mainSurveyContainerBoss}>
-        {(this.state.loadingSurvey || this.state.loading) && (
-          <div className={classes.loadingSurveyContainer}>
-            <CircularProgress />
-          </div>
-        )}
         <Container variant="stretch">
           <ProjectsModal
             open={this.state.openSelectProjectModal}
