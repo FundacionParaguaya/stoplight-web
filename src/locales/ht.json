@@ -472,6 +472,8 @@
       "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
       "areYouSure": "Eske ou vle efase bwouyon sa a vre?",
       "areYouSureMulti": "Eske ou vle efase bwouyon sa yo vre?",
+      "success": "Draft efase avèk siksè.",
+      "successMulti": "Drafts efase avèk siksè.",
       "cannotDelete": "Te genyen yon erè nan efase bwouyon sa a.  Tanpri eseye ankò.",
       "cannotDeleteMulti": "Te genyen yon erè nan efase bwouyon sa yo.  Tanpri eseye ankò."
     },

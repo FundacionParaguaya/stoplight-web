@@ -469,6 +469,8 @@
       "cannotUndo": "¡No puedes deshacer esta acción!",
       "areYouSure": "¿Estás seguro de que quieres eliminar este borrador?",
       "areYouSureMulti": "¿Estás seguro de que quieres eliminar estos borradores?",
+      "success": "Borrador eliminado correctamente.",
+      "successMulti": "Borradores eliminados correctamente.",
       "cannotDelete": "Ha ocurrido un error al eliminar el borrador. Por favor inténtelo de nuevo.",
       "cannotDeleteMulti": "Ha ocurrido un error al eliminar estos borradores. Por favor inténtelo de nuevo."
     },
