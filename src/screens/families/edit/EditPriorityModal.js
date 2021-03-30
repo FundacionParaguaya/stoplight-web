@@ -29,7 +29,11 @@ const useStyles = makeStyles(theme => ({
     width: '500px',
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 24,
+      marginRight: 24
+    }
   },
   buttonContainerForm: {
     display: 'flex',
