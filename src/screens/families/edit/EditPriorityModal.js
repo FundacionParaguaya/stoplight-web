@@ -142,9 +142,7 @@ const EditPriorityModal = ({
               id: !!priorityToEdit ? priorityToEdit.id : '',
               reason: !!priorityToEdit ? priorityToEdit.reason : '',
               action: !!priorityToEdit ? priorityToEdit.action : '',
-              estimatedDate: !!priorityToEdit
-                ? priorityToEdit.estimatedDate
-                : null
+              estimatedDate: !!priorityToEdit ? priorityToEdit.months : null
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -167,7 +165,6 @@ const EditPriorityModal = ({
                 rawOptions={monthsOptions}
                 labelKey="label"
                 valueKey="value"
-                initialValue={!!priorityToEdit ? priorityToEdit.months : null}
                 required
                 isClearable={false}
               />
