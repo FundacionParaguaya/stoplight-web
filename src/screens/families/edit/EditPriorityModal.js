@@ -29,7 +29,11 @@ const useStyles = makeStyles(theme => ({
     width: '500px',
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: 24,
+      marginRight: 24
+    }
   },
   buttonContainerForm: {
     display: 'flex',
@@ -142,9 +146,7 @@ const EditPriorityModal = ({
               id: !!priorityToEdit ? priorityToEdit.id : '',
               reason: !!priorityToEdit ? priorityToEdit.reason : '',
               action: !!priorityToEdit ? priorityToEdit.action : '',
-              estimatedDate: !!priorityToEdit
-                ? priorityToEdit.estimatedDate
-                : null
+              estimatedDate: !!priorityToEdit ? priorityToEdit.months : null
             }}
             validationSchema={validationSchema}
             onSubmit={values => {

@@ -180,8 +180,7 @@ const FamilyPriorities = ({
                       </div>
                     }
                   >
-                    {/* Priority Details */}
-                    <div className={classes.priorityContent}>
+                    <div style={{ paddingLeft: '2rem', paddingTop: '1.5rem' }}>
                       <Grid container spacing={2}>
                         {!showReviewDate && (
                           <Grid
@@ -252,72 +251,84 @@ const FamilyPriorities = ({
                           </Typography>
                         </Grid>
                       </Grid>
-
-                      <Grid container spacing={2}>
-                        {/* Why Information */}
-                        <Grid item md={5} sm={12} xs={12}>
-                          <Typography variant="subtitle1">
-                            {t('views.lifemap.whyDontYouHaveIt')}
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            {item.reason}
-                          </Typography>
-                        </Grid>
-
-                        {/* Divider */}
-                        <div className={classes.divider} />
-
-                        {/* What Information */}
-                        <Grid item md={5} sm={12} xs={12}>
-                          <Typography variant="subtitle1">
-                            {t('views.lifemap.whatWillYouDoToGetIt')}
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            {item.action}
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          item
-                          lg={1}
-                          md={12}
-                          sm={12}
-                          xs={12}
-                          container
-                          justify="flex-end"
-                        >
-                          {showAdministrationOptions(user) && (
-                            <div
-                              style={{ display: 'flex', flexDirection: 'row' }}
-                            >
-                              <Tooltip
-                                title={t('views.solutions.form.editButton')}
-                              >
-                                <Button
-                                  onClick={() => {
-                                    setSelectedPriority(item);
-                                    setOpenEditModal(true);
-                                  }}
-                                >
-                                  <Edit />
-                                </Button>
-                              </Tooltip>
-                              <Tooltip
-                                title={t('views.solutions.form.deleteButton')}
-                              >
-                                <Button
-                                  onClick={() => {
-                                    setSelectedPriority(item);
-                                    setOpenDeleteModal(true);
-                                  }}
-                                >
-                                  <Delete />
-                                </Button>
-                              </Tooltip>
-                            </div>
-                          )}
-                        </Grid>
-                      </Grid>
                     </div>
+                    <Grid
+                      container
+                      style={{
+                        paddingLeft: '2rem',
+                        width: '100%',
+                        display: 'flex',
+                        paddingBottom: '1rem'
+                      }}
+                    >
+                      {/* Why Information */}
+                      <Grid item md={5} sm={12} xs={12}>
+                        <Typography variant="subtitle1">
+                          {t('views.lifemap.whyDontYouHaveIt')}
+                        </Typography>
+                        <Typography variant="subtitle2">
+                          {item.reason}
+                        </Typography>
+                      </Grid>
+
+                      {/* What Information */}
+                      <Grid item md={5} sm={12} xs={12}>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                          {/* Divider */}
+                          <div className={classes.divider} />
+                          <div>
+                            <Typography variant="subtitle1">
+                              {t('views.lifemap.whatWillYouDoToGetIt')}
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {item.action}
+                            </Typography>
+                          </div>
+                        </div>
+                      </Grid>
+                      <Grid
+                        item
+                        lg={2}
+                        md={2}
+                        sm={12}
+                        xs={12}
+                        container
+                        justify="flex-end"
+                      >
+                        {showAdministrationOptions(user) && (
+                          <div
+                            style={{ display: 'flex', flexDirection: 'row' }}
+                          >
+                            <Tooltip
+                              title={t('views.solutions.form.editButton')}
+                            >
+                              <Button
+                                style={{ paddingLeft: 16, paddingRight: 0 }}
+                                onClick={() => {
+                                  setSelectedPriority(item);
+                                  setOpenEditModal(true);
+                                }}
+                              >
+                                <Edit />
+                              </Button>
+                            </Tooltip>
+                            <Tooltip
+                              title={t('views.solutions.form.deleteButton')}
+                            >
+                              <Button
+                                style={{ paddingLeft: 10, paddingRight: 0 }}
+                                onClick={() => {
+                                  setSelectedPriority(item);
+                                  setOpenDeleteModal(true);
+                                }}
+                              >
+                                <Delete />
+                              </Button>
+                            </Tooltip>
+                          </div>
+                        )}
+                      </Grid>
+                    </Grid>
                   </AccordionItem>
                 );
               })
@@ -354,10 +365,13 @@ const styles = theme => ({
     flexGrow: 0,
     border: `1px solid ${theme.palette.grey.quarter}`,
     width: 3,
-    marginLeft: 30,
-    marginRight: 30,
-    [theme.breakpoints.down('660')]: {
-      visibility: 'hidden'
+    marginLeft: 10,
+    marginRight: 10,
+    [theme.breakpoints.down('960')]: {
+      visibility: 'hidden',
+      width: 0,
+      marginLeft: 0,
+      marginRight: 0
     }
   },
   monthInfoContainer: {
@@ -394,7 +408,8 @@ const styles = theme => ({
 
   priorityItemHeader: {
     display: 'flex',
-    alignItems: 'Center'
+    alignItems: 'Center',
+    paddingRight: 14
   },
 
   indicatorBasicInfoRight: {
@@ -410,12 +425,6 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end'
-  },
-  priorityContent: {
-    paddingLeft: '2rem',
-    paddingRight: '2rem',
-    paddingTop: '1.5rem',
-    paddingBottom: '1rem'
   },
 
   iconStoplight: {
