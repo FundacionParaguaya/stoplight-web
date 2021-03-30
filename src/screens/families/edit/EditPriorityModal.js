@@ -167,6 +167,7 @@ const EditPriorityModal = ({
                 rawOptions={monthsOptions}
                 labelKey="label"
                 valueKey="value"
+                initialValue={!!priorityToEdit ? priorityToEdit.months : null}
                 required
                 isClearable={false}
               />

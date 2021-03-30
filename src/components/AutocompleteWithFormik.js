@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
@@ -23,6 +23,7 @@ const AutocompleteWithFormik = ({
   labelKey,
   // These props defeat the keys and rawOptions. Won't try to know what's current value and options
   value,
+  initialValue,
   options,
   ...props
 }) => {
@@ -36,6 +37,7 @@ const AutocompleteWithFormik = ({
 
   let effectiveOptions = options;
   let effectiveValue = value;
+  const [initialValues, setInitialValues] = useState(initialValue);
   // If parent specifies the following props, we can infer what are the actual
   // options and the value from the raw options array, and the keys for
   // label and value
@@ -54,7 +56,10 @@ const AutocompleteWithFormik = ({
   }
 
   const onBlur = () => formik.setFieldTouched(name);
-  const onChange = v => formik.setFieldValue(name, v ? v.value : '');
+  const onChange = v => {
+    setInitialValues(v.value);
+    formik.setFieldValue(name, v ? v.value : '');
+  };
   const innerProps = {
     name,
     options: effectiveOptions,
@@ -71,7 +76,13 @@ const AutocompleteWithFormik = ({
     helperText,
     ...{ ...(textFieldProps || {}) }
   };
-  return <Autocomplete {...autocompleteProps} textFieldProps={fieldProps} />;
+  return (
+    <Autocomplete
+      {...autocompleteProps}
+      textFieldProps={fieldProps}
+      value={effectiveOptions[initialValues - 1]}
+    />
+  );
 };
 
 AutocompleteWithFormik.propTypes = {
