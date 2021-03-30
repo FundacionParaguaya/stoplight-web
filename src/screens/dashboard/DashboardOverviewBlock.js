@@ -20,6 +20,24 @@ const useStyles = makeStyles(theme => ({
       paddingLeft: 20
     }
   },
+  overviewTitleContainer: {
+    height: 'fit-content',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      flexDirection: 'column',
+      alignItems: 'center'
+    }
+  },
+  overviewTitle: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      textAlign: 'left',
+      marginBottom: 8
+    }
+  },
   familiesCountStyle: {
     fontSize: 34,
     fontWeight: theme.typography.fontWeightMedium,
@@ -146,14 +164,9 @@ const DashboardOverviewBlock = ({
         md={12}
         sm={12}
         xs={12}
-        style={{
-          height: 'fit-content',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between'
-        }}
+        className={classes.overviewTitleContainer}
       >
-        <Typography variant="h5">
+        <Typography variant="h5" className={classes.overviewTitle}>
           {t('views.familiesOverviewBlock.overview')}
         </Typography>
         <SnapShotsFilters

@@ -102,9 +102,6 @@ const styles = theme => ({
     alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
       maxWidth: 200
-    },
-    [theme.breakpoints.down('xs')]: {
-      maxWidth: 120
     }
   },
   button: {
