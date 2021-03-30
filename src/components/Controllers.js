@@ -64,7 +64,8 @@ const styles = theme => ({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column'
+      flexDirection: 'column',
+      alignItems: 'center'
     }
   },
   typesSelectorContainer: {
