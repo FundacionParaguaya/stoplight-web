@@ -97,6 +97,7 @@ const FamilyNotes = ({
               margin="dense"
             />
             <Button
+              color="primary"
               disabled={note.length === 0 || loading}
               onClick={handleSaveNote}
               className={classes.buttonContained}

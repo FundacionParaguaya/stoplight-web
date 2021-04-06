@@ -22,6 +22,7 @@ import {
 } from '../utils/date-utils';
 import { useWindowSize } from '../utils/hooks-helpers';
 import { ROLES_NAMES } from '../utils/role-utils';
+import IconButton from '@material-ui/core/IconButton';
 
 const FamilyPriorities = ({
   classes,
@@ -301,29 +302,33 @@ const FamilyPriorities = ({
                           >
                             <Tooltip
                               title={t('views.solutions.form.editButton')}
+                              style={{ marginRight: 10 }}
                             >
-                              <Button
-                                style={{ paddingLeft: 16, paddingRight: 0 }}
+                              <IconButton
+                                style={{ color: 'black' }}
+                                component="span"
                                 onClick={() => {
                                   setSelectedPriority(item);
                                   setOpenEditModal(true);
                                 }}
                               >
                                 <Edit />
-                              </Button>
+                              </IconButton>
                             </Tooltip>
                             <Tooltip
                               title={t('views.solutions.form.deleteButton')}
+                              style={{ marginRight: 8 }}
                             >
-                              <Button
-                                style={{ paddingLeft: 10, paddingRight: 0 }}
+                              <IconButton
+                                style={{ color: 'black' }}
+                                component="span"
                                 onClick={() => {
                                   setSelectedPriority(item);
                                   setOpenDeleteModal(true);
                                 }}
                               >
                                 <Delete />
-                              </Button>
+                              </IconButton>
                             </Tooltip>
                           </div>
                         )}
@@ -351,7 +356,11 @@ const FamilyPriorities = ({
           variant="fluid"
           style={{ paddingBottom: '2rem' }}
         >
-          <Button variant="contained" onClick={handleAddPriority}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleAddPriority}
+          >
             {t('views.familyPriorities.addPriority')}
           </Button>
         </Container>

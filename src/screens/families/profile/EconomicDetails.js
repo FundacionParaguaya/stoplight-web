@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
@@ -13,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import familyFaceIcon from '../../../assets/family_face_large.png';
 import { shouldShowQuestion } from '../../../utils/conditional-logic';
 import { ROLES_NAMES } from '../../../utils/role-utils';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -224,8 +224,9 @@ const EconomicDetails = ({
               style={{ height: 30 }}
             >
               <Tooltip title={t('views.solutions.form.editButton')}>
-                <Button
-                  style={{ paddingTop: 4 }}
+                <IconButton
+                  component="span"
+                  style={{ paddingTop: 4, color: 'black' }}
                   onClick={() => {
                     history.push(
                       `/family/${familyId}/edit-economic/${topics[
@@ -235,7 +236,7 @@ const EconomicDetails = ({
                   }}
                 >
                   <EditIcon />
-                </Button>
+                </IconButton>
               </Tooltip>
             </Grid>
           )}
