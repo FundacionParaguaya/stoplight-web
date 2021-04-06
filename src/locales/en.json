@@ -109,6 +109,11 @@
       "skipped": "Skipped",
       "yourProgress": "Your Progress"
     },
+    "support": {
+      "metaTitle": "Poverty Stoplight Support Center",
+      "headerTitle": "Advice and answers from the Poverty Stoplight Platform Team",
+      "search": "Search for articles..."
+    },
     "families": "Families",
     "createLifemap": "Create a Life Map",
     "latestDrafts": "Latest Life Maps",
