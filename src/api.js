@@ -1967,3 +1967,65 @@ export const deletePriority = (id, user) =>
       }
     })
   });
+
+export const listOfflineMaps = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: 'query { offlineMaps { from, to, center, name }  }'
+    })
+  });
+
+export const addOrUpdateOfflineMap = (offlineMap, user) => {
+  if (!offlineMap.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query:
+          'mutation addSurveyOfflineMap($surveyOfflineMap: SurveyOfflineMapInput) {addSurveyOfflineMap (surveyOfflineMap: $surveyOfflineMap){successful}}',
+        variables: {
+          offlineMap
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query:
+          'mutation updateSurveyOfflineMap($surveyOfflineMap: SurveyOfflineMapInput) {updateSurveyOfflineMap (surveyOfflineMap: $surveyOfflineMap){successful}}',
+        variables: {
+          offlineMap
+        }
+      })
+    });
+  }
+};
+
+export const deleteMap = (surveyOfflineMap, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteSurveyOfflineMap($surveyOfflineMap: Long) {deleteSurveyOfflineMap(surveyOfflineMap: $surveyOfflineMap){successful}}',
+      variables: {
+        surveyOfflineMap: surveyOfflineMap
+      }
+    })
+  });

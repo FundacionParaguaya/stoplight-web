@@ -35,7 +35,8 @@
     "continueStoplight": "Continuar",
     "yourStoplight": "Seu Semáforo",
     "completeStoplight": "Completar Semáforo",
-    "publish": "Publicar"
+    "publish": "Publicar",
+    "edit": "Editar"
   },
   "validation": {
     "fieldIsRequired": "Este campo é obrigatório",
@@ -707,7 +708,8 @@
           "sendingUniqueLink": "Via link"
         },
         "solutionAccessType": "Banco de solução"
-      }
+      },
+      "mapsList": "Lista de mapas"
     },
     "hub": {
       "search": "Buscar",
@@ -935,6 +937,25 @@
           "success": "Imagem do perfil atualizada com sucesso",
           "error": "Não foi possível atualizar a foto do perfil"
         }
+      }
+    },
+    "offlineMaps": {
+      "title": "Mapas offline",
+      "subtitle": "Adicione mapas offline para sua organização",
+      "list": "Lista de mapas offline",
+      "add": "Adicionar novo mapa",
+      "form": {
+        "addTitle": "Adicionar mapa offline",
+        "editTitle": "Editar mapa offline",
+        "name": "Nome",
+        "nameLengthExceeded": "O nome do mapa deve ter no máximo 50 caracteres"
+      },
+      "delete": {
+        "success": "O mapa foi excluído",
+        "error": "Não foi possível excluir o mapa. \nTente mais tarde",
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "confirmText": "Tem certeza de que deseja excluir este mapa?",
+        "confirmTitle": "Confirmar exclusão"
       }
     }
   },
