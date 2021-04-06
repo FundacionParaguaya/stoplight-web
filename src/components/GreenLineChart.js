@@ -14,9 +14,19 @@ import { Typography } from '@material-ui/core';
 import { COLORS } from '../theme';
 import CustomTooltip from './CustomTooltip';
 import { makeStyles } from '@material-ui/core/styles';
+import { useWindowSize } from '../utils/hooks-helpers';
 const { GREEN, GREY, LIGHT_GREY } = COLORS;
 
 const useStyles = makeStyles(theme => ({
+  opertaionsTitle: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column'
+    }
+  },
   greenDot: {
     textDecoration: 'none',
     height: '10px',
@@ -24,11 +34,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: GREEN,
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight: 5,
-    [theme.breakpoints.down('sm')]: {
-      height: '15px',
-      width: '20px'
-    }
+    marginRight: 5
   },
   greyDot: {
     textDecoration: 'none',
@@ -37,11 +43,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: GREY,
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight: 5,
-    [theme.breakpoints.down('sm')]: {
-      height: '14px',
-      width: '25px'
-    }
+    marginRight: 5
   },
   ligthDot: {
     textDecoration: 'none',
@@ -50,11 +52,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: LIGHT_GREY,
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight: 5,
-    [theme.breakpoints.down('sm')]: {
-      height: '15px',
-      width: '27px'
-    }
+    marginRight: 5
   },
   legendContainer: {
     listStyleType: 'none',
@@ -125,6 +123,8 @@ const GreenLineChart = withTranslation()(
       }
     };
 
+    const windowSize = useWindowSize();
+
     return (
       <ResponsiveContainer width={width || '100%'} height={height || 250}>
         <LineChart
@@ -156,7 +156,7 @@ const GreenLineChart = withTranslation()(
             align="right"
             wrapperStyle={{
               display: 'flex',
-              flexDirection: 'row',
+              flexDirection: windowSize.width > 450 ? 'row' : 'column',
               alignItems: 'baseline',
               justifyContent: 'space-between'
             }}

@@ -77,7 +77,8 @@ const EconomicDetails = ({
   history,
   questionsPerTopics,
   familyMembers,
-  user
+  user,
+  readOnly
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -183,9 +184,10 @@ const EconomicDetails = ({
   }, [economicData, membersEconomicData, topics]);
 
   const showEditButtons = ({ role }) =>
-    role === ROLES_NAMES.ROLE_APP_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
-    role === ROLES_NAMES.ROLE_SURVEY_USER;
+    (role === ROLES_NAMES.ROLE_APP_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER) &&
+    !readOnly;
 
   return (
     <React.Fragment>

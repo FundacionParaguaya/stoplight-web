@@ -167,6 +167,7 @@ const Families = ({
         open={openMoveModal}
         selectedFamilies={selectedFamilies}
         afterSubmit={afterSubmit}
+        lang={language}
       />
       <Container variant="stretch">
         <div className={classes.titleContainer}>

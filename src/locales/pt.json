@@ -469,6 +469,8 @@
       "cannotUndo": "Não é possível desfazer essa ação!",
       "areYouSure": "Tem certeza que deseja apagar esse rascunho?",
       "areYouSureMulti": "Tem certeza que deseja apagar essas rascunho?",
+      "success": "Rascunho excluído com sucesso.",
+      "successMulti": "Rascunhos excluídos com sucesso.",
       "cannotDelete": "Ocorreu um erro ao apagar o rascunho. Por favor, tente novamente.",
       "cannotDeleteMulti": "Ocorreu um erro ao apagar os rascunhos. Por favor, tente novamente."
     },
@@ -536,7 +538,7 @@
       "profile": "Perfil",
       "createNewSnapshot": "Crie um nova pesquisa às famílias!",
       "stoplight": "Semáforo",
-      "loadingSnapshots": "Carregando semáforos...",
+      "loadingSnapshots": "Esta família não tem semáforos ...",
       "familyNoteSuccess": "Nota de família enviada corretamente",
       "familyNoteError": "Não foi possível enviar o bilhete da família",
       "download": "Baixar",
@@ -557,7 +559,7 @@
         }
       },
       "survey": "Pesquisa:",
-      "surveyError": "Certifique-se de que sua organização tenha acesso à versão da pesquisa antes de visualizar o Perfil da Família."
+      "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa."
     },
     "familyNotes": {
       "by": "por",

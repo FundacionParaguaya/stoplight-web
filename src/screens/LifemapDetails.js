@@ -9,7 +9,7 @@ import moment from 'moment';
 import { withSnackbar } from 'notistack';
 import chooseLifeMap from '../assets/begin_lifemap.png';
 import withLayout from '../components/withLayout';
-import { getFamily, getSnapshotsByFamily } from '../api';
+import { getFamily, getSnapshotsByFamily, getSurveyById } from '../api';
 import LifemapDetailsTable from '../components/LifemapDetailsTable';
 import DetailsOverview from '../components/DetailsOverview';
 import { getDateFormatByLocale } from '../utils/date-utils';
@@ -23,10 +23,11 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
   const [family, setFamily] = useState({});
   const [firstParticipant, setFirstParticipant] = useState({});
+  const [survey, setSurvey] = useState();
   const [value, setValue] = useState(1);
   const [snapshots, setSnapshots] = useState([]);
   const [numberOfRows, setNumberOfRows] = useState(0);
-  const [snapshotsWithStoplight, setSnapshotsWithStoplight] = useState(0);
+
   const [navigationOptions, setNavigationOptions] = useState([]);
 
   let count = 0;
@@ -60,45 +61,48 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
   const loadFamilyData = () => {
     getFamily(familyId, user).then(response => {
-      let members = response.data.data.familyById.familyMemberDTOList;
+      let familyData = response.data.data.familyById;
+      let members = familyData.familyMemberDTOList;
 
       let firtsParticipantMap = members.find(
         element => element.firstParticipant === true
       );
 
-      setFamily(response.data.data.familyById);
+      setFamily(familyData);
       setFirstParticipant(firtsParticipantMap);
+      getSurveyById(user, familyData.snapshotIndicators.surveyId)
+        .then(response => {
+          setSurvey(response.data.data.surveyById);
+        })
+        .catch(e => {
+          console.error(e);
+        });
     });
   };
 
   const loadData = () => {
     let data = [];
     return getSnapshotsByFamily(familyId, user).then(response => {
-      setSnapshots(response.data.data.familySnapshotsOverview.snapshots);
-      setSnapshotsWithStoplight(
-        response.data.data.familySnapshotsOverview.snapshots.filter(
-          snapshot => snapshot.stoplightSkipped === false
-        )
-      );
-      response.data.data.familySnapshotsOverview.snapshots.forEach(
-        (snapshot, i) => {
-          snapshot.stoplight.forEach(ind => {
-            let index = data.findIndex(d => d.codeName === ind.codeName);
-            if (index > -1) {
-              data[index] = {
-                ...data[index],
-                values: [...data[index].values, { column: i, ...ind }]
-              };
-            } else {
-              data.push({
-                codeName: ind.codeName,
-                lifemapName: ind.lifemapName,
-                values: [{ column: i, ...ind }]
-              });
-            }
-          });
-        }
-      );
+      let snapshotsOverview =
+        response.data.data.familySnapshotsOverview.snapshots;
+      setSnapshots(snapshotsOverview);
+      snapshotsOverview.forEach((snapshot, i) => {
+        snapshot.stoplight.forEach(ind => {
+          let index = data.findIndex(d => d.codeName === ind.codeName);
+          if (index > -1) {
+            data[index] = {
+              ...data[index],
+              values: [...data[index].values, { column: i, ...ind }]
+            };
+          } else {
+            data.push({
+              codeName: ind.codeName,
+              lifemapName: ind.lifemapName,
+              values: [{ column: i, ...ind }]
+            });
+          }
+        });
+      });
       setNumberOfRows(data.length);
       return {
         data: data,
@@ -153,29 +157,26 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
 
         {snapshots.length > 0 &&
           snapshots.map((snapshot, i) => {
-            if (!snapshot.stoplightSkipped) {
-              count += 1;
-              return (
-                <Tab
-                  key={count}
-                  style={{ width: `${100 / (snapshots.length + 1)}%` }}
-                  classes={{ root: classes.tabRoot }}
-                  label={
-                    <Typography variant="h6" className={classes.columnHeader}>
-                      <div style={{ fontWeight: 600, marginBottom: -5 }}>
-                        {`${t('views.familyProfile.stoplight')} ${count}`}
-                      </div>
-                      {`${moment
-                        .unix(snapshot.snapshotDate)
-                        .utc(true)
-                        .format(dateFormat)}`}
-                    </Typography>
-                  }
-                  value={count + 1}
-                />
-              );
-            }
-            return '';
+            count += 1;
+            return (
+              <Tab
+                key={count}
+                style={{ width: `${100 / (snapshots.length + 1)}%` }}
+                classes={{ root: classes.tabRoot }}
+                label={
+                  <Typography variant="h6" className={classes.columnHeader}>
+                    <div style={{ fontWeight: 600, marginBottom: -5 }}>
+                      {`${t('views.familyProfile.stoplight')} ${count}`}
+                    </div>
+                    {`${moment
+                      .unix(snapshot.snapshotDate)
+                      .utc(true)
+                      .format(dateFormat)}`}
+                  </Typography>
+                }
+                value={count + 1}
+              />
+            );
           })}
       </Tabs>
 
@@ -192,8 +193,9 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
           firstParticipant={firstParticipant}
           family={family}
           index={value - 2}
-          snapshot={snapshotsWithStoplight[value - 2]}
+          snapshot={snapshots[value - 2]}
           reloadPage={reloadPage}
+          survey={survey}
         />
       )}
     </div>

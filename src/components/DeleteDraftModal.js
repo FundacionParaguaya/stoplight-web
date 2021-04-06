@@ -26,6 +26,17 @@ const DeleteDraftModal = props => {
           setDeletingDraft(false);
           reloadDrafts();
           onClose();
+          props.enqueueSnackbar(t('views.deleteDraft.success'), {
+            variant: 'success',
+            action: key => (
+              <IconButton
+                key="dismiss"
+                onClick={() => props.closeSnackbar(key)}
+              >
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
         })
         .catch(() => {
           props.enqueueSnackbar(t('views.deleteDraft.cannotDelete'), {
@@ -48,6 +59,17 @@ const DeleteDraftModal = props => {
           setDeletingDraft(false);
           reloadDrafts();
           onClose();
+          props.enqueueSnackbar(t('views.deleteDraft.successMulti'), {
+            variant: 'success',
+            action: key => (
+              <IconButton
+                key="dismiss"
+                onClick={() => props.closeSnackbar(key)}
+              >
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
         })
         .catch(() => {
           props.enqueueSnackbar(t('views.deleteDraft.cannotDeleteMulti'), {

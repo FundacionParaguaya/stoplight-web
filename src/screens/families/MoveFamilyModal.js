@@ -18,6 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as Yup from 'yup';
 import { migrateFamilies } from '../../api';
 import { withSnackbar } from 'notistack';
+import * as _ from 'lodash';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     padding: '40px 50px',
     minHeight: '50vh',
     maxHeight: '85vh',
-    width: '85vw',
+    width: '95vw',
     maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
@@ -74,7 +75,8 @@ const MoveFamilyModal = ({
   selectedFamilies,
   enqueueSnackbar,
   closeSnackbar,
-  afterSubmit
+  afterSubmit,
+  lang
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -113,18 +115,33 @@ const MoveFamilyModal = ({
       families,
       values.organization ? values.organization.value : null,
       values.facilitator ? values.facilitator.value : null,
-      values.project ? values.project.value : null
+      values.project ? values.project.value : null,
+      lang
     )
       .then(res => {
-        onClose(true);
-        enqueueSnackbar(t('views.familyList.moveFamily.success'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        const response = _.get(res, 'data.data.migrateFamilies', {});
+        if (!!response && response.successful) {
+          onClose(true);
+          enqueueSnackbar(t('views.familyList.moveFamily.success'), {
+            variant: 'success',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+        } else {
+          setConfirmSubmit(false);
+          const error = !!response && response.errors[0];
+          enqueueSnackbar(error, {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+        }
       })
       .catch(e => {
         console.log(e);

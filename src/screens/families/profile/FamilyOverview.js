@@ -264,13 +264,11 @@ const FamilyOverview = ({
           draft={family.snapshotIndicators ? family.snapshotIndicators : null}
         />
 
-        {!stoplightSkipped && (
-          <Typography variant="subtitle1" className={classes.labelGreenRight}>
-            <Link onClick={goToFamilyDetails} style={{ cursor: 'pointer' }}>
-              {t('views.familyProfile.viewLifeMap')}
-            </Link>
-          </Typography>
-        )}
+        <Typography variant="subtitle1" className={classes.labelGreenRight}>
+          <Link onClick={goToFamilyDetails} style={{ cursor: 'pointer' }}>
+            {t('views.familyProfile.viewLifeMap')}
+          </Link>
+        </Typography>
       </Grid>
     </Grid>
   );

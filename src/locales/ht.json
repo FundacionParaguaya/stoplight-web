@@ -473,6 +473,8 @@
       "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
       "areYouSure": "Eske ou vle efase bwouyon sa a vre?",
       "areYouSureMulti": "Eske ou vle efase bwouyon sa yo vre?",
+      "success": "Draft efase avèk siksè.",
+      "successMulti": "Drafts efase avèk siksè.",
       "cannotDelete": "Te genyen yon erè nan efase bwouyon sa a.  Tanpri eseye ankò.",
       "cannotDeleteMulti": "Te genyen yon erè nan efase bwouyon sa yo.  Tanpri eseye ankò."
     },
@@ -540,7 +542,7 @@
       "profile": "Pwofil",
       "createNewSnapshot": "Kreye yon nouvo ankèt pou fanmi an.",
       "stoplight": "Chimen Pwogrè",
-      "loadingSnapshots": "Chimen pwogrè ap chaje..",
+      "loadingSnapshots": "Fanmi sa a pa gen okenn stoplights ...",
       "familyNoteSuccess": "Nòt sou fanmi an ale korekteman",
       "familyNoteError": "Nou pa t ka voye nòt sou fanmi an ale.",
       "download": "Telechaje",
@@ -561,7 +563,7 @@
         }
       },
       "survey": "Sondaj:",
-      "surveyError": "Asire w ke òganizasyon ou an gen aksè a vèsyon sondaj la anvan ou gade Profile Fanmi an."
+      "surveyError": "Vèsyon sondaj la pa disponib. \nPou pran yon sondaj swivi, mande aksè a vèsyon sondaj la."
     },
     "familyNotes": {
       "by": "Pa",

@@ -16,8 +16,8 @@ let Accent = ({ classes, variant, achievement, priority, styles }) => (
         <img
           src={achievement ? iconAchievement : iconPriority}
           style={{
-            width: 24,
-            height: 24,
+            width: 22,
+            height: 22,
             border: '2px solid #FFFFFF',
             borderRadius: '50%',
             backgroundColor: '#fff'
@@ -58,8 +58,8 @@ const accentStyle = () => ({
   },
   mediumAccent: {
     position: 'absolute',
-    top: -5,
-    right: 1
+    top: 10,
+    right: 10
   },
   priorityOrAchievementAccent: {
     position: 'absolute',

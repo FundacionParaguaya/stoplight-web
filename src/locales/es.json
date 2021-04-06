@@ -470,6 +470,8 @@
       "cannotUndo": "¡No puedes deshacer esta acción!",
       "areYouSure": "¿Estás seguro de que quieres eliminar este borrador?",
       "areYouSureMulti": "¿Estás seguro de que quieres eliminar estos borradores?",
+      "success": "Borrador eliminado correctamente.",
+      "successMulti": "Borradores eliminados correctamente.",
       "cannotDelete": "Ha ocurrido un error al eliminar el borrador. Por favor inténtelo de nuevo.",
       "cannotDeleteMulti": "Ha ocurrido un error al eliminar estos borradores. Por favor inténtelo de nuevo."
     },
@@ -537,7 +539,7 @@
       "profile": "Perfil",
       "createNewSnapshot": "¡Crea una nueva encuesta para la familia!",
       "stoplight": "Semáforo",
-      "loadingSnapshots": "Cargando semáforos...",
+      "loadingSnapshots": "Esta familia no tiene semáforos ...",
       "familyNoteSuccess": "Nota de familia enviada correctamente",
       "familyNoteError": "No se pudo enviar la nota familiar",
       "download": "Descargar",
@@ -558,7 +560,7 @@
         }
       },
       "survey": "Encuesta:",
-      "surveyError": "Asegúrese de que su organización tenga acceso a la versión de la encuesta antes de ver el perfil familiar."
+      "surveyError": "La versión de la encuesta no está disponible. Para tomar una encuesta de seguimiento, solicite el acceso a la versión de encuesta."
     },
     "familyNotes": {
       "by": "por",

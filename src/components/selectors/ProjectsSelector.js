@@ -32,7 +32,6 @@ const ProjectsSelector = ({
   const label = `${t('views.projectFilter.label')}${isMulti ? 's' : ''}`;
 
   useEffect(() => {
-    console.log('useEffect', surveyUser);
     setLoading(true);
     if (byFacilitator) {
       projectsBySurveyUser(user, surveyUser ? surveyUser : null)
