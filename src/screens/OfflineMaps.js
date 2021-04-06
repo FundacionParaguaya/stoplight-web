@@ -87,7 +87,11 @@ const OfflineMaps = ({ enqueueSnackbar, closeSnackbar, user }) => {
 
   const navigationOptions = [
     { label: t('views.toolbar.hubs'), link: '/hubs' },
-    { label: t('views.toolbar.organizations'), link: '/organizations' }
+    { label: t('views.toolbar.organizations'), link: '/organizations' },
+    {
+      label: t('views.offlineMaps.title'),
+      link: '/organizations/:organizationId/offline-maps'
+    }
   ];
 
   const [loading, setLoading] = useState(true);
