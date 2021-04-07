@@ -16,6 +16,7 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import { ROLES_NAMES } from '../utils/role-utils';
 import withLayout from '../components/withLayout';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import AssignModal from './surveys/AssignModal';
 import SearchTextFilter from '../components/filters/SearchTextFilter';
@@ -209,22 +210,38 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                         </Typography>
                       )}
                     </div>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <div>
+                        <Typography>
+                          {t('views.survey.contains')}
+                          {': '}
+                          <span className={classes.subtitle}>
+                            {survey.indicatorsCount}{' '}
+                            {t('views.survey.indicators')}
+                          </span>
+                        </Typography>
 
-                    <Typography>
-                      {t('views.survey.contains')}
-                      {': '}
-                      <span className={classes.subtitle}>
-                        {survey.indicatorsCount} {t('views.survey.indicators')}
-                      </span>
-                    </Typography>
-
-                    <Typography className={classes.createdOn}>
-                      {t('views.survey.createdOn')}
-                      {': '}
-                      <span className={classes.subtitle}>
-                        {moment(survey.createdAt).format(dateFormat)}
-                      </span>
-                    </Typography>
+                        <Typography className={classes.createdOn}>
+                          {t('views.survey.createdOn')}
+                          {': '}
+                          <span className={classes.subtitle}>
+                            {moment(survey.createdAt).format(dateFormat)}
+                          </span>
+                        </Typography>
+                      </div>
+                      {true && (
+                        <IconButton
+                          color="primary"
+                          aria-label="Assign Survey to Hub"
+                          component="span"
+                          onClick={() => {
+                            console.log('eliminar survey');
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      )}
+                    </div>
                   </div>
                 </Grid>
               );
