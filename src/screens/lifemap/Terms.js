@@ -163,6 +163,7 @@ export class Terms extends Component {
             {t('general.disagree')}
           </Button>
           <Button
+            color="primary"
             variant="contained"
             onClick={this.handleContinue}
             test-id="agree"

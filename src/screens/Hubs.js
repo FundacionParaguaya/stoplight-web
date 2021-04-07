@@ -160,6 +160,7 @@ const Hubs = ({ user, history }) => {
             </Grid>
             <Grid item md={4} sm={4} xs={12} container justify="flex-end">
               <Button
+                color="primary"
                 variant="contained"
                 onClick={() => {
                   toggleFormModal({});

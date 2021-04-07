@@ -394,7 +394,8 @@
       "searchFamily": "Buscar famílias",
       "noSnapshotsAvailable": "Não há rascunho disponível",
       "noMatchFilters": "Não há resultados para os filtros aplicados",
-      "loadingSnapshots": "Carregando rascunhos..."
+      "loadingSnapshots": "Carregando rascunhos...",
+      "delete": "Excluir"
     },
     "activityFeed": {
       "by": "Por",
@@ -489,8 +490,8 @@
       "search": "Pesquisa",
       "empty": "Não há famílias para mostrar.",
       "searchFamily": "Nome ou número do documento",
-      "delete": "Eliminar Família",
-      "show": "Mostrar Família",
+      "delete": "Eliminar",
+      "show": "Mostrar",
       "rows": "Famílias Encontradas",
       "moveFamily": {
         "moveOfOrg": "Mude para outra organização",
@@ -645,8 +646,8 @@
     },
     "organization": {
       "addOrganization": "Adicione uma organização",
-      "editButton": "EDITAR",
-      "deleteButton": "EXCLUIR",
+      "editButton": "Editar",
+      "deleteButton": "Excluir",
       "search": "Procurar",
       "searchOrganization": "pelo nome",
       "projectsList": "Lista de proyectos",
@@ -774,8 +775,8 @@
         "organization": "Organização",
         "hub": "hub",
         "role": "Papel",
-        "edit": "Editar usuario",
-        "delete": "Eliminar usuario",
+        "edit": "Editar",
+        "delete": "Eliminar",
         "search": "Buscar",
         "empty": "Não há usuários para mostrar."
       },
@@ -891,8 +892,8 @@
       "viewmore": "VER MAIS",
       "failUpdateView": "Erro ao atualizar o número de visitas",
       "form": {
-        "editButton": "EDITAR",
-        "deleteButton": "ELIMINAR",
+        "editButton": "Editar",
+        "deleteButton": "Eliminar",
         "userNotAllowed": "Operação não permitida",
         "title": "Título da solução",
         "subtitle": "Adicione uma descrição à sua solução...",

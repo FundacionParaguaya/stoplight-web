@@ -23,6 +23,8 @@ import { SNAPSHOTS_STATUS } from '../redux/reducers';
 import { COLORS } from '../theme';
 import Grid from '@material-ui/core/Grid';
 import { ROLES_NAMES } from '../utils/role-utils';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
 
 const useFilterStyles = makeStyles(theme => ({
   mainContainer: {
@@ -570,9 +572,10 @@ const SnapshotsTable = ({
                           {daysAgoLabel}
                         </Typography>
                       </div>
-                      <div className={classes.deleteContainer}>
-                        <Delete
-                          className={classes.deleteStyle}
+                      <Tooltip title={t('views.snapshotsTable.delete')}>
+                        <IconButton
+                          style={{ color: 'black' }}
+                          component="span"
                           onClick={e => {
                             e.stopPropagation();
                             setDeletingDrafts({
@@ -581,8 +584,10 @@ const SnapshotsTable = ({
                               type: 'single'
                             });
                           }}
-                        />
-                      </div>
+                        >
+                          <Delete />
+                        </IconButton>
+                      </Tooltip>
                     </div>
                   </ListItem>
                   {index !== filteredSnapshots.length - 1 && <Divider />}

@@ -394,7 +394,8 @@
       "searchFamily": "Chache fanmi",
       "noSnapshotsAvailable": "Pa genyen bwouyon ki disponib",
       "noMatchFilters": "Pa gen rezilta pou filtè sa yo",
-      "loadingSnapshots": "N ap chaje bwouyon"
+      "loadingSnapshots": "N ap chaje bwouyon",
+      "delete": "Efase"
     },
     "activityFeed": {
       "by": "Pa",
@@ -493,8 +494,8 @@
       "search": "Chache",
       "empty": "Pa genyen fanmi konsa.",
       "searchFamily": "Non osinon nimewo dokiman an.",
-      "delete": "Efase fanmi an",
-      "show": "Montre fanmi an",
+      "delete": "Efase",
+      "show": "Montre",
       "rows": "Fanmi nou jwenn",
       "moveFamily": {
         "moveOfOrg": "Deplase nan yon lòt òganizasyon",
@@ -777,8 +778,8 @@
         "organization": "Oganizasyon",
         "hub": "hub",
         "role": "Wòl",
-        "edit": "Chanje itilizatè",
-        "delete": "Efase itilizatè",
+        "edit": "Chanje",
+        "delete": "Efase",
         "search": "Chache",
         "empty": "Pa gen itilizatè konsa"
       },
@@ -893,8 +894,8 @@
       "viewmore": "GADE PLIS",
       "failUpdateView": "Te genyen yon erè nan mizajou kantite vizit yo.",
       "form": {
-        "editButton": "CHANJE",
-        "deleteButton": "EFASE",
+        "editButton": "Chanje",
+        "deleteButton": "Efase",
         "userNotAllowed": "Operasyon sa entèdi",
         "title": "Tit solisyon an",
         "subtitle": "Ajoute yon deskripsyon solisyon ou an.",
