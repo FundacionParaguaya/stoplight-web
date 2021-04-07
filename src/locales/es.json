@@ -950,7 +950,9 @@
         "addTitle": "Agregar mapa sin conexión",
         "editTitle": "Editar mapa sin conexión",
         "name": "Nombre",
-        "nameLengthExceeded": "El nombre del mapa debe tener un máximo de 50 caracteres"
+        "nameLengthExceeded": "El nombre del mapa debe tener un máximo de 50 caracteres",
+        "success": "Se guardó el mapa sin conexión",
+        "error": "No se pudo guardar el mapa sin conexión"
       },
       "delete": {
         "success": "El mapa ha sido eliminado",

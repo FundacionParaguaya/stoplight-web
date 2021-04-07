@@ -952,7 +952,9 @@
         "addTitle": "Ajoute Offline Map",
         "editTitle": "Modifye Offline Map",
         "name": "Non",
-        "nameLengthExceeded": "Non kat la dwe gen yon maksimòm de 50 karaktè"
+        "nameLengthExceeded": "Non kat la dwe gen yon maksimòm de 50 karaktè",
+        "success": "Kat Offline sove",
+        "error": "Pa t 'kapab sove offline kat jeyografik"
       },
       "delete": {
         "success": "Kat la te efase",

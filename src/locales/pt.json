@@ -950,7 +950,9 @@
         "addTitle": "Adicionar mapa offline",
         "editTitle": "Editar mapa offline",
         "name": "Nome",
-        "nameLengthExceeded": "O nome do mapa deve ter no máximo 50 caracteres"
+        "nameLengthExceeded": "O nome do mapa deve ter no máximo 50 caracteres",
+        "success": "Mapa offline salvo",
+        "error": "Não foi possível salvar o mapa offline"
       },
       "delete": {
         "success": "O mapa foi excluído",

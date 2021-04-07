@@ -947,8 +947,8 @@
       "add": "Add new map",
       "form": {
         "addTitle": "Add Offline Map",
-        "success": "Added new offline map",
-        "error": "Could not create offline map",
+        "success": "Offline map saved",
+        "error": "Could not save offline map",
         "editTitle": "Edit Offline Map",
         "name": "Name",
         "nameLengthExceeded": "Map name must have a maximum of 50 characters"
