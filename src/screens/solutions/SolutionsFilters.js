@@ -158,6 +158,7 @@ const SolutionFilters = ({
           className={classes.gridAlignRight}
         >
           <Button
+            color="primary"
             variant="contained"
             onClick={goToForm}
             className={classes.button}

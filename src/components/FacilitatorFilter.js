@@ -128,6 +128,7 @@ const FacilitatorFilter = ({
           value={data}
           onChange={value => onChange(value, facilitators)}
           placeholder=""
+          hideSelectedOptions
           isLoading={loading}
           loadingMessage={() => t('views.facilitatorFilter.loading')}
           noOptionsMessage={() => t('views.facilitatorFilter.noOption')}

@@ -364,9 +364,27 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                     }}
                   >
                     <div className={classes.actionButtons}>
-                      <Tooltip title={t('views.solutions.form.deleteButton')}>
-                        <Button
-                          className={classes.actionIcon}
+                      <Tooltip
+                        title={t('views.solutions.form.editButton')}
+                        style={{ marginRight: 8 }}
+                      >
+                        <IconButton
+                          color="inherit"
+                          component="span"
+                          onClick={() => {
+                            history.push(`edit/${solution.id}`);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
+                        title={t('views.solutions.form.deleteButton')}
+                        style={{ marginRight: 15 }}
+                      >
+                        <IconButton
+                          color="inherit"
+                          component="span"
                           onClick={() => {
                             setDeleteData({
                               openModal: true,
@@ -375,17 +393,7 @@ const SolutionsView = ({ user, history, enqueueSnackbar, closeSnackbar }) => {
                           }}
                         >
                           <DeleteIcon />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title={t('views.solutions.form.editButton')}>
-                        <Button
-                          className={classes.actionIcon}
-                          onClick={() => {
-                            history.push(`edit/${solution.id}`);
-                          }}
-                        >
-                          <EditIcon />
-                        </Button>
+                        </IconButton>
                       </Tooltip>
                     </div>
                   </Grid>

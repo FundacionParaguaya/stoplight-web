@@ -262,6 +262,7 @@ class IntegrationReactSelect extends React.Component {
             value={value}
             onChange={onChange}
             isSearchable={true}
+            hideSelectedOptions
             {...remaining}
           />
         )}

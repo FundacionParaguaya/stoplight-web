@@ -394,7 +394,8 @@
       "searchFamily": "Search families",
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters",
-      "loadingSnapshots": "Loading drafts..."
+      "loadingSnapshots": "Loading drafts...",
+      "delete": "Delete"
     },
     "activityFeed": {
       "by": "By",
@@ -489,8 +490,8 @@
       "search": "Search",
       "empty": "No Family to show",
       "searchFamily": "Name or Document Number",
-      "delete": "Delete Family",
-      "show": "Show Family",
+      "delete": "Delete",
+      "show": "Show",
       "rows": "Families Found",
       "moveFamily": {
         "moveOfOrg": "Move to other organization",
@@ -645,8 +646,8 @@
     },
     "organization": {
       "addOrganization": "Add an organization",
-      "editButton": "EDIT",
-      "deleteButton": "DELETE",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
       "search": "Search",
       "searchOrganization": "by name",
       "projectsList": "List of projects",
@@ -772,8 +773,8 @@
         "organization": "Organization",
         "hub": "Hub",
         "role": "Role",
-        "edit": "Edit user",
-        "delete": "Delete user",
+        "edit": "Edit",
+        "delete": "Delete",
         "search": "Search",
         "empty": "No Users to show"
       },
@@ -888,8 +889,8 @@
       "viewmore": "VIEW MORE",
       "failUpdateView": "Error updating the number of visits",
       "form": {
-        "editButton": "EDIT",
-        "deleteButton": "DELETE",
+        "editButton": "Edit",
+        "deleteButton": "Delete",
         "userNotAllowed": "Operation not allowed",
         "title": "Solution title",
         "subtitle": "Add a description for you solution...",

@@ -233,6 +233,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
           {paginationData.page + 1 <= paginationData.totalPages && (
             <div className={classes.showMoreButtonContainer}>
               <Button
+                color="primary"
                 variant="contained"
                 aria-label="Show more"
                 className={classes.showMoreButton}
