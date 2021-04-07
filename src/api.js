@@ -1993,7 +1993,7 @@ export const deletePriority = (id, user) =>
     })
   });
 
-export const listOfflineMaps = user =>
+export const listOfflineMaps = (organization, user) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -2001,12 +2001,16 @@ export const listOfflineMaps = user =>
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query: 'query { offlineMaps { from, to, center, name }  }'
+      query:
+        'query searchOfflineMaps($organization: Long) {searchOfflineMaps(organization: $organization) { id, name, from, to, center }}',
+      variables: {
+        organization
+      }
     })
   });
 
-export const addOrUpdateOfflineMap = (offlineMap, user) => {
-  if (!offlineMap.id) {
+export const addOrUpdateOfflineMap = (surveyOfflineMap, user) => {
+  if (!surveyOfflineMap.id) {
     return axios({
       method: 'post',
       url: `${url[user.env]}/graphql`,
@@ -2017,7 +2021,7 @@ export const addOrUpdateOfflineMap = (offlineMap, user) => {
         query:
           'mutation addSurveyOfflineMap($surveyOfflineMap: SurveyOfflineMapInput) {addSurveyOfflineMap (surveyOfflineMap: $surveyOfflineMap){successful}}',
         variables: {
-          offlineMap
+          surveyOfflineMap
         }
       })
     });
@@ -2032,7 +2036,7 @@ export const addOrUpdateOfflineMap = (offlineMap, user) => {
         query:
           'mutation updateSurveyOfflineMap($surveyOfflineMap: SurveyOfflineMapInput) {updateSurveyOfflineMap (surveyOfflineMap: $surveyOfflineMap){successful}}',
         variables: {
-          offlineMap
+          surveyOfflineMap
         }
       })
     });

@@ -145,14 +145,14 @@ const Map = ({ open, setArea, mapToEdit }) => {
         <React.Fragment>
           {!!locationData.initialLat && (
             <GoogleMap
-              defaultZoom={12}
+              defaultZoom={10}
               defaultCenter={{
-                lat: locationData.lat,
-                lng: locationData.lng
+                lat: !isEdit ? locationData.lat : mapToEdit.center[0],
+                lng: !isEdit ? locationData.lng : mapToEdit.center[1]
               }}
               center={{
-                lat: locationData.lat,
-                lng: locationData.lng
+                lat: !isEdit ? locationData.lat : mapToEdit.center[0],
+                lng: !isEdit ? locationData.lng : mapToEdit.center[1]
               }}
               onDragEnd={onDragEnd}
               options={{
@@ -171,11 +171,21 @@ const Map = ({ open, setArea, mapToEdit }) => {
                 <Rectangle
                   bounds={
                     new google.maps.LatLngBounds(
-                      new google.maps.LatLng(-26.425988, -57.144319),
-                      new google.maps.LatLng(-26.401082, -57.090417)
+                      new google.maps.LatLng(
+                        mapToEdit.from[0],
+                        mapToEdit.from[1]
+                      ),
+                      new google.maps.LatLng(mapToEdit.to[0], mapToEdit.to[1])
                     )
                   }
                   key={1}
+                  onBoundsChanged={function() {
+                    let bounds = this.getBounds();
+                    let newArea = {
+                      getBounds: () => bounds
+                    };
+                    setArea(newArea);
+                  }}
                   editable={true}
                   options={{
                     strokeColor: '#000000',

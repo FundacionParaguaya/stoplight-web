@@ -121,27 +121,24 @@ const OfflineMaps = ({ enqueueSnackbar, closeSnackbar, user }) => {
     });
 
   useEffect(() => {
-    listOfflineMaps(user)
+    listOfflineMaps(organizationId, user)
       .then(response => {
-        setMaps([
-          { id: 1, name: 'Pilar' },
-          { id: 2, name: 'Asunción' }
-        ]);
+        setMaps(response.data.data.searchOfflineMaps);
         setLoading(false);
       })
       .catch(() => {
         showErrorMessage('error');
       });
-  }, []);
+  }, [organizationId]);
 
   const onCloseForm = reload => {
     setOpenMapForm(false);
-    reload && window.reload();
+    reload && window.location.reload();
   };
 
   const onCloseDeleteModal = reload => {
     setOpenDeleteModal(false);
-    reload && window.reload();
+    reload && window.location.reload();
   };
 
   return (
@@ -150,6 +147,7 @@ const OfflineMaps = ({ enqueueSnackbar, closeSnackbar, user }) => {
         open={openMapForm}
         organizationId={organizationId}
         mapToEdit={selectedMap}
+        setMapToEdit={setSelectedMap}
         onClose={onCloseForm}
         showErrorMessage={showErrorMessage}
         showSuccessMessage={showSuccessMessage}

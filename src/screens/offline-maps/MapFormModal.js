@@ -85,6 +85,7 @@ const MapFormModal = ({
   onClose,
   organizationId,
   mapToEdit,
+  setMapToEdit,
   showErrorMessage,
   showSuccessMessage,
   user
@@ -96,33 +97,45 @@ const MapFormModal = ({
   const [area, setArea] = useState();
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string()
+    name: Yup.string()
       .required(fieldIsRequired)
       .max(50, t('views.offlineMaps.form.nameLengthExceeded'))
   });
 
-  const onSubmit = values => {
-    let coordinates = area.getBounds();
+  const boundsToCoordinates = bounds => {
     let from = [
-      Number(coordinates.Ta.g.toPrecision(8)),
-      Number(coordinates.La.g.toPrecision(8))
+      Number(bounds.Ta.g.toPrecision(8)),
+      Number(bounds.La.g.toPrecision(8))
     ];
     let to = [
-      Number(coordinates.Ta.i.toPrecision(8)),
-      Number(coordinates.La.i.toPrecision(8))
+      Number(bounds.Ta.i.toPrecision(8)),
+      Number(bounds.La.i.toPrecision(8))
     ];
     let center = [
       Number(((from[0] + to[0]) / 2).toPrecision(8)),
       Number(((from[1] + to[1]) / 2).toPrecision(8))
     ];
+
+    return {
+      from,
+      to,
+      center
+    };
+  };
+
+  const onSubmit = values => {
+    let coordinates = boundsToCoordinates(area.getBounds());
+
     let map = {
-      organization: organizationId,
+      organization: Number(organizationId),
       name: values.name,
       description: values.name,
-      from: from,
-      to: to,
-      center: center
+      ...coordinates
     };
+
+    if (isEdit) {
+      map.id = mapToEdit.id;
+    }
 
     addOrUpdateOfflineMap(map, user)
       .then(response => {
@@ -184,7 +197,11 @@ const MapFormModal = ({
                 open={open}
                 mapToEdit={mapToEdit}
                 setArea={newArea => {
-                  !!area && area.setVisible(false);
+                  !!area && !isEdit && area.setVisible(false);
+                  if (isEdit) {
+                    let coordinates = boundsToCoordinates(newArea.getBounds());
+                    setMapToEdit({ ...mapToEdit, ...coordinates });
+                  }
                   setArea(newArea);
                 }}
                 loadingElement={<div className={classes.mapContainer} />}
