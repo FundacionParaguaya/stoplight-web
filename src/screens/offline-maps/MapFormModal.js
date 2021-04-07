@@ -219,7 +219,7 @@ const MapFormModal = ({
                   onClick={() => {
                     area.setVisible(false);
                   }}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isEdit}
                 >
                   {t('general.clear')}
                 </Button>
