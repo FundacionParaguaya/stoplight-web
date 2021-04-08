@@ -120,7 +120,8 @@ const OfflineMaps = ({ enqueueSnackbar, closeSnackbar, user }) => {
       )
     });
 
-  useEffect(() => {
+  const loadMaps = () => {
+    setLoading(true);
     listOfflineMaps(organizationId, user)
       .then(response => {
         setMaps(response.data.data.searchOfflineMaps);
@@ -129,16 +130,20 @@ const OfflineMaps = ({ enqueueSnackbar, closeSnackbar, user }) => {
       .catch(() => {
         showErrorMessage('error');
       });
+  };
+
+  useEffect(() => {
+    !!organizationId && loadMaps();
   }, [organizationId]);
 
   const onCloseForm = reload => {
     setOpenMapForm(false);
-    reload && window.location.reload();
+    reload && loadMaps();
   };
 
   const onCloseDeleteModal = reload => {
     setOpenDeleteModal(false);
-    reload && window.location.reload();
+    reload && loadMaps();
   };
 
   return (

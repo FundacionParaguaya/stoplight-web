@@ -124,7 +124,11 @@ const MapFormModal = ({
   };
 
   const onSubmit = values => {
-    let coordinates = boundsToCoordinates(area.getBounds());
+    let coordinates = {};
+
+    if (!!area) {
+      coordinates = boundsToCoordinates(area.getBounds());
+    }
 
     let map = {
       organization: Number(organizationId),
@@ -134,7 +138,10 @@ const MapFormModal = ({
     };
 
     if (isEdit) {
-      map.id = mapToEdit.id;
+      map = {
+        ...mapToEdit,
+        ...map
+      };
     }
 
     addOrUpdateOfflineMap(map, user)
@@ -228,7 +235,7 @@ const MapFormModal = ({
                   type="submit"
                   color="primary"
                   variant="contained"
-                  disabled={isSubmitting || !area}
+                  disabled={isSubmitting || (!area && !isEdit)}
                 >
                   {t('general.save')}
                 </Button>

@@ -56,7 +56,11 @@ const useStyles = makeStyles(theme => ({
     right: 55,
     bottom: 280,
     position: 'absolute',
-    zIndex: 1
+    zIndex: 1,
+    [theme.breakpoints.down('xs')]: {
+      right: 56,
+      bottom: 175
+    }
   },
   myLocationIcon: {
     height: '50px',
@@ -182,7 +186,8 @@ const Map = ({ open, setArea, mapToEdit }) => {
                   onBoundsChanged={function() {
                     let bounds = this.getBounds();
                     let newArea = {
-                      getBounds: () => bounds
+                      getBounds: () => bounds,
+                      setVisible: () => {}
                     };
                     setArea(newArea);
                   }}
