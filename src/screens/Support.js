@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { Grid } from '@material-ui/core';
+import Icon from '@material-ui/core/Icon';
 
 const styles = theme => ({
   titleContainer: {
@@ -78,7 +79,26 @@ const styles = theme => ({
     marginRight: 'auto'
   },
   icon: {
-    fontSize: 36
+    marginLeft: 10,
+    fontSize: '3em'
+  },
+  sectionCardBody: {
+    paddingLeft: 30
+  },
+  cardTitle: {
+    fontSize: '18px'
+  },
+  cardSubtitle: {
+    margin: '5px 0px 11px'
+  },
+  cardBodyText: {
+    fontSize: 13
+  },
+  cardBodySubText: {
+    color: theme.palette.text.light
+  },
+  iconContainer: {
+    padding: 20
   }
 });
 
@@ -124,8 +144,39 @@ const Support = ({ classes, user }) => {
               elevation={3}
               className={classes.sectionCard}
             >
-              <Grid container>
-                <Grid item></Grid>
+              <Grid alignItems="center" container spacing={5}>
+                <Grid item className={classes.iconContainer}>
+                  {/* <HelpOutlineOutlinedIcon className={classes.icon} /> */}
+                  <Icon className={classes.icon}>help_outline</Icon>
+                </Grid>
+                <Grid item className={classes.sectionCardBody}>
+                  <Typography
+                    variant="h5"
+                    color="primary"
+                    className={classes.cardTitle}
+                  >
+                    Preguntas Generales
+                  </Typography>
+                  <Typography variant="h6" className={classes.cardSubtitle}>
+                    Preguntas generales sobre el Semáforo de Eliminación de
+                    Pobreza
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.cardBodyText}
+                  >
+                    6 articulos en esta recopilacion
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.cardBodyText}
+                  >
+                    <span className={classes.cardBodySubText}>
+                      Redactado por
+                    </span>{' '}
+                    Peter Green
+                  </Typography>
+                </Grid>
               </Grid>
             </Paper>
           </div>
