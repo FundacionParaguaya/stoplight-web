@@ -46,6 +46,7 @@ const Projects = lazy(() => import('../screens/Projects'));
 const EditEconomicForm = lazy(() =>
   import('../screens/families/edit/EditEconomicForm')
 );
+const OfflineMaps = lazy(() => import('../screens/OfflineMaps'));
 
 const MyProfile = lazy(() =>
   import('../screens/families/my-profile/MyProfile')
@@ -81,6 +82,13 @@ const Routes = ({ user }) => {
           )}
           {checkAccessToProjects(user) && checkAccess(user, 'projects') && (
             <Route path="/projects" component={Projects} />
+          )}
+          {checkAccess(user, 'offline-maps') && (
+            <Route
+              exact
+              path="/organizations/:organizationId/offline-maps"
+              component={OfflineMaps}
+            />
           )}
           {checkAccess(user, 'organizations') && (
             <Route path="/organizations" component={Organizations} />

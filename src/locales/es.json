@@ -35,7 +35,8 @@
     "continueStoplight": "Continuar",
     "yourStoplight": "Tu Semáforo",
     "completeStoplight": "Completar Semáforo",
-    "publish": "Publicar"
+    "publish": "Publicar",
+    "edit": "Editar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -710,7 +711,8 @@
           "sendingUniqueLink": "Vía link"
         },
         "solutionAccessType": "Banco de Soluciones"
-      }
+      },
+      "mapsList": "Lista de mapas"
     },
     "hub": {
       "search": "Buscar",
@@ -938,6 +940,27 @@
           "success": "Imagen de perfil actualizada con éxito",
           "error": "No se pudo actualizar la foto de perfil"
         }
+      }
+    },
+    "offlineMaps": {
+      "title": "Mapas sin conexión",
+      "subtitle": "Agrega mapas sin conexión para tu organización",
+      "list": "Lista de mapas sin conexión",
+      "add": "Agregar nuevo mapa",
+      "form": {
+        "addTitle": "Agregar mapa sin conexión",
+        "editTitle": "Editar mapa sin conexión",
+        "name": "Nombre",
+        "nameLengthExceeded": "El nombre del mapa debe tener un máximo de 50 caracteres",
+        "success": "Se guardó el mapa sin conexión",
+        "error": "No se pudo guardar el mapa sin conexión"
+      },
+      "delete": {
+        "success": "El mapa ha sido eliminado",
+        "error": "No se pudo borrar el mapa. \nInténtalo de nuevo más tarde",
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "confirmText": "¿Está seguro de que desea eliminar este mapa?",
+        "confirmTitle": "Confirmar la eliminación"
       }
     }
   },
