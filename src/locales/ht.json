@@ -395,7 +395,8 @@
       "noSnapshotsAvailable": "Pa genyen bwouyon ki disponib",
       "noMatchFilters": "Pa gen rezilta pou filtè sa yo",
       "loadingSnapshots": "N ap chaje bwouyon",
-      "delete": "Efase"
+      "delete": "Efase",
+      "deleteAll": "Efase tout"
     },
     "activityFeed": {
       "by": "Pa",

@@ -395,7 +395,8 @@
       "noSnapshotsAvailable": "Não há rascunho disponível",
       "noMatchFilters": "Não há resultados para os filtros aplicados",
       "loadingSnapshots": "Carregando rascunhos...",
-      "delete": "Excluir"
+      "delete": "Excluir",
+      "deleteAll": "Excluir todos"
     },
     "activityFeed": {
       "by": "Por",

@@ -423,25 +423,29 @@ const SnapshotsTable = ({
               sm={12}
               xs={12}
             >
-              <Grid container md={2} sm={2} xs={2} alignItems="flex-end">
+              <Grid container item md={2} sm={2} xs={2} alignItems="flex-end">
                 {selectedSnapShots.length > 0 && (
-                  <Delete
-                    className={classes.deleteStyle}
-                    style={{ marginRight: 13 }}
-                    onClick={() =>
-                      setDeletingDrafts({
-                        open: true,
-                        drafts: selectedSnapShots.map(snap => {
-                          return snap.draftId;
-                        }),
-                        type: 'multi'
-                      })
-                    }
-                  />
+                  <Tooltip title={t('views.snapshotsTable.deleteAll')}>
+                    <IconButton
+                      color="inherit"
+                      component="span"
+                      onClick={() =>
+                        setDeletingDrafts({
+                          open: true,
+                          drafts: selectedSnapShots.map(snap => {
+                            return snap.draftId;
+                          }),
+                          type: 'multi'
+                        })
+                      }
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
                 )}
               </Grid>
 
-              <Grid md={10} sm={10} xs={10}>
+              <Grid item md={10} sm={10} xs={10}>
                 <SnapshotsFilter
                   statusFilter={statusFilter}
                   setStatusFilter={setStatusFilter}
