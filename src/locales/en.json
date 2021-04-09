@@ -112,7 +112,12 @@
     "support": {
       "metaTitle": "Poverty Stoplight Support Center",
       "headerTitle": "Advice and answers from the Poverty Stoplight Platform Team",
-      "search": "Search for articles..."
+      "search": "Search for articles...",
+      "form": {
+        "title": "Article title",
+        "subtitle": "Add a description for your article",
+        "active": "Publish this article"
+      }
     },
     "families": "Families",
     "createLifemap": "Create a Life Map",

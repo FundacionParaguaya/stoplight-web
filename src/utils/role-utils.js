@@ -21,7 +21,7 @@ export const ROLES = {
     { item: 'map', platform: NEW },
     { item: 'solutions', platform: ACCESS, version: 'BETA' },
     { item: 'editFamilyImages', platform: ACCESS },
-    { item: 'support', platform: NEW }
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_HUB_ADMIN: [
     // Hub admin user

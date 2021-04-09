@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IconButton, Typography, withStyles } from '@material-ui/core/';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import Card from '@material-ui/core/Card';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { Grid } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
+import { getArticles } from '../api';
 
 const styles = theme => ({
   titleContainer: {
@@ -107,6 +108,16 @@ const Support = ({ classes, user }) => {
     t,
     i18n: { language }
   } = useTranslation();
+
+  const loadArticles = () => {
+    getArticles(user, '', 'en', []).then(response => {
+      console.log('Response', response);
+    });
+  };
+
+  useEffect(() => {
+    loadArticles();
+  }, []);
   return (
     <div className={classes.mainContainer}>
       <div className={classes.titleContainer}>

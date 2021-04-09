@@ -1764,6 +1764,26 @@ export const getSolutionsAccessTypes = (user, lang) =>
     })
   });
 
+// get list of articles
+
+export const getArticles = (user, filter, lang, tags) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query listArticles($filter: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, lang: $lang, tags: $tags) { id title} }',
+      variables: {
+        filter: filter,
+        lang: lang,
+        tags: tags
+      }
+    })
+  });
+
 // get access solutions types
 export const updateFamilyDetails = (user, familyId, familyDetails) =>
   axios({
