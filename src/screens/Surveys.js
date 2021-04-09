@@ -20,6 +20,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import AssignModal from './surveys/AssignModal';
 import SearchTextFilter from '../components/filters/SearchTextFilter';
+import SurveyDeleteModal from './surveys/SurveyDeleteModal';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const Surveys = ({ classes, t, user, i18n: { language } }) => {
   const [surveys, setSurveys] = useState([]);
@@ -32,6 +34,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     totalPages: 1,
     prevPage: 0
   });
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dateFormat = getDateFormatByLocale(language);
 
   const getSurveys = overwrite => {
@@ -83,6 +86,10 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     );
   };
 
+  const showDeleteSurveyFeature = () => {
+    return user.role === ROLES_NAMES.ROLE_ROOT;
+  };
+
   const showOrganizations = () => {
     return user.role === ROLES_NAMES.ROLE_HUB_ADMIN;
   };
@@ -115,8 +122,19 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     }
   };
 
+  const toggleDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
+
   return (
     <div className={classes.mainSurveyContainerBoss}>
+      <SurveyDeleteModal
+        surveyToDelete={selectedSurvey}
+        user={user}
+        open={openDeleteModal}
+        afterSubmit={() => window.location.reload()}
+        toggleModal={toggleDeleteModal}
+      />
       <AssignModal
         survey={selectedSurvey}
         open={openModal}
@@ -210,7 +228,13 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                         </Typography>
                       )}
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
+                      }}
+                    >
                       <div>
                         <Typography>
                           {t('views.survey.contains')}
@@ -229,17 +253,19 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                           </span>
                         </Typography>
                       </div>
-                      {true && (
-                        <IconButton
-                          color="primary"
-                          aria-label="Assign Survey to Hub"
-                          component="span"
-                          onClick={() => {
-                            console.log('eliminar survey');
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                      {showDeleteSurveyFeature() && (
+                        <Tooltip title={t('views.survey.delete.delete')}>
+                          <IconButton
+                            color="primary"
+                            component="span"
+                            onClick={() => {
+                              setSelectedSurvey(survey);
+                              setOpenDeleteModal(true);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
                       )}
                     </div>
                   </div>

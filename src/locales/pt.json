@@ -142,6 +142,14 @@
       "filter": {
         "search": "Busque",
         "searchBy": "por título"
+      },
+      "delete": {
+        "delete": "Excluir",
+        "confirmTitle": "Confirmar exclusão",
+        "confirmText": "Tem certeza de que deseja excluir esta pesquisa?",
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "success": "A pesquisa foi excluída",
+        "failed": "Não foi possível excluir a pesquisa porque tem dados associados"
       }
     },
     "analytics": {

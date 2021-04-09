@@ -142,6 +142,14 @@
       "filter": {
         "search": "Buscar",
         "searchBy": "por título"
+      },
+      "delete": {
+        "delete": "Eliminar",
+        "confirmTitle": "Confirmar la eliminación",
+        "confirmText": "¿Está seguro de que desea eliminar esta encuesta?",
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "success": "La encuesta ha sido eliminada",
+        "failed": "No se pudo eliminar la encuesta porque tiene datos asociados."
       }
     },
     "analytics": {
