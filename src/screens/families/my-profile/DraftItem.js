@@ -140,8 +140,9 @@ const DraftItem = ({
           <DeleteDraftModal
             onClose={() => setDeletingDraft({ open: false, draft: null })}
             open={deletingDraft.open}
-            draft={deletingDraft.draft}
+            drafts={deletingDraft.draft}
             reloadDrafts={loadDraft}
+            type={'single'}
           />
 
           {snapshots.map(snapshot => {
