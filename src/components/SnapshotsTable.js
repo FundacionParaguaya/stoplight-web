@@ -423,7 +423,7 @@ const SnapshotsTable = ({
               sm={12}
               xs={12}
             >
-              <Grid container md={2} sm={2} xs={2} alignItems="flex-end">
+              <Grid container item md={2} sm={2} xs={2} alignItems="flex-end">
                 {selectedSnapShots.length > 0 && (
                   <Tooltip title={t('views.snapshotsTable.deleteAll')}>
                     <IconButton
@@ -445,7 +445,7 @@ const SnapshotsTable = ({
                 )}
               </Grid>
 
-              <Grid md={10} sm={10} xs={10}>
+              <Grid item md={10} sm={10} xs={10}>
                 <SnapshotsFilter
                   statusFilter={statusFilter}
                   setStatusFilter={setStatusFilter}
