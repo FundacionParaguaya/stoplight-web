@@ -106,6 +106,22 @@ export const getSurveys = user =>
     })
   });
 
+export const deleteSurvey = (user, surveyDefinitionId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteSurveyDefinition($surveyDefinition: Long ) {deleteSurveyDefinition(surveyDefinition: $surveyDefinition){successful}}',
+      variables: {
+        surveyDefinition: surveyDefinitionId
+      }
+    })
+  });
+
 // get a list of surveys available to the authorized used
 export const getSurveysByUser = user =>
   axios({

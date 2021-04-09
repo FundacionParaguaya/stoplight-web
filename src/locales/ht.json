@@ -143,6 +143,14 @@
       "filter": {
         "search": "Chache",
         "searchBy": "Pa tit"
+      },
+      "delete": {
+        "delete": "Efase",
+        "confirmTitle": "Eske ou vle efase sa vre?",
+        "confirmText": "Eske ou vle efase ankèt sa a vre?",
+        "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
+        "success": "Ankèt sa a efase.",
+        "failed": "Ankèt sa a pa kapab efase paske genyen done ki makonnen avè l."
       }
     },
     "analytics": {
