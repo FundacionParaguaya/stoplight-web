@@ -132,7 +132,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
         surveyToDelete={selectedSurvey}
         user={user}
         open={openDeleteModal}
-        afterSubmit={() => window.location.reload()}
+        afterSubmit={updateSurveys}
         toggleModal={toggleDeleteModal}
       />
       <AssignModal
