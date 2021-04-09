@@ -395,7 +395,8 @@
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters",
       "loadingSnapshots": "Loading drafts...",
-      "delete": "Delete"
+      "delete": "Delete",
+      "deleteAll": "Delete all"
     },
     "activityFeed": {
       "by": "By",

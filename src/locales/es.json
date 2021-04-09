@@ -395,7 +395,8 @@
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
       "noMatchFilters": "No hay resultados para los filtros aplicados",
       "loadingSnapshots": "Cargando borradores...",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "deleteAll": "Eliminar todos"
     },
     "activityFeed": {
       "by": "Por",
