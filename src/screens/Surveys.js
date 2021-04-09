@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
-import { Grid, Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
-import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
+import { updateDraft, updateSurvey, updateUser } from '../redux/actions';
 import { surveysByUserPaginated } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
@@ -116,6 +116,11 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     setSurveys(newSurveys);
   };
 
+  const removeSurvey = surveyId => {
+    const newSurveys = surveys.filter(survey => survey.id !== surveyId);
+    setSurveys(newSurveys);
+  };
+
   const onChangeFilterText = e => {
     if (e.key === 'Enter') {
       setFilter(e.target.value);
@@ -132,7 +137,9 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
         surveyToDelete={selectedSurvey}
         user={user}
         open={openDeleteModal}
-        afterSubmit={updateSurveys}
+        afterSubmit={() => {
+          removeSurvey(selectedSurvey.id);
+        }}
         toggleModal={toggleDeleteModal}
       />
       <AssignModal
