@@ -235,13 +235,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                         </Typography>
                       )}
                     </div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
-                    >
+                    <div className={classes.surveyCardInfo}>
                       <div>
                         <Typography>
                           {t('views.survey.contains')}
@@ -261,7 +255,10 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                         </Typography>
                       </div>
                       {showDeleteSurveyFeature() && (
-                        <Tooltip title={t('views.survey.delete.delete')}>
+                        <Tooltip
+                          title={t('views.survey.delete.delete')}
+                          style={{ height: 'min-content' }}
+                        >
                           <IconButton
                             color="primary"
                             component="span"
@@ -415,6 +412,12 @@ const styles = theme => ({
   },
   listContainer: {
     position: 'relative'
+  },
+  surveyCardInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 });
 
