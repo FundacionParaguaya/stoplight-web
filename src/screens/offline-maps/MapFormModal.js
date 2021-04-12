@@ -196,7 +196,6 @@ const MapFormModal = ({
               <InputWithFormik
                 label={t('views.offlineMaps.form.name')}
                 name="name"
-                notAutoFill
                 required
                 className={classes.nameField}
               />
