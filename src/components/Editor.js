@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CustomEditor from 'ckeditor5-custom-build/build/ckeditor';
 import { connect } from 'react-redux';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { url } from '../../api';
+import { url } from '../api';
 import 'ckeditor5-custom-build/build/translations/en-gb';
 import 'ckeditor5-custom-build/build/translations/es';
 import 'ckeditor5-custom-build/build/translations/pt';

@@ -31,7 +31,7 @@ import IndicatorSelector from '../../components/selectors/IndicatorSelector';
 import withLayout from '../../components/withLayout';
 import { getPreviewForFile } from '../../utils/files-utils';
 import { ROLES_NAMES } from '../../utils/role-utils';
-import Editor from './Editor';
+import Editor from '../../components/Editor';
 import ExitSolutionModal from '../../components/ExitModal';
 import FileUploader from './FileUploader';
 import SolutionLangPicker from './SolutionLangPicker';

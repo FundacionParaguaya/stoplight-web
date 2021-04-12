@@ -1526,6 +1526,46 @@ export const getSnapshots = (user, filters) =>
     })
   });
 
+//
+export const getCollectionTypes = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { listArticlesTypes { code description } }'
+    })
+  });
+
+export const saveOrUpdateArticle = (user, values) => {
+  //if(!values.id) {
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `mutation createArticle($article: HelpArticleModelInput) {createArticle (article: $article){ id }}`,
+      variables: {
+        article: {
+          title: values.title,
+          description: values.subtitle,
+          collection: values.collection.value,
+          lang: normalizeLanguages(values.language),
+          contentText: values.contentText,
+          contentRich: values.contentRich
+        }
+      }
+    })
+  });
+
+  // }
+};
+
 // get a list of dimensions available to the authorized used
 export const getDimensionsByUser = (user, lang) =>
   axios({

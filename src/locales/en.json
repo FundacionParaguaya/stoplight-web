@@ -116,7 +116,8 @@
       "form": {
         "title": "Article title",
         "subtitle": "Add a description for your article",
-        "active": "Publish this article"
+        "active": "Publish this article",
+        "content": "Start writing your content..."
       }
     },
     "families": "Families",
@@ -463,6 +464,11 @@
       "allSnapShots": "All last snapshots",
       "baseLine": "Baseline",
       "followUp": "Follow-up"
+    },
+    "collectionSelector": {
+      "label": "Collection",
+      "loading": "Loading...",
+      "noOption": "No collection left"
     },
     "exitModal": {
       "confirmTitle": "Confirm Exit",
