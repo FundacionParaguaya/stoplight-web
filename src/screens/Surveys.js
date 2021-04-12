@@ -257,7 +257,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                       {showDeleteSurveyFeature() && (
                         <Tooltip
                           title={t('views.survey.delete.delete')}
-                          style={{ width: 50, height: 50 }}
+                          style={{ height: 'min-content' }}
                         >
                           <IconButton
                             color="primary"
@@ -416,7 +416,8 @@ const styles = theme => ({
   surveyCardInfo: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 });
 
