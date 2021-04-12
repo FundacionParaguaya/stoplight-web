@@ -28,10 +28,8 @@ const useStyles = makeStyles(theme => ({
     width: '80vw',
     minWidth: '80vw',
     maxWidth: 800,
-    height: '85vh',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '85vh',
       padding: '1em'
     },
     overflowY: 'auto'
@@ -49,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'space-evenly',
-    marginTop: 30
+    margin: '30px 0'
   },
   mapContainer: {
     paddingTop: '2rem',
@@ -64,6 +62,10 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '85%',
     paddingTop: '2rem',
     position: 'relative',
+    [theme.breakpoints.down('lg')]: {
+      maxHeight: '75%',
+      minHeight: 400
+    },
     [theme.breakpoints.down('xs')]: {
       minHeight: 300
     }
