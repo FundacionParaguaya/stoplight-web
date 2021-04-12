@@ -215,7 +215,10 @@ const DashboardGeneralData = ({ data }) => {
               container
               justify="flex-start"
             >
-              <div onClick={() => setExpandData(!expandData)}>
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={() => setExpandData(!expandData)}
+              >
                 <Accordion>
                   <AccordionItem
                     title={

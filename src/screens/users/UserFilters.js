@@ -78,6 +78,7 @@ const UserFilters = ({
         </Grid>
         <Grid item md={4} sm={4} xs={12} className={classes.gridAlignRight}>
           <Button
+            color="primary"
             variant="contained"
             onClick={() => {
               toggleFormModal({});

@@ -13,6 +13,7 @@ import { ROLES_NAMES } from '../utils/role-utils';
 // Import css files
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
   img: {
@@ -167,9 +168,13 @@ const FamilyImages = ({
           <div className={classes.familyImagesContainer}>
             {showEditButtons(user) && (
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Tooltip title={t('views.solutions.form.editButton')}>
-                  <Button
-                    style={{ paddingTop: 4, marginRight: '12vw' }}
+                <Tooltip
+                  title={t('views.solutions.form.editButton')}
+                  style={{ paddingTop: 4, marginRight: '12vw' }}
+                >
+                  <IconButton
+                    style={{ color: 'black' }}
+                    component="span"
                     onClick={() =>
                       history.push(
                         `/family/${familyId}/edit-images/${snapshotId}`
@@ -177,7 +182,7 @@ const FamilyImages = ({
                     }
                   >
                     <EditIcon />
-                  </Button>
+                  </IconButton>
                 </Tooltip>
               </div>
             )}

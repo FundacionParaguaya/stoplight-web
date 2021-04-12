@@ -35,7 +35,8 @@
     "continueStoplight": "Continuar",
     "yourStoplight": "Seu Semáforo",
     "completeStoplight": "Completar Semáforo",
-    "publish": "Publicar"
+    "publish": "Publicar",
+    "edit": "Editar"
   },
   "validation": {
     "fieldIsRequired": "Este campo é obrigatório",
@@ -401,7 +402,9 @@
       "searchFamily": "Buscar famílias",
       "noSnapshotsAvailable": "Não há rascunho disponível",
       "noMatchFilters": "Não há resultados para os filtros aplicados",
-      "loadingSnapshots": "Carregando rascunhos..."
+      "loadingSnapshots": "Carregando rascunhos...",
+      "delete": "Excluir",
+      "deleteAll": "Excluir todos"
     },
     "activityFeed": {
       "by": "Por",
@@ -496,8 +499,8 @@
       "search": "Pesquisa",
       "empty": "Não há famílias para mostrar.",
       "searchFamily": "Nome ou número do documento",
-      "delete": "Eliminar Família",
-      "show": "Mostrar Família",
+      "delete": "Eliminar",
+      "show": "Mostrar",
       "rows": "Famílias Encontradas",
       "moveFamily": {
         "moveOfOrg": "Mude para outra organização",
@@ -652,8 +655,8 @@
     },
     "organization": {
       "addOrganization": "Adicione uma organização",
-      "editButton": "EDITAR",
-      "deleteButton": "EXCLUIR",
+      "editButton": "Editar",
+      "deleteButton": "Excluir",
       "search": "Procurar",
       "searchOrganization": "pelo nome",
       "projectsList": "Lista de proyectos",
@@ -717,7 +720,8 @@
           "sendingUniqueLink": "Via link"
         },
         "solutionAccessType": "Banco de solução"
-      }
+      },
+      "mapsList": "Lista de mapas"
     },
     "hub": {
       "search": "Buscar",
@@ -780,8 +784,8 @@
         "organization": "Organização",
         "hub": "hub",
         "role": "Papel",
-        "edit": "Editar usuario",
-        "delete": "Eliminar usuario",
+        "edit": "Editar",
+        "delete": "Eliminar",
         "search": "Buscar",
         "empty": "Não há usuários para mostrar."
       },
@@ -897,8 +901,8 @@
       "viewmore": "VER MAIS",
       "failUpdateView": "Erro ao atualizar o número de visitas",
       "form": {
-        "editButton": "EDITAR",
-        "deleteButton": "ELIMINAR",
+        "editButton": "Editar",
+        "deleteButton": "Eliminar",
         "userNotAllowed": "Operação não permitida",
         "title": "Título da solução",
         "subtitle": "Adicione uma descrição à sua solução...",
@@ -945,6 +949,27 @@
           "success": "Imagem do perfil atualizada com sucesso",
           "error": "Não foi possível atualizar a foto do perfil"
         }
+      }
+    },
+    "offlineMaps": {
+      "title": "Mapas offline",
+      "subtitle": "Adicione mapas offline para sua organização",
+      "list": "Lista de mapas offline",
+      "add": "Adicionar novo mapa",
+      "form": {
+        "addTitle": "Adicionar mapa offline",
+        "editTitle": "Editar mapa offline",
+        "name": "Nome",
+        "nameLengthExceeded": "O nome do mapa deve ter no máximo 50 caracteres",
+        "success": "Mapa offline salvo",
+        "error": "Não foi possível salvar o mapa offline"
+      },
+      "delete": {
+        "success": "O mapa foi excluído",
+        "error": "Não foi possível excluir o mapa. \nTente mais tarde",
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "confirmText": "Tem certeza de que deseja excluir este mapa?",
+        "confirmTitle": "Confirmar exclusão"
       }
     }
   },

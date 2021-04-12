@@ -7,6 +7,7 @@ import iconPen from '../assets/pen_icon.png';
 import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import { ROLES_NAMES } from '../utils/role-utils';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
   image: {
@@ -106,15 +107,18 @@ const SignatureImage = ({
       </Container>
       {showEditButtons(user) && !!image && (
         <div className={classes.editButtonContainer}>
-          <Tooltip title={t('views.solutions.form.editButton')}>
-            <Button
-              className={classes.editButton}
+          <Tooltip
+            title={t('views.solutions.form.editButton')}
+            style={{ paddingTop: 4, marginRight: '12vw' }}
+          >
+            <IconButton
+              component="span"
               onClick={() =>
                 history.push(`/family/${familyId}/edit-sign/${snapshotId}`)
               }
             >
-              <EditIcon />
-            </Button>
+              <EditIcon style={{ color: 'black' }} />
+            </IconButton>
           </Tooltip>
         </div>
       )}

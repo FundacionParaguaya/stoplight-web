@@ -28,7 +28,7 @@ class NavigationBar extends Component {
                 <MenuLink
                   label={option.label}
                   to={option.link}
-                  activeOnlyWhenExact={false}
+                  activeOnlyWhenExact={true}
                   first={index === 0}
                   optionClass={classes.menuLinkText}
                   key={index}

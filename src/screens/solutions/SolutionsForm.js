@@ -520,19 +520,15 @@ const SolutionsForm = ({ user, enqueueSnackbar, closeSnackbar, history }) => {
                     container
                     className={classes.switches}
                   >
+                    <Switch
+                      checked={values.showOrg}
+                      onChange={() => setFieldValue('showOrg', !values.showOrg)}
+                      color="primary"
+                    />
                     {values.showOrg && (
-                      <>
-                        <Switch
-                          checked={values.showOrg}
-                          onChange={() =>
-                            setFieldValue('showOrg', !values.showOrg)
-                          }
-                          color="primary"
-                        />
-                        <Typography variant="subtitle1" align="center">
-                          {getOrganizationsName(user)}
-                        </Typography>
-                      </>
+                      <Typography variant="subtitle1" align="center">
+                        {getOrganizationsName(user)}
+                      </Typography>
                     )}
                   </Grid>
                 </Grid>

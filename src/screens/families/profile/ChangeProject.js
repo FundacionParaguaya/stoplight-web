@@ -110,6 +110,7 @@ const ChangeProject = ({
             </Grid>
             <Grid item md={4} sm={12} xs={12} className={classes.button}>
               <Button
+                color="primary"
                 variant="contained"
                 onClick={toggleConfirmationModal}
                 disabled={!changedProject || !projectData}
