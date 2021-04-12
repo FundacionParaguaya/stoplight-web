@@ -71,6 +71,7 @@ const useStyles = makeStyles(theme => ({
   },
   icon: {
     fontSize: 32,
+    marginRight: theme.spacing(1),
     color: theme.palette.grey.main
   },
   actionIcon: {
