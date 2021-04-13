@@ -1540,30 +1540,70 @@ export const getCollectionTypes = (user, lang) =>
     })
   });
 
-export const saveOrUpdateArticle = (user, values) => {
-  //if(!values.id) {
-  return axios({
+export const getArticleById = (user, id) =>
+  axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query: `mutation createArticle($article: HelpArticleModelInput) {createArticle (article: $article){ id }}`,
+      query:
+        'query getArticleById($id: Long) { getArticleById(id: $id) { id title description contentRich contentText collection lang published } }',
       variables: {
-        article: {
-          title: values.title,
-          description: values.subtitle,
-          collection: values.collection.value,
-          lang: normalizeLanguages(values.language),
-          contentText: values.contentText,
-          contentRich: values.contentRich
-        }
+        id: id
       }
     })
   });
 
-  // }
+export const saveOrUpdateArticle = (user, values) => {
+  if (!values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createArticle($article: HelpArticleModelInput) {createArticle (article: $article){ id }}`,
+        variables: {
+          article: {
+            title: values.title,
+            description: values.subtitle,
+            collection: values.collection.value,
+            lang: normalizeLanguages(values.language),
+            contentText: values.contentText,
+            contentRich: values.contentRich,
+            published: values.published
+          }
+        }
+      })
+    });
+  } else {
+    console.log('entro a editar');
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateArticle($article: HelpArticleModelInput) {updateArticle (article: $article){ successful }}`,
+        variables: {
+          article: {
+            id: values.id,
+            title: values.title,
+            description: values.subtitle,
+            collection: values.collection.value,
+            lang: normalizeLanguages(values.language),
+            contentText: values.contentText,
+            contentRich: values.contentRich,
+            published: values.published
+          }
+        }
+      })
+    });
+  }
 };
 
 // get a list of dimensions available to the authorized used

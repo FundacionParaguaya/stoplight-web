@@ -197,6 +197,9 @@ const Routes = ({ user }) => {
           {checkAccess(user, 'support') && (
             <Route path="/support/articles/create" component={SupportForm} />
           )}
+          {checkAccess(user, 'support') && (
+            <Route path="/support/articles/edit/:id" component={SupportForm} />
+          )}
 
           {!!user.role && <Route render={() => <PageNotFound user={user} />} />}
         </Switch>

@@ -1,7 +1,7 @@
 import { withSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputWithFormik from '../../components/InputWithFormik';
 import { Form, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -9,12 +9,14 @@ import withLayout from '../../components/withLayout';
 import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, CircularProgress } from '@material-ui/core';
 import SupportLangPicker from './SupportLangPicker';
 import Editor from '../../components/Editor';
 import CollectionSelector from '../support/CollectionSelector';
 import * as Yup from 'yup';
-import { saveOrUpdateArticle } from '../../api';
+import { saveOrUpdateArticle, getArticleById } from '../../api';
+import { useParams } from 'react-router-dom';
+import * as _ from 'lodash';
 
 const inputStyle = {
   height: 25,
@@ -96,6 +98,18 @@ const useStyles = makeStyles(theme => ({
       paddingTop: '20px',
       paddingBottom: '20px'
     }
+  },
+  loadingContainer: {
+    zIndex: 1000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 }));
 
@@ -104,9 +118,11 @@ const SupportForm = ({ user }) => {
     t,
     i18n: { language }
   } = useTranslation();
+  const { id } = useParams();
   const classes = useStyles();
   const [plainContent, setPlainContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [article, setArticle] = useState({});
 
   const fieldIsRequired = 'validation.fieldIsRequired';
   const lessThan64Characters = 'validation.lessThan64Characters';
@@ -125,21 +141,58 @@ const SupportForm = ({ user }) => {
 
   const onSubmit = values => {
     setLoading(true);
-    saveOrUpdateArticle(user, values).then(response => {
-      console.log(response);
-    });
+    saveOrUpdateArticle(user, values)
+      .then(response => {
+        console.log(response);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  useEffect(() => {
+    if (!!id) {
+      setLoading(true);
+      getArticleById(user, id).then(response => {
+        console.log(response);
+        const fetchedArticle = _.get(response, 'data.data.getArticleById', {});
+        console.log('article', fetchedArticle);
+
+        const updatedArticle = {
+          ...fetchedArticle,
+          collection: {
+            label: fetchedArticle.collection,
+            value: fetchedArticle.collection
+          },
+          lang: fetchedArticle.lang.split('_')[0]
+        };
+        console.log('for edit', updatedArticle);
+
+        setArticle(updatedArticle);
+        setPlainContent(fetchedArticle.contentText);
+        setLoading(false);
+      });
+    }
+  }, []);
   return (
     <div>
+      {loading && (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      )}
       <Formik
         initialValues={{
-          id: null,
-          title: '',
-          subtitle: '',
-          contentRich: '',
-          collection: '',
-          language: localStorage.getItem('language') || 'en',
-          published: false
+          id: (!!article.id && article.id) || null,
+          title: (!!article.title && article.title) || '',
+          subtitle: (!!article.description && article.description) || '',
+          contentRich: (!!article.contentRich && article.contentRich) || '',
+          collection: (!!article.collection && article.collection) || '',
+          language:
+            (!!article.lang && article.lang) ||
+            localStorage.getItem('language') ||
+            'en',
+          published: (!!article.published && article.published) || false
         }}
         enableReinitialize
         validationSchema={validationSchema}
