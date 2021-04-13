@@ -81,14 +81,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const OfflineMaps = ({ enqueueSnackbar, closeSnackbar, user }) => {
+const OfflineMaps = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { organizationId } = useParams();
+  const hubId = history.location.state ? history.location.state.hubId : null;
 
   const navigationOptions = [
     { label: t('views.toolbar.hubs'), link: '/hubs' },
-    { label: t('views.toolbar.organizations'), link: '/organizations' },
+    {
+      label: t('views.toolbar.organizations'),
+      link: '/organizations',
+      state: { hubId }
+    },
     {
       label: t('views.offlineMaps.title'),
       link: '/organizations/:organizationId/offline-maps'
