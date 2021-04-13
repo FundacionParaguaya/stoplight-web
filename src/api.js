@@ -3,6 +3,8 @@ import { PhoneNumberUtil } from 'google-libphonenumber';
 import store from './redux';
 import CallingCodes from './screens/lifemap/CallingCodes';
 import imageCompression from 'browser-image-compression';
+const CancelToken = axios.CancelToken;
+let source = CancelToken.source();
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -127,6 +129,7 @@ export const getSurveysByUser = user =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`
     },
@@ -205,6 +208,7 @@ export const getTotalFamilies = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -237,6 +241,7 @@ export const getOverviewBlock = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -270,6 +275,7 @@ export const getEconomicOverview = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -302,6 +308,7 @@ export const getOperationsOverview = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -335,6 +342,12 @@ export const getLastestActivity = (user, lang) =>
     })
   });
 
+export const cancelRequest = () => {
+  source.cancel('Operation canceled by the user.');
+
+  source = CancelToken.source();
+};
+
 export const getDimensionIndicators = (
   user,
   hub,
@@ -349,6 +362,7 @@ export const getDimensionIndicators = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'Content-Type': 'application/json',
