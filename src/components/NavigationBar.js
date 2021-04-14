@@ -31,6 +31,7 @@ class NavigationBar extends Component {
                   activeOnlyWhenExact={true}
                   first={index === 0}
                   optionClass={classes.menuLinkText}
+                  state={option.state}
                   key={index}
                 />
               );
@@ -41,7 +42,14 @@ class NavigationBar extends Component {
   }
 }
 
-function MenuLink({ label, to, activeOnlyWhenExact, first, optionClass }) {
+function MenuLink({
+  label,
+  to,
+  activeOnlyWhenExact,
+  first,
+  optionClass,
+  state
+}) {
   let match = useRouteMatch({
     path: to,
     exact: activeOnlyWhenExact
@@ -55,7 +63,11 @@ function MenuLink({ label, to, activeOnlyWhenExact, first, optionClass }) {
     >
       {!first && <span>&nbsp; > &nbsp;</span>}
       {!match ? (
-        <Link to={to} style={{ color: COLORS.GREEN }} className={optionClass}>
+        <Link
+          to={{ pathname: to, state: state }}
+          style={{ color: COLORS.GREEN }}
+          className={optionClass}
+        >
           {label}
         </Link>
       ) : (

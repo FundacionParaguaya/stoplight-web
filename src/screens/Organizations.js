@@ -265,7 +265,8 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                             className={classes.mapButton}
                             onClick={() => {
                               history.push({
-                                pathname: `organizations/${organization.id}/offline-maps`
+                                pathname: `organizations/${organization.id}/offline-maps`,
+                                state: { hubId: hubId }
                               });
                             }}
                           >
