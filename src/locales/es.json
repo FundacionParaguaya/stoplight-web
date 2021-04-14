@@ -604,7 +604,8 @@
       "indicator": "Indicadores",
       "action": "¿Qué hiciste para lograr esto?",
       "roadmap": "¿Quién o qué te motivó a llegar allí?",
-      "noAchievements": "Esta familia no tiene logros."
+      "noAchievements": "Esta familia no tiene logros.",
+      "addAchievement": "Agregar Logro"
     },
     "familyImages": {
       "title": "Imágenes",

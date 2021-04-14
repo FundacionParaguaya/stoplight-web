@@ -603,7 +603,8 @@
       "indicator": "Indicador",
       "action": "O que você fez para conseguir isso?",
       "roadmap": "Quem ou o que motivou a levar você até lá?",
-      "noAchievements": "Esta família não tem conquistas."
+      "noAchievements": "Esta família não tem conquistas.",
+      "addAchievement": "Adicionar conquista"
     },
     "familyImages": {
       "title": "Imagens",

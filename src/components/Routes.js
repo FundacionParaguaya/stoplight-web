@@ -17,6 +17,9 @@ const LifemapDetails = lazy(() => import('../screens/LifemapDetails'));
 const SelectIndicatorPriority = lazy(() =>
   import('../screens/priorities/SelectIndicatorPriority')
 );
+const SelectIndicatorAchievement = lazy(() =>
+  import('../screens/achievements/SelectIndicatorAchievement')
+);
 const Families = lazy(() => import('../screens/Families'));
 const Dashboard = lazy(() => import('../screens/Dashboard'));
 const Users = lazy(() => import('../screens/Users'));
@@ -159,6 +162,12 @@ const Routes = ({ user }) => {
             <Route
               path="/priorities/:familyId"
               component={SelectIndicatorPriority}
+            />
+          )}
+          {checkAccess(user, 'priorities') && (
+            <Route
+              path="/achievements/:familyId"
+              component={SelectIndicatorAchievement}
             />
           )}
           {checkAccess(user, 'my-profile') && (

@@ -418,6 +418,7 @@ const MyProfile = ({
       {!stoplightSkipped && (
         <FamilyAchievements
           familyId={family.familyId}
+          stoplightSkipped={stoplightSkipped}
           achievements={achievements}
         />
       )}

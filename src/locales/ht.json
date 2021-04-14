@@ -607,7 +607,8 @@
       "indicator": "Endikatè",
       "action": "Kisa ou fè pou ou akonpli sa?",
       "roadmap": "Kisa osinon kilès ki motive ou pou ou rive fè l?",
-      "noAchievements": "Fanmi sa a pa genyen akonplisman"
+      "noAchievements": "Fanmi sa a pa genyen akonplisman",
+      "addAchievement": "Ajoute yon akonplisman"
     },
     "familyImages": {
       "title": "Imaj",

@@ -70,6 +70,8 @@ const FamilyPriorities = ({
     });
   };
 
+  console.log('#######questionsP');
+  console.log(questions);
   return (
     <React.Fragment>
       <DeletePriorityModal

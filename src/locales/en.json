@@ -587,7 +587,7 @@
       "noPriorities": "This family has not selected their priorities.",
       "prioritySaved": "Priority Saved",
       "errorSaving": "Error saving Priority. Please Try again",
-      "selectIndicator": "Select a Indicator",
+      "selectIndicator": "Select an Indicator",
       "backToProfile": "Back to Family Profile",
       "addPriority": "Add Priority",
       "updatedAt": "Date of Creation",
@@ -604,7 +604,8 @@
       "indicator": "Indicator",
       "action": "What did you do to achieve this?",
       "roadmap": "Who  or what motivated to get the you there?",
-      "noAchievements": "This family has no achievements."
+      "noAchievements": "This family has no achievements.",
+      "addAchievement": "Add Achievement"
     },
     "familyImages": {
       "title": "Images",

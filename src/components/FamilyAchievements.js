@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Button } from '@material-ui/core';
 import Container from './Container';
 import { withSnackbar } from 'notistack';
 import iconAchivement from '../assets/imgAch.png';
@@ -11,6 +11,7 @@ import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { COLORS } from '../theme';
 import ExpandLess from '@material-ui/icons/ExpandLess';
+import { ROLES_NAMES } from '../utils/role-utils';
 
 const styles = theme => ({
   basicInfo: {
@@ -136,18 +137,43 @@ const styles = theme => ({
   },
   emptyList: {
     paddingTop: '1rem',
-    paddingBottom: '1rem',
-    marginBottom: 36
+    paddingBottom: '1rem'
   }
 });
 
 const FamilyAchievements = ({
   classes,
+  familyId,
+  user,
+  stoplightSkipped,
+  questions,
   achievements,
+  readOnly,
   fullWidth = false,
-  t
+  t,
+  history
 }) => {
+  const showAdministrationOptions = ({ role }) => {
+    return (
+      (role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        role === ROLES_NAMES.ROLE_FAMILY_USER ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
+      !readOnly
+    );
+  };
+
+  const handleAddAchievement = () => {
+    history.push({
+      pathname: `/achievements/${familyId}`,
+      state: { questions }
+    });
+    console.log('handleAddAchievement...');
+  };
+
   const [priorityOpen, setPriorityOpen] = useState();
+
+  console.log('#######questionsA');
+  console.log(questions);
   return (
     <div>
       <Container className={classes.basicInfo} variant="fluid">
@@ -249,6 +275,22 @@ const FamilyAchievements = ({
             <Typography variant="h6" className={classes.emptyList}>
               {t('views.familyAchievements.noAchievements')}
             </Typography>
+          </Container>
+        )}
+
+        {showAdministrationOptions(user) && !stoplightSkipped && (
+          <Container
+            className={classes.basicInfoText}
+            variant="fluid"
+            style={{ paddingBottom: '2rem' }}
+          >
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleAddAchievement}
+            >
+              {t('views.familyAchievements.addAchievement')}
+            </Button>
           </Container>
         )}
       </Container>
