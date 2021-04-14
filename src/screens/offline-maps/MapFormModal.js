@@ -4,13 +4,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import { addOrUpdateOfflineMap } from '../../api';
 import InputWithFormik from '../../components/InputWithFormik';
 import Map from './Map';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -97,6 +98,7 @@ const MapFormModal = ({
 
   const { t } = useTranslation();
   const [area, setArea] = useState();
+  const [error, setError] = useState(false);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -124,6 +126,32 @@ const MapFormModal = ({
       center
     };
   };
+
+  const checkArea = (from, to) => {
+    const MAX_SIZE = 575000; //  diagonal max size in meters
+
+    const R = 6371e3; // metres
+    const φ1 = (from[0] * Math.PI) / 180; // φ, λ in radians
+    const φ2 = (to[0] * Math.PI) / 180;
+    const Δφ = ((to[0] - from[0]) * Math.PI) / 180;
+    const Δλ = ((to[1] - from[1]) * Math.PI) / 180;
+
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c; // in metres
+
+    setError(distance > MAX_SIZE);
+  };
+
+  useEffect(() => {
+    if (!!area) {
+      const { from, to } = boundsToCoordinates(area.getBounds());
+      checkArea(from, to);
+    }
+  }, [area]);
 
   const onSubmit = values => {
     let coordinates = {};
@@ -208,6 +236,7 @@ const MapFormModal = ({
                   !!area && !isEdit && area.setVisible(false);
                   if (isEdit) {
                     let coordinates = boundsToCoordinates(newArea.getBounds());
+                    checkArea(coordinates.from, coordinates.to);
                     setMapToEdit({ ...mapToEdit, ...coordinates });
                   }
                   setArea(newArea);
@@ -216,6 +245,12 @@ const MapFormModal = ({
                 containerElement={<div className={classes.mapContainer} />}
                 mapElement={<div className={classes.mapElement} />}
               />
+
+              {error && (
+                <FormHelperText error={error} style={{ textAlign: 'center' }}>
+                  {t('views.offlineMaps.form.sizeError')}
+                </FormHelperText>
+              )}
 
               {isSubmitting && (
                 <CircularProgress className={classes.loadingContainer} />
@@ -236,7 +271,7 @@ const MapFormModal = ({
                   type="submit"
                   color="primary"
                   variant="contained"
-                  disabled={isSubmitting || (!area && !isEdit)}
+                  disabled={isSubmitting || (!area && !isEdit) || error}
                 >
                   {t('general.save')}
                 </Button>

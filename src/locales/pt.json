@@ -962,7 +962,8 @@
         "name": "Nome",
         "nameLengthExceeded": "O nome do mapa deve ter no máximo 50 caracteres",
         "success": "Mapa offline salvo",
-        "error": "Não foi possível salvar o mapa offline"
+        "error": "Não foi possível salvar o mapa offline",
+        "sizeError": "A área selecionada excede o limite."
       },
       "delete": {
         "success": "O mapa foi excluído",

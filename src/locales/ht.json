@@ -964,7 +964,8 @@
         "name": "Non",
         "nameLengthExceeded": "Non kat la dwe gen yon maksimòm de 50 karaktè",
         "success": "Kat Offline sove",
-        "error": "Pa t 'kapab sove offline kat jeyografik"
+        "error": "Pa t 'kapab sove offline kat jeyografik",
+        "sizeError": "Zòn nan chwazi depase limit la."
       },
       "delete": {
         "success": "Kat la te efase",
