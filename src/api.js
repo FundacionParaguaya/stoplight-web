@@ -1855,7 +1855,7 @@ export const getArticles = (user, filter, lang, tags) =>
     },
     data: JSON.stringify({
       query:
-        'query listArticles($filter: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, lang: $lang, tags: $tags) { id title} }',
+        'query listArticles($filter: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, lang: $lang, tags: $tags) { id title collection} }',
       variables: {
         filter: filter,
         lang: lang,

@@ -113,6 +113,14 @@
       "metaTitle": "Poverty Stoplight Support Center",
       "headerTitle": "Advice and answers from the Poverty Stoplight Platform Team",
       "search": "Search for articles...",
+      "countArticles": "articles in this collection",
+      "writeBy": "Written by",
+      "team": " Stoplight Team",
+      "collections": {
+        "generalDescription": "General Questions about the Poverty Stoplight",
+        "webDescription": "General articles about using the Poverty Stoplight Platform",
+        "appDescription": "General support articles regarding the Stoplight Mobile android app"
+      },
       "form": {
         "title": "Article title",
         "subtitle": "Add a description for your article",
