@@ -962,7 +962,8 @@
         "name": "Nombre",
         "nameLengthExceeded": "El nombre del mapa debe tener un máximo de 50 caracteres",
         "success": "Se guardó el mapa sin conexión",
-        "error": "No se pudo guardar el mapa sin conexión"
+        "error": "No se pudo guardar el mapa sin conexión",
+        "sizeError": "El área seleccionada excede el límite."
       },
       "delete": {
         "success": "El mapa ha sido eliminado",

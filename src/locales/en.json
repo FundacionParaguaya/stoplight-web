@@ -961,7 +961,8 @@
         "error": "Could not save offline map",
         "editTitle": "Edit Offline Map",
         "name": "Name",
-        "nameLengthExceeded": "Map name must have a maximum of 50 characters"
+        "nameLengthExceeded": "Map name must have a maximum of 50 characters",
+        "sizeError": "The selected area exceeds the limit."
       },
       "delete": {
         "confirmTitle": "Confirm Deletion",
