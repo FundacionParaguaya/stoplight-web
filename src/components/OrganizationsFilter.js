@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
-import { getOrganizationsByHub } from '../api';
+import { getOrganizationsByHub, cancelRequest } from '../api';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -72,6 +72,11 @@ const OrganizationsFilter = ({ user, data, hub, onChange, stacked }) => {
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    return () => cancelRequest();
+  }, []);
+
   useEffect(() => {
     setLoading(true);
     setOrganizations([]);
@@ -85,6 +90,7 @@ const OrganizationsFilter = ({ user, data, hub, onChange, stacked }) => {
         );
         setOrganizations(orgs);
       })
+      .catch(e => {})
       .finally(() => setLoading(false));
   }, [user, hub]);
   const allOrganizationsOption = {

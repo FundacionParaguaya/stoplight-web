@@ -74,12 +74,12 @@ function withControllers(title, sorting) {
                 <CircularProgress />
               </div>
             )}
-            {!loading && data.length <= 0 && (
+            {!loading && Array.isArray(data) && data.length <= 0 && (
               <Typography>
                 {t('views.organizationsFilter.noMatchFilters')}
               </Typography>
             )}
-            {!loading && data.length > 0 && (
+            {!loading && Array.isArray(data) && data.length > 0 && (
               <>
                 <WrappedComponent
                   type={type}

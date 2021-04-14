@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
-import { getSurveysByUser } from '../api';
+import { getSurveysByUser, cancelRequest } from '../api';
 
 const selectStyle = {
   control: (styles, { isFocused, selectProps }) => {
@@ -101,6 +101,7 @@ const SurveysFilter = ({
         setSurveys(surveysFromAPI);
         setAllSurveys(surveysFromAPI);
       })
+      .catch(e => {})
       .finally(() => {
         setLoading(false);
         //This is neccesary cause users can change the hub/org filter in the middle of the loading call
@@ -135,6 +136,10 @@ const SurveysFilter = ({
       }
     }
   };
+
+  useEffect(() => {
+    return () => cancelRequest();
+  }, []);
 
   //This effect load the list the first time
   useEffect(() => {

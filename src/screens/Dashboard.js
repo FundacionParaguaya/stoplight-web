@@ -16,7 +16,8 @@ import {
   getEconomicOverview,
   getLastestActivity,
   getOperationsOverview,
-  getTotalFamilies
+  getTotalFamilies,
+  cancelRequest
 } from '../api';
 import ballstoit from '../assets/ballstoit.png';
 import ActivityFeed from '../components/ActivityFeed';
@@ -86,6 +87,10 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
     }
   };
 
+  useEffect(() => {
+    return () => cancelRequest();
+  }, []);
+
   // Clearing selected organizations when the hub filter changes
   useEffect(() => {
     setSelectedOrganizations([]);
@@ -108,6 +113,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   }, [user, lang]);
 
   useEffect(() => {
+    cancelRequest();
     setLoadingDimensionsIndicators(true);
     setLoadingGeneralData(true);
     setLoadingEconomics(true);
@@ -149,8 +155,9 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         );
 
         setDimensions(sortedDimensions);
+        setLoadingDimensionsIndicators(false);
       })
-      .finally(() => setLoadingDimensionsIndicators(false));
+      .catch(e => {});
 
     getTotalFamilies(
       user,
@@ -168,8 +175,9 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
           ? data.data.data.totalFamilies
           : null;
         setGeneralData(totalFamilies);
+        setLoadingGeneralData(false);
       })
-      .finally(() => setLoadingGeneralData(false));
+      .catch(e => {});
 
     getOverviewBlock(
       user,
@@ -185,8 +193,9 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       .then(data => {
         const { blockOverview } = getData(data);
         setOverview(blockOverview);
+        setLoadingOverview(false);
       })
-      .finally(() => setLoadingOverview(false));
+      .catch(e => {});
 
     getEconomicOverview(
       user,
@@ -225,8 +234,9 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         economicOverview.genders.otherGendersCount = otherGendersCount;
         economicOverview.genders.otherTooltipText = otherTooltipText;
         setEconomic(economicOverview);
+        setLoadingEconomics(false);
       })
-      .finally(() => setLoadingEconomics(false));
+      .catch(e => {});
 
     getOperationsOverview(
       user,
@@ -307,8 +317,9 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         } else {
           setChart(null);
         }
+        setLoadingChart(false);
       })
-      .finally(() => setLoadingChart(false));
+      .catch(e => {});
   }, [
     user,
     selectedHub,
