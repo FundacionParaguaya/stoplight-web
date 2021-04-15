@@ -168,8 +168,6 @@ const SelectIndicatorPriority = ({
 
   // on save priority
   const savePriority = values => {
-    console.log('saving');
-    console.log(values);
     addPriority(
       user,
       values.reason,

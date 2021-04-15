@@ -999,7 +999,7 @@ export const getPrioritiesAchievementByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
+        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {id indicator action roadmap} } }',
       variables: {
         familyId: familyId
       }
@@ -1098,6 +1098,47 @@ export const editPriority = (user, id, reason, action, months) =>
           reason,
           action,
           months
+        }
+      }
+    })
+  });
+
+export const addAchievement = (user, action, roadmap, snapshotStoplightId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation addAchievementWeb($achievement: AchievementDtoInput) {addAchievementWeb (achievement: $achievement){successful}}',
+      variables: {
+        achievement: {
+          action,
+          roadmap,
+          snapshotStoplightId
+        },
+        client: 'WEB'
+      }
+    })
+  });
+
+export const editAchievement = (user, id, action, roadmap) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateAchievement($achievement: AchievementDtoInput) {updateAchievement(achievement: $achievement){successful}}',
+      variables: {
+        achievement: {
+          id,
+          action,
+          roadmap
         }
       }
     })
@@ -2003,6 +2044,24 @@ export const deletePriority = (id, user) =>
         'mutation deleteSnapshotStoplightPriority($priority: PriorityDtoInput) {deleteSnapshotStoplightPriority(priority: $priority){successful}}',
       variables: {
         priority: {
+          id
+        }
+      }
+    })
+  });
+
+export const deleteAchievement = (id, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteAchievement($achievement: AchievementDtoInput) {deleteAchievement(achievement: $achievement){successful}}',
+      variables: {
+        achievement: {
           id
         }
       }
