@@ -607,7 +607,19 @@
       "indicator": "Endikatè",
       "action": "Kisa ou fè pou ou akonpli sa?",
       "roadmap": "Kisa osinon kilès ki motive ou pou ou rive fè l?",
-      "noAchievements": "Fanmi sa a pa genyen akonplisman"
+      "noAchievements": "Fanmi sa a pa genyen akonplisman",
+      "achievementSaved": "Akonplisman yo anrejistre",
+      "errorSaving": "Te genyen yon erè nan sove akonplisman yo. Tanpri eseye ankò.",
+      "selectIndicator": "Chwazi yon endikatè",
+      "backToProfile": "Tounen nan Pwofil Fanmi an",
+      "addAchievement": "Ajoute yon akonplisman",
+      "delete": {
+        "cannotUndo": "Ou pa ka defèt aksyon sa a!",
+        "confirmText": "Èske ou sèten ou vle efase akonplisman sa a?",
+        "confirmTitle": "Konfime sipresyon",
+        "failed": "Pa t 'kapab efase akonplisman",
+        "success": "Akonplisman a te efase"
+      }
     },
     "familyImages": {
       "title": "Imaj",

@@ -603,7 +603,19 @@
       "indicator": "Indicador",
       "action": "O que você fez para conseguir isso?",
       "roadmap": "Quem ou o que motivou a levar você até lá?",
-      "noAchievements": "Esta família não tem conquistas."
+      "noAchievements": "Esta família não tem conquistas.",
+      "achievementSaved": "Salvado correctamente",
+      "errorSaving": "Houve um erro ao acrescentar a conquista. Por favor, tente novamente.",
+      "selectIndicator": "Selecione um Indicador",
+      "backToProfile": "Regressar ao Perfil da Família",
+      "addAchievement": "Adicionar conquista",
+      "delete": {
+        "cannotUndo": "Você não pode desfazer esta ação!",
+        "confirmText": "Tem certeza de que deseja excluir esta Conquista?",
+        "confirmTitle": "Confirmar exclusão",
+        "failed": "Não foi possível excluir a conquista",
+        "success": "A prioridade foi excluída"
+      }
     },
     "familyImages": {
       "title": "Imagens",

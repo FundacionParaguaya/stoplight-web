@@ -3,14 +3,20 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Button } from '@material-ui/core';
 import Container from './Container';
 import { withSnackbar } from 'notistack';
-import iconAchivement from '../assets/imgAch.png';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import { COLORS } from '../theme';
 import ExpandLess from '@material-ui/icons/ExpandLess';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import { Delete, Edit } from '@material-ui/icons';
+import { COLORS } from '../theme';
+import { ROLES_NAMES } from '../utils/role-utils';
+import iconAchivement from '../assets/imgAch.png';
+import EditAchievementModal from '../screens/families/edit/EditAchievementModal';
+import DeleteAchievementModal from '../screens/families/edit/DeleteAchievementModal';
 
 const styles = theme => ({
   basicInfo: {
@@ -74,7 +80,8 @@ const styles = theme => ({
   },
   achievementItemHeader: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingRight: 8
   },
   indicatorBasicInfoLeft: {
     flex: '1 1 0%',
@@ -122,34 +129,73 @@ const styles = theme => ({
     flexGrow: 0,
     border: `1px solid ${theme.palette.grey.quarter}`,
     width: 3,
-    marginLeft: 30,
-    marginRight: 30,
-    [theme.breakpoints.down('660')]: {
-      visibility: 'hidden'
+    marginLeft: 10,
+    marginRight: 10,
+    [theme.breakpoints.down('960')]: {
+      visibility: 'hidden',
+      width: 0,
+      marginLeft: 0,
+      marginRight: 0
     }
   },
   achievementContent: {
     paddingLeft: '2rem',
-    paddingRight: '2rem',
     paddingTop: '1.5rem',
     paddingBottom: '1rem'
   },
   emptyList: {
     paddingTop: '1rem',
-    paddingBottom: '1rem',
-    marginBottom: 36
+    paddingBottom: '1rem'
   }
 });
 
 const FamilyAchievements = ({
   classes,
+  familyId,
+  user,
+  stoplightSkipped,
+  questions,
   achievements,
+  readOnly,
   fullWidth = false,
-  t
+  t,
+  history
 }) => {
+  const showAdministrationOptions = ({ role }) => {
+    return (
+      (role === ROLES_NAMES.ROLE_SURVEY_USER ||
+        role === ROLES_NAMES.ROLE_FAMILY_USER ||
+        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
+      !readOnly
+    );
+  };
+
+  const handleAddAchievement = () => {
+    history.push({
+      pathname: `/achievements/${familyId}`,
+      state: { questions }
+    });
+  };
+
   const [priorityOpen, setPriorityOpen] = useState();
+  const [selectedAchievement, setSelectedAchievement] = useState();
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
   return (
     <div>
+      <DeleteAchievementModal
+        achievementToDelete={selectedAchievement}
+        open={openDeleteModal}
+        afterSubmit={() => window.location.reload()}
+        toggleModal={() => setOpenDeleteModal(!openDeleteModal)}
+      />
+      <EditAchievementModal
+        achievementToEdit={selectedAchievement}
+        open={openEditModal}
+        afterSubmit={() => window.location.reload()}
+        toggleModal={() => setOpenEditModal(!openEditModal)}
+      />
       <Container className={classes.basicInfo} variant="fluid">
         <div className={classes.iconAchivementFamilyBorder}>
           <img
@@ -222,17 +268,73 @@ const FamilyAchievements = ({
                             </Typography>
                           </Grid>
 
-                          {/* Divider*/}
-                          <div className={classes.divider} />
-
                           {/* Roadmap */}
                           <Grid item md={5} sm={12} xs={12}>
-                            <Typography variant="subtitle1">
-                              {t('views.familyAchievements.roadmap')}
-                            </Typography>
-                            <Typography variant="subtitle2">
-                              {item.roadmap}
-                            </Typography>
+                            <div
+                              style={{ display: 'flex', flexDirection: 'row' }}
+                            >
+                              {/* Divider */}
+                              <div className={classes.divider} />
+                              <div>
+                                <Typography variant="subtitle1">
+                                  {t('views.familyAchievements.roadmap')}
+                                </Typography>
+                                <Typography variant="subtitle2">
+                                  {item.roadmap}
+                                </Typography>
+                              </div>
+                            </div>
+                          </Grid>
+
+                          <Grid
+                            item
+                            lg={2}
+                            md={2}
+                            sm={12}
+                            xs={12}
+                            container
+                            justify="flex-end"
+                          >
+                            {showAdministrationOptions(user) && (
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                                  height: 'min-content'
+                                }}
+                              >
+                                <Tooltip
+                                  title={t('views.solutions.form.editButton')}
+                                  style={{ marginRight: 10 }}
+                                >
+                                  <IconButton
+                                    style={{ color: 'black' }}
+                                    component="span"
+                                    onClick={() => {
+                                      setSelectedAchievement(item);
+                                      setOpenEditModal(true);
+                                    }}
+                                  >
+                                    <Edit />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip
+                                  title={t('views.solutions.form.deleteButton')}
+                                  style={{ marginRight: 8 }}
+                                >
+                                  <IconButton
+                                    style={{ color: 'black' }}
+                                    component="span"
+                                    onClick={() => {
+                                      setSelectedAchievement(item);
+                                      setOpenDeleteModal(true);
+                                    }}
+                                  >
+                                    <Delete />
+                                  </IconButton>
+                                </Tooltip>
+                              </div>
+                            )}
                           </Grid>
                         </Grid>
                       </div>
@@ -249,6 +351,22 @@ const FamilyAchievements = ({
             <Typography variant="h6" className={classes.emptyList}>
               {t('views.familyAchievements.noAchievements')}
             </Typography>
+          </Container>
+        )}
+
+        {showAdministrationOptions(user) && !stoplightSkipped && (
+          <Container
+            className={classes.basicInfoText}
+            variant="fluid"
+            style={{ paddingBottom: '2rem' }}
+          >
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleAddAchievement}
+            >
+              {t('views.familyAchievements.addAchievement')}
+            </Button>
           </Container>
         )}
       </Container>

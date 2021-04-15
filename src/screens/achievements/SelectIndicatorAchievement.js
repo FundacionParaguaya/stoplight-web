@@ -2,23 +2,26 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, useParams } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import { withSnackbar } from 'notistack';
+import {
+  withStyles,
+  Modal,
+  Typography,
+  Button,
+  CircularProgress
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import * as Yup from 'yup';
 import { updateUser, updateSurvey, updateDraft } from '../../redux/actions';
 import withLayout from '../../components/withLayout';
 import DimensionQuestion from '../../components/summary/DimensionQuestion';
 import Container from '../../components/Container';
-import iconPriority from '../../assets/icon_priority.png';
+import iconAchievement from '../../assets/icon_achievement.png';
 import { Formik, Form } from 'formik';
 import InputWithFormik from '../../components/InputWithFormik';
-import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
-import { withStyles, Modal, Typography, Button } from '@material-ui/core';
-import * as Yup from 'yup';
-import { constructEstimatedMonthsOptions } from '../../utils/form-utils';
-import CloseIcon from '@material-ui/icons/Close';
-import { withSnackbar } from 'notistack';
-import IconButton from '@material-ui/core/IconButton';
-import { addPriority } from '../../api';
+import { addAchievement } from '../../api';
 import NavigationBar from '../../components/NavigationBar';
-import { CircularProgress } from '@material-ui/core';
 import { ROLES_NAMES } from '../../utils/role-utils';
 
 const styles = theme => ({
@@ -71,7 +74,6 @@ const styles = theme => ({
     justifyContent: 'center',
     zIndex: 9,
     marginTop: '3rem'
-    //position: 'relative'
   },
   basicInfoText: {
     backgroundColor: theme.palette.background.default,
@@ -80,7 +82,7 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  iconPriorityBorder: {
+  iconAchievementBorder: {
     border: '2px solid #FFFFFF',
     borderRadius: '50%',
     backgroundColor: '#FFFFFF',
@@ -92,7 +94,7 @@ const styles = theme => ({
     marginTop: '-2%',
     position: 'relative'
   },
-  iconPriority: {
+  iconAchievement: {
     maxWidth: 50,
     maxHeight: 50,
     objectFit: 'contain'
@@ -114,7 +116,7 @@ const styles = theme => ({
   }
 });
 
-const SelectIndicatorPriority = ({
+const SelectIndicatorAchievement = ({
   classes,
   t,
   i18n: { language },
@@ -125,30 +127,28 @@ const SelectIndicatorPriority = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [selectedIndicator, setSelectedIndicator] = useState({});
-  const monthsOptions = constructEstimatedMonthsOptions(t);
   const [loading, setLoading] = useState(false);
 
-  const listPriorities = history.location.state.questions.priorities.map(
-    ele => {
-      return {
-        indicator: ele.key
-      };
-    }
-  );
-  const [priorities, setPriorities] = useState(listPriorities);
-  let { familyId } = useParams();
+  const listAchievements = [];
+  history.location.state.questions.achievements.map(ele => {
+    return {
+      indicator: ele.key
+    };
+  });
+  const [achievements, setAchievements] = useState(listAchievements);
+  const { familyId } = useParams();
 
   const navigationOptions = [
     { label: t('views.familyProfile.families'), link: '/families' },
     { label: t('views.familyProfile.profile'), link: `/family/${familyId}` },
     {
-      label: t('views.familyPriorities.priorities'),
-      link: `/priorities/${familyId}`
+      label: t('views.familyAchievements.achievements'),
+      link: `/achievements/${familyId}`
     }
   ];
 
   const questions = history.location.state.questions.indicatorSurveyDataList
-    .filter(e => e.value === 1 || e.value === 2)
+    .filter(e => e.value === 3)
     .map(ele => {
       return {
         value: ele.value,
@@ -161,22 +161,21 @@ const SelectIndicatorPriority = ({
 
   const fieldIsRequired = 'validation.fieldIsRequired';
 
-  //Validation criterias
+  // Validation criterias
   const validationSchema = Yup.object().shape({
-    estimatedDate: Yup.string().required(fieldIsRequired)
+    action: Yup.string().required(fieldIsRequired)
   });
 
-  // on save priority
-  const savePriority = values => {
-    addPriority(
+  // on save achievement
+  const saveAchievement = values => {
+    addAchievement(
       user,
-      values.reason,
       values.action,
-      values.estimatedDate,
+      values.roadmap,
       selectedIndicator.snapshotStoplightId
     )
       .then(response => {
-        enqueueSnackbar(t('views.familyPriorities.prioritySaved'), {
+        enqueueSnackbar(t('views.familyAchievements.achievementSaved'), {
           variant: 'success',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -186,8 +185,8 @@ const SelectIndicatorPriority = ({
         });
         setLoading(false);
 
-        //Update list of priorities
-        setPriorities(previous => [
+        // Update list of achievements
+        setAchievements(previous => [
           ...previous,
           { indicator: selectedIndicator.key }
         ]);
@@ -196,7 +195,7 @@ const SelectIndicatorPriority = ({
       .catch(e => {
         setLoading(false);
         setOpen(false);
-        enqueueSnackbar(t('views.familyPriorities.errorSaving'), {
+        enqueueSnackbar(t('views.familyAchievements.errorSaving'), {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -207,14 +206,14 @@ const SelectIndicatorPriority = ({
       });
   };
 
-  //on close modal
+  // on close modal
   const onClose = () => {
     setOpen(false);
   };
 
   const getForwardURLForIndicator = e => {
-    if (!priorities.find(prior => prior.indicator === e.key)) {
-      // you can add a priority
+    if (!achievements.find(prior => prior.indicator === e.key)) {
+      // you can add a achievement
       setSelectedIndicator(e);
       setOpen(true);
     }
@@ -241,32 +240,32 @@ const SelectIndicatorPriority = ({
       </div>
 
       <Container className={classes.basicInfo} variant="stretch">
-        <div className={classes.iconPriorityBorder}>
+        <div className={classes.iconAchievementBorder}>
           <img
-            src={iconPriority}
-            className={classes.iconPriority}
-            alt="Priority icon"
+            src={iconAchievement}
+            className={classes.iconAchievement}
+            alt="Achievement icon"
           />
         </div>
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
         <Typography variant="h5">
-          {t('views.familyPriorities.selectIndicator')}
+          {t('views.familyAchievements.selectIndicator')}
         </Typography>
       </Container>
       <div className={classes.questionsContainer}>
         <DimensionQuestion
-          questions={questions ? questions : []}
-          priorities={priorities}
-          achievements={[]}
+          questions={!!questions ? questions : []}
+          priorities={[]}
+          achievements={achievements}
           history={history}
           onClickIndicator={getForwardURLForIndicator}
         />
       </div>
       <Container className={classes.backButton} variant="fluid">
         <Button color="primary" variant="contained" onClick={goToFamilyProfile}>
-          {t('views.familyPriorities.backToProfile')}
+          {t('views.familyAchievements.backToProfile')}
         </Button>
       </Container>
 
@@ -277,14 +276,6 @@ const SelectIndicatorPriority = ({
           </div>
         ) : (
           <div className={classes.confirmationModal}>
-            {/* <Typography
-                className={classes.modalTitle}
-                variant="h5"
-                test-id="modal-title"
-              >
-                {t('views.familyPriorities.addPriority')}
-              </Typography> */}
-
             <Typography
               variant="subtitle1"
               align="center"
@@ -303,39 +294,31 @@ const SelectIndicatorPriority = ({
 
             <Formik
               initialValues={{
-                reason: '',
-                action: ''
+                action: '',
+                roadmap: ''
               }}
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 setLoading(true);
-                savePriority(values);
+                saveAchievement(values);
               }}
             >
               <Form>
                 <InputWithFormik
-                  label={t('views.lifemap.whyDontYouHaveIt')}
-                  name="reason"
+                  label={t('views.lifemap.whatDidItTakeToAchieveThis')}
+                  name="action"
+                  required
                 />
                 <InputWithFormik
-                  label={t('views.lifemap.whatWillYouDoToGetIt')}
-                  name="action"
-                />
-                <AutocompleteWithFormik
-                  label={t('views.lifemap.howManyMonthsWillItTake')}
-                  name="estimatedDate"
-                  rawOptions={monthsOptions}
-                  labelKey="label"
-                  valueKey="value"
-                  required
-                  isClearable={false}
+                  label={t('views.lifemap.howDidYouGetIt')}
+                  name="roadmap"
                 />
                 <div className={classes.buttonContainerForm}>
                   <Button
                     type="submit"
                     color="primary"
                     variant="contained"
-                    //disabled={isSubmitting}
+                    // disabled={isSubmitting}
                   >
                     {t('general.save')}
                   </Button>
@@ -362,6 +345,6 @@ export default withRouter(
     connect(
       mapStateToProps,
       mapDispatchToProps
-    )(withTranslation()(withLayout(withSnackbar(SelectIndicatorPriority))))
+    )(withTranslation()(withLayout(withSnackbar(SelectIndicatorAchievement))))
   )
 );
