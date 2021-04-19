@@ -55,9 +55,7 @@ const FamilyPriorities = ({
   };
 
   const replacePriority = priority => {
-    const newPriorities = priorityList.filter(
-      priority => priority.id !== priority.id
-    );
+    const newPriorities = priorityList.filter(p => priority.id !== p.id);
     newPriorities.push(priority);
     setPriorityList(newPriorities);
   };

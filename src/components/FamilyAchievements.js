@@ -191,7 +191,7 @@ const FamilyAchievements = ({
 
   const replaceAchievement = achievement => {
     const newAchievements = achievementList.filter(
-      achievement => achievement.id !== achievement.id
+      a => achievement.id !== a.id
     );
     newAchievements.push(achievement);
     setAchievementList(newAchievements);
