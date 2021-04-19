@@ -587,6 +587,7 @@
       "prioritySaved": "Salvado correctamente",
       "errorSaving": "Houve um erro ao acrescentar a prioridade. Por favor, tente novamente.",
       "selectIndicator": "Selecione um Indicador",
+      "noIndicatorsAvailable": "A família não tem mais indicadores disponíveis",
       "backToProfile": "Regressar ao Perfil da Família",
       "addPriority": "Adicionar Prioridade",
       "updatedAt": "Data de Criação",
@@ -607,6 +608,7 @@
       "achievementSaved": "Salvado correctamente",
       "errorSaving": "Houve um erro ao acrescentar a conquista. Por favor, tente novamente.",
       "selectIndicator": "Selecione um Indicador",
+      "noIndicatorsAvailable": "A família não tem mais indicadores disponíveis",
       "backToProfile": "Regressar ao Perfil da Família",
       "addAchievement": "Adicionar conquista",
       "delete": {

@@ -250,9 +250,16 @@ const SelectIndicatorAchievement = ({
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h5">
-          {t('views.familyAchievements.selectIndicator')}
-        </Typography>
+        {achievements.length > 0 && (
+          <Typography variant="h5">
+            {t('views.familyAchievements.selectIndicator')}
+          </Typography>
+        )}
+        {achievements.length === 0 && (
+          <Typography variant="h5">
+            {t('views.familyAchievements.noIndicatorsAvailable')}
+          </Typography>
+        )}
       </Container>
       <div className={classes.questionsContainer}>
         <DimensionQuestion

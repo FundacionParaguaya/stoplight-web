@@ -251,9 +251,16 @@ const SelectIndicatorPriority = ({
       </Container>
 
       <Container className={classes.basicInfoText} variant="fluid">
-        <Typography variant="h5">
-          {t('views.familyPriorities.selectIndicator')}
-        </Typography>
+        {priorities.length > 0 && (
+          <Typography variant="h5">
+            {t('views.familyPriorities.selectIndicator')}
+          </Typography>
+        )}
+        {priorities.length === 0 && (
+          <Typography variant="h5">
+            {t('views.familyPriorities.noIndicatorsAvailable')}
+          </Typography>
+        )}
       </Container>
       <div className={classes.questionsContainer}>
         <DimensionQuestion
