@@ -57,7 +57,8 @@ const styles = theme => ({
     flexDirection: 'column',
     padding: '40px 50px',
     maxHeight: '95vh',
-    width: '500px',
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none'

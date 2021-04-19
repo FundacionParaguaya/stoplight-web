@@ -34,7 +34,8 @@ const styles = theme => ({
     marginBottom: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       fontSize: 16,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: theme.spacing(2)
     }
   },
   modal: {
@@ -54,7 +55,8 @@ const styles = theme => ({
     flexDirection: 'column',
     padding: '40px 50px',
     maxHeight: '95vh',
-    width: '500px',
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none'
@@ -97,9 +99,6 @@ const styles = theme => ({
     maxHeight: 50,
     objectFit: 'contain'
   },
-  modalTitle: {
-    paddingBottom: '2rem'
-  },
   extraTitleText: {
     textAlign: 'center',
     fontWeight: 400,
@@ -109,7 +108,8 @@ const styles = theme => ({
     lineHeight: '25px',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: 0
     }
   }
 });
@@ -277,14 +277,6 @@ const SelectIndicatorPriority = ({
           </div>
         ) : (
           <div className={classes.confirmationModal}>
-            {/* <Typography
-                className={classes.modalTitle}
-                variant="h5"
-                test-id="modal-title"
-              >
-                {t('views.familyPriorities.addPriority')}
-              </Typography> */}
-
             <Typography
               variant="subtitle1"
               align="center"
@@ -328,6 +320,7 @@ const SelectIndicatorPriority = ({
                   labelKey="label"
                   valueKey="value"
                   required
+                  maxSelectMenuHeight={90}
                   isClearable={false}
                 />
                 <div className={classes.buttonContainerForm}>
