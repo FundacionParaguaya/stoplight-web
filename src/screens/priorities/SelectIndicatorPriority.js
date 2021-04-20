@@ -276,7 +276,10 @@ const SelectIndicatorPriority = ({
 
       <Modal open={open} onClose={onClose} className={classes.modal}>
         {loading ? (
-          <div className={classes.confirmationModal}>
+          <div
+            className={classes.confirmationModal}
+            style={{ justifyContent: 'center' }}
+          >
             <CircularProgress />
           </div>
         ) : (
