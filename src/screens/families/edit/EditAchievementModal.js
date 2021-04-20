@@ -24,14 +24,11 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: '40px 50px',
     maxHeight: '95vh',
-    width: '500px',
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: 24,
-      marginRight: 24
-    }
+    outline: 'none'
   },
   buttonContainerForm: {
     display: 'flex',

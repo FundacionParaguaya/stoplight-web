@@ -25,14 +25,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: '95vh',
-    width: '500px',
+    maxHeight: '90vh',
+    height: 680,
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none',
     [theme.breakpoints.down('xs')]: {
-      marginLeft: 24,
-      marginRight: 24
+      height: 600
     }
   },
   buttonContainerForm: {
@@ -45,7 +46,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       fontSize: 16,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: theme.spacing(2)
     }
   },
   extraTitleText: {
@@ -57,7 +59,8 @@ const useStyles = makeStyles(theme => ({
     lineHeight: '25px',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: 0
     }
   }
 }));
@@ -170,6 +173,7 @@ const EditPriorityModal = ({
                 labelKey="label"
                 valueKey="value"
                 required
+                maxSelectMenuHeight={190}
                 isClearable={false}
               />
               <div className={classes.buttonContainerForm}>
