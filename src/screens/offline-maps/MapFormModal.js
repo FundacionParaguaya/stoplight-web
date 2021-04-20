@@ -107,13 +107,17 @@ const MapFormModal = ({
   });
 
   const boundsToCoordinates = bounds => {
+    const keys = Object.keys(bounds);
+    const latitudes = bounds[keys[0]];
+    const longitudes = bounds[keys[1]];
+
     let from = [
-      Number(bounds.Ta.g.toPrecision(8)),
-      Number(bounds.La.g.toPrecision(8))
+      Number(latitudes.g.toPrecision(8)),
+      Number(longitudes.g.toPrecision(8))
     ];
     let to = [
-      Number(bounds.Ta.i.toPrecision(8)),
-      Number(bounds.La.i.toPrecision(8))
+      Number(latitudes.i.toPrecision(8)),
+      Number(longitudes.i.toPrecision(8))
     ];
     let center = [
       Number(((from[0] + to[0]) / 2).toPrecision(8)),
