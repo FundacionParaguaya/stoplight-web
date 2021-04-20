@@ -54,12 +54,16 @@ const styles = theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: '95vh',
+    maxHeight: '90vh',
+    height: 680,
     width: '85vw',
     maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      height: 600
+    }
   },
   questionsContainer: {
     paddingTop: '5%',
@@ -320,7 +324,7 @@ const SelectIndicatorPriority = ({
                   labelKey="label"
                   valueKey="value"
                   required
-                  maxSelectMenuHeight={90}
+                  maxSelectMenuHeight={190}
                   isClearable={false}
                 />
                 <div className={classes.buttonContainerForm}>
