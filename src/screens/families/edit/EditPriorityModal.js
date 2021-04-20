@@ -99,7 +99,7 @@ const EditPriorityModal = ({
         updatedValues['indicator'] = priorityToEdit.indicator;
         updatedValues['reviewDate'] = priorityToEdit.reviewDate;
         updatedValues['updatedAt'] = priorityToEdit.updatedAt;
-        updatedValues['months'] = priorityToEdit.months;
+        updatedValues['months'] = values.estimatedDate;
         afterSubmit(updatedValues);
         enqueueSnackbar(t('views.familyPriorities.prioritySaved'), {
           variant: 'success',
