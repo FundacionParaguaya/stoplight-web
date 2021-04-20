@@ -264,7 +264,7 @@ const MapFormModal = ({
                   variant="outlined"
                   color="primary"
                   onClick={() => {
-                    area.setVisible(false);
+                    !!area && area.setVisible(false);
                   }}
                   disabled={isSubmitting || isEdit}
                 >
