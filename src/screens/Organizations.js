@@ -66,7 +66,7 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const handleGoNext = org => {
     history.push({
       pathname: '/projects',
-      state: { orgId: org.id }
+      state: { orgId: org.id, hubId: hubId }
     });
   };
 

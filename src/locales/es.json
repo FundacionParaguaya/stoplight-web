@@ -588,6 +588,7 @@
       "prioritySaved": "Guardado Correctamente",
       "errorSaving": "Ocurrió un error al agregar la prioridad. Favor vuelva a intentar",
       "selectIndicator": "Seleccione un Indicador",
+      "noIndicatorsAvailable": "La familia no cuenta con más indicadores  disponibles",
       "backToProfile": "Volver a Perfil de la Familia",
       "addPriority": "Agregar Prioridad",
       "updatedAt": "Fecha de Creación",
@@ -608,6 +609,7 @@
       "achievementSaved": "Guardado Correctamente",
       "errorSaving": "Ocurrió un error al agregar el logro. Favor vuelva a intentar",
       "selectIndicator": "Seleccione un Indicador",
+      "noIndicatorsAvailable": "La familia no cuenta con más indicadores  disponibles",
       "backToProfile": "Volver a Perfil de la Familia",
       "addAchievement": "Agregar Logro",
       "delete": {
