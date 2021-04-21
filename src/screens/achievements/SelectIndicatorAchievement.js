@@ -128,14 +128,11 @@ const SelectIndicatorAchievement = ({
   const [open, setOpen] = useState(false);
   const [selectedIndicator, setSelectedIndicator] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const listAchievements = history.location.state.questions.achievements.map(
-    ele => {
-      return {
-        indicator: ele.key
-      };
-    }
-  );
+  const listAchievements = history.location.state.achievementList.map(ele => {
+    return {
+      snapshotStoplightId: ele.snapshotStoplightId
+    };
+  });
   const [achievements, setAchievements] = useState(listAchievements);
   const { familyId } = useParams();
 
@@ -189,7 +186,7 @@ const SelectIndicatorAchievement = ({
         // Update list of achievements
         setAchievements(previous => [
           ...previous,
-          { indicator: selectedIndicator.key }
+          { snapshotStoplightId: selectedIndicator.snapshotStoplightId }
         ]);
         setOpen(false);
       })

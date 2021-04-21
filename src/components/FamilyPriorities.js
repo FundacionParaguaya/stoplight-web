@@ -85,7 +85,7 @@ const FamilyPriorities = ({
   const handleAddPriority = () => {
     history.push({
       pathname: `/priorities/${familyId}`,
-      state: { questions }
+      state: { questions, priorityList }
     });
   };
 

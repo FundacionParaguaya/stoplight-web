@@ -173,7 +173,7 @@ const FamilyAchievements = ({
   const handleAddAchievement = () => {
     history.push({
       pathname: `/achievements/${familyId}`,
-      state: { questions }
+      state: { questions, achievementList }
     });
   };
   const [achievementList, setAchievementList] = useState([]);
