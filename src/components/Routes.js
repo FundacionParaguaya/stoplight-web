@@ -54,6 +54,7 @@ const OfflineMaps = lazy(() => import('../screens/OfflineMaps'));
 const MyProfile = lazy(() =>
   import('../screens/families/my-profile/MyProfile')
 );
+const Interventions = lazy(() => import('../screens/Interventions'));
 
 const Routes = ({ user }) => {
   return (
@@ -205,6 +206,9 @@ const Routes = ({ user }) => {
           )}
           {checkAccess(user, 'surveys') && (
             <Route exact path="/" component={Surveys} />
+          )}
+          {checkAccess(user, 'interventions') && (
+            <Route exact path="/interventions" component={Interventions} />
           )}
 
           {!!user.role && <Route render={() => <PageNotFound user={user} />} />}

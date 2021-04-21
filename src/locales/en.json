@@ -93,7 +93,8 @@
       "support": "Support",
       "projects": "Projects",
       "solutions": "Bank of Solutions",
-      "my-profile": "My profile"
+      "my-profile": "My profile",
+      "interventions": "Interventions"
     },
     "synced": "Sync",
     "dashboard": {
@@ -983,6 +984,12 @@
         "success": "The Map  has been deleted",
         "error": "Could not delete map. Try again later"
       }
+    },
+    "intervention": {
+      "definition": {
+        "options": "Options",
+        "addOption": "Add option"
+      }
     }
   },
   "reports": {
@@ -1015,5 +1022,12 @@
     "ROLE_HUB_ADMIN": "Hub Admin",
     "ROLE_SURVEY_TAKER": "Surveyor",
     "ROLE_FAMILY_USER": "Family"
+  },
+  "answerType": {
+    "select": "Dropdown",
+    "number": "Number",
+    "radio": "Radio",
+    "text": "Text",
+    "checkbox": "Checkbox"
   }
 }
