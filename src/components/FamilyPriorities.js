@@ -56,9 +56,8 @@ const FamilyPriorities = ({
 
   const replacePriority = priority => {
     const index = priorityList.findIndex(x => x.id === priority.id);
-    const newPriorities = priorityList;
+    const newPriorities = Array.from(priorityList);
     newPriorities[index] = priority;
-    setPriorityList([]);
     setPriorityList(newPriorities);
   };
 

@@ -191,9 +191,8 @@ const FamilyAchievements = ({
 
   const replaceAchievement = achievement => {
     const index = achievementList.findIndex(x => x.id === achievement.id);
-    const newAchievements = achievementList;
+    const newAchievements = Array.from(achievementList);
     newAchievements[index] = achievement;
-    setAchievementList([]);
     setAchievementList(newAchievements);
   };
 
