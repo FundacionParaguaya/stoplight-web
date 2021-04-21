@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
-import { getSurveysByUser, cancelRequest } from '../api';
+import { getSurveysByUser, cancelFilterRequest } from '../api';
 
 const selectStyle = {
   control: (styles, { isFocused, selectProps }) => {
@@ -138,7 +138,7 @@ const SurveysFilter = ({
   };
 
   useEffect(() => {
-    return () => cancelRequest();
+    return () => cancelFilterRequest();
   }, []);
 
   //This effect load the list the first time

@@ -5,6 +5,7 @@ import CallingCodes from './screens/lifemap/CallingCodes';
 import imageCompression from 'browser-image-compression';
 const CancelToken = axios.CancelToken;
 let source = CancelToken.source();
+let filterSource = CancelToken.source();
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -129,7 +130,7 @@ export const getSurveysByUser = user =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
-    cancelToken: source.token,
+    cancelToken: filterSource.token,
     headers: {
       Authorization: `Bearer ${user.token}`
     },
@@ -341,6 +342,12 @@ export const getLastestActivity = (user, lang) =>
         'query { recentActivity { id, activityType, params, username, createdAt, familyId, familyName, stoplightClient, message, referenceId } }'
     })
   });
+
+export const cancelFilterRequest = () => {
+  filterSource.cancel('Operation canceled by the user.');
+
+  filterSource = CancelToken.source();
+};
 
 export const cancelRequest = () => {
   source.cancel('Operation canceled by the user.');
@@ -622,6 +629,7 @@ export const checkSessionToken = (token, env) =>
 export const getOrganizationsByHub = (user, hub) =>
   axios({
     method: 'post',
+    cancelToken: filterSource.token,
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
@@ -1318,6 +1326,7 @@ export const projectsBySurveyUser = (user, surveyUserId) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: filterSource.token,
     headers: {
       Authorization: `Bearer ${user.token}`
     },

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
-import { getOrganizationsByHub, cancelRequest } from '../api';
+import { getOrganizationsByHub, cancelFilterRequest } from '../api';
 
 const selectStyle = {
   control: (styles, { isFocused }) => ({
@@ -74,7 +74,7 @@ const OrganizationsFilter = ({ user, data, hub, onChange, stacked }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    return () => cancelRequest();
+    return () => cancelFilterRequest();
   }, []);
 
   useEffect(() => {

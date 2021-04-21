@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { getProjectsByOrganization, projectsBySurveyUser } from '../../api';
+import {
+  getProjectsByOrganization,
+  projectsBySurveyUser,
+  cancelFilterRequest
+} from '../../api';
 import * as _ from 'lodash';
 import Select from 'react-select';
 import { selectStyle } from '../../utils/styles-utils';
@@ -30,6 +34,10 @@ const ProjectsSelector = ({
   const [loading, setLoading] = useState(false);
   const [projectsOptions, setProjectsOptions] = useState([]);
   const label = `${t('views.projectFilter.label')}${isMulti ? 's' : ''}`;
+
+  useEffect(() => {
+    return () => cancelFilterRequest();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
