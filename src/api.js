@@ -1310,6 +1310,7 @@ export const getProjectsByOrganization = (user, orgsId) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: filterSource.token,
     headers: {
       Authorization: `Bearer ${user.token}`
     },

@@ -100,12 +100,12 @@ const SurveysFilter = ({
 
         setSurveys(surveysFromAPI);
         setAllSurveys(surveysFromAPI);
-      })
-      .catch(e => {})
-      .finally(() => {
         setLoading(false);
         //This is neccesary cause users can change the hub/org filter in the middle of the loading call
         reloadSurveyFilter();
+      })
+      .catch(e => {
+        setLoading(false);
       });
   };
 
@@ -138,7 +138,9 @@ const SurveysFilter = ({
   };
 
   useEffect(() => {
-    return () => cancelFilterRequest();
+    return () => {
+      cancelFilterRequest();
+    };
   }, []);
 
   //This effect load the list the first time

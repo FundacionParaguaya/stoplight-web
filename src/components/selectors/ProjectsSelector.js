@@ -53,8 +53,9 @@ const ProjectsSelector = ({
             value: project.id
           }));
           setProjectsOptions(projects);
+          setLoading(false);
         })
-        .finally(() => setLoading(false));
+        .catch(e => setLoading(false));
     } else {
       const orgId =
         (isMulti &&
@@ -76,8 +77,9 @@ const ProjectsSelector = ({
             value: project.id
           }));
           setProjectsOptions(projects);
+          setLoading(false);
         })
-        .finally(() => setLoading(false));
+        .catch(e => setLoading(false));
     }
   }, [user, organizationData, surveyUser]);
 
