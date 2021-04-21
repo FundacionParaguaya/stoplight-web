@@ -190,10 +190,10 @@ const FamilyAchievements = ({
   };
 
   const replaceAchievement = achievement => {
-    const newAchievements = achievementList.filter(
-      a => achievement.id !== a.id
-    );
-    newAchievements.push(achievement);
+    const index = achievementList.findIndex(x => x.id === achievement.id);
+    const newAchievements = achievementList;
+    newAchievements[index] = achievement;
+    setAchievementList([]);
     setAchievementList(newAchievements);
   };
 
@@ -245,12 +245,17 @@ const FamilyAchievements = ({
               </Typography>
             </div>
             <Accordion className={classes.achievementsTable}>
-              {achievementList ? (
+              {!!achievementList ? (
                 achievementList.map((item, index) => {
                   return (
                     <AccordionItem
                       key={item.indicator}
                       className={classes.achievementTitle}
+                      expanded={
+                        selectedAchievement
+                          ? selectedAchievement.id === item.id
+                          : false
+                      }
                       onExpand={() => setPriorityOpen(index)}
                       onClose={() => setPriorityOpen('')}
                       title={

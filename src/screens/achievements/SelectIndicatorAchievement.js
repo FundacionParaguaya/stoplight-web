@@ -129,12 +129,13 @@ const SelectIndicatorAchievement = ({
   const [selectedIndicator, setSelectedIndicator] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const listAchievements = [];
-  history.location.state.questions.achievements.map(ele => {
-    return {
-      indicator: ele.key
-    };
-  });
+  const listAchievements = history.location.state.questions.achievements.map(
+    ele => {
+      return {
+        indicator: ele.key
+      };
+    }
+  );
   const [achievements, setAchievements] = useState(listAchievements);
   const { familyId } = useParams();
 

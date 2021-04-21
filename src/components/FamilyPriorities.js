@@ -55,8 +55,10 @@ const FamilyPriorities = ({
   };
 
   const replacePriority = priority => {
-    const newPriorities = priorityList.filter(p => priority.id !== p.id);
-    newPriorities.push(priority);
+    const index = priorityList.findIndex(x => x.id === priority.id);
+    const newPriorities = priorityList;
+    newPriorities[index] = priority;
+    setPriorityList([]);
     setPriorityList(newPriorities);
   };
 
@@ -141,11 +143,14 @@ const FamilyPriorities = ({
             )}
           </div>
           <Accordion className={classes.priorityTable}>
-            {priorityList ? (
+            {!!priorityList ? (
               priorityList.map((item, index) => {
                 return (
                   <AccordionItem
                     key={item.reviewDate}
+                    expanded={
+                      selectedPriority ? selectedPriority.id === item.id : false
+                    }
                     onExpand={() => setPriorityOpen(index)}
                     onClose={() => setPriorityOpen('')}
                     className={classes.priorityTitle}
