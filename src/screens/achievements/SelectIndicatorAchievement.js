@@ -74,7 +74,10 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     zIndex: 9,
-    marginTop: '3rem'
+    marginTop: '3rem',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1rem'
+    }
   },
   basicInfoText: {
     backgroundColor: theme.palette.background.default,
