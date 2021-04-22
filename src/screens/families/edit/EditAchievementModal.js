@@ -88,6 +88,8 @@ const EditAchievementModal = ({
         onClose({ deleteModalOpen: false });
         let updatedValues = values;
         updatedValues['indicator'] = achievementToEdit.indicator;
+        updatedValues['snapshotStoplightId'] =
+          achievementToEdit.snapshotStoplightId;
         afterSubmit(updatedValues);
         enqueueSnackbar(t('views.familyAchievements.achievementSaved'), {
           variant: 'success',
