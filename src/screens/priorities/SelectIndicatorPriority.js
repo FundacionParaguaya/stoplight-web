@@ -62,6 +62,7 @@ const styles = theme => ({
     position: 'relative',
     outline: 'none',
     [theme.breakpoints.down('xs')]: {
+      padding: '40px 30px',
       height: 600
     }
   },

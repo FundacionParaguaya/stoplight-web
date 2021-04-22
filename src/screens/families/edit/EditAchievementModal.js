@@ -28,7 +28,10 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      padding: '40px 30px'
+    }
   },
   buttonContainerForm: {
     display: 'flex',
