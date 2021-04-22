@@ -120,6 +120,14 @@ const styles = theme => ({
       fontSize: 14,
       lineHeight: 1.2
     }
+  },
+  navBarContainer: {
+    paddingLeft: '12%',
+    paddingRight: '12%',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 5,
+      paddingRight: 5
+    }
   }
 });
 
@@ -235,12 +243,7 @@ const SelectIndicatorAchievement = ({
 
   return (
     <div>
-      <div
-        style={{
-          paddingLeft: '12%',
-          paddingRight: '12%'
-        }}
-      >
+      <div className={classes.navBarContainer}>
         <NavigationBar options={navigationOptions} />
       </div>
 

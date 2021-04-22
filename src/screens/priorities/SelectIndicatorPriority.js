@@ -118,6 +118,14 @@ const styles = theme => ({
       lineHeight: 1.2,
       marginBottom: 0
     }
+  },
+  navBarContainer: {
+    paddingLeft: '12%',
+    paddingRight: '12%',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 5,
+      paddingRight: 5
+    }
   }
 });
 
@@ -236,12 +244,7 @@ const SelectIndicatorPriority = ({
 
   return (
     <div>
-      <div
-        style={{
-          paddingLeft: '12%',
-          paddingRight: '12%'
-        }}
-      >
+      <div className={classes.navBarContainer}>
         <NavigationBar options={navigationOptions} />
       </div>
 

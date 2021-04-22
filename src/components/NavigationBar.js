@@ -102,10 +102,7 @@ const styles = theme => ({
     fontWeight: 400,
     position: 'relative',
     textDecoration: 'none',
-    fontSize: 16,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 14
-    }
+    fontSize: 16
   },
   menuTextAlt: {
     color: COLORS.TEXT_LIGHTGREY,
@@ -114,10 +111,7 @@ const styles = theme => ({
     fontWeight: 400,
     marginBlockStart: 0,
     marginBlockEnd: 0,
-    fontSize: 16,
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 14
-    }
+    fontSize: 16
   }
 });
 export default withRouter(
