@@ -62,6 +62,7 @@ const styles = theme => ({
     position: 'relative',
     outline: 'none',
     [theme.breakpoints.down('xs')]: {
+      padding: '40px 30px',
       height: 600
     }
   },
@@ -76,8 +77,10 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     zIndex: 9,
-    marginTop: '3rem'
-    //position: 'relative'
+    marginTop: '3rem',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1rem'
+    }
   },
   basicInfoText: {
     backgroundColor: theme.palette.background.default,
@@ -114,6 +117,14 @@ const styles = theme => ({
       fontSize: 14,
       lineHeight: 1.2,
       marginBottom: 0
+    }
+  },
+  navBarContainer: {
+    paddingLeft: '12%',
+    paddingRight: '12%',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 5,
+      paddingRight: 5
     }
   }
 });
@@ -233,12 +244,7 @@ const SelectIndicatorPriority = ({
 
   return (
     <div>
-      <div
-        style={{
-          paddingLeft: '12%',
-          paddingRight: '12%'
-        }}
-      >
+      <div className={classes.navBarContainer}>
         <NavigationBar options={navigationOptions} />
       </div>
 
