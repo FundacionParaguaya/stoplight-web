@@ -591,7 +591,6 @@
       "prioritySaved": "Priyorite yo anrejistre",
       "errorSaving": "Te genyen yon erè nan sove priyorite yo. Tanpri eseye ankò.",
       "selectIndicator": "Chwazi yon endikatè",
-      "noIndicatorsAvailable": "Fanmi an pa gen plis endikatè ki disponib",
       "backToProfile": "Tounen nan Pwofil Fanmi an",
       "addPriority": "Ajoute yon priyorite",
       "updatedAt": "Dat kreyasyon",
@@ -612,7 +611,6 @@
       "achievementSaved": "Akonplisman yo anrejistre",
       "errorSaving": "Te genyen yon erè nan sove akonplisman yo. Tanpri eseye ankò.",
       "selectIndicator": "Chwazi yon endikatè",
-      "noIndicatorsAvailable": "Fanmi an pa gen plis endikatè ki disponib",
       "backToProfile": "Tounen nan Pwofil Fanmi an",
       "addAchievement": "Ajoute yon akonplisman",
       "delete": {

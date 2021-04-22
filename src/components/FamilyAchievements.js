@@ -181,6 +181,7 @@ const FamilyAchievements = ({
   const [selectedAchievement, setSelectedAchievement] = useState();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [showAddButton, setShowAddButton] = useState(false);
 
   const removeAchievement = achievementId => {
     const newAchievements = achievementList.filter(
@@ -198,7 +199,13 @@ const FamilyAchievements = ({
 
   useEffect(() => {
     setAchievementList(achievements ? achievements : []);
-  }, [achievements]);
+    setShowAddButton(
+      !!questions
+        ? questions.indicatorSurveyDataList.filter(e => e.value === 3).length >
+            0
+        : false
+    );
+  }, [achievements, questions]);
 
   return (
     <div>
@@ -379,7 +386,7 @@ const FamilyAchievements = ({
           </Container>
         )}
 
-        {showAdministrationOptions(user) && !stoplightSkipped && (
+        {showAdministrationOptions(user) && showAddButton && !stoplightSkipped && (
           <Container
             className={classes.basicInfoText}
             variant="fluid"
