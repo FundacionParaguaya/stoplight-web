@@ -46,6 +46,7 @@ const FamilyPriorities = ({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState();
+  const [showAddButton, setShowAddButton] = useState(false);
 
   const removePriority = priorityId => {
     const newPriorities = priorityList.filter(
@@ -63,7 +64,14 @@ const FamilyPriorities = ({
 
   useEffect(() => {
     setPriorityList(priorities ? priorities : []);
-  }, [priorities]);
+    setShowAddButton(
+      !!questions
+        ? questions.indicatorSurveyDataList.filter(
+            e => e.value === 1 || e.value === 2
+          ).length > 0
+        : false
+    );
+  }, [priorities, questions]);
 
   const getColor = stopligh => {
     if (stopligh === 2) {
@@ -374,7 +382,7 @@ const FamilyPriorities = ({
         </Container>
       )}
 
-      {showAdministrationOptions(user) && !stoplightSkipped && (
+      {showAdministrationOptions(user) && showAddButton && !stoplightSkipped && (
         <Container
           className={classes.basicInfoText}
           variant="fluid"

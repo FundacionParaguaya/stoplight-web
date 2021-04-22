@@ -588,7 +588,6 @@
       "prioritySaved": "Priority Saved",
       "errorSaving": "Error saving Priority. Please Try again",
       "selectIndicator": "Select an Indicator",
-      "noIndicatorsAvailable": "The family does not have more indicators available",
       "backToProfile": "Back to Family Profile",
       "addPriority": "Add Priority",
       "updatedAt": "Date of Creation",
@@ -609,7 +608,6 @@
       "achievementSaved": "Achievement Saved",
       "errorSaving": "Error saving Achievement. Please Try again",
       "selectIndicator": "Select an Indicator",
-      "noIndicatorsAvailable": "The family does not have more indicators available",
       "backToProfile": "Back to Family Profile",
       "addAchievement": "Add Achievement",
       "delete": {
