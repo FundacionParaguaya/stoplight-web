@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -173,27 +173,47 @@ const FamilyAchievements = ({
   const handleAddAchievement = () => {
     history.push({
       pathname: `/achievements/${familyId}`,
-      state: { questions }
+      state: { questions, achievementList }
     });
   };
-
+  const [achievementList, setAchievementList] = useState([]);
   const [priorityOpen, setPriorityOpen] = useState();
   const [selectedAchievement, setSelectedAchievement] = useState();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const removeAchievement = achievementId => {
+    const newAchievements = achievementList.filter(
+      achievement => achievement.id !== achievementId
+    );
+    setAchievementList(newAchievements);
+  };
+
+  const replaceAchievement = achievement => {
+    const index = achievementList.findIndex(x => x.id === achievement.id);
+    const newAchievements = Array.from(achievementList);
+    newAchievements[index] = achievement;
+    setAchievementList(newAchievements);
+  };
+
+  useEffect(() => {
+    setAchievementList(achievements ? achievements : []);
+  }, [achievements]);
 
   return (
     <div>
       <DeleteAchievementModal
         achievementToDelete={selectedAchievement}
         open={openDeleteModal}
-        afterSubmit={() => window.location.reload()}
+        afterSubmit={() => {
+          removeAchievement(selectedAchievement.id);
+        }}
         toggleModal={() => setOpenDeleteModal(!openDeleteModal)}
       />
       <EditAchievementModal
         achievementToEdit={selectedAchievement}
         open={openEditModal}
-        afterSubmit={() => window.location.reload()}
+        afterSubmit={replaceAchievement}
         toggleModal={() => setOpenEditModal(!openEditModal)}
       />
       <Container className={classes.basicInfo} variant="fluid">
@@ -208,9 +228,9 @@ const FamilyAchievements = ({
       <Container className={classes.basicInfoText} variant="fluid">
         <Typography variant="h5">
           {t('views.familyAchievements.achievements')} ·{' '}
-          {achievements ? achievements.length : 0}
+          {achievementList ? achievementList.length : 0}
         </Typography>
-        {achievements && achievements.length > 0 ? (
+        {achievementList && achievementList.length > 0 ? (
           <div
             style={{
               paddingRight: fullWidth ? 0 : '12%',
@@ -224,12 +244,17 @@ const FamilyAchievements = ({
               </Typography>
             </div>
             <Accordion className={classes.achievementsTable}>
-              {achievements ? (
-                achievements.map((item, index) => {
+              {!!achievementList ? (
+                achievementList.map((item, index) => {
                   return (
                     <AccordionItem
                       key={item.indicator}
                       className={classes.achievementTitle}
+                      expanded={
+                        selectedAchievement
+                          ? selectedAchievement.id === item.id
+                          : false
+                      }
                       onExpand={() => setPriorityOpen(index)}
                       onClose={() => setPriorityOpen('')}
                       title={

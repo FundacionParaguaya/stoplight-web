@@ -75,7 +75,6 @@ const EditAchievementModal = ({
   };
 
   const onClose = () => {
-    afterSubmit();
     toggleModal();
   };
 
@@ -84,6 +83,11 @@ const EditAchievementModal = ({
     editAchievement(user, values.id, values.action, values.roadmap)
       .then(response => {
         onClose({ deleteModalOpen: false });
+        let updatedValues = values;
+        updatedValues['indicator'] = achievementToEdit.indicator;
+        updatedValues['snapshotStoplightId'] =
+          achievementToEdit.snapshotStoplightId;
+        afterSubmit(updatedValues);
         enqueueSnackbar(t('views.familyAchievements.achievementSaved'), {
           variant: 'success',
           action: key => (

@@ -84,7 +84,6 @@ const EditPriorityModal = ({
   };
 
   const onClose = () => {
-    afterSubmit();
     toggleModal();
   };
 
@@ -99,6 +98,15 @@ const EditPriorityModal = ({
     )
       .then(response => {
         onClose({ deleteModalOpen: false });
+        let updatedValues = values;
+        updatedValues['indicator'] = priorityToEdit.indicator;
+        updatedValues['reviewDate'] = priorityToEdit.reviewDate;
+        updatedValues['updatedAt'] = priorityToEdit.updatedAt;
+        updatedValues['color'] = priorityToEdit.color;
+        updatedValues['snapshotStoplightId'] =
+          priorityToEdit.snapshotStoplightId;
+        updatedValues['months'] = values.estimatedDate;
+        afterSubmit(updatedValues);
         enqueueSnackbar(t('views.familyPriorities.prioritySaved'), {
           variant: 'success',
           action: key => (

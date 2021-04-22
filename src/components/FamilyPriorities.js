@@ -6,7 +6,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import moment from 'moment';
 import { withSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -37,6 +37,7 @@ const FamilyPriorities = ({
   i18n: { language },
   history
 }) => {
+  const [priorityList, setPriorityList] = useState([]);
   const dateFormat = getMonthFormatByLocale(language);
   const fullDateFormat = getDateFormatByLocale(language);
   const windowSize = useWindowSize();
@@ -45,6 +46,24 @@ const FamilyPriorities = ({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState();
+
+  const removePriority = priorityId => {
+    const newPriorities = priorityList.filter(
+      priority => priority.id !== priorityId
+    );
+    setPriorityList(newPriorities);
+  };
+
+  const replacePriority = priority => {
+    const index = priorityList.findIndex(x => x.id === priority.id);
+    const newPriorities = Array.from(priorityList);
+    newPriorities[index] = priority;
+    setPriorityList(newPriorities);
+  };
+
+  useEffect(() => {
+    setPriorityList(priorities ? priorities : []);
+  }, [priorities]);
 
   const getColor = stopligh => {
     if (stopligh === 2) {
@@ -66,7 +85,7 @@ const FamilyPriorities = ({
   const handleAddPriority = () => {
     history.push({
       pathname: `/priorities/${familyId}`,
-      state: { questions }
+      state: { questions, priorityList }
     });
   };
 
@@ -75,13 +94,15 @@ const FamilyPriorities = ({
       <DeletePriorityModal
         priorityToDelete={selectedPriority}
         open={openDeleteModal}
-        afterSubmit={() => window.location.reload()}
+        afterSubmit={() => {
+          removePriority(selectedPriority.id);
+        }}
         toggleModal={() => setOpenDeleteModal(!openDeleteModal)}
       />
       <EditPriorityModal
         priorityToEdit={selectedPriority}
         open={openEditModal}
-        afterSubmit={() => window.location.reload()}
+        afterSubmit={replacePriority}
         toggleModal={() => setOpenEditModal(!openEditModal)}
       />
       {/* Header */}
@@ -98,10 +119,10 @@ const FamilyPriorities = ({
       <Container className={classes.basicInfoText} variant="fluid">
         <Typography variant="h5">
           {t('views.familyPriorities.priorities')} ·{' '}
-          {priorities ? priorities.length : 0}
+          {priorityList ? priorityList.length : 0}
         </Typography>
       </Container>
-      {priorities && priorities.length > 0 ? (
+      {priorityList && priorityList.length > 0 ? (
         <div
           style={{
             paddingRight: fullWidth ? 0 : '12%',
@@ -121,11 +142,14 @@ const FamilyPriorities = ({
             )}
           </div>
           <Accordion className={classes.priorityTable}>
-            {priorities ? (
-              priorities.map((item, index) => {
+            {!!priorityList ? (
+              priorityList.map((item, index) => {
                 return (
                   <AccordionItem
                     key={item.reviewDate}
+                    expanded={
+                      selectedPriority ? selectedPriority.id === item.id : false
+                    }
                     onExpand={() => setPriorityOpen(index)}
                     onClose={() => setPriorityOpen('')}
                     className={classes.priorityTitle}

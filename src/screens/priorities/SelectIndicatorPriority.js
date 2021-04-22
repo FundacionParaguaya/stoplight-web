@@ -132,13 +132,11 @@ const SelectIndicatorPriority = ({
   const monthsOptions = constructEstimatedMonthsOptions(t);
   const [loading, setLoading] = useState(false);
 
-  const listPriorities = history.location.state.questions.priorities.map(
-    ele => {
-      return {
-        indicator: ele.key
-      };
-    }
-  );
+  const listPriorities = history.location.state.priorityList.map(ele => {
+    return {
+      snapshotStoplightId: ele.snapshotStoplightId
+    };
+  });
   const [priorities, setPriorities] = useState(listPriorities);
   let { familyId } = useParams();
 
@@ -193,7 +191,7 @@ const SelectIndicatorPriority = ({
         //Update list of priorities
         setPriorities(previous => [
           ...previous,
-          { indicator: selectedIndicator.key }
+          { snapshotStoplightId: selectedIndicator.snapshotStoplightId }
         ]);
         setOpen(false);
       })

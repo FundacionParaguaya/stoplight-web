@@ -1021,7 +1021,7 @@ export const getPrioritiesAchievementByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {id indicator action roadmap} } }',
+        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {id indicator action roadmap snapshotStoplightId} } }',
       variables: {
         familyId: familyId
       }

@@ -77,10 +77,12 @@ const DimensionQuestion = ({
               color={indicatorColorByAnswer(indicator)}
               animated={false}
               priority={priorities.find(
-                prior => prior.indicator === indicator.key
+                prior =>
+                  prior.snapshotStoplightId === indicator.snapshotStoplightId
               )}
               achievement={achievements.find(
-                prior => prior.indicator === indicator.key
+                prior =>
+                  prior.snapshotStoplightId === indicator.snapshotStoplightId
               )}
             />
           </div>
