@@ -76,14 +76,18 @@ const DimensionQuestion = ({
             <IndicatorBall
               color={indicatorColorByAnswer(indicator)}
               animated={false}
-              priority={priorities.find(
-                prior =>
-                  prior.snapshotStoplightId === indicator.snapshotStoplightId
-              )}
-              achievement={achievements.find(
-                prior =>
-                  prior.snapshotStoplightId === indicator.snapshotStoplightId
-              )}
+              priority={priorities.find(prior => {
+                const key = prior.snapshotStoplightId || prior.indicator;
+                return (
+                  key === indicator.snapshotStoplightId || key === indicator.key
+                );
+              })}
+              achievement={achievements.find(prior => {
+                const key = prior.snapshotStoplightId || prior.indicator;
+                return (
+                  key === indicator.snapshotStoplightId || key === indicator.key
+                );
+              })}
             />
           </div>
           <Typography
