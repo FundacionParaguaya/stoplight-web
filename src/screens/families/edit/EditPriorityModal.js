@@ -63,6 +63,13 @@ const useStyles = makeStyles(theme => ({
       lineHeight: 1.2,
       marginBottom: 0
     }
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '-webkit-fill-available',
+    height: '-webkit-fill-available',
+    justifyContent: 'space-around'
   }
 }));
 
@@ -140,7 +147,10 @@ const EditPriorityModal = ({
   return (
     <Modal open={open} onClose={() => toggleModal()} className={classes.modal}>
       {loading ? (
-        <div className={classes.confirmationModal}>
+        <div
+          className={classes.confirmationModal}
+          style={{ justifyContent: 'center' }}
+        >
           <CircularProgress />
         </div>
       ) : (
@@ -166,25 +176,27 @@ const EditPriorityModal = ({
               onEditPriority(values);
             }}
           >
-            <Form>
-              <InputWithFormik
-                label={t('views.lifemap.whyDontYouHaveIt')}
-                name="reason"
-              />
-              <InputWithFormik
-                label={t('views.lifemap.whatWillYouDoToGetIt')}
-                name="action"
-              />
-              <AutocompleteWithFormik
-                label={t('views.lifemap.howManyMonthsWillItTake')}
-                name="estimatedDate"
-                rawOptions={monthsOptions}
-                labelKey="label"
-                valueKey="value"
-                required
-                maxSelectMenuHeight={190}
-                isClearable={false}
-              />
+            <Form className={classes.formContainer}>
+              <div>
+                <InputWithFormik
+                  label={t('views.lifemap.whyDontYouHaveIt')}
+                  name="reason"
+                />
+                <InputWithFormik
+                  label={t('views.lifemap.whatWillYouDoToGetIt')}
+                  name="action"
+                />
+                <AutocompleteWithFormik
+                  label={t('views.lifemap.howManyMonthsWillItTake')}
+                  name="estimatedDate"
+                  rawOptions={monthsOptions}
+                  labelKey="label"
+                  valueKey="value"
+                  required
+                  maxSelectMenuHeight={190}
+                  isClearable={false}
+                />
+              </div>
               <div className={classes.buttonContainerForm}>
                 <Button
                   type="submit"

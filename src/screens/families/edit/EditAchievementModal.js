@@ -123,7 +123,10 @@ const EditAchievementModal = ({
   return (
     <Modal open={open} onClose={() => toggleModal()} className={classes.modal}>
       {loading ? (
-        <div className={classes.confirmationModal}>
+        <div
+          className={classes.confirmationModal}
+          style={{ justifyContent: 'center' }}
+        >
           <CircularProgress />
         </div>
       ) : (

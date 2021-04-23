@@ -225,7 +225,11 @@ const SelectIndicatorAchievement = ({
   };
 
   const getForwardURLForIndicator = e => {
-    if (!achievements.find(prior => prior.indicator === e.key)) {
+    if (
+      !achievements.find(
+        prior => prior.snapshotStoplightId === e.snapshotStoplightId
+      )
+    ) {
       // you can add a achievement
       setSelectedIndicator(e);
       setOpen(true);
@@ -279,7 +283,10 @@ const SelectIndicatorAchievement = ({
 
       <Modal open={open} onClose={onClose} className={classes.modal}>
         {loading ? (
-          <div className={classes.confirmationModal}>
+          <div
+            className={classes.confirmationModal}
+            style={{ justifyContent: 'center' }}
+          >
             <CircularProgress />
           </div>
         ) : (
