@@ -1,84 +1,108 @@
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from 'react';
+import Typography from '@material-ui/core/Typography';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import interventionBanner from '../assets/hub.png';
+import Container from '../components/Container';
+import QuestionItem from '../components/QuestionItem';
 import withLayout from '../components/withLayout';
 import { COLORS } from '../theme';
+import { move, reorder } from '../utils/array-utils';
 import InterventionQuestion from './interventions/InterventionQuestion';
-import QuestionItem from '../components/QuestionItem';
+import { listInterventionsQuestions } from '../api';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.default
+  },
+  dragContainer: {
     display: 'flex',
-    justifyContent: 'space-around',
-    marginTop: '2rem'
+    justifyContent: 'space-between',
+    marginTop: theme.spacing(2)
+  },
+  loadingContainer: {
+    zIndex: 100,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
+  },
+  titleContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    position: 'relative',
+    height: 175
+  },
+  mapsTitle: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    height: 180
+  },
+  interventionImage: {
+    display: 'block',
+    height: 175,
+    right: 0,
+    position: 'absolute',
+    top: -10,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   },
   itemList: {
     backgroundColor: COLORS.LIGHT_GREY,
     border: '2px',
-    width: 400
+    width: '30vw'
+  },
+  buttonContainerForm: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    margin: '30px 0'
   }
 }));
 
-// fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k + offset}`,
-    content: `item ${k + offset}`,
-    question: `Question ${k + offset}`,
-    options: [{ value: 'value', text: 'option text' }],
-    answerType: (k + offset) % 2 === 0 ? 'text' : 'select'
-  }));
-
-// a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? COLORS.GREEN : COLORS.LIGHT_GREY,
-
-  // styles we need to apply on draggables
-  ...draggableStyle
-});
-
-/**
- * Moves an item from one list to another list.
- */
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-  destClone.splice(droppableDestination.index, 0, removed);
-
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-
-  return result;
-};
-
 const Interventions = ({ user, history }) => {
   const classes = useStyles();
-  const [items, setItems] = useState(getItems(10));
-  const [selectedItems, setSelectedItems] = useState(getItems(5, 10));
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
+
+  const [coreQuestions, setCoreQuestions] = useState([]);
+  const [items, setItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const getList = id => (id === 'droppable' ? items : selectedItems);
+
+  useEffect(() => {
+    listInterventionsQuestions(user, language)
+      .then(response => {
+        let questions = response.data.data.interventionPresetQuestions;
+        let mainQuestions = questions.filter(q => q.coreQuestion);
+        let itemQuestions = questions.filter(q => !q.coreQuestion);
+        itemQuestions = itemQuestions.map(question => {
+          return {
+            ...question,
+            required: true,
+            options: [{ value: 'value', text: '' }]
+          };
+        });
+        setCoreQuestions(mainQuestions);
+        setItems(itemQuestions);
+      })
+      .catch(e => console.log(e));
+  }, []);
 
   const onDragEnd = result => {
     const { source, destination } = result;
@@ -115,7 +139,14 @@ const Interventions = ({ user, history }) => {
 
   const addOption = index => {
     let newSelectedItems = Array.from(selectedItems);
+    console.log(newSelectedItems);
     newSelectedItems[index].options.push({ value: '', text: '' });
+    setSelectedItems(newSelectedItems);
+  };
+
+  const updateOption = (questionIndex, optionIndex, option) => {
+    let newSelectedItems = Array.from(selectedItems);
+    newSelectedItems[questionIndex].options[optionIndex] = option;
     setSelectedItems(newSelectedItems);
   };
 
@@ -125,76 +156,155 @@ const Interventions = ({ user, history }) => {
     setSelectedItems(newSelectedItems);
   };
 
+  const addOtherOption = index => {
+    let newSelectedItems = Array.from(selectedItems);
+    newSelectedItems[index].otherOption = !newSelectedItems[index].otherOption;
+    setSelectedItems(newSelectedItems);
+  };
+
+  const onSave = () => {
+    let questions = Array.from(selectedItems);
+    questions = questions.map(q => {
+      let question = JSON.parse(JSON.stringify(q));
+      if (question.otherOption) {
+        question.options.push({ value: '', text: 'Other', otherOption: true });
+        delete question.otherOption;
+      }
+      return question;
+    });
+    const hasErrors = questions.some(
+      question =>
+        true &&
+        (question.answerType === 'select' ||
+          question.answerType === 'radio' ||
+          question.answerType === 'checkbox') &&
+        (question.options.length === 0 ||
+          !question.options.some(option => option.text))
+    );
+
+    console.log(hasErrors);
+  };
+
   return (
-    <div className={classes.mainContainer}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className={classes.itemList}
-            >
-              {items.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <QuestionItem
-                      itemRef={provided.innerRef}
-                      draggableProps={{
-                        ...provided.draggableProps,
-                        ...provided.dragHandleProps
-                      }}
-                      question={item.question}
-                      answerType={item.answerType}
-                    />
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="droppable2">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className={classes.itemList}
-            >
-              {selectedItems.map((selectedItem, index) => (
-                <Draggable
-                  key={selectedItem.id}
-                  draggableId={selectedItem.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <InterventionQuestion
-                      itemRef={provided.innerRef}
-                      draggableProps={{
-                        ...provided.draggableProps,
-                        ...provided.dragHandleProps
-                      }}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                      question={selectedItem.question}
-                      options={selectedItem.options}
-                      answerType={selectedItem.answerType}
-                      addOption={() => addOption(index)}
-                      deleteOption={optionIndex =>
-                        deleteOption(index, optionIndex)
-                      }
-                    />
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+    <Container variant="stretch" className={classes.mainContainer}>
+      <div className={classes.titleContainer}>
+        <div className={classes.mapsTitle}>
+          <Typography variant="h4">
+            {t('views.intervention.definition.title')}
+          </Typography>
+          <Typography variant="h6" style={{ color: 'grey' }}>
+            {t('views.intervention.definition.subtitle')}
+          </Typography>
+        </div>
+        <img
+          src={interventionBanner}
+          alt="Intervention Banner"
+          className={classes.interventionImage}
+        />
+      </div>
+
+      <Typography variant="h5">{'Core questions:'}</Typography>
+
+      <ul>
+        {coreQuestions.map(question => (
+          <Typography
+            key={question.codeName}
+            variant="h6"
+            style={{ color: 'grey' }}
+          >
+            {`- ${question.shortName}`}
+          </Typography>
+        ))}
+      </ul>
+
+      <Typography variant="h5" style={{ marginTop: 16 }}>
+        {'Chose your questions by dragging them to the rigth side:'}
+      </Typography>
+      <div className={classes.dragContainer}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={classes.itemList}
+              >
+                {items.map((item, index) => (
+                  <Draggable
+                    key={item.codeName}
+                    draggableId={item.codeName}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <QuestionItem
+                        itemRef={provided.innerRef}
+                        draggableProps={{
+                          ...provided.draggableProps,
+                          ...provided.dragHandleProps
+                        }}
+                        question={item.shortName}
+                        answerType={item.answerType}
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+          <Droppable droppableId="droppable2">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={classes.itemList}
+              >
+                {selectedItems.map((selectedItem, index) => (
+                  <Draggable
+                    key={selectedItem.codeName}
+                    draggableId={selectedItem.codeName}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <InterventionQuestion
+                        itemRef={provided.innerRef}
+                        draggableProps={{
+                          ...provided.draggableProps,
+                          ...provided.dragHandleProps
+                        }}
+                        question={selectedItem.shortName}
+                        options={selectedItem.options}
+                        answerType={selectedItem.answerType}
+                        otherOption={selectedItem.otherOption}
+                        addOption={() => addOption(index)}
+                        addOtherOption={() => addOtherOption(index)}
+                        updateOption={(optionIndex, option) =>
+                          updateOption(index, optionIndex, option)
+                        }
+                        deleteOption={optionIndex =>
+                          deleteOption(index, optionIndex)
+                        }
+                      />
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
+
+      <div className={classes.buttonContainerForm}>
+        <Button variant="outlined" color="primary" onClick={() => {}}>
+          {t('general.cancel')}
+        </Button>
+
+        <Button color="primary" variant="contained" onClick={() => onSave()}>
+          {t('general.save')}
+        </Button>
+      </div>
+    </Container>
   );
 };
 

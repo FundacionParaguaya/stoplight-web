@@ -1,12 +1,16 @@
+import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
-import NotInterestedIcon from '@material-ui/icons/NotInterested';
+import NotInterestedIcon from '@material-ui/icons/HighlightOff';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import GreenCheckbox from '../../components/GreenCheckbox';
+import QuestionIcon from '../../components/QuestionIcon';
+import { COLORS } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
   questionContainer: {
@@ -15,7 +19,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(1),
     padding: theme.spacing(1),
-    minHeight: 50
+    paddingLeft: theme.spacing(2),
+    minHeight: 57,
+    borderRadius: 4
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   filterInput: {
     height: 15,
@@ -37,6 +47,7 @@ const useStyles = makeStyles(theme => ({
   },
   optionContainer: {
     margin: theme.spacing(1),
+    marginRight: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
@@ -45,15 +56,26 @@ const useStyles = makeStyles(theme => ({
     height: 'min-content',
     color: 'red',
     opacity: '50%',
+    padding: 4,
     marginLeft: 4,
     '&:hover': {
       opacity: '100%'
     }
   },
+  otherOptionContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1)
+  },
   addOptionContainer: {
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer'
+  },
+  icon: {
+    width: 30,
+    color: COLORS.MEDIUM_GREY
   }
 }));
 
@@ -63,7 +85,10 @@ export const InterventionQuestion = ({
   question,
   options,
   answerType,
+  otherOption = false,
   addOption,
+  addOtherOption,
+  updateOption,
   deleteOption
 }) => {
   const { t } = useTranslation();
@@ -75,15 +100,31 @@ export const InterventionQuestion = ({
       {...draggableProps}
       className={classes.questionContainer}
     >
-      <Typography variant="h6">{question}</Typography>
+      <div className={classes.title}>
+        <Typography variant="h6" style={{ marginBottom: '1rem' }}>
+          {question}
+        </Typography>
+
+        <QuestionIcon type={answerType} iconClass={classes.icon} />
+      </div>
 
       {(answerType === 'select' ||
         answerType === 'radio' ||
         answerType === 'checkbox') && (
         <React.Fragment>
-          <Typography variant="h6">
+          <Typography variant="subtitle2">
             {t('views.intervention.definition.options')}
           </Typography>
+
+          <div className={classes.otherOptionContainer}>
+            <GreenCheckbox
+              onChange={e => addOtherOption()}
+              checked={otherOption}
+            />
+            <Typography variant="subtitle2" className={classes.active}>
+              {'Add an "Other" response option.'}
+            </Typography>
+          </div>
 
           {options.map((option, optionIndex) => (
             <div key={optionIndex} className={classes.optionContainer}>
@@ -96,7 +137,13 @@ export const InterventionQuestion = ({
                 variant="outlined"
                 margin="dense"
                 value={option.text}
-                onChange={e => {}}
+                onChange={e => {
+                  let newOption = {
+                    ...option,
+                    text: e.target.value
+                  };
+                  updateOption(optionIndex, newOption);
+                }}
                 fullWidth
                 className={classes.textField}
               />
@@ -116,9 +163,15 @@ export const InterventionQuestion = ({
             </div>
           ))}
 
+          {Array.isArray(options) && options.length === 0 && !otherOption && (
+            <FormHelperText error={true} style={{ textAlign: 'center' }}>
+              {t('views.intervention.definition.missingOptions')}
+            </FormHelperText>
+          )}
+
           <div className={classes.addOptionContainer} onClick={addOption}>
-            <AddIcon />
-            <Typography variant="h6">
+            <AddIcon style={{ fontSize: 16 }} />
+            <Typography variant="subtitle2">
               {t('views.intervention.definition.addOption')}
             </Typography>
           </div>

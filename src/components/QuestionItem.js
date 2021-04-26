@@ -1,13 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import DropDown from '@material-ui/icons/ArrowDropDownCircle';
-import Number from '@material-ui/icons/Filter1TwoTone';
-import Checkbox from '@material-ui/icons/LibraryAddCheckTwoTone';
-import Radio from '@material-ui/icons/RadioButtonChecked';
-import Text from '@material-ui/icons/ShortText';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { COLORS } from '../theme';
+import QuestionIcon from './QuestionIcon';
 
 const useStyles = makeStyles(theme => ({
   questionContainer: {
@@ -16,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(1),
     padding: theme.spacing(1),
-    minHeight: 50
+    minHeight: 57,
+    borderRadius: 4
   },
   mainContainer: {
     display: 'flex',
@@ -43,25 +40,6 @@ export const QuestionItem = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const iconForType = type => {
-    if (type === 'select') {
-      return <DropDown className={classes.icon} />;
-    }
-    if (type === 'number') {
-      return <Number className={classes.icon} />;
-    }
-    if (type === 'radio') {
-      return <Radio className={classes.icon} />;
-    }
-    if (type === 'text') {
-      return <Text className={classes.icon} />;
-    }
-    if (type === 'checkbox') {
-      return <Checkbox className={classes.icon} />;
-    }
-    return <DropDown className={classes.icon} />;
-  };
-
   const labelForType = type => t(`answerType.${type}`);
 
   return (
@@ -71,7 +49,7 @@ export const QuestionItem = ({
       className={classes.questionContainer}
     >
       <div className={classes.mainContainer}>
-        {iconForType(answerType)}
+        <QuestionIcon type={answerType} iconClass={classes.icon} />
 
         <div className={classes.textContainer}>
           <Typography variant="h6">{question}</Typography>

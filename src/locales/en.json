@@ -988,7 +988,10 @@
     "intervention": {
       "definition": {
         "options": "Options",
-        "addOption": "Add option"
+        "addOption": "Add option",
+        "missingOptions": "Options for this question are required",
+        "title": "Intervetion Definition",
+        "subtitle": "Add Intervention definition for your organizations"
       }
     }
   },

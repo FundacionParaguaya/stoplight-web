@@ -2147,3 +2147,17 @@ export const deleteMap = (surveyOfflineMap, user) =>
       }
     })
   });
+
+export const listInterventionsQuestions = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query:
+        'query { interventionPresetQuestions { id codeName shortName answerType coreQuestion } }'
+    })
+  });
