@@ -259,6 +259,7 @@ const AssignModal = ({
                       loadingMessage={() => t('views.hubsFilter.loading')}
                       noOptionsMessage={() => t('views.hubsFilter.noOption')}
                       options={hubs}
+                      scroll="auto"
                       maxMenuHeight={150}
                       components={{
                         DropdownIndicator: () => <div />,
