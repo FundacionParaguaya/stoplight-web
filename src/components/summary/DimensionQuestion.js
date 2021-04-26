@@ -39,7 +39,6 @@ const DimensionQuestion = ({
   history,
   onClickIndicator,
   isRetake,
-  showPointerForPriorities,
   mustShowPointer
 }) => (
   <Grid container spacing={2}>
@@ -51,11 +50,10 @@ const DimensionQuestion = ({
         );
       const showPointer = mustShowPointer
         ? true
-        : showPointerForPriorities
-        ? !priorities.find(
+        : !priorities.find(
             prior => prior.snapshotStoplightId === indicator.snapshotStoplightId
-          )
-        : !achievements.find(
+          ) &&
+          !achievements.find(
             achiev =>
               achiev.snapshotStoplightId === indicator.snapshotStoplightId
           );

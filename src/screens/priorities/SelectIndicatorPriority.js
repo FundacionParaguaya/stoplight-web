@@ -253,18 +253,6 @@ const SelectIndicatorPriority = ({
     history.push(redirectionPath);
   };
 
-  const showPointerForPriorities = history.location.state.questions.indicatorSurveyDataList
-    .filter(e => e.value === 1 || e.value === 2)
-    .map(ele => {
-      return {
-        value: ele.value,
-        questionText: ele.shortName,
-        dimension: ele.dimension,
-        key: ele.key,
-        snapshotStoplightId: ele.snapshotStoplightId
-      };
-    });
-
   return (
     <div>
       <div className={classes.navBarContainer}>
@@ -292,7 +280,6 @@ const SelectIndicatorPriority = ({
           priorities={priorities}
           achievements={[]}
           history={history}
-          showPointerForPriorities={showPointerForPriorities}
           onClickIndicator={getForwardURLForIndicator}
         />
       </div>
