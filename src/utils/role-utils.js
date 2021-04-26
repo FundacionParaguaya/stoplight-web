@@ -35,7 +35,8 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS, version: 'BETA' }
+    { item: 'solutions', platform: ACCESS, version: 'BETA' },
+    { item: 'offline-maps', platform: ACCESS }
   ],
   ROLE_PS_TEAM: [
     // PS Team user
