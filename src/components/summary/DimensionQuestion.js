@@ -38,7 +38,8 @@ const DimensionQuestion = ({
   previousAchivements,
   history,
   onClickIndicator,
-  isRetake
+  isRetake,
+  mustShowPointer
 }) => (
   <Grid container spacing={2}>
     {questions.map(indicator => {
@@ -47,6 +48,15 @@ const DimensionQuestion = ({
         previousIndicator = previousIndicators.find(
           prev => prev.key === indicator.key
         );
+      const showPointer = mustShowPointer
+        ? true
+        : !priorities.find(
+            prior => prior.snapshotStoplightId === indicator.snapshotStoplightId
+          ) &&
+          !achievements.find(
+            achiev =>
+              achiev.snapshotStoplightId === indicator.snapshotStoplightId
+          );
       return (
         <Grid
           item
@@ -56,7 +66,7 @@ const DimensionQuestion = ({
           lg={2}
           key={indicator.key}
           onClick={() => onClickIndicator(indicator)}
-          className={onClickIndicator ? classes.gridItemStyle : ''}
+          className={showPointer ? classes.gridItemStyle : ''}
         >
           <div className={classes.indicatorBallContainer}>
             {isRetake && (
