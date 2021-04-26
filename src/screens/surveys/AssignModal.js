@@ -26,6 +26,7 @@ const selectStyle = {
     border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
     boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none',
     overflowY: 'scroll',
+    scroll: 'auto',
     maxHeight: 300
   }),
   multiValueLabel: styles => ({
@@ -259,7 +260,6 @@ const AssignModal = ({
                       loadingMessage={() => t('views.hubsFilter.loading')}
                       noOptionsMessage={() => t('views.hubsFilter.noOption')}
                       options={hubs}
-                      scroll="auto"
                       maxMenuHeight={150}
                       components={{
                         DropdownIndicator: () => <div />,
