@@ -25,7 +25,7 @@ const selectStyle = {
     '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
     border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
     boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none',
-    overflowY: 'scroll',
+    scroll: 'auto',
     maxHeight: 300
   }),
   multiValueLabel: styles => ({
@@ -74,9 +74,11 @@ const styles = theme => ({
     justifyContent: 'space-around',
     flexDirection: 'column',
     padding: 40,
-    width: '37%',
-    minWidth: 375,
-    minHeight: '33%'
+    width: '85vw',
+    maxWidth: 500,
+    minHeight: '33%',
+    maxHeight: '80vh',
+    height: 450
   },
   closeIcon: {
     position: 'absolute',
@@ -227,72 +229,84 @@ const AssignModal = ({
             >
               <CloseIcon style={{ color: 'green' }} />
             </IconButton>
-            <Typography style={{ marginBottom: 30 }} variant="h5">
-              {t('views.survey.assignSurvey.assignSurvey')}
-            </Typography>
-            <Typography variant="h6" className={classes.surveyTitle}>
-              {survey.title}
-            </Typography>
-            {showHubs() && (
-              <div className={classes.container}>
-                <Typography variant="subtitle1" className={classes.label}>
-                  {t('views.survey.assignSurvey.hubs')}
-                </Typography>
-                <div className={classes.selector}>
-                  <Select
-                    value={applications}
-                    onChange={value => setApplications(value)}
-                    placeholder=""
-                    isLoading={optionsLoading}
-                    loadingMessage={() => t('views.hubsFilter.loading')}
-                    noOptionsMessage={() => t('views.hubsFilter.noOption')}
-                    options={hubs}
-                    components={{
-                      DropdownIndicator: () => <div />,
-                      IndicatorSeparator: () => <div />,
-                      ClearIndicator: () => <div />
-                    }}
-                    isMulti
-                    hideSelectedOptions
-                    loading={optionsLoading}
-                    styles={selectStyle}
-                  />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '-webkit-fill-available'
+              }}
+            >
+              <Typography
+                style={{ marginBottom: 30, textAlign: 'center' }}
+                variant="h5"
+              >
+                {t('views.survey.assignSurvey.assignSurvey')}
+              </Typography>
+              <Typography variant="h6" className={classes.surveyTitle}>
+                {survey.title}
+              </Typography>
+              {showHubs() && (
+                <div className={classes.container}>
+                  <Typography variant="subtitle1" className={classes.label}>
+                    {t('views.survey.assignSurvey.hubs')}
+                  </Typography>
+                  <div className={classes.selector}>
+                    <Select
+                      value={applications}
+                      onChange={value => setApplications(value)}
+                      placeholder=""
+                      isLoading={optionsLoading}
+                      loadingMessage={() => t('views.hubsFilter.loading')}
+                      noOptionsMessage={() => t('views.hubsFilter.noOption')}
+                      options={hubs}
+                      maxMenuHeight={150}
+                      components={{
+                        DropdownIndicator: () => <div />,
+                        IndicatorSeparator: () => <div />,
+                        ClearIndicator: () => <div />
+                      }}
+                      isMulti
+                      hideSelectedOptions
+                      loading={optionsLoading}
+                      styles={selectStyle}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {showOrganizations() && (
-              <div className={classes.container}>
-                <Typography variant="subtitle1" className={classes.label}>
-                  {t('views.survey.assignSurvey.orgs')}
-                </Typography>
+              {showOrganizations() && (
+                <div className={classes.container}>
+                  <Typography variant="subtitle1" className={classes.label}>
+                    {t('views.survey.assignSurvey.orgs')}
+                  </Typography>
 
-                <div className={classes.selector}>
-                  <Select
-                    value={organizations}
-                    onChange={value => setOrganizations(value)}
-                    placeholder=""
-                    isLoading={optionsLoading}
-                    loadingMessage={() =>
-                      t('views.organizationsFilter.loading')
-                    }
-                    noOptionsMessage={() =>
-                      t('views.organizationsFilter.noOption')
-                    }
-                    options={orgs}
-                    components={{
-                      DropdownIndicator: () => <div />,
-                      IndicatorSeparator: () => <div />,
-                      ClearIndicator: () => <div />
-                    }}
-                    closeMenuOnSelect={false}
-                    isMulti
-                    styles={selectStyle}
-                  />
+                  <div className={classes.selector}>
+                    <Select
+                      value={organizations}
+                      onChange={value => setOrganizations(value)}
+                      placeholder=""
+                      isLoading={optionsLoading}
+                      maxMenuHeight={150}
+                      loadingMessage={() =>
+                        t('views.organizationsFilter.loading')
+                      }
+                      noOptionsMessage={() =>
+                        t('views.organizationsFilter.noOption')
+                      }
+                      options={orgs}
+                      components={{
+                        DropdownIndicator: () => <div />,
+                        IndicatorSeparator: () => <div />,
+                        ClearIndicator: () => <div />
+                      }}
+                      closeMenuOnSelect={false}
+                      isMulti
+                      styles={selectStyle}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
-
+              )}
+            </div>
             <Button
               variant="contained"
               color="primary"

@@ -262,6 +262,7 @@ const HubFormModal = ({
                 rawOptions={langagueOptions}
                 labelKey="label"
                 valueKey="value"
+                maxSelectMenuHeight={190}
                 isClearable={false}
                 required
               />
@@ -271,6 +272,7 @@ const HubFormModal = ({
                 rawOptions={partnerTypeOptions}
                 labelKey="label"
                 valueKey="value"
+                maxSelectMenuHeight={190}
                 isClearable={false}
                 required
               />

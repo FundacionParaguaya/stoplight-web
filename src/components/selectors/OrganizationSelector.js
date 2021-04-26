@@ -77,6 +77,7 @@ const OrganizationSelector = ({
             options={options}
             isMulti={isMulti}
             maxMenuHeight={maxMenuHeight}
+            hideSelectedOptions
             isClearable={isClearable}
             isLoading={optionsLoading}
             styles={selectStyle}
