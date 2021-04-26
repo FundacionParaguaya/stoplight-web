@@ -237,6 +237,7 @@ export class Overview extends Component {
               priorities={currentDraft.priorities}
               achievements={currentDraft.achievements}
               history={this.props.history}
+              mustShowPointer={true}
               onClickIndicator={this.pushIndicator}
               isRetake={currentDraft.isRetake}
             />
