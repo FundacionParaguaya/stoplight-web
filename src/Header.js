@@ -27,6 +27,7 @@ import DropdownMenu from './components/DropdownMenu';
 import i18n from './i18n';
 import { updateUser } from './redux/actions';
 import { useWindowSize } from './utils/hooks-helpers';
+import { ROLES_NAMES } from './utils/role-utils';
 import {
   checkAccessToProjects,
   checkAccessToSolution,
@@ -203,6 +204,12 @@ const Header = ({ path, updateUser, user }) => {
                   ? `${classes.menuLink} ${classes.surveyLink}`
                   : classes.menuLink
               }
+              style={{
+                cursor:
+                  user.role === ROLES_NAMES.ROLE_FAMILY_USER
+                    ? 'default'
+                    : 'pointer'
+              }}
               key="dashboard"
             >
               <img
