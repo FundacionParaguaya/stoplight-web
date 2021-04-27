@@ -38,7 +38,8 @@ const DimensionQuestion = ({
   previousAchivements,
   history,
   onClickIndicator,
-  isRetake
+  isRetake,
+  mustShowPointer
 }) => (
   <Grid container spacing={2}>
     {questions.map(indicator => {
@@ -47,6 +48,15 @@ const DimensionQuestion = ({
         previousIndicator = previousIndicators.find(
           prev => prev.key === indicator.key
         );
+      const showPointer = mustShowPointer
+        ? true
+        : !priorities.find(
+            prior => prior.snapshotStoplightId === indicator.snapshotStoplightId
+          ) &&
+          !achievements.find(
+            achiev =>
+              achiev.snapshotStoplightId === indicator.snapshotStoplightId
+          );
       return (
         <Grid
           item
@@ -56,7 +66,7 @@ const DimensionQuestion = ({
           lg={2}
           key={indicator.key}
           onClick={() => onClickIndicator(indicator)}
-          className={onClickIndicator ? classes.gridItemStyle : ''}
+          className={showPointer ? classes.gridItemStyle : ''}
         >
           <div className={classes.indicatorBallContainer}>
             {isRetake && (
@@ -76,12 +86,18 @@ const DimensionQuestion = ({
             <IndicatorBall
               color={indicatorColorByAnswer(indicator)}
               animated={false}
-              priority={priorities.find(
-                prior => prior.indicator === indicator.key
-              )}
-              achievement={achievements.find(
-                prior => prior.indicator === indicator.key
-              )}
+              priority={priorities.find(prior => {
+                const key = prior.snapshotStoplightId || prior.indicator;
+                return (
+                  key === indicator.snapshotStoplightId || key === indicator.key
+                );
+              })}
+              achievement={achievements.find(prior => {
+                const key = prior.snapshotStoplightId || prior.indicator;
+                return (
+                  key === indicator.snapshotStoplightId || key === indicator.key
+                );
+              })}
             />
           </div>
           <Typography

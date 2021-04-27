@@ -8,10 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { editPriority } from '../../../api';
+import { editAchievement } from '../../../api';
 import InputWithFormik from '../../../components/InputWithFormik';
-import AutocompleteWithFormik from '../../../components/AutocompleteWithFormik';
-import { constructEstimatedMonthsOptions } from '../../../utils/form-utils';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -25,16 +23,14 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: '90vh',
-    height: 680,
+    maxHeight: '95vh',
     width: '85vw',
     maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none',
     [theme.breakpoints.down('xs')]: {
-      padding: '40px 30px',
-      height: 600
+      padding: '40px 30px'
     }
   },
   buttonContainerForm: {
@@ -47,8 +43,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       fontSize: 16,
-      lineHeight: 1.2,
-      marginBottom: theme.spacing(2)
+      lineHeight: 1.2
     }
   },
   extraTitleText: {
@@ -60,31 +55,22 @@ const useStyles = makeStyles(theme => ({
     lineHeight: '25px',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14,
-      lineHeight: 1.2,
-      marginBottom: 0
+      lineHeight: 1.2
     }
-  },
-  formContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '-webkit-fill-available',
-    height: '-webkit-fill-available',
-    justifyContent: 'space-around'
   }
 }));
 
-const EditPriorityModal = ({
+const EditAchievementModal = ({
   open,
   toggleModal,
   afterSubmit,
   user,
-  priorityToEdit,
+  achievementToEdit,
   enqueueSnackbar,
   closeSnackbar
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const monthsOptions = constructEstimatedMonthsOptions(t);
   const [loading, setLoading] = useState(false);
 
   const onCancel = () => {
@@ -95,27 +81,17 @@ const EditPriorityModal = ({
     toggleModal();
   };
 
-  // on edit priority
-  const onEditPriority = values => {
-    editPriority(
-      user,
-      values.id,
-      values.reason,
-      values.action,
-      values.estimatedDate
-    )
+  // on edit achievement
+  const onEditAchievement = values => {
+    editAchievement(user, values.id, values.action, values.roadmap)
       .then(response => {
         onClose({ deleteModalOpen: false });
         let updatedValues = values;
-        updatedValues['indicator'] = priorityToEdit.indicator;
-        updatedValues['reviewDate'] = priorityToEdit.reviewDate;
-        updatedValues['updatedAt'] = priorityToEdit.updatedAt;
-        updatedValues['color'] = priorityToEdit.color;
+        updatedValues['indicator'] = achievementToEdit.indicator;
         updatedValues['snapshotStoplightId'] =
-          priorityToEdit.snapshotStoplightId;
-        updatedValues['months'] = values.estimatedDate;
+          achievementToEdit.snapshotStoplightId;
         afterSubmit(updatedValues);
-        enqueueSnackbar(t('views.familyPriorities.prioritySaved'), {
+        enqueueSnackbar(t('views.familyAchievements.achievementSaved'), {
           variant: 'success',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -128,7 +104,7 @@ const EditPriorityModal = ({
       .catch(e => {
         setLoading(false);
         // setOpen(false);
-        enqueueSnackbar(t('views.familyPriorities.errorSaving'), {
+        enqueueSnackbar(t('views.familyAchievements.errorSaving'), {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -142,7 +118,7 @@ const EditPriorityModal = ({
   const fieldIsRequired = 'validation.fieldIsRequired';
 
   const validationSchema = Yup.object().shape({
-    estimatedDate: Yup.string().required(fieldIsRequired)
+    action: Yup.string().required(fieldIsRequired)
   });
   return (
     <Modal open={open} onClose={() => toggleModal()} className={classes.modal}>
@@ -161,42 +137,29 @@ const EditPriorityModal = ({
             align="center"
             className={classes.typographyStyle}
           >
-            {!!priorityToEdit ? priorityToEdit.indicator : ''}
+            {!!achievementToEdit ? achievementToEdit.indicator : ''}
           </Typography>
           <Formik
             initialValues={{
-              id: !!priorityToEdit ? priorityToEdit.id : '',
-              reason: !!priorityToEdit ? priorityToEdit.reason : '',
-              action: !!priorityToEdit ? priorityToEdit.action : '',
-              estimatedDate: !!priorityToEdit ? priorityToEdit.months : null
+              id: !!achievementToEdit ? achievementToEdit.id : '',
+              action: !!achievementToEdit ? achievementToEdit.action : '',
+              roadmap: !!achievementToEdit ? achievementToEdit.roadmap : ''
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
               setLoading(true);
-              onEditPriority(values);
+              onEditAchievement(values);
             }}
           >
-            <Form className={classes.formContainer}>
-              <div>
-                <InputWithFormik
-                  label={t('views.lifemap.whyDontYouHaveIt')}
-                  name="reason"
-                />
-                <InputWithFormik
-                  label={t('views.lifemap.whatWillYouDoToGetIt')}
-                  name="action"
-                />
-                <AutocompleteWithFormik
-                  label={t('views.lifemap.howManyMonthsWillItTake')}
-                  name="estimatedDate"
-                  rawOptions={monthsOptions}
-                  labelKey="label"
-                  valueKey="value"
-                  required
-                  maxSelectMenuHeight={190}
-                  isClearable={false}
-                />
-              </div>
+            <Form>
+              <InputWithFormik
+                label={t('views.lifemap.whatDidItTakeToAchieveThis')}
+                name="action"
+              />
+              <InputWithFormik
+                label={t('views.lifemap.howDidYouGetIt')}
+                name="roadmap"
+              />
               <div className={classes.buttonContainerForm}>
                 <Button
                   type="submit"
@@ -227,4 +190,4 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(withSnackbar(EditPriorityModal));
+export default connect(mapStateToProps)(withSnackbar(EditAchievementModal));

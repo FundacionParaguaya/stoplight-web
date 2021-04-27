@@ -24,6 +24,7 @@ const AutocompleteWithFormik = ({
   // These props defeat the keys and rawOptions. Won't try to know what's current value and options
   value,
   options,
+  maxSelectMenuHeight,
   ...props
 }) => {
   const error = pathHasError(name, formik.touched, formik.errors);
@@ -61,6 +62,7 @@ const AutocompleteWithFormik = ({
     value: effectiveValue,
     onBlur,
     onChange,
+    maxSelectMenuHeight,
     fullWidth: true
   };
   const autocompleteProps = { ...innerProps, ...props };

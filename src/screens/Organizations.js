@@ -66,7 +66,7 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const handleGoNext = org => {
     history.push({
       pathname: '/projects',
-      state: { orgId: org.id }
+      state: { orgId: org.id, hubId: hubId }
     });
   };
 
@@ -104,7 +104,9 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   }, [filter]);
 
   const checkAccessToMaps = ({ role }) =>
-    role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM;
+    role === ROLES_NAMES.ROLE_ROOT ||
+    role === ROLES_NAMES.ROLE_PS_TEAM ||
+    role === ROLES_NAMES.ROLE_HUB_ADMIN;
 
   const navigationOptions = [
     { label: t('views.toolbar.hubs'), link: '/hubs' },
@@ -265,7 +267,8 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                             className={classes.mapButton}
                             onClick={() => {
                               history.push({
-                                pathname: `organizations/${organization.id}/offline-maps`
+                                pathname: `organizations/${organization.id}/offline-maps`,
+                                state: { hubId: hubId }
                               });
                             }}
                           >

@@ -604,7 +604,19 @@
       "indicator": "Indicadores",
       "action": "¿Qué hiciste para lograr esto?",
       "roadmap": "¿Quién o qué te motivó a llegar allí?",
-      "noAchievements": "Esta familia no tiene logros."
+      "noAchievements": "Esta familia no tiene logros.",
+      "achievementSaved": "Guardado Correctamente",
+      "errorSaving": "Ocurrió un error al agregar el logro. Favor vuelva a intentar",
+      "selectIndicator": "Seleccione un Indicador",
+      "backToProfile": "Volver a Perfil de la Familia",
+      "addAchievement": "Agregar Logro",
+      "delete": {
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "confirmText": "¿Está seguro de que desea eliminar este logro?",
+        "confirmTitle": "Confirmar la eliminación",
+        "failed": "No se pudo borrar el logro",
+        "success": "El logro ha sido eliminado"
+      }
     },
     "familyImages": {
       "title": "Imágenes",
@@ -962,7 +974,8 @@
         "name": "Nombre",
         "nameLengthExceeded": "El nombre del mapa debe tener un máximo de 50 caracteres",
         "success": "Se guardó el mapa sin conexión",
-        "error": "No se pudo guardar el mapa sin conexión"
+        "error": "No se pudo guardar el mapa sin conexión",
+        "sizeError": "El área seleccionada excede el límite."
       },
       "delete": {
         "success": "El mapa ha sido eliminado",

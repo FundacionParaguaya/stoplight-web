@@ -357,7 +357,14 @@ const FamilyProfile = ({
         priorities={priorities}
       />
 
-      <FamilyAchievements familyId={familyId} achievements={achievements} />
+      {/* Achievements */}
+
+      <FamilyAchievements
+        familyId={familyId}
+        stoplightSkipped={stoplightSkipped}
+        questions={family.snapshotIndicators}
+        achievements={achievements}
+      />
 
       {/* Notes */}
 

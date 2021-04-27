@@ -31,8 +31,10 @@ const useStyles = makeStyles(theme => ({
     }
   },
   image: {
-    maxWidth: 200,
+    maxWidth: 195,
     maxHeight: 180,
+    minWidth: 180,
+    minHeight: 180,
     borderRadius: '50%',
     marginRight: 5,
     [theme.breakpoints.down('md')]: {
