@@ -120,6 +120,10 @@ export const ROLES_NAMES = {
   ROLE_FAMILY_USER
 };
 
+export const roleHasMoreThanOneAccess = role => {
+  return ROLES[role].filter(r => r.platform === NEW).length > 1;
+};
+
 export const checkAccess = ({ role }, item) => {
   return !!role && !!ROLES[role].find(r => r.item === item);
 };
