@@ -199,12 +199,15 @@ const FamilyAchievements = ({
 
   useEffect(() => {
     setAchievementList(achievements ? achievements : []);
-    setShowAddButton(
-      !!questions
-        ? questions.indicatorSurveyDataList.filter(e => e.value === 3).length >
-            0
-        : false
-    );
+    if (
+      !!questions &&
+      Array.isArray(questions.indicatorSurveyDataList) &&
+      !readOnly
+    ) {
+      setShowAddButton(
+        questions.indicatorSurveyDataList.filter(e => e.value === 3).length > 0
+      );
+    }
   }, [achievements, questions]);
 
   return (

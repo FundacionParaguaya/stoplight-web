@@ -64,13 +64,17 @@ const FamilyPriorities = ({
 
   useEffect(() => {
     setPriorityList(priorities ? priorities : []);
-    setShowAddButton(
-      !!questions
-        ? questions.indicatorSurveyDataList.filter(
-            e => e.value === 1 || e.value === 2
-          ).length > 0
-        : false
-    );
+    if (
+      !!questions &&
+      Array.isArray(questions.indicatorSurveyDataList) &&
+      !readOnly
+    ) {
+      setShowAddButton(
+        questions.indicatorSurveyDataList.filter(
+          e => e.value === 1 || e.value === 2
+        ).length > 0
+      );
+    }
   }, [priorities, questions]);
 
   const getColor = stopligh => {
