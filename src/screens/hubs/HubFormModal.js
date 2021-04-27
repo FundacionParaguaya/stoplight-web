@@ -121,6 +121,7 @@ const HubFormModal = ({
   const [file, setFile] = useState('');
 
   const langagueOptions = [
+    { label: 'Creole', value: 'ht_HT' },
     { label: 'English', value: 'en_US' },
     { label: 'Español', value: 'es_PY' },
     { label: 'Português', value: 'pt_BR' }
