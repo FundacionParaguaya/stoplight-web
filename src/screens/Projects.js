@@ -21,6 +21,7 @@ import NavigationBar from '../components/NavigationBar';
 
 const Projects = ({ history, classes, t, user, i18n: { language } }) => {
   const orgId = history.location.state ? [history.location.state.orgId] : null;
+  const hubId = history.location.state ? history.location.state.hubId : null;
   const readOnly = user.role !== ROLES_NAMES.ROLE_APP_ADMIN ? true : false;
   const [filter, setFilter] = useState('');
   const [openFormModal, setOpenFormModal] = useState(false);
@@ -112,7 +113,11 @@ const Projects = ({ history, classes, t, user, i18n: { language } }) => {
 
   let navigationOptions = [
     { label: t('views.toolbar.hubs'), link: '/hubs' },
-    { label: t('views.toolbar.organizations'), link: '/organizations' },
+    {
+      label: t('views.toolbar.organizations'),
+      link: '/organizations',
+      state: { hubId }
+    },
     { label: t('views.toolbar.projects'), link: '/projects' }
   ];
 

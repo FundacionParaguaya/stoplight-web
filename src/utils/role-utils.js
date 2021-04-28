@@ -21,8 +21,7 @@ export const ROLES = {
     { item: 'map', platform: NEW },
     { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
-    { item: 'offline-maps', platform: ACCESS },
-    { item: 'interventions', platform: NEW }
+    { item: 'offline-maps', platform: ACCESS }
   ],
   ROLE_HUB_ADMIN: [
     // Hub admin user
@@ -36,7 +35,9 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS }
+    { item: 'solutions', platform: ACCESS },
+    { item: 'offline-maps', platform: ACCESS },
+    { item: 'interventions', platform: NEW }
   ],
   ROLE_PS_TEAM: [
     // PS Team user
@@ -118,6 +119,10 @@ export const ROLES_NAMES = {
   ROLE_SURVEY_USER_ADMIN,
   ROLE_SURVEY_TAKER,
   ROLE_FAMILY_USER
+};
+
+export const roleHasMoreThanOneAccess = role => {
+  return ROLES[role].filter(r => r.platform === NEW).length > 1;
 };
 
 export const checkAccess = ({ role }, item) => {

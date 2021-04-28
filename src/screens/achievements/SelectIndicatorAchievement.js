@@ -57,10 +57,14 @@ const styles = theme => ({
     flexDirection: 'column',
     padding: '40px 50px',
     maxHeight: '95vh',
-    width: '500px',
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      padding: '40px 30px'
+    }
   },
   questionsContainer: {
     paddingTop: '5%',
@@ -73,7 +77,10 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     zIndex: 9,
-    marginTop: '3rem'
+    marginTop: '3rem',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1rem'
+    }
   },
   basicInfoText: {
     backgroundColor: theme.palette.background.default,
@@ -113,6 +120,14 @@ const styles = theme => ({
       fontSize: 14,
       lineHeight: 1.2
     }
+  },
+  navBarContainer: {
+    paddingLeft: '12%',
+    paddingRight: '12%',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 5,
+      paddingRight: 5
+    }
   }
 });
 
@@ -128,11 +143,9 @@ const SelectIndicatorAchievement = ({
   const [open, setOpen] = useState(false);
   const [selectedIndicator, setSelectedIndicator] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const listAchievements = [];
-  history.location.state.questions.achievements.map(ele => {
+  const listAchievements = history.location.state.achievementList.map(ele => {
     return {
-      indicator: ele.key
+      snapshotStoplightId: ele.snapshotStoplightId
     };
   });
   const [achievements, setAchievements] = useState(listAchievements);
@@ -188,7 +201,7 @@ const SelectIndicatorAchievement = ({
         // Update list of achievements
         setAchievements(previous => [
           ...previous,
-          { indicator: selectedIndicator.key }
+          { snapshotStoplightId: selectedIndicator.snapshotStoplightId }
         ]);
         setOpen(false);
       })
@@ -212,7 +225,11 @@ const SelectIndicatorAchievement = ({
   };
 
   const getForwardURLForIndicator = e => {
-    if (!achievements.find(prior => prior.indicator === e.key)) {
+    if (
+      !achievements.find(
+        prior => prior.snapshotStoplightId === e.snapshotStoplightId
+      )
+    ) {
       // you can add a achievement
       setSelectedIndicator(e);
       setOpen(true);
@@ -230,12 +247,7 @@ const SelectIndicatorAchievement = ({
 
   return (
     <div>
-      <div
-        style={{
-          paddingLeft: '12%',
-          paddingRight: '12%'
-        }}
-      >
+      <div className={classes.navBarContainer}>
         <NavigationBar options={navigationOptions} />
       </div>
 
@@ -271,7 +283,10 @@ const SelectIndicatorAchievement = ({
 
       <Modal open={open} onClose={onClose} className={classes.modal}>
         {loading ? (
-          <div className={classes.confirmationModal}>
+          <div
+            className={classes.confirmationModal}
+            style={{ justifyContent: 'center' }}
+          >
             <CircularProgress />
           </div>
         ) : (

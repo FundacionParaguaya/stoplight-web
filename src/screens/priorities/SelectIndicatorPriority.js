@@ -34,7 +34,8 @@ const styles = theme => ({
     marginBottom: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       fontSize: 16,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: theme.spacing(2)
     }
   },
   modal: {
@@ -53,11 +54,17 @@ const styles = theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: '95vh',
-    width: '500px',
+    maxHeight: '90vh',
+    height: 680,
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      padding: '40px 30px',
+      height: 600
+    }
   },
   questionsContainer: {
     paddingTop: '5%',
@@ -70,8 +77,10 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     zIndex: 9,
-    marginTop: '3rem'
-    //position: 'relative'
+    marginTop: '3rem',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1rem'
+    }
   },
   basicInfoText: {
     backgroundColor: theme.palette.background.default,
@@ -97,9 +106,6 @@ const styles = theme => ({
     maxHeight: 50,
     objectFit: 'contain'
   },
-  modalTitle: {
-    paddingBottom: '2rem'
-  },
   extraTitleText: {
     textAlign: 'center',
     fontWeight: 400,
@@ -109,8 +115,24 @@ const styles = theme => ({
     lineHeight: '25px',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: 0
     }
+  },
+  navBarContainer: {
+    paddingLeft: '12%',
+    paddingRight: '12%',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 5,
+      paddingRight: 5
+    }
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '-webkit-fill-available',
+    height: '-webkit-fill-available',
+    justifyContent: 'space-around'
   }
 });
 
@@ -128,13 +150,11 @@ const SelectIndicatorPriority = ({
   const monthsOptions = constructEstimatedMonthsOptions(t);
   const [loading, setLoading] = useState(false);
 
-  const listPriorities = history.location.state.questions.priorities.map(
-    ele => {
-      return {
-        indicator: ele.key
-      };
-    }
-  );
+  const listPriorities = history.location.state.priorityList.map(ele => {
+    return {
+      snapshotStoplightId: ele.snapshotStoplightId
+    };
+  });
   const [priorities, setPriorities] = useState(listPriorities);
   let { familyId } = useParams();
 
@@ -189,7 +209,7 @@ const SelectIndicatorPriority = ({
         //Update list of priorities
         setPriorities(previous => [
           ...previous,
-          { indicator: selectedIndicator.key }
+          { snapshotStoplightId: selectedIndicator.snapshotStoplightId }
         ]);
         setOpen(false);
       })
@@ -213,7 +233,11 @@ const SelectIndicatorPriority = ({
   };
 
   const getForwardURLForIndicator = e => {
-    if (!priorities.find(prior => prior.indicator === e.key)) {
+    if (
+      !priorities.find(
+        prior => prior.snapshotStoplightId === e.snapshotStoplightId
+      )
+    ) {
       // you can add a priority
       setSelectedIndicator(e);
       setOpen(true);
@@ -231,12 +255,7 @@ const SelectIndicatorPriority = ({
 
   return (
     <div>
-      <div
-        style={{
-          paddingLeft: '12%',
-          paddingRight: '12%'
-        }}
-      >
+      <div className={classes.navBarContainer}>
         <NavigationBar options={navigationOptions} />
       </div>
 
@@ -272,19 +291,14 @@ const SelectIndicatorPriority = ({
 
       <Modal open={open} onClose={onClose} className={classes.modal}>
         {loading ? (
-          <div className={classes.confirmationModal}>
+          <div
+            className={classes.confirmationModal}
+            style={{ justifyContent: 'center' }}
+          >
             <CircularProgress />
           </div>
         ) : (
           <div className={classes.confirmationModal}>
-            {/* <Typography
-                className={classes.modalTitle}
-                variant="h5"
-                test-id="modal-title"
-              >
-                {t('views.familyPriorities.addPriority')}
-              </Typography> */}
-
             <Typography
               variant="subtitle1"
               align="center"
@@ -312,24 +326,27 @@ const SelectIndicatorPriority = ({
                 savePriority(values);
               }}
             >
-              <Form>
-                <InputWithFormik
-                  label={t('views.lifemap.whyDontYouHaveIt')}
-                  name="reason"
-                />
-                <InputWithFormik
-                  label={t('views.lifemap.whatWillYouDoToGetIt')}
-                  name="action"
-                />
-                <AutocompleteWithFormik
-                  label={t('views.lifemap.howManyMonthsWillItTake')}
-                  name="estimatedDate"
-                  rawOptions={monthsOptions}
-                  labelKey="label"
-                  valueKey="value"
-                  required
-                  isClearable={false}
-                />
+              <Form className={classes.formContainer}>
+                <div>
+                  <InputWithFormik
+                    label={t('views.lifemap.whyDontYouHaveIt')}
+                    name="reason"
+                  />
+                  <InputWithFormik
+                    label={t('views.lifemap.whatWillYouDoToGetIt')}
+                    name="action"
+                  />
+                  <AutocompleteWithFormik
+                    label={t('views.lifemap.howManyMonthsWillItTake')}
+                    name="estimatedDate"
+                    rawOptions={monthsOptions}
+                    labelKey="label"
+                    valueKey="value"
+                    required
+                    maxSelectMenuHeight={190}
+                    isClearable={false}
+                  />
+                </div>
                 <div className={classes.buttonContainerForm}>
                   <Button
                     type="submit"

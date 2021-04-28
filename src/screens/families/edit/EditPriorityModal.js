@@ -25,14 +25,16 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     padding: '40px 50px',
-    maxHeight: '95vh',
-    width: '500px',
+    maxHeight: '90vh',
+    height: 680,
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none',
     [theme.breakpoints.down('xs')]: {
-      marginLeft: 24,
-      marginRight: 24
+      padding: '40px 30px',
+      height: 600
     }
   },
   buttonContainerForm: {
@@ -45,7 +47,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4),
     [theme.breakpoints.down('xs')]: {
       fontSize: 16,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: theme.spacing(2)
     }
   },
   extraTitleText: {
@@ -57,8 +60,16 @@ const useStyles = makeStyles(theme => ({
     lineHeight: '25px',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14,
-      lineHeight: 1.2
+      lineHeight: 1.2,
+      marginBottom: 0
     }
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '-webkit-fill-available',
+    height: '-webkit-fill-available',
+    justifyContent: 'space-around'
   }
 }));
 
@@ -81,7 +92,6 @@ const EditPriorityModal = ({
   };
 
   const onClose = () => {
-    afterSubmit();
     toggleModal();
   };
 
@@ -96,6 +106,15 @@ const EditPriorityModal = ({
     )
       .then(response => {
         onClose({ deleteModalOpen: false });
+        let updatedValues = values;
+        updatedValues['indicator'] = priorityToEdit.indicator;
+        updatedValues['reviewDate'] = priorityToEdit.reviewDate;
+        updatedValues['updatedAt'] = priorityToEdit.updatedAt;
+        updatedValues['color'] = priorityToEdit.color;
+        updatedValues['snapshotStoplightId'] =
+          priorityToEdit.snapshotStoplightId;
+        updatedValues['months'] = values.estimatedDate;
+        afterSubmit(updatedValues);
         enqueueSnackbar(t('views.familyPriorities.prioritySaved'), {
           variant: 'success',
           action: key => (
@@ -128,7 +147,10 @@ const EditPriorityModal = ({
   return (
     <Modal open={open} onClose={() => toggleModal()} className={classes.modal}>
       {loading ? (
-        <div className={classes.confirmationModal}>
+        <div
+          className={classes.confirmationModal}
+          style={{ justifyContent: 'center' }}
+        >
           <CircularProgress />
         </div>
       ) : (
@@ -154,24 +176,27 @@ const EditPriorityModal = ({
               onEditPriority(values);
             }}
           >
-            <Form>
-              <InputWithFormik
-                label={t('views.lifemap.whyDontYouHaveIt')}
-                name="reason"
-              />
-              <InputWithFormik
-                label={t('views.lifemap.whatWillYouDoToGetIt')}
-                name="action"
-              />
-              <AutocompleteWithFormik
-                label={t('views.lifemap.howManyMonthsWillItTake')}
-                name="estimatedDate"
-                rawOptions={monthsOptions}
-                labelKey="label"
-                valueKey="value"
-                required
-                isClearable={false}
-              />
+            <Form className={classes.formContainer}>
+              <div>
+                <InputWithFormik
+                  label={t('views.lifemap.whyDontYouHaveIt')}
+                  name="reason"
+                />
+                <InputWithFormik
+                  label={t('views.lifemap.whatWillYouDoToGetIt')}
+                  name="action"
+                />
+                <AutocompleteWithFormik
+                  label={t('views.lifemap.howManyMonthsWillItTake')}
+                  name="estimatedDate"
+                  rawOptions={monthsOptions}
+                  labelKey="label"
+                  valueKey="value"
+                  required
+                  maxSelectMenuHeight={190}
+                  isClearable={false}
+                />
+              </div>
               <div className={classes.buttonContainerForm}>
                 <Button
                   type="submit"

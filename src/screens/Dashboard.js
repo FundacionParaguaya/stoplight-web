@@ -17,7 +17,8 @@ import {
   getLastestActivity,
   getOperationsOverview,
   getTotalFamilies,
-  cancelRequest
+  cancelRequest,
+  cancelFilterRequest
 } from '../api';
 import ballstoit from '../assets/ballstoit.png';
 import ActivityFeed from '../components/ActivityFeed';
@@ -88,7 +89,10 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   };
 
   useEffect(() => {
-    return () => cancelRequest();
+    return () => {
+      cancelRequest();
+      cancelFilterRequest();
+    };
   }, []);
 
   // Clearing selected organizations when the hub filter changes

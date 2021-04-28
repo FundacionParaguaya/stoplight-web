@@ -31,6 +31,7 @@ class NavigationBar extends Component {
                   activeOnlyWhenExact={true}
                   first={index === 0}
                   optionClass={classes.menuLinkText}
+                  optionClassAlt={classes.menuTextAlt}
                   state={option.state}
                   key={index}
                 />
@@ -48,6 +49,7 @@ function MenuLink({
   activeOnlyWhenExact,
   first,
   optionClass,
+  optionClassAlt,
   state
 }) {
   let match = useRouteMatch({
@@ -71,18 +73,7 @@ function MenuLink({
           {label}
         </Link>
       ) : (
-        <p
-          style={{
-            color: COLORS.TEXT_LIGHTGREY,
-            fontSize: '16px',
-            fontWeight: 400,
-            marginBlockStart: '0px',
-            marginBlockEnd: '0px'
-          }}
-          className={optionClass}
-        >
-          {label}
-        </p>
+        <p className={optionClassAlt}>{label}</p>
       )}
     </div>
   );
@@ -111,6 +102,15 @@ const styles = theme => ({
     fontWeight: 400,
     position: 'relative',
     textDecoration: 'none',
+    fontSize: 16
+  },
+  menuTextAlt: {
+    color: COLORS.TEXT_LIGHTGREY,
+    position: 'relative',
+    textDecoration: 'none',
+    fontWeight: 400,
+    marginBlockStart: 0,
+    marginBlockEnd: 0,
     fontSize: 16
   }
 });

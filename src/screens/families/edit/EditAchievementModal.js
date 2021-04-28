@@ -24,13 +24,13 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: '40px 50px',
     maxHeight: '95vh',
-    width: '500px',
+    width: '85vw',
+    maxWidth: 500,
     overflowY: 'auto',
     position: 'relative',
     outline: 'none',
     [theme.breakpoints.down('xs')]: {
-      marginLeft: 24,
-      marginRight: 24
+      padding: '40px 30px'
     }
   },
   buttonContainerForm: {
@@ -78,7 +78,6 @@ const EditAchievementModal = ({
   };
 
   const onClose = () => {
-    afterSubmit();
     toggleModal();
   };
 
@@ -87,6 +86,11 @@ const EditAchievementModal = ({
     editAchievement(user, values.id, values.action, values.roadmap)
       .then(response => {
         onClose({ deleteModalOpen: false });
+        let updatedValues = values;
+        updatedValues['indicator'] = achievementToEdit.indicator;
+        updatedValues['snapshotStoplightId'] =
+          achievementToEdit.snapshotStoplightId;
+        afterSubmit(updatedValues);
         enqueueSnackbar(t('views.familyAchievements.achievementSaved'), {
           variant: 'success',
           action: key => (
@@ -119,7 +123,10 @@ const EditAchievementModal = ({
   return (
     <Modal open={open} onClose={() => toggleModal()} className={classes.modal}>
       {loading ? (
-        <div className={classes.confirmationModal}>
+        <div
+          className={classes.confirmationModal}
+          style={{ justifyContent: 'center' }}
+        >
           <CircularProgress />
         </div>
       ) : (

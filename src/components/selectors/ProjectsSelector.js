@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import { getProjectsByOrganization, projectsBySurveyUser } from '../../api';
+import {
+  getProjectsByOrganization,
+  projectsBySurveyUser,
+  cancelFilterRequest
+} from '../../api';
 import * as _ from 'lodash';
 import Select from 'react-select';
 import { selectStyle } from '../../utils/styles-utils';
@@ -32,6 +36,10 @@ const ProjectsSelector = ({
   const label = `${t('views.projectFilter.label')}${isMulti ? 's' : ''}`;
 
   useEffect(() => {
+    return () => cancelFilterRequest();
+  }, []);
+
+  useEffect(() => {
     setLoading(true);
     if (byFacilitator) {
       projectsBySurveyUser(user, surveyUser ? surveyUser : null)
@@ -45,8 +53,9 @@ const ProjectsSelector = ({
             value: project.id
           }));
           setProjectsOptions(projects);
+          setLoading(false);
         })
-        .finally(() => setLoading(false));
+        .catch(e => setLoading(false));
     } else {
       const orgId =
         (isMulti &&
@@ -68,8 +77,9 @@ const ProjectsSelector = ({
             value: project.id
           }));
           setProjectsOptions(projects);
+          setLoading(false);
         })
-        .finally(() => setLoading(false));
+        .catch(e => setLoading(false));
     }
   }, [user, organizationData, surveyUser]);
 
