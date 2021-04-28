@@ -25,6 +25,7 @@ import { getHomePage } from '../utils/role-utils';
 import LanguageSelector from '../components/LanguageSelector';
 import Intercom from '../components/Intercom';
 import Container from '../components/Container';
+import 'url-search-params-polyfill';
 
 const useStyles = makeStyles(theme => ({
   screen: {
