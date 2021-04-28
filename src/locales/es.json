@@ -984,6 +984,19 @@
         "confirmText": "¿Está seguro de que desea eliminar este mapa?",
         "confirmTitle": "Confirmar la eliminación"
       }
+    },
+    "intervention": {
+      "definition": {
+        "coreQuestions": "Estas son las preguntas esenciales que estarán al comienzo del formulario de intervención:",
+        "questionsTitle": "Para agregar más preguntas, arrastre y suelte las siguientes preguntas en el formulario de la derecha:",
+        "subtitle": "Cree su intervención estableciendo las definiciones aquí.",
+        "title": "Definición de intervención",
+        "required": "Pregunta requerida",
+        "options": "Opciones",
+        "otherOption": "Agregue una opción de respuesta \"Otro\".",
+        "missingOptions": "Se requieren opciones para esta pregunta",
+        "addOption": "Agregar opción"
+      }
     }
   },
   "reports": {
@@ -1016,5 +1029,13 @@
     "ROLE_HUB_ADMIN": "Hub Admin",
     "ROLE_SURVEY_TAKER": "Encuestador",
     "ROLE_FAMILY_USER": "Familia"
+  },
+  "answerType": {
+    "checkbox": "Checkbox",
+    "number": "Número",
+    "radio": "Radio",
+    "select": "Desplegable",
+    "text": "Texto",
+    "date": "Fecha"
   }
 }

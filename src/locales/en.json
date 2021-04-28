@@ -991,7 +991,11 @@
         "addOption": "Add option",
         "missingOptions": "Options for this question are required",
         "title": "Intervetion Definition",
-        "subtitle": "Add Intervention definition for your organizations"
+        "subtitle": "Create your intervention by setting the definitions here.  ",
+        "coreQuestions": "These are the core questions which will be at the beginning of the intervention form:",
+        "questionsTitle": "To add more questions, drag and drop the following questions to the form on the right:",
+        "otherOption": "Add an \"Other\" response option.",
+        "required": "Question required"
       }
     }
   },
@@ -1031,6 +1035,7 @@
     "number": "Number",
     "radio": "Radio",
     "text": "Text",
-    "checkbox": "Checkbox"
+    "checkbox": "Checkbox",
+    "date": "Date"
   }
 }
