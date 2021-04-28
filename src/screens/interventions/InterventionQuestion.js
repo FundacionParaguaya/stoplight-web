@@ -47,6 +47,7 @@ const useStyles = makeStyles(theme => ({
   },
   optionContainer: {
     margin: theme.spacing(1),
+    marginTop: 0,
     marginRight: 0,
     display: 'flex',
     alignItems: 'center',
@@ -62,11 +63,9 @@ const useStyles = makeStyles(theme => ({
       opacity: '100%'
     }
   },
-  otherOptionContainer: {
+  checkboxContainer: {
     display: 'flex',
-    alignItems: 'center',
-    marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(1)
+    alignItems: 'center'
   },
   addOptionContainer: {
     display: 'flex',
@@ -83,17 +82,48 @@ export const InterventionQuestion = ({
   itemRef,
   draggableProps,
   question,
-  options,
-  answerType,
-  otherOption = false,
-  addOption,
-  addOtherOption,
-  updateOption,
-  deleteOption
+  updateQuestion
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
+  const addOption = () => {
+    let q = question;
+    q.options.push({ value: '', text: '' });
+    updateQuestion(q);
+  };
+
+  const updateOption = (optionIndex, option) => {
+    let q = question;
+    q.options[optionIndex] = option;
+    updateQuestion(q);
+  };
+
+  const deleteOption = optionIndex => {
+    let q = question;
+    q.options.splice(optionIndex, 1);
+    updateQuestion(q);
+  };
+
+  const addOtherOption = () => {
+    let q = question;
+    q.otherOption = !q.otherOption;
+    updateQuestion(q);
+  };
+
+  const setQuestionRequired = () => {
+    let q = question;
+    q.required = !q.required;
+    updateQuestion(q);
+  };
+
+  const {
+    shortName,
+    options,
+    answerType,
+    otherOption = false,
+    required = false
+  } = question;
   return (
     <div
       ref={itemRef}
@@ -102,10 +132,20 @@ export const InterventionQuestion = ({
     >
       <div className={classes.title}>
         <Typography variant="h6" style={{ marginBottom: '1rem' }}>
-          {question}
+          {shortName}
         </Typography>
 
         <QuestionIcon type={answerType} iconClass={classes.icon} />
+      </div>
+
+      <div className={classes.checkboxContainer}>
+        <GreenCheckbox
+          onChange={e => setQuestionRequired()}
+          checked={required}
+        />
+        <Typography variant="subtitle2">
+          {t('views.intervention.definition.required')}
+        </Typography>
       </div>
 
       {(answerType === 'select' ||
@@ -116,13 +156,13 @@ export const InterventionQuestion = ({
             {t('views.intervention.definition.options')}
           </Typography>
 
-          <div className={classes.otherOptionContainer}>
+          <div className={classes.checkboxContainer}>
             <GreenCheckbox
               onChange={e => addOtherOption()}
               checked={otherOption}
             />
-            <Typography variant="subtitle2" className={classes.active}>
-              {'Add an "Other" response option.'}
+            <Typography variant="subtitle2">
+              {t('views.intervention.definition.otherOption')}
             </Typography>
           </div>
 

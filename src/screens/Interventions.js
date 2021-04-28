@@ -6,7 +6,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import interventionBanner from '../assets/hub.png';
+import interventionBanner from '../assets/reports_banner.png';
 import Container from '../components/Container';
 import QuestionItem from '../components/QuestionItem';
 import withLayout from '../components/withLayout';
@@ -94,7 +94,6 @@ const Interventions = ({ user, history }) => {
         itemQuestions = itemQuestions.map(question => {
           return {
             ...question,
-            required: true,
             options: [{ value: 'value', text: '' }]
           };
         });
@@ -137,28 +136,9 @@ const Interventions = ({ user, history }) => {
     }
   };
 
-  const addOption = index => {
+  const updateQuestion = (index, question) => {
     let newSelectedItems = Array.from(selectedItems);
-    console.log(newSelectedItems);
-    newSelectedItems[index].options.push({ value: '', text: '' });
-    setSelectedItems(newSelectedItems);
-  };
-
-  const updateOption = (questionIndex, optionIndex, option) => {
-    let newSelectedItems = Array.from(selectedItems);
-    newSelectedItems[questionIndex].options[optionIndex] = option;
-    setSelectedItems(newSelectedItems);
-  };
-
-  const deleteOption = (questionIndex, optionIndex) => {
-    let newSelectedItems = Array.from(selectedItems);
-    newSelectedItems[questionIndex].options.splice(optionIndex, 1);
-    setSelectedItems(newSelectedItems);
-  };
-
-  const addOtherOption = index => {
-    let newSelectedItems = Array.from(selectedItems);
-    newSelectedItems[index].otherOption = !newSelectedItems[index].otherOption;
+    newSelectedItems[index] = question;
     setSelectedItems(newSelectedItems);
   };
 
@@ -203,22 +183,20 @@ const Interventions = ({ user, history }) => {
         />
       </div>
 
-      <Typography variant="h5">{'Core questions:'}</Typography>
+      <Typography variant="h5">
+        {t('views.intervention.definition.coreQuestions')}
+      </Typography>
 
-      <ul>
-        {coreQuestions.map(question => (
-          <Typography
-            key={question.codeName}
-            variant="h6"
-            style={{ color: 'grey' }}
-          >
-            {`- ${question.shortName}`}
-          </Typography>
-        ))}
-      </ul>
+      {coreQuestions.map(question => (
+        <QuestionItem
+          key={question.codeName}
+          question={question.shortName}
+          answerType={question.answerType}
+        />
+      ))}
 
       <Typography variant="h5" style={{ marginTop: 16 }}>
-        {'Chose your questions by dragging them to the rigth side:'}
+        {t('views.intervention.definition.questionsTitle')}
       </Typography>
       <div className={classes.dragContainer}>
         <DragDropContext onDragEnd={onDragEnd}>
@@ -272,17 +250,9 @@ const Interventions = ({ user, history }) => {
                           ...provided.draggableProps,
                           ...provided.dragHandleProps
                         }}
-                        question={selectedItem.shortName}
-                        options={selectedItem.options}
-                        answerType={selectedItem.answerType}
-                        otherOption={selectedItem.otherOption}
-                        addOption={() => addOption(index)}
-                        addOtherOption={() => addOtherOption(index)}
-                        updateOption={(optionIndex, option) =>
-                          updateOption(index, optionIndex, option)
-                        }
-                        deleteOption={optionIndex =>
-                          deleteOption(index, optionIndex)
+                        question={selectedItem}
+                        updateQuestion={question =>
+                          updateQuestion(index, question)
                         }
                       />
                     )}
