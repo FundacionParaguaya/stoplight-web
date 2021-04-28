@@ -9,6 +9,8 @@ import {
 import CircularProgress from '@material-ui/core/CircularProgress';
 const Support = lazy(() => import('../screens/Support'));
 const SupportForm = lazy(() => import('../screens/support/SupportForm'));
+const CollectionView = lazy(() => import('../screens/support/CollectionView'));
+const ArticleView = lazy(() => import('../screens/support/ArticleView'));
 const Surveys = lazy(() => import('../screens/SurveysWithDrafts'));
 const SurveyList = lazy(() => import('../screens/Surveys'));
 const Organizations = lazy(() => import('../screens/Organizations'));
@@ -195,10 +197,17 @@ const Routes = ({ user }) => {
             <Route exact path="/support" component={Support} />
           )}
           {checkAccess(user, 'support') && (
-            <Route path="/support/articles/create" component={SupportForm} />
+            <Route path="/articles/:id" component={ArticleView} />
           )}
           {checkAccess(user, 'support') && (
-            <Route path="/support/articles/edit/:id" component={SupportForm} />
+            <Route path="/articles/create" component={SupportForm} />
+          )}
+
+          {checkAccess(user, 'support') && (
+            <Route path="/articles/edit/:id" component={SupportForm} />
+          )}
+          {checkAccess(user, 'support') && (
+            <Route path="/collection/:slug" component={CollectionView} />
           )}
 
           {!!user.role && <Route render={() => <PageNotFound user={user} />} />}

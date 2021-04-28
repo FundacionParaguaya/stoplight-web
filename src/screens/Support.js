@@ -23,7 +23,6 @@ import * as _ from 'lodash';
 
 const styles = theme => ({
   titleContainer: {
-    //height: 225,
     backgroundColor: theme.palette.primary.main,
     paddingTop: 35,
     paddingBottom: 35
@@ -123,7 +122,7 @@ const styles = theme => ({
   }
 });
 
-const Support = ({ classes, user }) => {
+const Support = ({ classes, user, history }) => {
   const {
     t,
     i18n: { language }
@@ -151,9 +150,14 @@ const Support = ({ classes, user }) => {
   ];
 
   const loadArticles = () => {
-    getArticles(user, '', 'en_US', []).then(response => {
+    getArticles(user, '', '', 'en_US', []).then(response => {
       console.log('Response', response);
     });
+  };
+
+  const handleGoCollection = collection => {
+    const transformedSlug = collection.toLowerCase();
+    history.push(`/collection/${transformedSlug}`);
   };
 
   useEffect(() => {
@@ -167,7 +171,7 @@ const Support = ({ classes, user }) => {
           []
         );
 
-        getArticles(user, null, 'en_US', [])
+        getArticles(user, null, '', 'en_US', [])
           .then(response => {
             const articles = _.get(response, 'data.data.listArticles', []);
             updatedCollections = collectionTypes.map(collection => {
@@ -234,11 +238,10 @@ const Support = ({ classes, user }) => {
                   variant="outlined"
                   elevation={3}
                   className={classes.sectionCard}
-                  onClick={() => console.log('click')}
+                  onClick={() => handleGoCollection(collection.code)}
                 >
                   <Grid alignItems="center" container spacing={5}>
                     <Grid item className={classes.iconContainer}>
-                      {/* <HelpOutlineOutlinedIcon className={classes.icon} /> */}
                       <Icon className={classes.icon}>{collection.icon}</Icon>
                     </Grid>
                     <Grid item className={classes.sectionCardBody}>

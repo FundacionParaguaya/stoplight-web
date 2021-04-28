@@ -116,6 +116,9 @@
       "countArticles": "articles in this collection",
       "writeBy": "Written by",
       "team": " Stoplight Team",
+      "allCollections": "All collections",
+      "noArticles": "No articles",
+      "article": "Article",
       "collections": {
         "generalDescription": "General Questions about the Poverty Stoplight",
         "webDescription": "General articles about using the Poverty Stoplight Platform",
