@@ -449,52 +449,50 @@ class Surveys extends Component {
               <CircularProgress />
             </div>
           )}
-          {!this.state.loadingSurvey && (
-            <div className={classes.listContainer}>
-              <Grid container spacing={3}>
-                {this.state.isSurveyTaker && (
-                  <Grid item sm={12} xs={12}>
+          <div className={classes.listContainer}>
+            <Grid container spacing={3}>
+              {this.state.isSurveyTaker && (
+                <Grid item sm={12} xs={12}>
+                  <SurveysList
+                    surveys={this.state.surveys}
+                    heightRef={this.heightSurveysRef}
+                    handleSurveyClick={this.handleClickOnSurvey}
+                  />
+                </Grid>
+              )}
+              {!this.state.isSurveyTaker && (
+                <React.Fragment>
+                  <Grid
+                    item
+                    sm={4}
+                    xs={12}
+                    className={classes.draftsTotalContainer}
+                  >
+                    <FamiliesOverviewBlock
+                      withDetail={false}
+                      subtitle={t('general.drafts')}
+                      familiesCount={this.state.draftsNumber}
+                      innerRef={this.heightSurveysRef}
+                      loading={this.state.draftsLoading}
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    sm={8}
+                    xs={12}
+                    className={classes.surveyListContainer}
+                  >
                     <SurveysList
                       surveys={this.state.surveys}
                       heightRef={this.heightSurveysRef}
                       handleSurveyClick={this.handleClickOnSurvey}
                     />
                   </Grid>
-                )}
-                {!this.state.isSurveyTaker && !this.state.draftsLoading && (
-                  <React.Fragment>
-                    <Grid
-                      item
-                      sm={4}
-                      xs={12}
-                      className={classes.draftsTotalContainer}
-                    >
-                      <FamiliesOverviewBlock
-                        withDetail={false}
-                        subtitle={t('general.drafts')}
-                        familiesCount={this.state.draftsNumber}
-                        innerRef={this.heightSurveysRef}
-                        loading={this.state.draftsLoading}
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      sm={8}
-                      xs={12}
-                      className={classes.surveyListContainer}
-                    >
-                      <SurveysList
-                        surveys={this.state.surveys}
-                        heightRef={this.heightSurveysRef}
-                        handleSurveyClick={this.handleClickOnSurvey}
-                      />
-                    </Grid>
-                  </React.Fragment>
-                )}
-              </Grid>
-            </div>
-          )}
-          {!isSurveyTaker && !this.state.loadingSurvey && (
+                </React.Fragment>
+              )}
+            </Grid>
+          </div>
+          {!isSurveyTaker && (
             <div className={classes.snapshotsContainer}>
               <SnapshotsTable
                 handleClickOnSnapshot={this.handleClickOnSnapshot}
@@ -603,11 +601,16 @@ const styles = theme => ({
     }
   },
   spinnerContainer: {
-    width: '100%',
-    height: '100%',
+    zIndex: 10000,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 });
 
