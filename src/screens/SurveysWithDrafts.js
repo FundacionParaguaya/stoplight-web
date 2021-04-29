@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { withTranslation, useTranslation } from 'react-i18next';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -444,50 +444,57 @@ class Surveys extends Component {
               className={classes.chooseLifeMapImage}
             />
           </div>
-          <div className={classes.listContainer}>
-            <Grid container spacing={3}>
-              {this.state.isSurveyTaker && (
-                <Grid item sm={12} xs={12}>
-                  <SurveysList
-                    surveys={this.state.surveys}
-                    heightRef={this.heightSurveysRef}
-                    handleSurveyClick={this.handleClickOnSurvey}
-                  />
-                </Grid>
-              )}
-              {!this.state.isSurveyTaker && !this.state.draftsLoading && (
-                <React.Fragment>
-                  <Grid
-                    item
-                    sm={4}
-                    xs={12}
-                    className={classes.draftsTotalContainer}
-                  >
-                    <FamiliesOverviewBlock
-                      withDetail={false}
-                      subtitle={t('general.drafts')}
-                      familiesCount={this.state.draftsNumber}
-                      innerRef={this.heightSurveysRef}
-                      loading={this.state.draftsLoading}
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    sm={8}
-                    xs={12}
-                    className={classes.surveyListContainer}
-                  >
+          {this.state.loadingSurvey && (
+            <div className={classes.spinnerContainer}>
+              <CircularProgress />
+            </div>
+          )}
+          {!this.state.loadingSurvey && (
+            <div className={classes.listContainer}>
+              <Grid container spacing={3}>
+                {this.state.isSurveyTaker && (
+                  <Grid item sm={12} xs={12}>
                     <SurveysList
                       surveys={this.state.surveys}
                       heightRef={this.heightSurveysRef}
                       handleSurveyClick={this.handleClickOnSurvey}
                     />
                   </Grid>
-                </React.Fragment>
-              )}
-            </Grid>
-          </div>
-          {!isSurveyTaker && (
+                )}
+                {!this.state.isSurveyTaker && !this.state.draftsLoading && (
+                  <React.Fragment>
+                    <Grid
+                      item
+                      sm={4}
+                      xs={12}
+                      className={classes.draftsTotalContainer}
+                    >
+                      <FamiliesOverviewBlock
+                        withDetail={false}
+                        subtitle={t('general.drafts')}
+                        familiesCount={this.state.draftsNumber}
+                        innerRef={this.heightSurveysRef}
+                        loading={this.state.draftsLoading}
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      sm={8}
+                      xs={12}
+                      className={classes.surveyListContainer}
+                    >
+                      <SurveysList
+                        surveys={this.state.surveys}
+                        heightRef={this.heightSurveysRef}
+                        handleSurveyClick={this.handleClickOnSurvey}
+                      />
+                    </Grid>
+                  </React.Fragment>
+                )}
+              </Grid>
+            </div>
+          )}
+          {!isSurveyTaker && !this.state.loadingSurvey && (
             <div className={classes.snapshotsContainer}>
               <SnapshotsTable
                 handleClickOnSnapshot={this.handleClickOnSnapshot}
@@ -594,6 +601,13 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       order: 2
     }
+  },
+  spinnerContainer: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
