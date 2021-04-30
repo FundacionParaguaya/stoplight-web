@@ -2,20 +2,25 @@ import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import { withTranslation } from 'react-i18next';
 import { Paper, Typography } from '@material-ui/core';
-import { getDateFormatByLocale } from '../../utils/date-utils';
 import moment from 'moment';
+import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const styles = theme => ({
   sectionCard: {
     marginTop: 16,
     padding: 30,
-    backgroundColor: theme.palette.background.default
+    backgroundColor: theme.palette.background.default,
+    cursor: 'pointer'
   },
   cardTitle: {
     fontSize: 18
   },
   cardSubtitle: {
-    margin: '5px 0px 11px'
+    margin: '5px 0px 11px',
+    color: theme.palette.grey.main
+  },
+  cardBodyText: {
+    color: '#626262'
   },
   cardBodySubText: {
     color: theme.palette.text.light

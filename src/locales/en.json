@@ -121,6 +121,8 @@
       "noArticles": "No articles",
       "addArticle": "Add a article",
       "article": "Article",
+      "editButton": "EDIT",
+      "deleteButton": "DELETE",
       "collections": {
         "generalDescription": "General Questions about the Poverty Stoplight",
         "webDescription": "General articles about using the Poverty Stoplight Platform",

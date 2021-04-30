@@ -92,7 +92,8 @@ const styles = theme => ({
     maxWidth: '100%',
     width: '900px',
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
+    paddingBottom: 20
   },
   icon: {
     marginLeft: 10,
@@ -167,7 +168,7 @@ const Support = ({ classes, user, history }) => {
 
   const [articles, setArticles] = useState([]);
   const query = useQuery();
-  const getQuery = query.get('q');
+  const searchQuery = query.get('q');
 
   const collectionTypeOptions = [
     {
@@ -217,9 +218,9 @@ const Support = ({ classes, user, history }) => {
     role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
   useEffect(() => {
-    if (getQuery !== '' && getQuery !== 0 && getQuery !== null) {
+    if (searchQuery !== '' && searchQuery !== 0 && searchQuery !== null) {
       setLoading(true);
-      getArticles(user, getQuery, '', lang, [])
+      getArticles(user, searchQuery, '', lang, [])
         .then(res => {
           const data = _.get(res, 'data.data.listArticles', []);
           setArticles(data);
@@ -261,7 +262,7 @@ const Support = ({ classes, user, history }) => {
         })
         .finally(() => setLoading(false));
     }
-  }, [getQuery, lang]);
+  }, [searchQuery, lang]);
   return (
     <div className={classes.mainContainer}>
       {loading && (
@@ -369,9 +370,9 @@ const Support = ({ classes, user, history }) => {
               articles={articles}
               handleGoArticle={handleGoArticle}
             />
-            {getQuery !== '' &&
-              getQuery !== 0 &&
-              getQuery !== null &&
+            {searchQuery !== '' &&
+              searchQuery !== 0 &&
+              searchQuery !== null &&
               articles.length === 0 && (
                 <>
                   <Typography

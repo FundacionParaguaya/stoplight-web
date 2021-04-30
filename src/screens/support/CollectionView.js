@@ -19,6 +19,9 @@ import { getArticles, getCollectionTypes } from '../../api';
 import * as _ from 'lodash';
 import NavigationBar from '../../components/NavigationBar';
 import ArticleList from './ArticlesList';
+import { getLanguageByCode } from '../../utils/lang-utils';
+import i18n from '../../i18n';
+import SupportLangPicker from './SupportLangPicker';
 
 const styles = theme => ({
   mainContainer: {
@@ -81,6 +84,7 @@ const styles = theme => ({
     fontSize: '3em'
   },
   sectionContainer: {
+    paddingBottom: 20,
     maxWidth: '100%',
     width: '900px',
     marginLeft: 'auto',
@@ -131,6 +135,7 @@ const CollectionView = ({ classes, user, history }) => {
     t,
     i18n: { language }
   } = useTranslation();
+  const [lang, setLang] = useState(getLanguageByCode(language));
 
   const collectionTypeOptions = [
     {
@@ -152,7 +157,6 @@ const CollectionView = ({ classes, user, history }) => {
   const slugUpperCase = !!slug && slug.toUpperCase();
 
   const handleGoArticle = articleId => {
-    console.log('Go');
     history.push(`/article/${articleId}`);
   };
 
@@ -174,14 +178,14 @@ const CollectionView = ({ classes, user, history }) => {
         []
       );
 
-      getArticles(user, null, slugUpperCase, 'en_US', [])
-        .then(response => {
-          const data = _.get(response, 'data.data.listArticles', []);
+      getArticles(user, null, slugUpperCase, lang, [])
+        .then(res => {
+          const data = _.get(res, 'data.data.listArticles', []);
           const selectedCollection = collectionTypes.find(
             el => el.code === slugUpperCase
           );
           const { icon, label } = collectionTypeOptions.find(
-            type => type.value == slugUpperCase
+            type => type.value === slugUpperCase
           );
           const updatedCollection = {
             ...selectedCollection,
@@ -194,7 +198,7 @@ const CollectionView = ({ classes, user, history }) => {
         })
         .finally(() => setLoading(false));
     });
-  }, []);
+  }, [lang]);
 
   const navigationOptions = [
     { label: t('views.support.allCollections'), link: '/support' },
@@ -215,6 +219,14 @@ const CollectionView = ({ classes, user, history }) => {
               <Typography variant="h6" className={classes.headerMetaText}>
                 {t('views.support.metaTitle')}
               </Typography>
+              <SupportLangPicker
+                language={lang}
+                setLanguage={lng => {
+                  i18n.changeLanguage(lng);
+                  localStorage.setItem('language', lng);
+                  setLang(getLanguageByCode(lng));
+                }}
+              />
             </div>
             <div className={classes.search}>
               <Paper className={classes.paperRoot}>

@@ -119,17 +119,19 @@
       "allCollections": "Todas las colecciones",
       "noArticles": "Sin articulos",
       "addArticle": "Agregar un articulo",
-      "article": "Article",
+      "article": "Articulo",
+      "editButton": "EDITAR",
+      "deleteButton": "BORRAR",
       "collections": {
         "generalDescription": "Preguntas generales sobre el Semáforo de Eliminación de Pobreza",
         "webDescription": "Artículos generales sobre como usar la plataforma",
         "appDescription": "Artículos de soporte sobre la aplicación Stoplight Mobile"
       },
       "form": {
-        "title": "Article title",
-        "subtitle": "Add a description for your article",
-        "active": "Publish this article",
-        "content": "Start writing your content..."
+        "title": "Titulo del articulo",
+        "subtitle": "Agregar una descripcion para el articulo",
+        "active": "Publicar el articulo",
+        "content": "Comenzar a escribir tu contenido..."
       }
     },
     "families": "Familias",

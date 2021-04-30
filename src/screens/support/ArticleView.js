@@ -8,8 +8,15 @@ import Container from '../../components/Container';
 import { getArticleById } from '../../api';
 import { useParams } from 'react-router';
 import * as _ from 'lodash';
-
+import moment from 'moment';
+import { getDateFormatByLocale } from '../../utils/date-utils';
+import Grid from '@material-ui/core/Grid';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import NavigationBar from '../../components/NavigationBar';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const styles = theme => ({
   mainContainer: {
@@ -50,7 +57,8 @@ const styles = theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    paddingBottom: 20
   },
   detailContainer: {
     padding: 60,
@@ -61,6 +69,9 @@ const styles = theme => ({
     marginBottom: 10,
     width: '100%'
   },
+  description: {
+    color: theme.palette.grey.main
+  },
   content: {
     maxWidth: '100%',
     width: 900,
@@ -70,6 +81,31 @@ const styles = theme => ({
   navigationContainer: {
     paddingTop: 20,
     paddingBottom: 20
+  },
+  createdAt: {
+    color: '#626262'
+  },
+  createdAtSub: {
+    color: theme.palette.text.light
+  },
+  actionIcon: {
+    padding: 0,
+    paddingBottom: 6,
+    color: theme.palette.grey.middle,
+    width: 30
+  },
+  actionButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      justifyContent: 'flex-end'
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      justifyContent: 'flex-end'
+    }
   }
 });
 
@@ -82,11 +118,15 @@ const ArticleView = ({ classes, user }) => {
     i18n: { language }
   } = useTranslation();
 
+  const dateFormat = getDateFormatByLocale(language);
+
+  const showButtons = ({ role }) =>
+    role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
+
   useEffect(() => {
     setLoading(true);
     getArticleById(user, id)
       .then(response => {
-        console.log('r', response);
         const data = _.get(response, 'data.data.getArticleById', {});
         setArticle(data);
       })
@@ -129,9 +169,61 @@ const ArticleView = ({ classes, user }) => {
           <Typography variant="h4" className={classes.label}>
             {article.title}
           </Typography>
-          <Typography variant="h6" className={classes.label}>
+          <Typography
+            variant="h6"
+            className={[classes.label, classes.description]}
+          >
             {article.description}
           </Typography>
+          <Grid container style={{ justifyContent: 'space-between' }}>
+            <Grid
+              item
+              lg={9}
+              md={9}
+              sm={9}
+              xs={12}
+              container
+              style={{
+                justifyContent: 'flex-start'
+              }}
+            >
+              <Typography variant="subtitle2" className={classes.createdAt}>
+                <span className={classes.createdAtSub}>
+                  {t('views.support.createdAt')}
+                </span>{' '}
+                {moment(article.createdAt).format(dateFormat)}
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={3}
+              xs={12}
+              container
+              style={{
+                alignItems: 'flex-end',
+                justifyContent: 'flex-end'
+              }}
+            >
+              {showButtons(user) && (
+                <div className={classes.actionButtons}>
+                  <Tooltip title={t('views.support.deleteButton')}>
+                    <Button className={classes.actionIcon} onClick={() => {}}>
+                      <DeleteIcon />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title={t('views.support.editButton')}>
+                    <Button className={classes.actionIcon} onClick={() => {}}>
+                      <EditIcon />
+                    </Button>
+                  </Tooltip>
+                </div>
+              )}
+            </Grid>
+          </Grid>
+
+          <div className={classes.buttonsContainer}></div>
           <div
             id="content"
             className={classes.defaultContentRich}

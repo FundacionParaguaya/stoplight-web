@@ -1551,7 +1551,7 @@ export const getArticleById = (user, id) =>
       query:
         'query getArticleById($id: Long) { getArticleById(id: $id) { id title description contentRich contentText collection lang published createdAt} }',
       variables: {
-        id: id
+        id
       }
     })
   });
