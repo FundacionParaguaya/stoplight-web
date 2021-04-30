@@ -17,6 +17,11 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import NavigationBar from '../../components/NavigationBar';
 import { ROLES_NAMES } from '../../utils/role-utils';
+import ConfirmationModal from '../../components/ConfirmationModal';
+import { deleteArticleById } from '../../api';
+import { withSnackbar } from 'notistack';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
   mainContainer: {
@@ -109,9 +114,16 @@ const styles = theme => ({
   }
 });
 
-const ArticleView = ({ classes, user }) => {
+const ArticleView = ({
+  classes,
+  user,
+  enqueueSnackbar,
+  closeSnackbar,
+  history
+}) => {
   const { id } = useParams();
   const [article, setArticle] = useState({});
+  const [openConfirmationModal, setConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const {
     t,
@@ -122,6 +134,37 @@ const ArticleView = ({ classes, user }) => {
 
   const showButtons = ({ role }) =>
     role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
+
+  const toggleConfirmationModal = () =>
+    setConfirmationModal(!openConfirmationModal);
+
+  const confirmDeleteAction = () => {
+    setLoading(true);
+    deleteArticleById(user, id)
+      .then(() => {
+        enqueueSnackbar(t('views.support.delete.success'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        history.push('/support');
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.support.delete.failed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -209,7 +252,10 @@ const ArticleView = ({ classes, user }) => {
               {showButtons(user) && (
                 <div className={classes.actionButtons}>
                   <Tooltip title={t('views.support.deleteButton')}>
-                    <Button className={classes.actionIcon} onClick={() => {}}>
+                    <Button
+                      className={classes.actionIcon}
+                      onClick={toggleConfirmationModal}
+                    >
                       <DeleteIcon />
                     </Button>
                   </Tooltip>
@@ -231,6 +277,16 @@ const ArticleView = ({ classes, user }) => {
           ></div>
         </div>
       </div>
+      <ConfirmationModal
+        title={t('views.support.delete.confirmTitle')}
+        subtitle={t('views.support.delete.confirmText')}
+        cancelButtonText={t('general.no')}
+        continueButtonText={t('general.yes')}
+        onClose={toggleConfirmationModal}
+        disabledFacilitator={loading}
+        open={openConfirmationModal}
+        confirmAction={confirmDeleteAction}
+      />
     </div>
   );
 };
@@ -238,5 +294,5 @@ const ArticleView = ({ classes, user }) => {
 const mapStateToProps = ({ user }) => ({ user });
 
 export default withStyles(styles)(
-  connect(mapStateToProps)(withLayout(ArticleView))
+  connect(mapStateToProps)(withSnackbar(withLayout(ArticleView)))
 );

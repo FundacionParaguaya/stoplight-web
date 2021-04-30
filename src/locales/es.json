@@ -132,6 +132,13 @@
         "subtitle": "Agregar una descripcion para el articulo",
         "active": "Publicar el articulo",
         "content": "Comenzar a escribir tu contenido..."
+      },
+      "delete": {
+        "confirmTitle": "Confirmar borrado",
+        "confirmText": "¿Está seguro de que desea eliminar este artículo?",
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "success": "Artículo eliminado correctamente ",
+        "failed": "No se pudo borrar el artículo"
       }
     },
     "families": "Familias",

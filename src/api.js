@@ -1556,6 +1556,24 @@ export const getArticleById = (user, id) =>
     })
   });
 
+export const deleteArticleById = (user, id) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteArticle($article: HelpArticleModelInput) {deleteArticle (article: $article){ successful }}',
+      variables: {
+        article: {
+          id
+        }
+      }
+    })
+  });
+
 export const saveOrUpdateArticle = (user, values) => {
   if (!values.id) {
     return axios({
