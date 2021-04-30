@@ -115,9 +115,11 @@
       "search": "Search for articles...",
       "countArticles": "articles in this collection",
       "writeBy": "Written by",
+      "createdAt": "Created at",
       "team": " Stoplight Team",
       "allCollections": "All collections",
       "noArticles": "No articles",
+      "addArticle": "Add a article",
       "article": "Article",
       "collections": {
         "generalDescription": "General Questions about the Poverty Stoplight",

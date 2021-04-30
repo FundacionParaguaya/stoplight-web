@@ -30,21 +30,32 @@ const useStyles = makeStyles(theme => ({
     objectFit: 'cover',
     marginRight: '10px'
   },
+  menuLinkTextLigth: {
+    fontWeight: 500,
+    position: 'relative',
+    color: theme.palette.background.default
+  },
   menuLinkText: {
     fontWeight: 500,
-    position: 'relative'
+    position: 'relative',
+    color: theme.palette.text.light
   },
   tooltip: {
     zIndex: 14
   },
+  rightIconLigth: {
+    marginLeft: theme.spacing(0.5),
+    color: theme.palette.background.default,
+    position: 'relative'
+  },
   rightIcon: {
     marginLeft: theme.spacing(0.5),
-    color: theme.palette.text.primary,
-    position: 'relative'
+    position: 'relative',
+    color: theme.palette.text.light
   }
 }));
 
-const SupportLangPicker = ({ setLanguage, language }) => {
+const SupportLangPicker = ({ setLanguage, language, darkText }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -91,12 +102,16 @@ const SupportLangPicker = ({ setLanguage, language }) => {
         <Typography
           variant="subtitle1"
           align="center"
-          className={classes.menuLinkText}
+          className={
+            darkText ? classes.menuLinkText : classes.menuLinkTextLigth
+          }
         >
           {language === 'en' && 'English'}
           {language === 'es' && 'Español'}
         </Typography>
-        <KeyboardArrowDown className={classes.rightIcon} />
+        <KeyboardArrowDown
+          className={darkText ? classes.rightIcon : classes.rightIconLigth}
+        />
       </Button>
       <Popper
         className={classes.tooltip}

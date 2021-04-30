@@ -108,6 +108,30 @@
       "skipped": "Omitidas",
       "yourProgress": "Tu progreso"
     },
+    "support": {
+      "metaTitle": "Soporte del Semáforo",
+      "headerTitle": "Consejos y respuestas del Equipo de Poverty Stoplight Platform",
+      "search": "Buscar por articulos...",
+      "countArticles": "articulos en esta colección",
+      "createdAt": "Creado el",
+      "writeBy": "Escrito por",
+      "team": " Stoplight Team",
+      "allCollections": "Todas las colecciones",
+      "noArticles": "Sin articulos",
+      "addArticle": "Agregar un articulo",
+      "article": "Article",
+      "collections": {
+        "generalDescription": "Preguntas generales sobre el Semáforo de Eliminación de Pobreza",
+        "webDescription": "Artículos generales sobre como usar la plataforma",
+        "appDescription": "Artículos de soporte sobre la aplicación Stoplight Mobile"
+      },
+      "form": {
+        "title": "Article title",
+        "subtitle": "Add a description for your article",
+        "active": "Publish this article",
+        "content": "Start writing your content..."
+      }
+    },
     "families": "Familias",
     "createLifemap": "Crear un Mapa de Vida",
     "latestDrafts": "Últimas instantáneas",

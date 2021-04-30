@@ -18,6 +18,7 @@ import Paper from '@material-ui/core/Paper';
 import { getArticles, getCollectionTypes } from '../../api';
 import * as _ from 'lodash';
 import NavigationBar from '../../components/NavigationBar';
+import ArticleList from './ArticlesList';
 
 const styles = theme => ({
   mainContainer: {
@@ -79,9 +80,6 @@ const styles = theme => ({
   icon: {
     fontSize: '3em'
   },
-  sectionHeader: {
-    flex: 1
-  },
   sectionContainer: {
     maxWidth: '100%',
     width: '900px',
@@ -118,6 +116,9 @@ const styles = theme => ({
   container: {
     paddingLeft: 20,
     paddingRight: 20
+  },
+  cardBodySubText: {
+    color: theme.palette.text.light
   }
 });
 
@@ -152,7 +153,16 @@ const CollectionView = ({ classes, user, history }) => {
 
   const handleGoArticle = articleId => {
     console.log('Go');
-    history.push(`/articles/${articleId}`);
+    history.push(`/article/${articleId}`);
+  };
+
+  const onChangeSearchFilter = e => {
+    if (e.key === 'Enter') {
+      history.push({
+        pathname: `/support`,
+        search: `q=${e.target.value}`
+      });
+    }
   };
 
   useEffect(() => {
@@ -216,6 +226,7 @@ const CollectionView = ({ classes, user, history }) => {
                   classes={{
                     input: classes.searchInput
                   }}
+                  onKeyDown={e => onChangeSearchFilter(e)}
                 />
               </Paper>
             </div>
@@ -254,40 +265,10 @@ const CollectionView = ({ classes, user, history }) => {
               </Grid>
             </div>
             <NavigationBar options={navigationOptions} />
-            {articles.map(article => {
-              return (
-                <Paper
-                  key={article.id}
-                  variant="outlined"
-                  elevation={3}
-                  className={classes.sectionCard}
-                  onClick={() => handleGoArticle(article.id)}
-                >
-                  <div>
-                    <Typography
-                      variant="h5"
-                      color="primary"
-                      className={classes.cardTitle}
-                    >
-                      {article.title}
-                    </Typography>
-                    <Typography variant="h6" className={classes.cardSubtitle}>
-                      {article.subtitle}
-                    </Typography>
-
-                    <Typography
-                      variant="subtitle2"
-                      className={classes.cardBodyText}
-                    >
-                      <span className={classes.cardBodySubText}>
-                        {t('views.support.writeBy')}
-                      </span>{' '}
-                      {t('views.support.team')}
-                    </Typography>
-                  </div>
-                </Paper>
-              );
-            })}
+            <ArticleList
+              articles={articles}
+              handleGoArticle={handleGoArticle}
+            />
             {articles.length === 0 && (
               <Typography variant="h6" className={classes.emptyCollection}>
                 {t('views.support.noArticles')}

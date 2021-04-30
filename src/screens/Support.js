@@ -20,6 +20,14 @@ import { Grid } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
 import { getArticles, getCollectionTypes } from '../api';
 import * as _ from 'lodash';
+import SupportLangPicker from './support/SupportLangPicker';
+import i18n from '../i18n';
+import Button from '@material-ui/core/Button';
+import { ROLES_NAMES } from '../utils/role-utils';
+import { useLocation } from 'react-router-dom';
+
+import { getLanguageByCode } from '../utils/lang-utils';
+import ArticlesList from './support/ArticlesList';
 
 const styles = theme => ({
   titleContainer: {
@@ -119,8 +127,33 @@ const styles = theme => ({
     bottom: 0,
     top: 0,
     left: 0
+  },
+  button: {
+    height: 39,
+    marginBottom: 20
+  },
+  secondaryButton: {
+    width: 300,
+    height: 34,
+    marginBottom: 20
+  },
+  buttonContainer: {
+    display: 'flex',
+    paddingTop: 20,
+    justifyContent: 'flex-end'
+  },
+  secondaryButtonContainer: {
+    display: 'flex',
+    paddingTop: 20,
+    justifyContent: 'center'
+  },
+  emptyCollection: {
+    fontSize: 16,
+    marginTop: 10
   }
 });
+
+const useQuery = () => new URLSearchParams(useLocation().search);
 
 const Support = ({ classes, user, history }) => {
   const {
@@ -128,8 +161,13 @@ const Support = ({ classes, user, history }) => {
     i18n: { language }
   } = useTranslation();
 
-  const [collections, setCollectios] = useState([]);
+  const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [lang, setLang] = useState(getLanguageByCode(language));
+
+  const [articles, setArticles] = useState([]);
+  const query = useQuery();
+  const getQuery = query.get('q');
 
   const collectionTypeOptions = [
     {
@@ -149,52 +187,81 @@ const Support = ({ classes, user, history }) => {
     }
   ];
 
-  const loadArticles = () => {
-    getArticles(user, '', '', 'en_US', []).then(response => {
-      console.log('Response', response);
-    });
-  };
-
   const handleGoCollection = collection => {
     const transformedSlug = collection.toLowerCase();
     history.push(`/collection/${transformedSlug}`);
   };
 
-  useEffect(() => {
-    let updatedCollections = [];
-    setLoading(true);
-    getCollectionTypes(user, language)
-      .then(response => {
-        const collectionTypes = _.get(
-          response,
-          'data.data.listArticlesTypes',
-          []
-        );
+  const goToForm = () => history.push(`/articles/create`);
 
-        getArticles(user, null, '', 'en_US', [])
-          .then(response => {
-            const articles = _.get(response, 'data.data.listArticles', []);
-            updatedCollections = collectionTypes.map(collection => {
-              const countArticles = articles.filter(
-                article => article.collection == collection.code
-              ).length;
-              const { icon, label } = collectionTypeOptions.find(
-                type => type.value == collection.code
-              );
-              return {
-                ...collection,
-                countArticles: countArticles,
-                icon,
-                subtitle: label
-              };
-            });
-            setCollectios(updatedCollections);
-          })
-          .finally(() => setLoading(false));
-      })
-      .finally(() => setLoading(false));
-    loadArticles();
-  }, []);
+  const goToSupport = () => history.push(`/support`);
+
+  const onChangeSearchFilter = e => {
+    if (e.key === 'Enter') {
+      if (!!e.target.value) {
+        history.push({
+          pathname: `/support`,
+          search: `q=${e.target.value}`
+        });
+      } else {
+        history.push('/support');
+      }
+    }
+  };
+
+  const handleGoArticle = articleId => {
+    history.push(`/article/${articleId}`);
+  };
+
+  const showCreateArticle = ({ role }) =>
+    role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
+
+  useEffect(() => {
+    if (getQuery !== '' && getQuery !== 0 && getQuery !== null) {
+      setLoading(true);
+      getArticles(user, getQuery, '', lang, [])
+        .then(res => {
+          const data = _.get(res, 'data.data.listArticles', []);
+          setArticles(data);
+          setCollections([]);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      let updatedCollections = [];
+      setLoading(true);
+      getCollectionTypes(user, lang)
+        .then(response => {
+          const collectionTypes = _.get(
+            response,
+            'data.data.listArticlesTypes',
+            []
+          );
+
+          getArticles(user, null, '', lang, [])
+            .then(res => {
+              const data = _.get(res, 'data.data.listArticles', []);
+              updatedCollections = collectionTypes.map(collection => {
+                const countArticles = data.filter(
+                  article => article.collection === collection.code
+                ).length;
+                const { icon, label } = collectionTypeOptions.find(
+                  type => type.value === collection.code
+                );
+                return {
+                  ...collection,
+                  countArticles,
+                  icon,
+                  subtitle: label
+                };
+              });
+              setCollections(updatedCollections);
+              setArticles([]);
+            })
+            .finally(() => setLoading(false));
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [getQuery, lang]);
   return (
     <div className={classes.mainContainer}>
       {loading && (
@@ -209,6 +276,14 @@ const Support = ({ classes, user, history }) => {
               <Typography variant="h6" className={classes.headerMetaText}>
                 {t('views.support.metaTitle')}
               </Typography>
+              <SupportLangPicker
+                language={lang}
+                setLanguage={lng => {
+                  i18n.changeLanguage(lng);
+                  localStorage.setItem('language', lng);
+                  setLang(getLanguageByCode(lng));
+                }}
+              />
             </div>
             <Typography variant="subtitle2" className={classes.titleStyle}>
               {t('views.support.headerTitle')}
@@ -223,6 +298,7 @@ const Support = ({ classes, user, history }) => {
                   classes={{
                     input: classes.searchInput
                   }}
+                  onKeyDown={onChangeSearchFilter}
                 />
               </Paper>
             </div>
@@ -232,6 +308,18 @@ const Support = ({ classes, user, history }) => {
       <div className={classes.bodyContainer}>
         <div className={classes.container}>
           <div className={classes.sectionContainer}>
+            {showCreateArticle(user) && (
+              <div className={classes.buttonContainer}>
+                <Button
+                  variant="contained"
+                  onClick={goToForm}
+                  className={classes.button}
+                >
+                  {t('views.support.addArticle')}
+                </Button>
+              </div>
+            )}
+
             {collections.map(collection => {
               return (
                 <Paper
@@ -277,6 +365,34 @@ const Support = ({ classes, user, history }) => {
                 </Paper>
               );
             })}
+            <ArticlesList
+              articles={articles}
+              handleGoArticle={handleGoArticle}
+            />
+            {getQuery !== '' &&
+              getQuery !== 0 &&
+              getQuery !== null &&
+              articles.length === 0 && (
+                <>
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    className={classes.emptyCollection}
+                  >
+                    {t('views.support.noArticles')}
+                  </Typography>
+                  <div className={classes.secondaryButtonContainer}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={goToSupport}
+                      className={classes.secondaryButton}
+                    >
+                      {t('views.support.allCollections')}
+                    </Button>
+                  </div>
+                </>
+              )}
           </div>
         </div>
       </div>

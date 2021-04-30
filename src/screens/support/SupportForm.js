@@ -278,6 +278,7 @@ const SupportForm = ({ user }) => {
                   //className={classes.switch}
                 >
                   <SupportLangPicker
+                    darkText
                     language={values.language}
                     setLanguage={lang => {
                       setFieldValue('language', lang);

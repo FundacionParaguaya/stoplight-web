@@ -197,7 +197,7 @@ const Routes = ({ user }) => {
             <Route exact path="/support" component={Support} />
           )}
           {checkAccess(user, 'support') && (
-            <Route path="/articles/:id" component={ArticleView} />
+            <Route path="/article/:id" component={ArticleView} />
           )}
           {checkAccess(user, 'support') && (
             <Route path="/articles/create" component={SupportForm} />

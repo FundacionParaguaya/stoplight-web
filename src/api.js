@@ -13,7 +13,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'http://localhost:8080'
+  development: 'https://testing.backend.povertystoplight.org'
 };
 
 // list of enviroments urls
@@ -1549,7 +1549,7 @@ export const getArticleById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getArticleById($id: Long) { getArticleById(id: $id) { id title description contentRich contentText collection lang published } }',
+        'query getArticleById($id: Long) { getArticleById(id: $id) { id title description contentRich contentText collection lang published createdAt} }',
       variables: {
         id: id
       }
@@ -1855,12 +1855,12 @@ export const getArticles = (user, filter, collection, lang, tags) =>
     },
     data: JSON.stringify({
       query:
-        'query listArticles($filter: String, $collection: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, collection: $collection, lang: $lang, tags: $tags) { id title description collection} }',
+        'query listArticles($filter: String, $collection: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, collection: $collection, lang: $lang, tags: $tags) { id title description createdAt collection} }',
       variables: {
-        filter: filter,
-        collection: collection,
-        lang: lang,
-        tags: tags
+        filter,
+        collection,
+        lang: normalizeLang(lang),
+        tags
       }
     })
   });
