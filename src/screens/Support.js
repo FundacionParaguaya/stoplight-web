@@ -14,8 +14,6 @@ import { useTranslation } from 'react-i18next';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Paper from '@material-ui/core/Paper';
-import Card from '@material-ui/core/Card';
-import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { Grid } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
 import { getArticles, getCollectionTypes } from '../api';
@@ -28,6 +26,8 @@ import { useLocation } from 'react-router-dom';
 
 import { getLanguageByCode } from '../utils/lang-utils';
 import ArticlesList from './support/ArticlesList';
+import { withSnackbar } from 'notistack';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
   titleContainer: {
@@ -156,7 +156,13 @@ const styles = theme => ({
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
-const Support = ({ classes, user, history }) => {
+const Support = ({
+  classes,
+  user,
+  history,
+  enqueueSnackbar,
+  closeSnackbar
+}) => {
   const {
     t,
     i18n: { language }
@@ -226,6 +232,17 @@ const Support = ({ classes, user, history }) => {
           setArticles(data);
           setCollections([]);
         })
+        .catch(e => {
+          console.log(e);
+          enqueueSnackbar(t('views.support.failedRequest'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+        })
         .finally(() => setLoading(false));
     } else {
       let updatedCollections = [];
@@ -258,7 +275,29 @@ const Support = ({ classes, user, history }) => {
               setCollections(updatedCollections);
               setArticles([]);
             })
+            .catch(e => {
+              console.log(e);
+              enqueueSnackbar(t('views.support.failedRequest'), {
+                variant: 'error',
+                action: key => (
+                  <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                    <CloseIcon style={{ color: 'white' }} />
+                  </IconButton>
+                )
+              });
+            })
             .finally(() => setLoading(false));
+        })
+        .catch(e => {
+          console.log(e);
+          enqueueSnackbar(t('views.support.failedRequest'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
         })
         .finally(() => setLoading(false));
     }
@@ -404,5 +443,7 @@ const Support = ({ classes, user, history }) => {
 const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(
-  withStyles(styles)(connect(mapStateToProps)(withLayout(Support)))
+  withStyles(styles)(
+    connect(mapStateToProps)(withSnackbar(withLayout(Support)))
+  )
 );

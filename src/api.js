@@ -13,7 +13,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'https://testing.backend.povertystoplight.org'
+  development: 'http://localhost:8000'
 };
 
 // list of enviroments urls
@@ -1598,7 +1598,6 @@ export const saveOrUpdateArticle = (user, values) => {
       })
     });
   } else {
-    console.log('entro a editar');
     return axios({
       method: 'post',
       url: `${url[user.env]}/graphql`,

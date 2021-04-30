@@ -17,6 +17,9 @@ import * as Yup from 'yup';
 import { saveOrUpdateArticle, getArticleById } from '../../api';
 import { useParams } from 'react-router-dom';
 import * as _ from 'lodash';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const inputStyle = {
   height: 25,
@@ -113,11 +116,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SupportForm = ({ user }) => {
-  const {
-    t,
-    i18n: { language }
-  } = useTranslation();
+const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const classes = useStyles();
   const [plainContent, setPlainContent] = useState('');
@@ -141,37 +141,74 @@ const SupportForm = ({ user }) => {
 
   const onSubmit = values => {
     setLoading(true);
+    let redirectId;
     saveOrUpdateArticle(user, values)
       .then(response => {
-        console.log(response);
+        redirectId = !!id ? id : response.data.data.createArticle.id;
+        enqueueSnackbar(t('views.support.form.save.success'), {
+          variant: 'success',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .catch(() => {
+        enqueueSnackbar(t('views.support.form.failed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
       })
       .finally(() => {
-        setLoading(false);
+        history.push(`/article/${redirectId}`);
       });
+  };
+
+  const canEdit = ({ role }) => {
+    return role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM;
   };
 
   useEffect(() => {
     if (!!id) {
       setLoading(true);
-      getArticleById(user, id).then(response => {
-        console.log(response);
-        const fetchedArticle = _.get(response, 'data.data.getArticleById', {});
-        console.log('article', fetchedArticle);
+      getArticleById(user, id)
+        .then(response => {
+          if (!canEdit(user)) throw new Error();
+          const fetchedArticle = _.get(
+            response,
+            'data.data.getArticleById',
+            {}
+          );
+          const updatedArticle = {
+            ...fetchedArticle,
+            collection: {
+              label: fetchedArticle.collection,
+              value: fetchedArticle.collection
+            },
+            lang: fetchedArticle.lang.split('_')[0]
+          };
 
-        const updatedArticle = {
-          ...fetchedArticle,
-          collection: {
-            label: fetchedArticle.collection,
-            value: fetchedArticle.collection
-          },
-          lang: fetchedArticle.lang.split('_')[0]
-        };
-        console.log('for edit', updatedArticle);
-
-        setArticle(updatedArticle);
-        setPlainContent(fetchedArticle.contentText);
-        setLoading(false);
-      });
+          setArticle(updatedArticle);
+          setPlainContent(fetchedArticle.contentText);
+          setLoading(false);
+        })
+        .catch(e => {
+          console.error(e);
+          enqueueSnackbar(t('views.support.form.userNotAllowed'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+          history.push('/support');
+        });
     }
   }, []);
   return (
@@ -278,7 +315,7 @@ const SupportForm = ({ user }) => {
                   //className={classes.switch}
                 >
                   <SupportLangPicker
-                    darkText
+                    primaryStyle
                     language={values.language}
                     setLanguage={lang => {
                       setFieldValue('language', lang);

@@ -11,8 +11,6 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 import React, { useState } from 'react';
 import englishLogo from '../../assets/english.png';
 import paragLogo from '../../assets/paraguay.png';
-import portugueseLogo from '../../assets/portuguese.png';
-import creoleLogo from '../../assets/creole.png';
 
 const useStyles = makeStyles(theme => ({
   menuList: {
@@ -55,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SupportLangPicker = ({ setLanguage, language, darkText }) => {
+const SupportLangPicker = ({ setLanguage, language, primaryStyle }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -103,14 +101,14 @@ const SupportLangPicker = ({ setLanguage, language, darkText }) => {
           variant="subtitle1"
           align="center"
           className={
-            darkText ? classes.menuLinkText : classes.menuLinkTextLigth
+            primaryStyle ? classes.menuLinkText : classes.menuLinkTextLigth
           }
         >
           {language === 'en' && 'English'}
           {language === 'es' && 'Español'}
         </Typography>
         <KeyboardArrowDown
-          className={darkText ? classes.rightIcon : classes.rightIconLigth}
+          className={primaryStyle ? classes.rightIcon : classes.rightIconLigth}
         />
       </Button>
       <Popper

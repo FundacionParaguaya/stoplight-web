@@ -22,6 +22,8 @@ import ArticleList from './ArticlesList';
 import { getLanguageByCode } from '../../utils/lang-utils';
 import i18n from '../../i18n';
 import SupportLangPicker from './SupportLangPicker';
+import { withSnackbar } from 'notistack';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
   mainContainer: {
@@ -126,7 +128,13 @@ const styles = theme => ({
   }
 });
 
-const CollectionView = ({ classes, user, history }) => {
+const CollectionView = ({
+  classes,
+  user,
+  history,
+  enqueueSnackbar,
+  closeSnackbar
+}) => {
   const { slug } = useParams();
   const [loading, setLoading] = useState(false);
   const [collection, setCollection] = useState({});
@@ -171,33 +179,57 @@ const CollectionView = ({ classes, user, history }) => {
 
   useEffect(() => {
     setLoading(true);
-    getCollectionTypes(user, language).then(response => {
-      const collectionTypes = _.get(
-        response,
-        'data.data.listArticlesTypes',
-        []
-      );
+    getCollectionTypes(user, language)
+      .then(response => {
+        const collectionTypes = _.get(
+          response,
+          'data.data.listArticlesTypes',
+          []
+        );
 
-      getArticles(user, null, slugUpperCase, lang, [])
-        .then(res => {
-          const data = _.get(res, 'data.data.listArticles', []);
-          const selectedCollection = collectionTypes.find(
-            el => el.code === slugUpperCase
-          );
-          const { icon, label } = collectionTypeOptions.find(
-            type => type.value === slugUpperCase
-          );
-          const updatedCollection = {
-            ...selectedCollection,
-            icon,
-            subtitle: label,
-            countArticles: data.length
-          };
-          setCollection(updatedCollection);
-          setArticles(data);
-        })
-        .finally(() => setLoading(false));
-    });
+        getArticles(user, null, slugUpperCase, lang, [])
+          .then(res => {
+            const data = _.get(res, 'data.data.listArticles', []);
+            const selectedCollection = collectionTypes.find(
+              el => el.code === slugUpperCase
+            );
+            const { icon, label } = collectionTypeOptions.find(
+              type => type.value === slugUpperCase
+            );
+            const updatedCollection = {
+              ...selectedCollection,
+              icon,
+              subtitle: label,
+              countArticles: data.length
+            };
+            setCollection(updatedCollection);
+            setArticles(data);
+          })
+          .catch(e => {
+            console.log(e);
+            enqueueSnackbar(t('views.support.failedRequest'), {
+              variant: 'error',
+              action: key => (
+                <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                  <CloseIcon style={{ color: 'white' }} />
+                </IconButton>
+              )
+            });
+          })
+          .finally(() => setLoading(false));
+      })
+      .catch(e => {
+        console.log(e);
+        enqueueSnackbar(t('views.support.failedRequest'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+      })
+      .finally(() => setLoading(false));
   }, [lang]);
 
   const navigationOptions = [
@@ -296,5 +328,7 @@ const CollectionView = ({ classes, user, history }) => {
 const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(
-  withStyles(styles)(connect(mapStateToProps)(withLayout(CollectionView)))
+  withStyles(styles)(
+    connect(mapStateToProps)(withSnackbar(withLayout(CollectionView)))
+  )
 );

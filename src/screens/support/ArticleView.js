@@ -260,7 +260,12 @@ const ArticleView = ({
                     </Button>
                   </Tooltip>
                   <Tooltip title={t('views.support.editButton')}>
-                    <Button className={classes.actionIcon} onClick={() => {}}>
+                    <Button
+                      className={classes.actionIcon}
+                      onClick={() => {
+                        history.push(`/articles/edit/${id}`);
+                      }}
+                    >
                       <EditIcon />
                     </Button>
                   </Tooltip>

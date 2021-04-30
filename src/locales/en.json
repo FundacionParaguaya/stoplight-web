@@ -123,6 +123,7 @@
       "article": "Article",
       "editButton": "EDIT",
       "deleteButton": "DELETE",
+      "failRequest": "There is a error in the request",
       "collections": {
         "generalDescription": "General Questions about the Poverty Stoplight",
         "webDescription": "General articles about using the Poverty Stoplight Platform",
@@ -132,7 +133,12 @@
         "title": "Article title",
         "subtitle": "Add a description for your article",
         "active": "Publish this article",
-        "content": "Start writing your content..."
+        "content": "Start writing your content...",
+        "userNotAllowed": "Operation not allowed",
+        "save": {
+          "success": "Article saved successfully",
+          "failed": "Could not save article"
+        }
       },
       "delete": {
         "confirmTitle": "Confirm Deletion",

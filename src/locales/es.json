@@ -122,6 +122,7 @@
       "article": "Articulo",
       "editButton": "EDITAR",
       "deleteButton": "BORRAR",
+      "failRequest": "Hubo un error en la consulta",
       "collections": {
         "generalDescription": "Preguntas generales sobre el Semáforo de Eliminación de Pobreza",
         "webDescription": "Artículos generales sobre como usar la plataforma",
@@ -131,7 +132,12 @@
         "title": "Titulo del articulo",
         "subtitle": "Agregar una descripcion para el articulo",
         "active": "Publicar el articulo",
-        "content": "Comenzar a escribir tu contenido..."
+        "content": "Comenzar a escribir tu contenido...",
+        "userNotAllowed": "Operación no permitida",
+        "save": {
+          "success": "Articulo guardado exitosamente",
+          "failed": "No es posible guardar el articulo"
+        }
       },
       "delete": {
         "confirmTitle": "Confirmar borrado",

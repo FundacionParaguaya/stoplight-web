@@ -243,16 +243,15 @@ const Header = ({ path, updateUser, user }) => {
         {/* Extra Buttons */}
         <div className={classes.extraButtons}>
           {showFullNavbar && (
-            <a
-              style={{ color: 'white' }}
-              href="https://intercom.help/poverty-stoplight"
-              target="_blank"
-              rel="noopener noreferrer"
+            <NavLink
+              style={{ textDecoration: 'none' }}
+              to={'/support'}
+              key="support"
             >
               <Typography variant="subtitle1" className={classes.menuLinkText}>
                 {t('views.toolbar.support')}
               </Typography>
-            </a>
+            </NavLink>
           )}
           <Button
             buttonRef={node => {
