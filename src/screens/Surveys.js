@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withTranslation } from 'react-i18next';
-import { Grid, Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
-import { updateUser, updateSurvey, updateDraft } from '../redux/actions';
+import { updateDraft, updateSurvey, updateUser } from '../redux/actions';
 import { surveysByUserPaginated } from '../api';
 import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
@@ -16,9 +16,12 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import { ROLES_NAMES } from '../utils/role-utils';
 import withLayout from '../components/withLayout';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import AssignModal from './surveys/AssignModal';
 import SearchTextFilter from '../components/filters/SearchTextFilter';
+import SurveyDeleteModal from './surveys/SurveyDeleteModal';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const Surveys = ({ classes, t, user, i18n: { language } }) => {
   const [surveys, setSurveys] = useState([]);
@@ -31,6 +34,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     totalPages: 1,
     prevPage: 0
   });
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dateFormat = getDateFormatByLocale(language);
 
   const getSurveys = overwrite => {
@@ -82,6 +86,10 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     );
   };
 
+  const showDeleteSurveyFeature = () => {
+    return user.role === ROLES_NAMES.ROLE_ROOT;
+  };
+
   const showOrganizations = () => {
     return user.role === ROLES_NAMES.ROLE_HUB_ADMIN;
   };
@@ -108,14 +116,32 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     setSurveys(newSurveys);
   };
 
+  const removeSurvey = surveyId => {
+    const newSurveys = surveys.filter(survey => survey.id !== surveyId);
+    setSurveys(newSurveys);
+  };
+
   const onChangeFilterText = e => {
     if (e.key === 'Enter') {
       setFilter(e.target.value);
     }
   };
 
+  const toggleDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
+
   return (
     <div className={classes.mainSurveyContainerBoss}>
+      <SurveyDeleteModal
+        surveyToDelete={selectedSurvey}
+        user={user}
+        open={openDeleteModal}
+        afterSubmit={() => {
+          removeSurvey(selectedSurvey.id);
+        }}
+        toggleModal={toggleDeleteModal}
+      />
       <AssignModal
         survey={selectedSurvey}
         open={openModal}
@@ -209,22 +235,43 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                         </Typography>
                       )}
                     </div>
+                    <div className={classes.surveyCardInfo}>
+                      <div>
+                        <Typography>
+                          {t('views.survey.contains')}
+                          {': '}
+                          <span className={classes.subtitle}>
+                            {survey.indicatorsCount}{' '}
+                            {t('views.survey.indicators')}
+                          </span>
+                        </Typography>
 
-                    <Typography>
-                      {t('views.survey.contains')}
-                      {': '}
-                      <span className={classes.subtitle}>
-                        {survey.indicatorsCount} {t('views.survey.indicators')}
-                      </span>
-                    </Typography>
-
-                    <Typography className={classes.createdOn}>
-                      {t('views.survey.createdOn')}
-                      {': '}
-                      <span className={classes.subtitle}>
-                        {moment(survey.createdAt).format(dateFormat)}
-                      </span>
-                    </Typography>
+                        <Typography className={classes.createdOn}>
+                          {t('views.survey.createdOn')}
+                          {': '}
+                          <span className={classes.subtitle}>
+                            {moment(survey.createdAt).format(dateFormat)}
+                          </span>
+                        </Typography>
+                      </div>
+                      {showDeleteSurveyFeature() && (
+                        <Tooltip
+                          title={t('views.survey.delete.delete')}
+                          style={{ height: 'min-content' }}
+                        >
+                          <IconButton
+                            color="primary"
+                            component="span"
+                            onClick={() => {
+                              setSelectedSurvey(survey);
+                              setOpenDeleteModal(true);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    </div>
                   </div>
                 </Grid>
               );
@@ -233,6 +280,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
           {paginationData.page + 1 <= paginationData.totalPages && (
             <div className={classes.showMoreButtonContainer}>
               <Button
+                color="primary"
                 variant="contained"
                 aria-label="Show more"
                 className={classes.showMoreButton}
@@ -364,6 +412,12 @@ const styles = theme => ({
   },
   listContainer: {
     position: 'relative'
+  },
+  surveyCardInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 });
 

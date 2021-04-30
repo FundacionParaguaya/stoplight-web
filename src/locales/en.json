@@ -35,7 +35,8 @@
     "continueStoplight": "Continue",
     "yourStoplight": "Your Stoplight",
     "completeStoplight": "Finish Stoplight",
-    "publish": "Publish"
+    "publish": "Publish",
+    "edit": "Edit"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -182,6 +183,14 @@
       "filter": {
         "search": "Search",
         "searchBy": "by title"
+      },
+      "delete": {
+        "delete": "Delete",
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Survey?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Survey has been deleted",
+        "failed": "The Survey could not be deleted because it has associated data"
       }
     },
     "analytics": {
@@ -433,7 +442,9 @@
       "searchFamily": "Search families",
       "noSnapshotsAvailable": "There are no drafts available",
       "noMatchFilters": "No results matching your filters",
-      "loadingSnapshots": "Loading drafts..."
+      "loadingSnapshots": "Loading drafts...",
+      "delete": "Delete",
+      "deleteAll": "Delete all"
     },
     "activityFeed": {
       "by": "By",
@@ -533,8 +544,8 @@
       "search": "Search",
       "empty": "No Family to show",
       "searchFamily": "Name or Document Number",
-      "delete": "Delete Family",
-      "show": "Show Family",
+      "delete": "Delete",
+      "show": "Show",
       "rows": "Families Found",
       "moveFamily": {
         "moveOfOrg": "Move to other organization",
@@ -620,7 +631,7 @@
       "noPriorities": "This family has not selected their priorities.",
       "prioritySaved": "Priority Saved",
       "errorSaving": "Error saving Priority. Please Try again",
-      "selectIndicator": "Select a Indicator",
+      "selectIndicator": "Select an Indicator",
       "backToProfile": "Back to Family Profile",
       "addPriority": "Add Priority",
       "updatedAt": "Date of Creation",
@@ -637,7 +648,19 @@
       "indicator": "Indicator",
       "action": "What did you do to achieve this?",
       "roadmap": "Who  or what motivated to get the you there?",
-      "noAchievements": "This family has no achievements."
+      "noAchievements": "This family has no achievements.",
+      "achievementSaved": "Achievement Saved",
+      "errorSaving": "Error saving Achievement. Please Try again",
+      "selectIndicator": "Select an Indicator",
+      "backToProfile": "Back to Family Profile",
+      "addAchievement": "Add Achievement",
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Achievement?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Achievement has been deleted",
+        "failed": "Could not delete Achievement"
+      }
     },
     "familyImages": {
       "title": "Images",
@@ -689,8 +712,8 @@
     },
     "organization": {
       "addOrganization": "Add an organization",
-      "editButton": "EDIT",
-      "deleteButton": "DELETE",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
       "search": "Search",
       "searchOrganization": "by name",
       "projectsList": "List of projects",
@@ -753,7 +776,8 @@
           "sendingUniqueLink": "Sending unique link"
         },
         "solutionAccessType": "Bank of Solutions"
-      }
+      },
+      "mapsList": "List of maps"
     },
     "hub": {
       "search": "Search",
@@ -816,8 +840,8 @@
         "organization": "Organization",
         "hub": "Hub",
         "role": "Role",
-        "edit": "Edit user",
-        "delete": "Delete user",
+        "edit": "Edit",
+        "delete": "Delete",
         "search": "Search",
         "empty": "No Users to show"
       },
@@ -932,8 +956,8 @@
       "viewmore": "VIEW MORE",
       "failUpdateView": "Error updating the number of visits",
       "form": {
-        "editButton": "EDIT",
-        "deleteButton": "DELETE",
+        "editButton": "Edit",
+        "deleteButton": "Delete",
         "userNotAllowed": "Operation not allowed",
         "title": "Solution title",
         "subtitle": "Add a description for you solution...",
@@ -980,6 +1004,28 @@
           "success": "Successfully updated profile picture",
           "error": "Could not update profile picture"
         }
+      }
+    },
+    "offlineMaps": {
+      "title": "Offline Maps",
+      "subtitle": "Add offline maps for  your organization",
+      "list": "List of offline maps",
+      "add": "Add new map",
+      "form": {
+        "addTitle": "Add Offline Map",
+        "success": "Offline map saved",
+        "error": "Could not save offline map",
+        "editTitle": "Edit Offline Map",
+        "name": "Name",
+        "nameLengthExceeded": "Map name must have a maximum of 50 characters",
+        "sizeError": "The selected area exceeds the limit."
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Map?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Map  has been deleted",
+        "error": "Could not delete map. Try again later"
       }
     }
   },

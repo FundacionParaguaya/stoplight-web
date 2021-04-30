@@ -32,6 +32,7 @@ import {
   checkAccessToSolution,
   NEW,
   ROLES,
+  roleHasMoreThanOneAccess,
   checkAccess,
   getHomePage
 } from './utils/role-utils';
@@ -203,6 +204,11 @@ const Header = ({ path, updateUser, user }) => {
                   ? `${classes.menuLink} ${classes.surveyLink}`
                   : classes.menuLink
               }
+              style={{
+                cursor: roleHasMoreThanOneAccess(user.role)
+                  ? 'pointer'
+                  : 'default'
+              }}
               key="dashboard"
             >
               <img

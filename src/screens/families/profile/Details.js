@@ -17,6 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
   readOnlyContainer: {
     padding: 0,
+    paddingBottom: 2,
     marginTop: 0,
     marginBottom: 15
   },

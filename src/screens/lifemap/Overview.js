@@ -56,7 +56,7 @@ export class Overview extends Component {
     } = this.props.currentSurvey.surveyConfig;
     if (pictureSupport && !this.props.currentDraft.justStoplight) {
       this.props.history.push('/lifemap/upload-pictures');
-    } else if (signSupport) {
+    } else if (signSupport && !this.props.currentDraft.justStoplight) {
       this.props.history.push('/lifemap/sign');
     } else {
       this.props.history.push('/lifemap/final');
@@ -237,6 +237,7 @@ export class Overview extends Component {
               priorities={currentDraft.priorities}
               achievements={currentDraft.achievements}
               history={this.props.history}
+              mustShowPointer={true}
               onClickIndicator={this.pushIndicator}
               isRetake={currentDraft.isRetake}
             />

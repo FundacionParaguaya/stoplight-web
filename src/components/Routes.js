@@ -21,6 +21,9 @@ const LifemapDetails = lazy(() => import('../screens/LifemapDetails'));
 const SelectIndicatorPriority = lazy(() =>
   import('../screens/priorities/SelectIndicatorPriority')
 );
+const SelectIndicatorAchievement = lazy(() =>
+  import('../screens/achievements/SelectIndicatorAchievement')
+);
 const Families = lazy(() => import('../screens/Families'));
 const Dashboard = lazy(() => import('../screens/Dashboard'));
 const Users = lazy(() => import('../screens/Users'));
@@ -50,6 +53,7 @@ const Projects = lazy(() => import('../screens/Projects'));
 const EditEconomicForm = lazy(() =>
   import('../screens/families/edit/EditEconomicForm')
 );
+const OfflineMaps = lazy(() => import('../screens/OfflineMaps'));
 
 const MyProfile = lazy(() =>
   import('../screens/families/my-profile/MyProfile')
@@ -85,6 +89,13 @@ const Routes = ({ user }) => {
           )}
           {checkAccessToProjects(user) && checkAccess(user, 'projects') && (
             <Route path="/projects" component={Projects} />
+          )}
+          {checkAccess(user, 'offline-maps') && (
+            <Route
+              exact
+              path="/organizations/:organizationId/offline-maps"
+              component={OfflineMaps}
+            />
           )}
           {checkAccess(user, 'organizations') && (
             <Route path="/organizations" component={Organizations} />
@@ -155,6 +166,12 @@ const Routes = ({ user }) => {
             <Route
               path="/priorities/:familyId"
               component={SelectIndicatorPriority}
+            />
+          )}
+          {checkAccess(user, 'priorities') && (
+            <Route
+              path="/achievements/:familyId"
+              component={SelectIndicatorAchievement}
             />
           )}
           {checkAccess(user, 'my-profile') && (

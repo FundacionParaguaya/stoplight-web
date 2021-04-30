@@ -351,6 +351,7 @@ const Support = ({
             {showCreateArticle(user) && (
               <div className={classes.buttonContainer}>
                 <Button
+                  color="primary"
                   variant="contained"
                   onClick={goToForm}
                   className={classes.button}

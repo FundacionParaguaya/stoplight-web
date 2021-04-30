@@ -83,6 +83,7 @@ const CountrySelector = ({
           loadingMessage={() => t('views.dimensionFilter.loading')}
           noOptionsMessage={() => t('views.dimensionFilter.noOption')}
           options={countryOptions}
+          hideSelectedOptions
           components={{
             DropdownDimension: () => <div />,
             DimensionSeparator: () => <div />,

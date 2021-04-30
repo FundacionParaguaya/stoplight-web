@@ -35,7 +35,8 @@
     "continueStoplight": "Continuar",
     "yourStoplight": "Tu Semáforo",
     "completeStoplight": "Completar Semáforo",
-    "publish": "Publicar"
+    "publish": "Publicar",
+    "edit": "Editar"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -181,6 +182,14 @@
       "filter": {
         "search": "Buscar",
         "searchBy": "por título"
+      },
+      "delete": {
+        "delete": "Eliminar",
+        "confirmTitle": "Confirmar la eliminación",
+        "confirmText": "¿Está seguro de que desea eliminar esta encuesta?",
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "success": "La encuesta ha sido eliminada",
+        "failed": "No se pudo eliminar la encuesta porque tiene datos asociados."
       }
     },
     "analytics": {
@@ -433,7 +442,9 @@
       "searchFamily": "Buscar familias",
       "noSnapshotsAvailable": "No hay ningún borrador disponible",
       "noMatchFilters": "No hay resultados para los filtros aplicados",
-      "loadingSnapshots": "Cargando borradores..."
+      "loadingSnapshots": "Cargando borradores...",
+      "delete": "Eliminar",
+      "deleteAll": "Eliminar todos"
     },
     "activityFeed": {
       "by": "Por",
@@ -528,8 +539,8 @@
       "search": "Buscar",
       "empty": "No hay familias para mostrar",
       "searchFamily": "Nombre o número de documento",
-      "delete": "Borrar Familia",
-      "show": "Mostrar Familia",
+      "delete": "Borrar",
+      "show": "Mostrar",
       "rows": "Familias Encontradas",
       "moveFamily": {
         "moveOfOrg": "Mover a otra organización",
@@ -632,7 +643,19 @@
       "indicator": "Indicadores",
       "action": "¿Qué hiciste para lograr esto?",
       "roadmap": "¿Quién o qué te motivó a llegar allí?",
-      "noAchievements": "Esta familia no tiene logros."
+      "noAchievements": "Esta familia no tiene logros.",
+      "achievementSaved": "Guardado Correctamente",
+      "errorSaving": "Ocurrió un error al agregar el logro. Favor vuelva a intentar",
+      "selectIndicator": "Seleccione un Indicador",
+      "backToProfile": "Volver a Perfil de la Familia",
+      "addAchievement": "Agregar Logro",
+      "delete": {
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "confirmText": "¿Está seguro de que desea eliminar este logro?",
+        "confirmTitle": "Confirmar la eliminación",
+        "failed": "No se pudo borrar el logro",
+        "success": "El logro ha sido eliminado"
+      }
     },
     "familyImages": {
       "title": "Imágenes",
@@ -684,8 +707,8 @@
     },
     "organization": {
       "addOrganization": "Agregar organización",
-      "editButton": "EDITAR",
-      "deleteButton": "ELIMINAR",
+      "editButton": "Editar",
+      "deleteButton": "Eliminar",
       "search": "Buscar",
       "searchOrganization": "por nombre",
       "projectsList": "Lista de proyectos",
@@ -748,7 +771,8 @@
           "sendingUniqueLink": "Vía link"
         },
         "solutionAccessType": "Banco de Soluciones"
-      }
+      },
+      "mapsList": "Lista de mapas"
     },
     "hub": {
       "search": "Buscar",
@@ -811,8 +835,8 @@
         "organization": "Organización",
         "hub": "Hub",
         "role": "Rol",
-        "edit": "Editar usuario",
-        "delete": "Eliminar usuario",
+        "edit": "Editar",
+        "delete": "Eliminar",
         "search": "Buscar",
         "empty": "Sin Usuarios que mostrar"
       },
@@ -928,8 +952,8 @@
       "viewmore": "VER MÁS",
       "failUpdateView": "Error al actualizar la cantidad de visitas",
       "form": {
-        "editButton": "EDITAR",
-        "deleteButton": "ELIMINAR",
+        "editButton": "Editar",
+        "deleteButton": "Eliminar",
         "userNotAllowed": "Operación no permitida",
         "title": "Título de la solución",
         "subtitle": "Agrega una descripción a tu solución...",
@@ -976,6 +1000,28 @@
           "success": "Imagen de perfil actualizada con éxito",
           "error": "No se pudo actualizar la foto de perfil"
         }
+      }
+    },
+    "offlineMaps": {
+      "title": "Mapas sin conexión",
+      "subtitle": "Agrega mapas sin conexión para tu organización",
+      "list": "Lista de mapas sin conexión",
+      "add": "Agregar nuevo mapa",
+      "form": {
+        "addTitle": "Agregar mapa sin conexión",
+        "editTitle": "Editar mapa sin conexión",
+        "name": "Nombre",
+        "nameLengthExceeded": "El nombre del mapa debe tener un máximo de 50 caracteres",
+        "success": "Se guardó el mapa sin conexión",
+        "error": "No se pudo guardar el mapa sin conexión",
+        "sizeError": "El área seleccionada excede el límite."
+      },
+      "delete": {
+        "success": "El mapa ha sido eliminado",
+        "error": "No se pudo borrar el mapa. \nInténtalo de nuevo más tarde",
+        "cannotUndo": "¡No puede deshacer esta acción!",
+        "confirmText": "¿Está seguro de que desea eliminar este mapa?",
+        "confirmTitle": "Confirmar la eliminación"
       }
     }
   },

@@ -13,7 +13,7 @@ import { getDateFormatByLocale } from '../../utils/date-utils';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import Button from '@material-ui/core/Button';
+
 import Tooltip from '@material-ui/core/Tooltip';
 import NavigationBar from '../../components/NavigationBar';
 import { ROLES_NAMES } from '../../utils/role-utils';
@@ -227,7 +227,8 @@ const ArticleView = ({
               xs={12}
               container
               style={{
-                justifyContent: 'flex-start'
+                justifyContent: 'flex-start',
+                alignItems: 'center'
               }}
             >
               <Typography variant="subtitle2" className={classes.createdAt}>
@@ -252,22 +253,22 @@ const ArticleView = ({
               {showButtons(user) && (
                 <div className={classes.actionButtons}>
                   <Tooltip title={t('views.support.deleteButton')}>
-                    <Button
-                      className={classes.actionIcon}
+                    <IconButton
+                      color="inherit"
                       onClick={toggleConfirmationModal}
                     >
                       <DeleteIcon />
-                    </Button>
+                    </IconButton>
                   </Tooltip>
                   <Tooltip title={t('views.support.editButton')}>
-                    <Button
-                      className={classes.actionIcon}
+                    <IconButton
+                      color="inherit"
                       onClick={() => {
                         history.push(`/articles/edit/${id}`);
                       }}
                     >
                       <EditIcon />
-                    </Button>
+                    </IconButton>
                   </Tooltip>
                 </div>
               )}

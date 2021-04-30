@@ -3,6 +3,9 @@ import { PhoneNumberUtil } from 'google-libphonenumber';
 import store from './redux';
 import CallingCodes from './screens/lifemap/CallingCodes';
 import imageCompression from 'browser-image-compression';
+const CancelToken = axios.CancelToken;
+let source = CancelToken.source();
+let filterSource = CancelToken.source();
 
 // Send correct encoding in all POST requests
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
@@ -106,11 +109,28 @@ export const getSurveys = user =>
     })
   });
 
+export const deleteSurvey = (user, surveyDefinitionId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteSurveyDefinition($surveyDefinition: Long ) {deleteSurveyDefinition(surveyDefinition: $surveyDefinition){successful}}',
+      variables: {
+        surveyDefinition: surveyDefinitionId
+      }
+    })
+  });
+
 // get a list of surveys available to the authorized used
 export const getSurveysByUser = user =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: filterSource.token,
     headers: {
       Authorization: `Bearer ${user.token}`
     },
@@ -189,6 +209,7 @@ export const getTotalFamilies = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -221,6 +242,7 @@ export const getOverviewBlock = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -254,6 +276,7 @@ export const getEconomicOverview = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -286,6 +309,7 @@ export const getOperationsOverview = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'X-locale': normalizeLang(lang)
@@ -319,6 +343,18 @@ export const getLastestActivity = (user, lang) =>
     })
   });
 
+export const cancelFilterRequest = () => {
+  filterSource.cancel('Operation canceled by the user.');
+
+  filterSource = CancelToken.source();
+};
+
+export const cancelRequest = () => {
+  source.cancel('Operation canceled by the user.');
+
+  source = CancelToken.source();
+};
+
 export const getDimensionIndicators = (
   user,
   hub,
@@ -333,6 +369,7 @@ export const getDimensionIndicators = (
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: source.token,
     headers: {
       Authorization: `Bearer ${user.token}`,
       'Content-Type': 'application/json',
@@ -592,6 +629,7 @@ export const checkSessionToken = (token, env) =>
 export const getOrganizationsByHub = (user, hub) =>
   axios({
     method: 'post',
+    cancelToken: filterSource.token,
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
@@ -983,7 +1021,7 @@ export const getPrioritiesAchievementByFamily = (user, familyId) =>
     },
     data: JSON.stringify({
       query:
-        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {indicator action roadmap} } }',
+        'query prioritiesAchievementsByFamily($familyId: Long!) { prioritiesAchievementsByFamily (familyId: $familyId) { priorities {id updatedAt, color, indicator, reviewDate, reason, action, months, snapshotStoplightId} achievements {id indicator action roadmap snapshotStoplightId} } }',
       variables: {
         familyId: familyId
       }
@@ -1082,6 +1120,47 @@ export const editPriority = (user, id, reason, action, months) =>
           reason,
           action,
           months
+        }
+      }
+    })
+  });
+
+export const addAchievement = (user, action, roadmap, snapshotStoplightId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation addAchievementWeb($achievement: AchievementDtoInput) {addAchievementWeb (achievement: $achievement){successful}}',
+      variables: {
+        achievement: {
+          action,
+          roadmap,
+          snapshotStoplightId
+        },
+        client: 'WEB'
+      }
+    })
+  });
+
+export const editAchievement = (user, id, action, roadmap) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation updateAchievement($achievement: AchievementDtoInput) {updateAchievement(achievement: $achievement){successful}}',
+      variables: {
+        achievement: {
+          id,
+          action,
+          roadmap
         }
       }
     })
@@ -1272,6 +1351,7 @@ export const getProjectsByOrganization = (user, orgsId) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: filterSource.token,
     headers: {
       Authorization: `Bearer ${user.token}`
     },
@@ -1288,6 +1368,7 @@ export const projectsBySurveyUser = (user, surveyUserId) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
+    cancelToken: filterSource.token,
     headers: {
       Authorization: `Bearer ${user.token}`
     },
@@ -2107,6 +2188,90 @@ export const deletePriority = (id, user) =>
         priority: {
           id
         }
+      }
+    })
+  });
+
+export const deleteAchievement = (id, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteAchievement($achievement: AchievementDtoInput) {deleteAchievement(achievement: $achievement){successful}}',
+      variables: {
+        achievement: {
+          id
+        }
+      }
+    })
+  });
+
+export const listOfflineMaps = (organization, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query searchOfflineMaps($organization: Long) {searchOfflineMaps(organization: $organization) { id, name, from, to, center }}',
+      variables: {
+        organization
+      }
+    })
+  });
+
+export const addOrUpdateOfflineMap = (surveyOfflineMap, user) => {
+  if (!surveyOfflineMap.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query:
+          'mutation addSurveyOfflineMap($surveyOfflineMap: SurveyOfflineMapInput) {addSurveyOfflineMap (surveyOfflineMap: $surveyOfflineMap){successful}}',
+        variables: {
+          surveyOfflineMap
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query:
+          'mutation updateSurveyOfflineMap($surveyOfflineMap: SurveyOfflineMapInput) {updateSurveyOfflineMap (surveyOfflineMap: $surveyOfflineMap){successful}}',
+        variables: {
+          surveyOfflineMap
+        }
+      })
+    });
+  }
+};
+
+export const deleteMap = (surveyOfflineMap, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteSurveyOfflineMap($surveyOfflineMap: Long) {deleteSurveyOfflineMap(surveyOfflineMap: $surveyOfflineMap){successful}}',
+      variables: {
+        surveyOfflineMap: surveyOfflineMap
       }
     })
   });

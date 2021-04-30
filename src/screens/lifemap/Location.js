@@ -70,8 +70,8 @@ class Location extends Component {
             longitude: latLng.lng
           }
         });
-        Location.getCountryFromLatLng(latLng.lat, latLng.lng).then(c =>
-          this.updateDraft('country', c)
+        Location.getCountryFromLatLng(latLng.lat, latLng.lng).then(
+          c => !!c && this.updateDraft('country', c)
         );
       })
       .catch(() => {});
@@ -90,14 +90,19 @@ class Location extends Component {
   };
 
   static getCountryFromLatLng = async (lat, lng) => {
-    const { results } = await Geocode.fromLatLng(lat, lng);
     let country = null;
-    if (results && results.length > 0) {
-      const r = results.find(result => result.types.includes('country'));
-      if (r) {
-        country = r.address_components[0].short_name;
+    try {
+      const { results } = await Geocode.fromLatLng(lat, lng);
+      if (results && results.length > 0) {
+        const r = results.find(result => result.types.includes('country'));
+        if (r) {
+          country = r.address_components[0].short_name;
+        }
       }
+    } catch (e) {
+      country = '';
     }
+
     return country;
   };
 
@@ -122,8 +127,8 @@ class Location extends Component {
     });
 
     // Using geoloc to find country
-    Location.getCountryFromLatLng(lat, lng).then(c =>
-      this.updateDraft('country', c)
+    Location.getCountryFromLatLng(lat, lng).then(
+      c => !!c && this.updateDraft('country', c)
     );
   };
 
@@ -132,28 +137,36 @@ class Location extends Component {
   };
 
   locateMe = () => {
-    const { currentDraft } = this.props;
-    this.setState({ initialLat: null, initialLng: null }, () =>
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          initialLat: position.coords.latitude,
-          initialLng: position.coords.longitude
-        });
-        this.props.updateDraft({
-          ...currentDraft,
-          familyData: {
-            ...currentDraft.familyData,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        });
-        Location.getCountryFromLatLng(
-          position.coords.latitude,
-          position.coords.longitude
-        ).then(c => this.updateDraft('country', c));
-      })
+    const { currentDraft, currentSurvey } = this.props;
+    const surveyLocation = currentSurvey.surveyConfig.surveyLocation;
+    this.setState(
+      {
+        initialLat: surveyLocation.latitude,
+        initialLng: surveyLocation.longitude,
+        lat: surveyLocation.latitude,
+        lng: surveyLocation.longitude
+      },
+      () =>
+        navigator.geolocation.getCurrentPosition(position => {
+          this.setState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            initialLat: position.coords.latitude,
+            initialLng: position.coords.longitude
+          });
+          this.props.updateDraft({
+            ...currentDraft,
+            familyData: {
+              ...currentDraft.familyData,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            }
+          });
+          Location.getCountryFromLatLng(
+            position.coords.latitude,
+            position.coords.longitude
+          ).then(c => !!c && this.updateDraft('country', c));
+        })
     );
   };
 
@@ -186,6 +199,7 @@ class Location extends Component {
             value={this.state.address}
             onChange={this.handleChange}
             onSelect={this.handleSelect}
+            onError={e => {}} //To avoid throwing errors if suggestions list it's empty
           >
             {({
               getInputProps,

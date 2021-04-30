@@ -172,7 +172,13 @@ let DimensionIndicator = ({ classes, dimension: { indicators } }) => (
 );
 
 const dimensionIndicatorStyle = theme => ({
-  listItem: { paddingTop: 0, paddingBottom: 0, overflow: 'scroll' },
+  listItem: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    [theme.breakpoints.down('sm')]: {
+      overflowX: 'scroll'
+    }
+  },
   mainItemContainer: { display: 'flex', flexBasis: '100%', width: '100%' },
   stackbarContainer: {
     display: 'flex',
@@ -207,8 +213,8 @@ const dimensionStyles = theme => ({
   listItem: {
     paddingTop: 12.5,
     paddingBottom: 12.5,
-    [theme.breakpoints.down('sm')]: {
-      overflow: 'scroll'
+    [theme.breakpoints.down('xs')]: {
+      overflowX: 'scroll'
     }
   },
   row: {

@@ -6,7 +6,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import moment from 'moment';
 import { withSnackbar } from 'notistack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -22,6 +22,7 @@ import {
 } from '../utils/date-utils';
 import { useWindowSize } from '../utils/hooks-helpers';
 import { ROLES_NAMES } from '../utils/role-utils';
+import IconButton from '@material-ui/core/IconButton';
 
 const FamilyPriorities = ({
   classes,
@@ -36,6 +37,7 @@ const FamilyPriorities = ({
   i18n: { language },
   history
 }) => {
+  const [priorityList, setPriorityList] = useState([]);
   const dateFormat = getMonthFormatByLocale(language);
   const fullDateFormat = getDateFormatByLocale(language);
   const windowSize = useWindowSize();
@@ -44,6 +46,36 @@ const FamilyPriorities = ({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState();
+  const [showAddButton, setShowAddButton] = useState(false);
+
+  const removePriority = priorityId => {
+    const newPriorities = priorityList.filter(
+      priority => priority.id !== priorityId
+    );
+    setPriorityList(newPriorities);
+  };
+
+  const replacePriority = priority => {
+    const index = priorityList.findIndex(x => x.id === priority.id);
+    const newPriorities = Array.from(priorityList);
+    newPriorities[index] = priority;
+    setPriorityList(newPriorities);
+  };
+
+  useEffect(() => {
+    setPriorityList(priorities ? priorities : []);
+    if (
+      !!questions &&
+      Array.isArray(questions.indicatorSurveyDataList) &&
+      !readOnly
+    ) {
+      setShowAddButton(
+        questions.indicatorSurveyDataList.filter(
+          e => e.value === 1 || e.value === 2
+        ).length > 0
+      );
+    }
+  }, [priorities, questions]);
 
   const getColor = stopligh => {
     if (stopligh === 2) {
@@ -65,7 +97,7 @@ const FamilyPriorities = ({
   const handleAddPriority = () => {
     history.push({
       pathname: `/priorities/${familyId}`,
-      state: { questions }
+      state: { questions, priorityList }
     });
   };
 
@@ -74,13 +106,15 @@ const FamilyPriorities = ({
       <DeletePriorityModal
         priorityToDelete={selectedPriority}
         open={openDeleteModal}
-        afterSubmit={() => window.location.reload()}
+        afterSubmit={() => {
+          removePriority(selectedPriority.id);
+        }}
         toggleModal={() => setOpenDeleteModal(!openDeleteModal)}
       />
       <EditPriorityModal
         priorityToEdit={selectedPriority}
         open={openEditModal}
-        afterSubmit={() => window.location.reload()}
+        afterSubmit={replacePriority}
         toggleModal={() => setOpenEditModal(!openEditModal)}
       />
       {/* Header */}
@@ -97,10 +131,10 @@ const FamilyPriorities = ({
       <Container className={classes.basicInfoText} variant="fluid">
         <Typography variant="h5">
           {t('views.familyPriorities.priorities')} ·{' '}
-          {priorities ? priorities.length : 0}
+          {priorityList ? priorityList.length : 0}
         </Typography>
       </Container>
-      {priorities && priorities.length > 0 ? (
+      {priorityList && priorityList.length > 0 ? (
         <div
           style={{
             paddingRight: fullWidth ? 0 : '12%',
@@ -120,11 +154,14 @@ const FamilyPriorities = ({
             )}
           </div>
           <Accordion className={classes.priorityTable}>
-            {priorities ? (
-              priorities.map((item, index) => {
+            {!!priorityList ? (
+              priorityList.map((item, index) => {
                 return (
                   <AccordionItem
                     key={item.reviewDate}
+                    expanded={
+                      selectedPriority ? selectedPriority.id === item.id : false
+                    }
                     onExpand={() => setPriorityOpen(index)}
                     onClose={() => setPriorityOpen('')}
                     className={classes.priorityTitle}
@@ -301,29 +338,33 @@ const FamilyPriorities = ({
                           >
                             <Tooltip
                               title={t('views.solutions.form.editButton')}
+                              style={{ marginRight: 10 }}
                             >
-                              <Button
-                                style={{ paddingLeft: 16, paddingRight: 0 }}
+                              <IconButton
+                                style={{ color: 'black' }}
+                                component="span"
                                 onClick={() => {
                                   setSelectedPriority(item);
                                   setOpenEditModal(true);
                                 }}
                               >
                                 <Edit />
-                              </Button>
+                              </IconButton>
                             </Tooltip>
                             <Tooltip
                               title={t('views.solutions.form.deleteButton')}
+                              style={{ marginRight: 8 }}
                             >
-                              <Button
-                                style={{ paddingLeft: 10, paddingRight: 0 }}
+                              <IconButton
+                                style={{ color: 'black' }}
+                                component="span"
                                 onClick={() => {
                                   setSelectedPriority(item);
                                   setOpenDeleteModal(true);
                                 }}
                               >
                                 <Delete />
-                              </Button>
+                              </IconButton>
                             </Tooltip>
                           </div>
                         )}
@@ -345,13 +386,17 @@ const FamilyPriorities = ({
         </Container>
       )}
 
-      {showAdministrationOptions(user) && !stoplightSkipped && (
+      {showAdministrationOptions(user) && showAddButton && !stoplightSkipped && (
         <Container
           className={classes.basicInfoText}
           variant="fluid"
           style={{ paddingBottom: '2rem' }}
         >
-          <Button variant="contained" onClick={handleAddPriority}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleAddPriority}
+          >
             {t('views.familyPriorities.addPriority')}
           </Button>
         </Container>

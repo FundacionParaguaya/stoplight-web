@@ -53,6 +53,7 @@ const styles = theme => ({
     marginTop: 0,
     left: 0,
     right: 0
+    // height: 50
   },
   indicatorSeparator: {
     alignSelf: 'stretch',
@@ -63,6 +64,7 @@ const styles = theme => ({
   controlInput: {
     marginTop: 10,
     marginBottom: 10
+    // height: 60
   },
   itemSelected: {
     fontWeight: 500,
@@ -220,6 +222,7 @@ class IntegrationReactSelect extends React.Component {
       loadOptions,
       components: propsComponents,
       onChange,
+      maxSelectMenuHeight,
       value,
       name,
       async,
@@ -262,6 +265,8 @@ class IntegrationReactSelect extends React.Component {
             value={value}
             onChange={onChange}
             isSearchable={true}
+            hideSelectedOptions
+            maxMenuHeight={maxSelectMenuHeight}
             {...remaining}
           />
         )}

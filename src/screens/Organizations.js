@@ -20,6 +20,7 @@ import DefaultOrgLogo from '../assets/grey_isologo.png';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Tooltip from '@material-ui/core/Tooltip';
+import PublicIcon from '@material-ui/icons/Public';
 
 const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const hubId = history.location.state ? history.location.state.hubId : null;
@@ -65,7 +66,7 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   const handleGoNext = org => {
     history.push({
       pathname: '/projects',
-      state: { orgId: org.id }
+      state: { orgId: org.id, hubId: hubId }
     });
   };
 
@@ -101,6 +102,11 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
   useEffect(() => {
     !loading && loadOrganizations(true);
   }, [filter]);
+
+  const checkAccessToMaps = ({ role }) =>
+    role === ROLES_NAMES.ROLE_ROOT ||
+    role === ROLES_NAMES.ROLE_PS_TEAM ||
+    role === ROLES_NAMES.ROLE_HUB_ADMIN;
 
   const navigationOptions = [
     { label: t('views.toolbar.hubs'), link: '/hubs' },
@@ -249,6 +255,24 @@ const Organizations = ({ history, classes, t, user, i18n: { language } }) => {
                             }}
                           >
                             <NavigateNextIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {checkAccessToMaps(user) && (
+                        <Tooltip title={t('views.organization.mapsList')}>
+                          <IconButton
+                            color="default"
+                            aria-label="To maps"
+                            component="span"
+                            className={classes.mapButton}
+                            onClick={() => {
+                              history.push({
+                                pathname: `organizations/${organization.id}/offline-maps`,
+                                state: { hubId: hubId }
+                              });
+                            }}
+                          >
+                            <PublicIcon />
                           </IconButton>
                         </Tooltip>
                       )}
@@ -419,7 +443,12 @@ const styles = theme => ({
       textDecoration: 'none'
     }
   },
-
+  mapButton: {
+    position: 'absolute',
+    top: 6,
+    right: 30,
+    marginRight: 4
+  },
   goNextButton: {
     position: 'absolute',
     top: 6,

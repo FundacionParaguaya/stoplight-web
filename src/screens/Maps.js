@@ -110,6 +110,7 @@ const Maps = ({ classes, user }) => {
   const [snapshots, setSnapshots] = useState([]);
   const [markers, setMarkers] = useState([]);
   const [mapRenderId, setMapRenderId] = useState(0);
+  const [allOrganizations, setAllOrganizations] = useState([]);
 
   const [filterInput, setFilterInput] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
@@ -180,7 +181,7 @@ const Maps = ({ classes, user }) => {
     hubs = hubs.map(h => h.value);
     let orgs = !filters.organizations.some(org => org.value === 'ALL')
       ? filters.organizations
-      : [];
+      : allOrganizations;
     orgs = orgs.map(o => o.value);
     const surveyUsers = filters.facilitators.map(f => f.value);
 
@@ -191,7 +192,6 @@ const Maps = ({ classes, user }) => {
       surveyUsers
     };
   };
-
   return (
     <div className={classes.mainBody}>
       {loading && (
@@ -210,9 +210,10 @@ const Maps = ({ classes, user }) => {
           onChangeHub={hub =>
             setFilterInput({ hub, organizations: [], survey: {} })
           }
-          onChangeOrganization={organizations =>
-            setFilterInput({ organizations, survey: {} })
-          }
+          onChangeOrganization={(organizations, allOrganizations) => {
+            setAllOrganizations(allOrganizations);
+            setFilterInput({ organizations, survey: {} });
+          }}
           onChangeSurvey={survey => setFilterInput({ survey })}
           onChangeFacilitator={facilitators => setFilterInput({ facilitators })}
           onChangeIndicator={indicator => setFilterInput({ indicator })}

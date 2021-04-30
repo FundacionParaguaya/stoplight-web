@@ -417,6 +417,7 @@ const Reports = ({
             </Button>
 
             <Button
+              color="primary"
               variant="contained"
               onClick={() => {
                 setError({ display: error.display, touched: true });
@@ -433,6 +434,7 @@ const Reports = ({
           >
             {showSemaforitoButton(user, totalRows) ? (
               <Button
+                color="primary"
                 variant="contained"
                 disabled={loading}
                 onClick={() => {
@@ -443,6 +445,7 @@ const Reports = ({
               </Button>
             ) : (
               <Button
+                color="primary"
                 variant="contained"
                 disabled={loading}
                 onClick={() => {

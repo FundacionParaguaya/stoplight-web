@@ -35,7 +35,8 @@
     "continueStoplight": "Kontinye",
     "yourStoplight": "Chimen Pwogrè pa w",
     "completeStoplight": "Fen Chime Pwogrè a",
-    "publish": "pibliye"
+    "publish": "pibliye",
+    "edit": "Edite"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",
@@ -142,6 +143,14 @@
       "filter": {
         "search": "Chache",
         "searchBy": "Pa tit"
+      },
+      "delete": {
+        "delete": "Efase",
+        "confirmTitle": "Eske ou vle efase sa vre?",
+        "confirmText": "Eske ou vle efase ankèt sa a vre?",
+        "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
+        "success": "Ankèt sa a efase.",
+        "failed": "Ankèt sa a pa kapab efase paske genyen done ki makonnen avè l."
       }
     },
     "analytics": {
@@ -393,7 +402,9 @@
       "searchFamily": "Chache fanmi",
       "noSnapshotsAvailable": "Pa genyen bwouyon ki disponib",
       "noMatchFilters": "Pa gen rezilta pou filtè sa yo",
-      "loadingSnapshots": "N ap chaje bwouyon"
+      "loadingSnapshots": "N ap chaje bwouyon",
+      "delete": "Efase",
+      "deleteAll": "Efase tout"
     },
     "activityFeed": {
       "by": "Pa",
@@ -492,8 +503,8 @@
       "search": "Chache",
       "empty": "Pa genyen fanmi konsa.",
       "searchFamily": "Non osinon nimewo dokiman an.",
-      "delete": "Efase fanmi an",
-      "show": "Montre fanmi an",
+      "delete": "Efase",
+      "show": "Montre",
       "rows": "Fanmi nou jwenn",
       "moveFamily": {
         "moveOfOrg": "Deplase nan yon lòt òganizasyon",
@@ -596,7 +607,19 @@
       "indicator": "Endikatè",
       "action": "Kisa ou fè pou ou akonpli sa?",
       "roadmap": "Kisa osinon kilès ki motive ou pou ou rive fè l?",
-      "noAchievements": "Fanmi sa a pa genyen akonplisman"
+      "noAchievements": "Fanmi sa a pa genyen akonplisman",
+      "achievementSaved": "Akonplisman yo anrejistre",
+      "errorSaving": "Te genyen yon erè nan sove akonplisman yo. Tanpri eseye ankò.",
+      "selectIndicator": "Chwazi yon endikatè",
+      "backToProfile": "Tounen nan Pwofil Fanmi an",
+      "addAchievement": "Ajoute yon akonplisman",
+      "delete": {
+        "cannotUndo": "Ou pa ka defèt aksyon sa a!",
+        "confirmText": "Èske ou sèten ou vle efase akonplisman sa a?",
+        "confirmTitle": "Konfime sipresyon",
+        "failed": "Pa t 'kapab efase akonplisman",
+        "success": "Akonplisman a te efase"
+      }
     },
     "familyImages": {
       "title": "Imaj",
@@ -712,7 +735,8 @@
           "sendingUniqueLink": "Voye yon lyen inik"
         },
         "solutionAccessType": "Bank solisyon"
-      }
+      },
+      "mapsList": "Lis kat yo"
     },
     "hub": {
       "search": "chache",
@@ -775,8 +799,8 @@
         "organization": "Oganizasyon",
         "hub": "hub",
         "role": "Wòl",
-        "edit": "Chanje itilizatè",
-        "delete": "Efase itilizatè",
+        "edit": "Chanje",
+        "delete": "Efase",
         "search": "Chache",
         "empty": "Pa gen itilizatè konsa"
       },
@@ -891,8 +915,8 @@
       "viewmore": "GADE PLIS",
       "failUpdateView": "Te genyen yon erè nan mizajou kantite vizit yo.",
       "form": {
-        "editButton": "CHANJE",
-        "deleteButton": "EFASE",
+        "editButton": "Chanje",
+        "deleteButton": "Efase",
         "userNotAllowed": "Operasyon sa entèdi",
         "title": "Tit solisyon an",
         "subtitle": "Ajoute yon deskripsyon solisyon ou an.",
@@ -939,6 +963,28 @@
           "success": "Successfully updated profile picture",
           "error": "Could not update profile picture"
         }
+      }
+    },
+    "offlineMaps": {
+      "title": "Kat offline",
+      "subtitle": "Ajoute kat offline pou òganizasyon w lan",
+      "list": "Lis kat offline",
+      "add": "Ajoute nouvo kat la",
+      "form": {
+        "addTitle": "Ajoute Offline Map",
+        "editTitle": "Modifye Offline Map",
+        "name": "Non",
+        "nameLengthExceeded": "Non kat la dwe gen yon maksimòm de 50 karaktè",
+        "success": "Kat Offline sove",
+        "error": "Pa t 'kapab sove offline kat jeyografik",
+        "sizeError": "Zòn nan chwazi depase limit la."
+      },
+      "delete": {
+        "success": "Kat la te efase",
+        "error": "Pa t 'kapab efase kat la. \nEseye ankò pita",
+        "cannotUndo": "Ou pa ka defèt aksyon sa a!",
+        "confirmText": "Èske ou sèten ou vle efase kat sa a?",
+        "confirmTitle": "Konfime sipresyon"
       }
     }
   },

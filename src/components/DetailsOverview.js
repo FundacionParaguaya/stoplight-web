@@ -587,7 +587,13 @@ const DetailsOverview = ({
       )}
 
       {!snapshot.stoplightSkipped && (
-        <FamilyAchievements achievements={achievementsList} fullWidth={true} />
+        <FamilyAchievements
+          stoplightSkipped={false}
+          questions={snapshot}
+          achievements={achievementsList}
+          fullWidth={true}
+          readOnly
+        />
       )}
 
       {/* Images */}
