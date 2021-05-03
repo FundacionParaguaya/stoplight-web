@@ -1,29 +1,27 @@
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import React, { useState, useEffect } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { Edit } from '@material-ui/icons';
+import CloseIcon from '@material-ui/icons/Close';
+import IntervetionIcon from '@material-ui/icons/ListAlt';
+import { withSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { listInterventionsDefinitions } from '../api';
 import interventionBanner from '../assets/reports_banner.png';
 import Container from '../components/Container';
-import QuestionItem from '../components/QuestionItem';
 import withLayout from '../components/withLayout';
-import { COLORS } from '../theme';
-import { move, reorder } from '../utils/array-utils';
-import InterventionQuestion from './interventions/InterventionQuestion';
-import { listInterventionsQuestions } from '../api';
+import SettingsIcon from '@material-ui/icons/MoreVert';
+
+import AssignInterventionModal from './interventions/AssignInterventionModal';
 
 const useStyles = makeStyles(theme => ({
-  mainContainer: {
-    backgroundColor: theme.palette.background.default
-  },
-  dragContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: theme.spacing(2)
-  },
   loadingContainer: {
     zIndex: 100,
     display: 'flex',
@@ -42,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     height: 175
   },
-  mapsTitle: {
+  title: {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
@@ -60,120 +58,134 @@ const useStyles = makeStyles(theme => ({
       display: 'none'
     }
   },
-  itemList: {
-    backgroundColor: COLORS.LIGHT_GREY,
-    border: '2px',
-    width: '30vw'
-  },
-  buttonContainerForm: {
+  gridAlignRight: {
     display: 'flex',
-    justifyContent: 'space-evenly',
-    margin: '30px 0'
+    justifyContent: 'flex-end',
+    paddingRight: 2
+  },
+  row: {
+    margin: `${theme.spacing(1)}px 0`,
+    padding: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'space-between',
+    borderBottom: `1px solid ${theme.palette.grey.quarter}`
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  icon: {
+    fontSize: 32,
+    marginRight: theme.spacing(1),
+    color: theme.palette.grey.main
+  },
+  tag: {
+    fontWeight: 550,
+    backgroundColor: '#4A4A4A',
+    color: 'white',
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(0.5),
+    marginRight: theme.spacing(1),
+    width: 'fit-content',
+    height: 'fit-content'
+  },
+  actionIcon: {
+    paddingRight: 0,
+    paddingLeft: 10,
+    color: 'black'
   }
 }));
 
-const Interventions = ({ user, history }) => {
+const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
   const classes = useStyles();
-  const {
-    t,
-    i18n: { language }
-  } = useTranslation();
+  const { t } = useTranslation();
 
-  const [coreQuestions, setCoreQuestions] = useState([]);
-  const [items, setItems] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [interventions, setInterventions] = useState([]);
+  const [selectedIntervention, setSelectedIntervention] = useState();
+  const [openAssignModal, setOpenAssignModal] = useState(false);
 
-  const getList = id => (id === 'droppable' ? items : selectedItems);
+  const showErrorMessage = message =>
+    enqueueSnackbar(message, {
+      variant: 'error',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
+
+  const showSuccessMessage = message =>
+    enqueueSnackbar(message, {
+      variant: 'success',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
+
+  const loadInterventions = () => {
+    setLoading(true);
+    listInterventionsDefinitions(user)
+      .then(response => {
+        setInterventions([
+          ...response.data.data.interventionsDefinitionByUser,
+          {
+            id: 1,
+            name: 'Intervención 1',
+            organizations: [
+              { id: 1, name: 'partner' },
+              { id: 2, name: 'Fundación Paraguaya' }
+            ]
+          }
+        ]);
+        setLoading(false);
+      })
+      .catch(() => {
+        showErrorMessage(t('views.intervention.loadingError'));
+      });
+  };
 
   useEffect(() => {
-    listInterventionsQuestions(user, language)
-      .then(response => {
-        let questions = response.data.data.interventionPresetQuestions;
-        let mainQuestions = questions.filter(q => q.coreQuestion);
-        let itemQuestions = questions.filter(q => !q.coreQuestion);
-        itemQuestions = itemQuestions.map(question => {
-          return {
-            ...question,
-            options: [{ value: 'value', text: '' }]
-          };
-        });
-        setCoreQuestions(mainQuestions);
-        setItems(itemQuestions);
-      })
-      .catch(e => console.log(e));
+    loadInterventions();
   }, []);
 
-  const onDragEnd = result => {
-    const { source, destination } = result;
-
-    // dropped outside the list
-    if (!destination) {
-      return;
+  const onClose = (update, updatedIntervention) => {
+    setOpenAssignModal(!openAssignModal);
+    if (update) {
+      let newInterventions = Array.from(interventions);
+      newInterventions[
+        newInterventions.findIndex(n => n.id === updatedIntervention.id)
+      ] = updatedIntervention;
+      setInterventions(newInterventions);
     }
-
-    if (source.droppableId === destination.droppableId) {
-      const items = reorder(
-        getList(source.droppableId),
-        source.index,
-        destination.index
-      );
-
-      if (source.droppableId === 'droppable2') {
-        setSelectedItems(items);
-      } else {
-        setItems(items);
-      }
-    } else {
-      const result = move(
-        getList(source.droppableId),
-        getList(destination.droppableId),
-        source,
-        destination
-      );
-
-      setItems(result.droppable);
-      setSelectedItems(result.droppable2);
-    }
-  };
-
-  const updateQuestion = (index, question) => {
-    let newSelectedItems = Array.from(selectedItems);
-    newSelectedItems[index] = question;
-    setSelectedItems(newSelectedItems);
-  };
-
-  const onSave = () => {
-    let questions = Array.from(selectedItems);
-    questions = questions.map(q => {
-      let question = JSON.parse(JSON.stringify(q));
-      if (question.otherOption) {
-        question.options.push({ value: '', text: 'Other', otherOption: true });
-        delete question.otherOption;
-      }
-      return question;
-    });
-    const hasErrors = questions.some(
-      question =>
-        true &&
-        (question.answerType === 'select' ||
-          question.answerType === 'radio' ||
-          question.answerType === 'checkbox') &&
-        (question.options.length === 0 ||
-          !question.options.some(option => option.text))
-    );
-
-    console.log(hasErrors);
   };
 
   return (
-    <Container variant="stretch" className={classes.mainContainer}>
+    <Container variant="stretch">
+      <AssignInterventionModal
+        open={openAssignModal}
+        user={user}
+        intervention={selectedIntervention}
+        onClose={onClose}
+        showSuccessMessage={showSuccessMessage}
+        showErrorMessage={showErrorMessage}
+      />
+
+      {loading && (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      )}
+
       <div className={classes.titleContainer}>
-        <div className={classes.mapsTitle}>
+        <div className={classes.title}>
           <Typography variant="h4">
-            {t('views.intervention.definition.title')}
+            {t('views.toolbar.interventions')}
           </Typography>
           <Typography variant="h6" style={{ color: 'grey' }}>
-            {t('views.intervention.definition.subtitle')}
+            {t('views.intervention.subtitle')}
           </Typography>
         </div>
         <img
@@ -183,101 +195,75 @@ const Interventions = ({ user, history }) => {
         />
       </div>
 
-      <Typography variant="h5">
-        {t('views.intervention.definition.coreQuestions')}
-      </Typography>
+      <Grid container spacing={1} style={{ marginBottom: 32 }}>
+        <Grid item md={8} sm={8} xs={12} container alignItems="center">
+          <Typography variant="h5">{t('views.intervention.list')}</Typography>
+        </Grid>
+        <Grid item md={4} sm={4} xs={12} className={classes.gridAlignRight}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => {
+              history.push('/interventions/create');
+            }}
+          >
+            {t('views.intervention.add')}
+          </Button>
+        </Grid>
+      </Grid>
 
-      {coreQuestions.map(question => (
-        <QuestionItem
-          key={question.codeName}
-          question={question.shortName}
-          answerType={question.answerType}
-        />
+      {interventions.map(intervention => (
+        <div key={intervention.name} className={classes.row}>
+          <div className={classes.container}>
+            <IntervetionIcon className={classes.icon} />
+            <Typography variant="h6" style={{ color: 'grey' }}>
+              {intervention.name}
+            </Typography>
+          </div>
+          <div className={classes.container}>
+            {intervention.organizations.map(org => {
+              return (
+                <Typography
+                  key={org.id}
+                  variant="caption"
+                  className={classes.tag}
+                >
+                  {org.name}
+                </Typography>
+              );
+            })}
+          </div>
+          <div>
+            <Tooltip title={t('views.intervention.assign.title')}>
+              <IconButton
+                color="inherit"
+                onClick={() => {
+                  setSelectedIntervention(intervention);
+                  setOpenAssignModal(true);
+                }}
+              >
+                <SettingsIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('general.edit')}>
+              <IconButton
+                color="inherit"
+                onClick={() => {
+                  history.push(`/interventions/edit/${intervention.id}`);
+                }}
+              >
+                <Edit />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </div>
       ))}
-
-      <Typography variant="h5" style={{ marginTop: 16 }}>
-        {t('views.intervention.definition.questionsTitle')}
-      </Typography>
-      <div className={classes.dragContainer}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className={classes.itemList}
-              >
-                {items.map((item, index) => (
-                  <Draggable
-                    key={item.codeName}
-                    draggableId={item.codeName}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <QuestionItem
-                        itemRef={provided.innerRef}
-                        draggableProps={{
-                          ...provided.draggableProps,
-                          ...provided.dragHandleProps
-                        }}
-                        question={item.shortName}
-                        answerType={item.answerType}
-                      />
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="droppable2">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className={classes.itemList}
-              >
-                {selectedItems.map((selectedItem, index) => (
-                  <Draggable
-                    key={selectedItem.codeName}
-                    draggableId={selectedItem.codeName}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <InterventionQuestion
-                        itemRef={provided.innerRef}
-                        draggableProps={{
-                          ...provided.draggableProps,
-                          ...provided.dragHandleProps
-                        }}
-                        question={selectedItem}
-                        updateQuestion={question =>
-                          updateQuestion(index, question)
-                        }
-                      />
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
-
-      <div className={classes.buttonContainerForm}>
-        <Button variant="outlined" color="primary" onClick={() => {}}>
-          {t('general.cancel')}
-        </Button>
-
-        <Button color="primary" variant="contained" onClick={() => onSave()}>
-          {t('general.save')}
-        </Button>
-      </div>
     </Container>
   );
 };
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default withRouter(connect(mapStateToProps)(withLayout(Interventions)));
+export default withRouter(
+  connect(mapStateToProps)(withLayout(withSnackbar(Interventions)))
+);
