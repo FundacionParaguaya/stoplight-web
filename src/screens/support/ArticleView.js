@@ -22,6 +22,7 @@ import { deleteArticleById } from '../../api';
 import { withSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import clsx from 'clsx';
 
 const styles = theme => ({
   mainContainer: {
@@ -183,7 +184,7 @@ const ArticleView = ({
   const navigationOptions = [
     { label: t('views.support.allCollections'), link: '/support' },
     { label: collection, link: `/collection/${collection}` },
-    { label: t('views.support.article'), link: `/articles/${id}` }
+    { label: t('views.support.article'), link: `/article/${id}` }
   ];
   return (
     <div className={classes.mainContainer}>
@@ -214,7 +215,7 @@ const ArticleView = ({
           </Typography>
           <Typography
             variant="h6"
-            className={[classes.label, classes.description]}
+            className={clsx(classes.label, classes.description)}
           >
             {article.description}
           </Typography>

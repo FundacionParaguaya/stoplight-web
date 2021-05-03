@@ -54,13 +54,12 @@ const CollectionSelector = ({
     const lang = !!parentLang ? parentLang : language;
     getCollectionTypes(user, lang)
       .then(response => {
-        console.log('respuesta', response);
         const collections = _.get(
           response,
           'data.data.listArticlesTypes',
           []
         ).map(collection => ({
-          label: collection.code,
+          label: collection.description,
           value: collection.code
         }));
         setCollectionOptions(collections);

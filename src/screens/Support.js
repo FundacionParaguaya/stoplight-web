@@ -361,9 +361,10 @@ const Support = ({
               </div>
             )}
 
-            {collections.map(collection => {
+            {collections.map((collection, index) => {
               return (
                 <Paper
+                  key={index}
                   variant="outlined"
                   elevation={3}
                   className={classes.sectionCard}

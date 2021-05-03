@@ -169,6 +169,14 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
       });
   };
 
+  const goBack = () => {
+    if (!!id) {
+      history.push(`/article/${id}`);
+    } else {
+      history.push(`/support`);
+    }
+  };
+
   const canEdit = ({ role }) => {
     return role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM;
   };
@@ -377,7 +385,7 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
                       <Button
                         variant="outlined"
                         disabled={isSubmitting}
-                        onClick={() => {}}
+                        onClick={goBack}
                       >
                         {t('general.cancel')}
                       </Button>
