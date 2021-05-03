@@ -995,8 +995,15 @@
         "options": "Opções",
         "otherOption": "Adicione uma opção de resposta \"Outra\".",
         "missingOptions": "As opções para esta questão são obrigatórias",
-        "addOption": "Adicionar opção"
-      }
+        "addOption": "Adicionar opção",
+        "name": "Nome da intervenção",
+        "save": {
+          "success": "Definição de intervenção criada",
+          "error": "Não foi possível criar definição de intervenção"
+        }
+      },
+      "assign": "Atribuir Intervenção",
+      "loadingError": "Ocorreu um erro ao carregar as definições das intervenções"
     }
   },
   "reports": {

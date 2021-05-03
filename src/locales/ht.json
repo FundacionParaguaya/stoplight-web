@@ -997,8 +997,15 @@
         "options": "Opsyon",
         "otherOption": "Ajoute yon opsyon repons \"Lòt\".",
         "missingOptions": "Opsyon pou kesyon sa a yo mande yo",
-        "addOption": "Ajoute opsyon"
-      }
+        "addOption": "Ajoute opsyon",
+        "name": "Non entèvansyon",
+        "save": {
+          "success": "Definisyon entèvansyon kreye",
+          "error": "Pa t 'kapab kreye definisyon entèvansyon"
+        }
+      },
+      "assign": "Bay Entèvansyon",
+      "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon yo"
     }
   },
   "reports": {

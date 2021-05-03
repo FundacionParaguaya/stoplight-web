@@ -995,8 +995,22 @@
         "coreQuestions": "These are the core questions which will be at the beginning of the intervention form:",
         "questionsTitle": "To add more questions, drag and drop the following questions to the form on the right:",
         "otherOption": "Add an \"Other\" response option.",
-        "required": "Question required"
-      }
+        "required": "Question required",
+        "name": "Intervention name",
+        "save": {
+          "success": "Intervention definition created",
+          "error": "Could not create intervention definition"
+        }
+      },
+      "add": "Add Intervention",
+      "list": "List of Interventions",
+      "subtitle": "Create Interventions models for your organizations",
+      "assign": {
+        "success": "Saved correctly",
+        "error": "An error occurred while assigning intervention. Try again",
+        "title": "Assign Intervention"
+      },
+      "loadingError": "An error occurred loading  interventions definitions"
     }
   },
   "reports": {

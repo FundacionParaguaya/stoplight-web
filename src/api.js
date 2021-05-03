@@ -2171,3 +2171,48 @@ export const listInterventionsQuestions = (user, lang) =>
         'query { interventionPresetQuestions { id codeName shortName answerType coreQuestion } }'
     })
   });
+
+export const listInterventionsDefinitions = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: 'query { interventionsDefinitionByUser { id title } }'
+    })
+  });
+
+export const getInterventionDefinition = (user, interventionDefinition) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query retrieveInterventionDefinition ($interventionDefinition: Long!) { retrieveInterventionDefinition(interventionDefinition: $interventionDefinition) { id title active questions { id codeName shortName answerType } } } ',
+      variables: {
+        interventionDefinition
+      }
+    })
+  });
+
+export const addInterventionDefinition = (user, definition, organizations) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation createInterventionDefinition($interventionDefinition: InterventionDefinitionModelInput,$organizations: [Long]) {createInterventionDefinition (interventionDefinition: $interventionDefinition,organizations: $organizations){successful}}',
+      variables: {
+        interventionDefinition: definition,
+        organizations
+      }
+    })
+  });

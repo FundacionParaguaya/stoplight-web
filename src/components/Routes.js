@@ -55,6 +55,9 @@ const MyProfile = lazy(() =>
   import('../screens/families/my-profile/MyProfile')
 );
 const Interventions = lazy(() => import('../screens/Interventions'));
+const InterventionForm = lazy(() =>
+  import('../screens/interventions/InterventionForm')
+);
 
 const Routes = ({ user }) => {
   return (
@@ -209,6 +212,19 @@ const Routes = ({ user }) => {
           )}
           {checkAccess(user, 'interventions') && (
             <Route exact path="/interventions" component={Interventions} />
+          )}
+          {checkAccess(user, 'interventions') && (
+            <Route
+              exact
+              path="/interventions/create"
+              component={InterventionForm}
+            />
+          )}
+          {checkAccessToSolution(user, 'interventions') && (
+            <Route
+              path="/interventions/edit/:id"
+              component={InterventionForm}
+            />
           )}
 
           {!!user.role && <Route render={() => <PageNotFound user={user} />} />}
