@@ -14,7 +14,11 @@ import SupportLangPicker from './SupportLangPicker';
 import Editor from '../../components/Editor';
 import CollectionSelector from '../support/CollectionSelector';
 import * as Yup from 'yup';
-import { saveOrUpdateArticle, getArticleById } from '../../api';
+import {
+  saveOrUpdateArticle,
+  getArticleById,
+  getCollectionTypes
+} from '../../api';
 import { useParams } from 'react-router-dom';
 import * as _ from 'lodash';
 import CloseIcon from '@material-ui/icons/Close';
@@ -117,7 +121,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
-  const { t } = useTranslation();
+  const {
+    i18n: { language },
+    t
+  } = useTranslation();
   const { id } = useParams();
   const classes = useStyles();
   const [plainContent, setPlainContent] = useState('');
@@ -192,18 +199,32 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
             'data.data.getArticleById',
             {}
           );
-          const updatedArticle = {
-            ...fetchedArticle,
-            collection: {
-              label: fetchedArticle.collection,
-              value: fetchedArticle.collection
-            },
-            lang: fetchedArticle.lang.split('_')[0]
-          };
 
-          setArticle(updatedArticle);
-          setPlainContent(fetchedArticle.contentText);
-          setLoading(false);
+          getCollectionTypes(user, language).then(resp => {
+            const collections = _.get(
+              resp,
+              'data.data.listArticlesTypes',
+              []
+            ).map(collection => ({
+              label: collection.description,
+              value: collection.code
+            }));
+            const collection = collections.find(
+              el => el.value === fetchedArticle.collection
+            );
+            const updatedArticle = {
+              ...fetchedArticle,
+              collection: {
+                label: collection.label,
+                value: collection.value
+              },
+              lang: fetchedArticle.lang.split('_')[0]
+            };
+
+            setArticle(updatedArticle);
+            setPlainContent(fetchedArticle.contentText);
+            setLoading(false);
+          });
         })
         .catch(e => {
           console.error(e);
