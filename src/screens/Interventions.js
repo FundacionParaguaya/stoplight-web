@@ -81,7 +81,7 @@ const useStyles = makeStyles(theme => ({
   },
   tag: {
     fontWeight: 550,
-    backgroundColor: '#4A4A4A',
+    backgroundColor: theme.typography.h4.color,
     color: 'white',
     borderRadius: theme.spacing(1),
     padding: theme.spacing(0.5),
@@ -132,8 +132,8 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
         setInterventions([
           ...response.data.data.interventionsDefinitionByUser,
           {
-            id: 1,
-            name: 'Intervención 1',
+            id: 2,
+            title: 'Intervención 1',
             organizations: [
               { id: 1, name: 'partner' },
               { id: 2, name: 'Fundación Paraguaya' }
@@ -217,21 +217,28 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
           <div className={classes.container}>
             <IntervetionIcon className={classes.icon} />
             <Typography variant="h6" style={{ color: 'grey' }}>
-              {intervention.name}
+              {intervention.title}
             </Typography>
           </div>
           <div className={classes.container}>
-            {intervention.organizations.map(org => {
-              return (
-                <Typography
-                  key={org.id}
-                  variant="caption"
-                  className={classes.tag}
-                >
-                  {org.name}
+            {Array.isArray(intervention.organizations) &&
+              intervention.organizations.slice(0, 5).map(org => {
+                return (
+                  <Typography
+                    key={org.id}
+                    variant="caption"
+                    className={classes.tag}
+                  >
+                    {org.name}
+                  </Typography>
+                );
+              })}
+            {Array.isArray(intervention.organizations) &&
+              intervention.organizations.length > 5 && (
+                <Typography variant="caption" className={classes.tag}>
+                  ...
                 </Typography>
-              );
-            })}
+              )}
           </div>
           <div>
             <Tooltip title={t('views.intervention.assign.title')}>

@@ -9,6 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { assignIntervention } from '../../api';
 import OrganizationSelector from '../../components/selectors/OrganizationSelector';
 
 const useStyles = makeStyles(theme => ({
@@ -64,9 +65,14 @@ const AssignInterventionModal = ({
     let orgs = organizations.map(o => {
       return { id: o.value, name: o.label };
     });
-    onClose(true, { ...intervention, organizations: orgs });
-    showSuccessMessage(t('views.intervention.assign.success'));
-    //showErrorMessage(t('views.intervention.assign.error'));
+    assignIntervention(user, intervention.id, orgs)
+      .then(() => {
+        onClose(true, { ...intervention, organizations: orgs });
+        showSuccessMessage(t('views.intervention.assign.success'));
+      })
+      .catch(() => {
+        showErrorMessage(t('views.intervention.assign.error'));
+      });
     setLoading(false);
   };
 
