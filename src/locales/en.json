@@ -110,6 +110,45 @@
       "skipped": "Skipped",
       "yourProgress": "Your Progress"
     },
+    "support": {
+      "metaTitle": "Poverty Stoplight Support Center",
+      "headerTitle": "Advice and answers from the Poverty Stoplight Platform Team",
+      "search": "Search for articles...",
+      "countArticles": "articles in this collection",
+      "writeBy": "Written by",
+      "createdAt": "Created at",
+      "team": " Stoplight Team",
+      "allCollections": "All collections",
+      "noArticles": "No articles",
+      "addArticle": "Add a article",
+      "article": "Article",
+      "editButton": "EDIT",
+      "deleteButton": "DELETE",
+      "failRequest": "There is a error in the request",
+      "collections": {
+        "generalDescription": "General Questions about the Poverty Stoplight",
+        "webDescription": "General articles about using the Poverty Stoplight Platform",
+        "appDescription": "General support articles regarding the Stoplight Mobile android app"
+      },
+      "form": {
+        "title": "Article title",
+        "subtitle": "Add a description for your article",
+        "active": "Publish this article",
+        "content": "Start writing your content...",
+        "userNotAllowed": "Operation not allowed",
+        "save": {
+          "success": "Article saved successfully",
+          "failed": "Could not save article"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this article?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "Article deleted successfully",
+        "failed": "Could not delete article"
+      }
+    },
     "families": "Families",
     "createLifemap": "Create a Life Map",
     "latestDrafts": "Latest Life Maps",
@@ -464,6 +503,11 @@
       "allSnapShots": "All last snapshots",
       "baseLine": "Baseline",
       "followUp": "Follow-up"
+    },
+    "collectionSelector": {
+      "label": "Collection",
+      "loading": "Loading...",
+      "noOption": "No collection left"
     },
     "exitModal": {
       "confirmTitle": "Confirm Exit",
