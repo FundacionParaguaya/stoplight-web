@@ -223,13 +223,19 @@ const Support = ({
   const showCreateArticle = ({ role }) =>
     role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
+  const showAllArticles = ({ role }) =>
+    role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
+
   useEffect(() => {
     if (searchQuery !== '' && searchQuery !== 0 && searchQuery !== null) {
       setLoading(true);
       getArticles(user, searchQuery, '', lang, [])
         .then(res => {
           const data = _.get(res, 'data.data.listArticles', []);
-          setArticles(data);
+          const visibleArticles = showAllArticles(user)
+            ? data
+            : data.filter(el => el.published);
+          setArticles(visibleArticles);
           setCollections([]);
         })
         .catch(e => {
@@ -258,8 +264,13 @@ const Support = ({
           getArticles(user, null, '', lang, [])
             .then(res => {
               const data = _.get(res, 'data.data.listArticles', []);
+
+              const visibleArticles = showAllArticles(user)
+                ? data
+                : data.filter(el => el.published);
+
               updatedCollections = collectionTypes.map(collection => {
-                const countArticles = data.filter(
+                const countArticles = visibleArticles.filter(
                   article => article.collection === collection.code
                 ).length;
                 const { icon, label } = collectionTypeOptions.find(

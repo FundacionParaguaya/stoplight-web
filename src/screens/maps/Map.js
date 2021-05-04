@@ -165,6 +165,9 @@ const Map = ({ mapRenderId, markers, isMarkerShown, selectedColors, user }) => {
 
   const isPsteam = ({ role }) => role === ROLES_NAMES.ROLE_PS_TEAM;
 
+  const hasZoomLimit = user =>
+    (!!user.hub && user.hub.zoomLimit === true) || isPsteam(user);
+
   function onDragEnd() {
     let center = this.getCenter();
     setLocationData({
@@ -196,7 +199,7 @@ const Map = ({ mapRenderId, markers, isMarkerShown, selectedColors, user }) => {
               }}
               onDragEnd={onDragEnd}
               options={{
-                maxZoom: !!user.hub && user.hub.zoomLimit === true ? 13 : '',
+                maxZoom: hasZoomLimit(user) ? 13 : '',
                 minZoom: 2,
                 mapTypeControlOptions: {
                   position: itsMobile
