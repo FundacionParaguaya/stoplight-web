@@ -998,9 +998,11 @@
         "required": "Question required",
         "name": "Intervention name",
         "save": {
-          "success": "Intervention definition created",
-          "error": "Could not create intervention definition"
-        }
+          "success": "Intervention definition saved",
+          "error": "Could not save intervention definition"
+        },
+        "validationError": "Some question(s) does not have options yet!",
+        "warning": " Important: when you edit an intervention form in use, previous interventions might have blank fields when users view the results."
       },
       "add": "Add Intervention",
       "list": "List of Interventions",

@@ -998,11 +998,16 @@
         "addOption": "Agregar opción",
         "name": "Nombre de la intervención",
         "save": {
-          "success": "Definición de intervención creada",
-          "error": "No se pudo crear la definición de intervención"
-        }
+          "success": "Definición de intervención guardada",
+          "error": "No se pudo guardar la definición de intervención"
+        },
+        "warning": "Importante: cuando edita un formulario de intervención en uso, las intervenciones anteriores pueden tener campos en blanco cuando los usuarios ven los resultados."
       },
-      "assign": "Asignar intervención",
+      "assign": {
+        "success": "Guardado correctamente",
+        "error": "Ocurrió un error al asignar la intervención. \nIntentar otra vez",
+        "title": "Asignar intervención"
+      },
       "loadingError": "Se produjo un error al cargar las definiciones de las intervenciones."
     }
   },

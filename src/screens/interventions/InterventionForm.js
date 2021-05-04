@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 import {
   getInterventionDefinition,
   listInterventionsQuestions,
-  addInterventionDefinition
+  addOrUpdadteInterventionDefinition
 } from '../../api';
 import interventionBanner from '../../assets/reports_banner.png';
 import Container from '../../components/Container';
@@ -120,6 +120,7 @@ const InterventionForm = ({
   const [items, setItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [openExitModal, setOpenExitModal] = useState(false);
+  const [retrivedDefinition, setRetrivedDefinition] = useState();
 
   const getList = id => (id === 'droppable' ? items : selectedItems);
 
@@ -162,8 +163,43 @@ const InterventionForm = ({
             options: [{ value: 'value', text: '' }]
           };
         });
+
+        if (!!id) {
+          getInterventionDefinition(user, id)
+            .then(response => {
+              const definition =
+                response.data.data.retrieveInterventionDefinition;
+              setRetrivedDefinition(definition);
+              let newItems = Array.from(itemQuestions);
+              const questions = definition.questions.filter(
+                q =>
+                  !q.coreQuestion &&
+                  (q.codeName === 'contactType' ||
+                    q.codeName === 'activityDetail')
+              );
+              questions.forEach(q => {
+                let index = newItems.findIndex(
+                  item => q.codeName === item.codeName
+                );
+                newItems.splice(index, 1);
+                if (hasOptions(q.answerType)) {
+                  const otherOptionIndex = q.options.findIndex(
+                    o => o.otherOption
+                  );
+                  if (otherOptionIndex >= 0) {
+                    q.options.splice(otherOptionIndex, 1);
+                    q.otherOption = true;
+                  }
+                }
+              });
+              setItems(newItems);
+              setSelectedItems(questions);
+            })
+            .catch(e => showErrorMessage(e.message));
+        } else {
+          setItems(itemQuestions);
+        }
         setCoreQuestions(mainQuestions);
-        setItems(itemQuestions);
         setLoading(false);
       })
       .catch(e => {
@@ -171,16 +207,6 @@ const InterventionForm = ({
         setLoading(false);
       });
   }, []);
-
-  useEffect(() => {
-    if (!!id) {
-      getInterventionDefinition(user, id)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(e => showErrorMessage(e.message));
-    }
-  }, [id]);
 
   const onDragEnd = result => {
     const { source, destination } = result;
@@ -237,6 +263,8 @@ const InterventionForm = ({
       }
       if (hasOptions(question.answerType)) {
         question.options = question.options.filter(o => !!o.text);
+      } else {
+        delete question.options;
       }
 
       return question;
@@ -254,23 +282,27 @@ const InterventionForm = ({
       return q;
     });
     let interventionDefinition = {
+      id: values.id,
       title: values.name,
       description: values.name,
       active: true,
       questions: finalQuestions
     };
-    console.log(hasErrors);
-    console.log(interventionDefinition);
-    addInterventionDefinition(user, interventionDefinition, orgs)
-      .then(() => {
-        showSuccessMessage(t('views.intervention.definition.save.success'));
-        setLoading(false);
-        //history.push(`/interventions`)
-      })
-      .catch(e => {
-        showErrorMessage(t('views.intervention.definition.save.error'));
-        setLoading(false);
-      });
+
+    hasErrors &&
+      showErrorMessage(t('views.intervention.definition.validationError'));
+
+    !hasErrors &&
+      addOrUpdadteInterventionDefinition(user, interventionDefinition, orgs)
+        .then(() => {
+          showSuccessMessage(t('views.intervention.definition.save.success'));
+          setLoading(false);
+          history.push(`/interventions`);
+        })
+        .catch(e => {
+          showErrorMessage(t('views.intervention.definition.save.error'));
+          setLoading(false);
+        });
   };
 
   return (
@@ -298,16 +330,18 @@ const InterventionForm = ({
 
       {isEdit && (
         <Alert severity="warning" className={classes.alert}>
-          {'Be careful editing a form already in use.'}
+          {t('views.intervention.definition.warning')}
         </Alert>
       )}
 
       <Formik
         initialValues={{
-          id: null,
-          name: '',
-          organizations: []
+          id: (!!retrivedDefinition && retrivedDefinition.id) || null,
+          name: (!!retrivedDefinition && retrivedDefinition.title) || '',
+          organizations:
+            (!!retrivedDefinition && retrivedDefinition.organizations) || []
         }}
+        enableReinitialize
         validationSchema={validationSchema}
         onSubmit={values => {
           onSave(values);
@@ -409,17 +443,18 @@ const InterventionForm = ({
               </DragDropContext>
             </div>
 
-            <OrganizationSelector
-              title="Choose Organizations"
-              data={values.organizations}
-              onChange={value => {
-                setFieldValue('organizations', value);
-              }}
-              isMulti
-              isClearable
-              maxMenuHeight="120"
-            />
-
+            {!isEdit && (
+              <OrganizationSelector
+                title="Choose Organizations"
+                data={values.organizations}
+                onChange={value => {
+                  setFieldValue('organizations', value);
+                }}
+                isMulti
+                isClearable
+                maxMenuHeight="120"
+              />
+            )}
             <div className={classes.buttonContainerForm}>
               <Button
                 variant="outlined"

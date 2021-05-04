@@ -1000,11 +1000,16 @@
         "addOption": "Ajoute opsyon",
         "name": "Non entèvansyon",
         "save": {
-          "success": "Definisyon entèvansyon kreye",
-          "error": "Pa t 'kapab kreye definisyon entèvansyon"
-        }
+          "success": "Definisyon entèvansyon sove",
+          "error": "Pa t 'kapab sove definisyon entèvansyon"
+        },
+        "warning": "Enpòtan: lè ou edite yon fòm entèvansyon nan itilize, entèvansyon anvan yo ta ka gen jaden vid lè itilizatè wè rezilta yo."
       },
-      "assign": "Bay Entèvansyon",
+      "assign": {
+        "success": "Sove kòrèkteman",
+        "error": "Yon erè ki te fèt pandan y ap asiyen entèvansyon. \nEseye anko",
+        "title": "Bay Entèvansyon"
+      },
       "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon yo"
     }
   },

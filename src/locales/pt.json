@@ -998,11 +998,16 @@
         "addOption": "Adicionar opção",
         "name": "Nome da intervenção",
         "save": {
-          "success": "Definição de intervenção criada",
-          "error": "Não foi possível criar definição de intervenção"
-        }
+          "success": "Definição de intervenção salva",
+          "error": "Não foi possível salvar a definição de intervenção"
+        },
+        "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados."
       },
-      "assign": "Atribuir Intervenção",
+      "assign": {
+        "success": "Salvo corretamente",
+        "error": "Ocorreu um erro ao atribuir intervenção. \nTente novamente",
+        "title": "Atribuir intervenção"
+      },
       "loadingError": "Ocorreu um erro ao carregar as definições das intervenções"
     }
   },
