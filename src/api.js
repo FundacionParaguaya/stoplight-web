@@ -1607,6 +1607,103 @@ export const getSnapshots = (user, filters) =>
     })
   });
 
+//
+export const getCollectionTypes = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(lang)
+    },
+    data: JSON.stringify({
+      query: 'query { listArticlesTypes { code description } }'
+    })
+  });
+
+export const getArticleById = (user, id) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query getArticleById($id: Long) { getArticleById(id: $id) { id title description contentRich contentText collection lang published createdAt} }',
+      variables: {
+        id
+      }
+    })
+  });
+
+export const deleteArticleById = (user, id) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteArticle($article: HelpArticleModelInput) {deleteArticle (article: $article){ successful }}',
+      variables: {
+        article: {
+          id
+        }
+      }
+    })
+  });
+
+export const saveOrUpdateArticle = (user, values) => {
+  if (!values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createArticle($article: HelpArticleModelInput) {createArticle (article: $article){ id }}`,
+        variables: {
+          article: {
+            title: values.title,
+            description: values.subtitle,
+            collection: values.collection.value,
+            lang: normalizeLanguages(values.language),
+            contentText: values.contentText,
+            contentRich: values.contentRich,
+            published: values.published
+          }
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateArticle($article: HelpArticleModelInput) {updateArticle (article: $article){ successful }}`,
+        variables: {
+          article: {
+            id: values.id,
+            title: values.title,
+            description: values.subtitle,
+            collection: values.collection.value,
+            lang: normalizeLanguages(values.language),
+            contentText: values.contentText,
+            contentRich: values.contentRich,
+            published: values.published
+          }
+        }
+      })
+    });
+  }
+};
+
 // get a list of dimensions available to the authorized used
 export const getDimensionsByUser = (user, lang) =>
   axios({
@@ -1842,6 +1939,27 @@ export const getSolutionsAccessTypes = (user, lang) =>
     },
     data: JSON.stringify({
       query: 'query solutionsAccess { solutionsAccess { code description} }'
+    })
+  });
+
+// get list of articles
+
+export const getArticles = (user, filter, collection, lang, tags) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query listArticles($filter: String, $collection: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, collection: $collection, lang: $lang, tags: $tags) { id title description createdAt collection} }',
+      variables: {
+        filter,
+        collection,
+        lang: normalizeLang(lang),
+        tags
+      }
     })
   });
 
