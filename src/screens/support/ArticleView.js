@@ -167,12 +167,29 @@ const ArticleView = ({
       .finally(() => setLoading(false));
   };
 
+  const canShow = ({ role }, published) =>
+    role === ROLES_NAMES.ROLE_ROOT ||
+    role === ROLES_NAMES.ROLE_PS_TEAM ||
+    published;
+
   useEffect(() => {
     setLoading(true);
     getArticleById(user, id)
       .then(response => {
         const data = _.get(response, 'data.data.getArticleById', {});
+        if (!canShow(user, data.published)) throw new Error();
         setArticle(data);
+      })
+      .catch(() => {
+        enqueueSnackbar(t('views.support.form.userNotAllowed'), {
+          variant: 'error',
+          action: key => (
+            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+              <CloseIcon style={{ color: 'white' }} />
+            </IconButton>
+          )
+        });
+        history.push(`/support`);
       })
       .finally(() => setLoading(false));
   }, []);

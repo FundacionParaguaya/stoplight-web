@@ -1953,7 +1953,7 @@ export const getArticles = (user, filter, collection, lang, tags) =>
     },
     data: JSON.stringify({
       query:
-        'query listArticles($filter: String, $collection: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, collection: $collection, lang: $lang, tags: $tags) { id title description createdAt collection} }',
+        'query listArticles($filter: String, $collection: String, $lang: String, $tags: [String]) { listArticles(filter: $filter, collection: $collection, lang: $lang, tags: $tags) { id title description published createdAt collection} }',
       variables: {
         filter,
         collection,

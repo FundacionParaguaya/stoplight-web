@@ -24,6 +24,7 @@ import i18n from '../../i18n';
 import SupportLangPicker from './SupportLangPicker';
 import { withSnackbar } from 'notistack';
 import CloseIcon from '@material-ui/icons/Close';
+import { ROLES_NAMES } from '../../utils/role-utils';
 
 const styles = theme => ({
   mainContainer: {
@@ -177,6 +178,9 @@ const CollectionView = ({
     }
   };
 
+  const showAllArticles = ({ role }) =>
+    role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
+
   useEffect(() => {
     setLoading(true);
     getCollectionTypes(user, language)
@@ -190,6 +194,11 @@ const CollectionView = ({
         getArticles(user, null, slugUpperCase, lang, [])
           .then(res => {
             const data = _.get(res, 'data.data.listArticles', []);
+
+            const visibleArticles = showAllArticles(user)
+              ? data
+              : data.filter(el => el.published);
+
             const selectedCollection = collectionTypes.find(
               el => el.code === slugUpperCase
             );
@@ -203,7 +212,7 @@ const CollectionView = ({
               countArticles: data.length
             };
             setCollection(updatedCollection);
-            setArticles(data);
+            setArticles(visibleArticles);
           })
           .catch(e => {
             console.log(e);
