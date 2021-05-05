@@ -268,7 +268,7 @@ const InterventionForm = ({
     });
     const hasErrors = questions.some(
       question =>
-        hasOptions(questions.answerType) && question.options.length === 0
+        hasOptions(question.answerType) && question.options.length === 0
     );
 
     let orgs = values.organizations.map(o => o.value);
@@ -285,10 +285,10 @@ const InterventionForm = ({
       questions: finalQuestions
     };
 
-    hasErrors &&
+    if (hasErrors) {
       showErrorMessage(t('views.intervention.definition.validationError'));
-
-    !hasErrors &&
+      setLoading(false);
+    } else {
       addOrUpdadteInterventionDefinition(user, interventionDefinition, orgs)
         .then(() => {
           showSuccessMessage(t('views.intervention.definition.save.success'));
@@ -299,6 +299,7 @@ const InterventionForm = ({
           showErrorMessage(t('views.intervention.definition.save.error'));
           setLoading(false);
         });
+    }
   };
 
   return (
