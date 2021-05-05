@@ -2275,3 +2275,104 @@ export const deleteMap = (surveyOfflineMap, user) =>
       }
     })
   });
+
+export const listInterventionsQuestions = (user, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query:
+        'query { interventionPresetQuestions { id codeName shortName answerType coreQuestion } }'
+    })
+  });
+
+export const listInterventionsDefinitions = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query { interventionsDefinitionByUser { id title organizations { id name} } }'
+    })
+  });
+
+export const getInterventionDefinition = (user, interventionDefinition) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query retrieveInterventionDefinition ($interventionDefinition: Long!) { retrieveInterventionDefinition(interventionDefinition: $interventionDefinition) { id title active questions { id codeName shortName answerType coreQuestion required options {value text otherOption}} } } ',
+      variables: {
+        interventionDefinition
+      }
+    })
+  });
+
+export const addOrUpdadteInterventionDefinition = (
+  user,
+  definition,
+  organizations
+) => {
+  if (!definition.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query:
+          'mutation createInterventionDefinition($interventionDefinition: InterventionDefinitionModelInput,$organizations: [Long], $application: Long!) {createInterventionDefinition (interventionDefinition: $interventionDefinition,organizations: $organizations, application: $application){successful}}',
+        variables: {
+          interventionDefinition: definition,
+          organizations,
+          application: user.hub && user.hub.id ? user.hub.id : ''
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query:
+          'mutation updateInterventionDefinition($interventionDefinition: InterventionDefinitionModelInput) {updateInterventionDefinition (interventionDefinition: $interventionDefinition){successful}}',
+        variables: {
+          interventionDefinition: definition
+        }
+      })
+    });
+  }
+};
+
+export const assignIntervention = (user, interventionId, organizations) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation assignInterventionDefinition($interventionDefinition: Long,$organizations: [Long]!, $application: Long!) {assignInterventionDefinition (interventionDefinition: $interventionDefinition,organizations: $organizations, application: $application){successful}}',
+      variables: {
+        interventionDefinition: interventionId,
+        organizations,
+        application: user.hub && user.hub.id ? user.hub.id : ''
+      }
+    })
+  });

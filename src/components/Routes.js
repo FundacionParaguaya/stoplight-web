@@ -58,6 +58,10 @@ const OfflineMaps = lazy(() => import('../screens/OfflineMaps'));
 const MyProfile = lazy(() =>
   import('../screens/families/my-profile/MyProfile')
 );
+const Interventions = lazy(() => import('../screens/Interventions'));
+const InterventionForm = lazy(() =>
+  import('../screens/interventions/InterventionForm')
+);
 
 const Routes = ({ user }) => {
   return (
@@ -210,6 +214,23 @@ const Routes = ({ user }) => {
           {checkAccess(user, 'surveys') && (
             <Route exact path="/" component={Surveys} />
           )}
+          {checkAccess(user, 'interventions') && (
+            <Route exact path="/interventions" component={Interventions} />
+          )}
+          {checkAccess(user, 'interventions') && (
+            <Route
+              exact
+              path="/interventions/create"
+              component={InterventionForm}
+            />
+          )}
+          {checkAccessToSolution(user, 'interventions') && (
+            <Route
+              path="/interventions/edit/:id"
+              component={InterventionForm}
+            />
+          )}
+
           {checkAccess(user, 'support') && (
             <Route exact path="/support" component={Support} />
           )}

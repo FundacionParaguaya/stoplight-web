@@ -93,7 +93,8 @@
       "support": "Support",
       "projects": "Projects",
       "solutions": "Bank of Solutions",
-      "my-profile": "My profile"
+      "my-profile": "My profile",
+      "interventions": "Interventions"
     },
     "synced": "Sync",
     "dashboard": {
@@ -1027,6 +1028,35 @@
         "success": "The Map  has been deleted",
         "error": "Could not delete map. Try again later"
       }
+    },
+    "intervention": {
+      "definition": {
+        "options": "Options",
+        "addOption": "Add option",
+        "missingOptions": "Options for this question are required",
+        "title": "Intervetion Definition",
+        "subtitle": "Create your intervention by setting the definitions here.  ",
+        "coreQuestions": "These are the core questions which will be at the beginning of the intervention form:",
+        "questionsTitle": "To add more questions, drag and drop the following questions to the form on the right:",
+        "otherOption": "Add an \"Other\" response option.",
+        "required": "Question required",
+        "name": "Intervention name",
+        "save": {
+          "success": "Intervention definition saved",
+          "error": "Could not save intervention definition"
+        },
+        "validationError": "Some question(s) does not have options yet!",
+        "warning": " Important: when you edit an intervention form in use, previous interventions might have blank fields when users view the results."
+      },
+      "add": "Add Intervention",
+      "list": "List of Interventions",
+      "subtitle": "Create Interventions models for your organizations",
+      "assign": {
+        "success": "Saved correctly",
+        "error": "An error occurred while assigning intervention. Try again",
+        "title": "Assign Intervention"
+      },
+      "loadingError": "An error occurred loading  interventions definitions"
     }
   },
   "reports": {
@@ -1059,5 +1089,13 @@
     "ROLE_HUB_ADMIN": "Hub Admin",
     "ROLE_SURVEY_TAKER": "Surveyor",
     "ROLE_FAMILY_USER": "Family"
+  },
+  "answerType": {
+    "select": "Dropdown",
+    "number": "Number",
+    "radio": "Radio",
+    "text": "Text",
+    "checkbox": "Checkbox",
+    "date": "Date"
   }
 }

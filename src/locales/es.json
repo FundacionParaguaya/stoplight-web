@@ -1023,6 +1023,31 @@
         "confirmText": "¿Está seguro de que desea eliminar este mapa?",
         "confirmTitle": "Confirmar la eliminación"
       }
+    },
+    "intervention": {
+      "definition": {
+        "coreQuestions": "Estas son las preguntas esenciales que estarán al comienzo del formulario de intervención:",
+        "questionsTitle": "Para agregar más preguntas, arrastre y suelte las siguientes preguntas en el formulario de la derecha:",
+        "subtitle": "Cree su intervención estableciendo las definiciones aquí.",
+        "title": "Definición de intervención",
+        "required": "Pregunta requerida",
+        "options": "Opciones",
+        "otherOption": "Agregue una opción de respuesta \"Otro\".",
+        "missingOptions": "Se requieren opciones para esta pregunta",
+        "addOption": "Agregar opción",
+        "name": "Nombre de la intervención",
+        "save": {
+          "success": "Definición de intervención guardada",
+          "error": "No se pudo guardar la definición de intervención"
+        },
+        "warning": "Importante: cuando edita un formulario de intervención en uso, las intervenciones anteriores pueden tener campos en blanco cuando los usuarios ven los resultados."
+      },
+      "assign": {
+        "success": "Guardado correctamente",
+        "error": "Ocurrió un error al asignar la intervención. \nIntentar otra vez",
+        "title": "Asignar intervención"
+      },
+      "loadingError": "Se produjo un error al cargar las definiciones de las intervenciones."
     }
   },
   "reports": {
@@ -1055,5 +1080,13 @@
     "ROLE_HUB_ADMIN": "Hub Admin",
     "ROLE_SURVEY_TAKER": "Encuestador",
     "ROLE_FAMILY_USER": "Familia"
+  },
+  "answerType": {
+    "checkbox": "Checkbox",
+    "number": "Número",
+    "radio": "Radio",
+    "select": "Desplegable",
+    "text": "Texto",
+    "date": "Fecha"
   }
 }

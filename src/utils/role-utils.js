@@ -19,9 +19,10 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS, version: 'BETA' },
+    { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
     { item: 'support', platform: ACCESS },
+    { item: 'interventions', platform: NEW },
     { item: 'offline-maps', platform: ACCESS }
   ],
   ROLE_HUB_ADMIN: [
@@ -36,9 +37,10 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS, version: 'BETA' },
-    { item: 'support', platform: ACCESS },
-    { item: 'offline-maps', platform: ACCESS }
+    { item: 'solutions', platform: ACCESS },
+    { item: 'offline-maps', platform: ACCESS },
+    { item: 'interventions', platform: NEW },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_PS_TEAM: [
     // PS Team user
@@ -50,7 +52,7 @@ export const ROLES = {
     { item: 'map', platform: NEW },
     { item: 'organizations', platform: ACCESS },
     { item: 'projects', platform: ACCESS },
-    { item: 'solutions', platform: ACCESS, version: 'BETA' },
+    { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
     { item: 'support', platform: ACCESS },
     { item: 'offline-maps', platform: ACCESS }
@@ -65,7 +67,7 @@ export const ROLES = {
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
-    { item: 'solutions', platform: ACCESS, version: 'BETA' },
+    { item: 'solutions', platform: ACCESS },
     { item: 'editFamily', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
     { item: 'support', platform: ACCESS }
