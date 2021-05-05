@@ -172,10 +172,7 @@ const InterventionForm = ({
               setRetrivedDefinition(definition);
               let newItems = Array.from(itemQuestions);
               const questions = definition.questions.filter(
-                q =>
-                  !q.coreQuestion &&
-                  (q.codeName === 'contactType' ||
-                    q.codeName === 'activityDetail')
+                q => !q.coreQuestion
               );
               questions.forEach(q => {
                 let index = newItems.findIndex(
@@ -259,8 +256,8 @@ const InterventionForm = ({
       let question = JSON.parse(JSON.stringify(q));
       if (question.otherOption) {
         question.options.push({ value: '', text: 'Other', otherOption: true });
-        delete question.otherOption;
       }
+      delete question.otherOption;
       if (hasOptions(question.answerType)) {
         question.options = question.options.filter(o => !!o.text);
       } else {
@@ -278,7 +275,6 @@ const InterventionForm = ({
     let finalQuestions = [...coreQuestions, ...questions].map((q, index) => {
       q.orderNumber = index + 1;
       q.required = !!q.required;
-      delete q.coreQuestion;
       return q;
     });
     let interventionDefinition = {

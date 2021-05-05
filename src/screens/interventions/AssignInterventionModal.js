@@ -65,7 +65,11 @@ const AssignInterventionModal = ({
     let orgs = organizations.map(o => {
       return { id: o.value, name: o.label };
     });
-    assignIntervention(user, intervention.id, orgs)
+    assignIntervention(
+      user,
+      intervention.id,
+      organizations.map(o => o.value)
+    )
       .then(() => {
         onClose(true, { ...intervention, organizations: orgs });
         showSuccessMessage(t('views.intervention.assign.success'));

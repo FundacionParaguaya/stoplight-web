@@ -129,17 +129,7 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
     setLoading(true);
     listInterventionsDefinitions(user)
       .then(response => {
-        setInterventions([
-          ...response.data.data.interventionsDefinitionByUser,
-          {
-            id: 2,
-            title: 'Intervención 1',
-            organizations: [
-              { id: 1, name: 'partner' },
-              { id: 2, name: 'Fundación Paraguaya' }
-            ]
-          }
-        ]);
+        setInterventions(response.data.data.interventionsDefinitionByUser);
         setLoading(false);
       })
       .catch(() => {
@@ -213,7 +203,7 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
       </Grid>
 
       {interventions.map(intervention => (
-        <div key={intervention.name} className={classes.row}>
+        <div key={intervention.id} className={classes.row}>
           <div className={classes.container}>
             <IntervetionIcon className={classes.icon} />
             <Typography variant="h6" style={{ color: 'grey' }}>

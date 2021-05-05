@@ -2333,10 +2333,11 @@ export const addOrUpdadteInterventionDefinition = (
       },
       data: JSON.stringify({
         query:
-          'mutation createInterventionDefinition($interventionDefinition: InterventionDefinitionModelInput,$organizations: [Long]) {createInterventionDefinition (interventionDefinition: $interventionDefinition,organizations: $organizations){successful}}',
+          'mutation createInterventionDefinition($interventionDefinition: InterventionDefinitionModelInput,$organizations: [Long], $application: Long!) {createInterventionDefinition (interventionDefinition: $interventionDefinition,organizations: $organizations, application: $application){successful}}',
         variables: {
           interventionDefinition: definition,
-          organizations
+          organizations,
+          application: user.hub && user.hub.id ? user.hub.id : ''
         }
       })
     });
@@ -2367,10 +2368,11 @@ export const assignIntervention = (user, interventionId, organizations) =>
     },
     data: JSON.stringify({
       query:
-        'mutation assignInterventionToOrganization($interventionDefinition: Long,$organizations: [Long]) {assignInterventionToOrganization (interventionDefinition: $interventionDefinition,organizations: $organizations){successful}}',
+        'mutation assignInterventionDefinition($interventionDefinition: Long,$organizations: [Long]!, $application: Long!) {assignInterventionDefinition (interventionDefinition: $interventionDefinition,organizations: $organizations, application: $application){successful}}',
       variables: {
         interventionDefinition: interventionId,
-        organizations
+        organizations,
+        application: user.hub && user.hub.id ? user.hub.id : ''
       }
     })
   });
