@@ -446,7 +446,7 @@ class Surveys extends Component {
           </div>
           {this.state.loadingSurvey && (
             <div className={classes.spinnerContainer}>
-              <CircularProgress />
+              <CircularProgress size={60} />
             </div>
           )}
           <div className={classes.listContainer}>
@@ -576,18 +576,6 @@ const styles = theme => ({
   snapshotsContainer: {
     marginTop: theme.spacing(4)
   },
-  loadingSurveyContainer: {
-    zIndex: 10000,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'fixed',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    right: 0,
-    bottom: 0,
-    top: 0,
-    left: 0
-  },
   draftsTotalContainer: {
     order: 2,
     [theme.breakpoints.up('sm')]: {
@@ -606,7 +594,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'fixed',
-    backgroundColor: theme.palette.text.light,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     right: 0,
     bottom: 0,
     top: 0,
