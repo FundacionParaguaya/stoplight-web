@@ -234,16 +234,16 @@ const Routes = ({ user }) => {
           {checkAccess(user, 'support') && (
             <Route exact path="/support" component={Support} />
           )}
-          {checkAccess(user, 'support') && (
-            <Route path="/article/:id" component={ArticleView} />
-          )}
-          {checkAccess(user, 'support') && (
-            <Route path="/articles/create" component={SupportForm} />
-          )}
+          {/*{checkAccess(user, 'support') && (*/}
+          {/*  <Route path="/article/:id" component={ArticleView} />*/}
+          {/*)}*/}
+          {/*{checkAccess(user, 'support') && (*/}
+          {/*  <Route path="/articles/create" component={SupportForm} />*/}
+          {/*)}*/}
 
-          {checkAccess(user, 'support') && (
-            <Route path="/articles/edit/:id" component={SupportForm} />
-          )}
+          {/*{checkAccess(user, 'support') && (*/}
+          {/*  <Route path="/articles/edit/:id" component={SupportForm} />*/}
+          {/*)}*/}
           {checkAccess(user, 'support') && (
             <Route path="/collection/:slug" component={CollectionView} />
           )}
