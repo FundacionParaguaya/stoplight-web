@@ -22,7 +22,7 @@ export const ROLES = {
     { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
     { item: 'support', platform: ACCESS },
-    { item: 'interventions', platform: NEW },
+    // { item: 'interventions', platform: NEW },
     { item: 'offline-maps', platform: ACCESS }
   ],
   ROLE_HUB_ADMIN: [
@@ -39,7 +39,7 @@ export const ROLES = {
     { item: 'map', platform: NEW },
     { item: 'solutions', platform: ACCESS },
     { item: 'offline-maps', platform: ACCESS },
-    { item: 'interventions', platform: NEW },
+    // { item: 'interventions', platform: NEW },
     { item: 'support', platform: ACCESS }
   ],
   ROLE_PS_TEAM: [
