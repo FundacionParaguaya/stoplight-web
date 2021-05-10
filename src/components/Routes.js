@@ -8,9 +8,9 @@ import {
 } from '../utils/role-utils';
 import CircularProgress from '@material-ui/core/CircularProgress';
 const Support = lazy(() => import('../screens/Support'));
-const SupportForm = lazy(() => import('../screens/support/SupportForm'));
+// const SupportForm = lazy(() => import('../screens/support/SupportForm'));
 const CollectionView = lazy(() => import('../screens/support/CollectionView'));
-const ArticleView = lazy(() => import('../screens/support/ArticleView'));
+// const ArticleView = lazy(() => import('../screens/support/ArticleView'));
 const Surveys = lazy(() => import('../screens/SurveysWithDrafts'));
 const SurveyList = lazy(() => import('../screens/Surveys'));
 const Organizations = lazy(() => import('../screens/Organizations'));
