@@ -8,9 +8,9 @@ import {
 } from '../utils/role-utils';
 import CircularProgress from '@material-ui/core/CircularProgress';
 const Support = lazy(() => import('../screens/Support'));
-// const SupportForm = lazy(() => import('../screens/support/SupportForm'));
+const SupportForm = lazy(() => import('../screens/support/SupportForm'));
 const CollectionView = lazy(() => import('../screens/support/CollectionView'));
-// const ArticleView = lazy(() => import('../screens/support/ArticleView'));
+const ArticleView = lazy(() => import('../screens/support/ArticleView'));
 const Surveys = lazy(() => import('../screens/SurveysWithDrafts'));
 const SurveyList = lazy(() => import('../screens/Surveys'));
 const Organizations = lazy(() => import('../screens/Organizations'));
@@ -58,10 +58,10 @@ const OfflineMaps = lazy(() => import('../screens/OfflineMaps'));
 const MyProfile = lazy(() =>
   import('../screens/families/my-profile/MyProfile')
 );
-// const Interventions = lazy(() => import('../screens/Interventions'));
-// const InterventionForm = lazy(() =>
-//   import('../screens/interventions/InterventionForm')
-// );
+const Interventions = lazy(() => import('../screens/Interventions'));
+const InterventionForm = lazy(() =>
+  import('../screens/interventions/InterventionForm')
+);
 
 const Routes = ({ user }) => {
   return (
@@ -214,36 +214,36 @@ const Routes = ({ user }) => {
           {checkAccess(user, 'surveys') && (
             <Route exact path="/" component={Surveys} />
           )}
-          {/*{checkAccess(user, 'interventions') && (*/}
-          {/*  <Route exact path="/interventions" component={Interventions} />*/}
-          {/*)}*/}
-          {/*{checkAccess(user, 'interventions') && (*/}
-          {/*  <Route*/}
-          {/*    exact*/}
-          {/*    path="/interventions/create"*/}
-          {/*    component={InterventionForm}*/}
-          {/*  />*/}
-          {/*)}*/}
-          {/*{checkAccessToSolution(user, 'interventions') && (*/}
-          {/*  <Route*/}
-          {/*    path="/interventions/edit/:id"*/}
-          {/*    component={InterventionForm}*/}
-          {/*  />*/}
-          {/*)}*/}
+          {checkAccess(user, 'interventions') && (
+            <Route exact path="/interventions" component={Interventions} />
+          )}
+          {checkAccess(user, 'interventions') && (
+            <Route
+              exact
+              path="/interventions/create"
+              component={InterventionForm}
+            />
+          )}
+          {checkAccessToSolution(user, 'interventions') && (
+            <Route
+              path="/interventions/edit/:id"
+              component={InterventionForm}
+            />
+          )}
 
           {checkAccess(user, 'support') && (
             <Route exact path="/support" component={Support} />
           )}
-          {/*{checkAccess(user, 'support') && (*/}
-          {/*  <Route path="/article/:id" component={ArticleView} />*/}
-          {/*)}*/}
-          {/*{checkAccess(user, 'support') && (*/}
-          {/*  <Route path="/articles/create" component={SupportForm} />*/}
-          {/*)}*/}
+          {checkAccess(user, 'support') && (
+            <Route path="/article/:id" component={ArticleView} />
+          )}
+          {checkAccess(user, 'support') && (
+            <Route path="/articles/create" component={SupportForm} />
+          )}
 
-          {/*{checkAccess(user, 'support') && (*/}
-          {/*  <Route path="/articles/edit/:id" component={SupportForm} />*/}
-          {/*)}*/}
+          {checkAccess(user, 'support') && (
+            <Route path="/articles/edit/:id" component={SupportForm} />
+          )}
           {checkAccess(user, 'support') && (
             <Route path="/collection/:slug" component={CollectionView} />
           )}
