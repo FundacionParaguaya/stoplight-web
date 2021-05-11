@@ -186,12 +186,6 @@ const AddInterventionModal = ({
     snapshotId
   );
 
-  useEffect(() => {
-    getInterventionById(user, 1)
-      .then(response => console.log(response))
-      .catch(e => showErrorMessage(e));
-  }, []);
-
   const onSubmit = values => {
     let keys = Object.keys(values);
 
