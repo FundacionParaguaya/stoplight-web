@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { withTranslation, useTranslation } from 'react-i18next';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -444,6 +444,11 @@ class Surveys extends Component {
               className={classes.chooseLifeMapImage}
             />
           </div>
+          {this.state.loadingSurvey && (
+            <div className={classes.spinnerContainer}>
+              <CircularProgress size={60} />
+            </div>
+          )}
           <div className={classes.listContainer}>
             <Grid container spacing={3}>
               {this.state.isSurveyTaker && (
@@ -455,7 +460,7 @@ class Surveys extends Component {
                   />
                 </Grid>
               )}
-              {!this.state.isSurveyTaker && !this.state.draftsLoading && (
+              {!this.state.isSurveyTaker && (
                 <React.Fragment>
                   <Grid
                     item
@@ -571,18 +576,6 @@ const styles = theme => ({
   snapshotsContainer: {
     marginTop: theme.spacing(4)
   },
-  loadingSurveyContainer: {
-    zIndex: 10000,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'fixed',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    right: 0,
-    bottom: 0,
-    top: 0,
-    left: 0
-  },
   draftsTotalContainer: {
     order: 2,
     [theme.breakpoints.up('sm')]: {
@@ -594,6 +587,18 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       order: 2
     }
+  },
+  spinnerContainer: {
+    zIndex: 10000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 });
 

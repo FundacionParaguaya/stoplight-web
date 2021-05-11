@@ -36,7 +36,8 @@ const OrganizationSelector = ({
   onChange,
   isMulti,
   isClearable,
-  maxMenuHeight
+  maxMenuHeight,
+  title = ''
 }) => {
   const [options, setOptions] = useState([]);
   const [optionsLoading, setOptionsLoading] = useState(false);
@@ -65,7 +66,7 @@ const OrganizationSelector = ({
     >
       <Grid item md={12} sm={12} xs={12}>
         <Typography className={classes.label} variant="subtitle1">
-          {`${t('views.familyList.moveFamily.organization')} *`}
+          {title ? title : `${t('views.familyList.moveFamily.organization')} *`}
         </Typography>
         <div className={classes.selector}>
           <Select

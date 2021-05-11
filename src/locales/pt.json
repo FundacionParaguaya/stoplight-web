@@ -984,6 +984,31 @@
         "confirmText": "Tem certeza de que deseja excluir este mapa?",
         "confirmTitle": "Confirmar exclusão"
       }
+    },
+    "intervention": {
+      "definition": {
+        "coreQuestions": "Estas são as questões centrais que estarão no início do formulário de intervenção:",
+        "questionsTitle": "Para adicionar mais perguntas, arraste e solte as seguintes perguntas no formulário à direita:",
+        "subtitle": "Crie sua intervenção definindo as definições aqui.",
+        "title": "Definição de Intervenção",
+        "required": "Questão necessária",
+        "options": "Opções",
+        "otherOption": "Adicione uma opção de resposta \"Outra\".",
+        "missingOptions": "As opções para esta questão são obrigatórias",
+        "addOption": "Adicionar opção",
+        "name": "Nome da intervenção",
+        "save": {
+          "success": "Definição de intervenção salva",
+          "error": "Não foi possível salvar a definição de intervenção"
+        },
+        "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados."
+      },
+      "assign": {
+        "success": "Salvo corretamente",
+        "error": "Ocorreu um erro ao atribuir intervenção. \nTente novamente",
+        "title": "Atribuir intervenção"
+      },
+      "loadingError": "Ocorreu um erro ao carregar as definições das intervenções"
     }
   },
   "reports": {
@@ -1016,5 +1041,13 @@
     "ROLE_HUB_ADMIN": "Hub Admin",
     "ROLE_SURVEY_TAKER": "Pesquisador",
     "ROLE_FAMILY_USER": "Família"
+  },
+  "answerType": {
+    "checkbox": "Caixa de seleção",
+    "number": "Número",
+    "radio": "Rádio",
+    "select": "Suspenso",
+    "text": "Texto",
+    "date": "Data"
   }
 }

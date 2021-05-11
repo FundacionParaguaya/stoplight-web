@@ -986,6 +986,31 @@
         "confirmText": "Èske ou sèten ou vle efase kat sa a?",
         "confirmTitle": "Konfime sipresyon"
       }
+    },
+    "intervention": {
+      "definition": {
+        "coreQuestions": "Sa yo se kesyon debaz yo ki pral nan kòmansman fòm entèvansyon an:",
+        "questionsTitle": "Pou ajoute plis kesyon, trennen epi lage kesyon sa yo nan fòm ki sou bò dwat la:",
+        "subtitle": "Kreye entèvansyon ou pa mete definisyon yo isit la.",
+        "title": "Entèvansyon Definisyon",
+        "required": "Kesyon obligatwa",
+        "options": "Opsyon",
+        "otherOption": "Ajoute yon opsyon repons \"Lòt\".",
+        "missingOptions": "Opsyon pou kesyon sa a yo mande yo",
+        "addOption": "Ajoute opsyon",
+        "name": "Non entèvansyon",
+        "save": {
+          "success": "Definisyon entèvansyon sove",
+          "error": "Pa t 'kapab sove definisyon entèvansyon"
+        },
+        "warning": "Enpòtan: lè ou edite yon fòm entèvansyon nan itilize, entèvansyon anvan yo ta ka gen jaden vid lè itilizatè wè rezilta yo."
+      },
+      "assign": {
+        "success": "Sove kòrèkteman",
+        "error": "Yon erè ki te fèt pandan y ap asiyen entèvansyon. \nEseye anko",
+        "title": "Bay Entèvansyon"
+      },
+      "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon yo"
     }
   },
   "reports": {
@@ -1018,5 +1043,13 @@
     "ROLE_HUB_ADMIN": "Admin Hub la",
     "ROLE_SURVEY_TAKER": "Anketè",
     "ROLE_FAMILY_USER": "Fanmi"
+  },
+  "answerType": {
+    "checkbox": "Kaz",
+    "number": "Nimewo",
+    "radio": "Radyo",
+    "select": "Dropdown",
+    "text": "Tèks",
+    "date": "Dat"
   }
 }

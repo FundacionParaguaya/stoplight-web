@@ -8,6 +8,7 @@ export const COLORS = {
 
   LIGHT_GREY: '#E6E4E2',
   GREY: ' #6A6A6A',
+  MEDIUM_GREY: '#828282',
   TEXT_GREY: '#6A6A6A',
   TEXT_LIGHTGREY: 'rgba(0,0,0,0.5)'
 };
