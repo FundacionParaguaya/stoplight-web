@@ -615,7 +615,18 @@
         }
       },
       "survey": "Survey:",
-      "surveyError": "The survey version is not available. To take a follow-up survey, request access to the survey version."
+      "surveyError": "The survey version is not available. To take a follow-up survey, request access to the survey version.",
+      "interventions": {
+        "form": {
+          "editTitle": "Edit Intervention",
+          "addTitle": "Add Intervention",
+          "generalOption": "General Intervention",
+          "save": {
+            "success": "Saved intervention.",
+            "error": "Could not save intervention"
+          }
+        }
+      }
     },
     "familyNotes": {
       "by": "by",
@@ -1095,7 +1106,9 @@
     "number": "Number",
     "radio": "Radio",
     "text": "Text",
-    "checkbox": "Checkbox",
-    "date": "Date"
+    "checkbox": "Checkboxes",
+    "date": "Date",
+    "multiselect": "Multiple choice",
+    "boolean": "Checkbox"
   }
 }

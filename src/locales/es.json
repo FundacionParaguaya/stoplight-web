@@ -1082,11 +1082,13 @@
     "ROLE_FAMILY_USER": "Familia"
   },
   "answerType": {
-    "checkbox": "Checkbox",
+    "checkbox": "Casillas de selección",
     "number": "Número",
     "radio": "Radio",
     "select": "Desplegable",
     "text": "Texto",
-    "date": "Fecha"
+    "date": "Fecha",
+    "multiselect": "Opción multiple",
+    "boolean": "Caja"
   }
 }

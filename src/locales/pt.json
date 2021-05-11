@@ -1043,11 +1043,13 @@
     "ROLE_FAMILY_USER": "Família"
   },
   "answerType": {
-    "checkbox": "Caixa de seleção",
+    "checkbox": "Caixas de seleção",
     "number": "Número",
     "radio": "Rádio",
     "select": "Suspenso",
     "text": "Texto",
-    "date": "Data"
+    "date": "Data",
+    "multiselect": "Múltipla escolha",
+    "boolean": "Caixa de seleção"
   }
 }

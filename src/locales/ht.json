@@ -1050,6 +1050,8 @@
     "radio": "Radyo",
     "select": "Dropdown",
     "text": "Tèks",
-    "date": "Dat"
+    "date": "Dat",
+    "multiselect": "Chwa miltip",
+    "boolean": "Kaz"
   }
 }
