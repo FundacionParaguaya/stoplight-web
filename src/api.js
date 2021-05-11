@@ -2286,7 +2286,7 @@ export const listInterventionsQuestions = (user, lang) =>
     },
     data: JSON.stringify({
       query:
-        'query { interventionPresetQuestions { id codeName shortName answerType coreQuestion } }'
+        'query { interventionPresetQuestions { id codeName shortName answerType coreQuestion presetOptions } }'
     })
   });
 
@@ -2373,6 +2373,49 @@ export const assignIntervention = (user, interventionId, organizations) =>
         interventionDefinition: interventionId,
         organizations,
         application: user.hub && user.hub.id ? user.hub.id : ''
+      }
+    })
+  });
+
+export const createIntervention = (
+  user,
+  values,
+  interventionDefinition,
+  snapshot,
+  relatedIntervention
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { successful } }',
+      variables: {
+        intervention: {
+          values,
+          interventionDefinition,
+          snapshot,
+          intervention: relatedIntervention
+        }
+      }
+    })
+  });
+
+export const getInterventionById = (user, intervention) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query retrieveInterventionData ($intervention: Long!) { retrieveInterventionData(intervention: $intervention) { values { codeName value} } } ',
+      variables: {
+        intervention
       }
     })
   });
