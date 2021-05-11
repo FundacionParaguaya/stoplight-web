@@ -9,6 +9,8 @@ import NavIcons from '../../components/NavIcons';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import LeaveModal from '../../components/LeaveModal';
+import firebase from 'firebase';
+import 'firebase/analytics';
 
 const titleStyles = muiTheme => ({
   title: {
@@ -117,6 +119,16 @@ export class Terms extends Component {
   };
 
   leaveSurvey = () => {
+    console.log('leaveSurvey');
+    firebase.analytics().logEvent('leave_survey', {
+      survey: {
+        title: this.props.currentSurvey.title,
+        id: this.props.currentSurvey.id
+      },
+      user: this.props.user.username,
+      role: this.props.user.rol,
+      env: this.props.user.env
+    });
     if (this.props.currentDraft && this.props.currentDraft.isRetake) {
       const familyId = this.props.currentDraft.familyData.familyId;
       this.props.history.push(`/family/${familyId}`);

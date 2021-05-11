@@ -26,6 +26,8 @@ import { useWindowSize } from '../utils/hooks-helpers';
 import { ROLE_SURVEY_USER, ROLE_SURVEY_TAKER } from '../utils/role-utils';
 import * as _ from 'lodash';
 import ProjectsModal from './lifemap/ProjectsModal';
+import firebase from 'firebase';
+import 'firebase/analytics';
 
 const useSurveysListStyle = makeStyles(theme => ({
   mainContainer: {
@@ -312,6 +314,12 @@ class Surveys extends Component {
           economicScreens,
           conditionalQuestions,
           elementsWithConditionsOnThem
+        });
+        console.log('survey');
+        firebase.analytics().logEvent('start_survey', {
+          user: this.props.user.username,
+          role: this.props.user.role,
+          env: this.props.user.env
         });
         this.props.history.push({
           pathname: '/lifemap/terms',

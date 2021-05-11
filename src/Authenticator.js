@@ -9,6 +9,8 @@ import { updateUser } from './redux/actions';
 import { checkSessionToken, enviroments } from './api';
 import Login from './screens/Login';
 import Bugsnag from '@bugsnag/js';
+import firebase from 'firebase';
+import 'firebase/analytics';
 
 let LoadingAuth = ({ classes }) => (
   <div className={classes.container}>
@@ -69,6 +71,14 @@ const Authenticator = props => {
     } = user || {};
 
     user && Bugsnag.setUser(user.username, user.email, user.name);
+    console.log('user', user);
+    !!user &&
+      firebase.analytics().setUserProperties({
+        user: user.username,
+        role: user.role,
+        env: user.env
+      });
+    //firebase.analytics().setUserProperties({favorite_food: 'apples'});
 
     return {
       localStorageToken: token,
