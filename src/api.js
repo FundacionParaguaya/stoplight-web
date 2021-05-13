@@ -2319,6 +2319,21 @@ export const getInterventionDefinition = (user, interventionDefinition) =>
     })
   });
 
+export const listInterventionsByFamily = (user, family, params) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query interventionsByFamily( $family: Long!) { interventionsByFamily( family: $family){ intervention ${params}}}`,
+      variables: {
+        family
+      }
+    })
+  });
+
 export const addOrUpdadteInterventionDefinition = (
   user,
   definition,
