@@ -18,6 +18,11 @@ const LanguageSwitcher = props => {
   useEffect(() => {
     localStorage.setItem('language', lang);
     i18n.changeLanguage(lang);
+    if (lang === 'ar') {
+      document.getElementsByTagName('body')[0].setAttribute('dir', 'rtl');
+    } else {
+      document.getElementsByTagName('body')[0].setAttribute('dir', 'ltr');
+    }
   }, [lang]);
   return <React.Fragment />;
 };

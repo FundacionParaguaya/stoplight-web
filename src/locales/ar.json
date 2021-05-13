@@ -1,0 +1,1101 @@
+{
+  "general": {
+    "welcome": "Welcome!",
+    "thankYou": "Thank you!",
+    "disagree": "Disagree",
+    "agree": "Agree",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "continue": "Continue",
+    "gotIt": "Got it!",
+    "save": "Save",
+    "close": "Finish",
+    "closeWithoutStoplight": "Finish",
+    "closeAndSign": "Save survey",
+    "yes": "Yes",
+    "no": "No",
+    "delete": "Delete",
+    "warning": "Warning",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "drafts": "drafts",
+    "resumeDraft": "Resume draft",
+    "lifeMaps": "Life Maps",
+    "family": "Family",
+    "familyInfo": "family info",
+    "cachedData": "cached data",
+    "chooseView": "Choose view",
+    "create": "Create",
+    "saveError": "Error while trying to save your Life Map. Please try again or contact our support team with this error ID: %n",
+    "savePdfError": "Error while trying to save your Life Map pdf for whatsapp",
+    "noOptionsToShow": "There are no options available to select",
+    "clear": "Clear",
+    "showMore": "Show More",
+    "continueStoplight": "Continue",
+    "yourStoplight": "Your Stoplight",
+    "completeStoplight": "Finish Stoplight",
+    "publish": "Publish",
+    "edit": "Edit"
+  },
+  "validation": {
+    "fieldIsRequired": "This field is required",
+    "validEmailAddress": "Please enter a valid email address",
+    "lessThan250Characters": "Value must be less than 250 characters",
+    "lessThan50Characters": "Value must be less than 50 characters",
+    "lessThan64Characters": "Value must be less than 64 characters",
+    "lessThan200Characters": "Value must be less than 200 characters",
+    "alphabeticCharacters": "Please enter alphabetic characters",
+    "validPhoneNumber": "Please enter a valid phone number",
+    "validNumber": "Please enter a valid number",
+    "formWithErrors": "The form contains invalid entries",
+    "validDate": "Please enter a valid date"
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "views": {
+    "404": {
+      "missing": "Something’s missing!",
+      "pageNotFound": "This page is missing or could not be found.",
+      "toHomePage": "Return to Home Page"
+    },
+    "sign": {
+      "addSign": "Add your signature",
+      "signHere": "Signature",
+      "erase": "Erase",
+      "continue": "Continue"
+    },
+    "toolbar": {
+      "dashboard": "Dashboard",
+      "surveys": "Surveys",
+      "surveysList": "Surveys",
+      "analytics": "Analytics",
+      "households": "Households",
+      "hubs": "Hubs",
+      "map": "Map",
+      "organizations": "Organizations",
+      "users": "Users",
+      "reports": "Reports",
+      "families": "Households",
+      "logout": "Logout",
+      "support": "Support",
+      "projects": "Projects",
+      "solutions": "Bank of Solutions",
+      "my-profile": "My profile",
+      "interventions": "Interventions"
+    },
+    "synced": "Sync",
+    "dashboard": {
+      "welcome": "Welcome $n!",
+      "dashboard": "Dashboard",
+      "indicators": "Indicators",
+      "dimensions": "Dimensions",
+      "achievements": "Achievements",
+      "priorities": "Priorities",
+      "latestActivity": "Activity Feed",
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped",
+      "yourProgress": "Your Progress"
+    },
+    "support": {
+      "metaTitle": "Poverty Stoplight Support Center",
+      "headerTitle": "Advice and answers from the Poverty Stoplight Platform Team",
+      "search": "Search for articles...",
+      "countArticles": "articles in this collection",
+      "writeBy": "Written by",
+      "createdAt": "Created at",
+      "team": " Stoplight Team",
+      "allCollections": "All collections",
+      "noArticles": "No articles",
+      "addArticle": "Add a article",
+      "article": "Article",
+      "editButton": "EDIT",
+      "deleteButton": "DELETE",
+      "failRequest": "There is a error in the request",
+      "collections": {
+        "generalDescription": "General Questions about the Poverty Stoplight",
+        "webDescription": "General articles about using the Poverty Stoplight Platform",
+        "appDescription": "General support articles regarding the Stoplight Mobile android app"
+      },
+      "form": {
+        "title": "Article title",
+        "subtitle": "Add a description for your article",
+        "active": "Publish this article",
+        "content": "Start writing your content...",
+        "userNotAllowed": "Operation not allowed",
+        "save": {
+          "success": "Article saved successfully",
+          "failed": "Could not save article"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this article?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "Article deleted successfully",
+        "failed": "Could not delete article"
+      }
+    },
+    "families": "Families",
+    "createLifemap": "Create a Life Map",
+    "latestDrafts": "Latest Life Maps",
+    "noDrafts": "No drafts to display",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "operations": "Operations",
+    "survey": {
+      "audioHelp": "Audio help",
+      "chooseSurvey": "Choose a survey",
+      "chooseProjectTitle": "Choose a project",
+      "chooseProjectSubtitle": "Choose the project where the family will belong",
+      "skipProject": "Skip project",
+      "welcome": "Welcome",
+      "contains": "Contains",
+      "createdOn": "Created on",
+      "loading": "Loading...",
+      "surveys": "Surveys",
+      "baseLine": "Baseline surveys",
+      "followUp": "Follow-up surveys",
+      "totalSurveys": "Total surveys",
+      "indicators": "Indicators",
+      "createSurvey": "Begin Stoplight survey",
+      "specifyOther": "Specify other",
+      "assignSurvey": {
+        "hubs": "Hubs",
+        "orgs": "Organizations",
+        "assignSurvey": "Assign survey",
+        "surveyAssigned": "Saved correctly",
+        "surveyAssignError": "An error occurred while assigning survey. Try again"
+      },
+      "filter": {
+        "search": "Search",
+        "searchBy": "by title"
+      },
+      "delete": {
+        "delete": "Delete",
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Survey?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Survey has been deleted",
+        "failed": "The Survey could not be deleted because it has associated data"
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "subtitle": "We are working to improve our platform",
+      "description": "In this area you can see some our latest advancements regarding analytics."
+    },
+    "location": {
+      "title": "Location",
+      "mapLoading": "Please wait while the map is loading.",
+      "searchBoxPlaceholder": "Search by street or postal code",
+      "loadingOptionsLabel": "Loading..."
+    },
+    "socioEconomic": "Socio Economic",
+    "yourLifeMap": "Your Life Map",
+    "yourPictures": "Upload your pictures",
+    "uploadFiles": "Click here to add your files or just drag and drop them!",
+    "fileUploadError": "You reached the 10MB limit! Please delete a picture to continue.",
+    "primaryParticipant": "Primary participant",
+    "familyMembers": "Family members",
+    "gendersBirthDates": "Genders & Birth dates",
+    "skippedIndicators": "Skipped questions",
+    "skippedIndicator": {
+      "subtitle": "You skipped this indicator",
+      "buttonLabel": "Answer it now!"
+    },
+    "readCarefully": "Please read carefully before creating the Life Map",
+    "family": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "selectGender": "Select gender",
+      "documentType": "Document type",
+      "documentNumber": "Document number",
+      "selectACountry": "Select a country",
+      "email": "Email",
+      "phone": "Phone",
+      "gender": "Gender",
+      "dateOfBirth": "Date of birth",
+      "phoneCode": "Country Code Number",
+      "countryOfBirth": "Country of birth",
+      "selectMonth": "Select month",
+      "selectValidDate": "Please enter a valid date",
+      "specify": "Specify",
+      "name": "Name",
+      "peopleLivingInThisHousehold": "Number of people living in this household",
+      "household": "household",
+      "onlyPerson": "1 - I am the only person",
+      "preferNotToSay": "I prefer not to answer",
+      "familyMember": "Member",
+      "participant": "Participant",
+      "country": "Country of residence",
+      "postcode": "Postcode",
+      "streetOrHouseDescription": "Street or house description",
+      "gpsAccurate": "GPS: Accurate to %n m",
+      "somethingIsNotWorking": "Something is not working…",
+      "cannotFindLocation": "Maps cannot find the current location…",
+      "checkLocationServicesTurnedOn": "Check that location services are turned on in your device settings!",
+      "giveDetailInTheFormBelow": "Alternatively give as much detail as you can regarding the location in the form below!",
+      "searchByStreetOrPostalCode": "Search by street or postal code",
+      "gettingYourLocation": "Getting your location...",
+      "mapUnavailavleOffline": "Unfortunately we cannot load the map because you are offline.",
+      "weHaveLocation": "However we were able to get your device location.",
+      "neitherMapNorLocation": "Unfortunately we cannot load the map nor can we get your device location.",
+      "describeLocation": "Could you describe your location as accurate as possible below?",
+      "error": "Error: Cannot display family profile",
+      "details": "Details",
+      "lifemap": "Life Map",
+      "lifeMapCreatedOn": "Life Map draft created on",
+      "created": "Created on",
+      "formWithErrors": "Review %number form errors",
+      "formWithError": "Review 1 form error",
+      "amountOfMembers": "The amount of members doesn't match, please check the amount indicated.",
+      "decreasingMembers": "Remove the member who no longer belongs in the household."
+    },
+    "lifemap": {
+      "thisLifeMapHas": "Thank you! This Stoplight section has %n indicators.",
+      "thisLifeMapHasNoStoplight": "Thank you! This Stoplight section has %n indicators. Choose if you wish to save your survey now or finish your Stoplight.",
+      "responseRequired": "*Response required",
+      "skipThisQuestion": "Skip this question",
+      "youSkipped": "You skipped these indicators",
+      "whyNotTryAgain": "Why not try again to answer these now!",
+      "allIndicators": "All indicators",
+      "priority": "Priority",
+      "writeYourAnswerHere": "Write your answer here...",
+      "whyDontYouHaveIt": "Why don't you have it?",
+      "whatWillYouDoToGetIt": "What will you do to get it?",
+      "howManyMonthsWillItTake": "How many months will it take?",
+      "markAchievement": "Mark achievement!",
+      "achievement": "Achievement",
+      "howDidYouGetIt": "Who or What motivated you to get there?",
+      "whatDidItTakeToAchieveThis": "What did you do to achieve this?",
+      "great": "Great!",
+      "youHaveCompletedTheLifemap": "You have completed the Life Map",
+      "youNeedToAddPriotity": "You need to add one priority",
+      "youNeedToAddPriorities": "You need to add %n priorities",
+      "beforeTheLifeMapIsCompleted": "Before the Life Map is completed...",
+      "green": "Green",
+      "yellow": "Yellow",
+      "red": "Red",
+      "makeThisAPriority": "Make this a priority!",
+      "priorities": "Priorities",
+      "achievements": "Achievements",
+      "toComplete": "To complete the Life Map...",
+      "indicatorDefinition": "Indicator Definition"
+    },
+    "priority": {
+      "month": "month",
+      "months": "months"
+    },
+    "modals": {
+      "lifeMapWillNotBeSaved": "If you do not enter all details on this page the Life Map will not be saved!",
+      "weCannotContinueToCreateTheLifeMap": "If you do not agree we cannot continue to create the Life Map!",
+      "areYouSureYouWantToExit": "Are you sure you want to exit?",
+      "yourLifemapIsNotComplete": "You will lose all your data! Are you sure you want to exit?",
+      "thisWillBeSavedAsADraft": "This will be saved as a draft."
+    },
+    "logout": {
+      "logout": "Logout",
+      "youHaveUnsynchedData": "You have unsynced data",
+      "thisDataWillBeLost": "This data will be lost.",
+      "weWillMissYou": "We will miss you.",
+      "comeBackSoon": "Come back soon!",
+      "looseYourData": "You will loose unsynced data.",
+      "cannotUndo": "This cannot be undone.",
+      "areYouSureYouWantToLogOut": "Are you sure you want to log out?"
+    },
+    "sync": {
+      "upToDate": "You are up to date!",
+      "lastSync": "Last sync: ",
+      "syncStatus": "Sync Status",
+      "offline": "You are offline",
+      "updatesPending": "%n updates pending",
+      "updatePending": "1 update pending",
+      "inProgress": "Sync in progress",
+      "of": "of",
+      "updates": "updates"
+    },
+    "overview": {
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped questions",
+      "priorityFooterButton": "Got it!",
+      "allPrioritiesRemainingTitle": "Before the map is completed...",
+      "allPrioritiesRemainingDescription": "You need to make",
+      "priorities": "priorities",
+      "priority": "priority",
+      "somePrioritiesRemainingTitle": "priorities left to create!",
+      "somePrioritiesRemainingDescription": "Nearly there...",
+      "onePriorityRemainingTitle": "1 priority left to create!",
+      "onePriorityRemainingDescription": "Nearly there...",
+      "noPriorityRemainingTitle": "Great! You created all the required priorities",
+      "noPriorityRemainingDescription": "You can make as many more as you want.",
+      "noPriorityRequiredTitle": "To complete the Life Map...",
+      "noPriorityRequiredDescription": "Create priorities by clicking on the red and yellow circles!",
+      "footerTitleCase1": "To complete the Life Map...",
+      "footerTitleCase2": "You prioritized XX indicators last time!",
+      "footerTitleCase3": "Last time you didn't prioritize any indicators!",
+      "footerDescriptionCase1": "Create the priorities you want to focus on by clicking on the red and yellow indicators!",
+      "footerDescriptionCase2": "Continue adding new priorities! You may select previously prioritized indicators as well. Don’t forget to add your achievements by clicking on your green indicators.",
+      "footerDescriptionCase3": "Create the priorities you want to focus on by clicking on the red and yellow indicators! You may also add achievements by clicking on the green indicators."
+    },
+    "indicatorsFilter": {
+      "red": "Red",
+      "yellow": "Yellow",
+      "green": "Green",
+      "skipped": "Skipped",
+      "allIndicators": "All indicators",
+      "sort": {
+        "MOST_GREENS": "Most greens",
+        "MOST_REDS": "Most reds",
+        "MOST_YELLOWS": "Most yellows",
+        "MOST_SKIPPED": "Most skipped",
+        "MOST_PRIORITIZED": "Most prioritized",
+        "LESS_PRIORITIZED": "Less prioritized",
+        "MOST_ACHIEVED": "Most achieved",
+        "LESS_ACHIEVED": "Less achieved",
+        "DEFAULT": "All"
+      }
+    },
+    "final": {
+      "title": "Thank you!",
+      "surveyCompleted": "Don’t forget to finish your survey!",
+      "print": "Print",
+      "email": "Email",
+      "whatsapp": "Whatsapp",
+      "download": "Download",
+      "deleteSnapshot": "Delete this snapshot",
+      "downloadError": "Error while trying to download your lifemap",
+      "lifemapSaved": "Your survey has been sent.",
+      "clickSafe": "Now, just click save!",
+      "clickSafeWithoutStoplight": "Now, just click finish!",
+      "emailSent": "Your Life Map has been successfully sent via email.",
+      "whatsappSent": "You will get a message in your Whatsapp! If you want to receive your Life Map, please answer back with \"Yes\".",
+      "whatsappSentOverview": "You will get a message in your Whatsapp! If you want to receive your Life Map, please answer back with \"Yes\".",
+      "emailError": "Error while trying to send your Life Map via email",
+      "confirmYourMail": "Send to email:",
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Snapshot?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Snapshot has been deleted",
+        "failed": "The Snapshot could not be deleted"
+      }
+    },
+    "send": {
+      "title": "Send your Life Map",
+      "subtitle": "Great! You finished your survey.",
+      "chooseOption": "If you wish to receive or download your Life Map, click on one of the following options:",
+      "goTo": "Return to Home Page"
+    },
+    "familiesOverviewBlock": {
+      "economics": "Social Economics",
+      "averageIncome": "Average anual income per capita",
+      "overview": "Overview",
+      "stoplightOverview": "Stoplight Overview",
+      "families": "families",
+      "family": "family",
+      "including": "Including",
+      "baseLine": "Baseline surveys",
+      "followUp": "Follow-up surveys",
+      "people": "people",
+      "men": "Men",
+      "and": "&",
+      "women": "Women",
+      "other": "Other",
+      "tookSnapshots": " Stoplights",
+      "tookSnapshot": " Stoplight",
+      "tookWhitoutStoplight": " Only socioeconomic",
+      "averageMembers": " average members",
+      "topCountries": "Top countries of birth"
+    },
+    "saveDraftModal": {
+      "lifemapNotComplete": "Your Life Map is not complete",
+      "willSaveDraft": "It will be saved as a draft",
+      "sureWantToExit": "Are you sure you want to exit?",
+      "cannotSave": "Something went wrong while saving this draft. Please try again."
+    },
+    "snapshotsTable": {
+      "title": "Drafts",
+      "dob": "DOB:",
+      "today": "Today",
+      "dayAgo": "1 day ago",
+      "daysAgo": "$dd days ago",
+      "draft": "Draft",
+      "completed": "Completed",
+      "drafts": "Drafts",
+      "all": "All",
+      "searchFamily": "Search families",
+      "noSnapshotsAvailable": "There are no drafts available",
+      "noMatchFilters": "No results matching your filters",
+      "loadingSnapshots": "Loading drafts...",
+      "delete": "Delete",
+      "deleteAll": "Delete all"
+    },
+    "activityFeed": {
+      "by": "By",
+      "today": "Today",
+      "dayAgo": "1 day ago",
+      "daysAgo": "$dd days ago",
+      "facilitator": "Facilitator",
+      "indicator": "Indicator",
+      "title": "Title",
+      "origin": "Origin",
+      "uploadedBy": "Uploaded by"
+    },
+    "organizationsFilter": {
+      "label": "Organizations",
+      "loading": "Loading...",
+      "noOption": "No organization left",
+      "noMatchFilters": "No results matching your filters",
+      "allOrganizations": "All Organizations"
+    },
+    "hubsFilter": {
+      "label": "Hub",
+      "loading": "Loading...",
+      "noOption": "No hub left",
+      "noMatchFilters": "No results matching your filters"
+    },
+    "surveysFilter": {
+      "label": "Survey",
+      "loading": "Loading...",
+      "noOption": "No Survey left",
+      "noMatchFilters": "No results matching your filters"
+    },
+    "dateRangeFilter": {
+      "from": "From",
+      "to": "To"
+    },
+    "indicatorFilter": {
+      "label": "Indicator",
+      "loading": "Loading...",
+      "noOption": "No indicator left",
+      "noMatchFilters": "No results matching your filters"
+    },
+    "dimensionFilter": {
+      "label": "Dimension",
+      "loading": "Loading...",
+      "noOption": "No dimension left",
+      "noMatchFilters": "No results matching your filters"
+    },
+    "projectFilter": {
+      "label": "Project",
+      "loading": "Loading...",
+      "noOption": "No projects left",
+      "noMatchFilters": "No results matching your filters",
+      "allProjects": "All Projects"
+    },
+    "snapShotFilter": {
+      "allSnapShots": "All last snapshots",
+      "baseLine": "Baseline",
+      "followUp": "Follow-up"
+    },
+    "collectionSelector": {
+      "label": "Collection",
+      "loading": "Loading...",
+      "noOption": "No collection left"
+    },
+    "exitModal": {
+      "confirmTitle": "Confirm Exit",
+      "confirmText": "Are you sure you want to exit?",
+      "cannotUndo": "You will lose all your changes!"
+    },
+    "nonProdWarning": {
+      "title": "Hello!",
+      "subtitle": "Welcome to the demonstration environment.",
+      "bottom": "Remember, all content entered here is public and will be deleted automatically."
+    },
+    "deleteDraft": {
+      "confirmDeletion": "Confirm deletion",
+      "cannotUndo": "You cannot undo this action!",
+      "areYouSure": "Are you sure you want to delete this draft?",
+      "areYouSureMulti": "Are you sure you want to delete these drafts?",
+      "success": "Draft successfully deleted.",
+      "successMulti": "Drafts successfully deleted.",
+      "cannotDelete": "Something went wrong while deleting this draft. Please try again.",
+      "cannotDeleteMulti": "Something went wrong while deleting these drafts. Please try again."
+    },
+    "deleteFamily": {
+      "confirmDeletion": "Confirm deletion",
+      "cannotUndo": "You cannot undo this action!",
+      "areYouSure": "Are you sure you want to delete this family?",
+      "cannotDelete": "Something went wrong while deleting this family. Please try again."
+    },
+    "familyList": {
+      "errorLoadingFamilies": "Something went wrong while loading the families. Please try again.",
+      "familyName": "Family Name",
+      "document": "Document",
+      "familyCode": "Family Code",
+      "organization": "Organization",
+      "search": "Search",
+      "empty": "No Family to show",
+      "searchFamily": "Name or Document Number",
+      "delete": "Delete",
+      "show": "Show",
+      "rows": "Families Found",
+      "moveFamily": {
+        "moveOfOrg": "Move to other organization",
+        "move": "Move",
+        "organization": "Organization",
+        "facilitator": "Facilitator",
+        "projects": "Projects",
+        "confirm": "Confirm migration",
+        "confirmSubtitle": " Are you sure you want to move these families to another organization?",
+        "success": "Families successfully migrated",
+        "error": "Families could not be migrated"
+      }
+    },
+    "organizationFilter": {
+      "loading": "Loading...",
+      "noOption": "No organizations"
+    },
+    "facilitatorFilter": {
+      "label": "Facilitators",
+      "loading": "Loading...",
+      "noOption": "No facilitators left",
+      "noMatchFilters": "No results matching your filters",
+      "allFacilitators": "All Facilitators"
+    },
+    "familyProfile": {
+      "organization": "Organization: ",
+      "projectTitle": "Project: ",
+      "lifemapNumber": "Life Map - Number",
+      "familyDetails": "Family Details",
+      "economicDetails": "Socioeconomic Details",
+      "noMember": "This family does not have more members",
+      "noEconomic": "This family does not have socioecomic data",
+      "noDataInTopic": "This family has not completed this socioeconomic section",
+      "continueWithStoplight": "Take a follow-up survey",
+      "viewLifeMap": "View Life Map in Detail",
+      "mentor": "Facilitator",
+      "Mentorsuccess": "Assigned correctly",
+      "mentorError": "An error occurred while assigning facilitator. Try again",
+      "changeFacilitator": "Change Facilitator",
+      "changeFacilitatorConfirm": "Are you sure you want to change the family facilitator?",
+      "facilitator": "Assigned Facilitator",
+      "administration": "Administration",
+      "families": "Households",
+      "family": "Family",
+      "profile": "Profile",
+      "createNewSnapshot": "Create a new survey for the family!",
+      "stoplight": "Stoplight",
+      "loadingSnapshots": "This family has no stoplights...",
+      "familyNoteSuccess": "Family note sent correctly",
+      "familyNoteError": "Could not send family note",
+      "download": "Download",
+      "project": {
+        "assignedCorrectly": "Project assigned correctly",
+        "assignError": "An error occurred while assigning a project. Try again",
+        "changeProject": "Change Project",
+        "changeProjectConfirm": "Are you sure you want to change the family project?"
+      },
+      "form": {
+        "save": {
+          "success": "Family updated successfully",
+          "failed": "Could not update family"
+        },
+        "saveEconomic": {
+          "success": "Socio Economic data updated successfully",
+          "failed": "Could not update Socio Economic data"
+        }
+      },
+      "survey": "Survey:",
+      "surveyError": "The survey version is not available. To take a follow-up survey, request access to the survey version."
+    },
+    "familyNotes": {
+      "by": "by",
+      "Notes": "Notes",
+      "EmptyNotesList": "No family notes",
+      "NotePlaceHolder": "Write your family note"
+    },
+    "familyPriorities": {
+      "priorities": "Priorities",
+      "indicator": "Indicator",
+      "review": "Review Date",
+      "months": "Months required",
+      "errorLoading": "Error loading Priorities. Please Try again",
+      "noPriorities": "This family has not selected their priorities.",
+      "prioritySaved": "Priority Saved",
+      "errorSaving": "Error saving Priority. Please Try again",
+      "selectIndicator": "Select an Indicator",
+      "backToProfile": "Back to Family Profile",
+      "addPriority": "Add Priority",
+      "updatedAt": "Date of Creation",
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Priority?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Priority has been deleted",
+        "failed": "Could not delete Priority"
+      }
+    },
+    "familyAchievements": {
+      "achievements": "Achievements",
+      "indicator": "Indicator",
+      "action": "What did you do to achieve this?",
+      "roadmap": "Who  or what motivated to get the you there?",
+      "noAchievements": "This family has no achievements.",
+      "achievementSaved": "Achievement Saved",
+      "errorSaving": "Error saving Achievement. Please Try again",
+      "selectIndicator": "Select an Indicator",
+      "backToProfile": "Back to Family Profile",
+      "addAchievement": "Add Achievement",
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Achievement?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Achievement has been deleted",
+        "failed": "Could not delete Achievement"
+      }
+    },
+    "familyImages": {
+      "title": "Images",
+      "addImages": "Add Images",
+      "uploadImages": "Upload Images",
+      "placeholder": "Here you can add  your images, please consider downloading images you intend to remove",
+      "uploadError": "You reached the 10MB limit! Please delete a image to continue.",
+      "typeError": "Image extension not supported",
+      "save": {
+        "success": "Family's images updated successfully",
+        "failed": "Could not update family's images"
+      }
+    },
+    "familySignature": {
+      "title": "Signature",
+      "addSign": "Add Sign",
+      "save": {
+        "success": "Sign updated successfully",
+        "failed": "Could not update sign"
+      }
+    },
+    "projects": {
+      "search": "Search",
+      "searchProject": "by name",
+      "addProject": "Add a project",
+      "editButton": "EDIT",
+      "deleteButton": "DELETE",
+      "form": {
+        "addTitle": "Add a Project",
+        "editTitle": "Edit a Project",
+        "active": "Active",
+        "color": "Change color",
+        "name": "Project name",
+        "nameLengthExceeded": "Project name must have a maximum of 50 characters",
+        "description": "Description",
+        "descriptionLengthExceeded": "Description must have a maximum of 80 characters",
+        "save": {
+          "success": "Project saved successfully",
+          "failed": "Project already exist"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Project?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Project has been deleted",
+        "failed": "The Project cannot be deleted because it has associated data"
+      }
+    },
+    "organization": {
+      "addOrganization": "Add an organization",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
+      "search": "Search",
+      "searchOrganization": "by name",
+      "projectsList": "List of projects",
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Organization?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Organization has been deleted",
+        "failed": "The Organization could not be deleted"
+      },
+      "form": {
+        "addTitle": "Add an Organization",
+        "editTitle": "Edit Organization",
+        "name": "Organization name",
+        "nameLengthExceeded": "Organization name must have a maximum of 50 characters",
+        "description": "Description",
+        "descriptionLengthExceeded": "Description must have a maximum of 140 characters",
+        "allowProjects": "Projects:",
+        "save": {
+          "success": "Organization saved successfully",
+          "failed": "Organization already exist"
+        },
+        "get": {
+          "failed": "Error loading Organization info. Please try again"
+        },
+        "email": "Email to send Lifemap",
+        "typeOfOrganization": "Type of Organization",
+        "subOrg": "Sub-organizations",
+        "organizationType": {
+          "ngo": "NGO",
+          "government": "Government",
+          "academia": "Academia/Research Institution",
+          "company": "Company",
+          "social": "Social Enterprise",
+          "microfinance": "Microfinance",
+          "other": "Other"
+        },
+        "areaOfExpertise": "Area (choose the primary area of the organization)",
+        "areaOfExpertiseOptions": {
+          "agriculture": "Agriculture",
+          "commerce": "Commerce",
+          "construction": "Construction",
+          "education": "Education",
+          "finance": "Finance",
+          "health": "Health",
+          "socialDevelopment": "Social Development",
+          "technology": "Technology",
+          "other": "Other"
+        },
+        "finalUserType": "Final user (who will the survey be applied to)",
+        "finalUserTypeOptions": {
+          "clients": "Clients",
+          "companyEmployees": "Company employees",
+          "programBeneficiaries": "Program beneficiaries",
+          "other": "Other"
+        },
+        "endSurveyType": "End-survey type",
+        "endSurveyTypeOptions": {
+          "facilitation": "Facilitation",
+          "sendingUniqueLink": "Sending unique link"
+        },
+        "solutionAccessType": "Bank of Solutions"
+      },
+      "mapsList": "List of maps"
+    },
+    "hub": {
+      "search": "Search",
+      "searchHub": " by name",
+      "addAHub": "Add a hub",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
+      "list": {
+        "rows": "Hubs found",
+        "singleRow": "Hub found",
+        "noRows": "No hubs found",
+        "search": "Search",
+        "empty": "No hubs to show",
+        "type": "Type",
+        "show": "Show hub's organizations"
+      },
+      "form": {
+        "addTitle": "Add a Hub",
+        "editTitle": "Edit Hub",
+        "permissionTitle": "Permissions",
+        "name": "Hub name",
+        "nameLengthExceeded": "Hub name must have a maximum of 50 characters",
+        "description": "Description",
+        "descriptionLengthExceeded": "Description must have a maximum of 256 characters",
+        "language": "Language",
+        "logoUpload": "Click to upload a logo",
+        "changeLogo": "Click here to change logo",
+        "fileUploadError": "You reached the 10MB limit! Choose another image",
+        "partnerType": "Type of Partner",
+        "allowRetake": "Retaking feature:",
+        "allowSolutions": "Bank of Solutions:",
+        "allowInteractiveHelp": "Interactive Help:",
+        "allowProjects": "Projects:",
+        "allowMapRestriction": "Map restriction:",
+        "allowFamilyUsers": "Family user",
+        "save": {
+          "success": "Hub saved successfully",
+          "failed": "Hub already exist"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Hub?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Hub has been deleted",
+        "failed": "The Hub cannot be deleted because it has associated data"
+      }
+    },
+    "user": {
+      "search": "Search",
+      "searchUser": " by username, name or email",
+      "addUser": "Add a User",
+      "userList": {
+        "rows": "Users found",
+        "singleRow": "User found",
+        "username": "Username",
+        "noRows": "No users found",
+        "name": "Name",
+        "email": "Email",
+        "organization": "Organization",
+        "hub": "Hub",
+        "role": "Role",
+        "edit": "Edit",
+        "delete": "Delete",
+        "search": "Search",
+        "empty": "No Users to show"
+      },
+      "form": {
+        "addTitle": "Add a User",
+        "editTitle": "Edit User",
+        "role": "Role",
+        "active": "Active",
+        "name": "Name",
+        "username": "Username",
+        "usernameInvalid": "Use only (a-z), numbers (0-9) and (.) (_) for separators",
+        "usernameUsed": "The username already exists",
+        "email": "Email",
+        "emailNotValid": "The email is not valid",
+        "password": "Password",
+        "passwordTooShort": "The password is too short. Use at least 5 characters",
+        "confirmPassword": "Confirm password",
+        "passwordConfirmFailed": "Password confirmation failed",
+        "selectHub": "Select Hub",
+        "selectOrganization": "Select Organization",
+        "selectRole": "Select Role",
+        "save": {
+          "success": "User saved successfully",
+          "failed": "Could not save user"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this User?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The User has been deleted",
+        "failed": "The User cannot be deleted because it has associated data"
+      }
+    },
+    "report": {
+      "filters": {
+        "followUpSurvey": "Include follow-up surveys of families",
+        "surveyRequired": "This filter is required",
+        "advancedOptions": "Advanced Options",
+        "indicator": "Indicator",
+        "red": "Red",
+        "yellow": "Yellow",
+        "green": "Green"
+      },
+      "table": {
+        "surveys": "surveys",
+        "singleSurvey": "survey",
+        "families": "families",
+        "singleFamily": "family",
+        "represents": "represents",
+        "represent": "represent",
+        "familyName": "Family Name",
+        "familyCode": "Family Code",
+        "surveyDate": "Survey Date",
+        "surveyNumber": "Survey Number",
+        "noRecords": "No records found",
+        "chooseFilters": "Choose some filters and then click on ",
+        "chooseFiltersEnd": " to download the results!",
+        "empty": "No results matching your filters",
+        "move": "Move"
+      },
+      "buttons": {
+        "applyFilters": "Apply",
+        "resetFilters": "Reset",
+        "downloadReport": "Download Report",
+        "pleaseWait": "Please wait until the report finishes downloading.",
+        "downloadSemaforito": "Semaforito",
+        "somethingWrong": "Something went wrong"
+      }
+    },
+    "map": {
+      "filters": {
+        "displayClusters": "Display clusters",
+        "moreFilters": "More filters"
+      },
+      "noRecords": "No records found",
+      "families": " families",
+      "singleFamily": " family"
+    },
+    "login": {
+      "welcomeToPlatform": "Welcome to the Stoplight Platform!",
+      "welcomeToDemo": "Welcome to the Demo Platform!",
+      "switchTo": "Switch to",
+      "username": "Username",
+      "password": "Password",
+      "login": "Login",
+      "forgotPassword": "Forgot password?",
+      "goForm": "Sign in",
+      "email": "Email",
+      "newPassword": "New Password",
+      "newPasswordConfirm": "Confirm New Password",
+      "newPasswordConfirmFailed": "New password confirmation failed",
+      "resetPassword": "Reset Password",
+      "backLogin": "Back to login",
+      "resetTitle": "Please enter your username and email to reset your password",
+      "connectionError": "No connection to server",
+      "unauthorizedError": "Not authorized",
+      "wrongCredentials": "Wrong credentials. Please try again.",
+      "mailResetSuccess": "Thanks! Please check your email for a link to reset your password",
+      "passwordReseted": "Password sucessfully reseted",
+      "mailNotFound": "User and Email pair not found"
+    },
+    "solutions": {
+      "solutions": "Solutions",
+      "solution": "Solution",
+      "addSolution": "Add a new solution",
+      "search": "Search",
+      "searchBy": "by title",
+      "noSolutionFound": "No solutions found",
+      "solutionFound": "Solution found",
+      "solutionsFound": "Solutions found",
+      "viewmore": "VIEW MORE",
+      "failUpdateView": "Error updating the number of visits",
+      "form": {
+        "editButton": "Edit",
+        "deleteButton": "Delete",
+        "userNotAllowed": "Operation not allowed",
+        "title": "Solution title",
+        "subtitle": "Add a description for you solution...",
+        "subtitleLabel": "Subtitle",
+        "contentLabel": "Content",
+        "content": "Start writing your content...",
+        "country": "Country",
+        "solutionType": "Solution type",
+        "resource": "Resources",
+        "resourcePlaceholder": "Here you can add files like PDFs, images and more",
+        "resourceUploadError": "You reached the 10MB limit! Please delete a file to continue.",
+        "contact": "Contact information",
+        "contactPlaceHolder": "Here you can add an email and number for further contact",
+        "reference": "Reference",
+        "save": {
+          "success": "Solution saved successfully",
+          "failed": "Could not save solution"
+        }
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Solution?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "Solution deleted successfully",
+        "failed": "Could not delete solution"
+      }
+    },
+    "error": {
+      "subtitle": "Something went wrong on our end. Please try refreshing or",
+      "toHomePage": " Go back to the main site."
+    },
+    "myProfile": {
+      "completeLifemap": "Complete your lifemap",
+      "error": {
+        "loadingSurvey": "Error loading survey",
+        "loadingFamily": "Error loading family data",
+        "loadingNotes": "Error loading family's note"
+      },
+      "resumeDraft": "Resume draft",
+      "picture": {
+        "placeholder": "Add your new profile picture here",
+        "uploadError": "You reached the 10MB limit! Please select another image.",
+        "save": {
+          "success": "Successfully updated profile picture",
+          "error": "Could not update profile picture"
+        }
+      }
+    },
+    "offlineMaps": {
+      "title": "Offline Maps",
+      "subtitle": "Add offline maps for  your organization",
+      "list": "List of offline maps",
+      "add": "Add new map",
+      "form": {
+        "addTitle": "Add Offline Map",
+        "success": "Offline map saved",
+        "error": "Could not save offline map",
+        "editTitle": "Edit Offline Map",
+        "name": "Name",
+        "nameLengthExceeded": "Map name must have a maximum of 50 characters",
+        "sizeError": "The selected area exceeds the limit."
+      },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Map?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Map  has been deleted",
+        "error": "Could not delete map. Try again later"
+      }
+    },
+    "intervention": {
+      "definition": {
+        "options": "Options",
+        "addOption": "Add option",
+        "missingOptions": "Options for this question are required",
+        "title": "Intervetion Definition",
+        "subtitle": "Create your intervention by setting the definitions here.  ",
+        "coreQuestions": "These are the core questions which will be at the beginning of the intervention form:",
+        "questionsTitle": "To add more questions, drag and drop the following questions to the form on the right:",
+        "otherOption": "Add an \"Other\" response option.",
+        "required": "Question required",
+        "name": "Intervention name",
+        "save": {
+          "success": "Intervention definition saved",
+          "error": "Could not save intervention definition"
+        },
+        "validationError": "Some question(s) does not have options yet!",
+        "warning": " Important: when you edit an intervention form in use, previous interventions might have blank fields when users view the results."
+      },
+      "add": "Add Intervention",
+      "list": "List of Interventions",
+      "subtitle": "Create Interventions models for your organizations",
+      "assign": {
+        "success": "Saved correctly",
+        "error": "An error occurred while assigning intervention. Try again",
+        "title": "Assign Intervention"
+      },
+      "loadingError": "An error occurred loading  interventions definitions"
+    }
+  },
+  "reports": {
+    "indicators": {
+      "myLifeMap": "Life Map"
+    },
+    "priorities": {
+      "myPriorities": "My Priorities",
+      "status": "Status",
+      "indicator": "Indicator",
+      "whyDontYouHaveIt": "Why don't you have it?",
+      "whatWillYouDoToGetIt": "What will you do to get it?",
+      "howManyMonthsWillItTake": "Months required",
+      "reviewDate": "Review date"
+    },
+    "achievements": {
+      "myAchievements": "My Achievements",
+      "status": "Status",
+      "indicator": "Indicator",
+      "roadmap": "Who or what motivated you to get there?",
+      "action": "What did you do to achieve this?"
+    }
+  },
+  "role": {
+    "ROLE_APP_ADMIN": "Organization Admin",
+    "ROLE_ROOT": "Admin",
+    "ROLE_PS_TEAM": "Team",
+    "ROLE_SURVEY_USER_ADMIN": "Facilitator Admin",
+    "ROLE_SURVEY_USER": "Facilitator",
+    "ROLE_HUB_ADMIN": "Hub Admin",
+    "ROLE_SURVEY_TAKER": "Surveyor",
+    "ROLE_FAMILY_USER": "Family"
+  },
+  "answerType": {
+    "select": "Dropdown",
+    "number": "Number",
+    "radio": "Radio",
+    "text": "Text",
+    "checkbox": "Checkbox",
+    "date": "Date"
+  }
+}

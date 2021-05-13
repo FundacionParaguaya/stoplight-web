@@ -5,6 +5,7 @@ import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 import 'moment/locale/pt';
 import 'moment/locale/fr';
+import 'moment/locale/ar';
 import 'moment/locale/es';
 import { getLanguageByCode } from '../utils/lang-utils';
 

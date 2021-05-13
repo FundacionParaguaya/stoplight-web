@@ -1,6 +1,20 @@
 // This file provides the color and typography styles used troughout the App
 import { createMuiTheme } from '@material-ui/core/styles';
 
+const direction = localStorage.getItem('language') === 'ar' ? 'rtl' : 'ltr';
+
+const left = direction === 'ltr' ? 'left' : 'right';
+const right = direction === 'ltr' ? 'right' : 'left';
+
+export const Globals = {
+  left,
+  right,
+  marginLeft: `margin-${left}`,
+  paddingLeft: `padding-${left}`,
+  marginRight: `margin-${right}`,
+  paddingRight: `padding-${right}`
+};
+
 export const COLORS = {
   RED: '#e1504d',
   YELLOW: '#f0cb17',
@@ -14,6 +28,7 @@ export const COLORS = {
 };
 
 export const theme = {
+  direction,
   palette: {
     primary: {
       main: '#309E43',

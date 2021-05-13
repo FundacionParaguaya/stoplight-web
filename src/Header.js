@@ -20,6 +20,7 @@ import { NavLink } from 'react-router-dom';
 import { enviroments, logout } from './api';
 import englishLogo from './assets/english.png';
 import creoleLogo from './assets/creole.png';
+import arabicLogo from './assets/ar.png';
 import logo from './assets/header_logo.png';
 import paragLogo from './assets/paraguay.png';
 import portugueseLogo from './assets/portuguese.png';
@@ -161,10 +162,18 @@ const Header = ({ path, updateUser, user }) => {
   }, [user]);
 
   const handleClose = event => {
+    const actualLang = localStorage.getItem('language');
     localStorage.setItem('language', event);
     i18n.changeLanguage(event);
     setOpen(false);
     setMenuLanguage(event);
+
+    if (
+      (actualLang === 'ar' && event !== 'ar') ||
+      (actualLang !== 'ar' && event === 'ar')
+    ) {
+      window.location.reload(false);
+    }
   };
 
   const handleLogout = () => {
@@ -274,6 +283,7 @@ const Header = ({ path, updateUser, user }) => {
               {menuLanguage === 'es' && 'Español'}
               {menuLanguage === 'pt' && 'Português'}
               {menuLanguage === 'ht' && 'Creole'}
+              {menuLanguage === 'ar' && 'العربية‎'}
             </Typography>
           </Button>
           <div className={classes.verticalDivider} />
@@ -329,7 +339,7 @@ const Header = ({ path, updateUser, user }) => {
                       <img
                         className={classes.imgLogo}
                         src={paragLogo}
-                        alt="eng"
+                        alt="es"
                       />
                       Español
                     </MenuItem>
@@ -340,7 +350,7 @@ const Header = ({ path, updateUser, user }) => {
                       <img
                         className={classes.imgLogo}
                         src={portugueseLogo}
-                        alt="eng"
+                        alt="pt"
                       />
                       Português
                     </MenuItem>
@@ -351,9 +361,20 @@ const Header = ({ path, updateUser, user }) => {
                       <img
                         className={classes.imgLogo}
                         src={creoleLogo}
-                        alt="eng"
+                        alt="ht"
                       />
                       Creole
+                    </MenuItem>
+                    <MenuItem
+                      className={classes.menuItem}
+                      onClick={() => handleClose('ar')}
+                    >
+                      <img
+                        className={classes.imgLogo}
+                        src={arabicLogo}
+                        alt="ar"
+                      />
+                      العربية
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>

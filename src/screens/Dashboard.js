@@ -36,6 +36,7 @@ import {
 import { ROLE_HUB_ADMIN, ROLE_SURVEY_USER } from '../utils/role-utils';
 import DashboardGeneralData from './dashboard/DashboardGeneralData';
 import DashboardOverviewBlock from './dashboard/DashboardOverviewBlock';
+import { Globals } from '../theme';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 const LoadingContainer = () => (
@@ -380,7 +381,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 <div
                   className={classes.moreFilter}
                   style={{
-                    left: showFeed ? 283 : ''
+                    [Globals.left]: showFeed ? 283 : ''
                   }}
                 >
                   <HistoryIcon className={classes.notificacionIcon} />
@@ -419,7 +420,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         <Grid
           container
           className={classes.whiteBackground}
-          style={{ paddingLeft: showFeed ? '10%' : null }}
+          style={{ [Globals.paddingLeft]: showFeed ? '10%' : null }}
         >
           <Grid item md={2} className={classes.logoContainer}>
             {!!getLogoImg(user) && (
@@ -427,7 +428,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 alt="logo"
                 className={classes.img}
                 src={getLogoImg(user)}
-                style={{ marginRight: showFeed ? 25 : 0 }}
+                style={{ [Globals.marginRight]: showFeed ? 25 : 0 }}
               />
             )}
           </Grid>
@@ -606,7 +607,7 @@ const styles = theme => ({
   chartContainer: {
     width: '100%',
     [theme.breakpoints.down('xs')]: {
-      paddingRight: 20
+      [Globals.paddingRight]: 20
     }
   },
   feedContainer: {
@@ -618,7 +619,7 @@ const styles = theme => ({
     height: '100vh',
     maxWidth: 340,
     padding: 16,
-    paddingRight: 2,
+    [Globals.paddingRight]: 2,
     backgroundColor: theme.palette.background.paper,
     zIndex: 100
   },
@@ -655,7 +656,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'flex-start',
     [theme.breakpoints.down('sm')]: {
-      marginRight: 50
+      [Globals.marginRight]: 50
     },
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
