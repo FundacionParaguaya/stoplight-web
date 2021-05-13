@@ -5,10 +5,15 @@ const direction = localStorage.getItem('language') === 'ar' ? 'rtl' : 'ltr';
 
 const left = direction === 'ltr' ? 'left' : 'right';
 const right = direction === 'ltr' ? 'right' : 'left';
+const flexStart = direction === 'ltr' ? 'flex-start' : 'flex-end';
+const flexEnd = direction === 'ltr' ? 'flex-end' : 'flex-start';
 
 export const Globals = {
+  direction,
   left,
   right,
+  flexStart,
+  flexEnd,
   marginLeft: `margin-${left}`,
   paddingLeft: `padding-${left}`,
   marginRight: `margin-${right}`,

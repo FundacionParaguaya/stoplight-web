@@ -26,6 +26,7 @@ import LanguageSelector from '../components/LanguageSelector';
 import Intercom from '../components/Intercom';
 import Container from '../components/Container';
 import 'url-search-params-polyfill';
+import { Globals } from '../theme';
 
 const useStyles = makeStyles(theme => ({
   screen: {
@@ -138,10 +139,10 @@ const useStyles = makeStyles(theme => ({
     left: '5px'
   },
   footer: {
+    flip: false,
     position: 'relative',
     height: '75px',
     display: 'flex',
-    justifyContent: 'space-between',
     alignItems: 'center'
   }
 }));
@@ -484,7 +485,14 @@ const Login = ({ env, enqueueSnackbar, closeSnackbar }) => {
           </Formik>
         </div>
       </Container>
-      <div className={classes.footer}>
+      <div
+        className={classes.footer}
+        style={
+          Globals.direction === 'ltr'
+            ? { justifyContent: 'flex-start' }
+            : { justifyContent: 'flex-end' }
+        }
+      >
         <LanguageSelector />
         <Intercom />
       </div>

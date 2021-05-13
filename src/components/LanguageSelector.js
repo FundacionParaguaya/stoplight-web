@@ -13,8 +13,12 @@ import englishLogo from '../assets/english.png';
 import paragLogo from '../assets/paraguay.png';
 import portugueseLogo from '../assets/portuguese.png';
 import creoleLogo from '../assets/creole.png';
+import arabicLogo from '../assets/ar.png';
 
 const useStyles = makeStyles(theme => ({
+  container: {
+    flip: false
+  },
   menuList: {
     backgroundColor: theme.palette.background.default,
     border: `1px solid ${theme.palette.background.paper}`
@@ -67,10 +71,17 @@ const LanguageSelector = () => {
   }, []);
 
   const handleClose = event => {
+    const actualLang = localStorage.getItem('language');
     setLanguage(event);
     setOpen(!open);
     localStorage.setItem('language', event);
     i18n.changeLanguage(event);
+    if (
+      (actualLang === 'ar' && event !== 'ar') ||
+      (actualLang !== 'ar' && event === 'ar')
+    ) {
+      window.location.reload(false);
+    }
   };
 
   const handleClick = event => {
@@ -91,6 +102,7 @@ const LanguageSelector = () => {
           {language === 'es' && 'Español'}
           {language === 'pt' && 'Português'}
           {language === 'ht' && 'Creole'}
+          {language === 'ar' && 'العربية‎'}
         </Typography>
       </Button>
       <Popper open={open} anchorEl={anchorEl} transition disablePortal>
@@ -149,6 +161,17 @@ const LanguageSelector = () => {
                       alt="eng"
                     />
                     Creole
+                  </MenuItem>
+                  <MenuItem
+                    className={classes.menuItem}
+                    onClick={() => handleClose('ar')}
+                  >
+                    <img
+                      className={classes.imgLogo}
+                      src={arabicLogo}
+                      alt="ar"
+                    />
+                    العربية
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

@@ -420,7 +420,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         <Grid
           container
           className={classes.whiteBackground}
-          style={{ [Globals.paddingLeft]: showFeed ? '10%' : null }}
+          style={{ paddingLeft: showFeed ? '10%' : null }}
         >
           <Grid item md={2} className={classes.logoContainer}>
             {!!getLogoImg(user) && (
@@ -428,7 +428,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 alt="logo"
                 className={classes.img}
                 src={getLogoImg(user)}
-                style={{ [Globals.marginRight]: showFeed ? 25 : 0 }}
+                style={{ marginRight: showFeed ? 25 : 0 }}
               />
             )}
           </Grid>
@@ -607,7 +607,7 @@ const styles = theme => ({
   chartContainer: {
     width: '100%',
     [theme.breakpoints.down('xs')]: {
-      [Globals.paddingRight]: 20
+      paddingRight: 20
     }
   },
   feedContainer: {
@@ -619,7 +619,7 @@ const styles = theme => ({
     height: '100vh',
     maxWidth: 340,
     padding: 16,
-    [Globals.paddingRight]: 2,
+    paddingRight: 2,
     backgroundColor: theme.palette.background.paper,
     zIndex: 100
   },
@@ -656,7 +656,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'flex-start',
     [theme.breakpoints.down('sm')]: {
-      [Globals.marginRight]: 50
+      marginRight: 50
     },
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
