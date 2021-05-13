@@ -2413,7 +2413,7 @@ export const getInterventionById = (user, intervention) =>
     },
     data: JSON.stringify({
       query:
-        'query retrieveInterventionData ($intervention: Long!) { retrieveInterventionData(intervention: $intervention) { values { codeName value} } } ',
+        'query retrieveInterventionData ($intervention: Long!) { retrieveInterventionData(intervention: $intervention) { values { codeName value multipleValue multipleText other} } } ',
       variables: {
         intervention
       }

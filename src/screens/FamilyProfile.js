@@ -87,6 +87,16 @@ const FamilyProfile = ({
       )
     });
 
+  const showSuccessMessage = message =>
+    enqueueSnackbar(message, {
+      variant: 'success',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
+
   const handleOpenImage = image => {
     setImagePreview(true);
     setImageUrl(image);
@@ -199,14 +209,7 @@ const FamilyProfile = ({
     saveFamilyNote(familyId, familyNote, user)
       .then(() => {
         setFamilyNote('');
-        enqueueSnackbar(t('views.familyProfile.familyNoteSuccess'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showSuccessMessage(t('views.familyProfile.familyNoteSuccess'));
         loadFamilyNotes(familyId, user);
       })
       .catch(e => {
