@@ -1005,6 +1005,7 @@
         },
         "warning": "Enpòtan: lè ou edite yon fòm entèvansyon nan itilize, entèvansyon anvan yo ta ka gen jaden vid lè itilizatè wè rezilta yo."
       },
+      "interventions": "Entèvansyon",
       "assign": {
         "success": "Sove kòrèkteman",
         "error": "Yon erè ki te fèt pandan y ap asiyen entèvansyon. \nEseye anko",

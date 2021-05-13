@@ -1042,6 +1042,7 @@
         },
         "warning": "Importante: cuando edita un formulario de intervención en uso, las intervenciones anteriores pueden tener campos en blanco cuando los usuarios ven los resultados."
       },
+      "interventions": "Intervenciones",
       "assign": {
         "success": "Guardado correctamente",
         "error": "Ocurrió un error al asignar la intervención. \nIntentar otra vez",

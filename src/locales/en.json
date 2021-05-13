@@ -1062,6 +1062,7 @@
       "add": "Add Intervention",
       "list": "List of Interventions",
       "subtitle": "Create Interventions models for your organizations",
+      "interventions": "Interventions",
       "assign": {
         "success": "Saved correctly",
         "error": "An error occurred while assigning intervention. Try again",

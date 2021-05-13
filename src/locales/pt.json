@@ -1003,6 +1003,7 @@
         },
         "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados."
       },
+      "interventions": "Intervenções",
       "assign": {
         "success": "Salvo corretamente",
         "error": "Ocorreu um erro ao atribuir intervenção. \nTente novamente",
