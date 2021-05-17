@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
+import firebase from 'firebase/app';
 import { theme } from '../theme';
 import LeaveModal from './LeaveModal';
 import SaveDraftModal from './SaveDraftModal';
 import { ROLE_SURVEY_TAKER } from '../utils/role-utils';
-import firebase from 'firebase/app';
 import 'firebase/analytics';
 
 class NavIcons extends Component {
@@ -37,8 +37,6 @@ class NavIcons extends Component {
   };
 
   leaveSurvey = () => {
-    console.log('leaveSurvey');
-    //const analytics = firebase.analytics();
     firebase.analytics().logEvent('leave_survey', {
       survey: this.props.currentSurvey.title,
       user: this.props.user.username,
@@ -51,6 +49,7 @@ class NavIcons extends Component {
   componentDidMount() {
     window.onbeforeunload = () => true;
   }
+
   componentDidUpdate(prevProps) {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       window.onbeforeunload = () => true;

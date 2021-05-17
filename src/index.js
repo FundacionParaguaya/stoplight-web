@@ -15,13 +15,13 @@ Bugsnag.start({
 });
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCKpUIRikUr8SxXjgQuXXqc9cUf0I9ni8w',
-  authDomain: 'psp-web.firebaseapp.com',
-  projectId: 'psp-web',
-  storageBucket: 'psp-web.appspot.com',
-  messagingSenderId: '436144717161',
-  appId: '1:436144717161:web:09ef2308c7a0ee323551f8',
-  measurementId: 'G-PCDX137GCP'
+  apiKey: 'AIzaSyBXWbqWulAnXPVhX0_gvdSCsgtnGRFPT5Y',
+  authDomain: 'stoplight-web.firebaseapp.com',
+  projectId: 'stoplight-web',
+  storageBucket: 'stoplight-web.appspot.com',
+  messagingSenderId: '338453487209',
+  appId: '1:338453487209:web:4fa3034d80b12328c1ccf8',
+  measurementId: 'G-YB1GG0BG1Z'
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

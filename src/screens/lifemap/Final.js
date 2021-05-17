@@ -20,6 +20,8 @@ import skippedLifemap from '../../assets/Family_center.png';
 import { upsertSnapshot, updateDraft } from '../../redux/actions';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import Bugsnag from '@bugsnag/js';
+import firebase from 'firebase';
+import 'firebase/analytics';
 
 export class Final extends Component {
   state = {
@@ -69,6 +71,12 @@ export class Final extends Component {
       this.props.currentSurvey.surveyConfig.stoplightOptional &&
       currentDraft.indicatorSurveyDataList &&
       currentDraft.indicatorSurveyDataList.length === 0;
+    firebase.analytics().logEvent('finish_draft', {
+      survey: this.props.currentSurvey.title,
+      user: this.props.user.username,
+      role: this.props.user.role,
+      env: this.props.user.env
+    });
     submitDraft(
       user,
       currentDraft,

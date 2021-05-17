@@ -71,14 +71,12 @@ const Authenticator = props => {
     } = user || {};
 
     user && Bugsnag.setUser(user.username, user.email, user.name);
-    console.log('user', user);
     !!user &&
       firebase.analytics().setUserProperties({
         user: user.username,
         role: user.role,
         env: user.env
       });
-    //firebase.analytics().setUserProperties({favorite_food: 'apples'});
 
     return {
       localStorageToken: token,
