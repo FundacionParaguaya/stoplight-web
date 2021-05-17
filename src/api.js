@@ -2374,6 +2374,23 @@ export const addOrUpdadteInterventionDefinition = (
   }
 };
 
+export const deleteInterventionDefinition = (user, definitionId) => {
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteInterventionDefinition($interventionDefinition: InterventionDefinitionModelInput) {deleteInterventionDefinition (interventionDefinition: $interventionDefinition){successful}}',
+      variables: {
+        id: definitionId
+      }
+    })
+  });
+};
+
 export const assignIntervention = (user, interventionId, organizations) =>
   axios({
     method: 'post',

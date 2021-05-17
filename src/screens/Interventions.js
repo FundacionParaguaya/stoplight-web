@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { Edit } from '@material-ui/icons';
+import { Delete, Edit } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
 import IntervetionIcon from '@material-ui/icons/ListAlt';
 import { withSnackbar } from 'notistack';
@@ -13,13 +13,15 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import SettingsIcon from '@material-ui/icons/MoreVert';
 import { listInterventionsDefinitions } from '../api';
 import interventionBanner from '../assets/reports_banner.png';
 import Container from '../components/Container';
 import withLayout from '../components/withLayout';
-import SettingsIcon from '@material-ui/icons/MoreVert';
 
 import AssignInterventionModal from './interventions/AssignInterventionModal';
+import InterventionDeleteModal from './interventions/InterventionDeleteModal';
+import { ROLE_APP_ADMIN } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -99,11 +101,18 @@ const useStyles = makeStyles(theme => ({
 const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { role } = user;
+  const isOrgAdmin = role === ROLE_APP_ADMIN;
 
   const [loading, setLoading] = useState(true);
   const [interventions, setInterventions] = useState([]);
   const [selectedIntervention, setSelectedIntervention] = useState();
   const [openAssignModal, setOpenAssignModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
 
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
@@ -161,6 +170,12 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
         onClose={onClose}
         showSuccessMessage={showSuccessMessage}
         showErrorMessage={showErrorMessage}
+      />
+      <InterventionDeleteModal
+        interventionToDelete={selectedIntervention}
+        open={openDeleteModal}
+        afterSubmit={null}
+        toggleModal={toggleDeleteModal}
       />
 
       {loading && (
@@ -252,6 +267,19 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
                 <Edit />
               </IconButton>
             </Tooltip>
+            {(isOrgAdmin || true) && (
+              <Tooltip title={t('general.delete')}>
+                <IconButton
+                  color="inherit"
+                  onClick={() => {
+                    setSelectedIntervention(intervention);
+                    setOpenDeleteModal(true);
+                  }}
+                >
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
         </div>
       ))}

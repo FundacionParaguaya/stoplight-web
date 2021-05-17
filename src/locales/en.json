@@ -1068,6 +1068,13 @@
         "error": "An error occurred while assigning intervention. Try again",
         "title": "Assign Intervention"
       },
+      "delete": {
+        "confirmTitle": "Confirm Deletion",
+        "confirmText": "Are you sure you want to delete this Intervention?",
+        "cannotUndo": "You cannot undo this action!",
+        "success": "The Intervention has been deleted",
+        "failed": "The Intervention cannot be deleted"
+      },
       "loadingError": "An error occurred loading  interventions definitions"
     }
   },

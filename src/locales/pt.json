@@ -1009,6 +1009,13 @@
         "error": "Ocorreu um erro ao atribuir intervenção. \nTente novamente",
         "title": "Atribuir intervenção"
       },
+      "delete": {
+        "confirmTitle": "Confirmação da eliminação",
+        "confirmText": "Tem a certeza de que quer eliminar esta intervenção?",
+        "cannotUndo": "Esto no se puede deshacer.",
+        "success": "A intervenção foi eliminado",
+        "failed": "A intervenção não pode ser removida"
+      },
       "loadingError": "Ocorreu um erro ao carregar as definições das intervenções"
     }
   },
