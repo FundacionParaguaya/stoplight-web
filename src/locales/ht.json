@@ -573,7 +573,11 @@
         }
       },
       "survey": "Sondaj:",
-      "surveyError": "Vèsyon sondaj la pa disponib. \nPou pran yon sondaj swivi, mande aksè a vèsyon sondaj la."
+      "surveyError": "Vèsyon sondaj la pa disponib. \nPou pran yon sondaj swivi, mande aksè a vèsyon sondaj la.",
+      "interventions": {
+        "relatedInterventions": "Entèvansyon ki gen rapò",
+        "noInterventions": "Fanmi sa a pa gen okenn entèvansyon"
+      }
     },
     "familyNotes": {
       "by": "Pa",
