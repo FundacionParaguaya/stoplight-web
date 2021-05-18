@@ -9,11 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
-import {
-  createIntervention,
-  getInterventionDefinition,
-  getInterventionById
-} from '../../../api';
+import { createOrUpdateIntervention, getInterventionById } from '../../../api';
 import AutocompleteWithFormik from '../../../components/AutocompleteWithFormik';
 import BooleanWithFormik from '../../../components/BooleanWithFormik';
 import CheckboxWithFormik from '../../../components/CheckboxWithFormik';
@@ -75,26 +71,43 @@ export const buildInitialValuesForForm = (questions, draft) => {
   const initialValue = {};
 
   questions.forEach(question => {
-    const draftQuestion = draft.find(e => e.key === question.codeName) || {};
+    const draftQuestion =
+      draft.find(e => e.codeName === question.codeName) || {};
 
     const hasOtherOption = (question.options || []).find(o => o.otherOption);
 
-    if (hasOtherOption) {
+    const draftHasOtherValue =
+      draftQuestion.hasOwnProperty('other') && !!draftQuestion.other;
+
+    if (hasOtherOption && draftHasOtherValue) {
+      initialValue[question.codeName] = hasOtherOption.value;
       initialValue[`custom${capitalize(question.codeName)}`] =
-        draftQuestion.hasOwnProperty('other') && !!draftQuestion.other
-          ? draftQuestion.other
-          : '';
+        draftQuestion.other;
     }
 
-    initialValue[question.codeName] =
-      (Object.prototype.hasOwnProperty.call(draftQuestion, 'value') &&
-      !!draftQuestion.value
-        ? draftQuestion.value
-        : draftQuestion.multipleValue) || '';
+    if (!draftHasOtherValue)
+      initialValue[question.codeName] =
+        (Object.prototype.hasOwnProperty.call(draftQuestion, 'value') &&
+        !!draftQuestion.value
+          ? draftQuestion.value
+          : draftQuestion.multipleValue) || '';
 
     if (question.answerType === 'boolean') {
-      initialValue[question.codeName] = false;
+      initialValue[question.codeName] =
+        initialValue[question.codeName] === 'true';
     }
+
+    if (
+      question.answerType === 'multiselect' &&
+      Array.isArray(draftQuestion.multipleValue)
+    ) {
+      let values = draftQuestion.multipleValue.map((v, index) => ({
+        value: v,
+        label: draftQuestion.multipleText[index]
+      }));
+      initialValue[question.codeName] = values;
+    }
+
     delete initialValue[question.codeName].text;
   });
 
@@ -136,8 +149,10 @@ const AddInterventionModal = ({
   open,
   onClose,
   interventionEdit,
+  definition,
   indicators,
   snapshotId,
+  intervention,
   showErrorMessage,
   showSuccessMessage,
   user
@@ -147,24 +162,24 @@ const AddInterventionModal = ({
 
   const { t } = useTranslation();
 
-  const [loading, setLoading] = useState(true);
-  const [definition, setDefinition] = useState();
+  const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [draft, setDraft] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    getInterventionDefinition(user, 6)
-      .then(response => {
-        let definition = response.data.data.retrieveInterventionDefinition;
-        setDefinition(definition);
-        setQuestions(definition.questions);
-        setLoading(false);
-      })
-      .catch(e => {
-        showErrorMessage(e.message);
-        setLoading(false);
-      });
-  }, []);
+    if (definition) {
+      setQuestions(definition.questions);
+    }
+  }, [definition]);
+
+  useEffect(() => {
+    isEdit &&
+      getInterventionById(user, interventionEdit.id)
+        .then(response => {
+          setDraft(response.data.data.retrieveInterventionData.values);
+        })
+        .catch(e => console.log(e.message));
+  }, [interventionEdit]);
 
   useEffect(
     () => {
@@ -231,11 +246,18 @@ const AddInterventionModal = ({
     });
 
     setLoading(true);
-    createIntervention(user, finalAnswers, definition.id, snapshotId, null)
-      .then(() => {
+    createOrUpdateIntervention(
+      user,
+      finalAnswers,
+      definition.id,
+      snapshotId,
+      intervention
+    )
+      .then(response => {
         showSuccessMessage(
           t('views.familyProfile.interventions.form.save.success')
         );
+        onClose(true, { ...values, ...response.data.data.createIntervention });
         setLoading(false);
       })
       .catch(() => {
@@ -274,7 +296,7 @@ const AddInterventionModal = ({
         </IconButton>
 
         <Formik
-          initialValues={buildInitialValuesForForm(questions, [])}
+          initialValues={buildInitialValuesForForm(questions, draft)}
           enableReinitialize
           validationSchema={buildValidationSchemaForForm(questions)}
           onSubmit={values => {
@@ -502,7 +524,7 @@ const AddInterventionModal = ({
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={() => {}}
+                  onClick={() => onClose(false)}
                   disabled={loading}
                 >
                   {t('general.cancel')}

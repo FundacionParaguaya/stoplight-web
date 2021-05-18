@@ -2327,7 +2327,7 @@ export const listInterventionsByFamily = (user, family, params) =>
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query: `query interventionsByFamily( $family: Long!) { interventionsByFamily( family: $family){ intervention ${params}}}`,
+      query: `query interventionsByFamily( $family: Long!) { interventionsByFamily( family: $family){ id intervention ${params}}}`,
       variables: {
         family
       }
@@ -2392,32 +2392,36 @@ export const assignIntervention = (user, interventionId, organizations) =>
     })
   });
 
-export const createIntervention = (
+export const createOrUpdateIntervention = (
   user,
   values,
   interventionDefinition,
   snapshot,
   relatedIntervention
-) =>
-  axios({
-    method: 'post',
-    url: `${url[user.env]}/graphql`,
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    },
-    data: JSON.stringify({
-      query:
-        'mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { successful } }',
-      variables: {
-        intervention: {
-          values,
-          interventionDefinition,
-          snapshot,
-          intervention: relatedIntervention
+) => {
+  if (values.id) {
+  } else {
+    axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query:
+          'mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention } }',
+        variables: {
+          intervention: {
+            values,
+            interventionDefinition,
+            snapshot,
+            intervention: relatedIntervention
+          }
         }
-      }
-    })
-  });
+      })
+    });
+  }
+};
 
 export const getInterventionById = (user, intervention) =>
   axios({
