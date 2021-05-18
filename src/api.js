@@ -2327,7 +2327,7 @@ export const listInterventionsBySnapshot = (user, snapshot, params) =>
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query: `query interventionsBySnapshot( $snapshot: Long!) { interventionsBySnapshot( snapshot: $snapshot){ id intervention ${params}}}`,
+      query: `query interventionsBySnapshot( $snapshot: Long!) { interventionsBySnapshot( snapshot: $snapshot){ id intervention{id} ${params}}}`,
       variables: {
         snapshot
       }
@@ -2418,7 +2418,7 @@ export const createOrUpdateIntervention = (
 ) => {
   if (values.id) {
   } else {
-    axios({
+    return axios({
       method: 'post',
       url: `${url[user.env]}/graphql`,
       headers: {
@@ -2426,7 +2426,7 @@ export const createOrUpdateIntervention = (
       },
       data: JSON.stringify({
         query:
-          'mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention } }',
+          'mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention  values { codeName value multipleValue multipleText other} } }',
         variables: {
           intervention: {
             values,

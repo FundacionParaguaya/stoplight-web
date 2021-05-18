@@ -146,15 +146,17 @@ const FamilyInterventions = ({
             } else {
               let inter = intervention;
               let ogId = orginalInterventions.findIndex(
-                oi => oi.intervention === inter.id
+                oi => !!oi.intervention && oi.intervention.id === inter.id
               );
               while (ogId < 0) {
                 // eslint-disable-next-line no-loop-func
-                inter = data.find(int => int.id === inter.intervention);
+                inter = data.find(int => int.id === inter.intervention.id);
                 // eslint-disable-next-line no-loop-func
                 ogId = orginalInterventions.findIndex(
                   // eslint-disable-next-line no-loop-func
-                  oi => oi.id === inter.intervention || oi.id === inter.id
+                  oi =>
+                    (inter.intervention && oi.id === inter.intervention.id) ||
+                    oi.id === inter.id
                 );
                 if (!inter) break;
               }
