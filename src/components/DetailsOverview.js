@@ -30,6 +30,7 @@ import {
 } from '../api';
 import ImagePreview from './ImagePreview';
 import Details from '../screens/families/profile/Details';
+import FamilyInterventions from '../screens/families/profile/FamilyInterventions';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -595,6 +596,13 @@ const DetailsOverview = ({
           readOnly
         />
       )}
+
+      {/* Interventions */}
+      <FamilyInterventions
+        questions={snapshot.indicatorSurveyDataList}
+        snapshotId={snapshot.snapshotId}
+        readOnly
+      />
 
       {/* Images */}
       {images.length > 0 && (
