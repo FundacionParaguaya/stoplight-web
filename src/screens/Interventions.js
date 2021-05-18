@@ -102,18 +102,11 @@ const useStyles = makeStyles(theme => ({
 const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { role } = user;
-  const isOrgAdmin = role === ROLE_APP_ADMIN;
 
   const [loading, setLoading] = useState(true);
   const [interventions, setInterventions] = useState([]);
   const [selectedIntervention, setSelectedIntervention] = useState();
   const [openAssignModal, setOpenAssignModal] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
-  const toggleDeleteModal = () => {
-    setOpenDeleteModal(!openDeleteModal);
-  };
 
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
@@ -171,12 +164,6 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
         onClose={onClose}
         showSuccessMessage={showSuccessMessage}
         showErrorMessage={showErrorMessage}
-      />
-      <InterventionDeleteModal
-        interventionToDelete={selectedIntervention}
-        open={openDeleteModal}
-        afterSubmit={null}
-        toggleModal={toggleDeleteModal}
       />
 
       {loading && (
@@ -268,19 +255,6 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
                 <Edit />
               </IconButton>
             </Tooltip>
-            {(isOrgAdmin || true) && (
-              <Tooltip title={t('general.delete')}>
-                <IconButton
-                  color="inherit"
-                  onClick={() => {
-                    setSelectedIntervention(intervention);
-                    setOpenDeleteModal(true);
-                  }}
-                >
-                  <Delete />
-                </IconButton>
-              </Tooltip>
-            )}
           </div>
         </div>
       ))}

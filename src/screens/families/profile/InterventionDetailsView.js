@@ -36,7 +36,8 @@ const InterventionDetailsView = ({
   intervention,
   definition,
   showAdministrationOptions,
-  handleEdit
+  handleEdit,
+  handleDelete
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -103,7 +104,7 @@ const InterventionDetailsView = ({
               <IconButton
                 style={{ color: 'black' }}
                 component="span"
-                onClick={() => {}}
+                onClick={() => handleDelete(intervention)}
               >
                 <Delete />
               </IconButton>
