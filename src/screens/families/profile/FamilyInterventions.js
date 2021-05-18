@@ -87,7 +87,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FamilyInterventions = ({
-  familyId,
   questions,
   snapshotId,
   enqueueSnackbar,
@@ -120,15 +119,15 @@ const FamilyInterventions = ({
   }, []);
 
   useEffect(() => {
-    if (definition) {
+    if (definition && snapshotId) {
       let params = '';
       definition.questions.forEach(question => {
         params += `${question.codeName} `;
       });
 
-      listInterventionsByFamily(user, familyId, params)
+      listInterventionsByFamily(user, snapshotId, params)
         .then(response => {
-          let data = response.data.data.interventionsByFamily;
+          let data = response.data.data.interventionsBySnapshot;
           let orginalInterventions = [];
           data.forEach(intervention => {
             if (!intervention.intervention) {
@@ -166,7 +165,7 @@ const FamilyInterventions = ({
           showErrorMessage(e.message);
         });
     }
-  }, [definition]);
+  }, [definition, snapshotId]);
 
   const showAdministrationOptions = ({ role }) =>
     (role === ROLES_NAMES.ROLE_APP_ADMIN ||
@@ -200,7 +199,6 @@ const FamilyInterventions = ({
     if (updateList) {
       let newInterventions = Array.from(interventions);
       let index = newInterventions.findIndex(i => i.id === intervention.id);
-      console.log(intervention);
       index >= 0
         ? (newInterventions[index] = intervention)
         : newInterventions.push(intervention);
@@ -244,6 +242,7 @@ const FamilyInterventions = ({
 
       <Container
         className={clsx(classes.mainDataContainer, classes.basicInfoText)}
+        style={{ padding: readOnly ? '0' : '0 12%' }}
         variant="fluid"
       >
         <Typography variant="h5">
@@ -336,16 +335,18 @@ const FamilyInterventions = ({
           </Container>
         )}
 
-        <Container className={classes.basicInfoText} variant="fluid">
-          <Button
-            className={classes.emptyList}
-            color="primary"
-            variant="contained"
-            onClick={() => setOpenForm(!openForm)}
-          >
-            {t('views.intervention.add')}
-          </Button>
-        </Container>
+        {showAdministrationOptions(user) && (
+          <Container className={classes.basicInfoText} variant="fluid">
+            <Button
+              className={classes.emptyList}
+              color="primary"
+              variant="contained"
+              onClick={() => setOpenForm(!openForm)}
+            >
+              {t('views.intervention.add')}
+            </Button>
+          </Container>
+        )}
       </Container>
     </React.Fragment>
   );

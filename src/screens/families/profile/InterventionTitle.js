@@ -13,6 +13,13 @@ import { COLORS } from '../../../theme';
 import { getMonthFormatByLocale } from '../../../utils/date-utils';
 
 const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    position: 'relative',
+    display: 'flex',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column'
+    }
+  },
   container: {
     position: 'relative',
     display: 'flex'
@@ -20,14 +27,20 @@ const useStyles = makeStyles(theme => ({
   intervetionNameContainer: {
     display: 'flex',
     flexDirection: 'column',
-    width: '50%'
+    width: '50%',
+    [theme.breakpoints.down('md')]: {
+      width: '100%'
+    }
   },
   interventionTypeContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    width: '50%'
+    width: '50%',
+    [theme.breakpoints.down('md')]: {
+      width: '100%'
+    }
   },
   connector: {
     position: 'absolute',
@@ -38,7 +51,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    width: '100%'
+    width: '100%',
+    [theme.breakpoints.down('md')]: {
+      justifyContent: 'space-between'
+    }
   },
   tagContainer: {
     display: 'flex',
@@ -55,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.typography.h4.color
   },
   yearContainer: {
-    background: '#F3F4F6',
+    background: theme.palette.background.paper,
     borderLeft: `1px solid ${theme.palette.grey.quarter}`,
     boxSizing: 'border-box',
     borderRadius: '2px',
@@ -88,8 +104,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: 20,
     marginRight: theme.spacing(1),
     [theme.breakpoints.down('xs')]: {
-      marginRight: 0,
-      marginLeft: theme.spacing(3.5)
+      marginRight: 4
     }
   },
   interventionType: {
@@ -140,7 +155,7 @@ const InterventionTitle = ({
   }, [indicators]);
 
   return (
-    <div className={classes.container}>
+    <div className={classes.mainContainer}>
       {related && (
         <img alt="connect" src={connectorSvg} className={classes.connector} />
       )}

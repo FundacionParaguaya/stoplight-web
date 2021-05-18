@@ -38,7 +38,9 @@ const useStyles = makeStyles(theme => ({
     maxHeight: '85vh',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
-      padding: '1em'
+      padding: '1em',
+      maxHeight: '100vh',
+      width: '100vw'
     },
     overflowY: 'auto'
   },
