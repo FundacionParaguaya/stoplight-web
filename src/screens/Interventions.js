@@ -17,7 +17,7 @@ import { listInterventionsDefinitions } from '../api';
 import interventionBanner from '../assets/reports_banner.png';
 import Container from '../components/Container';
 import withLayout from '../components/withLayout';
-import SettingsIcon from '@material-ui/icons/MoreVert';
+import SettingsIcon from '@material-ui/icons/DeviceHub';
 
 import AssignInterventionModal from './interventions/AssignInterventionModal';
 
