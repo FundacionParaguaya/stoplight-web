@@ -146,6 +146,7 @@ const FamilyInterventions = ({
                 inter = data.find(int => int.id === inter.intervention);
                 // eslint-disable-next-line no-loop-func
                 ogId = orginalInterventions.findIndex(
+                  // eslint-disable-next-line no-loop-func
                   oi => oi.id === inter.intervention || oi.id === inter.id
                 );
                 if (!inter) break;
@@ -170,8 +171,8 @@ const FamilyInterventions = ({
   const showAdministrationOptions = ({ role }) =>
     (role === ROLES_NAMES.ROLE_APP_ADMIN ||
       role === ROLES_NAMES.ROLE_FAMILY_USER ||
-        role === ROLES_NAMES.ROLE_SURVEY_USER ||
-        role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
+      role === ROLES_NAMES.ROLE_SURVEY_USER ||
+      role === ROLES_NAMES.ROLE_SURVEY_USER_ADMIN) &&
     !readOnly;
 
   const showErrorMessage = message =>
