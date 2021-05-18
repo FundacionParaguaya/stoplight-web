@@ -259,7 +259,7 @@ const AddInterventionModal = ({
         showSuccessMessage(
           t('views.familyProfile.interventions.form.save.success')
         );
-        onClose(true, { ...values, ...response.data.data.createIntervention });
+        onClose(true, response.data.data.createIntervention);
         setLoading(false);
       })
       .catch(() => {
