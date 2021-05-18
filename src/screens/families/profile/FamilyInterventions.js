@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import {
   getInterventionDefinition,
-  listInterventionsByFamily
+  listInterventionsBySnapshot
 } from '../../../api';
 import iconIntervention from '../../../assets/imgAch.png';
 import Container from '../../../components/Container';
@@ -125,7 +125,7 @@ const FamilyInterventions = ({
         params += `${question.codeName} `;
       });
 
-      listInterventionsByFamily(user, snapshotId, params)
+      listInterventionsBySnapshot(user, snapshotId, params)
         .then(response => {
           let data = response.data.data.interventionsBySnapshot;
           let orginalInterventions = [];
