@@ -2319,7 +2319,7 @@ export const getInterventionDefinition = (user, interventionDefinition) =>
     })
   });
 
-export const listInterventionsByFamily = (user, family, params) =>
+export const listInterventionsBySnapshot = (user, snapshot, params) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -2327,9 +2327,9 @@ export const listInterventionsByFamily = (user, family, params) =>
       Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
-      query: `query interventionsByFamily( $family: Long!) { interventionsByFamily( family: $family){ id intervention ${params}}}`,
+      query: `query interventionsBySnapshot( $snapshot: Long!) { interventionsBySnapshot( snapshot: $snapshot){ id intervention ${params}}}`,
       variables: {
-        family
+        snapshot
       }
     })
   });

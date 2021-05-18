@@ -353,7 +353,6 @@ const FamilyProfile = ({
       />
 
       {/* Priorities */}
-
       <FamilyPriorities
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
@@ -362,7 +361,6 @@ const FamilyProfile = ({
       />
 
       {/* Achievements */}
-
       <FamilyAchievements
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
@@ -371,16 +369,13 @@ const FamilyProfile = ({
       />
 
       {/* Interventions */}
-
       <FamilyInterventions
-        familyId={familyId}
         stoplightSkipped={stoplightSkipped}
         questions={family.snapshotIndicators}
         snapshotId={family.lastSnapshot}
       />
 
       {/* Notes */}
-
       <FamilyNotes
         familyId={familyId}
         notes={familyNotes}
