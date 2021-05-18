@@ -609,7 +609,11 @@
         }
       },
       "survey": "Encuesta:",
-      "surveyError": "La versión de la encuesta no está disponible. Para tomar una encuesta de seguimiento, solicite el acceso a la versión de encuesta."
+      "surveyError": "La versión de la encuesta no está disponible. Para tomar una encuesta de seguimiento, solicite el acceso a la versión de encuesta.",
+      "interventions": {
+        "relatedInterventions": "Intervenciones relacionadas",
+        "noInterventions": "Esta familia no tiene intervenciones"
+      }
     },
     "familyNotes": {
       "by": "por",

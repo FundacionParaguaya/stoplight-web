@@ -569,7 +569,11 @@
         }
       },
       "survey": "Pesquisa:",
-      "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa."
+      "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa.",
+      "interventions": {
+        "relatedInterventions": "Intervenções Relacionadas",
+        "noInterventions": "Esta família não tem intervenções"
+      }
     },
     "familyNotes": {
       "by": "por",

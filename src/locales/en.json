@@ -625,7 +625,9 @@
             "success": "Saved intervention.",
             "error": "Could not save intervention"
           }
-        }
+        },
+        "relatedInterventions": "Related Interventions",
+        "noInterventions": "This family has no Interventions"
       }
     },
     "familyNotes": {

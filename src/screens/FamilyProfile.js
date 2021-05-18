@@ -44,7 +44,7 @@ import ChangeProject from './families/profile/ChangeProject';
 import Details from './families/profile/Details';
 import FamilyOverview from './families/profile/FamilyOverview';
 import ProjectsModal from './lifemap/ProjectsModal';
-import FamilyInterventions from '../components/FamilyInterventions';
+import FamilyInterventions from './families/profile/FamilyInterventions';
 
 const FamilyProfile = ({
   classes,
@@ -81,6 +81,16 @@ const FamilyProfile = ({
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
       variant: 'error',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
+
+  const showSuccessMessage = message =>
+    enqueueSnackbar(message, {
+      variant: 'success',
       action: key => (
         <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
           <CloseIcon style={{ color: 'white' }} />
@@ -200,14 +210,7 @@ const FamilyProfile = ({
     saveFamilyNote(familyId, familyNote, user)
       .then(() => {
         setFamilyNote('');
-        enqueueSnackbar(t('views.familyProfile.familyNoteSuccess'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showSuccessMessage(t('views.familyProfile.familyNoteSuccess'));
         loadFamilyNotes(familyId, user);
       })
       .catch(e => {
@@ -373,7 +376,7 @@ const FamilyProfile = ({
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
         questions={family.snapshotIndicators}
-        priorities={priorities}
+        snapshotId={family.lastSnapshot}
       />
 
       {/* Notes */}
