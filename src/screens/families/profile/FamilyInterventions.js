@@ -228,6 +228,7 @@ const FamilyInterventions = ({
         newInterventions[index].relatedInterventions = newRelatedInterventions;
       }
     }
+    setSelectedIntervention({});
     setIntervetions(newInterventions);
   };
 
