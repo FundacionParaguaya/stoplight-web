@@ -36,7 +36,8 @@ const InterventionDetailsView = ({
   intervention,
   definition,
   showAdministrationOptions,
-  handleEdit
+  handleEdit,
+  handleDelete
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -96,18 +97,21 @@ const InterventionDetailsView = ({
                 <Edit />
               </IconButton>
             </Tooltip>
-            <Tooltip
-              title={t('views.solutions.form.deleteButton')}
-              style={{ marginRight: 8 }}
-            >
-              <IconButton
-                style={{ color: 'black' }}
-                component="span"
-                onClick={() => {}}
+            {(!Array.isArray(intervention.relatedInterventions) ||
+              intervention.relatedInterventions.length === 0) && (
+              <Tooltip
+                title={t('views.solutions.form.deleteButton')}
+                style={{ marginRight: 8 }}
               >
-                <Delete />
-              </IconButton>
-            </Tooltip>
+                <IconButton
+                  style={{ color: 'black' }}
+                  component="span"
+                  onClick={() => handleDelete(intervention)}
+                >
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
         )}
       </Grid>

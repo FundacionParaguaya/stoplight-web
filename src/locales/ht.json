@@ -1025,6 +1025,13 @@
         "error": "Yon erè ki te fèt pandan y ap asiyen entèvansyon. \nEseye anko",
         "title": "Bay Entèvansyon"
       },
+      "delete": {
+        "confirmTitle": "Eske ou vle efase l vre?",
+        "confirmText": "Eske ou vle efase entèvansyon sa a vre?",
+        "cannotUndo": "Ou pa p ka defèt aksyon sa a!",
+        "success": "Entèvansyon a efase",
+        "failed": "Entèvansyon sa a pa ka efase"
+      },
       "list": "Lis entèvansyon",
       "add": "Add Entèvansyon",
       "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon",

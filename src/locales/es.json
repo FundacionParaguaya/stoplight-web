@@ -1063,6 +1063,13 @@
         "error": "Ocurrió un error al asignar la intervención. \nIntentar otra vez",
         "title": "Asignar intervención"
       },
+      "delete": {
+        "confirmTitle": "Confirmación de Eliminación",
+        "confirmText": "¿Está seguro que desea eliminar esta intervención?",
+        "cannotUndo": "Esto no se puede deshacer.",
+        "success": "La intervención fue eliminada",
+        "failed": "La intervención no pudo ser eliminada"
+      },
       "list": "Lista de intervenciones",
       "add": "Agregar intervención",
       "loadingError": "Se produjo un error al cargar la definición de intervenciones",

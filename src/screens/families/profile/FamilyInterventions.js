@@ -20,6 +20,7 @@ import AddInterventionModal from './AddInterventionModal';
 import InterventionTitle from './InterventionTitle';
 import InterventionDetailsView from './InterventionDetailsView';
 import { ROLES_NAMES } from '../../../utils/role-utils';
+import InterventionDeleteModal from '../../interventions/InterventionDeleteModal';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -104,6 +105,11 @@ const FamilyInterventions = ({
   const [selectedIntervention, setSelectedIntervention] = useState({});
   const [selectedThread, setSelectedThread] = useState('');
   const [parentIntervention, setParentIntervention] = useState();
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setOpenDeleteModal(!openDeleteModal);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -196,6 +202,35 @@ const FamilyInterventions = ({
       )
     });
 
+  const afterSubmitDelete = () => {
+    const newInterventions = Array.from(interventions);
+    let index = newInterventions.findIndex(
+      i => i.id === selectedIntervention.id
+    );
+    if (index >= 0) {
+      newInterventions.splice(index, 1);
+    } else {
+      index = newInterventions.findIndex(
+        i =>
+          selectedIntervention.intervention &&
+          i.id === selectedIntervention.intervention.id
+      );
+      if (index >= 0) {
+        let newRelatedInterventions = Array.from(
+          newInterventions[index].relatedInterventions
+        );
+        const rIndex = newRelatedInterventions.findIndex(
+          ri => ri.id === selectedIntervention.id
+        );
+        if (rIndex >= 0) {
+          newRelatedInterventions.splice(rIndex, 1);
+        }
+        newInterventions[index].relatedInterventions = newRelatedInterventions;
+      }
+    }
+    setIntervetions(newInterventions);
+  };
+
   const onClose = (updateList, intervention) => {
     setOpenForm(!openForm);
     setSelectedIntervention({});
@@ -239,6 +274,10 @@ const FamilyInterventions = ({
     setSelectedIntervention(intervention);
     setOpenForm(true);
   };
+  const handleDelete = intervention => {
+    setSelectedIntervention(intervention);
+    setOpenDeleteModal(true);
+  };
 
   const handleAddRelated = interventionId => {
     setParentIntervention(interventionId);
@@ -247,6 +286,14 @@ const FamilyInterventions = ({
 
   return (
     <React.Fragment>
+      <InterventionDeleteModal
+        interventionToDelete={selectedIntervention}
+        open={openDeleteModal}
+        afterSubmit={afterSubmitDelete}
+        toggleModal={toggleDeleteModal}
+        showErrorMessage={showErrorMessage}
+        showSuccessMessage={showSuccessMessage}
+      />
       <AddInterventionModal
         open={openForm}
         onClose={onClose}
@@ -316,6 +363,7 @@ const FamilyInterventions = ({
                   definition={definition}
                   showAdministrationOptions={showAdministrationOptions(user)}
                   handleEdit={handleEdit}
+                  handleDelete={handleDelete}
                 />
               </AccordionItem>
               {Array.isArray(intervention.relatedInterventions) &&
@@ -350,6 +398,7 @@ const FamilyInterventions = ({
                         user
                       )}
                       handleEdit={handleEdit}
+                      handleDelete={handleDelete}
                     />
                   </AccordionItem>
                 ))}
