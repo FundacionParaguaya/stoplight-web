@@ -92,7 +92,9 @@
       "logout": "Fechar sessão",
       "support": "Suporte",
       "projects": "Projetos",
-      "solutions": "Banco de Soluções"
+      "solutions": "Banco de Soluções",
+      "interventions": "Intervenções",
+      "my-profile": "Meu perfil"
     },
     "synced": "Sincronização",
     "dashboard": {
@@ -572,7 +574,16 @@
       "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa.",
       "interventions": {
         "relatedInterventions": "Intervenções Relacionadas",
-        "noInterventions": "Esta família não tem intervenções"
+        "noInterventions": "Esta família não tem intervenções",
+        "form": {
+          "addTitle": "Adicionar intervenção",
+          "editTitle": "Editar intervenção",
+          "generalOption": "Intervenção Geral",
+          "save": {
+            "error": "Não foi possível salvar a intervenção",
+            "success": "Intervenção salva."
+          }
+        }
       }
     },
     "familyNotes": {
@@ -1007,13 +1018,15 @@
         },
         "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados."
       },
-      "interventions": "Intervenções",
       "assign": {
         "success": "Salvo corretamente",
         "error": "Ocorreu um erro ao atribuir intervenção. \nTente novamente",
         "title": "Atribuir intervenção"
       },
-      "loadingError": "Ocorreu um erro ao carregar as definições das intervenções"
+      "list": "Lista de intervenções",
+      "add": "Adicionar intervenção",
+      "loadingError": "Ocorreu um erro ao carregar a definição das intervenções",
+      "subtitle": "Crie modelos de intervenções para suas organizações"
     }
   },
   "reports": {
