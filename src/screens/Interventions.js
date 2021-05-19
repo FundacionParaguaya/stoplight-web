@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { Delete, Edit } from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
 import IntervetionIcon from '@material-ui/icons/ListAlt';
 import { withSnackbar } from 'notistack';
@@ -13,7 +13,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import SettingsIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/DeviceHub';
 import { listInterventionsDefinitions } from '../api';
 import interventionBanner from '../assets/reports_banner.png';
@@ -21,8 +20,6 @@ import Container from '../components/Container';
 import withLayout from '../components/withLayout';
 
 import AssignInterventionModal from './interventions/AssignInterventionModal';
-import InterventionDeleteModal from './interventions/InterventionDeleteModal';
-import { ROLE_APP_ADMIN } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {

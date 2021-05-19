@@ -19,7 +19,7 @@ import Container from '../../../components/Container';
 import AddInterventionModal from './AddInterventionModal';
 import InterventionTitle from './InterventionTitle';
 import InterventionDetailsView from './InterventionDetailsView';
-import { ROLE_APP_ADMIN, ROLES_NAMES } from '../../../utils/role-utils';
+import { ROLES_NAMES } from '../../../utils/role-utils';
 import InterventionDeleteModal from '../../interventions/InterventionDeleteModal';
 
 const useStyles = makeStyles(theme => ({
@@ -105,8 +105,6 @@ const FamilyInterventions = ({
   const [selectedIntervention, setSelectedIntervention] = useState({});
   const [selectedThread, setSelectedThread] = useState('');
   const [parentIntervention, setParentIntervention] = useState();
-  const { role } = user;
-  const isOrgAdmin = role === ROLE_APP_ADMIN;
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const toggleDeleteModal = () => {
@@ -204,6 +202,13 @@ const FamilyInterventions = ({
       )
     });
 
+  const afterSubmitDelete = () => {
+    const newInterventions = Array.from(interventions);
+    setIntervetions(
+      newInterventions.filter(i => i.id !== selectedIntervention.id)
+    );
+  };
+
   const onClose = (updateList, intervention) => {
     setOpenForm(!openForm);
     if (updateList) {
@@ -235,7 +240,7 @@ const FamilyInterventions = ({
       <InterventionDeleteModal
         interventionToDelete={selectedIntervention}
         open={openDeleteModal}
-        afterSubmit={null}
+        afterSubmit={afterSubmitDelete}
         toggleModal={toggleDeleteModal}
       />
       <AddInterventionModal
@@ -307,7 +312,7 @@ const FamilyInterventions = ({
                   definition={definition}
                   showAdministrationOptions={showAdministrationOptions(user)}
                   handleEdit={handleEdit}
-                  handleDelete={isOrgAdmin || true ? handleDelete : null}
+                  handleDelete={handleDelete}
                 />
               </AccordionItem>
               {Array.isArray(intervention.relatedInterventions) &&

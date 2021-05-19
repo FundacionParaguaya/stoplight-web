@@ -11,7 +11,7 @@ import { withSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { deleteInterventionDefinition } from '../../api';
+import { deleteIntervention } from '../../api';
 import face from '../../assets/serious_face.png';
 
 const useStyles = makeStyles(theme => ({
@@ -83,13 +83,13 @@ const DeleteInterventionModal = ({
   const { t } = useTranslation();
 
   const onClose = () => {
-    //afterSubmit();
+    afterSubmit();
     toggleModal();
   };
 
   const onDeleteClicked = () => {
     setDeletingIntervention(true);
-    deleteInterventionDefinition(user, interventionToDelete.id)
+    deleteIntervention(user, interventionToDelete.id)
       .then(() => {
         setDeletingIntervention(false);
         onClose({ deleteModalOpen: false });
