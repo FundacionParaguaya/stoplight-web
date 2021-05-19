@@ -242,6 +242,8 @@ const FamilyInterventions = ({
         open={openDeleteModal}
         afterSubmit={afterSubmitDelete}
         toggleModal={toggleDeleteModal}
+        showErrorMessage={showErrorMessage}
+        showSuccessMessage={showSuccessMessage}
       />
       <AddInterventionModal
         open={openForm}

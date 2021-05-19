@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  Typography,
-  Button,
-  CircularProgress,
-  IconButton
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Modal, Typography, Button, CircularProgress } from '@material-ui/core';
 import { withSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
@@ -75,8 +68,8 @@ const DeleteInterventionModal = ({
   afterSubmit,
   user,
   interventionToDelete,
-  enqueueSnackbar,
-  closeSnackbar
+  showErrorMessage,
+  showSuccessMessage
 }) => {
   const classes = useStyles();
   const [deletingIntervention, setDeletingIntervention] = useState(false);
@@ -93,25 +86,11 @@ const DeleteInterventionModal = ({
       .then(() => {
         setDeletingIntervention(false);
         onClose({ deleteModalOpen: false });
-        enqueueSnackbar(t('views.intervention.delete.success'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showSuccessMessage(t('views.intervention.delete.success'));
       })
       .catch(e => {
         console.log(e);
-        enqueueSnackbar(t('views.intervention.delete.failed'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showErrorMessage(t('views.intervention.delete.failed'));
         setDeletingIntervention(false);
         onClose();
       });
