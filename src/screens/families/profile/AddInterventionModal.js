@@ -175,12 +175,13 @@ const AddInterventionModal = ({
   }, [definition]);
 
   useEffect(() => {
-    isEdit &&
-      getInterventionById(user, interventionEdit.id)
-        .then(response => {
-          setDraft(response.data.data.retrieveInterventionData.values);
-        })
-        .catch(e => console.log(e.message));
+    isEdit
+      ? getInterventionById(user, interventionEdit.id)
+          .then(response => {
+            setDraft(response.data.data.retrieveInterventionData.values);
+          })
+          .catch(e => console.log(e.message))
+      : setDraft([]);
   }, [interventionEdit]);
 
   useEffect(
@@ -247,22 +248,33 @@ const AddInterventionModal = ({
       answer && finalAnswers.push(answer);
     });
 
+    let params = '';
+    definition.questions.forEach(question => {
+      params += `${question.codeName} `;
+    });
+
     setLoading(true);
     createOrUpdateIntervention(
       user,
       finalAnswers,
       definition.id,
       snapshotId,
-      intervention
+      intervention,
+      interventionEdit.id,
+      params
     )
       .then(response => {
         showSuccessMessage(
           t('views.familyProfile.interventions.form.save.success')
         );
-        onClose(true, response.data.data.createIntervention);
+        let data = isEdit
+          ? response.data.data.updateIntervention
+          : response.data.data.createIntervention;
+        onClose(true, data);
         setLoading(false);
       })
-      .catch(() => {
+      .catch(e => {
+        console.log(e);
         showErrorMessage(
           t('views.familyProfile.interventions.form.save.error')
         );

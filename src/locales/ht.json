@@ -92,7 +92,9 @@
       "logout": "sòti",
       "support": "Sipò",
       "projects": "Pwojè",
-      "solutions": "Bank solisyon"
+      "solutions": "Bank solisyon",
+      "interventions": "Entèvansyon",
+      "my-profile": "Pwofil mwen"
     },
     "synced": "Sync",
     "dashboard": {
@@ -576,7 +578,16 @@
       "surveyError": "Vèsyon sondaj la pa disponib. \nPou pran yon sondaj swivi, mande aksè a vèsyon sondaj la.",
       "interventions": {
         "relatedInterventions": "Entèvansyon ki gen rapò",
-        "noInterventions": "Fanmi sa a pa gen okenn entèvansyon"
+        "noInterventions": "Fanmi sa a pa gen okenn entèvansyon",
+        "form": {
+          "addTitle": "Add Entèvansyon",
+          "editTitle": "Edit Entèvansyon",
+          "generalOption": "Entèvansyon Jeneral",
+          "save": {
+            "error": "Pa t 'kapab sove entèvansyon",
+            "success": "Sove entèvansyon."
+          }
+        }
       }
     },
     "familyNotes": {
@@ -1009,7 +1020,6 @@
         },
         "warning": "Enpòtan: lè ou edite yon fòm entèvansyon nan itilize, entèvansyon anvan yo ta ka gen jaden vid lè itilizatè wè rezilta yo."
       },
-      "interventions": "Entèvansyon",
       "assign": {
         "success": "Sove kòrèkteman",
         "error": "Yon erè ki te fèt pandan y ap asiyen entèvansyon. \nEseye anko",
@@ -1022,7 +1032,10 @@
         "success": "Entèvansyon a efase",
         "failed": "Entèvansyon sa a pa ka efase"
       },
-      "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon yo"
+      "list": "Lis entèvansyon",
+      "add": "Add Entèvansyon",
+      "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon",
+      "subtitle": "Kreye modèl entèvansyon pou òganizasyon ou yo"
     }
   },
   "reports": {

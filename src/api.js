@@ -2431,9 +2431,30 @@ export const createOrUpdateIntervention = (
   values,
   interventionDefinition,
   snapshot,
-  relatedIntervention
+  relatedIntervention,
+  id,
+  params
 ) => {
-  if (values.id) {
+  if (id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateIntervention($intervention: InterventionDataModelInput) { updateIntervention (intervention: $intervention) { id  intervention{id} ${params} } }`,
+        variables: {
+          intervention: {
+            id,
+            values,
+            interventionDefinition,
+            snapshot,
+            intervention: relatedIntervention
+          }
+        }
+      })
+    });
   } else {
     return axios({
       method: 'post',
@@ -2442,8 +2463,7 @@ export const createOrUpdateIntervention = (
         Authorization: `Bearer ${user.token}`
       },
       data: JSON.stringify({
-        query:
-          'mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention  values { codeName value multipleValue multipleText other} } }',
+        query: `mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention{id} ${params} } }`,
         variables: {
           intervention: {
             values,

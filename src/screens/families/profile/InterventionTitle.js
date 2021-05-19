@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   mainContainer: {
     position: 'relative',
     display: 'flex',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xs')]: {
       flexDirection: 'column'
     }
   },
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     width: '50%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xs')]: {
       width: '100%'
     }
   },
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     width: '50%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xs')]: {
       width: '100%'
     }
   },
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     width: '100%',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xs')]: {
       justifyContent: 'space-between'
     }
   },

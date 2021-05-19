@@ -1061,10 +1061,6 @@
         "validationError": "Some question(s) does not have options yet!",
         "warning": " Important: when you edit an intervention form in use, previous interventions might have blank fields when users view the results."
       },
-      "add": "Add Intervention",
-      "list": "List of Interventions",
-      "subtitle": "Create Interventions models for your organizations",
-      "interventions": "Interventions",
       "assign": {
         "success": "Saved correctly",
         "error": "An error occurred while assigning intervention. Try again",
@@ -1077,7 +1073,10 @@
         "success": "The Intervention has been deleted",
         "failed": "The Intervention cannot be deleted"
       },
-      "loadingError": "An error occurred loading  interventions definitions"
+      "loadingError": "An error occurred loading  interventions definitions",
+      "add": "Add Intervention",
+      "subtitle": "Create Interventions models for your organizations",
+      "list": "List of Interventions"
     }
   },
   "reports": {
