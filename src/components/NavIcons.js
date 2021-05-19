@@ -4,10 +4,12 @@ import { withRouter } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
+import firebase from 'firebase/app';
 import { theme } from '../theme';
 import LeaveModal from './LeaveModal';
 import SaveDraftModal from './SaveDraftModal';
 import { ROLE_SURVEY_TAKER } from '../utils/role-utils';
+import 'firebase/analytics';
 
 class NavIcons extends Component {
   state = {
@@ -35,12 +37,19 @@ class NavIcons extends Component {
   };
 
   leaveSurvey = () => {
+    firebase.analytics().logEvent('leave_survey', {
+      survey: this.props.currentSurvey.title,
+      user: this.props.user.username,
+      role: this.props.user.role,
+      env: this.props.user.env
+    });
     this.props.history.push('/surveys');
   };
 
   componentDidMount() {
     window.onbeforeunload = () => true;
   }
+
   componentDidUpdate(prevProps) {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       window.onbeforeunload = () => true;
@@ -120,7 +129,11 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({ currentDraft, user }) => ({ currentDraft, user });
+const mapStateToProps = ({ currentDraft, user, currentSurvey }) => ({
+  currentDraft,
+  user,
+  currentSurvey
+});
 const mapDispatchToProps = {};
 
 export default withRouter(

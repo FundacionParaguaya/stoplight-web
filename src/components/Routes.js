@@ -1,6 +1,8 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import firebase from 'firebase';
+import 'firebase/analytics';
 import {
   checkAccess,
   checkAccessToProjects,
@@ -64,6 +66,20 @@ const InterventionForm = lazy(() =>
 );
 
 const Routes = ({ user }) => {
+  const history = useHistory();
+
+  const logCurrentPage = () => {
+    firebase.analytics().setCurrentScreen(window.location.pathname);
+    firebase.analytics().logEvent('screen_view');
+  };
+
+  useEffect(() => {
+    logCurrentPage(); // log the first page visit
+    history.listen(() => {
+      logCurrentPage();
+    });
+  }, [history]);
+
   return (
     <Suspense
       fallback={
