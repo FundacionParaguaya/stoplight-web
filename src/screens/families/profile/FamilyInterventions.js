@@ -204,9 +204,31 @@ const FamilyInterventions = ({
 
   const afterSubmitDelete = () => {
     const newInterventions = Array.from(interventions);
-    setIntervetions(
-      newInterventions.filter(i => i.id !== selectedIntervention.id)
+    let index = newInterventions.findIndex(
+      i => i.id === selectedIntervention.id
     );
+    if (index >= 0) {
+      newInterventions.splice(index, 1);
+    } else {
+      index = newInterventions.findIndex(
+        i =>
+          selectedIntervention.intervention &&
+          i.id === selectedIntervention.intervention.id
+      );
+      if (index >= 0) {
+        let newRelatedInterventions = Array.from(
+          newInterventions[index].relatedInterventions
+        );
+        const rIndex = newRelatedInterventions.findIndex(
+          ri => ri.id === selectedIntervention.id
+        );
+        if (rIndex >= 0) {
+          newRelatedInterventions.splice(rIndex, 1);
+        }
+        newInterventions[index].relatedInterventions = newRelatedInterventions;
+      }
+    }
+    setIntervetions(newInterventions);
   };
 
   const onClose = (updateList, intervention) => {
@@ -348,6 +370,8 @@ const FamilyInterventions = ({
                       showAdministrationOptions={showAdministrationOptions(
                         user
                       )}
+                      handleEdit={handleEdit}
+                      handleDelete={handleDelete}
                     />
                   </AccordionItem>
                 ))}
