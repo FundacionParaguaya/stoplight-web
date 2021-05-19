@@ -66,17 +66,18 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center'
   },
   interventionsTable: {
-    marginTop: '2rem',
+    marginTop: '1rem',
+    marginBottom: '1rem',
     width: '100%',
     mixBlendMode: 'normal'
   },
-  emptyList: {
+  addButton: {
     marginTop: '1rem',
-    marginBottom: '1rem'
+    marginBottom: '2rem'
   },
   interventionTitle: {
     padding: '1.5rem 2rem 0.5rem 2rem',
-    marginBottom: '1rem',
+    marginTop: '1rem',
     borderRadius: 10,
     boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.1)',
     backgroundColor: theme.palette.background.paper,
@@ -234,7 +235,6 @@ const FamilyInterventions = ({
 
   const onClose = (updateList, intervention) => {
     setOpenForm(!openForm);
-    setSelectedIntervention({});
     if (updateList) {
       let newInterventions = Array.from(interventions);
       let index = newInterventions.findIndex(i => i.id === intervention.id);
@@ -328,88 +328,94 @@ const FamilyInterventions = ({
 
         {loading && <CircularProgress className={classes.loadingContainer} />}
 
-        <Accordion className={classes.interventionsTable}>
-          {interventions.map((intervention, props) => (
-            <React.Fragment key={intervention.id}>
-              <AccordionItem
-                duration={500}
-                easing={'ease'}
-                key={intervention.id}
-                className={classes.interventionTitle}
-                expanded={selectedIntervention.id === intervention.id}
-                onExpand={() => setSelectedIntervention(intervention)}
-                onClose={() => setSelectedIntervention({})}
-                title={
-                  <div>
-                    <InterventionTitle
-                      props={props}
-                      intervention={intervention}
-                      setSelectedIntervention={setSelectedIntervention}
-                      indicators={
-                        questions && questions.indicatorSurveyDataList
+        {interventions.length > 0 && (
+          <Accordion className={classes.interventionsTable}>
+            {interventions.map((intervention, props) => (
+              <React.Fragment key={intervention.id}>
+                <AccordionItem
+                  duration={500}
+                  easing={'ease'}
+                  key={intervention.id}
+                  className={classes.interventionTitle}
+                  expanded={selectedIntervention.id === intervention.id}
+                  onExpand={() => setSelectedIntervention(intervention)}
+                  onClose={() => setSelectedIntervention({})}
+                  title={
+                    <div>
+                      <InterventionTitle
+                        props={props}
+                        intervention={intervention}
+                        setSelectedIntervention={setSelectedIntervention}
+                        indicators={
+                          questions && questions.indicatorSurveyDataList
+                        }
+                        expand={selectedIntervention.id === intervention.id}
+                        setSelectedThread={id =>
+                          id === selectedThread
+                            ? setSelectedThread('')
+                            : setSelectedThread(id)
+                        }
+                        handleAddRelated={handleAddRelated}
+                      />
+                    </div>
+                  }
+                >
+                  <InterventionDetailsView
+                    intervention={intervention}
+                    definition={definition}
+                    showAdministrationOptions={showAdministrationOptions(user)}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  />
+                </AccordionItem>
+                {Array.isArray(intervention.relatedInterventions) &&
+                  selectedThread === intervention.id &&
+                  intervention.relatedInterventions.map(related => (
+                    <AccordionItem
+                      duration={500}
+                      easing={'ease'}
+                      key={related.id}
+                      className={classes.interventionTitle}
+                      expanded={selectedIntervention.id === related.id}
+                      onExpand={() => setSelectedIntervention(related)}
+                      onClose={() => setSelectedIntervention({})}
+                      title={
+                        <div>
+                          <InterventionTitle
+                            intervention={related}
+                            indicators={
+                              questions && questions.indicatorSurveyDataList
+                            }
+                            setSelectedIntervention={setSelectedIntervention}
+                            expand={selectedIntervention.id === related.id}
+                            related
+                          />
+                        </div>
                       }
-                      expand={selectedIntervention.id === intervention.id}
-                      setSelectedThread={id =>
-                        id === selectedThread
-                          ? setSelectedThread('')
-                          : setSelectedThread(id)
-                      }
-                      handleAddRelated={handleAddRelated}
-                    />
-                  </div>
-                }
-              >
-                <InterventionDetailsView
-                  intervention={intervention}
-                  definition={definition}
-                  showAdministrationOptions={showAdministrationOptions(user)}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                />
-              </AccordionItem>
-              {Array.isArray(intervention.relatedInterventions) &&
-                selectedThread === intervention.id &&
-                intervention.relatedInterventions.map(related => (
-                  <AccordionItem
-                    duration={500}
-                    easing={'ease'}
-                    key={related.id}
-                    className={classes.interventionTitle}
-                    expanded={selectedIntervention.id === related.id}
-                    onExpand={() => setSelectedIntervention(related)}
-                    onClose={() => setSelectedIntervention({})}
-                    title={
-                      <div>
-                        <InterventionTitle
-                          intervention={related}
-                          indicators={
-                            questions && questions.indicatorSurveyDataList
-                          }
-                          setSelectedIntervention={setSelectedIntervention}
-                          expand={selectedIntervention.id === related.id}
-                          related
-                        />
-                      </div>
-                    }
-                  >
-                    <InterventionDetailsView
-                      intervention={related}
-                      definition={definition}
-                      showAdministrationOptions={showAdministrationOptions(
-                        user
-                      )}
-                      handleEdit={handleEdit}
-                      handleDelete={handleDelete}
-                    />
-                  </AccordionItem>
-                ))}
-            </React.Fragment>
-          ))}
-        </Accordion>
+                    >
+                      <InterventionDetailsView
+                        intervention={related}
+                        definition={definition}
+                        showAdministrationOptions={showAdministrationOptions(
+                          user
+                        )}
+                        handleEdit={handleEdit}
+                        handleDelete={handleDelete}
+                      />
+                    </AccordionItem>
+                  ))}
+              </React.Fragment>
+            ))}
+          </Accordion>
+        )}
 
         {interventions.length === 0 && !loading && (
-          <Container className={classes.basicInfoText} variant="fluid">
-            <Typography variant="h6" className={classes.emptyList}>
+          <Container
+            className={classes.basicInfoText}
+            variant="fluid"
+            style={{ marginTop: '1rem' }}
+          >
+            <Typography variant="h6">
               {t('views.familyProfile.interventions.noInterventions')}
             </Typography>
           </Container>
@@ -418,10 +424,13 @@ const FamilyInterventions = ({
         {showAdministrationOptions(user) && (
           <Container className={classes.basicInfoText} variant="fluid">
             <Button
-              className={classes.emptyList}
+              className={classes.addButton}
               color="primary"
               variant="contained"
-              onClick={() => setOpenForm(!openForm)}
+              onClick={() => {
+                setSelectedIntervention({});
+                setOpenForm(true);
+              }}
             >
               {t('views.intervention.add')}
             </Button>
