@@ -100,8 +100,8 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     border: `2px solid ${theme.palette.background.default}`,
     borderRadius: '50%',
-    minWidth: 20,
-    minHeight: 20,
+    width: 20,
+    height: 20,
     marginRight: theme.spacing(1),
     [theme.breakpoints.down('xs')]: {
       marginRight: 4
@@ -152,7 +152,7 @@ const InterventionTitle = ({
       });
       setIndicatorsTags(tags);
     }
-  }, [indicators]);
+  }, [indicators, intervention]);
 
   return (
     <div className={classes.mainContainer}>
