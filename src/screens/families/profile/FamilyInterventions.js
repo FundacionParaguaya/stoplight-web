@@ -233,12 +233,39 @@ const FamilyInterventions = ({
 
   const onClose = (updateList, intervention) => {
     setOpenForm(!openForm);
+    setSelectedIntervention({});
     if (updateList) {
       let newInterventions = Array.from(interventions);
       let index = newInterventions.findIndex(i => i.id === intervention.id);
-      index >= 0
-        ? (newInterventions[index] = intervention)
-        : newInterventions.push(intervention);
+      if (index >= 0) {
+        newInterventions[index] = {
+          ...intervention,
+          relatedInterventions: newInterventions[index].relatedInterventions
+        };
+      } else {
+        index = newInterventions.findIndex(
+          i =>
+            intervention.intervention && i.id === intervention.intervention.id
+        );
+        if (index >= 0) {
+          let newRelatedInterventions = Array.from(
+            newInterventions[index].relatedInterventions
+          );
+          let rIndex = newRelatedInterventions.findIndex(
+            ri => ri.id === intervention.id
+          );
+          if (rIndex >= 0) {
+            newRelatedInterventions[rIndex] = intervention;
+          } else {
+            newRelatedInterventions.push(intervention);
+          }
+          newInterventions[
+            index
+          ].relatedInterventions = newRelatedInterventions;
+        } else {
+          newInterventions.push({ ...intervention, relatedInterventions: [] });
+        }
+      }
       setIntervetions(newInterventions);
     }
   };
