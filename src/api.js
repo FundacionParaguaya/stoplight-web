@@ -2492,3 +2492,19 @@ export const getInterventionById = (user, intervention) =>
       }
     })
   });
+
+export const interventionDefinitionByFamily = (user, family) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query interventionDefinitionByFamily( $family: Long!) { interventionDefinitionByFamily( family: $family){ id title active questions { id codeName shortName answerType coreQuestion required options {value text otherOption}} }}',
+      variables: {
+        family
+      }
+    })
+  });

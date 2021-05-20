@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import {
-  getInterventionDefinition,
+  interventionDefinitionByFamily,
   listInterventionsBySnapshot
 } from '../../../api';
 import iconIntervention from '../../../assets/imgAch.png';
@@ -89,6 +89,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FamilyInterventions = ({
+  familyId,
   questions,
   snapshotId,
   enqueueSnackbar,
@@ -114,16 +115,16 @@ const FamilyInterventions = ({
 
   useEffect(() => {
     setLoading(true);
-    getInterventionDefinition(user, 1)
-      .then(response => {
-        let definition = response.data.data.retrieveInterventionDefinition;
-        setDefinition(definition);
-      })
-      .catch(e => {
-        showErrorMessage(e.message);
-        setLoading(false);
-      });
-  }, []);
+    familyId &&
+      interventionDefinitionByFamily(user, familyId)
+        .then(response => {
+          let definition = response.data.data.interventionDefinitionByFamily;
+          setDefinition(definition);
+        })
+        .catch(e => {
+          setLoading(false);
+        });
+  }, [familyId]);
 
   useEffect(() => {
     if (definition && snapshotId) {

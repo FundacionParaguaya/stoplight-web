@@ -599,6 +599,7 @@ const DetailsOverview = ({
 
       {/* Interventions */}
       <FamilyInterventions
+        familyId={family.familyId}
         questions={snapshot.stoplight}
         snapshotId={snapshot.snapshotId}
         readOnly
