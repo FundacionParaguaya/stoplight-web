@@ -599,7 +599,7 @@ const DetailsOverview = ({
 
       {/* Interventions */}
       <FamilyInterventions
-        questions={snapshot.indicatorSurveyDataList}
+        questions={snapshot.stoplight}
         snapshotId={snapshot.snapshotId}
         readOnly
       />

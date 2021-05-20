@@ -58,6 +58,7 @@ const useStyles = makeStyles(theme => ({
   },
   tagContainer: {
     display: 'flex',
+    flexWrap: 'wrap',
     marginTop: 12,
     marginBottom: 16
   },
@@ -71,6 +72,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.typography.h4.color
   },
   yearContainer: {
+    height: '100%',
     background: theme.palette.background.paper,
     borderLeft: `1px solid ${theme.palette.grey.quarter}`,
     boxSizing: 'border-box',
@@ -78,8 +80,9 @@ const useStyles = makeStyles(theme => ({
     padding: '0.3rem'
   },
   dateContainer: {
-    height: '100%',
+    height: 36,
     display: 'flex',
+    alignItems: 'center',
     background: theme.palette.background.default,
     border: `1px solid ${theme.palette.grey.quarter}`,
     boxSizing: 'border-box',
@@ -100,6 +103,8 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     border: `2px solid ${theme.palette.background.default}`,
     borderRadius: '50%',
+    minWidth: 20,
+    minHeight: 20,
     width: 20,
     height: 20,
     marginRight: theme.spacing(1),
@@ -147,7 +152,7 @@ const InterventionTitle = ({
       Array.isArray(intervention.stoplightIndicator)
     ) {
       let tags = intervention.stoplightIndicator.map(key => {
-        let tag = indicators.find(i => i.key === key);
+        let tag = indicators.find(i => i.key === key || i.codeName === key);
         return !!tag ? tag : {};
       });
       setIndicatorsTags(tags);
@@ -176,7 +181,10 @@ const InterventionTitle = ({
           )}
 
           {indicatorsTags.map(item => (
-            <div key={item.snapshotStoplightId} className={classes.container}>
+            <div
+              key={item.snapshotStoplightId || item.codeName}
+              className={classes.container}
+            >
               <div
                 className={classes.iconStoplight}
                 style={{

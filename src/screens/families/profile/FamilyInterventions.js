@@ -300,7 +300,7 @@ const FamilyInterventions = ({
         onClose={onClose}
         definition={definition}
         interventionEdit={selectedIntervention}
-        indicators={questions && questions.indicatorSurveyDataList}
+        indicators={questions}
         snapshotId={snapshotId}
         intervention={parentIntervention}
         showErrorMessage={showErrorMessage}
@@ -346,9 +346,7 @@ const FamilyInterventions = ({
                         props={props}
                         intervention={intervention}
                         setSelectedIntervention={setSelectedIntervention}
-                        indicators={
-                          questions && questions.indicatorSurveyDataList
-                        }
+                        indicators={questions}
                         expand={selectedIntervention.id === intervention.id}
                         setSelectedThread={id =>
                           id === selectedThread
@@ -383,9 +381,7 @@ const FamilyInterventions = ({
                         <div>
                           <InterventionTitle
                             intervention={related}
-                            indicators={
-                              questions && questions.indicatorSurveyDataList
-                            }
+                            indicators={questions}
                             setSelectedIntervention={setSelectedIntervention}
                             expand={selectedIntervention.id === related.id}
                             related
@@ -413,7 +409,7 @@ const FamilyInterventions = ({
           <Container
             className={classes.basicInfoText}
             variant="fluid"
-            style={{ marginTop: '1rem' }}
+            style={{ margin: '1rem 0' }}
           >
             <Typography variant="h6">
               {t('views.familyProfile.interventions.noInterventions')}
@@ -421,7 +417,7 @@ const FamilyInterventions = ({
           </Container>
         )}
 
-        {showAdministrationOptions(user) && (
+        {showAdministrationOptions(user) && !!definition && (
           <Container className={classes.basicInfoText} variant="fluid">
             <Button
               className={classes.addButton}
