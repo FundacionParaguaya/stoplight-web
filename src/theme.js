@@ -111,6 +111,10 @@ export const theme = {
         },
         backgroundColor: '#fff!important',
         borderRadius: '8px 8px 0 0!important'
+      },
+      inputMultiline: {
+        backgroundColor: '#f3f4f6',
+        borderRadius: '8px 8px 0 0!important'
       }
     },
     MuiFormHelperText: {

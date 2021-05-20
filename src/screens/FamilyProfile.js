@@ -44,6 +44,7 @@ import ChangeProject from './families/profile/ChangeProject';
 import Details from './families/profile/Details';
 import FamilyOverview from './families/profile/FamilyOverview';
 import ProjectsModal from './lifemap/ProjectsModal';
+import FamilyInterventions from './families/profile/FamilyInterventions';
 
 const FamilyProfile = ({
   classes,
@@ -80,6 +81,16 @@ const FamilyProfile = ({
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
       variant: 'error',
+      action: key => (
+        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+          <CloseIcon style={{ color: 'white' }} />
+        </IconButton>
+      )
+    });
+
+  const showSuccessMessage = message =>
+    enqueueSnackbar(message, {
+      variant: 'success',
       action: key => (
         <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
           <CloseIcon style={{ color: 'white' }} />
@@ -199,14 +210,7 @@ const FamilyProfile = ({
     saveFamilyNote(familyId, familyNote, user)
       .then(() => {
         setFamilyNote('');
-        enqueueSnackbar(t('views.familyProfile.familyNoteSuccess'), {
-          variant: 'success',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
+        showSuccessMessage(t('views.familyProfile.familyNoteSuccess'));
         loadFamilyNotes(familyId, user);
       })
       .catch(e => {
@@ -349,7 +353,6 @@ const FamilyProfile = ({
       />
 
       {/* Priorities */}
-
       <FamilyPriorities
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
@@ -358,7 +361,6 @@ const FamilyProfile = ({
       />
 
       {/* Achievements */}
-
       <FamilyAchievements
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
@@ -366,8 +368,17 @@ const FamilyProfile = ({
         achievements={achievements}
       />
 
-      {/* Notes */}
+      {/* Interventions */}
+      <FamilyInterventions
+        stoplightSkipped={stoplightSkipped}
+        questions={
+          family.snapshotIndicators &&
+          family.snapshotIndicators.indicatorSurveyDataList
+        }
+        snapshotId={family.lastSnapshot}
+      />
 
+      {/* Notes */}
       <FamilyNotes
         familyId={familyId}
         notes={familyNotes}

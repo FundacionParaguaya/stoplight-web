@@ -13,11 +13,11 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import SettingsIcon from '@material-ui/icons/DeviceHub';
 import { listInterventionsDefinitions } from '../api';
 import interventionBanner from '../assets/reports_banner.png';
 import Container from '../components/Container';
 import withLayout from '../components/withLayout';
-import SettingsIcon from '@material-ui/icons/MoreVert';
 
 import AssignInterventionModal from './interventions/AssignInterventionModal';
 

@@ -155,12 +155,31 @@ const InterventionForm = ({
     listInterventionsQuestions(user, language)
       .then(response => {
         let questions = response.data.data.interventionPresetQuestions;
-        let mainQuestions = questions.filter(q => q.coreQuestion);
+        let mainQuestions = questions
+          .filter(q => q.coreQuestion)
+          .map(question => {
+            if (question.presetOptions) {
+              let presetOptions = (question.presetOptions || []).map(o => ({
+                value: '',
+                text: o
+              }));
+              return {
+                ...question,
+                options: presetOptions
+              };
+            } else {
+              return question;
+            }
+          });
         let itemQuestions = questions.filter(q => !q.coreQuestion);
         itemQuestions = itemQuestions.map(question => {
+          let presetOptions = (question.presetOptions || []).map(o => ({
+            value: '',
+            text: o
+          }));
           return {
             ...question,
-            options: [{ value: 'value', text: '' }]
+            options: [{ value: 'value', text: '' }, ...presetOptions]
           };
         });
 
@@ -275,6 +294,7 @@ const InterventionForm = ({
     let finalQuestions = [...coreQuestions, ...questions].map((q, index) => {
       q.orderNumber = index + 1;
       q.required = !!q.required;
+      delete q.presetOptions;
       return q;
     });
     let interventionDefinition = {

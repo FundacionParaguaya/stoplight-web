@@ -15,7 +15,7 @@ const QuestionIcon = ({ type, iconClass }) => {
     return <Radio className={iconClass} />;
   } else if (type === 'text') {
     return <Text className={iconClass} />;
-  } else if (type === 'checkbox') {
+  } else if (type === 'checkbox' || type === 'boolean') {
     return <Checkbox className={iconClass} />;
   } else if (type === 'date') {
     return <Date className={iconClass} />;

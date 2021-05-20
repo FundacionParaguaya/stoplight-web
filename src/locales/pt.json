@@ -92,7 +92,9 @@
       "logout": "Fechar sessão",
       "support": "Suporte",
       "projects": "Projetos",
-      "solutions": "Banco de Soluções"
+      "solutions": "Banco de Soluções",
+      "interventions": "Intervenções",
+      "my-profile": "Meu perfil"
     },
     "synced": "Sincronização",
     "dashboard": {
@@ -569,7 +571,20 @@
         }
       },
       "survey": "Pesquisa:",
-      "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa."
+      "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa.",
+      "interventions": {
+        "relatedInterventions": "Intervenções Relacionadas",
+        "noInterventions": "Esta família não tem intervenções",
+        "form": {
+          "addTitle": "Adicionar intervenção",
+          "editTitle": "Editar intervenção",
+          "generalOption": "Intervenção Geral",
+          "save": {
+            "error": "Não foi possível salvar a intervenção",
+            "success": "Intervenção salva."
+          }
+        }
+      }
     },
     "familyNotes": {
       "by": "por",
@@ -1008,7 +1023,17 @@
         "error": "Ocorreu um erro ao atribuir intervenção. \nTente novamente",
         "title": "Atribuir intervenção"
       },
-      "loadingError": "Ocorreu um erro ao carregar as definições das intervenções"
+      "delete": {
+        "confirmTitle": "Confirmação da eliminação",
+        "confirmText": "Tem a certeza de que quer eliminar esta intervenção?",
+        "cannotUndo": "Esto no se puede deshacer.",
+        "success": "A intervenção foi eliminado",
+        "failed": "A intervenção não pode ser removida"
+      },
+      "list": "Lista de intervenções",
+      "add": "Adicionar intervenção",
+      "loadingError": "Ocorreu um erro ao carregar a definição das intervenções",
+      "subtitle": "Crie modelos de intervenções para suas organizações"
     }
   },
   "reports": {
@@ -1043,11 +1068,13 @@
     "ROLE_FAMILY_USER": "Família"
   },
   "answerType": {
-    "checkbox": "Caixa de seleção",
+    "checkbox": "Caixas de seleção",
     "number": "Número",
     "radio": "Rádio",
     "select": "Suspenso",
     "text": "Texto",
-    "date": "Data"
+    "date": "Data",
+    "multiselect": "Múltipla escolha",
+    "boolean": "Caixa de seleção"
   }
 }

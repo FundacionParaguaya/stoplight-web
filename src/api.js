@@ -2286,7 +2286,7 @@ export const listInterventionsQuestions = (user, lang) =>
     },
     data: JSON.stringify({
       query:
-        'query { interventionPresetQuestions { id codeName shortName answerType coreQuestion } }'
+        'query { interventionPresetQuestions { id codeName shortName answerType coreQuestion presetOptions } }'
     })
   });
 
@@ -2315,6 +2315,21 @@ export const getInterventionDefinition = (user, interventionDefinition) =>
         'query retrieveInterventionDefinition ($interventionDefinition: Long!) { retrieveInterventionDefinition(interventionDefinition: $interventionDefinition) { id title active questions { id codeName shortName answerType coreQuestion required options {value text otherOption}} } } ',
       variables: {
         interventionDefinition
+      }
+    })
+  });
+
+export const listInterventionsBySnapshot = (user, snapshot, params) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `query interventionsBySnapshot( $snapshot: Long!) { interventionsBySnapshot( snapshot: $snapshot){ id intervention{id} ${params}}}`,
+      variables: {
+        snapshot
       }
     })
   });
@@ -2359,6 +2374,40 @@ export const addOrUpdadteInterventionDefinition = (
   }
 };
 
+export const deleteInterventionDefinition = (user, definitionId) => {
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteInterventionDefinition($interventionDefinition: InterventionDefinitionModelInput) {deleteInterventionDefinition (interventionDefinition: $interventionDefinition){successful}}',
+      variables: {
+        id: definitionId
+      }
+    })
+  });
+};
+
+export const deleteIntervention = (user, definitionId) => {
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteIntervention($intervention: Long) { deleteIntervention (intervention: $intervention) { successful } }',
+      variables: {
+        intervention: definitionId
+      }
+    })
+  });
+};
+
 export const assignIntervention = (user, interventionId, organizations) =>
   axios({
     method: 'post',
@@ -2373,6 +2422,73 @@ export const assignIntervention = (user, interventionId, organizations) =>
         interventionDefinition: interventionId,
         organizations,
         application: user.hub && user.hub.id ? user.hub.id : ''
+      }
+    })
+  });
+
+export const createOrUpdateIntervention = (
+  user,
+  values,
+  interventionDefinition,
+  snapshot,
+  relatedIntervention,
+  id,
+  params
+) => {
+  if (id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateIntervention($intervention: InterventionDataModelInput) { updateIntervention (intervention: $intervention) { id  intervention{id} ${params} } }`,
+        variables: {
+          intervention: {
+            id,
+            values,
+            interventionDefinition,
+            snapshot,
+            intervention: relatedIntervention
+          }
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention{id} ${params} } }`,
+        variables: {
+          intervention: {
+            values,
+            interventionDefinition,
+            snapshot,
+            intervention: relatedIntervention
+          }
+        }
+      })
+    });
+  }
+};
+
+export const getInterventionById = (user, intervention) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query retrieveInterventionData ($intervention: Long!) { retrieveInterventionData(intervention: $intervention) { values { codeName value multipleValue multipleText other} } } ',
+      variables: {
+        intervention
       }
     })
   });
