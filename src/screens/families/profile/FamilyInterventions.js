@@ -269,6 +269,7 @@ const FamilyInterventions = ({
       }
       setIntervetions(newInterventions);
     }
+    setSelectedIntervention({});
   };
 
   const handleEdit = intervention => {
