@@ -13,9 +13,9 @@ import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
+import AvatarEditor from 'react-avatar-editor';
 import { savePictures, updateFamilyProfilePicture } from '../../../api';
 import { MB_SIZE } from '../../../utils/files-utils';
-import AvatarEditor from 'react-avatar-editor';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -207,28 +207,17 @@ const UploadImageModal = ({
           </Typography>
         </div>
         {files.length > 0 && files[0] && (
-          <div>
-            <AvatarEditor
-              image={files[0].preview}
-              width={152}
-              height={152}
-              border={76}
-              color={[255, 255, 255, 0.6]} // RGBA s
-              scale={scale}
-              borderRadius={125}
-              rotate={0}
-              style={{ position: 'absolute', top: '10%' }}
-            />
-            <input
-              name="scale"
-              type="range"
-              onChange={handleScale}
-              min={'1'}
-              max="2"
-              step="0.01"
-              defaultValue="1"
-            />
-          </div>
+          <AvatarEditor
+            image={files[0].preview}
+            width={152}
+            height={152}
+            border={76}
+            color={[255, 255, 255, 0.6]} // RGBA s
+            scale={scale}
+            borderRadius={125}
+            rotate={0}
+            style={{ position: 'absolute', top: '10%' }}
+          />
         )}
         {/*{files.length > 0 && files[0] && (*/}
         {/*  <img*/}
@@ -249,6 +238,17 @@ const UploadImageModal = ({
         )}
 
         {loading && <CircularProgress className={classes.loadingContainer} />}
+        {files.length > 0 && files[0] && (
+          <input
+            name="scale"
+            type="range"
+            onChange={handleScale}
+            min={'1'}
+            max="2"
+            step="0.01"
+            defaultValue="1"
+          />
+        )}
         <div className={classes.buttonContainerForm}>
           <Button
             variant="outlined"
