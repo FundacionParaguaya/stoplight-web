@@ -77,7 +77,8 @@ const useStyles = makeStyles(theme => ({
     borderLeft: `1px solid ${theme.palette.grey.quarter}`,
     boxSizing: 'border-box',
     borderRadius: '2px',
-    padding: '0.3rem'
+    display: 'flex',
+    alignItems: 'center'
   },
   dateContainer: {
     height: 36,
