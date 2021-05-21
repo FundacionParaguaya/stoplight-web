@@ -20,17 +20,20 @@ const useStyles = makeStyles(theme => ({
     '& div > div > div:nth-child(1)': {
       display: 'flex',
       width: '100%',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      wordBreak: 'break-all'
     },
     '& div > div > div:nth-child(2)': {
       display: 'flex',
       width: '100%',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      wordBreak: 'break-all'
     },
     '& div > div > div:nth-child(3)': {
       display: 'flex',
       width: '100%',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      wordBreak: 'break-all'
     }
   },
   questionCard: {
