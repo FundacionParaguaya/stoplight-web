@@ -21,19 +21,19 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       width: '100%',
       justifyContent: 'center',
-      wordBreak: 'break-all'
+      wordBreak: 'break-word'
     },
     '& div > div > div:nth-child(2)': {
       display: 'flex',
       width: '100%',
       justifyContent: 'center',
-      wordBreak: 'break-all'
+      wordBreak: 'break-word'
     },
     '& div > div > div:nth-child(3)': {
       display: 'flex',
       width: '100%',
       justifyContent: 'center',
-      wordBreak: 'break-all'
+      wordBreak: 'break-word'
     }
   },
   questionCard: {
