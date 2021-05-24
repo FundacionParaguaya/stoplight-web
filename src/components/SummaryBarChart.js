@@ -51,7 +51,6 @@ const SummaryBarChart = ({
   return (
     <ResponsiveContainer width={width} height={!!height ? height : 240}>
       <BarChart
-        //className={classes.container}
         data={data}
         barGap={35}
         barSize={18}
