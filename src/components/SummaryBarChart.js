@@ -27,6 +27,7 @@ const renderCustomizedLabel = ({ value, x, y }, label) => {
     </g>
   );
 };
+
 const SummaryBarChart = ({
   greenIndicatorCount,
   yellowIndicatorCount,
@@ -37,6 +38,7 @@ const SummaryBarChart = ({
   width,
   height
 }) => {
+  const rtl = document.body.getAttribute('dir') === 'rtl';
   const data = [
     {
       name: 'data',
@@ -49,6 +51,7 @@ const SummaryBarChart = ({
   return (
     <ResponsiveContainer width={width} height={!!height ? height : 240}>
       <BarChart
+        //className={classes.container}
         data={data}
         barGap={35}
         barSize={18}
@@ -59,6 +62,7 @@ const SummaryBarChart = ({
           left: 0,
           bottom: 0
         }}
+        style={rtl && { transform: 'scaleX(-1)' }}
       >
         <XAxis hide type="number" />
         <YAxis hide dataKey="name" type="category" />

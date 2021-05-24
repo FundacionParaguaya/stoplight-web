@@ -44,6 +44,7 @@ const CountriesChart = ({ countriesCode, countriesCount, countriesTotal }) => {
   const {
     i18n: { language }
   } = useTranslation();
+  const rtl = document.body.getAttribute('dir') === 'rtl';
   return (
     <ResponsiveContainer height={200} width="100%">
       <BarChart
@@ -57,6 +58,7 @@ const CountriesChart = ({ countriesCode, countriesCount, countriesTotal }) => {
           left: 0,
           bottom: 0
         }}
+        style={rtl && { transform: 'scaleX(-1)' }}
       >
         <XAxis hide type="number" />
         <YAxis hide dataKey="name" type="category" />
