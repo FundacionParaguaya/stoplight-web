@@ -369,7 +369,7 @@ const FamilyProfile = ({
       />
 
       {/* Interventions */}
-      <FamilyInterventions
+      {/*<FamilyInterventions
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
         questions={
@@ -377,7 +377,7 @@ const FamilyProfile = ({
           family.snapshotIndicators.indicatorSurveyDataList
         }
         snapshotId={family.lastSnapshot}
-      />
+      />*/}
 
       {/* Notes */}
       <FamilyNotes

@@ -598,12 +598,12 @@ const DetailsOverview = ({
       )}
 
       {/* Interventions */}
-      <FamilyInterventions
+      {/* <FamilyInterventions
         familyId={family.familyId}
         questions={snapshot.stoplight}
         snapshotId={snapshot.snapshotId}
         readOnly
-      />
+      />*/}
 
       {/* Images */}
       {images.length > 0 && (
