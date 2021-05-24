@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import BackupIcon from '@material-ui/icons/Backup';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import AvatarEditor from 'react-avatar-editor';
@@ -105,6 +105,8 @@ const UploadImageModal = ({
   const [typeError, setTypeError] = useState(false);
 
   const [scale, setScale] = useState(1.2);
+  const editorRef = useRef('avatar-editor-ref');
+  // useEffect(() => () => (editorRef.current.editor = null), []);
 
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
@@ -155,30 +157,41 @@ const UploadImageModal = ({
   });
 
   const onSubmit = () => {
-    setLoading(true);
-    savePictures(user, files)
-      .then(response => {
-        updateFamilyProfilePicture(familyId, response.data[0].url, user)
-          .then(() => {
-            showSuccessMessage(t('views.myProfile.picture.save.success'));
-            toggleModal(true);
-            setLoading(false);
-          })
-          .catch(() => {
-            showErrorMessage(t('views.myProfile.picture.save.error'));
-            setLoading(false);
-          });
-      })
-      .catch(() => {
-        showErrorMessage(t('views.myProfile.picture.save.error'));
-        setLoading(false);
-      });
+    const img = editorRef.getImageScaledToCanvas().toDataURL();
+    console.log(img);
+    // setLoading(true);
+    // savePictures(user, files)
+    //   .then(response => {
+    //     updateFamilyProfilePicture(familyId, response.data[0].url, user)
+    //       .then(() => {
+    //         showSuccessMessage(t('views.myProfile.picture.save.success'));
+    //         toggleModal(true);
+    //         setLoading(false);
+    //       })
+    //       .catch(() => {
+    //         showErrorMessage(t('views.myProfile.picture.save.error'));
+    //         setLoading(false);
+    //       });
+    //   })
+    //   .catch(() => {
+    //     showErrorMessage(t('views.myProfile.picture.save.error'));
+    //     setLoading(false);
+    //   });
   };
 
   const handleScale = e => {
     const imageScale = parseFloat(e.target.value);
     setScale(imageScale);
   };
+
+  // const setEditorRef = (editor) => this.editor = editor;
+  // const setEditorRef = (editor) => {
+  //   if (editor) {
+  //     this.editor = editor;
+  //     const img = this.editor.getImageScaledToCanvas().toDataURL();
+  //     console.log(img);
+  //   }
+  // };
 
   return (
     <Modal
@@ -208,6 +221,7 @@ const UploadImageModal = ({
         </div>
         {files.length > 0 && files[0] && (
           <AvatarEditor
+            ref={editorRef}
             image={files[0].preview}
             width={152}
             height={152}
