@@ -1,7 +1,18 @@
-import React from 'react';
-import { SnackbarProvider } from 'notistack';
+import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
+import CloseIcon from '@material-ui/icons/Close';
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import React from 'react';
 import { COLORS } from '../theme';
+
+const DismissAction = ({ id }) => {
+  const { closeSnackbar } = useSnackbar();
+  return (
+    <IconButton key="dismiss" onClick={() => closeSnackbar(id)}>
+      <CloseIcon style={{ color: 'white' }} />
+    </IconButton>
+  );
+};
 
 const CustomSnackbarProvider = props => (
   <SnackbarProvider
@@ -19,6 +30,7 @@ const CustomSnackbarProvider = props => (
       variantWarning: props.classes.warning,
       variantInfo: props.classes.info
     }}
+    action={key => <DismissAction id={key} />}
   >
     {props.children}
   </SnackbarProvider>
