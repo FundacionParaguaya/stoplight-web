@@ -105,7 +105,7 @@ const UploadImageModal = ({
   const [typeError, setTypeError] = useState(false);
 
   const [scale, setScale] = useState(1.2);
-  const editorRef = useRef('avatar-editor-ref');
+  let editorRef = useRef();
   // useEffect(() => () => (editorRef.current.editor = null), []);
 
   const showErrorMessage = message =>
@@ -157,7 +157,8 @@ const UploadImageModal = ({
   });
 
   const onSubmit = () => {
-    const img = editorRef.getImageScaledToCanvas().toDataURL();
+    // console.log(editorRef);
+    const img = editorRef.canvas.getImageScaledToCanvas().toDataURL();
     console.log(img);
     // setLoading(true);
     // savePictures(user, files)
@@ -221,7 +222,9 @@ const UploadImageModal = ({
         </div>
         {files.length > 0 && files[0] && (
           <AvatarEditor
-            ref={editorRef}
+            ref={ref => {
+              editorRef = ref;
+            }}
             image={files[0].preview}
             width={152}
             height={152}
