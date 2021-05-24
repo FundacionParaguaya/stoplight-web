@@ -1,11 +1,9 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
-import { withSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -16,11 +14,11 @@ import {
 } from '../../../api';
 import iconIntervention from '../../../assets/imgAch.png';
 import Container from '../../../components/Container';
-import AddInterventionModal from './AddInterventionModal';
-import InterventionTitle from './InterventionTitle';
-import InterventionDetailsView from './InterventionDetailsView';
 import { ROLES_NAMES } from '../../../utils/role-utils';
 import InterventionDeleteModal from '../../interventions/InterventionDeleteModal';
+import AddInterventionModal from './AddInterventionModal';
+import InterventionDetailsView from './InterventionDetailsView';
+import InterventionTitle from './InterventionTitle';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -92,13 +90,12 @@ const FamilyInterventions = ({
   familyId,
   questions,
   snapshotId,
-  enqueueSnackbar,
-  closeSnackbar,
   readOnly,
   user
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState(false);
   const [openForm, setOpenForm] = useState(false);
@@ -138,6 +135,7 @@ const FamilyInterventions = ({
           let data = response.data.data.interventionsBySnapshot;
           let orginalInterventions = [];
           data.forEach(intervention => {
+            //if the intervention it's not associated with another it's an original one
             if (!intervention.intervention) {
               orginalInterventions.push({
                 ...intervention,
@@ -148,6 +146,8 @@ const FamilyInterventions = ({
               let ogId = orginalInterventions.findIndex(
                 oi => !!oi.intervention && oi.intervention.id === inter.id
               );
+              // cycle used to associated a related intervention with it's original one
+              // it was originally possible thought that interventions could have a tree format
               while (ogId < 0) {
                 // eslint-disable-next-line no-loop-func
                 inter = data.find(int => int.id === inter.intervention.id);
@@ -186,22 +186,12 @@ const FamilyInterventions = ({
 
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
-      variant: 'error',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
+      variant: 'error'
     });
 
   const showSuccessMessage = message =>
     enqueueSnackbar(message, {
-      variant: 'success',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
+      variant: 'success'
     });
 
   const afterSubmitDelete = () => {
@@ -239,6 +229,7 @@ const FamilyInterventions = ({
     if (updateList) {
       let newInterventions = Array.from(interventions);
       let index = newInterventions.findIndex(i => i.id === intervention.id);
+      //Condition for updating an existing original intervention
       if (index >= 0) {
         newInterventions[index] = {
           ...intervention,
@@ -249,6 +240,7 @@ const FamilyInterventions = ({
           i =>
             intervention.intervention && i.id === intervention.intervention.id
         );
+        //Check if the object if associated to an existing intervention
         if (index >= 0) {
           let newRelatedInterventions = Array.from(
             newInterventions[index].relatedInterventions
@@ -256,6 +248,7 @@ const FamilyInterventions = ({
           let rIndex = newRelatedInterventions.findIndex(
             ri => ri.id === intervention.id
           );
+          //Check if an existing related intervention it's beign updated or a new related intervention it's created
           if (rIndex >= 0) {
             newRelatedInterventions[rIndex] = intervention;
           } else {
@@ -265,6 +258,7 @@ const FamilyInterventions = ({
             index
           ].relatedInterventions = newRelatedInterventions;
         } else {
+          //An original intervention it's beign added
           newInterventions.push({ ...intervention, relatedInterventions: [] });
         }
       }
@@ -441,4 +435,4 @@ const FamilyInterventions = ({
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps)(withSnackbar(FamilyInterventions));
+export default connect(mapStateToProps)(FamilyInterventions);
