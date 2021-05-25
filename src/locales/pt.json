@@ -582,7 +582,8 @@
           "save": {
             "error": "Não foi possível salvar a intervenção",
             "success": "Intervenção salva."
-          }
+          },
+          "previewTitle": "Antevisão do seu formulário de intervenção"
         }
       }
     },
@@ -1016,7 +1017,12 @@
           "success": "Definição de intervenção salva",
           "error": "Não foi possível salvar a definição de intervenção"
         },
-        "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados."
+        "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados.",
+        "preview": "Formulário de visualização",
+        "goBack": "Volte",
+        "saveForm": "Salvar formulário",
+        "previewWarning": "Esta é apenas uma prévia de como será a aparência do formulário. \nTodas as respostas preenchidas não serão salvas.",
+        "indicatorsPlaceholder": "Indicador de sua pesquisa"
       },
       "assign": {
         "success": "Salvo corretamente",

@@ -586,7 +586,8 @@
           "save": {
             "error": "Pa t 'kapab sove entèvansyon",
             "success": "Sove entèvansyon."
-          }
+          },
+          "previewTitle": "Preview nan fòm entèvansyon ou"
         }
       }
     },
@@ -1018,7 +1019,12 @@
           "success": "Definisyon entèvansyon sove",
           "error": "Pa t 'kapab sove definisyon entèvansyon"
         },
-        "warning": "Enpòtan: lè ou edite yon fòm entèvansyon nan itilize, entèvansyon anvan yo ta ka gen jaden vid lè itilizatè wè rezilta yo."
+        "warning": "Enpòtan: lè ou edite yon fòm entèvansyon nan itilize, entèvansyon anvan yo ta ka gen jaden vid lè itilizatè wè rezilta yo.",
+        "preview": "Preview fòm",
+        "goBack": "Tounen",
+        "saveForm": "Sove Fòm",
+        "previewWarning": "Sa a se jis yon preview sou ki jan fòm lan pral sanble. \nNenpòt repons ki ranpli yo pap sove.",
+        "indicatorsPlaceholder": "Endikatè sondaj ou an"
       },
       "assign": {
         "success": "Sove kòrèkteman",

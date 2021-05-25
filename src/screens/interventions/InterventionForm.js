@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import Alert from '@material-ui/lab/Alert';
 import { Form, Formik } from 'formik';
 import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
@@ -13,9 +14,9 @@ import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
+  addOrUpdadteInterventionDefinition,
   getInterventionDefinition,
-  listInterventionsQuestions,
-  addOrUpdadteInterventionDefinition
+  listInterventionsQuestions
 } from '../../api';
 import interventionBanner from '../../assets/reports_banner.png';
 import Container from '../../components/Container';
@@ -26,8 +27,8 @@ import OrganizationSelector from '../../components/selectors/OrganizationSelecto
 import withLayout from '../../components/withLayout';
 import { COLORS } from '../../theme';
 import { move, reorder } from '../../utils/array-utils';
+import AddInterventionModal from '../families/profile/AddInterventionModal';
 import InterventionQuestion from './InterventionQuestion';
-import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -121,6 +122,8 @@ const InterventionForm = ({
   const [selectedItems, setSelectedItems] = useState([]);
   const [openExitModal, setOpenExitModal] = useState(false);
   const [retrivedDefinition, setRetrivedDefinition] = useState();
+  const [definition, setDefinition] = useState();
+  const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
   const getList = id => (id === 'droppable' ? items : selectedItems);
 
@@ -160,7 +163,7 @@ const InterventionForm = ({
           .map(question => {
             if (question.presetOptions) {
               let presetOptions = (question.presetOptions || []).map(o => ({
-                value: '',
+                value: o,
                 text: o
               }));
               return {
@@ -174,7 +177,7 @@ const InterventionForm = ({
         let itemQuestions = questions.filter(q => !q.coreQuestion);
         itemQuestions = itemQuestions.map(question => {
           let presetOptions = (question.presetOptions || []).map(o => ({
-            value: '',
+            value: o,
             text: o
           }));
           return {
@@ -268,13 +271,16 @@ const InterventionForm = ({
     answerType === 'radio' ||
     answerType === 'checkbox';
 
-  const onSave = values => {
-    setLoading(true);
+  const preprocessValues = values => {
     let questions = Array.from(selectedItems);
     questions = questions.map(q => {
       let question = JSON.parse(JSON.stringify(q));
       if (question.otherOption) {
-        question.options.push({ value: '', text: 'Other', otherOption: true });
+        question.options.push({
+          value: 'OTHER',
+          text: 'Other',
+          otherOption: true
+        });
       }
       delete question.otherOption;
       if (hasOptions(question.answerType)) {
@@ -290,10 +296,9 @@ const InterventionForm = ({
         hasOptions(question.answerType) && question.options.length === 0
     );
 
-    let orgs = values.organizations.map(o => o.value);
     let finalQuestions = [...coreQuestions, ...questions].map((q, index) => {
       q.orderNumber = index + 1;
-      q.required = !!q.required;
+      q.required = !!q.required || q.coreQuestion;
       delete q.presetOptions;
       return q;
     });
@@ -308,7 +313,16 @@ const InterventionForm = ({
     if (hasErrors) {
       showErrorMessage(t('views.intervention.definition.validationError'));
       setLoading(false);
-    } else {
+    }
+
+    return { hasErrors, interventionDefinition };
+  };
+
+  const onClose = (saveIntervention, interventionDefinition) => {
+    if (saveIntervention) {
+      const orgs = interventionDefinition.orgs;
+      delete interventionDefinition.orgs;
+
       addOrUpdadteInterventionDefinition(user, interventionDefinition, orgs)
         .then(() => {
           showSuccessMessage(t('views.intervention.definition.save.success'));
@@ -319,6 +333,21 @@ const InterventionForm = ({
           showErrorMessage(t('views.intervention.definition.save.error'));
           setLoading(false);
         });
+    } else {
+      setOpenPreviewModal(false);
+    }
+  };
+
+  const onPreview = values => {
+    const { hasErrors, interventionDefinition } = preprocessValues(values);
+    let orgs = values.organizations.map(o => o.value);
+    let completeDefinition = {
+      ...interventionDefinition,
+      orgs
+    };
+    if (!hasErrors) {
+      setDefinition(completeDefinition);
+      setOpenPreviewModal(true);
     }
   };
 
@@ -328,6 +357,19 @@ const InterventionForm = ({
         open={openExitModal}
         onDissmiss={() => setOpenExitModal(false)}
         onClose={() => history.push(`/interventions`)}
+      />
+      <AddInterventionModal
+        open={openPreviewModal}
+        onClose={onClose}
+        definition={definition}
+        indicators={[
+          {
+            key: 1,
+            shortName: t('views.intervention.definition.indicatorsPlaceholder')
+          }
+        ]}
+        user={user}
+        preview
       />
       <div className={classes.titleContainer}>
         <div className={classes.title}>
@@ -360,9 +402,7 @@ const InterventionForm = ({
         }}
         enableReinitialize
         validationSchema={validationSchema}
-        onSubmit={values => {
-          onSave(values);
-        }}
+        onSubmit={values => {}}
       >
         {({ setFieldValue, values }) => (
           <Form noValidate autoComplete={'off'}>
@@ -483,12 +523,12 @@ const InterventionForm = ({
               </Button>
 
               <Button
-                type="submit"
                 color="primary"
                 variant="contained"
+                onClick={() => onPreview(values)}
                 disabled={loading}
               >
-                {t('general.save')}
+                {t('views.intervention.definition.preview')}
               </Button>
             </div>
           </Form>
