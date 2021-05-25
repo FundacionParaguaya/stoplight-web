@@ -21,7 +21,8 @@ export const ROLES = {
     { item: 'map', platform: NEW },
     { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
-    { item: 'offline-maps', platform: ACCESS }
+    { item: 'offline-maps', platform: ACCESS },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_HUB_ADMIN: [
     // Hub admin user
@@ -36,7 +37,8 @@ export const ROLES = {
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
     { item: 'solutions', platform: ACCESS },
-    { item: 'offline-maps', platform: ACCESS }
+    { item: 'offline-maps', platform: ACCESS },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_PS_TEAM: [
     // PS Team user
@@ -50,7 +52,8 @@ export const ROLES = {
     { item: 'projects', platform: ACCESS },
     { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
-    { item: 'offline-maps', platform: ACCESS }
+    { item: 'offline-maps', platform: ACCESS },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_APP_ADMIN: [
     // Org admin user
@@ -64,7 +67,8 @@ export const ROLES = {
     { item: 'map', platform: NEW },
     { item: 'solutions', platform: ACCESS },
     { item: 'editFamily', platform: ACCESS },
-    { item: 'editFamilyImages', platform: ACCESS }
+    { item: 'editFamilyImages', platform: ACCESS },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_SURVEY_USER: [
     // Facilitator user
@@ -75,7 +79,8 @@ export const ROLES = {
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
     { item: 'editFamily', platform: ACCESS },
-    { item: 'editFamilyImages', platform: ACCESS }
+    { item: 'editFamilyImages', platform: ACCESS },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_SURVEY_USER_ADMIN: [
     // Facilitator admin user
@@ -86,17 +91,20 @@ export const ROLES = {
     { item: 'detail', platform: ACCESS },
     { item: 'map', platform: NEW },
     { item: 'editFamily', platform: ACCESS },
-    { item: 'editFamilyImages', platform: ACCESS }
+    { item: 'editFamilyImages', platform: ACCESS },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_SURVEY_TAKER: [
     // Surveyor  user
-    { item: 'surveys', platform: NEW }
+    { item: 'surveys', platform: NEW },
+    { item: 'support', platform: ACCESS }
   ],
   ROLE_FAMILY_USER: [
     // Family  user
     { item: 'my-profile', platform: NEW },
     { item: 'detail', platform: ACCESS },
-    { item: 'priorities', platform: ACCESS }
+    { item: 'priorities', platform: ACCESS },
+    { item: 'support', platform: ACCESS }
   ]
 };
 
