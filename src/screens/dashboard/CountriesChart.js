@@ -26,16 +26,18 @@ const renderCustomizedLabel = (
 
   return (
     <g>
-      <text
-        style={{ fontFamily: 'Poppins', fontSize: 14 }}
-        x={x}
-        y={y - 5}
-        textAnchor="top"
-        dominantBaseline="top"
-      >
-        {value} {!!country ? country.label : ''}{' '}
-        {Math.round((value / countriesTotal) * 100) + '%'}
-      </text>
+      {!!value && (
+        <text
+          style={{ fontFamily: 'Poppins', fontSize: 14 }}
+          x={x}
+          y={y - 5}
+          textAnchor="top"
+          dominantBaseline="top"
+        >
+          {value} {!!country ? country.label : ''}{' '}
+          {Math.round((value / countriesTotal) * 100) + '%'}
+        </text>
+      )}
     </g>
   );
 };
