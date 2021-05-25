@@ -54,7 +54,8 @@ const styles = theme => ({
   },
   headerMetaText: {
     color: theme.palette.background.default,
-    fontWeight: 600
+    fontWeight: 600,
+    cursor: 'pointer'
   },
   titleStyle: {
     fontSize: 28,
@@ -194,6 +195,10 @@ const Support = ({
     }
   ];
 
+  const handleGoSupport = () => {
+    history.push('/support');
+  };
+
   const handleGoCollection = collection => {
     const transformedSlug = collection.toLowerCase();
     history.push(`/collection/${transformedSlug}`);
@@ -240,7 +245,7 @@ const Support = ({
         })
         .catch(e => {
           console.log(e);
-          enqueueSnackbar(t('views.support.failedRequest'), {
+          enqueueSnackbar(t('views.support.failRequest'), {
             variant: 'error',
             action: key => (
               <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -288,7 +293,7 @@ const Support = ({
             })
             .catch(e => {
               console.log(e);
-              enqueueSnackbar(t('views.support.failedRequest'), {
+              enqueueSnackbar(t('views.support.failRequest'), {
                 variant: 'error',
                 action: key => (
                   <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -301,7 +306,7 @@ const Support = ({
         })
         .catch(e => {
           console.log(e);
-          enqueueSnackbar(t('views.support.failedRequest'), {
+          enqueueSnackbar(t('views.support.failRequest'), {
             variant: 'error',
             action: key => (
               <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -324,7 +329,11 @@ const Support = ({
         <Container variant="stretch">
           <div className={classes.content}>
             <div className={classes.headerMetaWrapper}>
-              <Typography variant="h6" className={classes.headerMetaText}>
+              <Typography
+                onClick={handleGoSupport}
+                variant="h6"
+                className={classes.headerMetaText}
+              >
                 {t('views.support.metaTitle')}
               </Typography>
               <SupportLangPicker
