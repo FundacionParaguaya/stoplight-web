@@ -75,13 +75,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-evenly',
     marginTop: 30
-  },
-  img: {
-    position: 'absolute',
-    maxWidth: 152,
-    top: '20%',
-    left: '40%',
-    backgroundColor: theme.palette.background.default
   }
 }));
 
@@ -104,9 +97,8 @@ const UploadImageModal = ({
   const [fileError, setFileError] = useState(false);
   const [typeError, setTypeError] = useState(false);
 
-  const [scale, setScale] = useState(1.2);
+  const [scale, setScale] = useState(1.0);
   let editorRef = useRef();
-  // useEffect(() => () => (editorRef.current.editor = null), []);
 
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
@@ -135,7 +127,7 @@ const UploadImageModal = ({
   const onDropAccepted = acceptedFiles => {
     setTypeError(false);
     let dropSize = 0;
-    let accepted = acceptedFiles.map(file => {
+    const accepted = acceptedFiles.map(file => {
       dropSize += file.size;
       return file.type.includes('image/')
         ? Object.assign(file, {
@@ -143,56 +135,52 @@ const UploadImageModal = ({
           })
         : file;
     });
-    let newFiles = [...files, ...accepted];
+    const newFiles = [...files, ...accepted];
     setFiles(newFiles);
     setFilesSize(filesSize + dropSize);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    maxSize: maxSize,
+    maxSize,
     multiple: false,
     onDropAccepted,
     onDropRejected: () => setTypeError(true),
     accept: ['.png', '.jpg', '.jpeg', '.heic', '.heif']
   });
 
-  const onSubmit = () => {
-    // console.log(editorRef);
-    const img = editorRef.canvas.getImageScaledToCanvas().toDataURL();
-    console.log(img);
-    // setLoading(true);
-    // savePictures(user, files)
-    //   .then(response => {
-    //     updateFamilyProfilePicture(familyId, response.data[0].url, user)
-    //       .then(() => {
-    //         showSuccessMessage(t('views.myProfile.picture.save.success'));
-    //         toggleModal(true);
-    //         setLoading(false);
-    //       })
-    //       .catch(() => {
-    //         showErrorMessage(t('views.myProfile.picture.save.error'));
-    //         setLoading(false);
-    //       });
-    //   })
-    //   .catch(() => {
-    //     showErrorMessage(t('views.myProfile.picture.save.error'));
-    //     setLoading(false);
-    //   });
+  const onSubmit = async () => {
+    const imgURL = editorRef.getImage().toDataURL('image/jpeg', 1.0);
+
+    const blob = await (await fetch(imgURL)).blob();
+    const file = new File([blob], 'fileName.jpg', {
+      type: 'image/jpeg',
+      lastModified: new Date()
+    });
+
+    setLoading(true);
+    savePictures(user, [file])
+      .then(response => {
+        updateFamilyProfilePicture(familyId, response.data[0].url, user)
+          .then(() => {
+            showSuccessMessage(t('views.myProfile.picture.save.success'));
+            toggleModal(true);
+            setLoading(false);
+          })
+          .catch(() => {
+            showErrorMessage(t('views.myProfile.picture.save.error'));
+            setLoading(false);
+          });
+      })
+      .catch(() => {
+        showErrorMessage(t('views.myProfile.picture.save.error'));
+        setLoading(false);
+      });
   };
 
   const handleScale = e => {
     const imageScale = parseFloat(e.target.value);
     setScale(imageScale);
   };
-
-  // const setEditorRef = (editor) => this.editor = editor;
-  // const setEditorRef = (editor) => {
-  //   if (editor) {
-  //     this.editor = editor;
-  //     const img = this.editor.getImageScaledToCanvas().toDataURL();
-  //     console.log(img);
-  //   }
-  // };
 
   return (
     <Modal
@@ -236,13 +224,6 @@ const UploadImageModal = ({
             style={{ position: 'absolute', top: '10%' }}
           />
         )}
-        {/*{files.length > 0 && files[0] && (*/}
-        {/*  <img*/}
-        {/*    src={files[0].preview}*/}
-        {/*    alt="Family Profile"*/}
-        {/*    className={classes.img}*/}
-        {/*  />*/}
-        {/*)}*/}
         {fileError && (
           <FormHelperText error={fileError} style={{ textAlign: 'center' }}>
             {t('views.myProfile.picture.uploadError')}
@@ -255,7 +236,7 @@ const UploadImageModal = ({
         )}
 
         {loading && <CircularProgress className={classes.loadingContainer} />}
-        {files.length > 0 && files[0] && (
+        {!loading && files.length > 0 && files[0] && (
           <input
             name="scale"
             type="range"
