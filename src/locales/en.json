@@ -624,7 +624,8 @@
           "save": {
             "success": "Saved intervention.",
             "error": "Could not save intervention"
-          }
+          },
+          "previewTitle": "Preview of your intervention form"
         },
         "relatedInterventions": "Related Interventions",
         "noInterventions": "This family has no Interventions"
@@ -1059,7 +1060,12 @@
           "error": "Could not save intervention definition"
         },
         "validationError": "Some question(s) does not have options yet!",
-        "warning": " Important: when you edit an intervention form in use, previous interventions might have blank fields when users view the results."
+        "warning": " Important: when you edit an intervention form in use, previous interventions might have blank fields when users view the results.",
+        "preview": "Preview form",
+        "saveForm": "Save Form",
+        "goBack": "Go Back",
+        "previewWarning": "This is just a preview of how the form will look like. Any filled answers will not be saved.",
+        "indicatorsPlaceholder": "Your survey's indicator"
       },
       "assign": {
         "success": "Saved correctly",

@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import Alert from '@material-ui/lab/Alert';
 import { Form, Formik } from 'formik';
 import * as moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -33,26 +34,36 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 0,
     backgroundColor: theme.palette.background.default,
     outline: 'none',
-    width: '80vw',
-    maxWidth: 1450,
+    width: '45vw',
+    maxWidth: 600,
     maxHeight: '85vh',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
       padding: '1em',
+      paddingTop: '2.5rem',
       maxHeight: '100vh',
       width: '100vw'
     },
     overflowY: 'auto'
   },
   title: {
-    marginTop: 20,
-    paddingBottom: 5
+    marginBottom: '2rem',
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: 0
+    }
   },
   closeIcon: {
     position: 'absolute',
     top: 5,
     right: 5,
     marginBottom: 15
+  },
+  alert: {
+    marginTop: 10,
+    '& .MuiAlert-message': {
+      marginLeft: theme.spacing(1),
+      fontSize: 15
+    }
   },
   buttonContainerForm: {
     display: 'flex',
@@ -157,7 +168,8 @@ const AddInterventionModal = ({
   intervention,
   showErrorMessage,
   showSuccessMessage,
-  user
+  user,
+  preview
 }) => {
   const classes = useStyles();
   const isEdit = !!interventionEdit && !!interventionEdit.id;
@@ -170,9 +182,21 @@ const AddInterventionModal = ({
 
   useEffect(() => {
     if (definition) {
-      setQuestions(definition.questions);
+      let questions = definition.questions;
+      if (indicators && Array.isArray(indicators)) {
+        let indicatorsOptions =
+          indicators.map(ind => ({ value: ind.key, text: ind.shortName })) ||
+          [];
+        questions = questions.map(question => {
+          if (question.codeName === 'stoplightIndicator') {
+            question.options = indicatorsOptions;
+          }
+          return question;
+        });
+      }
+      setQuestions(questions);
     }
-  }, [definition]);
+  }, [definition, indicators]);
 
   useEffect(() => {
     isEdit
@@ -183,26 +207,6 @@ const AddInterventionModal = ({
           .catch(e => console.log(e.message))
       : setDraft([]);
   }, [interventionEdit]);
-
-  useEffect(
-    () => {
-      if (indicators && Array.isArray(indicators)) {
-        let indicatorsOptions =
-          indicators.map(ind => ({ value: ind.key, text: ind.shortName })) ||
-          [];
-        let q = Array.from(questions);
-        q = q.map(question => {
-          if (question.codeName === 'stoplightIndicator') {
-            question.options = indicatorsOptions;
-          }
-          return question;
-        });
-        setQuestions(q);
-      }
-    },
-    [JSON.stringify(indicators)],
-    snapshotId
-  );
 
   const onSubmit = values => {
     let keys = Object.keys(values);
@@ -295,11 +299,13 @@ const AddInterventionModal = ({
           variant="h5"
           test-id="title-bar"
           align="center"
-          style={{ marginBottom: '2rem' }}
+          className={classes.title}
         >
-          {isEdit
-            ? t('views.familyProfile.interventions.form.editTitle')
-            : t('views.familyProfile.interventions.form.addTitle')}
+          {isEdit && t('views.familyProfile.interventions.form.editTitle')}
+          {preview && t('views.familyProfile.interventions.form.previewTitle')}
+          {!isEdit &&
+            !preview &&
+            t('views.familyProfile.interventions.form.addTitle')}
         </Typography>
         <IconButton
           className={classes.closeIcon}
@@ -534,6 +540,12 @@ const AddInterventionModal = ({
               {loading && (
                 <CircularProgress className={classes.loadingContainer} />
               )}
+
+              {preview && (
+                <Alert severity="warning" className={classes.alert}>
+                  {t('views.intervention.definition.previewWarning')}
+                </Alert>
+              )}
               <div className={classes.buttonContainerForm}>
                 <Button
                   variant="outlined"
@@ -541,17 +553,34 @@ const AddInterventionModal = ({
                   onClick={() => onClose(false)}
                   disabled={loading}
                 >
-                  {t('general.cancel')}
+                  {preview
+                    ? t('views.intervention.definition.goBack')
+                    : t('general.cancel')}
                 </Button>
 
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  disabled={loading}
-                >
-                  {t('general.save')}
-                </Button>
+                {preview && (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => {
+                      setLoading(true);
+                      onClose(true, definition);
+                    }}
+                  >
+                    {t('views.intervention.definition.saveForm')}
+                  </Button>
+                )}
+
+                {!preview && (
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    disabled={loading}
+                  >
+                    {t('general.save')}
+                  </Button>
+                )}
               </div>
             </Form>
           )}
