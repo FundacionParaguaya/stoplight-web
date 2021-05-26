@@ -14,8 +14,140 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import AvatarEditor from 'react-avatar-editor';
+import styled from 'styled-components';
 import { savePictures, updateFamilyProfilePicture } from '../../../api';
 import { MB_SIZE } from '../../../utils/files-utils';
+import { theme } from '../../../theme';
+
+const height = '36px';
+const thumbHeight = 36;
+const upperBackground = `linear-gradient(to bottom, ${
+  theme.palette.grey.light
+}, ${
+  theme.palette.grey.light
+}) 100% 50% / 100% ${'16px'} no-repeat transparent`;
+const lowerBackground = `linear-gradient(to bottom, ${
+  theme.palette.primary.main
+}, ${
+  theme.palette.primary.main
+}) 100% 50% / 100% ${'16px'} no-repeat transparent`;
+
+// Webkit cannot style progress so we fake it with a long shadow on the thumb element
+const makeLongShadow = (color, size) => {
+  let i = 18;
+  let shadow = `${i}px 0 0 ${size} ${color}`;
+
+  for (; i < 706; i++) {
+    shadow = `${shadow}, ${i}px 0 0 ${size} ${color}`;
+  }
+
+  return shadow;
+};
+
+const Wrapper = styled.div`
+  margin-top: 30px;
+  padding-top: 30px;
+`;
+const Range = styled.input`
+  overflow: hidden;
+  display: block;
+  appearance: none;
+  max-width: 700px;
+  width: 100%;
+  margin: 0;
+  height: ${height};
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: ${height};
+    background: ${lowerBackground};
+  }
+
+  &::-webkit-slider-thumb {
+    position: relative;
+    appearance: none;
+    height: ${thumbHeight}px;
+    width: ${thumbHeight}px;
+    background: ${theme.palette.grey.main};
+    border-radius: 100%;
+    border: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: ${makeLongShadow(theme.palette.grey.light, '-10px')};
+    transition: background-color 150ms;
+  }
+
+  &::-moz-range-track,
+  &::-moz-range-progress {
+    width: 100%;
+    height: ${height};
+    background: ${upperBackground};
+  }
+
+  &::-moz-range-progress {
+    background: ${lowerBackground};
+  }
+
+  &::-moz-range-thumb {
+    appearance: none;
+    margin: 0;
+    height: ${thumbHeight};
+    width: ${thumbHeight};
+    background: ${theme.palette.grey.main};
+    border-radius: 100%;
+    border: 0;
+    transition: background-color 150ms;
+  }
+
+  &::-ms-track {
+    width: 100%;
+    height: ${height};
+    border: 0;
+    /* color needed to hide track marks */
+    color: transparent;
+    background: transparent;
+  }
+
+  &::-ms-fill-lower {
+    background: ${lowerBackground};
+  }
+
+  &::-ms-fill-upper {
+    background: ${upperBackground};
+  }
+
+  &::-ms-thumb {
+    appearance: none;
+    height: ${thumbHeight};
+    width: ${thumbHeight};
+    background: ${theme.palette.grey.main};
+    border-radius: 100%;
+    border: 0;
+    transition: background-color 150ms;
+    /* IE Edge thinks it can support -webkit prefixes */
+    top: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  &:hover,
+  &:focus {
+    &::-webkit-slider-thumb {
+      background-color: ${theme.palette.grey.quarter};
+    }
+    &::-moz-range-thumb {
+      background-color: ${theme.palette.grey.quarter};
+    }
+    &::-ms-thumb {
+      background-color: ${theme.palette.grey.quarter};
+    }
+  }
+`;
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -34,7 +166,11 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 800,
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      height: '85vh',
+      maxHeight: 600
+    }
   },
   loadingContainer: {
     display: 'flex',
@@ -74,7 +210,17 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'space-evenly',
-    marginTop: 30
+    marginTop: 30,
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 70
+    }
+  },
+  avatarEditor: {
+    position: 'absolute',
+    top: '10%',
+    [theme.breakpoints.down('xs')]: {
+      top: '7%'
+    }
   }
 }));
 
@@ -204,7 +350,10 @@ const UploadImageModal = ({
         >
           <input {...getInputProps()} />
           <BackupIcon className={classes.icon} />
-          <Typography style={{ paddingTop: 15 }} variant="subtitle2">
+          <Typography
+            style={{ paddingTop: 15, textAlign: 'center' }}
+            variant="subtitle2"
+          >
             {t('views.myProfile.picture.placeholder')}
           </Typography>
         </div>
@@ -221,7 +370,7 @@ const UploadImageModal = ({
             scale={scale}
             borderRadius={125}
             rotate={0}
-            style={{ position: 'absolute', top: '10%' }}
+            className={classes.avatarEditor}
           />
         )}
         {fileError && (
@@ -237,15 +386,16 @@ const UploadImageModal = ({
 
         {loading && <CircularProgress className={classes.loadingContainer} />}
         {!loading && files.length > 0 && files[0] && (
-          <input
-            name="scale"
-            type="range"
-            onChange={handleScale}
-            min={'1'}
-            max="2"
-            step="0.01"
-            defaultValue="1"
-          />
+          <Wrapper>
+            <Range
+              type="range"
+              onChange={handleScale}
+              min={1}
+              max={3}
+              step={0.01}
+              defaultValue={1}
+            />
+          </Wrapper>
         )}
         <div className={classes.buttonContainerForm}>
           <Button
