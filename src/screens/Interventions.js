@@ -197,7 +197,7 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
               history.push('/interventions/create');
             }}
           >
-            {t('views.intervention.add')}
+            {t('views.intervention.addForm')}
           </Button>
         </Grid>
       </Grid>
