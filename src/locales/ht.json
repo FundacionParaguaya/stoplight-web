@@ -975,6 +975,7 @@
       "picture": {
         "placeholder": "Ajoute nouvo foto pwofil ou isit la",
         "uploadError": "Ou rive nan limit 10MB! \nTanpri chwazi yon lòt imaj.",
+        "zoom": "Rale:",
         "save": {
           "success": "Successfully updated profile picture",
           "error": "Could not update profile picture"
