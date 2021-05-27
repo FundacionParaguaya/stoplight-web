@@ -89,6 +89,19 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       top: '7%'
     }
+  },
+  zoomSelectorContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 30
+  },
+  zoomLabel: {
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    paddingRight: 25
   }
 }));
 
@@ -282,26 +295,10 @@ const UploadImageModal = ({
         )}
 
         {loading && <CircularProgress className={classes.loadingContainer} />}
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: 30
-          }}
-        >
+        <div className={classes.zoomSelectorContainer}>
           {!loading && files.length > 0 && files[0] && (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <Typography
-                style={{
-                  textAlign: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  paddingRight: 25
-                }}
-                variant="subtitle2"
-              >
+              <Typography className={classes.zoomLabel} variant="subtitle2">
                 {t('views.myProfile.picture.zoom')}
               </Typography>
               <div style={{ width: 150 }}>
