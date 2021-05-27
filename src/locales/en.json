@@ -1014,6 +1014,7 @@
       "picture": {
         "placeholder": "Add your new profile picture here",
         "uploadError": "You reached the 10MB limit! Please select another image.",
+        "zoom": "Zoom:",
         "save": {
           "success": "Successfully updated profile picture",
           "error": "Could not update profile picture"

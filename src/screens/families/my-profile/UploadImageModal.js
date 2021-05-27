@@ -6,7 +6,8 @@ import {
   Typography
 } from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
 import BackupIcon from '@material-ui/icons/Backup';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
@@ -14,140 +15,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 import AvatarEditor from 'react-avatar-editor';
-import styled from 'styled-components';
 import { savePictures, updateFamilyProfilePicture } from '../../../api';
 import { MB_SIZE } from '../../../utils/files-utils';
 import { theme } from '../../../theme';
-
-const height = '36px';
-const thumbHeight = 36;
-const upperBackground = `linear-gradient(to bottom, ${
-  theme.palette.grey.light
-}, ${
-  theme.palette.grey.light
-}) 100% 50% / 100% ${'16px'} no-repeat transparent`;
-const lowerBackground = `linear-gradient(to bottom, ${
-  theme.palette.primary.main
-}, ${
-  theme.palette.primary.main
-}) 100% 50% / 100% ${'16px'} no-repeat transparent`;
-
-// Webkit cannot style progress so we fake it with a long shadow on the thumb element
-const makeLongShadow = (color, size) => {
-  let i = 18;
-  let shadow = `${i}px 0 0 ${size} ${color}`;
-
-  for (; i < 706; i++) {
-    shadow = `${shadow}, ${i}px 0 0 ${size} ${color}`;
-  }
-
-  return shadow;
-};
-
-const Wrapper = styled.div`
-  margin-top: 30px;
-  padding-top: 30px;
-`;
-const Range = styled.input`
-  overflow: hidden;
-  display: block;
-  appearance: none;
-  max-width: 700px;
-  width: 100%;
-  margin: 0;
-  height: ${height};
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::-webkit-slider-runnable-track {
-    width: 100%;
-    height: ${height};
-    background: ${lowerBackground};
-  }
-
-  &::-webkit-slider-thumb {
-    position: relative;
-    appearance: none;
-    height: ${thumbHeight}px;
-    width: ${thumbHeight}px;
-    background: ${theme.palette.grey.main};
-    border-radius: 100%;
-    border: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    box-shadow: ${makeLongShadow(theme.palette.grey.light, '-10px')};
-    transition: background-color 150ms;
-  }
-
-  &::-moz-range-track,
-  &::-moz-range-progress {
-    width: 100%;
-    height: ${height};
-    background: ${upperBackground};
-  }
-
-  &::-moz-range-progress {
-    background: ${lowerBackground};
-  }
-
-  &::-moz-range-thumb {
-    appearance: none;
-    margin: 0;
-    height: ${thumbHeight};
-    width: ${thumbHeight};
-    background: ${theme.palette.grey.main};
-    border-radius: 100%;
-    border: 0;
-    transition: background-color 150ms;
-  }
-
-  &::-ms-track {
-    width: 100%;
-    height: ${height};
-    border: 0;
-    /* color needed to hide track marks */
-    color: transparent;
-    background: transparent;
-  }
-
-  &::-ms-fill-lower {
-    background: ${lowerBackground};
-  }
-
-  &::-ms-fill-upper {
-    background: ${upperBackground};
-  }
-
-  &::-ms-thumb {
-    appearance: none;
-    height: ${thumbHeight};
-    width: ${thumbHeight};
-    background: ${theme.palette.grey.main};
-    border-radius: 100%;
-    border: 0;
-    transition: background-color 150ms;
-    /* IE Edge thinks it can support -webkit prefixes */
-    top: 0;
-    margin: 0;
-    box-shadow: none;
-  }
-
-  &:hover,
-  &:focus {
-    &::-webkit-slider-thumb {
-      background-color: ${theme.palette.grey.quarter};
-    }
-    &::-moz-range-thumb {
-      background-color: ${theme.palette.grey.quarter};
-    }
-    &::-ms-thumb {
-      background-color: ${theme.palette.grey.quarter};
-    }
-  }
-`;
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -168,8 +38,9 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     outline: 'none',
     [theme.breakpoints.down('xs')]: {
-      height: '85vh',
-      maxHeight: 600
+      height: 'auto',
+      maxHeight: 600,
+      padding: '60px 35px'
     }
   },
   loadingContainer: {
@@ -210,10 +81,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'space-evenly',
-    marginTop: 30,
-    [theme.breakpoints.down('xs')]: {
-      marginTop: 70
-    }
+    marginTop: 30
   },
   avatarEditor: {
     position: 'absolute',
@@ -223,6 +91,36 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
+
+const ZoomSlider = withStyles({
+  root: {
+    color: theme.palette.primary.main,
+    height: 8
+  },
+  thumb: {
+    height: 24,
+    width: 24,
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
+    marginTop: -8,
+    marginLeft: -12,
+    '&:focus, &:hover, &$active': {
+      boxShadow: 'inherit'
+    }
+  },
+  active: {},
+  valueLabel: {
+    left: 'calc(-50% + 4px)'
+  },
+  track: {
+    height: 8,
+    borderRadius: 4
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4
+  }
+})(Slider);
 
 const maxSize = 10 * MB_SIZE;
 
@@ -323,9 +221,8 @@ const UploadImageModal = ({
       });
   };
 
-  const handleScale = e => {
-    const imageScale = parseFloat(e.target.value);
-    setScale(imageScale);
+  const handleScaleChange = (event, newValue) => {
+    setScale(newValue);
   };
 
   return (
@@ -385,35 +282,57 @@ const UploadImageModal = ({
         )}
 
         {loading && <CircularProgress className={classes.loadingContainer} />}
-        {!loading && files.length > 0 && files[0] && (
-          <Wrapper>
-            <Range
-              type="range"
-              onChange={handleScale}
-              min={1}
-              max={3}
-              step={0.01}
-              defaultValue={1}
-            />
-          </Wrapper>
-        )}
-        <div className={classes.buttonContainerForm}>
-          <Button
-            variant="outlined"
-            onClick={() => toggleModal()}
-            disabled={loading}
-          >
-            {t('general.cancel')}
-          </Button>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            disabled={loading || fileError}
-            onClick={() => onSubmit()}
-          >
-            {t('general.save')}
-          </Button>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            marginTop: 30
+          }}
+        >
+          {!loading && files.length > 0 && files[0] && (
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <Typography
+                style={{
+                  textAlign: 'center',
+                  display: 'flex',
+                  alignItems: 'center',
+                  paddingRight: 25
+                }}
+                variant="subtitle2"
+              >
+                {t('views.myProfile.picture.zoom')}
+              </Typography>
+              <div style={{ width: 150 }}>
+                <ZoomSlider
+                  onChange={handleScaleChange}
+                  min={1}
+                  max={3}
+                  step={0.01}
+                  defaultValue={1}
+                />
+              </div>
+            </div>
+          )}
+          <div className={classes.buttonContainerForm}>
+            <Button
+              variant="outlined"
+              onClick={() => toggleModal()}
+              disabled={loading}
+            >
+              {t('general.cancel')}
+            </Button>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              disabled={loading || fileError}
+              onClick={() => onSubmit()}
+            >
+              {t('general.save')}
+            </Button>
+          </div>
         </div>
       </div>
     </Modal>
