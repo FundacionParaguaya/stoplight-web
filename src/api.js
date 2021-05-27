@@ -2508,3 +2508,16 @@ export const interventionDefinitionByFamily = (user, family) =>
       }
     })
   });
+
+export const supportedLanguages = (user, language) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query: 'query { supportedLanguages {code, description } }'
+    })
+  });

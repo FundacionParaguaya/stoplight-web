@@ -22,6 +22,7 @@ import AssignModal from './surveys/AssignModal';
 import SearchTextFilter from '../components/filters/SearchTextFilter';
 import SurveyDeleteModal from './surveys/SurveyDeleteModal';
 import Tooltip from '@material-ui/core/Tooltip';
+import SurveyCreateModal from './surveys/SurveyCreateModal';
 
 const Surveys = ({ classes, t, user, i18n: { language } }) => {
   const [surveys, setSurveys] = useState([]);
@@ -35,6 +36,7 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     prevPage: 0
   });
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openCreateModal, setOpenCreateModal] = useState(false);
   const dateFormat = getDateFormatByLocale(language);
 
   const getSurveys = overwrite => {
@@ -133,6 +135,10 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
 
   return (
     <div className={classes.mainSurveyContainerBoss}>
+      <SurveyCreateModal
+        open={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+      />
       <SurveyDeleteModal
         surveyToDelete={selectedSurvey}
         user={user}
@@ -174,6 +180,15 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
                   searchByLabel={t('views.survey.filter.searchBy')}
                 />
               )}
+            </Grid>
+            <Grid item md={4} sm={4} xs={12} container justify="flex-end">
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => setOpenCreateModal(true)}
+              >
+                {t('views.survey.create.add')}
+              </Button>
             </Grid>
           </Grid>
           <Grid container spacing={2}>

@@ -153,6 +153,14 @@
         "cannotUndo": "Você não pode desfazer esta ação!",
         "success": "A pesquisa foi excluída",
         "failed": "Não foi possível excluir a pesquisa porque tem dados associados"
+      },
+      "create": {
+        "scratch": "Começar do zero",
+        "existing": "Comece com uma pesquisa existente",
+        "title": "Título",
+        "add": "Criar pesquisa",
+        "country": "País",
+        "language": "Língua"
       }
     },
     "analytics": {

@@ -192,6 +192,14 @@
         "cannotUndo": "You cannot undo this action!",
         "success": "The Survey has been deleted",
         "failed": "The Survey could not be deleted because it has associated data"
+      },
+      "create": {
+        "title": "Title",
+        "add": "Create Survey",
+        "language": "Language",
+        "country": "Country",
+        "scratch": "Start from scratch",
+        "existing": "Start from existing survey"
       }
     },
     "analytics": {

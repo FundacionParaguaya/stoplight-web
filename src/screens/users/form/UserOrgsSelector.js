@@ -10,8 +10,7 @@ import AutocompleteWithFormik from '../../../components/AutocompleteWithFormik';
 
 const styles = () => ({
   mainContainer: {
-    marginTop: 5,
-    marginBottom: 5
+    marginTop: 5
   },
   container: {
     display: 'flex',
