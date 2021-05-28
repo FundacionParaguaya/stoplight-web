@@ -416,6 +416,7 @@ const InterventionForm = ({
               name="name"
               required
               className={classes.nameField}
+              InputProps={{ maxLength: 275 }}
             />
 
             <Typography variant="h5">
