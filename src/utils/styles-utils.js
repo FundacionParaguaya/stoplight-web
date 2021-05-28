@@ -51,6 +51,34 @@ const selectStyle = {
   })
 };
 
+const autoCompleteStyle = {
+  ...selectStyle,
+  control: (styles, { hasValue }) => ({
+    ...styles,
+    backgroundColor: hasValue
+      ? theme.palette.background.default
+      : theme.palette.background.paper,
+    borderRadius: '8px 8px 0 0!important',
+    border: 'none',
+    borderBottom: `.5px solid ${theme.palette.grey.main}`,
+    '&:hover': {
+      borderColor: 'none'
+    },
+    boxShadow: 'none',
+    overflowY: 'auto',
+    maxHeight: 75,
+    height: 69,
+    paddingRight: 11,
+    paddingTop: 29
+  }),
+  placeholder: styles => ({
+    ...styles,
+    fontSize: 16,
+    color: theme.palette.grey.middle,
+    paddingBottom: 25
+  })
+};
+
 const colors = {
   lightOrange: '#FFD6A5',
   lightBlue: '#ACEBF1',
@@ -170,6 +198,7 @@ const getDimensionColor = dimension => {
 };
 export {
   selectStyle,
+  autoCompleteStyle,
   getIndicatorColorByDimension,
   getDimensionColor,
   pickerColor
