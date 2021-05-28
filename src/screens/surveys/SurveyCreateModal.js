@@ -3,23 +3,32 @@ import {
   CircularProgress,
   IconButton,
   Modal,
+  Tooltip,
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import Edit from '@material-ui/icons/Create';
 import { Form, Formik } from 'formik';
-import countries from 'localized-countries';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
+import { getSurveyById, supportedLanguages } from '../../api';
 import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import InputWithFormik from '../../components/InputWithFormik';
 import RadioInput from '../../components/RadioInput';
+import CountrySelector from '../../components/selectors/CountrySelector';
 import { updateSurvey } from '../../redux/actions';
+import { getLanguageByCode } from '../../utils/lang-utils';
+import {
+  getConditionalQuestions,
+  getEconomicScreens,
+  getElementsWithConditionsOnThem
+} from '../../utils/survey-utils';
 import UserOrgSelector from '../users/form/UserOrgsSelector';
-import { supportedLanguages } from '../../api';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -36,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     outline: 'none',
     width: '45vw',
     maxWidth: 600,
-    height: '65vh',
+    height: '75vh',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
       padding: '1em',
@@ -59,6 +68,15 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     margin: 'auto'
   },
+  surveyNameContainer: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  surveyName: {
+    marginLeft: 40,
+    fontWeight: 700,
+    color: theme.palette.primary.main
+  },
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'space-evenly',
@@ -68,16 +86,22 @@ const useStyles = makeStyles(theme => ({
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 
-const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
+const SurveyCreateModal = ({
+  open,
+  currentSurvey,
+  selectedSurvey,
+  setChoosingSurvey,
+  onClose,
+  updateSurvey,
+  user
+}) => {
   const classes = useStyles();
   const {
     t,
     i18n: { language }
   } = useTranslation();
   const history = useHistory();
-  const countryList = countries(
-    require(`localized-countries/data/${language}`)
-  ).array();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState(true);
   const [languages, setLanguages] = useState([]);
@@ -85,7 +109,7 @@ const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
   //Validation criterias
   const validationSchema = Yup.object({
     title: Yup.string().required(fieldIsRequired),
-    hub: Yup.string().required(fieldIsRequired),
+    hub: Yup.string(),
     country: Yup.string().required(fieldIsRequired),
     language: Yup.string().required(fieldIsRequired),
     choice: Yup.string().required(fieldIsRequired)
@@ -101,15 +125,56 @@ const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
   }, [language]);
 
   const onSubmit = values => {
-    const survey = {
+    setLoading(true);
+    let data = {
       title: values.title,
       hub: values.hub,
       country: values.country,
       language: values.language
     };
 
+    if (selectedSurvey && selectedSurvey.id) {
+      getSurveyById(user, selectedSurvey.id)
+        .then(response => {
+          let survey = response.data.data.surveyById;
+          const economicScreens = getEconomicScreens(survey);
+          const conditionalQuestions = getConditionalQuestions(survey);
+          const elementsWithConditionsOnThem = getElementsWithConditionsOnThem(
+            conditionalQuestions
+          );
+          updateSurvey({
+            ...survey,
+            ...data,
+            economicScreens,
+            conditionalQuestions,
+            elementsWithConditionsOnThem
+          });
+          setLoading(false);
+        })
+        .catch(() => {
+          enqueueSnackbar(t('views.familyProfile.surveyError'), {
+            variant: 'error'
+          });
+          setLoading(false);
+        });
+    } else {
+      updateSurvey(data);
+      console.log(history);
+    }
+  };
+
+  const onModalClose = choose => {
+    if (!choose) {
+      setChoosingSurvey(false);
+      updateSurvey({});
+    }
+    onClose();
+  };
+
+  const handleBaseSurvey = survey => {
     updateSurvey(survey);
-    console.log(history);
+    setChoosingSurvey(true);
+    onModalClose(true);
   };
 
   return (
@@ -118,7 +183,7 @@ const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
       disableAutoFocus
       className={classes.modal}
       open={open}
-      onClose={() => onClose(false)}
+      onClose={() => onModalClose(false)}
     >
       <div className={classes.container}>
         <Typography variant="h5" align="center" style={{ marginBottom: 10 }}>
@@ -127,25 +192,31 @@ const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
         <IconButton
           className={classes.closeIcon}
           key="dismiss"
-          onClick={() => onClose(false)}
+          onClick={() => onModalClose(false)}
         >
           <CloseIcon style={{ color: 'green' }} />
         </IconButton>
         <Formik
+          enableReinitialize
           initialValues={{
-            title: '',
-            organization: '',
-            hub: '',
-            country: '',
-            language: '',
-            choice: 'SCRATCH'
+            title: (currentSurvey && currentSurvey.title) || '',
+            organization: (currentSurvey && currentSurvey.organization) || '',
+            hub: (currentSurvey && currentSurvey.hub) || '',
+            country: (currentSurvey && currentSurvey.country) || '',
+            language: (currentSurvey && currentSurvey.language) || '',
+            choice:
+              (currentSurvey &&
+                selectedSurvey &&
+                selectedSurvey.id &&
+                currentSurvey.choice) ||
+              'SCRATCH'
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
             onSubmit(values);
           }}
         >
-          {({ setFieldValue, values }) => (
+          {({ setFieldValue, values, touched, setTouched }) => (
             <Form noValidate autoComplete={'off'}>
               <InputWithFormik
                 label={t('views.survey.create.title')}
@@ -158,17 +229,24 @@ const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
                 applicationValue={values.hub}
                 organizationValue={values.organization}
                 selectedRole={'ROLE_HUB_ADMIN'}
+                required={false}
               />
 
-              <AutocompleteWithFormik
-                label={t('views.survey.create.country')}
-                name="country"
-                rawOptions={countryList}
-                labelKey="label"
-                valueKey="code"
-                maxMenuHeight="150"
-                isClearable={false}
-                required
+              <CountrySelector
+                withTitle={false}
+                withAutoCompleteStyle
+                countryData={values.country}
+                onChangeCountry={country => setFieldValue('country', country)}
+                onBlur={() =>
+                  setTouched(
+                    Object.assign(touched, {
+                      country: true
+                    })
+                  )
+                }
+                parentLang={getLanguageByCode(values.language)}
+                error={touched.country && !values.country}
+                required={true}
               />
 
               <AutocompleteWithFormik
@@ -193,8 +271,38 @@ const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
                 label={t('views.survey.create.existing')}
                 value={'EXISTING'}
                 currentValue={values.choice}
-                onChange={e => setFieldValue('choice', e.target.value)}
+                onChange={e => {
+                  let survey = {
+                    ...values,
+                    choice: e.target.value
+                  };
+                  handleBaseSurvey(survey);
+                }}
               />
+              {!!selectedSurvey && selectedSurvey.id && (
+                <div className={classes.surveyNameContainer}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.surveyName}
+                  >
+                    {selectedSurvey.title}
+                  </Typography>
+                  <Tooltip title={'Change survey'}>
+                    <IconButton
+                      color="inherit"
+                      onClick={() => {
+                        let survey = {
+                          ...values,
+                          choice: 'EXISTING'
+                        };
+                        handleBaseSurvey(survey);
+                      }}
+                    >
+                      <Edit />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+              )}
               {loading && (
                 <CircularProgress className={classes.loadingContainer} />
               )}
@@ -218,7 +326,8 @@ const SurveyCreateModal = ({ open, onClose, updateSurvey, user }) => {
 
 const mapDispatchToProps = { updateSurvey };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ currentSurvey, user }) => ({
+  currentSurvey,
   user
 });
 

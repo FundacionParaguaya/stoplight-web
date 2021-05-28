@@ -200,7 +200,8 @@
         "add": "Crear encuesta",
         "country": "País",
         "language": "Idioma"
-      }
+      },
+      "yourSurveys": "Encuestas de su organización"
     },
     "analytics": {
       "title": "Analíticas",

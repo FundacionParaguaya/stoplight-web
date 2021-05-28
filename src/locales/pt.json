@@ -161,7 +161,8 @@
         "add": "Criar pesquisa",
         "country": "País",
         "language": "Língua"
-      }
+      },
+      "yourSurveys": "Pesquisas de sua organização"
     },
     "analytics": {
       "title": "Analíticas",

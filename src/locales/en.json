@@ -200,7 +200,8 @@
         "country": "Country",
         "scratch": "Start from scratch",
         "existing": "Start from existing survey"
-      }
+      },
+      "yourSurveys": "Your  organizations surveys"
     },
     "analytics": {
       "title": "Analytics",
