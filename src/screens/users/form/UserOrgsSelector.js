@@ -32,7 +32,8 @@ const UserOrgsSelector = ({
   user,
   applicationValue,
   organizationValue,
-  selectedRole
+  selectedRole,
+  required = true
 }) => {
   const [optionsLoading, setOptionsLoading] = useState(false);
   const [hubs, setHubs] = useState();
@@ -94,7 +95,7 @@ const UserOrgsSelector = ({
             loadingMessage={() => t('views.organizationsFilter.loading')}
             noOptionsMessage={() => t('views.organizationsFilter.noOption')}
             isClearable={false}
-            required
+            required={required}
           />
         </Grid>
       )}
@@ -112,7 +113,7 @@ const UserOrgsSelector = ({
             isLoading={optionsLoading}
             loadingMessage={() => t('views.organizationsFilter.loading')}
             noOptionsMessage={() => t('views.organizationsFilter.noOption')}
-            required
+            required={required}
           />
         </Grid>
       )}
