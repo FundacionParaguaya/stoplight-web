@@ -266,8 +266,9 @@ const AddInterventionModal = ({
 
     let finalAnswers = [];
     keys.forEach(key => {
+      const otherQuestion = !!key.match(/^custom/g);
       let answer = answers[key];
-      finalAnswers.push(answer);
+      !otherQuestion && finalAnswers.push(answer);
     });
 
     let params = '';
