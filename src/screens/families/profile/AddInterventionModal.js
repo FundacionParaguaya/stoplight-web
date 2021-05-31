@@ -240,16 +240,16 @@ const AddInterventionModal = ({
       let answer;
 
       if (otherQuestion) {
-      } else if (Array.isArray(values[key])) {
+      } else if (Array.isArray(values[key]) || key === 'stoplightIndicator') {
         answer = {
           codeName: key,
-          multipleValue: values[key].map(v => v.value),
-          multipleText: values[key].map(v => v.label)
+          multipleValue: values[key] ? values[key].map(v => v.value) : [],
+          multipleText: values[key] ? values[key].map(v => v.label) : []
         };
       } else {
         answer = {
           codeName: key,
-          value: values[key] ? values[key] : ''
+          value: values[key]
         };
       }
 
@@ -260,15 +260,7 @@ const AddInterventionModal = ({
         };
       }
 
-      if (
-        !otherQuestion &&
-        (answer.value ||
-          answer.multipleValue ||
-          answer.value === false ||
-          answer.value === '')
-      ) {
-        answers[key] = answer;
-      }
+      answers[key] = answer;
     });
 
     let finalAnswers = [];
@@ -276,25 +268,6 @@ const AddInterventionModal = ({
       let answer = answers[key];
       finalAnswers.push(answer);
     });
-
-    if (values.generalIntervention) {
-      finalAnswers = finalAnswers.filter(function(value) {
-        return value.codeName !== 'stoplightIndicator';
-      });
-      finalAnswers.push({
-        codeName: 'stoplightIndicator',
-        multipleValue: [],
-        multipleText: []
-      });
-    } else {
-      finalAnswers = finalAnswers.filter(function(value) {
-        return value.codeName !== 'generalIntervention';
-      });
-      finalAnswers.push({
-        codeName: 'generalIntervention',
-        value: false
-      });
-    }
 
     let params = '';
     definition.questions.forEach(question => {
