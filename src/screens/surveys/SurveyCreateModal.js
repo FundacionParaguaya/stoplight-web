@@ -46,11 +46,15 @@ const useStyles = makeStyles(theme => ({
     width: '45vw',
     maxWidth: 600,
     height: '75vh',
+    minHeight: 630,
     position: 'relative',
+    [theme.breakpoints.down('md')]: {
+      width: '65vw'
+    },
     [theme.breakpoints.down('xs')]: {
       padding: '1em',
       paddingTop: '2.5rem',
-      maxHeight: '100vh',
+      height: '100vh',
       width: '100vw'
     },
     overflowY: 'auto'

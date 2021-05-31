@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { Delete, DeviceHub, Assignment } from '@material-ui/icons';
+import { Assignment, Delete, DeviceHub } from '@material-ui/icons';
 import clsx from 'clsx';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
@@ -80,9 +80,17 @@ const useStyles = makeStyles(theme => ({
   info: {
     display: 'flex',
     flexDirection: 'column',
+    flexWrap: 'wrap',
     minWidth: 300,
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: 400
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 300,
+      minWidth: 245
+    },
     [theme.breakpoints.down('xs')]: {
-      minWidth: 260
+      minWidth: 230
     }
   },
   tagContainer: {
