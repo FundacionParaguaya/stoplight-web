@@ -540,6 +540,9 @@ const AddInterventionModal = ({
                     required={question.required}
                     multiline
                     inputProps={{ maxLength: 275 }}
+                    onChange={e =>
+                      setFieldValue(question.codeName, e.target.value)
+                    }
                   />
                 );
               })}
