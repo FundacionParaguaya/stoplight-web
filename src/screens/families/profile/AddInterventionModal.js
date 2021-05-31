@@ -240,6 +240,7 @@ const AddInterventionModal = ({
       let answer;
 
       if (otherQuestion) {
+        //If it has custom in it's key then it's just an auxiliar questions and should be ignore
       } else if (Array.isArray(values[key])) {
         answer = {
           codeName: key,
