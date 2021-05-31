@@ -80,7 +80,7 @@ const InputWithFormik = ({
   return (
     <TextField
       {...textFieldProps}
-      inputProps={{
+      InputProps={{
         inputComponent: inputType === 'number' ? NumberFormatCustom : undefined,
         ...(textFieldProps.InputProps || {})
       }}
