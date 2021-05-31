@@ -240,11 +240,11 @@ const AddInterventionModal = ({
       let answer;
 
       if (otherQuestion) {
-      } else if (Array.isArray(values[key]) || key === 'stoplightIndicator') {
+      } else if (Array.isArray(values[key])) {
         answer = {
           codeName: key,
-          multipleValue: values[key] ? values[key].map(v => v.value) : [],
-          multipleText: values[key] ? values[key].map(v => v.label) : []
+          multipleValue: values[key].map(v => v.value),
+          multipleText: values[key].map(v => v.label)
         };
       } else {
         answer = {
