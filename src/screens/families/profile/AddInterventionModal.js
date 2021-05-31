@@ -162,7 +162,7 @@ export const buildValidationSchemaForForm = questions => {
             if (Date.parse(date) / 1000 > moment().unix()) {
               return this.createError({
                 message: validDate,
-                path: 'interventionDate'
+                path: question.codeName
               });
             }
             return true;
