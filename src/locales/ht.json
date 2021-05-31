@@ -153,7 +153,16 @@
         "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
         "success": "Ankèt sa a efase.",
         "failed": "Ankèt sa a pa kapab efase paske genyen done ki makonnen avè l."
-      }
+      },
+      "create": {
+        "scratch": "Kòmanse nan grate",
+        "existing": "Kòmanse soti nan sondaj ki egziste deja",
+        "title": "Tit",
+        "add": "Kreye Sondaj",
+        "country": "Peyi",
+        "language": "Lang"
+      },
+      "yourSurveys": "Sondaj òganizasyon ou yo"
     },
     "analytics": {
       "title": "Analize",
@@ -1041,6 +1050,7 @@
       },
       "list": "Lis entèvansyon",
       "add": "Add Entèvansyon",
+      "addForm": "Add Fòm Entèvansyon",
       "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon",
       "subtitle": "Kreye modèl entèvansyon pou òganizasyon ou yo"
     }

@@ -192,7 +192,16 @@
         "cannotUndo": "You cannot undo this action!",
         "success": "The Survey has been deleted",
         "failed": "The Survey could not be deleted because it has associated data"
-      }
+      },
+      "create": {
+        "title": "Title",
+        "add": "Create Survey",
+        "language": "Language",
+        "country": "Country",
+        "scratch": "Start from scratch",
+        "existing": "Start from existing survey"
+      },
+      "yourSurveys": "Your  organizations surveys"
     },
     "analytics": {
       "title": "Analytics",
@@ -1082,6 +1091,7 @@
       },
       "loadingError": "An error occurred loading  interventions definitions",
       "add": "Add Intervention",
+      "addForm": "Add Intervention form",
       "subtitle": "Create Interventions models for your organizations",
       "list": "List of Interventions"
     }

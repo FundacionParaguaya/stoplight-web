@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     position: 'relative',
-    display: 'flex'
+    display: 'flex',
+    paddingTop: 5
   },
   intervetionNameContainer: {
     display: 'flex',

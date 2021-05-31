@@ -192,7 +192,16 @@
         "cannotUndo": "¡No puede deshacer esta acción!",
         "success": "La encuesta ha sido eliminada",
         "failed": "No se pudo eliminar la encuesta porque tiene datos asociados."
-      }
+      },
+      "create": {
+        "scratch": "Empezar desde el principio",
+        "existing": "Comenzar desde una encuesta existente",
+        "title": "Título",
+        "add": "Crear encuesta",
+        "country": "País",
+        "language": "Idioma"
+      },
+      "yourSurveys": "Encuestas de su organización"
     },
     "analytics": {
       "title": "Analíticas",
@@ -1079,6 +1088,7 @@
       },
       "list": "Lista de intervenciones",
       "add": "Agregar intervención",
+      "addForm": "Agregar formulario de intervención",
       "loadingError": "Se produjo un error al cargar la definición de intervenciones",
       "subtitle": "Cree modelos de intervenciones para sus organizaciones"
     }

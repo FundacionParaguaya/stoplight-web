@@ -130,6 +130,9 @@ export const buildInitialValuesForForm = (questions, draft) => {
 export const buildValidationSchemaForForm = questions => {
   const schema = {};
   let validation = Yup.string();
+  let dateValidation = Yup.date();
+  const validDate = 'validation.validDate';
+  const fieldIsRequired = 'validation.fieldIsRequired';
 
   questions.forEach(question => {
     if (question.codeName === 'stoplightIndicator') {
@@ -144,6 +147,27 @@ export const buildValidationSchemaForForm = questions => {
           });
         }
       );
+    } else if (question.answerType === 'date') {
+      schema[question.codeName] = dateValidation
+        .typeError(fieldIsRequired)
+        .transform((_value, originalValue) => {
+          return originalValue
+            ? moment.unix(originalValue).toDate()
+            : new Date('');
+        })
+        .required(validDate)
+        .test({
+          name: 'test-date-range',
+          test: function(date) {
+            if (Date.parse(date) / 1000 > moment().unix()) {
+              return this.createError({
+                message: validDate,
+                path: question.codeName
+              });
+            }
+            return true;
+          }
+        });
     } else if (
       question.required &&
       question.codeName !== 'generalIntervention'
@@ -155,8 +179,6 @@ export const buildValidationSchemaForForm = questions => {
   const validationSchema = Yup.object().shape(schema);
   return validationSchema;
 };
-
-const fieldIsRequired = 'validation.fieldIsRequired';
 
 const AddInterventionModal = ({
   open,
@@ -238,18 +260,13 @@ const AddInterventionModal = ({
         };
       }
 
-      if (
-        !otherQuestion &&
-        (answer.value || answer.multipleValue || answer.value === false)
-      ) {
-        answers[key] = answer;
-      }
+      answers[key] = answer;
     });
 
     let finalAnswers = [];
     keys.forEach(key => {
       let answer = answers[key];
-      answer && finalAnswers.push(answer);
+      finalAnswers.push(answer);
     });
 
     let params = '';
