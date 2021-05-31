@@ -1034,7 +1034,8 @@
         "goBack": "Tounen",
         "saveForm": "Sove Fòm",
         "previewWarning": "Sa a se jis yon preview sou ki jan fòm lan pral sanble. \nNenpòt repons ki ranpli yo pap sove.",
-        "indicatorsPlaceholder": "Endikatè sondaj ou an"
+        "indicatorsPlaceholder": "Endikatè sondaj ou an",
+        "validationError": "Kèk kesyon (yo) pa gen opsyon ankò!"
       },
       "assign": {
         "success": "Sove kòrèkteman",

@@ -240,6 +240,7 @@ const AddInterventionModal = ({
       let answer;
 
       if (otherQuestion) {
+        //If it has custom in it's key then it's just an auxiliar questions and should be ignore
       } else if (Array.isArray(values[key])) {
         answer = {
           codeName: key,
@@ -265,8 +266,9 @@ const AddInterventionModal = ({
 
     let finalAnswers = [];
     keys.forEach(key => {
+      const otherQuestion = !!key.match(/^custom/g);
       let answer = answers[key];
-      finalAnswers.push(answer);
+      !otherQuestion && finalAnswers.push(answer);
     });
 
     let params = '';
@@ -456,6 +458,9 @@ const AddInterventionModal = ({
                         key={question.codeName}
                         name={question.codeName}
                         required={question.required}
+                        onChange={e =>
+                          setFieldValue(question.codeName, e.target.value)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
@@ -493,6 +498,9 @@ const AddInterventionModal = ({
                         rawOptions={question.options || []}
                         name={question.codeName}
                         required={question.required}
+                        onChange={values =>
+                          setFieldValue(question.codeName, values)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
@@ -550,6 +558,10 @@ const AddInterventionModal = ({
                     name={question.codeName}
                     required={question.required}
                     multiline
+                    inputProps={{ maxLength: 275 }}
+                    onChange={e =>
+                      setFieldValue(question.codeName, e.target.value)
+                    }
                   />
                 );
               })}

@@ -404,7 +404,7 @@ const InterventionForm = ({
         validationSchema={validationSchema}
         onSubmit={values => {}}
       >
-        {({ setFieldValue, values }) => (
+        {({ setFieldValue, values, validateForm, touched, setTouched }) => (
           <Form noValidate autoComplete={'off'}>
             {loading && (
               <div className={classes.loadingContainer}>
@@ -416,6 +416,7 @@ const InterventionForm = ({
               name="name"
               required
               className={classes.nameField}
+              InputProps={{ maxLength: 275 }}
             />
 
             <Typography variant="h5">
@@ -523,9 +524,16 @@ const InterventionForm = ({
               </Button>
 
               <Button
+                type="submit"
                 color="primary"
                 variant="contained"
-                onClick={() => onPreview(values)}
+                onClick={() => {
+                  validateForm().then(validationErrors => {
+                    !validationErrors.name
+                      ? onPreview(values)
+                      : showErrorMessage(t('views.family.formWithError'));
+                  });
+                }}
                 disabled={loading}
               >
                 {t('views.intervention.definition.preview')}

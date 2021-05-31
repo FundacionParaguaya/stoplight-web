@@ -1032,7 +1032,8 @@
         "goBack": "Volte",
         "saveForm": "Salvar formulário",
         "previewWarning": "Esta é apenas uma prévia de como será a aparência do formulário. \nTodas as respostas preenchidas não serão salvas.",
-        "indicatorsPlaceholder": "Indicador de sua pesquisa"
+        "indicatorsPlaceholder": "Indicador de sua pesquisa",
+        "validationError": "Algumas perguntas ainda não têm opções!"
       },
       "assign": {
         "success": "Salvo corretamente",
