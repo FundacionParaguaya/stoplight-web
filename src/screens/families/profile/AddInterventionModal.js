@@ -147,7 +147,7 @@ export const buildValidationSchemaForForm = questions => {
           });
         }
       );
-    } else if (question.codeName === 'interventionDate') {
+    } else if (question.answerType === 'date') {
       schema[question.codeName] = dateValidation
         .typeError(fieldIsRequired)
         .transform((_value, originalValue) => {
@@ -249,10 +249,7 @@ const AddInterventionModal = ({
       } else {
         answer = {
           codeName: key,
-          value:
-            values[key] === '' && key !== 'stoplightIndicator'
-              ? ' '
-              : values[key]
+          value: values[key] ? values[key] : ''
         };
       }
 
@@ -265,7 +262,10 @@ const AddInterventionModal = ({
 
       if (
         !otherQuestion &&
-        (answer.value || answer.multipleValue || answer.value === false)
+        (answer.value ||
+          answer.multipleValue ||
+          answer.value === false ||
+          answer.value === '')
       ) {
         answers[key] = answer;
       }
@@ -274,8 +274,27 @@ const AddInterventionModal = ({
     let finalAnswers = [];
     keys.forEach(key => {
       let answer = answers[key];
-      if (key !== 'stoplightIndicator' && answer) finalAnswers.push(answer);
+      finalAnswers.push(answer);
     });
+
+    if (values.generalIntervention) {
+      finalAnswers = finalAnswers.filter(function(value) {
+        return value.codeName !== 'stoplightIndicator';
+      });
+      finalAnswers.push({
+        codeName: 'stoplightIndicator',
+        multipleValue: [],
+        multipleText: []
+      });
+    } else {
+      finalAnswers = finalAnswers.filter(function(value) {
+        return value.codeName !== 'generalIntervention';
+      });
+      finalAnswers.push({
+        codeName: 'generalIntervention',
+        value: false
+      });
+    }
 
     let params = '';
     definition.questions.forEach(question => {
