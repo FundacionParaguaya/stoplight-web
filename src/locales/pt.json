@@ -1048,6 +1048,7 @@
       },
       "list": "Lista de intervenções",
       "add": "Adicionar intervenção",
+      "addForm": "Adicionar formulário de intervenção",
       "loadingError": "Ocorreu um erro ao carregar a definição das intervenções",
       "subtitle": "Crie modelos de intervenções para suas organizações"
     }
