@@ -439,6 +439,9 @@ const AddInterventionModal = ({
                         key={question.codeName}
                         name={question.codeName}
                         required={question.required}
+                        onChange={e =>
+                          setFieldValue(question.codeName, e.target.value)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
@@ -476,6 +479,9 @@ const AddInterventionModal = ({
                         rawOptions={question.options || []}
                         name={question.codeName}
                         required={question.required}
+                        onChange={values =>
+                          setFieldValue(question.codeName, values)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
