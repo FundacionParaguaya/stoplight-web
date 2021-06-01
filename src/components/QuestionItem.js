@@ -35,7 +35,8 @@ export const QuestionItem = ({
   itemRef,
   draggableProps,
   question,
-  answerType
+  answerType,
+  options = []
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -58,6 +59,18 @@ export const QuestionItem = ({
           </Typography>
         </div>
       </div>
+      {options.length > 0 && (
+        <ul>
+          {options.map(option => (
+            <Typography
+              variant="subtitle2"
+              style={{ color: COLORS.MEDIUM_GREY }}
+            >
+              <li>{option.text}</li>
+            </Typography>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
