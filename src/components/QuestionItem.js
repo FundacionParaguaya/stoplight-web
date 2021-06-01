@@ -61,8 +61,9 @@ export const QuestionItem = ({
       </div>
       {options.length > 0 && (
         <ul>
-          {options.map(option => (
+          {options.map((option, index) => (
             <Typography
+              key={index}
               variant="subtitle2"
               style={{ color: COLORS.MEDIUM_GREY }}
             >
