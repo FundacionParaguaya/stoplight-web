@@ -1,12 +1,10 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
 import Alert from '@material-ui/lab/Alert';
 import { Form, Formik } from 'formik';
-import { withSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
@@ -102,17 +100,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InterventionForm = ({
-  enqueueSnackbar,
-  closeSnackbar,
-  user,
-  history
-}) => {
+const InterventionForm = ({ user, history }) => {
   const classes = useStyles();
   const {
     t,
     i18n: { language }
   } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
   let { id } = useParams();
   const isEdit = !!id;
 
@@ -135,24 +129,10 @@ const InterventionForm = ({
   });
 
   const showErrorMessage = message =>
-    enqueueSnackbar(message, {
-      variant: 'error',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
-    });
+    enqueueSnackbar(message, { variant: 'error' });
 
   const showSuccessMessage = message =>
-    enqueueSnackbar(message, {
-      variant: 'success',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
-    });
+    enqueueSnackbar(message, { variant: 'success' });
 
   useEffect(() => {
     listInterventionsQuestions(user, language)
@@ -404,7 +384,7 @@ const InterventionForm = ({
         validationSchema={validationSchema}
         onSubmit={values => {}}
       >
-        {({ setFieldValue, values, validateForm, touched, setTouched }) => (
+        {({ setFieldValue, values, validateForm }) => (
           <Form noValidate autoComplete={'off'}>
             {loading && (
               <div className={classes.loadingContainer}>
@@ -428,6 +408,7 @@ const InterventionForm = ({
                 key={question.codeName}
                 question={question.shortName}
                 answerType={question.answerType}
+                options={question.options}
               />
             ))}
 
@@ -549,5 +530,5 @@ const InterventionForm = ({
 const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(
-  connect(mapStateToProps)(withLayout(withSnackbar(InterventionForm)))
+  connect(mapStateToProps)(withLayout(InterventionForm))
 );
