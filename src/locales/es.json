@@ -122,7 +122,6 @@
       "allCollections": "Todas las colecciones",
       "noArticles": "Sin articulos",
       "addArticle": "Agregar un articulo",
-      "article": "Articulo",
       "editButton": "EDITAR",
       "deleteButton": "BORRAR",
       "failRequest": "Hubo un error en la consulta",
@@ -145,7 +144,6 @@
       "delete": {
         "confirmTitle": "Confirmar borrado",
         "confirmText": "¿Está seguro de que desea eliminar este artículo?",
-        "cannotUndo": "¡No puede deshacer esta acción!",
         "success": "Artículo eliminado correctamente ",
         "failed": "No se pudo borrar el artículo"
       }
@@ -176,7 +174,7 @@
       "specifyOther": "Especifica otro",
       "assignSurvey": {
         "hubs": "Hubs",
-        "organizations": "Organizaciones",
+        "orgs": "Organizaciones",
         "assignSurvey": "Asignar encuesta",
         "surveyAssigned": "Guardado correctamente",
         "surveyAssignError": "Ocurrió un error al asignar la encuesta. Vuelva a Intentar"
@@ -247,7 +245,6 @@
       "name": "Nombre",
       "peopleLivingInThisHousehold": "Número de personas viviendo en esta casa. ",
       "household": "familia",
-      "households": "familias",
       "onlyPerson": "1 - Soy la única persona",
       "preferNotToSay": "Prefiero no responder",
       "familyMember": "Miembro",
@@ -952,7 +949,6 @@
       "goForm": "Registrarse",
       "email": "Correo electrónico",
       "newPassword": "Nueva Contraseña",
-      "newPasswordRequired": "Nueva contraseña es requerida",
       "newPasswordConfirm": "Confirmar nueva contraseña",
       "newPasswordConfirmFailed": "La confirmación de nueva contraseña ha fallado",
       "resetPassword": "Cambiar Contraseña",
@@ -1091,6 +1087,11 @@
       "addForm": "Agregar formulario de intervención",
       "loadingError": "Se produjo un error al cargar la definición de intervenciones",
       "subtitle": "Cree modelos de intervenciones para sus organizaciones"
+    },
+    "collectionSelector": {
+      "label": "Colección",
+      "noOption": "No queda ninguna colección",
+      "loading": "Cargando..."
     }
   },
   "reports": {

@@ -424,13 +424,9 @@
       "daysAgo": "$dd jou pase",
       "facilitator": "Fasilitatè",
       "origin": "Orijin",
-      "title": {
-        "SNAPSHOTS": "$familyName te pase yon kesyonè chimen pwogrè",
-        "BASELINE_SURVEY": "$familyName pase yon kesyonè debaz!",
-        "FOLLOWUP_SURVEY": "$familyName tpase yon kesyonè swivi!",
-        "NEW_STOPLIGHT_SOLUTION": "Genyen yon nouvo solisyon",
-        "NEW_STOPLIGHT_PRIORITY": "$familyName genyen yon nouvo priyorite"
-      }
+      "indicator": "Endikatè",
+      "title": "Tit",
+      "uploadedBy": "Uploaded pa"
     },
     "organizationsFilter": {
       "label": "Oganizasyon",
@@ -1054,6 +1050,48 @@
       "addForm": "Add Fòm Entèvansyon",
       "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon",
       "subtitle": "Kreye modèl entèvansyon pou òganizasyon ou yo"
+    },
+    "collectionSelector": {
+      "noOption": "Pa gen koleksyon kite",
+      "loading": "Chaje ...",
+      "label": "Koleksyon"
+    },
+    "support": {
+      "addArticle": "Ajoute yon atik",
+      "allCollections": "Tout koleksyon yo",
+      "collections": {
+        "appDescription": "Atik sipò jeneral konsènan Stoplight mobil app android",
+        "generalDescription": "Kesyon Jeneral sou Stoplight la Povrete",
+        "webDescription": "Atik Jeneral sou lè l sèvi avèk platfòm la Stoplight Povrete"
+      },
+      "countArticles": "atik nan koleksyon sa a",
+      "createdAt": "Kreye nan",
+      "delete": {
+        "confirmText": "Èske ou sèten ou vle efase atik sa a?",
+        "confirmTitle": "Konfime sipresyon",
+        "failed": "Pa t 'kapab efase atik",
+        "success": "Atik efase avèk siksè"
+      },
+      "deleteButton": "Efase",
+      "editButton": "EDITE",
+      "failRequest": "Gen yon erè nan demann lan",
+      "form": {
+        "active": "Pibliye atik sa a",
+        "content": "Kòmanse ekri kontni ou ...",
+        "save": {
+          "failed": "Pa t 'kapab sove atik la",
+          "success": "Atik sove avèk siksè"
+        },
+        "subtitle": "Ajoute yon deskripsyon pou atik ou an",
+        "title": "Tit Atik",
+        "userNotAllowed": "Operasyon pa pèmèt"
+      },
+      "headerTitle": "Atik Sipò pou Ekip Platfòm Stoplight Poverty",
+      "metaTitle": "Sant Sipò Povrete Stoplight",
+      "noArticles": "Pa gen atik",
+      "search": "Rechèch pou atik ...",
+      "team": "Ekip Stoplight",
+      "writeBy": "Ekri pa"
     }
   },
   "reports": {
