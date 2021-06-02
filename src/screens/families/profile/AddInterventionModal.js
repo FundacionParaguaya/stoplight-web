@@ -244,8 +244,8 @@ const AddInterventionModal = ({
       } else if (Array.isArray(values[key])) {
         answer = {
           codeName: key,
-          multipleValue: values[key].map(v => v.value),
-          multipleText: values[key].map(v => v.label)
+          multipleValue: values[key].map(v => v.value || v),
+          multipleText: values[key].map(v => v.label || v)
         };
       } else {
         answer = {
@@ -353,7 +353,7 @@ const AddInterventionModal = ({
                         name={question.codeName}
                         maxDate={new Date()}
                         disableFuture
-                        required
+                        required={question.required}
                         minDate={moment('1910-01-01')}
                         onChange={e => {
                           !!e &&
