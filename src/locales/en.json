@@ -36,7 +36,8 @@
     "yourStoplight": "Your Stoplight",
     "completeStoplight": "Finish Stoplight",
     "publish": "Publish",
-    "edit": "Edit"
+    "edit": "Edit",
+    "other": "Other"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -1093,7 +1094,6 @@
           "stoplightIndicator": {
             "text": "Stoplight indicator"
           },
-
           "contactType": {
             "text": "Contact type"
           },

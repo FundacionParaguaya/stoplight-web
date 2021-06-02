@@ -36,7 +36,8 @@
     "yourStoplight": "Chimen Pwogrè pa w",
     "completeStoplight": "Fen Chime Pwogrè a",
     "publish": "pibliye",
-    "edit": "Edite"
+    "edit": "Edite",
+    "other": "Lòt"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",

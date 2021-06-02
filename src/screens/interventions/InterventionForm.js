@@ -265,7 +265,7 @@ const InterventionForm = ({ user, history }) => {
       if (question.otherOption) {
         question.options.push({
           value: 'OTHER',
-          text: 'Other',
+          text: t('general.other'),
           otherOption: true
         });
       }
