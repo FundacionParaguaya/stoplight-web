@@ -1031,7 +1031,79 @@
         "saveForm": "Sove Fòm",
         "previewWarning": "Sa a se jis yon preview sou ki jan fòm lan pral sanble. \nNenpòt repons ki ranpli yo pap sove.",
         "indicatorsPlaceholder": "Endikatè sondaj ou an",
-        "validationError": "Kèk kesyon (yo) pa gen opsyon ankò!"
+        "validationError": "Kèk kesyon (yo) pa gen opsyon ankò!",
+        "questions": {
+          "interventionType": {
+            "facilitation": "Fasilitasyon",
+            "grupal": "Grupal",
+            "individual": "Endividyèl",
+            "text": "Kalite entèvansyon"
+          },
+          "activity": {
+            "text": "Aktivite"
+          },
+          "activityDetails": {
+            "text": "Detay sou aktivite"
+          },
+          "activityType": {
+            "intervention": "Entèvansyon",
+            "management": "Jesyon",
+            "text": "Kalite Aktivite"
+          },
+          "allies": {
+            "text": "Alye"
+          },
+          "category": {
+            "commercial": "Biznis",
+            "industrial": "Endistriyèl",
+            "services": "Sèvis",
+            "text": "Jaden"
+          },
+          "contactType": {
+            "text": "Kalite kontak"
+          },
+          "conversationType": {
+            "text": "Kalite konvèsasyon"
+          },
+          "coordinatorContact": {
+            "text": "Kontak Koòdonatè"
+          },
+          "directImplementerContact": {
+            "text": "Aplike kontak òganizasyon an"
+          },
+          "generalIntervention": {
+            "text": "Entèvansyon jeneral"
+          },
+          "implementationChallenges": {
+            "text": "Defi lè w ap aplike entèvansyon an"
+          },
+          "interventionDate": {
+            "text": "Dat entèvansyon"
+          },
+          "interventionName": {
+            "text": "Non entèvansyon"
+          },
+          "interventionPeriod": {
+            "text": "Longè entèvansyon"
+          },
+          "interventionPeriodType": {
+            "days": "Jou",
+            "hours": "Orè",
+            "minutes": "Minit",
+            "text": "Kalite longè entèvansyon an"
+          },
+          "managementGoal": {
+            "text": "Objektif jesyon an"
+          },
+          "mentoringType": {
+            "presential": "Prezans ki baze sou",
+            "text": "Kalite konseye",
+            "virtual": "Virtual"
+          },
+          "newFollowupDate": {
+            "text": "Nouvo dat swivi"
+          }
+        }
       },
       "assign": {
         "success": "Sove kòrèkteman",

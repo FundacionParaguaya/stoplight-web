@@ -1068,7 +1068,79 @@
         "goBack": "Volver",
         "saveForm": "Guardar formulario",
         "previewWarning": "Esto es solo una vista previa de cómo se verá el formulario. \nLas respuestas completadas no se guardarán.",
-        "indicatorsPlaceholder": "El indicador de su encuesta"
+        "indicatorsPlaceholder": "El indicador de su encuesta",
+        "questions": {
+          "interventionType": {
+            "facilitation": "Facilitación",
+            "grupal": "Grupal",
+            "individual": "Individual",
+            "text": "Tipo de intervención"
+          },
+          "activity": {
+            "text": "Actividad"
+          },
+          "activityDetails": {
+            "text": "Detalles de la actividad"
+          },
+          "activityType": {
+            "intervention": "Intervención",
+            "management": "Gestión",
+            "text": "Tipo de actividad"
+          },
+          "allies": {
+            "text": "Aliados"
+          },
+          "category": {
+            "commercial": "Negocios",
+            "industrial": "Industrial",
+            "services": "Servicios",
+            "text": "Campo"
+          },
+          "contactType": {
+            "text": "Tipo de Contacto"
+          },
+          "conversationType": {
+            "text": "Tipo de conversación"
+          },
+          "coordinatorContact": {
+            "text": "Contacto del coordinador"
+          },
+          "directImplementerContact": {
+            "text": "Contacto de la organización implementadora"
+          },
+          "generalIntervention": {
+            "text": "Intervención general"
+          },
+          "implementationChallenges": {
+            "text": "Desafíos a la hora de implementar la intervención"
+          },
+          "interventionDate": {
+            "text": "Fecha de intervención"
+          },
+          "interventionName": {
+            "text": "Nombre de la intervención"
+          },
+          "interventionPeriod": {
+            "text": "Duración de la intervención"
+          },
+          "interventionPeriodType": {
+            "days": "Dias",
+            "hours": "Horas",
+            "minutes": "Minutos",
+            "text": "Tipo de duración de la intervención"
+          },
+          "managementGoal": {
+            "text": "Objetivo de la gestión"
+          },
+          "mentoringType": {
+            "presential": "Basado en presencia",
+            "text": "Tipo de mentoría",
+            "virtual": "Virtual"
+          },
+          "newFollowupDate": {
+            "text": "Nueva fecha de seguimiento"
+          }
+        }
       },
       "assign": {
         "success": "Guardado correctamente",

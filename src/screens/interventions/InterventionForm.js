@@ -111,6 +111,7 @@ const InterventionForm = ({ user, history }) => {
   const isEdit = !!id;
 
   const [loading, setLoading] = useState(true);
+  const [rawQuestions, setRawQuestions] = useState([]);
   const [coreQuestions, setCoreQuestions] = useState([]);
   const [items, setItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -134,37 +135,44 @@ const InterventionForm = ({ user, history }) => {
   const showSuccessMessage = message =>
     enqueueSnackbar(message, { variant: 'success' });
 
+  const processQuestions = rawQuestions => {
+    let questions = rawQuestions.map(question => {
+      question.shortName = t(
+        `views.intervention.definition.questions.${question.codeName}.text`
+      );
+      let presetOptions = (question.presetOptions || []).map(value => ({
+        value: value,
+        text: t(value)
+      }));
+      !question.coreQuestion &&
+        presetOptions.push({ value: 'value', text: '' });
+      return {
+        ...question,
+        options: presetOptions
+      };
+    });
+
+    let mainQuestions = questions.filter(q => q.coreQuestion);
+    let itemQuestions = questions.filter(q => !q.coreQuestion);
+    console.log(mainQuestions);
+
+    return { mainQuestions, itemQuestions };
+  };
+
   useEffect(() => {
-    listInterventionsQuestions(user, language)
+    if (rawQuestions.length > 0) {
+      const { mainQuestions, itemQuestions } = processQuestions(rawQuestions);
+      setItems(itemQuestions);
+      setCoreQuestions(mainQuestions);
+    }
+  }, [language]);
+
+  useEffect(() => {
+    listInterventionsQuestions(user)
       .then(response => {
-        let questions = response.data.data.interventionPresetQuestions;
-        let mainQuestions = questions
-          .filter(q => q.coreQuestion)
-          .map(question => {
-            if (question.presetOptions) {
-              let presetOptions = (question.presetOptions || []).map(o => ({
-                value: o,
-                text: o
-              }));
-              return {
-                ...question,
-                options: presetOptions
-              };
-            } else {
-              return question;
-            }
-          });
-        let itemQuestions = questions.filter(q => !q.coreQuestion);
-        itemQuestions = itemQuestions.map(question => {
-          let presetOptions = (question.presetOptions || []).map(o => ({
-            value: o,
-            text: o
-          }));
-          return {
-            ...question,
-            options: [{ value: 'value', text: '' }, ...presetOptions]
-          };
-        });
+        const questions = response.data.data.interventionPresetQuestions;
+        setRawQuestions(questions);
+        const { mainQuestions, itemQuestions } = processQuestions(questions);
 
         if (!!id) {
           getInterventionDefinition(user, id)

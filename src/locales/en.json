@@ -1073,7 +1073,108 @@
         "saveForm": "Save Form",
         "goBack": "Go Back",
         "previewWarning": "This is just a preview of how the form will look like. Any filled answers will not be saved.",
-        "indicatorsPlaceholder": "Your survey's indicator"
+        "indicatorsPlaceholder": "Your survey's indicator",
+        "questions": {
+          "interventionName": {
+            "text": "Intervention name"
+          },
+          "interventionType": {
+            "text": "Intervention type",
+            "individual": "Individual",
+            "grupal": "Grupal",
+            "facilitation": "Facilitation"
+          },
+          "interventionDate": {
+            "text": "Intervention date"
+          },
+          "generalIntervention": {
+            "text": "General intervention"
+          },
+          "stoplightIndicator": {
+            "text": "Stoplight indicator"
+          },
+
+          "contactType": {
+            "text": "Contact type"
+          },
+          "mentoringType": {
+            "text": "Mentoring type",
+            "virtual": "Virtual",
+            "presential": "Presence-based"
+          },
+          "activityType": {
+            "text": "Activity Type",
+            "intervention": "Intervention",
+            "management": "Management"
+          },
+          "activity": {
+            "text": "Activity"
+          },
+          "managementGoal": {
+            "text": "Goal of the management"
+          },
+          "conversationType": {
+            "text": "Conversation type"
+          },
+          "trainingType": {
+            "text": "Training type"
+          },
+          "resourcesType": {
+            "text": "Type of resources"
+          },
+          "activityDetails": {
+            "text": "Activity details"
+          },
+          "notes": {
+            "text": "Notes"
+          },
+          "interventionPeriodType": {
+            "text": "Intervention’s length type",
+            "days": "Days",
+            "hours": "Hours",
+            "minutes": "Minutes"
+          },
+          "interventionPeriod": {
+            "text": "Intervention length"
+          },
+          "resourcesUsed": {
+            "text": "Used resources"
+          },
+          "allies": {
+            "text": "Allies"
+          },
+          "coordinatorContact": {
+            "text": "Coordinator contact"
+          },
+          "directImplementerContact": {
+            "text": "Implementing organization contact"
+          },
+          "category": {
+            "text": "Field",
+            "commercial": "Business",
+            "industrial": "Industrial",
+            "services": "Services"
+          },
+          "quadrantType": {
+            "text": "Quadrant type",
+            "intention": "Intention",
+            "behavior": "Conduct",
+            "culture": "Culture",
+            "system": "System"
+          },
+          "problemAttemptToRespond": {
+            "text": "What is the problem to which this intervention addresses?"
+          },
+          "implementationChallenges": {
+            "text": "Challenges when implementing the intervention"
+          },
+          "nextSteps": {
+            "text": "Next steps"
+          },
+          "newFollowupDate": {
+            "text": "New follow-up date"
+          }
+        }
       },
       "assign": {
         "success": "Saved correctly",
