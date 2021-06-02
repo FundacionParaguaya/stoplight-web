@@ -351,7 +351,6 @@ const AddInterventionModal = ({
                       <DatePickerWithFormik
                         label={question.shortName}
                         name={question.codeName}
-                        disableFuture
                         required={question.required}
                         maxDate={
                           question.coreQuestion
