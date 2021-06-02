@@ -1102,6 +1102,34 @@
           },
           "newFollowupDate": {
             "text": "Nouvo dat swivi"
+          },
+          "nextSteps": {
+            "text": "Pwochen etap yo"
+          },
+          "notes": {
+            "text": "Nòt"
+          },
+          "problemAttemptToRespond": {
+            "text": "Ki pwoblèm entèvansyon sa a adrese?"
+          },
+          "quadrantType": {
+            "behavior": "Konduit",
+            "culture": "Kilti",
+            "intention": "Entansyon",
+            "system": "Sistèm",
+            "text": "Kalite kadran"
+          },
+          "resourcesType": {
+            "text": "Kalite resous yo"
+          },
+          "resourcesUsed": {
+            "text": "Resous itilize"
+          },
+          "stoplightIndicator": {
+            "text": "Endikatè Stoplight"
+          },
+          "trainingType": {
+            "text": "Kalite fòmasyon"
           }
         }
       },

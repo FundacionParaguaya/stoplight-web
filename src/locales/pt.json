@@ -1102,6 +1102,34 @@
           },
           "newFollowupDate": {
             "text": "Nova data de acompanhamento"
+          },
+          "nextSteps": {
+            "text": "Próximos passos"
+          },
+          "notes": {
+            "text": "Notas"
+          },
+          "problemAttemptToRespond": {
+            "text": "Qual é o problema ao qual esta intervenção se dirige?"
+          },
+          "quadrantType": {
+            "behavior": "Conduta",
+            "culture": "Cultura",
+            "intention": "Intenção",
+            "system": "Sistema",
+            "text": "Tipo quadrante"
+          },
+          "resourcesType": {
+            "text": "Tipo de recursos"
+          },
+          "resourcesUsed": {
+            "text": "Recursos usados"
+          },
+          "stoplightIndicator": {
+            "text": "Indicador de semáforo"
+          },
+          "trainingType": {
+            "text": "Tipo de treinamento"
           }
         }
       },

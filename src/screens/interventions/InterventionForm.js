@@ -154,7 +154,6 @@ const InterventionForm = ({ user, history }) => {
 
     let mainQuestions = questions.filter(q => q.coreQuestion);
     let itemQuestions = questions.filter(q => !q.coreQuestion);
-    console.log(mainQuestions);
 
     return { mainQuestions, itemQuestions };
   };
