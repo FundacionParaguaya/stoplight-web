@@ -7,18 +7,18 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import { Edit } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
+import SettingsIcon from '@material-ui/icons/DeviceHub';
 import IntervetionIcon from '@material-ui/icons/ListAlt';
+import clsx from 'clsx';
 import { withSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import SettingsIcon from '@material-ui/icons/DeviceHub';
 import { listInterventionsDefinitions } from '../api';
 import interventionBanner from '../assets/reports_banner.png';
 import Container from '../components/Container';
 import withLayout from '../components/withLayout';
-
 import AssignInterventionModal from './interventions/AssignInterventionModal';
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +45,16 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     flexDirection: 'column',
     height: 180
+  },
+  interventionTitle: {
+    color: 'grey',
+    minWidth: 250,
+    maxWidth: 350,
+    overflowWrap: 'break-word',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: 100,
+      maxWidth: 150
+    }
   },
   interventionImage: {
     display: 'block',
@@ -87,12 +97,26 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0.5),
     marginRight: theme.spacing(1),
     width: 'fit-content',
+    height: 'fit-content',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(1)
+    }
+  },
+  actionIconContainers: {
+    display: 'flex',
     height: 'fit-content'
   },
   actionIcon: {
     paddingRight: 0,
     paddingLeft: 10,
     color: 'black'
+  },
+  tagContainer: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      width: '55%'
+    }
   }
 }));
 
@@ -206,11 +230,11 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
         <div key={intervention.id} className={classes.row}>
           <div className={classes.container}>
             <IntervetionIcon className={classes.icon} />
-            <Typography variant="h6" style={{ color: 'grey' }}>
+            <Typography variant="h6" className={classes.interventionTitle}>
               {intervention.title}
             </Typography>
           </div>
-          <div className={classes.container}>
+          <div className={clsx(classes.container, classes.tagContainer)}>
             {Array.isArray(intervention.organizations) &&
               intervention.organizations.slice(0, 5).map(org => {
                 return (
@@ -230,7 +254,7 @@ const Interventions = ({ enqueueSnackbar, closeSnackbar, history, user }) => {
                 </Typography>
               )}
           </div>
-          <div>
+          <div className={classes.actionIconContainers}>
             <Tooltip title={t('views.intervention.assign.title')}>
               <IconButton
                 color="inherit"

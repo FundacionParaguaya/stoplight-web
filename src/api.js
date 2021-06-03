@@ -2276,13 +2276,12 @@ export const deleteMap = (surveyOfflineMap, user) =>
     })
   });
 
-export const listInterventionsQuestions = (user, lang) =>
+export const listInterventionsQuestions = user =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`,
-      'X-locale': normalizeLanguages(lang)
+      Authorization: `Bearer ${user.token}`
     },
     data: JSON.stringify({
       query:
@@ -2506,5 +2505,18 @@ export const interventionDefinitionByFamily = (user, family) =>
       variables: {
         family
       }
+    })
+  });
+
+export const supportedLanguages = (user, language) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query: 'query { supportedLanguages {code, description } }'
     })
   });

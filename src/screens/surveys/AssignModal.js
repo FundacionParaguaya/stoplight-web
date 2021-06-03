@@ -26,7 +26,8 @@ const selectStyle = {
     border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
     boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none',
     scroll: 'auto',
-    maxHeight: 300
+    overflowY: 'auto',
+    maxHeight: 150
   }),
   multiValueLabel: styles => ({
     ...styles,
@@ -148,13 +149,13 @@ const AssignModal = ({
 
   const setInitialValues = () => {
     let surveyHubs = survey.applications.map(application => ({
-      label: application.name,
-      value: application.id
+      label: application.name || application.label,
+      value: application.id || application.value
     }));
     setApplications(surveyHubs);
     let surveyOrgs = survey.organizations.map(organization => ({
-      label: organization.name,
-      value: organization.id
+      label: organization.name || organization.label,
+      value: organization.id || organization.value
     }));
     setOrganizations(surveyOrgs);
   };

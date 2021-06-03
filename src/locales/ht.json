@@ -36,7 +36,8 @@
     "yourStoplight": "Chimen Pwogrè pa w",
     "completeStoplight": "Fen Chime Pwogrè a",
     "publish": "pibliye",
-    "edit": "Edite"
+    "edit": "Edite",
+    "other": "Lòt"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",
@@ -153,7 +154,16 @@
         "cannotUndo": "Ou pa p ka defèt aksyon sa a.",
         "success": "Ankèt sa a efase.",
         "failed": "Ankèt sa a pa kapab efase paske genyen done ki makonnen avè l."
-      }
+      },
+      "create": {
+        "scratch": "Kòmanse nan grate",
+        "existing": "Kòmanse soti nan sondaj ki egziste deja",
+        "title": "Tit",
+        "add": "Kreye Sondaj",
+        "country": "Peyi",
+        "language": "Lang"
+      },
+      "yourSurveys": "Sondaj òganizasyon ou yo"
     },
     "analytics": {
       "title": "Analize",
@@ -415,13 +425,9 @@
       "daysAgo": "$dd jou pase",
       "facilitator": "Fasilitatè",
       "origin": "Orijin",
-      "title": {
-        "SNAPSHOTS": "$familyName te pase yon kesyonè chimen pwogrè",
-        "BASELINE_SURVEY": "$familyName pase yon kesyonè debaz!",
-        "FOLLOWUP_SURVEY": "$familyName tpase yon kesyonè swivi!",
-        "NEW_STOPLIGHT_SOLUTION": "Genyen yon nouvo solisyon",
-        "NEW_STOPLIGHT_PRIORITY": "$familyName genyen yon nouvo priyorite"
-      }
+      "indicator": "Endikatè",
+      "title": "Tit",
+      "uploadedBy": "Uploaded pa"
     },
     "organizationsFilter": {
       "label": "Oganizasyon",
@@ -975,6 +981,7 @@
       "picture": {
         "placeholder": "Ajoute nouvo foto pwofil ou isit la",
         "uploadError": "Ou rive nan limit 10MB! \nTanpri chwazi yon lòt imaj.",
+        "zoom": "Rale:",
         "save": {
           "success": "Successfully updated profile picture",
           "error": "Could not update profile picture"
@@ -1024,7 +1031,108 @@
         "goBack": "Tounen",
         "saveForm": "Sove Fòm",
         "previewWarning": "Sa a se jis yon preview sou ki jan fòm lan pral sanble. \nNenpòt repons ki ranpli yo pap sove.",
-        "indicatorsPlaceholder": "Endikatè sondaj ou an"
+        "indicatorsPlaceholder": "Endikatè sondaj ou an",
+        "validationError": "Kèk kesyon (yo) pa gen opsyon ankò!",
+        "questions": {
+          "interventionType": {
+            "facilitation": "Fasilitasyon",
+            "grupal": "Grupal",
+            "individual": "Endividyèl",
+            "text": "Kalite entèvansyon"
+          },
+          "activity": {
+            "text": "Aktivite"
+          },
+          "activityDetails": {
+            "text": "Detay sou aktivite"
+          },
+          "activityType": {
+            "intervention": "Entèvansyon",
+            "management": "Jesyon",
+            "text": "Kalite Aktivite"
+          },
+          "allies": {
+            "text": "Alye"
+          },
+          "category": {
+            "commercial": "Biznis",
+            "industrial": "Endistriyèl",
+            "services": "Sèvis",
+            "text": "Jaden"
+          },
+          "contactType": {
+            "text": "Kalite kontak"
+          },
+          "conversationType": {
+            "text": "Kalite konvèsasyon"
+          },
+          "coordinatorContact": {
+            "text": "Kontak Koòdonatè"
+          },
+          "directImplementerContact": {
+            "text": "Aplike kontak òganizasyon an"
+          },
+          "generalIntervention": {
+            "text": "Entèvansyon jeneral"
+          },
+          "implementationChallenges": {
+            "text": "Defi lè w ap aplike entèvansyon an"
+          },
+          "interventionDate": {
+            "text": "Dat entèvansyon"
+          },
+          "interventionName": {
+            "text": "Non entèvansyon"
+          },
+          "interventionPeriod": {
+            "text": "Longè entèvansyon"
+          },
+          "interventionPeriodType": {
+            "days": "Jou",
+            "hours": "Orè",
+            "minutes": "Minit",
+            "text": "Kalite longè entèvansyon an"
+          },
+          "managementGoal": {
+            "text": "Objektif jesyon an"
+          },
+          "mentoringType": {
+            "presential": "Prezans ki baze sou",
+            "text": "Kalite konseye",
+            "virtual": "Virtual"
+          },
+          "newFollowupDate": {
+            "text": "Nouvo dat swivi"
+          },
+          "nextSteps": {
+            "text": "Pwochen etap yo"
+          },
+          "notes": {
+            "text": "Nòt"
+          },
+          "problemAttemptToRespond": {
+            "text": "Ki pwoblèm entèvansyon sa a adrese?"
+          },
+          "quadrantType": {
+            "behavior": "Konduit",
+            "culture": "Kilti",
+            "intention": "Entansyon",
+            "system": "Sistèm",
+            "text": "Kalite kadran"
+          },
+          "resourcesType": {
+            "text": "Kalite resous yo"
+          },
+          "resourcesUsed": {
+            "text": "Resous itilize"
+          },
+          "stoplightIndicator": {
+            "text": "Endikatè Stoplight"
+          },
+          "trainingType": {
+            "text": "Kalite fòmasyon"
+          }
+        }
       },
       "assign": {
         "success": "Sove kòrèkteman",
@@ -1043,6 +1151,48 @@
       "addForm": "Add Fòm Entèvansyon",
       "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon",
       "subtitle": "Kreye modèl entèvansyon pou òganizasyon ou yo"
+    },
+    "collectionSelector": {
+      "noOption": "Pa gen koleksyon kite",
+      "loading": "Chaje ...",
+      "label": "Koleksyon"
+    },
+    "support": {
+      "addArticle": "Ajoute yon atik",
+      "allCollections": "Tout koleksyon yo",
+      "collections": {
+        "appDescription": "Atik sipò jeneral konsènan Stoplight mobil app android",
+        "generalDescription": "Kesyon Jeneral sou Stoplight la Povrete",
+        "webDescription": "Atik Jeneral sou lè l sèvi avèk platfòm la Stoplight Povrete"
+      },
+      "countArticles": "atik nan koleksyon sa a",
+      "createdAt": "Kreye nan",
+      "delete": {
+        "confirmText": "Èske ou sèten ou vle efase atik sa a?",
+        "confirmTitle": "Konfime sipresyon",
+        "failed": "Pa t 'kapab efase atik",
+        "success": "Atik efase avèk siksè"
+      },
+      "deleteButton": "Efase",
+      "editButton": "EDITE",
+      "failRequest": "Gen yon erè nan demann lan",
+      "form": {
+        "active": "Pibliye atik sa a",
+        "content": "Kòmanse ekri kontni ou ...",
+        "save": {
+          "failed": "Pa t 'kapab sove atik la",
+          "success": "Atik sove avèk siksè"
+        },
+        "subtitle": "Ajoute yon deskripsyon pou atik ou an",
+        "title": "Tit Atik",
+        "userNotAllowed": "Operasyon pa pèmèt"
+      },
+      "headerTitle": "Atik Sipò pou Ekip Platfòm Stoplight Poverty",
+      "metaTitle": "Sant Sipò Povrete Stoplight",
+      "noArticles": "Pa gen atik",
+      "search": "Rechèch pou atik ...",
+      "team": "Ekip Stoplight",
+      "writeBy": "Ekri pa"
     }
   },
   "reports": {

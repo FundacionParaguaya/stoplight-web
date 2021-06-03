@@ -147,7 +147,7 @@ export const buildValidationSchemaForForm = questions => {
           });
         }
       );
-    } else if (question.answerType === 'date') {
+    } else if (question.answerType === 'date' && question.coreQuestion) {
       schema[question.codeName] = dateValidation
         .typeError(fieldIsRequired)
         .transform((_value, originalValue) => {
@@ -240,11 +240,12 @@ const AddInterventionModal = ({
       let answer;
 
       if (otherQuestion) {
+        //If it has custom in it's key then it's just an auxiliar questions and should be ignore
       } else if (Array.isArray(values[key])) {
         answer = {
           codeName: key,
-          multipleValue: values[key].map(v => v.value),
-          multipleText: values[key].map(v => v.label)
+          multipleValue: values[key].map(v => v.value || v),
+          multipleText: values[key].map(v => v.label || v)
         };
       } else {
         answer = {
@@ -265,8 +266,9 @@ const AddInterventionModal = ({
 
     let finalAnswers = [];
     keys.forEach(key => {
+      const otherQuestion = !!key.match(/^custom/g);
       let answer = answers[key];
-      finalAnswers.push(answer);
+      !otherQuestion && finalAnswers.push(answer);
     });
 
     let params = '';
@@ -349,9 +351,13 @@ const AddInterventionModal = ({
                       <DatePickerWithFormik
                         label={question.shortName}
                         name={question.codeName}
-                        maxDate={new Date()}
-                        disableFuture
-                        required
+                        required={question.required}
+                        maxDate={
+                          question.coreQuestion
+                            ? new Date()
+                            : new Date('2100-01-01')
+                        }
+                        disableFuture={question.coreQuestion}
                         minDate={moment('1910-01-01')}
                         onChange={e => {
                           !!e &&
@@ -456,6 +462,9 @@ const AddInterventionModal = ({
                         key={question.codeName}
                         name={question.codeName}
                         required={question.required}
+                        onChange={e =>
+                          setFieldValue(question.codeName, e.target.value)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
@@ -493,6 +502,9 @@ const AddInterventionModal = ({
                         rawOptions={question.options || []}
                         name={question.codeName}
                         required={question.required}
+                        onChange={values =>
+                          setFieldValue(question.codeName, values)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
@@ -550,6 +562,10 @@ const AddInterventionModal = ({
                     name={question.codeName}
                     required={question.required}
                     multiline
+                    inputProps={{ maxLength: 275 }}
+                    onChange={e =>
+                      setFieldValue(question.codeName, e.target.value)
+                    }
                   />
                 );
               })}
