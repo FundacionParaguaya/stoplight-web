@@ -36,10 +36,18 @@ const OtherOptionInput = ({
   } else {
     const values = formik.values[dep] || [];
 
-    if (!values.find(v => v === otherOption) && !!get(formik.values, target)) {
+    if (
+      Array.isArray(values) &&
+      !values.find(v => v === otherOption) &&
+      !!get(formik.values, target)
+    ) {
       cleanUp();
     } else {
-      if (otherOption && !!values.find(v => v === otherOption)) {
+      if (
+        Array.isArray(values) &&
+        otherOption &&
+        !!values.find(v => v === otherOption)
+      ) {
         return children(
           otherOption,
           values.find(v => v === otherOption)

@@ -2,8 +2,10 @@ import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit } from '@material-ui/icons';
+import moment from 'moment';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { getDateFormatByLocale } from '../../../utils/date-utils';
 
 const useStyles = makeStyles(theme => ({
   row: {
@@ -40,7 +42,11 @@ const InterventionDetailsView = ({
   handleDelete
 }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
+  const dateFormat = getDateFormatByLocale(language);
 
   return (
     <Grid container>
@@ -72,11 +78,21 @@ const InterventionDetailsView = ({
                       ))}
                     </ul>
                   )}
-                  {!!intervention[question.codeName] && (
-                    <Typography variant="subtitle2">
-                      {intervention[question.codeName]}
-                    </Typography>
-                  )}
+                  {!!intervention[question.codeName] &&
+                    question.answerType !== 'date' && (
+                      <Typography variant="subtitle2">
+                        {intervention[question.codeName]}
+                      </Typography>
+                    )}
+                  {!!intervention[question.codeName] &&
+                    question.answerType === 'date' && (
+                      <Typography variant="subtitle2">
+                        {`${moment
+                          .unix(intervention[question.codeName])
+                          .utc(true)
+                          .format(dateFormat)}`}
+                      </Typography>
+                    )}
                 </div>
                 {index % 2 === 0 && <div className={classes.divider} />}
               </Grid>
