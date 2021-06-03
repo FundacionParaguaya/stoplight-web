@@ -154,6 +154,7 @@ const SurveyCreateModal = ({
             elementsWithConditionsOnThem
           });
           setLoading(false);
+          // history.push('/survey-builder/info');
         })
         .catch(() => {
           enqueueSnackbar(t('views.familyProfile.surveyError'), {
@@ -163,7 +164,8 @@ const SurveyCreateModal = ({
         });
     } else {
       updateSurvey(data);
-      console.log(history);
+      history.push('/survey-builder/info');
+      // console.log(history);
     }
   };
 

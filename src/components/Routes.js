@@ -18,6 +18,7 @@ const SurveyList = lazy(() => import('../screens/Surveys'));
 const Organizations = lazy(() => import('../screens/Organizations'));
 const Hubs = lazy(() => import('../screens/Hubs'));
 const Lifemap = lazy(() => import('../screens/Lifemap'));
+const Builder = lazy(() => import('../screens/Builder'));
 const FamilyProfile = lazy(() => import('../screens/FamilyProfile'));
 const LifemapDetails = lazy(() => import('../screens/LifemapDetails'));
 const SelectIndicatorPriority = lazy(() =>
@@ -229,6 +230,9 @@ const Routes = ({ user }) => {
           )}
           {checkAccess(user, 'surveys') && (
             <Route exact path="/" component={Surveys} />
+          )}
+          {checkAccess(user, 'survey-builder') && (
+            <Route path="/survey-builder" component={Builder} />
           )}
           {checkAccess(user, 'interventions') && (
             <Route exact path="/interventions" component={Interventions} />

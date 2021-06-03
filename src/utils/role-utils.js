@@ -22,7 +22,8 @@ export const ROLES = {
     { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
     { item: 'offline-maps', platform: ACCESS },
-    { item: 'support', platform: ACCESS }
+    { item: 'support', platform: ACCESS },
+    { item: 'survey-builder', platform: ACCESS }
   ],
   ROLE_HUB_ADMIN: [
     // Hub admin user
@@ -54,7 +55,8 @@ export const ROLES = {
     { item: 'solutions', platform: ACCESS },
     { item: 'editFamilyImages', platform: ACCESS },
     { item: 'offline-maps', platform: ACCESS },
-    { item: 'support', platform: ACCESS }
+    { item: 'support', platform: ACCESS },
+    { item: 'survey-builder', platform: ACCESS }
   ],
   ROLE_APP_ADMIN: [
     // Org admin user
