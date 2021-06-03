@@ -527,6 +527,12 @@
         "confirmSubtitle": "Èske ou sèten ou vle deplase fanmi sa yo nan yon lòt òganizasyon?",
         "success": "Fanmi imigre avèk siksè",
         "error": "Fanmi yo pa t 'kapab imigre"
+      },
+      "mergeFamily": {
+        "success": "Fanmi avèk siksè fusionné",
+        "error": "Pa t 'kapab rantre fanmi yo",
+        "subtitle": "Èske ou sèten ou vle rantre de fanmi sa yo:",
+        "confirm": "Konfime rantre"
       }
     },
     "organizationFilter": {
