@@ -57,7 +57,7 @@ const InterventionDetailsView = ({
                 xs={12}
                 className={classes.row}
               >
-                <div>
+                <div style={{ overflow: 'auto' }}>
                   <Typography variant="subtitle1">
                     {`${question.shortName}: `}
                   </Typography>
@@ -65,7 +65,10 @@ const InterventionDetailsView = ({
                     <ul>
                       {intervention[question.codeName].map((answer, index) => (
                         <Grid key={index}>
-                          <Typography variant="subtitle2">
+                          <Typography
+                            variant="subtitle2"
+                            style={{ wordBreak: 'break-all' }}
+                          >
                             <li>{answer}</li>
                           </Typography>
                         </Grid>
@@ -73,7 +76,10 @@ const InterventionDetailsView = ({
                     </ul>
                   )}
                   {!!intervention[question.codeName] && (
-                    <Typography variant="subtitle2">
+                    <Typography
+                      variant="subtitle2"
+                      style={{ wordBreak: 'break-all' }}
+                    >
                       {intervention[question.codeName]}
                     </Typography>
                   )}
@@ -82,7 +88,7 @@ const InterventionDetailsView = ({
               </Grid>
             );
           })}
-      <Grid item lg={2} md={2} sm={12} xs={12} container justify="flex-end">
+      <Grid item lg={12} md={12} sm={12} xs={12} container justify="flex-end">
         {showAdministrationOptions && (
           <div className={classes.adminOptionsContainer}>
             <Tooltip
