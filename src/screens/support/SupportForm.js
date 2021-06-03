@@ -162,7 +162,7 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
         });
       })
       .catch(() => {
-        enqueueSnackbar(t('views.support.form.failed'), {
+        enqueueSnackbar(t('views.support.form.save.failed'), {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>

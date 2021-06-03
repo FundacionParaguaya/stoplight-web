@@ -36,7 +36,8 @@
     "yourStoplight": "Tu Semáforo",
     "completeStoplight": "Completar Semáforo",
     "publish": "Publicar",
-    "edit": "Editar"
+    "edit": "Editar",
+    "other": "Otro"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -122,7 +123,6 @@
       "allCollections": "Todas las colecciones",
       "noArticles": "Sin articulos",
       "addArticle": "Agregar un articulo",
-      "article": "Articulo",
       "editButton": "EDITAR",
       "deleteButton": "BORRAR",
       "failRequest": "Hubo un error en la consulta",
@@ -145,7 +145,6 @@
       "delete": {
         "confirmTitle": "Confirmar borrado",
         "confirmText": "¿Está seguro de que desea eliminar este artículo?",
-        "cannotUndo": "¡No puede deshacer esta acción!",
         "success": "Artículo eliminado correctamente ",
         "failed": "No se pudo borrar el artículo"
       }
@@ -176,7 +175,7 @@
       "specifyOther": "Especifica otro",
       "assignSurvey": {
         "hubs": "Hubs",
-        "organizations": "Organizaciones",
+        "orgs": "Organizaciones",
         "assignSurvey": "Asignar encuesta",
         "surveyAssigned": "Guardado correctamente",
         "surveyAssignError": "Ocurrió un error al asignar la encuesta. Vuelva a Intentar"
@@ -247,7 +246,6 @@
       "name": "Nombre",
       "peopleLivingInThisHousehold": "Número de personas viviendo en esta casa. ",
       "household": "familia",
-      "households": "familias",
       "onlyPerson": "1 - Soy la única persona",
       "preferNotToSay": "Prefiero no responder",
       "familyMember": "Miembro",
@@ -958,7 +956,6 @@
       "goForm": "Registrarse",
       "email": "Correo electrónico",
       "newPassword": "Nueva Contraseña",
-      "newPasswordRequired": "Nueva contraseña es requerida",
       "newPasswordConfirm": "Confirmar nueva contraseña",
       "newPasswordConfirmFailed": "La confirmación de nueva contraseña ha fallado",
       "resetPassword": "Cambiar Contraseña",
@@ -1078,7 +1075,107 @@
         "goBack": "Volver",
         "saveForm": "Guardar formulario",
         "previewWarning": "Esto es solo una vista previa de cómo se verá el formulario. \nLas respuestas completadas no se guardarán.",
-        "indicatorsPlaceholder": "El indicador de su encuesta"
+        "indicatorsPlaceholder": "El indicador de su encuesta",
+        "questions": {
+          "interventionType": {
+            "facilitation": "Facilitación",
+            "grupal": "Grupal",
+            "individual": "Individual",
+            "text": "Tipo de intervención"
+          },
+          "activity": {
+            "text": "Actividad"
+          },
+          "activityDetails": {
+            "text": "Detalles de la actividad"
+          },
+          "activityType": {
+            "intervention": "Intervención",
+            "management": "Gestión",
+            "text": "Tipo de actividad"
+          },
+          "allies": {
+            "text": "Aliados"
+          },
+          "category": {
+            "commercial": "Negocios",
+            "industrial": "Industrial",
+            "services": "Servicios",
+            "text": "Campo"
+          },
+          "contactType": {
+            "text": "Tipo de Contacto"
+          },
+          "conversationType": {
+            "text": "Tipo de conversación"
+          },
+          "coordinatorContact": {
+            "text": "Contacto del coordinador"
+          },
+          "directImplementerContact": {
+            "text": "Contacto de la organización implementadora"
+          },
+          "generalIntervention": {
+            "text": "Intervención general"
+          },
+          "implementationChallenges": {
+            "text": "Desafíos a la hora de implementar la intervención"
+          },
+          "interventionDate": {
+            "text": "Fecha de intervención"
+          },
+          "interventionName": {
+            "text": "Nombre de la intervención"
+          },
+          "interventionPeriod": {
+            "text": "Duración de la intervención"
+          },
+          "interventionPeriodType": {
+            "days": "Dias",
+            "hours": "Horas",
+            "minutes": "Minutos",
+            "text": "Tipo de duración de la intervención"
+          },
+          "managementGoal": {
+            "text": "Objetivo de la gestión"
+          },
+          "mentoringType": {
+            "presential": "Basado en presencia",
+            "text": "Tipo de mentoría",
+            "virtual": "Virtual"
+          },
+          "newFollowupDate": {
+            "text": "Nueva fecha de seguimiento"
+          },
+          "nextSteps": {
+            "text": "Siguientes pasos"
+          },
+          "notes": {
+            "text": "Notas"
+          },
+          "problemAttemptToRespond": {
+            "text": "Cuál es el problema al que está dirigido esta intervención?"
+          },
+          "quadrantType": {
+            "behavior": "Conducta",
+            "culture": "Cultura",
+            "intention": "Intención",
+            "system": "Sistema",
+            "text": "Tipo de cuadrante"
+          },
+          "resourcesType": {
+            "text": "Tipo de recursos"
+          },
+          "resourcesUsed": {
+            "text": "Recursos utilizados"
+          },
+          "stoplightIndicator": {
+            "text": "Indicador del Semáforo"
+          },
+          "trainingType": {
+            "text": "Tipo de entrenamiento"
+          }
+        }
       },
       "assign": {
         "success": "Guardado correctamente",
@@ -1097,6 +1194,11 @@
       "addForm": "Agregar formulario de intervención",
       "loadingError": "Se produjo un error al cargar la definición de intervenciones",
       "subtitle": "Cree modelos de intervenciones para sus organizaciones"
+    },
+    "collectionSelector": {
+      "label": "Colección",
+      "noOption": "No queda ninguna colección",
+      "loading": "Cargando..."
     }
   },
   "reports": {
