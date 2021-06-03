@@ -159,7 +159,9 @@ export const theme = {
         color: '#6A6A6A',
         paddingRight: 24,
         '&$shrink': {
-          transform: 'translate(12px, -85%) scale(1)',
+          height: '100%',
+          paddingTop: 10,
+          transform: 'translate(12px, -40%) scale(1)',
           color: '#6A6A6A'
         }
       },
