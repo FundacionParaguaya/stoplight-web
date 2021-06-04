@@ -63,7 +63,7 @@ const InterventionDetailsView = ({
                 xs={12}
                 className={classes.row}
               >
-                <div style={{ overflow: 'auto' }}>
+                <div>
                   <Typography variant="subtitle1">
                     {`${question.shortName}: `}
                   </Typography>
