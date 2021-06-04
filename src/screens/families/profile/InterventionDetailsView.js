@@ -73,7 +73,7 @@ const InterventionDetailsView = ({
                         <Grid key={index}>
                           <Typography
                             variant="subtitle2"
-                            style={{ wordBreak: 'break-all' }}
+                            style={{ wordBreak: 'break-word' }}
                           >
                             <li>{answer}</li>
                           </Typography>
