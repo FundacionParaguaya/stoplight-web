@@ -8,7 +8,8 @@ import { theme } from '../../theme';
 import NavIcons from '../../components/NavIcons';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
-import LeaveModal from '../../components/LeaveModal';
+import withLayout from '../../components/withLayout';
+import { withRouter } from 'react-router-dom';
 
 const titleStyles = muiTheme => ({
   title: {
@@ -87,51 +88,12 @@ export class Info extends Component {
     showLeaveModal: false
   };
 
-  handleContinue = () => {};
-
-  handleDisagree = () => {};
-
-  leaveSurvey = () => {};
-
   render() {
     const { classes, t } = this.props;
 
     return (
       <div>
-        {true ? (
-          <div>
-            <NavIcons />
-            <TitleContainer title={t('views.termsConditions')} />
-          </div>
-        ) : (
-          <div className={classes.titleContainer}>
-            <NavIcons />
-            <TitleContainer title={t('views.privacyPolicy')} />
-          </div>
-        )}
-        <div className={classes.buttonContainerTerms}>
-          <Button variant="text" onClick={this.handleDisagree}>
-            {t('general.disagree')}
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={this.handleContinue}
-            test-id="agree"
-          >
-            {t('general.agree')}
-          </Button>
-        </div>
-        <BottomSpacer />
-        <LeaveModal
-          title="Warning!"
-          subtitle={t('views.modals.yourLifemapIsNotComplete')}
-          cancelButtonText={t('general.no')}
-          continueButtonText={t('general.yes')}
-          onClose={() => this.setState({ showLeaveModal: false })}
-          open={this.state.showLeaveModal}
-          leaveAction={this.leaveSurvey}
-        />
+        <TitleContainer title={t('views.privacyPolicy')} />
       </div>
     );
   }
@@ -185,6 +147,6 @@ const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
   currentSurvey,
   currentDraft
 });
-export default withStyles(styles)(
-  connect(mapStateToProps)(withTranslation()(Info))
-);
+// export default withLayout(withTranslation(Info));
+
+export default withRouter(withTranslation()(withLayout(Info)));
