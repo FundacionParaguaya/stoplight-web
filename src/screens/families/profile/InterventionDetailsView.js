@@ -85,7 +85,7 @@ const InterventionDetailsView = ({
                     question.answerType !== 'date' && (
                       <Typography
                         variant="subtitle2"
-                        style={{ wordBreak: 'break-all' }}
+                        style={{ wordBreak: 'break-word' }}
                       >
                         {intervention[question.codeName]}
                       </Typography>
@@ -94,7 +94,7 @@ const InterventionDetailsView = ({
                     question.answerType === 'date' && (
                       <Typography
                         variant="subtitle2"
-                        style={{ wordBreak: 'break-all' }}
+                        style={{ wordBreak: 'break-word' }}
                       >
                         {`${moment
                           .unix(intervention[question.codeName])
