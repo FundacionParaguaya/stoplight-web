@@ -278,6 +278,7 @@ const FamilyInterventions = ({
 
   const handleAddRelated = interventionId => {
     setParentIntervention(interventionId);
+    setSelectedIntervention({});
     setOpenForm(true);
   };
 
