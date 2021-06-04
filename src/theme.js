@@ -160,8 +160,8 @@ export const theme = {
         paddingRight: 24,
         '&$shrink': {
           height: '100%',
-          paddingTop: 10,
-          transform: 'translate(12px, -40%) scale(1)',
+          paddingTop: '4%',
+          transform: '',
           color: '#6A6A6A'
         }
       },
