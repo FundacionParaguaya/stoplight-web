@@ -110,14 +110,14 @@ export const buildInitialValuesForForm = (questions, draft) => {
         initialValue[question.codeName] === 'true';
     }
 
-    if (
-      question.answerType === 'multiselect' &&
-      Array.isArray(draftQuestion.multipleValue)
-    ) {
-      let values = draftQuestion.multipleValue.map((v, index) => ({
-        value: v,
-        label: draftQuestion.multipleText[index]
-      }));
+    if (question.answerType === 'multiselect') {
+      let values = [];
+      if (Array.isArray(draftQuestion.multipleValue)) {
+        values = draftQuestion.multipleValue.map((v, index) => ({
+          value: v,
+          label: draftQuestion.multipleText[index]
+        }));
+      }
       initialValue[question.codeName] = values;
     }
 
