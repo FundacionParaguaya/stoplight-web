@@ -584,6 +584,7 @@
       "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa.",
       "interventions": {
         "relatedInterventions": "Intervenções Relacionadas",
+        "addRelated": "Adicionar intervenção relacionada",
         "noInterventions": "Esta família não tem intervenções",
         "form": {
           "addTitle": "Adicionar intervenção",
@@ -1149,7 +1150,6 @@
       "list": "Lista de intervenções",
       "add": "Adicionar intervenção",
       "addForm": "Adicionar formulário de intervenção",
-      "addRelated": "Adicionar intervenção relacionada",
       "loadingError": "Ocorreu um erro ao carregar a definição das intervenções",
       "subtitle": "Crie modelos de intervenções para suas organizações"
     },

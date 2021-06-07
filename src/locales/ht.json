@@ -584,6 +584,7 @@
       "surveyError": "Vèsyon sondaj la pa disponib. \nPou pran yon sondaj swivi, mande aksè a vèsyon sondaj la.",
       "interventions": {
         "relatedInterventions": "Entèvansyon ki gen rapò",
+        "addRelated": "Ajoute entèvansyon ki gen rapò",
         "noInterventions": "Fanmi sa a pa gen okenn entèvansyon",
         "form": {
           "addTitle": "Add Entèvansyon",
@@ -1149,7 +1150,6 @@
       "list": "Lis entèvansyon",
       "add": "Add Entèvansyon",
       "addForm": "Add Fòm Entèvansyon",
-      "addRelated": "Ajoute entèvansyon ki gen rapò",
       "loadingError": "Yon erè ki te fèt lè li te chaje entèvansyon definisyon",
       "subtitle": "Kreye modèl entèvansyon pou òganizasyon ou yo"
     },

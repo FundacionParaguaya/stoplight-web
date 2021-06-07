@@ -622,6 +622,7 @@
       "surveyError": "La versión de la encuesta no está disponible. Para tomar una encuesta de seguimiento, solicite el acceso a la versión de encuesta.",
       "interventions": {
         "relatedInterventions": "Intervenciones relacionadas",
+        "addRelated": "Agregar intervención relacionada",
         "noInterventions": "Esta familia no tiene intervenciones",
         "form": {
           "addTitle": "Agregar intervención",
@@ -1187,7 +1188,6 @@
       "list": "Lista de intervenciones",
       "add": "Agregar intervención",
       "addForm": "Agregar formulario de intervención",
-      "addRelated": "Agregar intervención relacionada",
       "loadingError": "Se produjo un error al cargar la definición de intervenciones",
       "subtitle": "Cree modelos de intervenciones para sus organizaciones"
     },

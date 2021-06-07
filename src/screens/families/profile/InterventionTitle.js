@@ -255,7 +255,7 @@ const InterventionTitle = ({
 
         <div className={classes.container}>
           {showAdministrationOptions && !related && (
-            <Tooltip title={t('views.intervention.addRelated')}>
+            <Tooltip title={t('views.familyProfile.interventions.addRelated')}>
               <IconButton
                 style={{ width: 'fit-content' }}
                 component="span"

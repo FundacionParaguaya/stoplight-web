@@ -637,6 +637,7 @@
           "previewTitle": "Preview of your intervention form"
         },
         "relatedInterventions": "Related Interventions",
+        "addRelated": "Add related intervention",
         "noInterventions": "This family has no Interventions"
       }
     },
@@ -1192,7 +1193,6 @@
       "loadingError": "An error occurred loading  interventions definitions",
       "add": "Add Intervention",
       "addForm": "Add Intervention form",
-      "addRelated": "Add related intervention",
       "subtitle": "Create Interventions models for your organizations",
       "list": "List of Interventions"
     }
