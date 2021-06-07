@@ -147,7 +147,8 @@
         "confirmText": "Are you sure you want to delete this article?",
         "success": "Article deleted successfully",
         "failed": "Could not delete article"
-      }
+      },
+      "noPublish": "Not published"
     },
     "families": "Families",
     "createLifemap": "Create a Life Map",

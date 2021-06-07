@@ -1,9 +1,11 @@
+import { Chip, Paper, Typography } from '@material-ui/core';
+
+import Grid from '@material-ui/core/Grid';
 import React from 'react';
+import { getDateFormatByLocale } from '../../utils/date-utils';
+import moment from 'moment';
 import { withStyles } from '@material-ui/styles';
 import { withTranslation } from 'react-i18next';
-import { Paper, Typography } from '@material-ui/core';
-import moment from 'moment';
-import { getDateFormatByLocale } from '../../utils/date-utils';
 
 const styles = theme => ({
   sectionCard: {
@@ -58,19 +60,34 @@ const ArticleList = ({
               <Typography variant="h6" className={classes.cardSubtitle}>
                 {article.description}
               </Typography>
-              <Typography variant="subtitle2" className={classes.cardBodyText}>
-                <span className={classes.cardBodySubText}>
-                  {t('views.support.createdAt')}
-                </span>{' '}
-                {moment(article.createdAt).format(dateFormat)}
-              </Typography>
+              <Grid container spacing={1}>
+                <Grid item md={4} sm={4} xs={12}>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.cardBodyText}
+                  >
+                    <span className={classes.cardBodySubText}>
+                      {t('views.support.createdAt')}
+                    </span>{' '}
+                    {moment(article.createdAt).format(dateFormat)}
+                  </Typography>
 
-              <Typography variant="subtitle2" className={classes.cardBodyText}>
-                <span className={classes.cardBodySubText}>
-                  {t('views.support.writeBy')}
-                </span>{' '}
-                {t('views.support.team')}
-              </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.cardBodyText}
+                  >
+                    <span className={classes.cardBodySubText}>
+                      {t('views.support.writeBy')}
+                    </span>{' '}
+                    {t('views.support.team')}
+                  </Typography>
+                </Grid>
+                <Grid item md={8} sm={8} xs={12}>
+                  {!article.published && (
+                    <Chip label={t('views.support.noPublish')} disabled />
+                  )}
+                </Grid>
+              </Grid>
             </div>
           </Paper>
         );

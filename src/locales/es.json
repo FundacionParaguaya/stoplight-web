@@ -147,7 +147,8 @@
         "confirmText": "¿Está seguro de que desea eliminar este artículo?",
         "success": "Artículo eliminado correctamente ",
         "failed": "No se pudo borrar el artículo"
-      }
+      },
+      "noPublish": "No publicado"
     },
     "families": "Familias",
     "createLifemap": "Crear un Mapa de Vida",

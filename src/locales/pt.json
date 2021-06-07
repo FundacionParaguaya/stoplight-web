@@ -1192,7 +1192,8 @@
         "content": "Comece a escrever seu conteúdo ..."
       },
       "deleteButton": "EXCLUIR",
-      "editButton": "EDITAR"
+      "editButton": "EDITAR",
+      "noPublish": "Não publicado"
     }
   },
   "reports": {
