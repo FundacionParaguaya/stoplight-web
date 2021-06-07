@@ -140,7 +140,8 @@ const InterventionTitle = ({
   setSelectedIntervention,
   setSelectedThread,
   handleAddRelated,
-  related
+  related,
+  showAdministrationOptions
 }) => {
   const classes = useStyles();
   const { t, i18n: language } = useTranslation();
@@ -253,8 +254,8 @@ const InterventionTitle = ({
         </div>
 
         <div className={classes.container}>
-          {!related && (
-            <Tooltip title={'Add related intervention'}>
+          {showAdministrationOptions && !related && (
+            <Tooltip title={t('views.intervention.addRelated')}>
               <IconButton
                 style={{ width: 'fit-content' }}
                 component="span"
