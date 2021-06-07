@@ -185,7 +185,6 @@ const DetailsOverview = ({
   family,
   index,
   snapshot,
-  firstParticipant,
   user,
   reloadPage,
   survey
@@ -196,6 +195,7 @@ const DetailsOverview = ({
   } = useTranslation();
   const classes = useStyles();
   const dateFormat = getDateFormatByLocale(language);
+  const [firstParticipant, setFirstParticipant] = useState({});
   const [stoplight, setStoplight] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [priorities, setPriorities] = useState([]);
@@ -216,6 +216,10 @@ const DetailsOverview = ({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   useEffect(() => {
+    let primaryParticipant = (snapshot.familyData.familyMembersList || []).find(
+      element => element.firstParticipant
+    );
+    setFirstParticipant(primaryParticipant);
     setAchievements(snapshot.achievements ? snapshot.achievements : []);
     setPriorities(snapshot.priorities ? snapshot.priorities : []);
     let stoplight = snapshot.stoplight.map(snapshotStoplight => {
