@@ -4,149 +4,164 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { Typography, Button } from '@material-ui/core';
 import checkboxWithDots from '../../assets/checkbox_with_dots.png';
-import { theme } from '../../theme';
-import NavIcons from '../../components/NavIcons';
 import Container from '../../components/Container';
-import BottomSpacer from '../../components/BottomSpacer';
 import withLayout from '../../components/withLayout';
 import { withRouter } from 'react-router-dom';
+import Editor from '../../components/Editor';
+import Grid from '@material-ui/core/Grid';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Divider from '../../components/Divider';
+import OrganizationsFilter from '../../components/OrganizationsFilter';
 
-const titleStyles = muiTheme => ({
-  title: {
-    position: 'relative',
-    top: '55%',
-    zIndex: 1,
-    [muiTheme.breakpoints.down('sm')]: {
-      width: '180px',
-      fontSize: 24,
-      lineHeight: 1.4,
-      left: '10%'
-    }
+const styles = theme => ({
+  mainContainer: {
+    backgroundColor: theme.palette.background.paper
   },
-  termsCheckboxImage: {
-    margin: 'auto',
-    position: 'absolute',
-    right: 0,
-    bottom: '-10%',
-    width: '35%',
-    [muiTheme.breakpoints.down('md')]: {
-      transform: 'translateY(50%)',
-      width: '33%',
-      right: '5%',
-      zIndex: 0
-    },
-    [muiTheme.breakpoints.down('xs')]: {
-      top: '45%',
-      left: '58%',
-      transform: 'translateY(50%)',
-      width: '35%',
-      zIndex: 0
-    },
-    [muiTheme.breakpoints.down('xl')]: {
-      bottom: '50%',
-      transform: 'translateY(50%)',
-      width: '35%',
-      zIndex: 0
-    }
+  title: {
+    fontSize: 24,
+    lineHeight: 1.4,
+    paddingTop: 30
+  },
+  label: {
+    paddingBottom: 10
   },
   container: {
-    position: 'absolute',
-    top: 0,
-    height: '100%',
-    left: '50%',
-    transform: 'translateX(-50%)'
-  }
-});
-
-const TitleContainer = withStyles(titleStyles)(props => {
-  const { classes } = props;
-
-  return (
-    <Container className={classes.container}>
-      <Typography className={classes.title} variant="h4">
-        {props.title}
-      </Typography>
-      <img
-        src={checkboxWithDots}
-        className={classes.termsCheckboxImage}
-        alt=""
-      />
-    </Container>
-  );
-});
-
-export class Info extends Component {
-  state = {
-    title: 'titulo',
-    // this.props.location.pathname === '/lifemap/terms'
-    //   ? this.props.currentSurvey.termsConditions.title
-    //   : this.props.currentSurvey.privacyPolicy.title,
-    text: 'texto',
-    // this.props.location.pathname === '/lifemap/terms'
-    //   ? this.props.currentSurvey.termsConditions.text
-    //   : this.props.currentSurvey.privacyPolicy.text,
-    showLeaveModal: false
-  };
-
-  render() {
-    const { classes, t } = this.props;
-
-    return (
-      <div>
-        <TitleContainer title={t('views.privacyPolicy')} />
-      </div>
-    );
-  }
-}
-const styles = muiTheme => ({
-  titleContainer: {
-    height: 220,
-    backgroundColor: theme.palette.background.paper,
-    position: 'relative',
-    overflow: 'hidden'
-  },
-  buttonTermsDisagree: {
-    '&:hover': {
-      backgroundColor: 'transparent'
-    },
-    textTransform: 'capitalize',
-    textDecoration: 'underline'
-  },
-  buttonTermsAgree: {
-    width: 260,
-    margin: '0 10px'
-  },
-  buttonContainerTerms: {
     display: 'flex',
-    justifyContent: 'center'
-  },
-  lowerTitle: {
-    fontSize: 28,
-    textAlign: 'center',
-    marginBottom: 15
-  },
-  contentContainer: {
-    display: 'flex',
-    alignItems: 'flex-start',
     flexDirection: 'column',
-    textAlign: 'justify',
-    paddingTop: theme.shape.padding,
-    maxWidth: 660
+    backgroundColor: theme.palette.background.paper
   },
-  list: {
+  infoContainer: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor: theme.palette.background.default,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 20,
+    marginBottom: 20
   },
-  divider1: {
-    width: '100%',
-    height: 20
+  inforContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: theme.palette.background.default,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 20,
+    marginBottom: 20
+  },
+  outlinedInputContainer: {
+    marginBottom: 20
+  },
+  outlinedInput: {},
+  divider: {
+    height: '100%',
+    width: 2,
+    backgroundColor: theme.palette.background.paper
   }
 });
 
-const mapStateToProps = ({ currentSurvey, currentDraft }) => ({
-  currentSurvey,
-  currentDraft
-});
-// export default withLayout(withTranslation(Info));
+const Info = ({ classes, t, user }) => {
+  return (
+    <div className={classes.mainContainer}>
+      <Container className={classes.container}>
+        <Typography className={classes.title} variant="h4">
+          {'Surveys Info'}
+        </Typography>
+        <Grid container style={{ width: 'auto' }} spacing={2}>
+          <div className={classes.inforContainer} style={{ width: '100%' }}>
+            <Grid item md={6} sm={6} xs={6}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography className={classes.label} variant="subtitle1">
+                  {'Title'}
+                </Typography>
+                <Typography className={classes.label} variant="subtitle1">
+                  {'Country'}
+                </Typography>
+                <Typography className={classes.label} variant="subtitle1">
+                  {'Language'}
+                </Typography>
+              </div>
+            </Grid>
+            <Grid item md={6} sm={6} xs={6}>
+              <div className={classes.divider} />
+            </Grid>
+          </div>
+        </Grid>
+        <Typography className={classes.title} variant="h4">
+          {'Privacy Policy'}
+        </Typography>
+        <div className={classes.infoContainer}>
+          <Typography className={classes.label} variant="subtitle1">
+            {'Subtitle'}
+          </Typography>
+          <OutlinedInput
+            classes={{
+              root: classes.outlinedInputContainer,
+              input: classes.outlinedInput
+            }}
+            placeholder={t('views.familyNotes.NotePlaceHolder')}
+            multiline={true}
+            value={'subtitulo'}
+            inputProps={{ maxLength: '10000' }}
+            onChange={() => {}}
+            margin="dense"
+          />
+          <Typography className={classes.label} variant="subtitle1">
+            {'Text'}
+          </Typography>
+          <OutlinedInput
+            classes={{
+              root: classes.outlinedInputContainer,
+              input: classes.outlinedInput
+            }}
+            placeholder={t('views.familyNotes.NotePlaceHolder')}
+            multiline={true}
+            value={'texto'}
+            inputProps={{ maxLength: '10000' }}
+            onChange={() => {}}
+            margin="dense"
+          />
+        </div>
+        <Typography className={classes.title} variant="h4">
+          {'Terms And Conditions'}
+        </Typography>
+        <div className={classes.infoContainer}>
+          <Typography className={classes.label} variant="subtitle1">
+            {'Subtitle'}
+          </Typography>
+          <OutlinedInput
+            classes={{
+              root: classes.outlinedInputContainer,
+              input: classes.outlinedInput
+            }}
+            placeholder={t('views.familyNotes.NotePlaceHolder')}
+            multiline={true}
+            value={'subtitulo'}
+            inputProps={{ maxLength: '10000' }}
+            onChange={() => {}}
+          />
+          <Typography className={classes.label} variant="subtitle1">
+            {'Text'}
+          </Typography>
+          <OutlinedInput
+            classes={{
+              root: classes.outlinedInputContainer,
+              input: classes.outlinedInput
+            }}
+            placeholder={t('views.familyNotes.NotePlaceHolder')}
+            multiline={true}
+            value={'texto'}
+            inputProps={{ maxLength: '10000' }}
+            onChange={() => {}}
+            margin="dense"
+          />
+        </div>
+      </Container>
+    </div>
+  );
+};
 
-export default withRouter(withTranslation()(withLayout(Info)));
+export default withStyles(styles)(
+  withRouter(withTranslation()(withLayout(Info)))
+);
