@@ -529,7 +529,8 @@
         "success": "Fanmi avèk siksè fusionné",
         "error": "Pa t 'kapab rantre fanmi yo",
         "subtitle": "Èske ou sèten ou vle rantre de fanmi sa yo:",
-        "confirm": "Konfime rantre"
+        "confirm": "Konfime rantre",
+        "merge": "Rantre"
       }
     },
     "organizationFilter": {

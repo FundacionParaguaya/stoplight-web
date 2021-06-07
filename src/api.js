@@ -2520,3 +2520,19 @@ export const supportedLanguages = (user, language) =>
       query: 'query { supportedLanguages {code, description } }'
     })
   });
+
+export const unifyFamilies = (families, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'mutation unifyFamilies($families: [Long]) { unifyFamilies (families: $families) { successful } }',
+      variables: {
+        families
+      }
+    })
+  });

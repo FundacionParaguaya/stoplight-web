@@ -15,6 +15,7 @@ import { updateSurvey } from '../redux/actions';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import DeleteFamilyModal from './DeleteFamilyModal';
 import { ROLES_NAMES } from '../utils/role-utils';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 
 //background-color: rgba(0, 0, 0, 0.04);}
 
@@ -193,6 +194,7 @@ const FamilyTable = ({
   numberOfRows,
   redirectToFamily,
   toggleMoveModal,
+  toggleMergeModal,
   handleMoveSelected
 }) => {
   const {
@@ -245,13 +247,15 @@ const FamilyTable = ({
     return type;
   };
 
-  const showMoveAction = ({ role }, selectedElements) => {
-    return (
-      (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_HUB_ADMIN) &&
-      selectedElements &&
-      selectedElements.length > 0
-    );
-  };
+  const showMoveAction = ({ role }, selectedElements) =>
+    (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_HUB_ADMIN) &&
+    selectedElements &&
+    selectedElements.length > 0;
+
+  const showMergeAction = ({ role }, selectedElements) =>
+    role === ROLES_NAMES.ROLE_ROOT &&
+    Array.isArray(selectedElements) &&
+    selectedElements.length === 2;
 
   const showDeleteAction = ({ role }) => {
     return (
@@ -279,17 +283,30 @@ const FamilyTable = ({
         <Typography className={classes.labelRows} variant="subtitle1">
           {numberOfRows} {t('views.familyList.rows')}
         </Typography>
-        {showMoveAction(user, selectedElements) && (
-          <Tooltip
-            title={t('views.familyList.moveFamily.move')}
-            aria-label="name"
-          >
-            <SwapHorizIcon
-              className={classes.icon}
-              onClick={() => toggleMoveModal(selectedElements)}
-            />
-          </Tooltip>
-        )}
+        <div>
+          {showMergeAction(user, selectedElements) && (
+            <Tooltip
+              title={t('views.familyList.mergeFamily.merge')}
+              aria-label="name"
+            >
+              <CompareArrowsIcon
+                className={classes.icon}
+                onClick={() => toggleMergeModal(selectedElements)}
+              />
+            </Tooltip>
+          )}
+          {showMoveAction(user, selectedElements) && (
+            <Tooltip
+              title={t('views.familyList.moveFamily.move')}
+              aria-label="name"
+            >
+              <SwapHorizIcon
+                className={classes.icon}
+                onClick={() => toggleMoveModal(selectedElements)}
+              />
+            </Tooltip>
+          )}
+        </div>
       </div>
       <MaterialTable
         tableRef={tableRef}

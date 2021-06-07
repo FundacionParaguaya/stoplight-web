@@ -529,7 +529,8 @@
         "success": "Famílias unidas com sucesso",
         "error": "Não foi possível mesclar famílias",
         "subtitle": "Tem certeza de que deseja mesclar essas duas famílias:",
-        "confirm": "Confirme a fusão"
+        "confirm": "Confirme a fusão",
+        "merge": "Unir"
       }
     },
     "organizationFilter": {
