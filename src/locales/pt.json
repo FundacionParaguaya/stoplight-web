@@ -584,6 +584,7 @@
       "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa.",
       "interventions": {
         "relatedInterventions": "Intervenções Relacionadas",
+        "addRelated": "Adicionar intervenção relacionada",
         "noInterventions": "Esta família não tem intervenções",
         "form": {
           "addTitle": "Adicionar intervenção",

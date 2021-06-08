@@ -637,6 +637,7 @@
           "previewTitle": "Preview of your intervention form"
         },
         "relatedInterventions": "Related Interventions",
+        "addRelated": "Add related intervention",
         "noInterventions": "This family has no Interventions"
       }
     },

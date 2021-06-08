@@ -622,6 +622,7 @@
       "surveyError": "La versión de la encuesta no está disponible. Para tomar una encuesta de seguimiento, solicite el acceso a la versión de encuesta.",
       "interventions": {
         "relatedInterventions": "Intervenciones relacionadas",
+        "addRelated": "Agregar intervención relacionada",
         "noInterventions": "Esta familia no tiene intervenciones",
         "form": {
           "addTitle": "Agregar intervención",
