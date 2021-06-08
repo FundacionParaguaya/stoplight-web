@@ -339,7 +339,7 @@ const Surveys = ({ user }) => {
           </div>
           <div>
             {(showManagementFeatures(user) || showOrganizations(user)) && (
-              <Tooltip title={t('views.intervention.assign.title')}>
+              <Tooltip title={t('views.survey.assignSurvey.assignSurvey')}>
                 <IconButton
                   color="inherit"
                   onClick={() => {
