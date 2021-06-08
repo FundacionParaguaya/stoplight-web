@@ -18,7 +18,7 @@ const MergeFamilyModal = ({
 
   const onClose = submitted => {
     submitted && afterSubmit();
-    toggleModal();
+    toggleModal(selectedFamilies);
   };
 
   const handleMergeFamilies = () => {
