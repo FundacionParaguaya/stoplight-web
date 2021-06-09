@@ -6,15 +6,18 @@ import {
   Typography
 } from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
 import BackupIcon from '@material-ui/icons/Backup';
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
+import AvatarEditor from 'react-avatar-editor';
 import { savePictures, updateFamilyProfilePicture } from '../../../api';
 import { MB_SIZE } from '../../../utils/files-utils';
+import { theme } from '../../../theme';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -33,7 +36,12 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 800,
     overflowY: 'auto',
     position: 'relative',
-    outline: 'none'
+    outline: 'none',
+    [theme.breakpoints.down('xs')]: {
+      height: 'auto',
+      maxHeight: 600,
+      padding: '60px 35px'
+    }
   },
   loadingContainer: {
     display: 'flex',
@@ -75,14 +83,57 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-evenly',
     marginTop: 30
   },
-  img: {
+  avatarEditor: {
     position: 'absolute',
-    maxWidth: 152,
-    top: '20%',
-    left: '40%',
-    backgroundColor: theme.palette.background.default
+    top: '10%',
+    [theme.breakpoints.down('xs')]: {
+      top: '7%'
+    }
+  },
+  zoomSelectorContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 30
+  },
+  zoomLabel: {
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    paddingRight: 25
   }
 }));
+
+const ZoomSlider = withStyles({
+  root: {
+    color: theme.palette.primary.main,
+    height: 8
+  },
+  thumb: {
+    height: 24,
+    width: 24,
+    backgroundColor: '#fff',
+    border: '2px solid currentColor',
+    marginTop: -8,
+    marginLeft: -12,
+    '&:focus, &:hover, &$active': {
+      boxShadow: 'inherit'
+    }
+  },
+  active: {},
+  valueLabel: {
+    left: 'calc(-50% + 4px)'
+  },
+  track: {
+    height: 8,
+    borderRadius: 4
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4
+  }
+})(Slider);
 
 const maxSize = 10 * MB_SIZE;
 
@@ -102,6 +153,9 @@ const UploadImageModal = ({
   const [filesSize, setFilesSize] = useState(0);
   const [fileError, setFileError] = useState(false);
   const [typeError, setTypeError] = useState(false);
+
+  const [scale, setScale] = useState(1.0);
+  let editorRef = useRef();
 
   const showErrorMessage = message =>
     enqueueSnackbar(message, {
@@ -130,7 +184,7 @@ const UploadImageModal = ({
   const onDropAccepted = acceptedFiles => {
     setTypeError(false);
     let dropSize = 0;
-    let accepted = acceptedFiles.map(file => {
+    const accepted = acceptedFiles.map(file => {
       dropSize += file.size;
       return file.type.includes('image/')
         ? Object.assign(file, {
@@ -138,22 +192,30 @@ const UploadImageModal = ({
           })
         : file;
     });
-    let newFiles = [...files, ...accepted];
+    const newFiles = [...files, ...accepted];
     setFiles(newFiles);
     setFilesSize(filesSize + dropSize);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    maxSize: maxSize,
+    maxSize,
     multiple: false,
     onDropAccepted,
     onDropRejected: () => setTypeError(true),
     accept: ['.png', '.jpg', '.jpeg', '.heic', '.heif']
   });
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    const imgURL = editorRef.getImage().toDataURL('image/jpeg', 1.0);
+
+    const blob = await (await fetch(imgURL)).blob();
+    const file = new File([blob], 'fileName.jpg', {
+      type: 'image/jpeg',
+      lastModified: new Date()
+    });
+
     setLoading(true);
-    savePictures(user, files)
+    savePictures(user, [file])
       .then(response => {
         updateFamilyProfilePicture(familyId, response.data[0].url, user)
           .then(() => {
@@ -170,6 +232,10 @@ const UploadImageModal = ({
         showErrorMessage(t('views.myProfile.picture.save.error'));
         setLoading(false);
       });
+  };
+
+  const handleScaleChange = (event, newValue) => {
+    setScale(newValue);
   };
 
   return (
@@ -194,15 +260,27 @@ const UploadImageModal = ({
         >
           <input {...getInputProps()} />
           <BackupIcon className={classes.icon} />
-          <Typography style={{ paddingTop: 15 }} variant="subtitle2">
+          <Typography
+            style={{ paddingTop: 15, textAlign: 'center' }}
+            variant="subtitle2"
+          >
             {t('views.myProfile.picture.placeholder')}
           </Typography>
         </div>
         {files.length > 0 && files[0] && (
-          <img
-            src={files[0].preview}
-            alt="Family Profile"
-            className={classes.img}
+          <AvatarEditor
+            ref={ref => {
+              editorRef = ref;
+            }}
+            image={files[0].preview}
+            width={152}
+            height={152}
+            border={76}
+            color={[255, 255, 255, 0.6]} // RGBA s
+            scale={scale}
+            borderRadius={125}
+            rotate={0}
+            className={classes.avatarEditor}
           />
         )}
         {fileError && (
@@ -217,23 +295,41 @@ const UploadImageModal = ({
         )}
 
         {loading && <CircularProgress className={classes.loadingContainer} />}
-        <div className={classes.buttonContainerForm}>
-          <Button
-            variant="outlined"
-            onClick={() => toggleModal()}
-            disabled={loading}
-          >
-            {t('general.cancel')}
-          </Button>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            disabled={loading || fileError}
-            onClick={() => onSubmit()}
-          >
-            {t('general.save')}
-          </Button>
+        <div className={classes.zoomSelectorContainer}>
+          {!loading && files.length > 0 && files[0] && (
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <Typography className={classes.zoomLabel} variant="subtitle2">
+                {t('views.myProfile.picture.zoom')}
+              </Typography>
+              <div style={{ width: 150 }}>
+                <ZoomSlider
+                  onChange={handleScaleChange}
+                  min={1}
+                  max={3}
+                  step={0.01}
+                  defaultValue={1}
+                />
+              </div>
+            </div>
+          )}
+          <div className={classes.buttonContainerForm}>
+            <Button
+              variant="outlined"
+              onClick={() => toggleModal()}
+              disabled={loading}
+            >
+              {t('general.cancel')}
+            </Button>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              disabled={loading || fileError}
+              onClick={() => onSubmit()}
+            >
+              {t('general.save')}
+            </Button>
+          </div>
         </div>
       </div>
     </Modal>

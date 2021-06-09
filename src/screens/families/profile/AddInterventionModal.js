@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import Alert from '@material-ui/lab/Alert';
 import { Form, Formik } from 'formik';
 import * as moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -33,26 +34,36 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 0,
     backgroundColor: theme.palette.background.default,
     outline: 'none',
-    width: '80vw',
-    maxWidth: 1450,
+    width: '45vw',
+    maxWidth: 600,
     maxHeight: '85vh',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
       padding: '1em',
+      paddingTop: '2.5rem',
       maxHeight: '100vh',
       width: '100vw'
     },
     overflowY: 'auto'
   },
   title: {
-    marginTop: 20,
-    paddingBottom: 5
+    marginBottom: '2rem',
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: 0
+    }
   },
   closeIcon: {
     position: 'absolute',
     top: 5,
     right: 5,
     marginBottom: 15
+  },
+  alert: {
+    marginTop: 10,
+    '& .MuiAlert-message': {
+      marginLeft: theme.spacing(1),
+      fontSize: 15
+    }
   },
   buttonContainerForm: {
     display: 'flex',
@@ -99,14 +110,14 @@ export const buildInitialValuesForForm = (questions, draft) => {
         initialValue[question.codeName] === 'true';
     }
 
-    if (
-      question.answerType === 'multiselect' &&
-      Array.isArray(draftQuestion.multipleValue)
-    ) {
-      let values = draftQuestion.multipleValue.map((v, index) => ({
-        value: v,
-        label: draftQuestion.multipleText[index]
-      }));
+    if (question.answerType === 'multiselect') {
+      let values = [];
+      if (Array.isArray(draftQuestion.multipleValue)) {
+        values = draftQuestion.multipleValue.map((v, index) => ({
+          value: v,
+          label: draftQuestion.multipleText[index]
+        }));
+      }
       initialValue[question.codeName] = values;
     }
 
@@ -119,6 +130,9 @@ export const buildInitialValuesForForm = (questions, draft) => {
 export const buildValidationSchemaForForm = questions => {
   const schema = {};
   let validation = Yup.string();
+  let dateValidation = Yup.date();
+  const validDate = 'validation.validDate';
+  const fieldIsRequired = 'validation.fieldIsRequired';
 
   questions.forEach(question => {
     if (question.codeName === 'stoplightIndicator') {
@@ -133,6 +147,27 @@ export const buildValidationSchemaForForm = questions => {
           });
         }
       );
+    } else if (question.answerType === 'date' && question.coreQuestion) {
+      schema[question.codeName] = dateValidation
+        .typeError(fieldIsRequired)
+        .transform((_value, originalValue) => {
+          return originalValue
+            ? moment.unix(originalValue).toDate()
+            : new Date('');
+        })
+        .required(validDate)
+        .test({
+          name: 'test-date-range',
+          test: function(date) {
+            if (Date.parse(date) / 1000 > moment().unix()) {
+              return this.createError({
+                message: validDate,
+                path: question.codeName
+              });
+            }
+            return true;
+          }
+        });
     } else if (
       question.required &&
       question.codeName !== 'generalIntervention'
@@ -145,8 +180,6 @@ export const buildValidationSchemaForForm = questions => {
   return validationSchema;
 };
 
-const fieldIsRequired = 'validation.fieldIsRequired';
-
 const AddInterventionModal = ({
   open,
   onClose,
@@ -157,7 +190,8 @@ const AddInterventionModal = ({
   intervention,
   showErrorMessage,
   showSuccessMessage,
-  user
+  user,
+  preview
 }) => {
   const classes = useStyles();
   const isEdit = !!interventionEdit && !!interventionEdit.id;
@@ -170,9 +204,21 @@ const AddInterventionModal = ({
 
   useEffect(() => {
     if (definition) {
-      setQuestions(definition.questions);
+      let questions = definition.questions;
+      if (indicators && Array.isArray(indicators)) {
+        let indicatorsOptions =
+          indicators.map(ind => ({ value: ind.key, text: ind.shortName })) ||
+          [];
+        questions = questions.map(question => {
+          if (question.codeName === 'stoplightIndicator') {
+            question.options = indicatorsOptions;
+          }
+          return question;
+        });
+      }
+      setQuestions(questions);
     }
-  }, [definition]);
+  }, [definition, indicators]);
 
   useEffect(() => {
     isEdit
@@ -184,26 +230,6 @@ const AddInterventionModal = ({
       : setDraft([]);
   }, [interventionEdit]);
 
-  useEffect(
-    () => {
-      if (indicators && Array.isArray(indicators)) {
-        let indicatorsOptions =
-          indicators.map(ind => ({ value: ind.key, text: ind.shortName })) ||
-          [];
-        let q = Array.from(questions);
-        q = q.map(question => {
-          if (question.codeName === 'stoplightIndicator') {
-            question.options = indicatorsOptions;
-          }
-          return question;
-        });
-        setQuestions(q);
-      }
-    },
-    [JSON.stringify(indicators)],
-    snapshotId
-  );
-
   const onSubmit = values => {
     let keys = Object.keys(values);
 
@@ -214,11 +240,12 @@ const AddInterventionModal = ({
       let answer;
 
       if (otherQuestion) {
+        //If it has custom in it's key then it's just an auxiliar questions and should be ignore
       } else if (Array.isArray(values[key])) {
         answer = {
           codeName: key,
-          multipleValue: values[key].map(v => v.value),
-          multipleText: values[key].map(v => v.label)
+          multipleValue: values[key].map(v => v.value || v),
+          multipleText: values[key].map(v => v.label || v)
         };
       } else {
         answer = {
@@ -234,18 +261,14 @@ const AddInterventionModal = ({
         };
       }
 
-      if (
-        !otherQuestion &&
-        (answer.value || answer.multipleValue || answer.value === false)
-      ) {
-        answers[key] = answer;
-      }
+      answers[key] = answer;
     });
 
     let finalAnswers = [];
     keys.forEach(key => {
+      const otherQuestion = !!key.match(/^custom/g);
       let answer = answers[key];
-      answer && finalAnswers.push(answer);
+      !otherQuestion && finalAnswers.push(answer);
     });
 
     let params = '';
@@ -295,11 +318,13 @@ const AddInterventionModal = ({
           variant="h5"
           test-id="title-bar"
           align="center"
-          style={{ marginBottom: '2rem' }}
+          className={classes.title}
         >
-          {isEdit
-            ? t('views.familyProfile.interventions.form.editTitle')
-            : t('views.familyProfile.interventions.form.addTitle')}
+          {isEdit && t('views.familyProfile.interventions.form.editTitle')}
+          {preview && t('views.familyProfile.interventions.form.previewTitle')}
+          {!isEdit &&
+            !preview &&
+            t('views.familyProfile.interventions.form.addTitle')}
         </Typography>
         <IconButton
           className={classes.closeIcon}
@@ -326,9 +351,13 @@ const AddInterventionModal = ({
                       <DatePickerWithFormik
                         label={question.shortName}
                         name={question.codeName}
-                        maxDate={new Date()}
-                        disableFuture
-                        required
+                        required={question.required}
+                        maxDate={
+                          question.coreQuestion
+                            ? new Date()
+                            : new Date('2100-01-01')
+                        }
+                        disableFuture={question.coreQuestion}
                         minDate={moment('1910-01-01')}
                         onChange={e => {
                           !!e &&
@@ -433,6 +462,9 @@ const AddInterventionModal = ({
                         key={question.codeName}
                         name={question.codeName}
                         required={question.required}
+                        onChange={e =>
+                          setFieldValue(question.codeName, e.target.value)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
@@ -470,6 +502,9 @@ const AddInterventionModal = ({
                         rawOptions={question.options || []}
                         name={question.codeName}
                         required={question.required}
+                        onChange={values =>
+                          setFieldValue(question.codeName, values)
+                        }
                       />
                       <OtherOptionInput
                         key={`custom${capitalize(question.codeName)}`}
@@ -527,12 +562,22 @@ const AddInterventionModal = ({
                     name={question.codeName}
                     required={question.required}
                     multiline
+                    inputProps={{ maxLength: 275 }}
+                    onChange={e =>
+                      setFieldValue(question.codeName, e.target.value)
+                    }
                   />
                 );
               })}
 
               {loading && (
                 <CircularProgress className={classes.loadingContainer} />
+              )}
+
+              {preview && (
+                <Alert severity="warning" className={classes.alert}>
+                  {t('views.intervention.definition.previewWarning')}
+                </Alert>
               )}
               <div className={classes.buttonContainerForm}>
                 <Button
@@ -541,17 +586,34 @@ const AddInterventionModal = ({
                   onClick={() => onClose(false)}
                   disabled={loading}
                 >
-                  {t('general.cancel')}
+                  {preview
+                    ? t('views.intervention.definition.goBack')
+                    : t('general.cancel')}
                 </Button>
 
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  disabled={loading}
-                >
-                  {t('general.save')}
-                </Button>
+                {preview && (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => {
+                      setLoading(true);
+                      onClose(true, definition);
+                    }}
+                  >
+                    {t('views.intervention.definition.saveForm')}
+                  </Button>
+                )}
+
+                {!preview && (
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    disabled={loading}
+                  >
+                    {t('general.save')}
+                  </Button>
+                )}
               </div>
             </Form>
           )}

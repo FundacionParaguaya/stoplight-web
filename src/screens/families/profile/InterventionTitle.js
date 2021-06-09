@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     position: 'relative',
-    display: 'flex'
+    display: 'flex',
+    paddingTop: 5
   },
   intervetionNameContainer: {
     display: 'flex',
@@ -139,7 +140,8 @@ const InterventionTitle = ({
   setSelectedIntervention,
   setSelectedThread,
   handleAddRelated,
-  related
+  related,
+  showAdministrationOptions
 }) => {
   const classes = useStyles();
   const { t, i18n: language } = useTranslation();
@@ -252,8 +254,8 @@ const InterventionTitle = ({
         </div>
 
         <div className={classes.container}>
-          {!related && (
-            <Tooltip title={'Add related intervention'}>
+          {showAdministrationOptions && !related && (
+            <Tooltip title={t('views.familyProfile.interventions.addRelated')}>
               <IconButton
                 style={{ width: 'fit-content' }}
                 component="span"

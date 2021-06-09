@@ -1,30 +1,32 @@
-import { withStyles } from '@material-ui/styles';
-import { connect } from 'react-redux';
-import React, { useState, useEffect } from 'react';
-import { withRouter, useParams } from 'react-router';
+import * as _ from 'lodash';
+
 import {
   CircularProgress,
-  Typography,
+  Grid,
+  Icon,
   IconButton,
   InputBase,
-  Icon,
-  Grid
+  Typography
 } from '@material-ui/core';
-import withLayout from '../../components/withLayout';
-import Container from '../../components/Container';
-import { useTranslation } from 'react-i18next';
-import SearchIcon from '@material-ui/icons/Search';
-import Paper from '@material-ui/core/Paper';
+import React, { useEffect, useState } from 'react';
 import { getArticles, getCollectionTypes } from '../../api';
-import * as _ from 'lodash';
-import NavigationBar from '../../components/NavigationBar';
+import { useParams, withRouter } from 'react-router';
+
 import ArticleList from './ArticlesList';
+import CloseIcon from '@material-ui/icons/Close';
+import Container from '../../components/Container';
+import NavigationBar from '../../components/NavigationBar';
+import Paper from '@material-ui/core/Paper';
+import { ROLES_NAMES } from '../../utils/role-utils';
+import SearchIcon from '@material-ui/icons/Search';
+import SupportLangPicker from './SupportLangPicker';
+import { connect } from 'react-redux';
 import { getLanguageByCode } from '../../utils/lang-utils';
 import i18n from '../../i18n';
-import SupportLangPicker from './SupportLangPicker';
+import { useTranslation } from 'react-i18next';
+import withLayout from '../../components/withLayout';
 import { withSnackbar } from 'notistack';
-import CloseIcon from '@material-ui/icons/Close';
-import { ROLES_NAMES } from '../../utils/role-utils';
+import { withStyles } from '@material-ui/styles';
 
 const styles = theme => ({
   mainContainer: {
@@ -56,7 +58,8 @@ const styles = theme => ({
   },
   headerMetaText: {
     color: theme.palette.background.default,
-    fontWeight: 600
+    fontWeight: 600,
+    cursor: 'pointer'
   },
   paperRoot: {
     flex: 1,
@@ -169,6 +172,10 @@ const CollectionView = ({
     history.push(`/article/${articleId}`);
   };
 
+  const handleGoSupport = () => {
+    history.push('/support');
+  };
+
   const onChangeSearchFilter = e => {
     if (e.key === 'Enter') {
       history.push({
@@ -209,14 +216,14 @@ const CollectionView = ({
               ...selectedCollection,
               icon,
               subtitle: label,
-              countArticles: data.length
+              countArticles: data.filter(el => el.published).length
             };
             setCollection(updatedCollection);
             setArticles(visibleArticles);
           })
           .catch(e => {
             console.log(e);
-            enqueueSnackbar(t('views.support.failedRequest'), {
+            enqueueSnackbar(t('views.support.failRequest'), {
               variant: 'error',
               action: key => (
                 <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -229,7 +236,7 @@ const CollectionView = ({
       })
       .catch(e => {
         console.log(e);
-        enqueueSnackbar(t('views.support.failedRequest'), {
+        enqueueSnackbar(t('views.support.failRequest'), {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -243,7 +250,7 @@ const CollectionView = ({
 
   const navigationOptions = [
     { label: t('views.support.allCollections'), link: '/support' },
-    { label: slug, link: `/collection/${slug}` }
+    { label: collection.description, link: `/collection/${slug}` }
   ];
 
   return (
@@ -257,7 +264,11 @@ const CollectionView = ({
         <Container variant="stretch">
           <div className={classes.content}>
             <div className={classes.headerMetaWrapper}>
-              <Typography variant="h6" className={classes.headerMetaText}>
+              <Typography
+                onClick={handleGoSupport}
+                variant="h6"
+                className={classes.headerMetaText}
+              >
                 {t('views.support.metaTitle')}
               </Typography>
               <SupportLangPicker
@@ -286,9 +297,11 @@ const CollectionView = ({
           </div>
         </Container>
       </div>
+
       <div className={classes.bodyContainer}>
         <div className={classes.container}>
           <div className={classes.sectionContainer}>
+            <NavigationBar options={navigationOptions} />
             <div className={classes.sectionHeader}>
               <Grid alignItems="center" container spacing={0}>
                 <Grid item className={classes.iconContainer}>
@@ -317,7 +330,7 @@ const CollectionView = ({
                 </Grid>
               </Grid>
             </div>
-            <NavigationBar options={navigationOptions} />
+
             <ArticleList
               articles={articles}
               handleGoArticle={handleGoArticle}

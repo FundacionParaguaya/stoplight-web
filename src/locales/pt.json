@@ -36,7 +36,8 @@
     "yourStoplight": "Seu Semáforo",
     "completeStoplight": "Completar Semáforo",
     "publish": "Publicar",
-    "edit": "Editar"
+    "edit": "Editar",
+    "other": "Outro"
   },
   "validation": {
     "fieldIsRequired": "Este campo é obrigatório",
@@ -57,7 +58,7 @@
     "march": "Março",
     "april": "Abril",
     "may": "Maio",
-    "jume": "Junho",
+    "june": "Junho",
     "july": "Julho",
     "august": "Agosto",
     "september": "Setembro",
@@ -137,10 +138,10 @@
       "specifyOther": "Especifique outro",
       "assignSurvey": {
         "hubs": "Hubs",
-        "organizations": "Organizações",
+        "orgs": "Organizações",
         "assignSurvey": "Atribuir pesquisa",
         "surveyAssigned": "Registado correctamente",
-        "errorSaving": "Ocorreu um erro ao atribuir a pesquisa. Por favor, tente novamente."
+        "surveyAssignError": "Ocorreu um erro ao atribuir a pesquisa. Tente novamente"
       },
       "filter": {
         "search": "Busque",
@@ -153,7 +154,16 @@
         "cannotUndo": "Você não pode desfazer esta ação!",
         "success": "A pesquisa foi excluída",
         "failed": "Não foi possível excluir a pesquisa porque tem dados associados"
-      }
+      },
+      "create": {
+        "scratch": "Começar do zero",
+        "existing": "Comece com uma pesquisa existente",
+        "title": "Título",
+        "add": "Criar pesquisa",
+        "country": "País",
+        "language": "Língua"
+      },
+      "yourSurveys": "Pesquisas de sua organização"
     },
     "analytics": {
       "title": "Analíticas",
@@ -186,7 +196,7 @@
       "selectGender": "Selecione gênero",
       "documentType": "Tipo de documento",
       "documentNumber": "Número de documento",
-      "selectACoumtry": "Celecione um país",
+      "selectACountry": "Celecione um país",
       "email": "E-mail",
       "phoneCode": "Código de teléfono",
       "phone": "Telefone",
@@ -199,12 +209,11 @@
       "name": "Nome",
       "peopleLivingInThisHousehold": "Número de pesssoas vivendo nesta casa. ",
       "household": "Família",
-      "households": "Famílias",
       "onlyPerson": "1 - Sou a única pessoa",
       "preferNotToSay": "Prefiro não responder",
       "familyMember": "Membro da família",
       "participant": "Participante",
-      "coumtry": "País de residência",
+      "country": "País de residência",
       "postcode": "Código postal",
       "streetOrHouseDescription": "Descrição da casa ou rua",
       "gpsAccurate": "GPS: Preciso até %n m",
@@ -214,7 +223,7 @@
       "giveDetailInTheFormBelow": "¡Como alternativa, forneça o máximo de detalhes possível sobre a localização no seguinte formulário!",
       "searchByStreetOrPostalCode": "Busque por rua ou código postal",
       "gettingYourLocation": "Obtendo sua localização...",
-      "mapumavailavleOffline": "Infelizmente, não podemos carregar o mapa porque você está offline.",
+      "mapUnavailavleOffline": "Infelizmente, não podemos carregar o mapa porque você está offline.",
       "weHaveLocation": "No entanto, conseguimos obter a localização do seu dispositivo.",
       "neitherMapNorLocation": "Infelizmente, não podemos carregar o mapa ou obter a localização do seu dispositivo.",
       "describeLocation": "Você poderia descrever sua localização com a maior precisão possível abaixo?",
@@ -248,8 +257,8 @@
       "whatDidItTakeToAchieveThis": "O que você fez para conseguir?",
       "great": "Fantástico!",
       "youHaveCompletedTheLifemap": "Você completou o seu Mapa de Vida",
-      "youmeedToAddPriotity": "Necessita adicionar uma prioridade",
-      "youmeedToAddPriorities": "Necessita adicionar %n prioridades",
+      "youNeedToAddPriotity": "Necessita adicionar uma prioridade",
+      "youNeedToAddPriorities": "Necessita adicionar %n prioridades",
       "beforeTheLifeMapIsCompleted": "Antes que complete o Mapa de Vida....",
       "green": "Verde",
       "yellow": "Amarelo",
@@ -272,12 +281,12 @@
     },
     "logout": {
       "logout": "Fechar sessão",
-      "youHaveumsynchedData": "Há dados sem sincronizar",
+      "youHaveUnsynchedData": "Há dados sem sincronizar",
       "thisDataWillBeLost": "Esses dados se perderam",
       "weWillMissYou": "Vamos sentir sua falta!",
       "comeBackSoon": "¡Volte em breve!",
       "looseYourData": "Perderá dados sem sincronizar.",
-      "cannotumdo": "Não é possível desfazer.",
+      "cannotUndo": "Não é possível desfazer.",
       "areYouSureYouWantToLogOut": "Tem certeza que gostaria de fechar a sessão?"
     },
     "sync": {
@@ -356,7 +365,8 @@
         "cannotUndo": "Você não pode desfazer esta ação!",
         "success": "A pesquisa foi excluída",
         "failed": "Não foi possível excluir a pesquisa"
-      }
+      },
+      "downloadError": "Erro ao tentar baixar seu mapa de vida"
     },
     "send": {
       "title": "Envie o seu Mapa de Vida",
@@ -574,6 +584,7 @@
       "surveyError": "A versão da pesquisa não está disponível. \nPara fazer uma pesquisa de acompanhamento, solicite acesso à versão da pesquisa.",
       "interventions": {
         "relatedInterventions": "Intervenções Relacionadas",
+        "addRelated": "Adicionar intervenção relacionada",
         "noInterventions": "Esta família não tem intervenções",
         "form": {
           "addTitle": "Adicionar intervenção",
@@ -582,7 +593,8 @@
           "save": {
             "error": "Não foi possível salvar a intervenção",
             "success": "Intervenção salva."
-          }
+          },
+          "previewTitle": "Antevisão do seu formulário de intervenção"
         }
       }
     },
@@ -687,7 +699,6 @@
       "search": "Procurar",
       "searchOrganization": "pelo nome",
       "projectsList": "Lista de proyectos",
-      "email": "Email para enviar Lifemap",
       "delete": {
         "confirmTitle": "Confirmar exclusão",
         "confirmText": "Tem certeza de que deseja excluir esta organização?",
@@ -903,7 +914,6 @@
       "goForm": "Registrar-se",
       "email": "E-mail",
       "newPassword": "Nova senha",
-      "newPasswordRequired": "Nova senha é obrigatória",
       "newPasswordConfirm": "Confirmar nova senha",
       "newPasswordConfirmFailed": "A confirmação da nova senha falhou",
       "resetPassword": "Trocar senha",
@@ -972,6 +982,7 @@
       "picture": {
         "placeholder": "Adicione sua nova foto de perfil aqui",
         "uploadError": "Você atingiu o limite de 10 MB! \nSelecione outra imagem.",
+        "zoom": "Ampliação:",
         "save": {
           "success": "Imagem do perfil atualizada com sucesso",
           "error": "Não foi possível atualizar a foto do perfil"
@@ -1016,7 +1027,113 @@
           "success": "Definição de intervenção salva",
           "error": "Não foi possível salvar a definição de intervenção"
         },
-        "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados."
+        "warning": "Importante: quando você edita um formulário de intervenção em uso, as intervenções anteriores podem ter campos em branco quando os usuários visualizam os resultados.",
+        "preview": "Formulário de visualização",
+        "goBack": "Volte",
+        "saveForm": "Salvar formulário",
+        "previewWarning": "Esta é apenas uma prévia de como será a aparência do formulário. \nTodas as respostas preenchidas não serão salvas.",
+        "indicatorsPlaceholder": "Indicador de sua pesquisa",
+        "validationError": "Algumas perguntas ainda não têm opções!",
+        "questions": {
+          "interventionType": {
+            "facilitation": "Facilitação",
+            "grupal": "Grupal",
+            "individual": "Individual",
+            "text": "Tipo de intervenção"
+          },
+          "activity": {
+            "text": "Atividade"
+          },
+          "activityDetails": {
+            "text": "Detalhes de atividade"
+          },
+          "activityType": {
+            "intervention": "Intervenção",
+            "management": "Gestão",
+            "text": "Tipo de atividade"
+          },
+          "allies": {
+            "text": "Aliados"
+          },
+          "category": {
+            "commercial": "O negócio",
+            "industrial": "Industrial",
+            "services": "Serviços",
+            "text": "Campo"
+          },
+          "contactType": {
+            "text": "Tipo de Contato"
+          },
+          "conversationType": {
+            "text": "Tipo de conversa"
+          },
+          "coordinatorContact": {
+            "text": "Contato do coordenador"
+          },
+          "directImplementerContact": {
+            "text": "Contato da organização implementadora"
+          },
+          "generalIntervention": {
+            "text": "Intervenção geral"
+          },
+          "implementationChallenges": {
+            "text": "Desafios na implementação da intervenção"
+          },
+          "interventionDate": {
+            "text": "Data de intervenção"
+          },
+          "interventionName": {
+            "text": "Nome da intervenção"
+          },
+          "interventionPeriod": {
+            "text": "Duração da intervenção"
+          },
+          "interventionPeriodType": {
+            "days": "Dias",
+            "hours": "Horas",
+            "minutes": "Minutos",
+            "text": "Tipo de duração da intervenção"
+          },
+          "managementGoal": {
+            "text": "Objetivo da gestão"
+          },
+          "mentoringType": {
+            "presential": "Baseado em presença",
+            "text": "Tipo de mentoria",
+            "virtual": "Virtual"
+          },
+          "newFollowupDate": {
+            "text": "Nova data de acompanhamento"
+          },
+          "nextSteps": {
+            "text": "Próximos passos"
+          },
+          "notes": {
+            "text": "Notas"
+          },
+          "problemAttemptToRespond": {
+            "text": "Qual é o problema ao qual esta intervenção se dirige?"
+          },
+          "quadrantType": {
+            "behavior": "Conduta",
+            "culture": "Cultura",
+            "intention": "Intenção",
+            "system": "Sistema",
+            "text": "Tipo quadrante"
+          },
+          "resourcesType": {
+            "text": "Tipo de recursos"
+          },
+          "resourcesUsed": {
+            "text": "Recursos usados"
+          },
+          "stoplightIndicator": {
+            "text": "Indicador de semáforo"
+          },
+          "trainingType": {
+            "text": "Tipo de treinamento"
+          }
+        }
       },
       "assign": {
         "success": "Salvo corretamente",
@@ -1032,8 +1149,52 @@
       },
       "list": "Lista de intervenções",
       "add": "Adicionar intervenção",
+      "addForm": "Adicionar formulário de intervenção",
       "loadingError": "Ocorreu um erro ao carregar a definição das intervenções",
       "subtitle": "Crie modelos de intervenções para suas organizações"
+    },
+    "collectionSelector": {
+      "noOption": "Nenhuma coleção restante",
+      "loading": "Carregando...",
+      "label": "Coleção"
+    },
+    "support": {
+      "collections": {
+        "generalDescription": "Perguntas gerais sobre o semáforo da pobreza",
+        "appDescription": "Artigos de suporte geral sobre o aplicativo Android Stoplight Mobile",
+        "webDescription": "Artigos gerais sobre o uso da Poverty Stoplight Platform"
+      },
+      "failRequest": "Há um erro na solicitação",
+      "metaTitle": "Centro de Apoio à Pobreza Stoplight",
+      "headerTitle": "Artigos de apoio da Equipe da Poverty Stoplight Platform",
+      "search": "Pesquisar artigos ...",
+      "addArticle": "Adicionar um artigo",
+      "countArticles": "artigos nesta coleção",
+      "writeBy": "Escrito por",
+      "team": "Equipe do Stoplight",
+      "noArticles": "Sem artigos",
+      "allCollections": "Todas as coleções",
+      "delete": {
+        "confirmTitle": "Confirmar exclusão",
+        "confirmText": "Tem certeza de que deseja excluir este artigo?",
+        "success": "Artigo excluído com sucesso",
+        "failed": "Não foi possível deletar o artigo"
+      },
+      "createdAt": "Criado em",
+      "form": {
+        "save": {
+          "success": "Artigo salvo com sucesso",
+          "failed": "Não foi possível salvar o artigo"
+        },
+        "userNotAllowed": "Operação não permitida",
+        "title": "Título do artigo",
+        "subtitle": "Adicione uma descrição para o seu artigo",
+        "active": "Publique este artigo",
+        "content": "Comece a escrever seu conteúdo ..."
+      },
+      "deleteButton": "EXCLUIR",
+      "editButton": "EDITAR",
+      "noPublish": "Não publicado"
     }
   },
   "reports": {

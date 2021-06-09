@@ -597,8 +597,8 @@ const DetailsOverview = ({
         />
       )}
 
-      {/* Interventions */}
-      {/* <FamilyInterventions
+      {/* Interventions 
+      <FamilyInterventions
         familyId={family.familyId}
         questions={snapshot.stoplight}
         snapshotId={snapshot.snapshotId}

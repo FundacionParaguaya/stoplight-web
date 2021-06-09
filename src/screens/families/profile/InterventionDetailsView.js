@@ -2,8 +2,10 @@ import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit } from '@material-ui/icons';
+import moment from 'moment';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { getDateFormatByLocale } from '../../../utils/date-utils';
 
 const useStyles = makeStyles(theme => ({
   row: {
@@ -40,7 +42,11 @@ const InterventionDetailsView = ({
   handleDelete
 }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
+  const dateFormat = getDateFormatByLocale(language);
 
   return (
     <Grid container>
@@ -65,24 +71,43 @@ const InterventionDetailsView = ({
                     <ul>
                       {intervention[question.codeName].map((answer, index) => (
                         <Grid key={index}>
-                          <Typography variant="subtitle2">
+                          <Typography
+                            variant="subtitle2"
+                            style={{ wordBreak: 'break-word' }}
+                          >
                             <li>{answer}</li>
                           </Typography>
                         </Grid>
                       ))}
                     </ul>
                   )}
-                  {!!intervention[question.codeName] && (
-                    <Typography variant="subtitle2">
-                      {intervention[question.codeName]}
-                    </Typography>
-                  )}
+                  {!!intervention[question.codeName] &&
+                    question.answerType !== 'date' && (
+                      <Typography
+                        variant="subtitle2"
+                        style={{ wordBreak: 'break-word' }}
+                      >
+                        {intervention[question.codeName]}
+                      </Typography>
+                    )}
+                  {!!intervention[question.codeName] &&
+                    question.answerType === 'date' && (
+                      <Typography
+                        variant="subtitle2"
+                        style={{ wordBreak: 'break-word' }}
+                      >
+                        {`${moment
+                          .unix(intervention[question.codeName])
+                          .utc(true)
+                          .format(dateFormat)}`}
+                      </Typography>
+                    )}
                 </div>
                 {index % 2 === 0 && <div className={classes.divider} />}
               </Grid>
             );
           })}
-      <Grid item lg={2} md={2} sm={12} xs={12} container justify="flex-end">
+      <Grid item lg={12} md={12} sm={12} xs={12} container justify="flex-end">
         {showAdministrationOptions && (
           <div className={classes.adminOptionsContainer}>
             <Tooltip

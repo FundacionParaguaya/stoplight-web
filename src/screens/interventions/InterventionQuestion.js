@@ -180,7 +180,8 @@ export const InterventionQuestion = ({
                 onChange={e => {
                   let newOption = {
                     ...option,
-                    text: e.target.value
+                    text: e.target.value,
+                    value: e.target.value
                   };
                   updateOption(optionIndex, newOption);
                 }}

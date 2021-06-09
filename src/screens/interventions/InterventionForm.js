@@ -1,11 +1,10 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
+import Alert from '@material-ui/lab/Alert';
 import { Form, Formik } from 'formik';
-import { withSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
@@ -13,9 +12,9 @@ import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
+  addOrUpdadteInterventionDefinition,
   getInterventionDefinition,
-  listInterventionsQuestions,
-  addOrUpdadteInterventionDefinition
+  listInterventionsQuestions
 } from '../../api';
 import interventionBanner from '../../assets/reports_banner.png';
 import Container from '../../components/Container';
@@ -26,8 +25,8 @@ import OrganizationSelector from '../../components/selectors/OrganizationSelecto
 import withLayout from '../../components/withLayout';
 import { COLORS } from '../../theme';
 import { move, reorder } from '../../utils/array-utils';
+import AddInterventionModal from '../families/profile/AddInterventionModal';
 import InterventionQuestion from './InterventionQuestion';
-import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -101,26 +100,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InterventionForm = ({
-  enqueueSnackbar,
-  closeSnackbar,
-  user,
-  history
-}) => {
+const InterventionForm = ({ user, history }) => {
   const classes = useStyles();
   const {
     t,
     i18n: { language }
   } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
   let { id } = useParams();
   const isEdit = !!id;
 
   const [loading, setLoading] = useState(true);
+  const [rawQuestions, setRawQuestions] = useState([]);
   const [coreQuestions, setCoreQuestions] = useState([]);
   const [items, setItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [openExitModal, setOpenExitModal] = useState(false);
   const [retrivedDefinition, setRetrivedDefinition] = useState();
+  const [definition, setDefinition] = useState();
+  const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
   const getList = id => (id === 'droppable' ? items : selectedItems);
 
@@ -132,56 +130,48 @@ const InterventionForm = ({
   });
 
   const showErrorMessage = message =>
-    enqueueSnackbar(message, {
-      variant: 'error',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
-    });
+    enqueueSnackbar(message, { variant: 'error' });
 
   const showSuccessMessage = message =>
-    enqueueSnackbar(message, {
-      variant: 'success',
-      action: key => (
-        <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-          <CloseIcon style={{ color: 'white' }} />
-        </IconButton>
-      )
+    enqueueSnackbar(message, { variant: 'success' });
+
+  const processQuestions = rawQuestions => {
+    let questions = rawQuestions.map(question => {
+      question.shortName = t(
+        `views.intervention.definition.questions.${question.codeName}.text`
+      );
+      let presetOptions = (question.presetOptions || []).map(value => ({
+        value: value,
+        text: t(value)
+      }));
+      !question.coreQuestion &&
+        presetOptions.push({ value: 'value', text: '' });
+      return {
+        ...question,
+        options: presetOptions
+      };
     });
 
+    let mainQuestions = questions.filter(q => q.coreQuestion);
+    let itemQuestions = questions.filter(q => !q.coreQuestion);
+
+    return { mainQuestions, itemQuestions };
+  };
+
   useEffect(() => {
-    listInterventionsQuestions(user, language)
+    if (rawQuestions.length > 0) {
+      const { mainQuestions, itemQuestions } = processQuestions(rawQuestions);
+      setItems(itemQuestions);
+      setCoreQuestions(mainQuestions);
+    }
+  }, [language]);
+
+  useEffect(() => {
+    listInterventionsQuestions(user)
       .then(response => {
-        let questions = response.data.data.interventionPresetQuestions;
-        let mainQuestions = questions
-          .filter(q => q.coreQuestion)
-          .map(question => {
-            if (question.presetOptions) {
-              let presetOptions = (question.presetOptions || []).map(o => ({
-                value: '',
-                text: o
-              }));
-              return {
-                ...question,
-                options: presetOptions
-              };
-            } else {
-              return question;
-            }
-          });
-        let itemQuestions = questions.filter(q => !q.coreQuestion);
-        itemQuestions = itemQuestions.map(question => {
-          let presetOptions = (question.presetOptions || []).map(o => ({
-            value: '',
-            text: o
-          }));
-          return {
-            ...question,
-            options: [{ value: 'value', text: '' }, ...presetOptions]
-          };
-        });
+        const questions = response.data.data.interventionPresetQuestions;
+        setRawQuestions(questions);
+        const { mainQuestions, itemQuestions } = processQuestions(questions);
 
         if (!!id) {
           getInterventionDefinition(user, id)
@@ -268,13 +258,16 @@ const InterventionForm = ({
     answerType === 'radio' ||
     answerType === 'checkbox';
 
-  const onSave = values => {
-    setLoading(true);
+  const preprocessValues = values => {
     let questions = Array.from(selectedItems);
     questions = questions.map(q => {
       let question = JSON.parse(JSON.stringify(q));
       if (question.otherOption) {
-        question.options.push({ value: '', text: 'Other', otherOption: true });
+        question.options.push({
+          value: 'OTHER',
+          text: t('general.other'),
+          otherOption: true
+        });
       }
       delete question.otherOption;
       if (hasOptions(question.answerType)) {
@@ -290,10 +283,9 @@ const InterventionForm = ({
         hasOptions(question.answerType) && question.options.length === 0
     );
 
-    let orgs = values.organizations.map(o => o.value);
     let finalQuestions = [...coreQuestions, ...questions].map((q, index) => {
       q.orderNumber = index + 1;
-      q.required = !!q.required;
+      q.required = !!q.required || q.coreQuestion;
       delete q.presetOptions;
       return q;
     });
@@ -308,7 +300,16 @@ const InterventionForm = ({
     if (hasErrors) {
       showErrorMessage(t('views.intervention.definition.validationError'));
       setLoading(false);
-    } else {
+    }
+
+    return { hasErrors, interventionDefinition };
+  };
+
+  const onClose = (saveIntervention, interventionDefinition) => {
+    if (saveIntervention) {
+      const orgs = interventionDefinition.orgs;
+      delete interventionDefinition.orgs;
+
       addOrUpdadteInterventionDefinition(user, interventionDefinition, orgs)
         .then(() => {
           showSuccessMessage(t('views.intervention.definition.save.success'));
@@ -319,6 +320,21 @@ const InterventionForm = ({
           showErrorMessage(t('views.intervention.definition.save.error'));
           setLoading(false);
         });
+    } else {
+      setOpenPreviewModal(false);
+    }
+  };
+
+  const onPreview = values => {
+    const { hasErrors, interventionDefinition } = preprocessValues(values);
+    let orgs = values.organizations.map(o => o.value);
+    let completeDefinition = {
+      ...interventionDefinition,
+      orgs
+    };
+    if (!hasErrors) {
+      setDefinition(completeDefinition);
+      setOpenPreviewModal(true);
     }
   };
 
@@ -328,6 +344,19 @@ const InterventionForm = ({
         open={openExitModal}
         onDissmiss={() => setOpenExitModal(false)}
         onClose={() => history.push(`/interventions`)}
+      />
+      <AddInterventionModal
+        open={openPreviewModal}
+        onClose={onClose}
+        definition={definition}
+        indicators={[
+          {
+            key: 1,
+            shortName: t('views.intervention.definition.indicatorsPlaceholder')
+          }
+        ]}
+        user={user}
+        preview
       />
       <div className={classes.titleContainer}>
         <div className={classes.title}>
@@ -360,11 +389,9 @@ const InterventionForm = ({
         }}
         enableReinitialize
         validationSchema={validationSchema}
-        onSubmit={values => {
-          onSave(values);
-        }}
+        onSubmit={values => {}}
       >
-        {({ setFieldValue, values }) => (
+        {({ setFieldValue, values, validateForm }) => (
           <Form noValidate autoComplete={'off'}>
             {loading && (
               <div className={classes.loadingContainer}>
@@ -376,6 +403,7 @@ const InterventionForm = ({
               name="name"
               required
               className={classes.nameField}
+              InputProps={{ maxLength: 275 }}
             />
 
             <Typography variant="h5">
@@ -387,6 +415,7 @@ const InterventionForm = ({
                 key={question.codeName}
                 question={question.shortName}
                 answerType={question.answerType}
+                options={question.options}
               />
             ))}
 
@@ -486,9 +515,16 @@ const InterventionForm = ({
                 type="submit"
                 color="primary"
                 variant="contained"
+                onClick={() => {
+                  validateForm().then(validationErrors => {
+                    !validationErrors.name
+                      ? onPreview(values)
+                      : showErrorMessage(t('views.family.formWithError'));
+                  });
+                }}
                 disabled={loading}
               >
-                {t('general.save')}
+                {t('views.intervention.definition.preview')}
               </Button>
             </div>
           </Form>
@@ -501,5 +537,5 @@ const InterventionForm = ({
 const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(
-  connect(mapStateToProps)(withLayout(withSnackbar(InterventionForm)))
+  connect(mapStateToProps)(withLayout(InterventionForm))
 );

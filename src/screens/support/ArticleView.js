@@ -18,7 +18,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import NavigationBar from '../../components/NavigationBar';
 import { ROLES_NAMES } from '../../utils/role-utils';
 import ConfirmationModal from '../../components/ConfirmationModal';
-import { deleteArticleById } from '../../api';
+import { deleteArticleById, getCollectionTypes } from '../../api';
 import { withSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -48,7 +48,8 @@ const styles = theme => ({
   },
   headerMetaText: {
     color: theme.palette.background.default,
-    fontWeight: 600
+    fontWeight: 600,
+    cursor: 'pointer'
   },
   headerMetaWrapper: {
     display: 'flex',
@@ -124,6 +125,7 @@ const ArticleView = ({
 }) => {
   const { id } = useParams();
   const [article, setArticle] = useState({});
+  const [collectionType, setCollectionType] = useState();
   const [openConfirmationModal, setConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const {
@@ -174,34 +176,46 @@ const ArticleView = ({
 
   useEffect(() => {
     setLoading(true);
-    getArticleById(user, id)
-      .then(response => {
-        const data = _.get(response, 'data.data.getArticleById', {});
-        if (!canShow(user, data.published)) throw new Error();
-        setArticle(data);
-      })
-      .catch(() => {
-        enqueueSnackbar(t('views.support.form.userNotAllowed'), {
-          variant: 'error',
-          action: key => (
-            <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
-              <CloseIcon style={{ color: 'white' }} />
-            </IconButton>
-          )
-        });
-        history.push(`/support`);
-      })
-      .finally(() => setLoading(false));
+    getCollectionTypes(user, language).then(res => {
+      const articleTypes = _.get(res, 'data.data.listArticlesTypes');
+      getArticleById(user, id)
+        .then(response => {
+          const data = _.get(response, 'data.data.getArticleById', {});
+          if (!canShow(user, data.published)) throw new Error();
+          const type = articleTypes.find(el => el.code === data.collection);
+          setCollectionType(type);
+          setArticle(data);
+        })
+        .catch(() => {
+          enqueueSnackbar(t('views.support.form.userNotAllowed'), {
+            variant: 'error',
+            action: key => (
+              <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
+                <CloseIcon style={{ color: 'white' }} />
+              </IconButton>
+            )
+          });
+          history.push(`/support`);
+        })
+        .finally(() => setLoading(false));
+    });
   }, []);
 
   const collection = article.collection
     ? article.collection.toLowerCase()
     : null;
 
+  const handleGoSupport = () => {
+    history.push('/support');
+  };
+
   const navigationOptions = [
     { label: t('views.support.allCollections'), link: '/support' },
-    { label: collection, link: `/collection/${collection}` },
-    { label: t('views.support.article'), link: `/article/${id}` }
+    {
+      label: collectionType && collectionType.description,
+      link: `/collection/${collection}`
+    },
+    { label: article && article.title, link: `/article/${id}` }
   ];
   return (
     <div className={classes.mainContainer}>
@@ -214,7 +228,11 @@ const ArticleView = ({
         <Container variant="stretch">
           <div className={classes.content}>
             <div className={classes.headerMetaWrapper}>
-              <Typography variant="h6" className={classes.headerMetaText}>
+              <Typography
+                onClick={handleGoSupport}
+                variant="h6"
+                className={classes.headerMetaText}
+              >
                 {t('views.support.metaTitle')}
               </Typography>
             </div>

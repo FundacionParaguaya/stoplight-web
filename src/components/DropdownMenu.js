@@ -98,11 +98,10 @@ const DropdownMenu = ({ tabs, user }) => {
                     </MenuItem>
                   ))}
                   <MenuItem key={'support'} className={classes.menuItem}>
-                    <a
-                      style={{ color: 'white' }}
-                      href="https://intercom.help/poverty-stoplight"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <NavLink
+                      style={{ textDecoration: 'none' }}
+                      to={'/support'}
+                      key="support"
                       className={classes.menuLink}
                     >
                       <Typography
@@ -111,7 +110,7 @@ const DropdownMenu = ({ tabs, user }) => {
                       >
                         {t('views.toolbar.support')}
                       </Typography>
-                    </a>
+                    </NavLink>
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

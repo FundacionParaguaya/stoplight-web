@@ -5,7 +5,7 @@ import countries from 'localized-countries';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-import { selectStyle } from '../../utils/styles-utils';
+import { selectStyle, autoCompleteStyle } from '../../utils/styles-utils';
 import { getLanguageByCode } from '../../utils/lang-utils';
 
 const useStyles = makeStyles(theme => ({
@@ -32,6 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 const CountrySelector = ({
   withTitle,
+  withAutoCompleteStyle = false,
   countryData,
   onChangeCountry,
   onBlur,
@@ -89,7 +90,7 @@ const CountrySelector = ({
             DimensionSeparator: () => <div />,
             ClearDimension: () => <div />
           }}
-          styles={selectStyle}
+          styles={withAutoCompleteStyle ? autoCompleteStyle : selectStyle}
           closeMenuOnSelect={true}
           isClearable={true}
         />

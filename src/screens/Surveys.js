@@ -1,41 +1,150 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { withTranslation } from 'react-i18next';
-import { Button, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import { Assignment, Delete, DeviceHub } from '@material-ui/icons';
+import clsx from 'clsx';
 import moment from 'moment';
-import { updateDraft, updateSurvey, updateUser } from '../redux/actions';
+import { useSnackbar } from 'notistack';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import { surveysByUserPaginated } from '../api';
-import Container from '../components/Container';
 import chooseLifeMap from '../assets/choose_life_map.png';
-import BottomSpacer from '../components/BottomSpacer';
+import Container from '../components/Container';
+import SearchTextFilter from '../components/filters/SearchTextFilter';
+import RadioInput from '../components/RadioInput';
+import withLayout from '../components/withLayout';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { ROLES_NAMES } from '../utils/role-utils';
-import withLayout from '../components/withLayout';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
 import AssignModal from './surveys/AssignModal';
-import SearchTextFilter from '../components/filters/SearchTextFilter';
+import SurveyCreateModal from './surveys/SurveyCreateModal';
 import SurveyDeleteModal from './surveys/SurveyDeleteModal';
-import Tooltip from '@material-ui/core/Tooltip';
 
-const Surveys = ({ classes, t, user, i18n: { language } }) => {
-  const [surveys, setSurveys] = useState([]);
+const useStyles = makeStyles(theme => ({
+  loadingContainer: {
+    zIndex: 100,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
+  },
+  titleContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    position: 'relative',
+    height: 175
+  },
+  viewTitle: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    height: 180
+  },
+  titleImage: {
+    display: 'block',
+    height: 175,
+    right: 0,
+    position: 'absolute',
+    top: -12,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
+  },
+  row: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    borderBottom: `1px solid ${theme.palette.grey.quarter}`
+  },
+  icon: {
+    fontSize: 32,
+    marginRight: theme.spacing(1),
+    color: theme.palette.grey.main
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  info: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    minWidth: 300,
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: 400
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 300,
+      minWidth: 245
+    },
+    [theme.breakpoints.down('xs')]: {
+      minWidth: 230
+    }
+  },
+  tagContainer: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      marginLeft: theme.spacing(5),
+      width: '55%'
+    }
+  },
+  tag: {
+    fontWeight: 550,
+    backgroundColor: theme.typography.h4.color,
+    color: 'white',
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(0.5),
+    marginRight: theme.spacing(1),
+    width: 'fit-content',
+    height: 'fit-content',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(1)
+    }
+  },
+  showMoreButtonContainer: {
+    width: '100%',
+    margin: '2rem 0',
+    display: 'flex',
+    justifyContent: 'center'
+  }
+}));
+
+const Surveys = ({ user }) => {
+  const classes = useStyles();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
+  const dateFormat = getDateFormatByLocale(language);
+  const { enqueueSnackbar } = useSnackbar();
+
   const [loading, setLoading] = useState(true);
+  const [surveys, setSurveys] = useState([]);
   const [filter, setFilter] = useState('');
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedSurvey, setSelectedSurvey] = useState({});
   const [paginationData, setPaginationData] = useState({
     page: 1,
     totalPages: 1,
     prevPage: 0
   });
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const dateFormat = getDateFormatByLocale(language);
+  const [selectedSurvey, setSelectedSurvey] = useState({});
+  const [openModal, setOpenModal] = useState('');
+  const [choosingSurvey, setChoosingSurvey] = useState(false);
+
+  const showMessage = (message, variant) =>
+    enqueueSnackbar(message, { variant });
 
   const getSurveys = overwrite => {
     let page = overwrite ? 1 : paginationData.page;
@@ -48,14 +157,17 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
           let newSurveys = overwrite ? data : [...surveys, ...data];
 
           setSurveys(newSurveys);
-
           setPaginationData({
             page: page,
             totalPages: response.data.data.surveysByUserPaginated.totalPages,
             prevPage: page
           });
+          setLoading(false);
         })
-        .finally(() => setLoading(false));
+        .catch(e => {
+          showMessage(e.message, 'error');
+          setLoading(false);
+        });
     }
   };
 
@@ -71,44 +183,28 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     !loading && getSurveys(true);
   }, [filter]);
 
-  const nextPage = () => {
-    if (paginationData.page + 1 <= paginationData.totalPages)
-      setPaginationData({
-        page: paginationData.page + 1,
-        totalPages: paginationData.totalPages
-      });
+  const onChangeFilterText = e => {
+    if (e.key === 'Enter') {
+      setFilter(e.target.value);
+    }
   };
 
-  const showAdminFeatures = () => {
-    return (
-      user.role === ROLES_NAMES.ROLE_ROOT ||
-      user.role === ROLES_NAMES.ROLE_PS_TEAM
-    );
-  };
+  const showManagementFeatures = ({ role }) =>
+    role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM;
 
-  const showDeleteSurveyFeature = () => {
-    return user.role === ROLES_NAMES.ROLE_ROOT;
-  };
+  const showAdminFeatures = ({ role }) => role === ROLES_NAMES.ROLE_ROOT;
 
-  const showOrganizations = () => {
-    return user.role === ROLES_NAMES.ROLE_HUB_ADMIN;
-  };
+  const showOrganizations = ({ role }) => role === ROLES_NAMES.ROLE_HUB_ADMIN;
 
-  const showAssignButton = () => {
-    return (
-      user.role === ROLES_NAMES.ROLE_ROOT ||
-      user.role === ROLES_NAMES.ROLE_HUB_ADMIN ||
-      user.role === ROLES_NAMES.ROLE_PS_TEAM
-    );
-  };
-
-  const toggleModal = () => {
-    setOpenModal(!openModal);
+  const getTagsInfo = (user, { applications, organizations }) => {
+    if (showManagementFeatures(user)) return applications || [];
+    if (showOrganizations(user)) return organizations || [];
+    return [];
   };
 
   const updateSurveys = (surveyId, applications, organizations) => {
     let index = surveys.findIndex(survey => survey.id === surveyId);
-    let newSurveys = surveys;
+    let newSurveys = Array.from(surveys);
     if (index > -1) {
       newSurveys[index].applications = applications;
       newSurveys[index].organizations = organizations;
@@ -121,315 +217,179 @@ const Surveys = ({ classes, t, user, i18n: { language } }) => {
     setSurveys(newSurveys);
   };
 
-  const onChangeFilterText = e => {
-    if (e.key === 'Enter') {
-      setFilter(e.target.value);
-    }
-  };
-
-  const toggleDeleteModal = () => {
-    setOpenDeleteModal(!openDeleteModal);
-  };
-
   return (
-    <div className={classes.mainSurveyContainerBoss}>
-      <SurveyDeleteModal
-        surveyToDelete={selectedSurvey}
-        user={user}
-        open={openDeleteModal}
-        afterSubmit={() => {
-          removeSurvey(selectedSurvey.id);
-        }}
-        toggleModal={toggleDeleteModal}
+    <Container variant="stretch">
+      {loading && (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      )}
+      <SurveyCreateModal
+        open={openModal === 'CREATE'}
+        selectedSurvey={selectedSurvey}
+        setChoosingSurvey={setChoosingSurvey}
+        onClose={() => setOpenModal('')}
       />
       <AssignModal
         survey={selectedSurvey}
-        open={openModal}
-        toggleModal={toggleModal}
+        open={openModal === 'ASSIGN'}
+        toggleModal={() => setOpenModal('')}
         updateSurveys={updateSurveys}
       />
-      {loading && (
-        <div className={classes.spinnerWrapper}>
-          <CircularProgress size={50} thickness={2} />
+      <SurveyDeleteModal
+        surveyToDelete={selectedSurvey}
+        user={user}
+        open={openModal === 'DELETE'}
+        afterSubmit={() => {
+          removeSurvey(selectedSurvey.id);
+        }}
+        toggleModal={() => setOpenModal('')}
+      />
+
+      <div className={classes.titleContainer}>
+        <div className={classes.viewTitle}>
+          <Typography variant="h4">{t('views.toolbar.surveysList')}</Typography>
+          <Typography variant="h6" style={{ color: 'grey' }}>
+            {t('views.survey.yourSurveys')}
+          </Typography>
+        </div>
+        <img
+          src={chooseLifeMap}
+          alt="Surveys Banner"
+          className={classes.titleImage}
+        />
+      </div>
+
+      <Grid container spacing={1} style={{ marginTop: 8 }}>
+        {showManagementFeatures(user) && (
+          <>
+            <Grid item md={8} sm={8} xs={12}>
+              <SearchTextFilter
+                onChangeInput={onChangeFilterText}
+                searchLabel={t('views.survey.filter.search')}
+                searchByLabel={t('views.survey.filter.searchBy')}
+              />
+            </Grid>
+            {showAdminFeatures(user) && (
+              <Grid item md={4} sm={4} xs={12} container justify="flex-end">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    setSelectedSurvey({});
+                    setOpenModal('CREATE');
+                  }}
+                >
+                  {t('views.survey.create.add')}
+                </Button>
+              </Grid>
+            )}
+          </>
+        )}
+      </Grid>
+
+      {surveys.map(survey => (
+        <div key={survey.id} className={classes.row}>
+          <div className={classes.container}>
+            {choosingSurvey ? (
+              <div>
+                <RadioInput
+                  label={''}
+                  value={survey.id}
+                  currentValue={selectedSurvey.id}
+                  onChange={e => {
+                    setSelectedSurvey(survey);
+                    setOpenModal('CREATE');
+                  }}
+                />
+              </div>
+            ) : (
+              <Assignment className={classes.icon} />
+            )}
+
+            <div className={classes.info}>
+              <Typography variant="subtitle1">{survey.title}</Typography>
+              <Typography variant="subtitle2" style={{ color: 'grey' }}>
+                {`${moment(survey.createdAt).format(dateFormat)} `}
+              </Typography>
+              <Typography variant="subtitle2" style={{ color: 'grey' }}>
+                {` ${survey.indicatorsCount} ${t('views.survey.indicators')}`}
+              </Typography>
+            </div>
+          </div>
+          <div className={clsx(classes.container, classes.tagContainer)}>
+            {getTagsInfo(user, survey)
+              .slice(0, 3)
+              .map(tag => {
+                return (
+                  <Typography
+                    key={tag.id || tag.value}
+                    variant="caption"
+                    className={classes.tag}
+                  >
+                    {tag.name || tag.label}
+                  </Typography>
+                );
+              })}
+            {getTagsInfo(user, survey).length > 3 && (
+              <Typography variant="caption" className={classes.tag}>
+                ...
+              </Typography>
+            )}
+          </div>
+          <div>
+            {(showManagementFeatures(user) || showOrganizations(user)) && (
+              <Tooltip title={t('views.survey.assignSurvey.assignSurvey')}>
+                <IconButton
+                  color="inherit"
+                  onClick={() => {
+                    setSelectedSurvey(survey);
+                    setOpenModal('ASSIGN');
+                  }}
+                >
+                  <DeviceHub />
+                </IconButton>
+              </Tooltip>
+            )}
+            {showAdminFeatures(user) && (
+              <Tooltip title={t('general.delete')}>
+                <IconButton
+                  color="inherit"
+                  onClick={() => {
+                    setSelectedSurvey(survey);
+                    setOpenModal('DELETE');
+                  }}
+                >
+                  <Delete />
+                </IconButton>
+              </Tooltip>
+            )}
+          </div>
+        </div>
+      ))}
+
+      {paginationData.page + 1 <= paginationData.totalPages && (
+        <div className={classes.showMoreButtonContainer}>
+          <Button
+            color="primary"
+            variant="contained"
+            aria-label="Show more"
+            component="span"
+            onClick={() => {
+              setPaginationData({
+                page: paginationData.page + 1,
+                totalPages: paginationData.totalPages
+              });
+            }}
+          >
+            {t('general.showMore')}
+          </Button>
         </div>
       )}
-      <Container variant="stretch">
-        <div className={classes.titleContainer}>
-          <div className={classes.surveyTopTitle}>
-            <Typography variant="h4">{t('views.survey.surveys')}</Typography>
-          </div>
-          <img
-            src={chooseLifeMap}
-            alt="Choose Life Map"
-            className={classes.chooseLifeMapImage}
-          />
-        </div>
-        <div className={classes.listContainer}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={8} md={8}>
-              {showAdminFeatures() && (
-                <SearchTextFilter
-                  onChangeInput={onChangeFilterText}
-                  searchLabel={t('views.survey.filter.search')}
-                  searchByLabel={t('views.survey.filter.searchBy')}
-                />
-              )}
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            {surveys.map(survey => {
-              return (
-                <Grid item key={survey.id} xs={12} sm={4} md={4}>
-                  <div className={classes.mainSurveyContainer}>
-                    <div className={classes.surveyTitleContainer}>
-                      <Typography variant="h6" className={classes.surveyTitle}>
-                        {survey.title}
-                      </Typography>
-                      {showAssignButton() && (
-                        <IconButton
-                          color="primary"
-                          aria-label="Assign Survey to Hub"
-                          component="span"
-                          onClick={() => {
-                            setSelectedSurvey(survey);
-                            setOpenModal(!openModal);
-                          }}
-                        >
-                          <MoreVertIcon />
-                        </IconButton>
-                      )}
-                    </div>
-                    <div className={classes.tagsContainer}>
-                      {showAdminFeatures() &&
-                        survey.applications.slice(0, 3).map(hub => {
-                          return (
-                            <Typography
-                              key={hub.id ? hub.id : hub.value}
-                              variant="caption"
-                              className={classes.tag}
-                            >
-                              {hub.name ? hub.name : hub.label}
-                            </Typography>
-                          );
-                        })}
-                      {showAdminFeatures() && survey.applications.length > 3 && (
-                        <Typography variant="caption" className={classes.tag}>
-                          ...
-                        </Typography>
-                      )}
-                      {showOrganizations() &&
-                        survey.organizations.slice(0, 3).map(org => {
-                          return (
-                            <Typography
-                              key={org.id ? org.id : org.value}
-                              variant="caption"
-                              className={classes.tag}
-                            >
-                              {org.name ? org.name : org.label}
-                            </Typography>
-                          );
-                        })}
-                      {showOrganizations() && survey.organizations.length > 3 && (
-                        <Typography variant="caption" className={classes.tag}>
-                          ...
-                        </Typography>
-                      )}
-                    </div>
-                    <div className={classes.surveyCardInfo}>
-                      <div>
-                        <Typography>
-                          {t('views.survey.contains')}
-                          {': '}
-                          <span className={classes.subtitle}>
-                            {survey.indicatorsCount}{' '}
-                            {t('views.survey.indicators')}
-                          </span>
-                        </Typography>
-
-                        <Typography className={classes.createdOn}>
-                          {t('views.survey.createdOn')}
-                          {': '}
-                          <span className={classes.subtitle}>
-                            {moment(survey.createdAt).format(dateFormat)}
-                          </span>
-                        </Typography>
-                      </div>
-                      {showDeleteSurveyFeature() && (
-                        <Tooltip
-                          title={t('views.survey.delete.delete')}
-                          style={{ height: 'min-content' }}
-                        >
-                          <IconButton
-                            color="primary"
-                            component="span"
-                            onClick={() => {
-                              setSelectedSurvey(survey);
-                              setOpenDeleteModal(true);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                    </div>
-                  </div>
-                </Grid>
-              );
-            })}
-          </Grid>
-          {paginationData.page + 1 <= paginationData.totalPages && (
-            <div className={classes.showMoreButtonContainer}>
-              <Button
-                color="primary"
-                variant="contained"
-                aria-label="Show more"
-                className={classes.showMoreButton}
-                component="span"
-                onClick={() => {
-                  nextPage();
-                }}
-              >
-                {t('general.showMore')}
-              </Button>
-            </div>
-          )}
-        </div>
-      </Container>
-      <BottomSpacer />
-    </div>
+    </Container>
   );
 };
 
-const styles = theme => ({
-  showMoreButtonContainer: {
-    width: '100%',
-    marginTop: 30,
-    display: 'flex'
-  },
-  showMoreButton: {
-    margin: 'auto'
-  },
-  surveyTitle: {
-    color: theme.palette.primary.dark,
-    fontSize: '18px',
-    marginRight: 'auto',
-    fontWeight: theme.typography.fontWeightMedium,
-    lineHeight: 1.2
-  },
-  surveyTitleContainer: {
-    height: '75%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    borderBottomWidth: 2,
-    marginBottom: 8,
-    borderBottomColor: theme.palette.grey.quarter,
-    '&:hover': {
-      borderBottomColor: theme.palette.primary.dark
-    }
-  },
-  subtitle: {
-    color: theme.palette.text.primary
-  },
-  tagsContainer: {
-    marginBottom: 7,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  tag: {
-    backgroundColor: theme.palette.grey.quarter,
-    color: theme.palette.grey.main,
-    padding: 3,
-    marginBottom: 8,
-    marginRight: 8,
-    width: 'fit-content',
-    height: 'fit-content'
-  },
-
-  chooseLifeMapImage: {
-    display: 'block',
-    height: 175,
-    right: 0,
-    position: 'absolute',
-    top: -12,
-    zIndex: 0,
-    objectFit: 'cover',
-    [theme.breakpoints.down('xs')]: {
-      display: 'none'
-    }
-  },
-  titleContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    position: 'relative'
-  },
-  surveyTopTitle: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    height: 180,
-    zIndex: 1
-  },
-  mainSurveyContainerBoss: {
-    backgroundColor: theme.palette.background.paper,
-    height: '100%'
-  },
-
-  mainSurveyContainer: {
-    backgroundColor: theme.palette.background.default,
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 10,
-    paddingRight: 5,
-    paddingLeft: 17,
-    paddingBottom: 17,
-    height: '100%',
-
-    '& $p': {
-      fontSize: '14px',
-      color: theme.palette.grey.middle,
-      marginBottom: 7
-    },
-    '& $p:last-child': {
-      marginBottom: 0
-    }
-  },
-  spinnerWrapper: {
-    zIndex: 1000,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'fixed',
-    backgroundColor: theme.palette.text.light,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    left: 0
-  },
-  button: {
-    marginBottom: 20
-  },
-  listContainer: {
-    position: 'relative'
-  },
-  surveyCardInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  }
-});
-
 const mapStateToProps = ({ user }) => ({ user });
 
-const mapDispatchToProps = { updateUser, updateSurvey, updateDraft };
-
-export default withRouter(
-  withStyles(styles)(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(withTranslation()(withLayout(Surveys)))
-  )
-);
+export default connect(mapStateToProps)(withLayout(Surveys));
