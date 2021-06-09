@@ -1,30 +1,32 @@
-import { withStyles } from '@material-ui/styles';
-import { connect } from 'react-redux';
-import React, { useState, useEffect } from 'react';
-import { withRouter, useParams } from 'react-router';
+import * as _ from 'lodash';
+
 import {
   CircularProgress,
-  Typography,
+  Grid,
+  Icon,
   IconButton,
   InputBase,
-  Icon,
-  Grid
+  Typography
 } from '@material-ui/core';
-import withLayout from '../../components/withLayout';
-import Container from '../../components/Container';
-import { useTranslation } from 'react-i18next';
-import SearchIcon from '@material-ui/icons/Search';
-import Paper from '@material-ui/core/Paper';
+import React, { useEffect, useState } from 'react';
 import { getArticles, getCollectionTypes } from '../../api';
-import * as _ from 'lodash';
-import NavigationBar from '../../components/NavigationBar';
+import { useParams, withRouter } from 'react-router';
+
 import ArticleList from './ArticlesList';
+import CloseIcon from '@material-ui/icons/Close';
+import Container from '../../components/Container';
+import NavigationBar from '../../components/NavigationBar';
+import Paper from '@material-ui/core/Paper';
+import { ROLES_NAMES } from '../../utils/role-utils';
+import SearchIcon from '@material-ui/icons/Search';
+import SupportLangPicker from './SupportLangPicker';
+import { connect } from 'react-redux';
 import { getLanguageByCode } from '../../utils/lang-utils';
 import i18n from '../../i18n';
-import SupportLangPicker from './SupportLangPicker';
+import { useTranslation } from 'react-i18next';
+import withLayout from '../../components/withLayout';
 import { withSnackbar } from 'notistack';
-import CloseIcon from '@material-ui/icons/Close';
-import { ROLES_NAMES } from '../../utils/role-utils';
+import { withStyles } from '@material-ui/styles';
 
 const styles = theme => ({
   mainContainer: {
@@ -214,7 +216,7 @@ const CollectionView = ({
               ...selectedCollection,
               icon,
               subtitle: label,
-              countArticles: data.length
+              countArticles: data.filter(el => el.published).length
             };
             setCollection(updatedCollection);
             setArticles(visibleArticles);

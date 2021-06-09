@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import * as _ from 'lodash';
+
 import {
+  CircularProgress,
   IconButton,
   Typography,
-  withStyles,
-  CircularProgress
+  withStyles
 } from '@material-ui/core/';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import withLayout from '../components/withLayout';
-import Container from '../components/Container';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState } from 'react';
+import { getArticles, getCollectionTypes } from '../api';
 
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
-import Paper from '@material-ui/core/Paper';
+import ArticlesList from './support/ArticlesList';
+import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import Container from '../components/Container';
 import { Grid } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
-import { getArticles, getCollectionTypes } from '../api';
-import * as _ from 'lodash';
-import SupportLangPicker from './support/SupportLangPicker';
-import i18n from '../i18n';
-import Button from '@material-ui/core/Button';
+import InputBase from '@material-ui/core/InputBase';
+import Paper from '@material-ui/core/Paper';
 import { ROLES_NAMES } from '../utils/role-utils';
-import { useLocation } from 'react-router-dom';
-
+import SearchIcon from '@material-ui/icons/Search';
+import SupportLangPicker from './support/SupportLangPicker';
+import { connect } from 'react-redux';
 import { getLanguageByCode } from '../utils/lang-utils';
-import ArticlesList from './support/ArticlesList';
+import i18n from '../i18n';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import withLayout from '../components/withLayout';
+import { withRouter } from 'react-router-dom';
 import { withSnackbar } from 'notistack';
-import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
   titleContainer: {
@@ -276,7 +276,8 @@ const Support = ({
 
               updatedCollections = collectionTypes.map(collection => {
                 const countArticles = visibleArticles.filter(
-                  article => article.collection === collection.code
+                  article =>
+                    article.collection === collection.code && article.published
                 ).length;
                 const { icon, label } = collectionTypeOptions.find(
                   type => type.value === collection.code
