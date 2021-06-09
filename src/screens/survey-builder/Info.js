@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Divider from '../../components/Divider';
 import OrganizationsFilter from '../../components/OrganizationsFilter';
+import InputWithLabel from '../../components/InputWithLabel';
 
 const styles = theme => ({
   mainContainer: {
@@ -72,9 +73,14 @@ const Info = ({ classes, t, user }) => {
           <div className={classes.inforContainer} style={{ width: '100%' }}>
             <Grid item md={6} sm={6} xs={6}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography className={classes.label} variant="subtitle1">
-                  {'Title'}
-                </Typography>
+                <InputWithLabel
+                  title={'Title'}
+                  placeholder={''}
+                  multiline={false}
+                  value={'titulo del survey'}
+                  inputProps={{ maxLength: '100' }}
+                  onChange={() => {}}
+                />
                 <Typography className={classes.label} variant="subtitle1">
                   {'Country'}
                 </Typography>
@@ -92,69 +98,42 @@ const Info = ({ classes, t, user }) => {
           {'Privacy Policy'}
         </Typography>
         <div className={classes.infoContainer}>
-          <Typography className={classes.label} variant="subtitle1">
-            {'Subtitle'}
-          </Typography>
-          <OutlinedInput
-            classes={{
-              root: classes.outlinedInputContainer,
-              input: classes.outlinedInput
-            }}
-            placeholder={t('views.familyNotes.NotePlaceHolder')}
+          <InputWithLabel
+            title={'Subtitle'}
+            placeholder={''}
             multiline={true}
-            value={'subtitulo'}
+            value={'subs'}
             inputProps={{ maxLength: '10000' }}
             onChange={() => {}}
-            margin="dense"
           />
-          <Typography className={classes.label} variant="subtitle1">
-            {'Text'}
-          </Typography>
-          <OutlinedInput
-            classes={{
-              root: classes.outlinedInputContainer,
-              input: classes.outlinedInput
-            }}
-            placeholder={t('views.familyNotes.NotePlaceHolder')}
+          <InputWithLabel
+            title={'Text'}
+            placeholder={''}
             multiline={true}
             value={'texto'}
             inputProps={{ maxLength: '10000' }}
             onChange={() => {}}
-            margin="dense"
           />
         </div>
         <Typography className={classes.title} variant="h4">
           {'Terms And Conditions'}
         </Typography>
         <div className={classes.infoContainer}>
-          <Typography className={classes.label} variant="subtitle1">
-            {'Subtitle'}
-          </Typography>
-          <OutlinedInput
-            classes={{
-              root: classes.outlinedInputContainer,
-              input: classes.outlinedInput
-            }}
-            placeholder={t('views.familyNotes.NotePlaceHolder')}
+          <InputWithLabel
+            title={'Subtitle'}
+            placeholder={''}
             multiline={true}
-            value={'subtitulo'}
+            value={'subs'}
             inputProps={{ maxLength: '10000' }}
             onChange={() => {}}
           />
-          <Typography className={classes.label} variant="subtitle1">
-            {'Text'}
-          </Typography>
-          <OutlinedInput
-            classes={{
-              root: classes.outlinedInputContainer,
-              input: classes.outlinedInput
-            }}
-            placeholder={t('views.familyNotes.NotePlaceHolder')}
+          <InputWithLabel
+            title={'Text'}
+            placeholder={''}
             multiline={true}
             value={'texto'}
             inputProps={{ maxLength: '10000' }}
             onChange={() => {}}
-            margin="dense"
           />
         </div>
       </Container>
