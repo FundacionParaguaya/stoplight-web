@@ -37,7 +37,8 @@
     "completeStoplight": "Finish Stoplight",
     "publish": "Publish",
     "edit": "Edit",
-    "other": "Other"
+    "other": "Other",
+    "saveQuestions": "Save questions"
   },
   "validation": {
     "fieldIsRequired": "This field is required",

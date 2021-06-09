@@ -37,7 +37,8 @@
     "completeStoplight": "Fen Chime Pwogrè a",
     "publish": "pibliye",
     "edit": "Edite",
-    "other": "Lòt"
+    "other": "Lòt",
+    "saveQuestions": "Sove kesyon yo"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",

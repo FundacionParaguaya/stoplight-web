@@ -37,7 +37,8 @@
     "completeStoplight": "Completar Semáforo",
     "publish": "Publicar",
     "edit": "Editar",
-    "other": "Otro"
+    "other": "Otro",
+    "saveQuestions": "Guardar preguntas"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
