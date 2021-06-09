@@ -268,6 +268,7 @@ const FamilyInterventions = ({
   };
 
   const handleEdit = intervention => {
+    setParentIntervention();
     setSelectedIntervention(intervention);
     setOpenForm(true);
   };
@@ -427,6 +428,7 @@ const FamilyInterventions = ({
               color="primary"
               variant="contained"
               onClick={() => {
+                setParentIntervention();
                 setSelectedIntervention({});
                 setOpenForm(true);
               }}
