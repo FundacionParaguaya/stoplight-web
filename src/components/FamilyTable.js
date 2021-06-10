@@ -8,6 +8,7 @@ import { Delete } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import familyFace from '../assets/family_face_large.png';
@@ -15,16 +16,12 @@ import { updateSurvey } from '../redux/actions';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import DeleteFamilyModal from './DeleteFamilyModal';
 import { ROLES_NAMES } from '../utils/role-utils';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
-
-//background-color: rgba(0, 0, 0, 0.04);}
 
 const useStyles = makeStyles(theme => ({
   familyContainer: {
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
-    // padding: theme.spacing(2),
     width: '100%',
     zIndex: 0,
     '& .overflow-y': {
@@ -289,7 +286,7 @@ const FamilyTable = ({
               title={t('views.familyList.mergeFamily.merge')}
               aria-label="name"
             >
-              <CompareArrowsIcon
+              <PeopleAltIcon
                 className={classes.icon}
                 onClick={() => toggleMergeModal(selectedElements)}
               />
