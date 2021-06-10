@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Select from 'react-select';
+import { connect } from 'formik';
 import * as _ from 'lodash';
-import { getOrganizationsByHub, cancelFilterRequest } from '../api';
-import { outlineSelectStyle } from '../utils/styles-utils';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -27,71 +24,41 @@ const useStyles = makeStyles(() => ({
   outlinedInput: {}
 }));
 
-const InputWithLabel = ({
-  title,
-  placeholder,
-  multiline,
-  value,
-  inputProps,
-  onChange
-}) => {
-  const [organizations, setOrganizations] = useState([]);
-  const [loading, setLoading] = useState(true);
+const InputWithLabel = ({ title, multiline, inputProps, formik, name, t }) => {
+  const value = _.get(formik.values, name) || '';
+  const error = pathHasError(name, formik.touched, formik.errors);
+  const helperText = getErrorLabelForPath(
+    name,
+    formik.touched,
+    formik.errors,
+    t
+  );
+  const onBlur = formik.handleBlur;
+  const onChange = formik.handleChange;
   const classes = useStyles();
-  const { t } = useTranslation();
-  //
-  // useEffect(() => {
-  //   return () => cancelFilterRequest();
-  // }, []);
-  //
-  // useEffect(() => {
-  //   setLoading(true);
-  //   getOrganizationsByHub(user, hub && hub.value ? hub.value : null)
-  //     .then(response => {
-  //       const orgs = _.get(response, 'data.data.organizations', []).map(
-  //         org => ({
-  //           label: org.name,
-  //           value: org.id
-  //         })
-  //       );
-  //       setOrganizations(orgs);
-  //       setLoading(false);
-  //     })
-  //     .catch(e => setLoading(false));
-  // }, [user, hub]);
-  // const allOrganizationsOption = {
-  //   label: t('views.organizationsFilter.allOrganizations'),
-  //   value: 'ALL'
-  // };
-  // let organizationsToShow =
-  //   organizations.length !== data.length && organizations.length > 1
-  //     ? [allOrganizationsOption, ...organizations]
-  //     : [...organizations];
-  // if (data.some(d => d.value === 'ALL')) {
-  //   organizationsToShow = [];
-  // }
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
         {title}
       </Typography>
       <OutlinedInput
+        name={name}
         classes={{
           root: classes.outlinedInputContainer,
           input: classes.outlinedInput
         }}
-        placeholder={placeholder}
+        placeholder={helperText}
         multiline={multiline}
         value={value}
         inputProps={inputProps}
         onChange={onChange}
+        onBlur={onBlur}
         fullWidth={true}
         margin="dense"
+        error={error}
       />
     </div>
   );
 };
 
-const mapStateToProps = ({ user }) => ({ user });
-
-export default connect(mapStateToProps)(InputWithLabel);
+export default connect(InputWithLabel);
