@@ -12,7 +12,10 @@ const MergeFamilyModal = ({
   afterSubmit
 }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
 
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +30,7 @@ const MergeFamilyModal = ({
     });
     setLoading(true);
     console.log(families);
-    unifyFamilies(families, user)
+    unifyFamilies(families, language, user)
       .then(() => {
         enqueueSnackbar(t('views.familyList.mergeFamily.success'), {
           variant: 'success'
@@ -35,9 +38,9 @@ const MergeFamilyModal = ({
         setLoading(false);
         onClose(true);
       })
-      .catch(() => {
+      .catch(e => {
         setLoading(false);
-        enqueueSnackbar(t('views.familyList.mergeFamily.error'), {
+        enqueueSnackbar(e.message, {
           variant: 'error'
         });
       });

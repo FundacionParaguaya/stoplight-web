@@ -2521,12 +2521,13 @@ export const supportedLanguages = (user, language) =>
     })
   });
 
-export const unifyFamilies = (families, user) =>
+export const unifyFamilies = (families, language, user) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
     },
     data: JSON.stringify({
       query:
