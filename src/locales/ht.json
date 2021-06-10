@@ -585,6 +585,7 @@
       "surveyError": "Vèsyon sondaj la pa disponib. \nPou pran yon sondaj swivi, mande aksè a vèsyon sondaj la.",
       "interventions": {
         "relatedInterventions": "Entèvansyon ki gen rapò",
+        "addRelated": "Ajoute entèvansyon ki gen rapò",
         "noInterventions": "Fanmi sa a pa gen okenn entèvansyon",
         "form": {
           "addTitle": "Add Entèvansyon",
@@ -1193,7 +1194,8 @@
       "noArticles": "Pa gen atik",
       "search": "Rechèch pou atik ...",
       "team": "Ekip Stoplight",
-      "writeBy": "Ekri pa"
+      "writeBy": "Ekri pa",
+      "noPublish": "Pa pibliye"
     },
     "surveyBuilder": {
       "question": "Kesyon",

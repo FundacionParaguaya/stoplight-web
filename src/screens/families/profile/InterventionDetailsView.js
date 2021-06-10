@@ -71,7 +71,10 @@ const InterventionDetailsView = ({
                     <ul>
                       {intervention[question.codeName].map((answer, index) => (
                         <Grid key={index}>
-                          <Typography variant="subtitle2">
+                          <Typography
+                            variant="subtitle2"
+                            style={{ wordBreak: 'break-word' }}
+                          >
                             <li>{answer}</li>
                           </Typography>
                         </Grid>
@@ -80,13 +83,19 @@ const InterventionDetailsView = ({
                   )}
                   {!!intervention[question.codeName] &&
                     question.answerType !== 'date' && (
-                      <Typography variant="subtitle2">
+                      <Typography
+                        variant="subtitle2"
+                        style={{ wordBreak: 'break-word' }}
+                      >
                         {intervention[question.codeName]}
                       </Typography>
                     )}
                   {!!intervention[question.codeName] &&
                     question.answerType === 'date' && (
-                      <Typography variant="subtitle2">
+                      <Typography
+                        variant="subtitle2"
+                        style={{ wordBreak: 'break-word' }}
+                      >
                         {`${moment
                           .unix(intervention[question.codeName])
                           .utc(true)
@@ -98,7 +107,7 @@ const InterventionDetailsView = ({
               </Grid>
             );
           })}
-      <Grid item lg={2} md={2} sm={12} xs={12} container justify="flex-end">
+      <Grid item lg={12} md={12} sm={12} xs={12} container justify="flex-end">
         {showAdministrationOptions && (
           <div className={classes.adminOptionsContainer}>
             <Tooltip

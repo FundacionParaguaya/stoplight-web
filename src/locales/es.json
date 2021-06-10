@@ -148,7 +148,8 @@
         "confirmText": "¿Está seguro de que desea eliminar este artículo?",
         "success": "Artículo eliminado correctamente ",
         "failed": "No se pudo borrar el artículo"
-      }
+      },
+      "noPublish": "No publicado"
     },
     "families": "Familias",
     "createLifemap": "Crear un Mapa de Vida",
@@ -622,6 +623,7 @@
       "surveyError": "La versión de la encuesta no está disponible. Para tomar una encuesta de seguimiento, solicite el acceso a la versión de encuesta.",
       "interventions": {
         "relatedInterventions": "Intervenciones relacionadas",
+        "addRelated": "Agregar intervención relacionada",
         "noInterventions": "Esta familia no tiene intervenciones",
         "form": {
           "addTitle": "Agregar intervención",

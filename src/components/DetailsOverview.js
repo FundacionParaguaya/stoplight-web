@@ -30,7 +30,7 @@ import {
 } from '../api';
 import ImagePreview from './ImagePreview';
 import Details from '../screens/families/profile/Details';
-import FamilyInterventions from '../screens/families/profile/FamilyInterventions';
+//import FamilyInterventions from '../screens/families/profile/FamilyInterventions';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -597,13 +597,13 @@ const DetailsOverview = ({
         />
       )}
 
-      {/* Interventions */}
+      {/* Interventions 
       <FamilyInterventions
         familyId={family.familyId}
         questions={snapshot.stoplight}
         snapshotId={snapshot.snapshotId}
         readOnly
-      />
+      />*/}
 
       {/* Images */}
       {images.length > 0 && (

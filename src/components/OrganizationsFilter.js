@@ -6,43 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import * as _ from 'lodash';
 import { getOrganizationsByHub, cancelFilterRequest } from '../api';
-
-const selectStyle = {
-  control: (styles, { isFocused }) => ({
-    ...styles,
-    backgroundColor: '#FFFFFF;',
-    borderRadius: 2,
-    '&:hover': { borderColor: isFocused ? '#309E43' : 'hsl(0, 0%, 70%)' },
-    border: isFocused ? '1.5px solid #309E43' : '1.5px solid #DCDEE3',
-    boxShadow: isFocused ? '0 0 0 1px #309E43' : 'none',
-    overflowY: 'auto',
-    maxHeight: 75
-  }),
-  multiValueLabel: styles => ({
-    ...styles,
-    fontSize: 14,
-    fontFamily: 'Poppins',
-    fontWeight: 500,
-    color: 'rgba(28,33,47,0.51)'
-  }),
-  multiValue: styles => ({ ...styles, color: 'rgba(28,33,47,0.51)' }),
-  option: (styles, { isFocused }) => ({
-    ...styles,
-    backgroundColor: isFocused ? 'hsl(0,0%,90%)' : 'transparent',
-    fontSize: 14,
-    fontFamily: 'Poppins'
-  }),
-  noOptionsMessage: styles => ({
-    ...styles,
-    fontSize: 16,
-    fontFamily: 'Poppins'
-  }),
-  loadingMessage: styles => ({
-    ...styles,
-    fontSize: 16,
-    fontFamily: 'Poppins'
-  })
-};
+import { outlineSelectStyle } from '../utils/styles-utils';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -128,7 +92,7 @@ const OrganizationsFilter = ({ user, data, hub, onChange, stacked }) => {
           }}
           closeMenuOnSelect={false}
           isMulti
-          styles={selectStyle}
+          styles={outlineSelectStyle}
         />
       </div>
     </div>

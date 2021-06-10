@@ -278,6 +278,7 @@ const FamilyInterventions = ({
 
   const handleAddRelated = interventionId => {
     setParentIntervention(interventionId);
+    setSelectedIntervention({});
     setOpenForm(true);
   };
 
@@ -350,6 +351,9 @@ const FamilyInterventions = ({
                             : setSelectedThread(id)
                         }
                         handleAddRelated={handleAddRelated}
+                        showAdministrationOptions={showAdministrationOptions(
+                          user
+                        )}
                       />
                     </div>
                   }
@@ -381,6 +385,9 @@ const FamilyInterventions = ({
                             setSelectedIntervention={setSelectedIntervention}
                             expand={selectedIntervention.id === related.id}
                             related
+                            showAdministrationOptions={showAdministrationOptions(
+                              user
+                            )}
                           />
                         </div>
                       }
