@@ -25,7 +25,9 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   radio: {
-    color: `${theme.palette.grey.middle} !important`
+    '& $span': {
+      color: `${theme.palette.grey.middle} !important`
+    }
   }
 }));
 
@@ -64,7 +66,7 @@ const Question = ({ order, question, setSelectedQuestion }) => {
           value={option.value}
           currentValue={''}
           classes={{
-            disabled: classes.radio
+            root: classes.radio
           }}
         />
       ))}
@@ -76,7 +78,7 @@ const Question = ({ order, question, setSelectedQuestion }) => {
           value={'OTHER'}
           currentValue={''}
           classes={{
-            disabled: classes.radio
+            root: classes.radio
           }}
         />
       )}

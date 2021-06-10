@@ -1,27 +1,31 @@
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import NotInterestedIcon from '@material-ui/icons/HighlightOff';
+import clsx from 'clsx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import GreenCheckbox from '../../components/GreenCheckbox';
-import QuestionIcon from '../../components/QuestionIcon';
+import CheckboxInput from '../../components/CheckboxInput';
+import TextInput from '../../components/TextInput';
 import { COLORS } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
   questionContainer: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.background.default,
-    margin: theme.spacing(1),
+    backgroundColor: theme.palette.background.grey,
+    margin: theme.spacing(3),
     padding: theme.spacing(1),
     paddingLeft: theme.spacing(2),
     minHeight: 57,
     borderRadius: 4
+  },
+  label: {
+    marginBottom: theme.spacing(1)
   },
   title: {
     display: 'flex',
@@ -34,7 +38,8 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '14px!important',
     paddingLeft: '14px!important',
     fontFamily: 'Poppins',
-    fontSize: '12px'
+    fontSize: '12px',
+    backgroundColor: theme.palette.background.default
   },
   textField: {
     marginTop: 4,
@@ -46,12 +51,11 @@ const useStyles = makeStyles(theme => ({
     }
   },
   optionContainer: {
-    margin: theme.spacing(1),
-    marginTop: 0,
-    marginRight: 0,
+    marginLeft: theme.spacing(1),
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    width: '100%'
   },
   deleteIcon: {
     height: 'min-content',
@@ -63,11 +67,9 @@ const useStyles = makeStyles(theme => ({
       opacity: '100%'
     }
   },
-  checkboxContainer: {
-    display: 'flex',
-    alignItems: 'center'
-  },
   addOptionContainer: {
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(3),
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer'
@@ -75,6 +77,26 @@ const useStyles = makeStyles(theme => ({
   icon: {
     width: 30,
     color: COLORS.MEDIUM_GREY
+  },
+  checkboxContainer: {
+    order: 3,
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 25
+  },
+  economicCheckboxesContainer: {
+    display: 'initial',
+    order: 4,
+    marginTop: 0
+  },
+  greyDot: {
+    textDecoration: 'none',
+    height: '9px',
+    width: '10px',
+    backgroundColor: theme.palette.grey.middle,
+    borderRadius: '50%',
+    display: 'inline-block',
+    marginRight: 5
   }
 }));
 
@@ -82,7 +104,8 @@ export const EditQuestion = ({
   itemRef,
   draggableProps,
   question,
-  updateQuestion
+  updateQuestion,
+  isEconomic = false
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -111,113 +134,140 @@ export const EditQuestion = ({
     updateQuestion(q);
   };
 
-  const setQuestionRequired = () => {
-    let q = question;
-    q.required = !q.required;
-    updateQuestion(q);
-  };
-
   const {
+    questionText,
     shortName,
     options,
     answerType,
     otherOption = false,
     required = false
   } = question;
+
+  const hasOptions =
+    answerType === 'select' ||
+    answerType === 'radio' ||
+    answerType === 'checkbox';
   return (
     <div
       ref={itemRef}
       {...draggableProps}
       className={classes.questionContainer}
     >
-      <div className={classes.title}>
-        <Typography variant="h6" style={{ marginBottom: '1rem' }}>
-          {shortName}
-        </Typography>
-
-        <QuestionIcon type={answerType} iconClass={classes.icon} />
-      </div>
-
-      <div className={classes.checkboxContainer}>
-        <GreenCheckbox
-          onChange={e => setQuestionRequired()}
-          checked={required}
-        />
-        <Typography variant="subtitle2">
-          {t('views.intervention.definition.required')}
-        </Typography>
-      </div>
-
-      {(answerType === 'select' ||
-        answerType === 'radio' ||
-        answerType === 'checkbox') && (
-        <React.Fragment>
-          <Typography variant="subtitle2">
-            {t('views.intervention.definition.options')}
-          </Typography>
-
-          <div className={classes.checkboxContainer}>
-            <GreenCheckbox
-              onChange={e => addOtherOption()}
-              checked={otherOption}
+      <Grid container>
+        <Grid container spacing={4} className={classes.label}>
+          <Grid item md={5} sm={5} xs={10} style={{ order: 1 }}>
+            <TextInput
+              label={t('views.surveyBuilder.question')}
+              value={questionText}
+              onChange={e => {
+                updateQuestion({ ...question, questionText: e.target.value });
+              }}
             />
-            <Typography variant="subtitle2">
-              {t('views.intervention.definition.otherOption')}
-            </Typography>
-          </div>
-
-          {options.map((option, optionIndex) => (
-            <div key={optionIndex} className={classes.optionContainer}>
-              <TextField
-                InputProps={{
-                  classes: {
-                    input: classes.filterInput
-                  }
-                }}
-                variant="outlined"
-                margin="dense"
-                value={option.text}
+          </Grid>
+          {isEconomic && (
+            <Grid item md={5} sm={5} xs={10} style={{ order: 2 }}>
+              <TextInput
+                label={t('views.surveyBuilder.shortName')}
+                value={shortName}
                 onChange={e => {
-                  let newOption = {
-                    ...option,
-                    text: e.target.value,
-                    value: e.target.value
-                  };
-                  updateOption(optionIndex, newOption);
+                  updateQuestion({ ...question, shortName: e.target.value });
                 }}
-                fullWidth
-                className={classes.textField}
               />
-
-              <Tooltip
-                title={t('general.delete')}
-                className={classes.deleteIcon}
-              >
-                <IconButton
-                  color="default"
-                  component="span"
-                  onClick={() => deleteOption(optionIndex)}
-                >
-                  <NotInterestedIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          ))}
-
-          {Array.isArray(options) && options.length === 0 && !otherOption && (
-            <FormHelperText error={true} style={{ textAlign: 'center' }}>
-              {t('views.intervention.definition.missingOptions')}
-            </FormHelperText>
+            </Grid>
           )}
+          <Grid
+            item
+            md={5}
+            sm={5}
+            xs={10}
+            className={classes.label}
+            style={{ order: isEconomic ? 3 : 4 }}
+          >
+            {hasOptions && (
+              <React.Fragment>
+                <Typography variant="subtitle2" className={classes.label}>
+                  {t('views.surveyBuilder.options')}
+                </Typography>
 
-          <div className={classes.addOptionContainer} onClick={addOption}>
-            <AddIcon style={{ fontSize: 16 }} />
-            <Typography variant="subtitle2">
-              {t('views.intervention.definition.addOption')}
-            </Typography>
-          </div>
-        </React.Fragment>
-      )}
+                {options.map((option, optionIndex) => (
+                  <div key={optionIndex} className={classes.optionContainer}>
+                    <span className={classes.greyDot}></span>
+                    <TextInput
+                      label={''}
+                      value={option.text}
+                      onChange={e => {
+                        let newOption = {
+                          ...option,
+                          text: e.target.value,
+                          value: e.target.value
+                        };
+                        updateOption(optionIndex, newOption);
+                      }}
+                    />
+                    <Tooltip
+                      title={t('general.delete')}
+                      className={classes.deleteIcon}
+                    >
+                      <IconButton
+                        color="default"
+                        component="span"
+                        onClick={() => deleteOption(optionIndex)}
+                      >
+                        <NotInterestedIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                ))}
+
+                {Array.isArray(options) &&
+                  options.length === 0 &&
+                  !otherOption && (
+                    <FormHelperText
+                      error={true}
+                      style={{ textAlign: 'center' }}
+                    >
+                      {t('views.surveyBuilder.missingOptions')}
+                    </FormHelperText>
+                  )}
+
+                <div className={classes.addOptionContainer} onClick={addOption}>
+                  <AddIcon style={{ fontSize: 16 }} />
+                  <Typography variant="subtitle2">
+                    {t('views.surveyBuilder.addOption')}
+                  </Typography>
+                </div>
+              </React.Fragment>
+            )}
+          </Grid>
+          <Grid
+            item
+            md={5}
+            sm={5}
+            xs={10}
+            className={clsx(
+              classes.checkboxContainer,
+              isEconomic && classes.economicCheckboxesContainer
+            )}
+          >
+            {hasOptions && (
+              <CheckboxInput
+                label={t('views.intervention.definition.otherOption')}
+                onChange={() => addOtherOption()}
+                checked={otherOption}
+              />
+            )}
+            {isEconomic && (
+              <CheckboxInput
+                label={t('views.intervention.definition.required')}
+                onChange={() => {
+                  updateQuestion({ ...question, required: !question.required });
+                }}
+                checked={required}
+              />
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 };

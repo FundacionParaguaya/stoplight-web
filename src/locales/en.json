@@ -1202,7 +1202,8 @@
       "shortName": "Shortname",
       "options": "Options",
       "addOption": "Add option",
-      "missingOptions": "Options for this question are required"
+      "missingOptions": "Options for this question are required",
+      "optionValidationError": "Some question(s) does not have options yet!"
     }
   },
   "reports": {

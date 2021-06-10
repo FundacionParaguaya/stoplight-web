@@ -1,8 +1,10 @@
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import EditQuestion from './EditQuestion';
@@ -37,20 +39,22 @@ const useStyles = makeStyles(theme => ({
 
 const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
+  const history = useHistory();
   const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState('');
 
   useEffect(() => {
-    const surveyConfig = currentSurvey.surveyConfig;
+    const surveyConfig = currentSurvey.surveyConfig || {};
     let primaryQuestions = [];
     const questionProperties = { required: true, answerType: 'select' };
-    let genderOptions = surveyConfig.gender.filter(
+    let genderOptions = (surveyConfig.gender || []).filter(
       option => !option.otherOption
     );
-    let documentOptions = surveyConfig.documentType.filter(
+    let documentOptions = (surveyConfig.documentType || []).filter(
       option => !option.otherOption
     );
     primaryQuestions.push({
@@ -58,14 +62,14 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
       codeName: 'gender',
       questionText: t('views.family.selectGender'),
       options: genderOptions,
-      otherOption: !!genderOptions.filter(o => o.otherOption)
+      otherOption: !!genderOptions.find(o => o.otherOption)
     });
     primaryQuestions.push({
       ...questionProperties,
       codeName: 'documentType',
       questionText: t('views.family.documentType'),
       options: documentOptions,
-      otherOption: !!genderOptions.filter(o => o.otherOption)
+      otherOption: !!genderOptions.find(o => o.otherOption)
     });
     setQuestions(primaryQuestions);
   }, []);
@@ -101,7 +105,14 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
       gender: genderOptions,
       documentType: documentOptions
     };
-    updateSurvey({ ...currentSurvey, surveyConfig });
+    if (genderOptions.length > 0 && documentOptions.length > 0) {
+      updateSurvey({ ...currentSurvey, surveyConfig });
+      history.push('/survey-builder/economics');
+    } else {
+      enqueueSnackbar(t('views.surveyBuilder.optionValidationError'), {
+        variant: 'error'
+      });
+    }
     setLoading(false);
   };
 

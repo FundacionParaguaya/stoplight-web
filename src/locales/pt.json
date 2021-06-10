@@ -1202,7 +1202,8 @@
       "shortName": "Nome curto",
       "options": "Opções",
       "addOption": "Adicionar opção",
-      "missingOptions": "As opções para esta pergunta são obrigatórias"
+      "missingOptions": "As opções para esta pergunta são obrigatórias",
+      "optionValidationError": "Algumas perguntas ainda não têm opções!"
     }
   },
   "reports": {
