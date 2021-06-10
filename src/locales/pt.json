@@ -1194,6 +1194,13 @@
       },
       "deleteButton": "EXCLUIR",
       "editButton": "EDITAR"
+    },
+    "surveyBuilder": {
+      "question": "Pergunta",
+      "shortName": "Nome curto",
+      "options": "Opções",
+      "addOption": "Adicionar opção",
+      "missingOptions": "As opções para esta pergunta são obrigatórias"
     }
   },
   "reports": {

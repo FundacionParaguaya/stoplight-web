@@ -1194,6 +1194,13 @@
       "search": "Rechèch pou atik ...",
       "team": "Ekip Stoplight",
       "writeBy": "Ekri pa"
+    },
+    "surveyBuilder": {
+      "question": "Kesyon",
+      "shortName": "Shortname",
+      "options": "Opsyon",
+      "addOption": "Ajoute opsyon",
+      "missingOptions": "Opsyon pou kesyon sa a yo mande yo"
     }
   },
   "reports": {

@@ -1194,6 +1194,13 @@
       "label": "Colección",
       "noOption": "No queda ninguna colección",
       "loading": "Cargando..."
+    },
+    "surveyBuilder": {
+      "question": "Pregunta",
+      "shortName": "Nombre corto",
+      "options": "Opciones",
+      "addOption": "Agregar opción",
+      "missingOptions": "Se requieren opciones para esta pregunta"
     }
   },
   "reports": {

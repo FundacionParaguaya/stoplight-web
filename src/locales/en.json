@@ -1194,6 +1194,13 @@
       "addForm": "Add Intervention form",
       "subtitle": "Create Interventions models for your organizations",
       "list": "List of Interventions"
+    },
+    "surveyBuilder": {
+      "question": "Question",
+      "shortName": "Shortname",
+      "options": "Options",
+      "addOption": "Add option",
+      "missingOptions": "Options for this question are required"
     }
   },
   "reports": {
