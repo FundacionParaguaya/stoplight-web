@@ -121,7 +121,8 @@ export const buildInitialValuesForForm = (questions, draft) => {
       initialValue[question.codeName] = values;
     }
 
-    delete initialValue[question.codeName].text;
+    !!initialValue[question.codeName] &&
+      delete initialValue[question.codeName].text;
   });
 
   return initialValue;
