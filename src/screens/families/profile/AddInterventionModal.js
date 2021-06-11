@@ -93,7 +93,11 @@ export const buildInitialValuesForForm = (questions, draft) => {
       draftQuestion.hasOwnProperty('other') && !!draftQuestion.other;
 
     if (hasOtherOption && draftHasOtherValue) {
-      initialValue[question.codeName] = hasOtherOption.value;
+      initialValue[question.codeName] =
+        Array.isArray(draftQuestion.multipleValue) &&
+        draftQuestion.multipleValue.length > 0
+          ? draftQuestion.multipleValue
+          : hasOtherOption.value;
       initialValue[`custom${capitalize(question.codeName)}`] =
         draftQuestion.other;
     }
