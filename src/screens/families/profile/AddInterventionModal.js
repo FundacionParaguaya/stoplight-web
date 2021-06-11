@@ -368,6 +368,10 @@ const AddInterventionModal = ({
                           !!e &&
                             e._isValid &&
                             setFieldValue(question.codeName, e.unix());
+                          //Condition for clearing  unrequired dates fields
+                          (!e || !e._isValid) &&
+                            !question.required &&
+                            setFieldValue(question.codeName, '');
                         }}
                       />
                     </React.Fragment>
