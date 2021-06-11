@@ -37,7 +37,8 @@
     "completeStoplight": "Completar Semáforo",
     "publish": "Publicar",
     "edit": "Editar",
-    "other": "Otro"
+    "other": "Otro",
+    "saveQuestions": "Guardar preguntas"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -1195,6 +1196,14 @@
       "label": "Colección",
       "noOption": "No queda ninguna colección",
       "loading": "Cargando..."
+    },
+    "surveyBuilder": {
+      "question": "Pregunta",
+      "shortName": "Nombre corto",
+      "options": "Opciones",
+      "addOption": "Agregar opción",
+      "missingOptions": "Se requieren opciones para esta pregunta",
+      "optionValidationError": "¡Algunas preguntas aún no tienen opciones!"
     }
   },
   "reports": {

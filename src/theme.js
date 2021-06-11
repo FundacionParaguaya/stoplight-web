@@ -39,7 +39,8 @@ export const theme = {
     },
     background: {
       default: '#fff',
-      paper: '#f3f4f6'
+      paper: '#f3f4f6',
+      grey: '#F5F5F5'
     }
   },
   typography: {

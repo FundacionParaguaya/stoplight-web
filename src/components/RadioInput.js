@@ -1,11 +1,25 @@
 import { FormControlLabel, Radio, withStyles } from '@material-ui/core';
 import React from 'react';
 
-const RadioInput = ({ value, label, currentValue, ...props }) => (
+const RadioInput = ({
+  value,
+  label,
+  currentValue,
+  classes,
+  disabled,
+  ...props
+}) => (
   <FilledFormControlLabel
-    control={<GreenRadio checked={currentValue === value} {...props} />}
+    control={
+      <GreenRadio
+        checked={currentValue === value}
+        {...props}
+        disabled={disabled}
+      />
+    }
     label={label}
     value={value}
+    classes={classes}
   />
 );
 

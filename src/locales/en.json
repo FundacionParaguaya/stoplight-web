@@ -37,7 +37,8 @@
     "completeStoplight": "Finish Stoplight",
     "publish": "Publish",
     "edit": "Edit",
-    "other": "Other"
+    "other": "Other",
+    "saveQuestions": "Save questions"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -1195,6 +1196,14 @@
       "addForm": "Add Intervention form",
       "subtitle": "Create Interventions models for your organizations",
       "list": "List of Interventions"
+    },
+    "surveyBuilder": {
+      "question": "Question",
+      "shortName": "Shortname",
+      "options": "Options",
+      "addOption": "Add option",
+      "missingOptions": "Options for this question are required",
+      "optionValidationError": "Some question(s) does not have options yet!"
     }
   },
   "reports": {

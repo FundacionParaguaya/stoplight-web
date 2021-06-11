@@ -37,7 +37,8 @@
     "completeStoplight": "Completar Semáforo",
     "publish": "Publicar",
     "edit": "Editar",
-    "other": "Outro"
+    "other": "Outro",
+    "saveQuestions": "Salvar perguntas"
   },
   "validation": {
     "fieldIsRequired": "Este campo é obrigatório",
@@ -1195,6 +1196,14 @@
       "deleteButton": "EXCLUIR",
       "editButton": "EDITAR",
       "noPublish": "Não publicado"
+    },
+    "surveyBuilder": {
+      "question": "Pergunta",
+      "shortName": "Nome curto",
+      "options": "Opções",
+      "addOption": "Adicionar opção",
+      "missingOptions": "As opções para esta pergunta são obrigatórias",
+      "optionValidationError": "Algumas perguntas ainda não têm opções!"
     }
   },
   "reports": {

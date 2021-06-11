@@ -37,7 +37,8 @@
     "completeStoplight": "Fen Chime Pwogrè a",
     "publish": "pibliye",
     "edit": "Edite",
-    "other": "Lòt"
+    "other": "Lòt",
+    "saveQuestions": "Sove kesyon yo"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",
@@ -1195,6 +1196,14 @@
       "team": "Ekip Stoplight",
       "writeBy": "Ekri pa",
       "noPublish": "Pa pibliye"
+    },
+    "surveyBuilder": {
+      "question": "Kesyon",
+      "shortName": "Shortname",
+      "options": "Opsyon",
+      "addOption": "Ajoute opsyon",
+      "missingOptions": "Opsyon pou kesyon sa a yo mande yo",
+      "optionValidationError": "Kèk kesyon (yo) pa gen opsyon ankò!"
     }
   },
   "reports": {
