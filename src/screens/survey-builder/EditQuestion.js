@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   optionContainer: {
-    marginLeft: theme.spacing(1),
+    marginLeft: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -96,7 +96,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.grey.middle,
     borderRadius: '50%',
     display: 'inline-block',
-    marginRight: 5
+    marginRight: theme.spacing(1)
   }
 }));
 
