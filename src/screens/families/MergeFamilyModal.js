@@ -29,7 +29,6 @@ const MergeFamilyModal = ({
       return family.familyId;
     });
     setLoading(true);
-    console.log(families);
     unifyFamilies(families, language, user)
       .then(() => {
         enqueueSnackbar(t('views.familyList.mergeFamily.success'), {
@@ -40,9 +39,14 @@ const MergeFamilyModal = ({
       })
       .catch(e => {
         setLoading(false);
-        enqueueSnackbar(e.message, {
-          variant: 'error'
-        });
+        enqueueSnackbar(
+          e.response.data
+            ? e.response.data.message
+            : t('views.familyList.mergeFamily.error'),
+          {
+            variant: 'error'
+          }
+        );
       });
   };
 
