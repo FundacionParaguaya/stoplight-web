@@ -19,8 +19,8 @@ const MergeFamilyModal = ({
 
   const [loading, setLoading] = useState(false);
 
-  const onClose = submitted => {
-    submitted && afterSubmit();
+  const onClose = action => {
+    action.submitted && afterSubmit();
     toggleModal(selectedFamilies);
   };
 
@@ -36,7 +36,7 @@ const MergeFamilyModal = ({
           variant: 'success'
         });
         setLoading(false);
-        onClose(true);
+        onClose({ submitted: true });
       })
       .catch(e => {
         setLoading(false);
@@ -47,11 +47,16 @@ const MergeFamilyModal = ({
   };
 
   const subtitle =
-    Array.isArray(selectedFamilies) && selectedFamilies.length === 2
-      ? `${t('views.familyList.mergeFamily.subtitle')} ${
-          selectedFamilies[0].name
-        }, ${selectedFamilies[1].name}`
-      : '';
+    Array.isArray(selectedFamilies) && selectedFamilies.length === 2 ? (
+      <React.Fragment>
+        {t('views.familyList.mergeFamily.subtitle')}
+        <strong>{selectedFamilies[0].name}</strong>
+        {', '}
+        <strong>{selectedFamilies[1].name}</strong>
+      </React.Fragment>
+    ) : (
+      ''
+    );
 
   return (
     <ConfirmationModal
