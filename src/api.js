@@ -2520,3 +2520,22 @@ export const supportedLanguages = (user, language) =>
       query: 'query { supportedLanguages {code, description } }'
     })
   });
+
+export const economicQuestionsPool = (filter, language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'query economicQuestionsPool($page: Int, $lang : String, $filter : String) { economicQuestionsPool (page: $page,lang:$lang,filter:$filter) { content {id,codeName,questionText,topic,answerType,shortName} totalPages totalElements } }',
+      variables: {
+        page: 0,
+        lang: normalizeLanguages(language),
+        filter: filter
+      }
+    })
+  });
