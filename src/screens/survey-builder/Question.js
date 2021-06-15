@@ -1,10 +1,11 @@
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import React, { useState } from 'react';
-import RadioInput from '../../components/RadioInput';
-import Button from '@material-ui/core/Button';
 import Edit from '@material-ui/icons/Edit';
+import clsx from 'clsx';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import RadioInput from '../../components/RadioInput';
 import { COLORS } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
@@ -15,6 +16,9 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: theme.palette.background.grey
     }
+  },
+  economicContainer: {
+    margin: '1rem'
   },
   container: {
     display: 'flex',
@@ -31,7 +35,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Question = ({ order, question, setSelectedQuestion }) => {
+const Question = ({
+  itemRef,
+  draggableProps,
+  order,
+  question,
+  setSelectedQuestion = () => {},
+  setSurveyQuestion,
+  isEconomic
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -39,12 +51,20 @@ const Question = ({ order, question, setSelectedQuestion }) => {
 
   return (
     <div
-      className={classes.mainContainer}
-      onMouseEnter={() => setHovering(true)}
+      ref={itemRef}
+      {...draggableProps}
+      className={clsx(
+        classes.mainContainer,
+        isEconomic && classes.economicContainer
+      )}
+      onMouseEnter={() => {
+        setSurveyQuestion();
+        setHovering(true);
+      }}
       onMouseLeave={() => setHovering(false)}
     >
       <div className={classes.container}>
-        <Typography variant="h6" style={{ marginBottom: '1rem' }}>
+        <Typography variant="h6" style={{ margin: '0 1rem 1rem 0' }}>
           {`${order}. ${question.questionText} ${question.required ? '*' : ''}`}
         </Typography>
         {hovering && (
@@ -58,18 +78,19 @@ const Question = ({ order, question, setSelectedQuestion }) => {
           </Button>
         )}
       </div>
-      {question.options.map((option, index) => (
-        <RadioInput
-          key={index}
-          disabled
-          label={option.text}
-          value={option.value}
-          currentValue={''}
-          classes={{
-            root: classes.radio
-          }}
-        />
-      ))}
+      {Array.isArray(question.options) &&
+        question.options.map((option, index) => (
+          <RadioInput
+            key={index}
+            disabled
+            label={option.text}
+            value={option.value}
+            currentValue={''}
+            classes={{
+              root: classes.radio
+            }}
+          />
+        ))}
       {question.otherOption && (
         <RadioInput
           key={'OTHER'}
