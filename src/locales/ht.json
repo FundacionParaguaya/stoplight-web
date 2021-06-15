@@ -1203,7 +1203,15 @@
       "options": "Opsyon",
       "addOption": "Ajoute opsyon",
       "missingOptions": "Opsyon pou kesyon sa a yo mande yo",
-      "optionValidationError": "Kèk kesyon (yo) pa gen opsyon ankò!"
+      "optionValidationError": "Kèk kesyon (yo) pa gen opsyon ankò!",
+      "economic": {
+        "library": "Bibliyotèk",
+        "search": "Rechèch endikatè",
+        "topics": "Sijè",
+        "socioeconomic": "Kesyon sosyoekonomik",
+        "editTopic": "Edit Topic",
+        "fieldTypes": "Kalite jaden"
+      }
     }
   },
   "reports": {

@@ -111,7 +111,10 @@ export const EditQuestion = ({
   const classes = useStyles();
 
   const addOption = () => {
-    let q = question;
+    let q = {
+      ...question,
+      options: Array.isArray(question.options) ? question.options : []
+    };
     q.options.push({ value: '', text: '' });
     updateQuestion(q);
   };
@@ -189,35 +192,36 @@ export const EditQuestion = ({
                   {t('views.surveyBuilder.options')}
                 </Typography>
 
-                {options.map((option, optionIndex) => (
-                  <div key={optionIndex} className={classes.optionContainer}>
-                    <span className={classes.greyDot}></span>
-                    <TextInput
-                      label={''}
-                      value={option.text}
-                      onChange={e => {
-                        let newOption = {
-                          ...option,
-                          text: e.target.value,
-                          value: e.target.value
-                        };
-                        updateOption(optionIndex, newOption);
-                      }}
-                    />
-                    <Tooltip
-                      title={t('general.delete')}
-                      className={classes.deleteIcon}
-                    >
-                      <IconButton
-                        color="default"
-                        component="span"
-                        onClick={() => deleteOption(optionIndex)}
+                {Array.isArray(options) &&
+                  options.map((option, optionIndex) => (
+                    <div key={optionIndex} className={classes.optionContainer}>
+                      <span className={classes.greyDot}></span>
+                      <TextInput
+                        label={''}
+                        value={option.text}
+                        onChange={e => {
+                          let newOption = {
+                            ...option,
+                            text: e.target.value,
+                            value: e.target.value
+                          };
+                          updateOption(optionIndex, newOption);
+                        }}
+                      />
+                      <Tooltip
+                        title={t('general.delete')}
+                        className={classes.deleteIcon}
                       >
-                        <NotInterestedIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                ))}
+                        <IconButton
+                          color="default"
+                          component="span"
+                          onClick={() => deleteOption(optionIndex)}
+                        >
+                          <NotInterestedIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  ))}
 
                 {Array.isArray(options) &&
                   options.length === 0 &&

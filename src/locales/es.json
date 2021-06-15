@@ -1203,7 +1203,15 @@
       "options": "Opciones",
       "addOption": "Agregar opción",
       "missingOptions": "Se requieren opciones para esta pregunta",
-      "optionValidationError": "¡Algunas preguntas aún no tienen opciones!"
+      "optionValidationError": "¡Algunas preguntas aún no tienen opciones!",
+      "economic": {
+        "library": "Biblioteca",
+        "search": "Indicador de búsqueda",
+        "topics": "Temas",
+        "socioeconomic": "Preguntas socioeconómicas",
+        "editTopic": "Editar tema",
+        "fieldTypes": "Tipos de campo"
+      }
     }
   },
   "reports": {

@@ -36,7 +36,8 @@ export const QuestionItem = ({
   draggableProps,
   question,
   answerType,
-  options = []
+  options = [],
+  onClickProp = () => {}
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -48,6 +49,7 @@ export const QuestionItem = ({
       ref={itemRef}
       {...draggableProps}
       className={classes.questionContainer}
+      onMouseEnter={() => onClickProp()}
     >
       <div className={classes.mainContainer}>
         <QuestionIcon type={answerType} iconClass={classes.icon} />

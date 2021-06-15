@@ -1203,7 +1203,15 @@
       "options": "Options",
       "addOption": "Add option",
       "missingOptions": "Options for this question are required",
-      "optionValidationError": "Some question(s) does not have options yet!"
+      "optionValidationError": "Some question(s) does not have options yet!",
+      "economic": {
+        "library": "Library",
+        "search": "Search indicator",
+        "topics": "Topics",
+        "socioeconomic": "Socioeconomic Questions",
+        "editTopic": "Edit Topic",
+        "fieldTypes": "Field Types"
+      }
     }
   },
   "reports": {
