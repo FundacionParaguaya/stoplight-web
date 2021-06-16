@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    minWidth: 275
+    width: 400
   },
   titleContainer: {
     display: 'flex',
@@ -47,11 +47,13 @@ const useStyles = makeStyles(theme => ({
     fontSize: 20,
     color: '#BDBDBD'
   },
-  addIcon: {
-    color: theme.palette.primary.dark,
-    fontSize: 26,
+  addIconContainer: {
     position: 'absolute',
     right: 13
+  },
+  addIcon: {
+    color: theme.palette.primary.dark,
+    fontSize: 26
   },
   topicContainer: {
     minHeight: 60,
@@ -98,7 +100,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const EconomicLibrary = ({ selectedSurveyTopic, setLibraryQuestion, user }) => {
+const EconomicLibrary = ({
+  selectedSurveyTopic,
+  setLibraryQuestion,
+  toggleTopicForm,
+  user
+}) => {
   const classes = useStyles();
   const {
     t,
@@ -115,7 +122,7 @@ const EconomicLibrary = ({ selectedSurveyTopic, setLibraryQuestion, user }) => {
     economicQuestionsPool(filter, language, user)
       .then(response => {
         let data = [];
-        let rawData = response.data.data.economicQuestionsPool.content;
+        let rawData = response.data.data.economicQuestionsPool;
         rawData.forEach(question => {
           let topicQuestions = data[question.topic] || [];
           topicQuestions.push(question);
@@ -125,7 +132,6 @@ const EconomicLibrary = ({ selectedSurveyTopic, setLibraryQuestion, user }) => {
         setLoading(false);
       })
       .catch(e => {
-        console.log(e);
         setLoading(false);
       });
   };
@@ -189,14 +195,19 @@ const EconomicLibrary = ({ selectedSurveyTopic, setLibraryQuestion, user }) => {
         <Typography
           variant="h6"
           className={classes.title}
-          style={{ color: 'black' }}
+          style={{ color: 'black', maxWidth: 400 }}
         >
           {selectedTopic
             ? selectedTopic
             : t('views.surveyBuilder.economic.topics')}
         </Typography>
 
-        <AddBox className={classes.addIcon} />
+        <IconButton
+          onClick={() => toggleTopicForm()}
+          className={classes.addIconContainer}
+        >
+          <AddBox className={classes.addIcon} />
+        </IconButton>
       </div>
 
       {!selectedTopic &&
@@ -209,7 +220,9 @@ const EconomicLibrary = ({ selectedSurveyTopic, setLibraryQuestion, user }) => {
                 classes.topicContainer
               )}
             >
-              <Typography variant="h6">{topicName}</Typography>
+              <Typography style={{ maxWidth: 400 }} variant="h6">
+                {topicName}
+              </Typography>
               <IconButton onClick={() => setSelectedTopic(topicName)}>
                 <RightArrow
                   style={{ cursor: 'pointer' }}
@@ -230,8 +243,10 @@ const EconomicLibrary = ({ selectedSurveyTopic, setLibraryQuestion, user }) => {
             >
               {topics[selectedTopic].map((question, index) => (
                 <Draggable
-                  key={question.codeName}
-                  draggableId={question.codeName}
+                  key={question.id}
+                  draggableId={
+                    question.codeName + question.answerType + question.id
+                  }
                   index={index}
                 >
                   {(provided, snapshot) => (
@@ -246,7 +261,7 @@ const EconomicLibrary = ({ selectedSurveyTopic, setLibraryQuestion, user }) => {
                       onClickProp={() =>
                         setLibraryQuestion({
                           ...question,
-                          topic: selectedSurveyTopic
+                          topic: selectedSurveyTopic.text
                         })
                       }
                     />

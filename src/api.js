@@ -2531,9 +2531,8 @@ export const economicQuestionsPool = (filter, language, user) =>
     },
     data: JSON.stringify({
       query:
-        'query economicQuestionsPool($page: Int, $lang : String, $filter : String) { economicQuestionsPool (page: $page,lang:$lang,filter:$filter) { content {id,codeName,questionText,topic,answerType,shortName} totalPages totalElements } }',
+        'query economicQuestionsPool($lang : String, $filter : String) { economicQuestionsPool (lang:$lang,filter:$filter) { id, codeName,questionText,topic,answerType,shortName} }',
       variables: {
-        page: 0,
         lang: normalizeLanguages(language),
         filter: filter
       }
