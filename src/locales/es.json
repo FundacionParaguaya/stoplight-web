@@ -1210,8 +1210,11 @@
         "topics": "Temas",
         "socioeconomic": "Preguntas socioeconómicas",
         "editTopic": "Editar tema",
-        "fieldTypes": "Tipos de campo"
-      }
+        "fieldTypes": "Tipos de campo",
+        "conditionalLogic": "Lógica condicional"
+      },
+      "audioSupport": "Soporte de audio",
+      "title": "Título"
     }
   },
   "reports": {

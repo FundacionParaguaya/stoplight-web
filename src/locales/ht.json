@@ -1210,8 +1210,11 @@
         "topics": "Sijè",
         "socioeconomic": "Kesyon sosyoekonomik",
         "editTopic": "Edit Topic",
-        "fieldTypes": "Kalite jaden"
-      }
+        "fieldTypes": "Kalite jaden",
+        "conditionalLogic": "Lojik kondisyonèl"
+      },
+      "audioSupport": "Sipò Audio",
+      "title": "Tit"
     }
   },
   "reports": {

@@ -82,23 +82,28 @@ const EconomicLibrary = ({
   selectedQuestion,
   setSelectedQuestion,
   setSurveyQuestion,
+  goToConditional,
   currentSurvey,
-  updateSurvey
+  updateSurvey,
+  surveyTopics,
+  setSurveyTopics,
+  toggleTopicForm
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [surveyTopics, setSurveyTopics] = useState([]);
 
   useEffect(() => {
     let data = [];
-    currentSurvey.surveyEconomicQuestions.forEach(question => {
-      let index = data.findIndex(t => t === question.topic);
-      if (index < 0) {
-        data.push(question.topic);
-      }
-    });
-    setSelectedSurveyTopic(data[0]);
-    setSurveyTopics(data);
+    if (surveyTopics.length === 0) {
+      currentSurvey.surveyEconomicQuestions.forEach((question, index) => {
+        let topicIndex = data.findIndex(t => t.text === question.topic);
+        if (topicIndex < 0) {
+          data.push({ value: data.length, text: question.topic, audioUrl: '' });
+        }
+      });
+      setSelectedSurveyTopic(data[0]);
+      setSurveyTopics(data);
+    }
   }, []);
 
   const updateQuestion = question => {
@@ -112,6 +117,14 @@ const EconomicLibrary = ({
     updateSurvey({ ...currentSurvey, surveyEconomicQuestions: newQuestions });
   };
 
+  const deleteQuestion = codeName => {
+    let newQuestions = currentSurvey.surveyEconomicQuestions || [];
+    newQuestions = newQuestions.filter(
+      question => question.codeName !== codeName
+    );
+    updateSurvey({ ...currentSurvey, surveyEconomicQuestions: newQuestions });
+  };
+
   return (
     <div className={classes.surveyQuestionsContainer}>
       <Typography variant="h5">
@@ -119,8 +132,10 @@ const EconomicLibrary = ({
       </Typography>
       <div className={classes.tabsContainer}>
         <Tabs
-          value={selectedSurveyTopic}
-          onChange={(event, value) => setSelectedSurveyTopic(value)}
+          value={selectedSurveyTopic.value}
+          onChange={(event, value) =>
+            setSelectedSurveyTopic(surveyTopics.find(s => s.value === value))
+          }
           indicatorColor="secondary"
           textColor="secondary"
           variant="scrollable"
@@ -133,10 +148,10 @@ const EconomicLibrary = ({
               classes={{ root: classes.tabRoot }}
               label={
                 <Typography variant="h6" className={classes.tabTitle}>
-                  {topic}
+                  {topic.text}
                 </Typography>
               }
-              value={topic}
+              value={topic.value}
             />
           ))}
         </Tabs>
@@ -144,7 +159,7 @@ const EconomicLibrary = ({
           color="primary"
           variant="contained"
           className={classes.topicButton}
-          onClick={() => {}}
+          onClick={() => toggleTopicForm()}
         >
           {t('views.surveyBuilder.economic.editTopic')}
         </Button>
@@ -159,7 +174,7 @@ const EconomicLibrary = ({
             >
               {Array.isArray(currentSurvey.surveyEconomicQuestions) &&
                 currentSurvey.surveyEconomicQuestions
-                  .filter(q => q.topic === selectedSurveyTopic)
+                  .filter(q => q.topic === selectedSurveyTopic.text)
                   .map((question, index) => (
                     <Draggable
                       key={question.codeName}
@@ -194,6 +209,8 @@ const EconomicLibrary = ({
                               setSurveyQuestion={() =>
                                 setSurveyQuestion(question)
                               }
+                              handleDelete={deleteQuestion}
+                              goToConditional={goToConditional}
                               isEconomic
                             />
                           )}

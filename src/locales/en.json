@@ -1210,8 +1210,14 @@
         "topics": "Topics",
         "socioeconomic": "Socioeconomic Questions",
         "editTopic": "Edit Topic",
-        "fieldTypes": "Field Types"
-      }
+        "fieldTypes": "Field Types",
+        "conditionalLogic": "Coniditional Logic",
+        "topic": {
+          "new": "New Topic"
+        }
+      },
+      "audioSupport": "Audio Support",
+      "title": "Title"
     }
   },
   "reports": {

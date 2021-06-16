@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
   questionContainer: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(1),
     padding: theme.spacing(1),
