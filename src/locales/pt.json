@@ -1198,6 +1198,17 @@
       "noPublish": "Não publicado"
     },
     "surveyBuilder": {
+      "infoScreen": {
+        "surveysInfo": "Informação da pesquisa",
+        "socioeconomicQuestions": "Perguntas Socioeconômicas",
+        "stoplightQuestions": "Perguntas do semáforo",
+        "termsAndConditions": "Termos e Condições",
+        "privacyPolicy": "Política de Privacidade",
+        "text": "Texto",
+        "title": "Título",
+        "subtitle": "Subtítulo",
+        "save": "Salvar"
+      },
       "question": "Pergunta",
       "shortName": "Nome curto",
       "options": "Opções",

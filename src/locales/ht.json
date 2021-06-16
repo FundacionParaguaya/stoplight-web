@@ -1198,6 +1198,17 @@
       "noPublish": "Pa pibliye"
     },
     "surveyBuilder": {
+      "infoScreen": {
+        "surveysInfo": "Info Sondaj la",
+        "socioeconomicQuestions": "Kesyon sosyoekonomik",
+        "stoplightQuestions": "Kesyon Stoplight",
+        "termsAndConditions": "Tèm ak Kondisyon yo",
+        "privacyPolicy": "Règleman sou enfòmasyon prive",
+        "text": "Tèks",
+        "title": "Tit",
+        "subtitle": "Subtitle",
+        "save": "Sove"
+      },
       "question": "Kesyon",
       "shortName": "Shortname",
       "options": "Opsyon",

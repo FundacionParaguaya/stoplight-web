@@ -14,7 +14,6 @@ import InputWithLabel from '../../components/InputWithLabel';
 import Header from './Header';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import { getLanguageByCode } from '../../utils/lang-utils';
-import AutocompleteWithFormik from '../../components/AutocompleteWithFormik';
 import { updateSurvey } from '../../redux/actions';
 import { supportedLanguages } from '../../api';
 
@@ -28,6 +27,32 @@ const styles = theme => ({
   },
   label: {
     paddingBottom: 10
+  },
+  questionsAmount: {
+    fontSize: 48,
+    fontWeight: '500'
+  },
+  questionsLabel: {
+    fontSize: 12,
+    fontWeight: '400'
+  },
+  questionsGrid: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  questionsInfoContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  dividerContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: 20
   },
   container: {
     display: 'flex',
@@ -159,156 +184,124 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
         {({ setFieldValue, values, touched, setTouched }) => (
           <Form noValidate autoComplete={'off'}>
             <Container className={classes.container}>
-              <Header title={"Survey's Info"} />
-              <Grid container style={{ width: 'auto' }} spacing={2}>
-                <div
-                  className={classes.inforContainer}
-                  style={{ width: '100%' }}
-                >
-                  <Grid item md={5} sm={5} xs={5}>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <InputWithLabel
-                        title={'Title'}
-                        multiline={false}
-                        required
-                        name="title"
-                      />
-                      <CountrySelector
-                        withTitle={true}
-                        countryData={values.country}
-                        onChangeCountry={country =>
-                          setFieldValue('country', country)
-                        }
-                        onBlur={() =>
-                          setTouched(
-                            Object.assign(touched, {
-                              country: true
-                            })
-                          )
-                        }
-                        parentLang={getLanguageByCode(values.language)}
-                        error={touched.country && !values.country}
-                        required={true}
-                      />
-                      <Typography className={classes.label} variant="subtitle1">
-                        {'Language'}
-                      </Typography>
-                      <AutocompleteWithFormik
-                        label={t('views.survey.create.language')}
-                        name="language"
-                        rawOptions={languages}
-                        labelKey="description"
-                        valueKey="code"
-                        maxMenuHeight="150"
-                        isClearable={false}
-                        required
-                      />
-                    </div>
-                  </Grid>
-                  {currentSurvey.surveyEconomicQuestions &&
-                    currentSurvey.surveyStoplightQuestions && (
-                      <Grid
-                        item
-                        md={1}
-                        sm={1}
-                        xs={1}
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'flex-end'
-                        }}
-                      >
-                        <div className={classes.divider} />
-                      </Grid>
-                    )}
-                  {currentSurvey.surveyEconomicQuestions &&
-                    currentSurvey.surveyStoplightQuestions && (
-                      <Grid
-                        item
-                        md={6}
-                        sm={6}
-                        xs={6}
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-evenly',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'flex-start'
-                          }}
+              <Header title={t('views.surveyBuilder.infoScreen.surveysInfo')} />
+              <div className={classes.inforContainer} style={{ width: '100%' }}>
+                <Grid item md={5} sm={5} xs={5}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <InputWithLabel
+                      title={t('views.surveyBuilder.infoScreen.title')}
+                      multiline={false}
+                      required
+                      name="title"
+                    />
+                    <CountrySelector
+                      withTitle={true}
+                      countryData={values.country}
+                      onChangeCountry={country =>
+                        setFieldValue('country', country)
+                      }
+                      onBlur={() =>
+                        setTouched(
+                          Object.assign(touched, {
+                            country: true
+                          })
+                        )
+                      }
+                      parentLang={getLanguageByCode(values.language)}
+                      error={touched.country && !values.country}
+                      required={true}
+                    />
+                  </div>
+                </Grid>
+                {currentSurvey.surveyEconomicQuestions &&
+                  currentSurvey.surveyStoplightQuestions && (
+                    <Grid
+                      item
+                      md={1}
+                      sm={1}
+                      xs={1}
+                      className={classes.dividerContainer}
+                    >
+                      <div className={classes.divider} />
+                    </Grid>
+                  )}
+                {currentSurvey.surveyEconomicQuestions &&
+                  currentSurvey.surveyStoplightQuestions && (
+                    <Grid
+                      item
+                      md={6}
+                      sm={6}
+                      xs={6}
+                      className={classes.questionsGrid}
+                    >
+                      <div className={classes.questionsInfoContainer}>
+                        <Typography
+                          className={classes.questionsAmount}
+                          variant="h4"
                         >
-                          <Typography
-                            style={{ fontSize: 48, fontWeight: '500' }}
-                            variant="h4"
-                          >
-                            {currentSurvey.surveyEconomicQuestions.length}
-                          </Typography>
-                          <Typography
-                            style={{ fontSize: 12, fontWeight: '400' }}
-                            variant="subtitle1"
-                          >
-                            {'Socioeconomic Questions'}
-                          </Typography>
-                        </div>
-                        <div>
-                          <Typography
-                            style={{ fontSize: 48, fontWeight: '500' }}
-                            variant="h4"
-                          >
-                            {currentSurvey.surveyStoplightQuestions.length}
-                          </Typography>
-                          <Typography
-                            style={{ fontSize: 12, fontWeight: '400' }}
-                            variant="subtitle1"
-                          >
-                            {'Stoplight Questions'}
-                          </Typography>
-                        </div>
-                      </Grid>
-                    )}
-                </div>
-              </Grid>
+                          {currentSurvey.surveyEconomicQuestions.length}
+                        </Typography>
+                        <Typography
+                          className={classes.questionsLabel}
+                          variant="subtitle1"
+                        >
+                          {t(
+                            'views.surveyBuilder.infoScreen.socioeconomicQuestions'
+                          )}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography
+                          className={classes.questionsAmount}
+                          variant="h4"
+                        >
+                          {currentSurvey.surveyStoplightQuestions.length}
+                        </Typography>
+                        <Typography
+                          className={classes.questionsLabel}
+                          variant="subtitle1"
+                        >
+                          {t(
+                            'views.surveyBuilder.infoScreen.stoplightQuestions'
+                          )}
+                        </Typography>
+                      </div>
+                    </Grid>
+                  )}
+              </div>
               <Typography className={classes.title} variant="h5">
-                {'Privacy Policy'}
+                {t('views.surveyBuilder.infoScreen.privacyPolicy')}
               </Typography>
               <div className={classes.infoContainer}>
                 <InputWithLabel
-                  title={'Subtitle'}
+                  title={t('views.surveyBuilder.infoScreen.subtitle')}
                   multiline={true}
                   name="termsSubtitle"
-                  inputProps={{ maxLength: '10000' }}
                 />
                 <InputWithLabel
-                  title={'Text'}
+                  title={t('views.surveyBuilder.infoScreen.text')}
                   multiline={true}
                   name="termsText"
-                  inputProps={{ maxLength: '10000' }}
+                  minHeight={150}
                 />
               </div>
               <Typography className={classes.title} variant="h5">
-                {'Terms And Conditions'}
+                {t('views.surveyBuilder.infoScreen.termsAndConditions')}
               </Typography>
               <div
                 style={{ marginBottom: 0 }}
                 className={classes.infoContainer}
               >
                 <InputWithLabel
-                  title={'Subtitle'}
+                  title={t('views.surveyBuilder.infoScreen.subtitle')}
                   multiline={true}
                   name="privacyPolicySubtitle"
-                  inputProps={{ maxLength: '10000' }}
                 />
                 <InputWithLabel
-                  title={'Text'}
+                  title={t('views.surveyBuilder.infoScreen.text')}
                   multiline={true}
                   name="privacyPolicyText"
-                  inputProps={{ maxLength: '10000' }}
+                  minHeight={150}
                 />
               </div>
               <div className={classes.buttonContainer}>
@@ -318,7 +311,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
                   variant="contained"
                   disabled={loading}
                 >
-                  {'Save'}
+                  {t('views.surveyBuilder.infoScreen.save')}
                 </Button>
               </div>
             </Container>

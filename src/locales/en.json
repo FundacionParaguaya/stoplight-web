@@ -1198,6 +1198,17 @@
       "list": "List of Interventions"
     },
     "surveyBuilder": {
+      "infoScreen": {
+        "surveysInfo": "Survey's Info",
+        "socioeconomicQuestions": "Socioeconomic Questions",
+        "stoplightQuestions": "Stoplight Questions",
+        "termsAndConditions": "Terms and Conditions",
+        "privacyPolicy": "Privacy Policy",
+        "text": "Text",
+        "title": "Title",
+        "subtitle": "Subtitle",
+        "save": "Save"
+      },
       "question": "Question",
       "shortName": "Shortname",
       "options": "Options",

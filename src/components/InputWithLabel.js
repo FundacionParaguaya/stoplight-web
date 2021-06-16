@@ -7,25 +7,14 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { useTranslation } from 'react-i18next';
 import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
 
-const useStyles = makeStyles(() => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    alignItems: 'flex-start',
-    '& .MuiInputBase-input': {
-      padding: '12px 12px 10px!important'
-    }
-  },
-  label: { marginRight: 10, marginBottom: 10, fontSize: 14 },
-  field: { width: '-webkit-max-content' },
-  outlinedInputContainer: {
-    marginBottom: 20
-  },
-  outlinedInput: {}
-}));
-
-const InputWithLabel = ({ title, multiline, inputProps, formik, name }) => {
+const InputWithLabel = ({
+  title,
+  multiline,
+  inputProps,
+  formik,
+  name,
+  minHeight
+}) => {
   const value = _.get(formik.values, name) || '';
   const error = pathHasError(name, formik.touched, formik.errors);
   const { t } = useTranslation();
@@ -37,6 +26,24 @@ const InputWithLabel = ({ title, multiline, inputProps, formik, name }) => {
   );
   const onBlur = formik.handleBlur;
   const onChange = formik.handleChange;
+
+  const useStyles = makeStyles(() => ({
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      alignItems: 'flex-start',
+      '& .MuiInputBase-input': {
+        padding: '12px 12px 10px!important'
+      }
+    },
+    label: { marginRight: 10, marginBottom: 10, fontSize: 14 },
+    field: { width: '-webkit-max-content' },
+    outlinedInputContainer: {
+      marginBottom: 20
+    },
+    outlinedInput: { minHeight, maxHeight: 300 }
+  }));
   const classes = useStyles();
   return (
     <div className={classes.container}>

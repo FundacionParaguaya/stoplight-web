@@ -1198,6 +1198,17 @@
       "loading": "Cargando..."
     },
     "surveyBuilder": {
+      "infoScreen": {
+        "surveysInfo": "Información de encuesta",
+        "socioeconomicQuestions": "Preguntas Socioeconomicas",
+        "stoplightQuestions": "Preguntas del semáforo",
+        "termsAndConditions": "Términos y Condiciones",
+        "privacyPolicy": "Políticas de Privacidad",
+        "text": "Texto",
+        "title": "Título",
+        "subtitle": "Subtítulo",
+        "save": "Guardar"
+      },
       "question": "Pregunta",
       "shortName": "Nombre corto",
       "options": "Opciones",
