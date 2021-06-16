@@ -22,8 +22,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   title: {
-    paddingTop: 30,
-    marginBottom: theme.spacing(3)
+    paddingTop: 30
   },
   label: {
     paddingBottom: 10
@@ -57,7 +56,8 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    padding: '0 12%'
   },
   infoContainer: {
     display: 'flex',
@@ -183,8 +183,11 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       >
         {({ setFieldValue, values, touched, setTouched }) => (
           <Form noValidate autoComplete={'off'}>
-            <Container className={classes.container}>
-              <Header title={t('views.surveyBuilder.infoScreen.surveysInfo')} />
+            <div className={classes.container}>
+              <Header
+                title={t('views.surveyBuilder.infoScreen.surveysInfo')}
+                bottomTitle
+              />
               <div className={classes.inforContainer} style={{ width: '100%' }}>
                 <Grid item md={5} sm={5} xs={5}>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -316,7 +319,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
                   {t('views.surveyBuilder.infoScreen.save')}
                 </Button>
               </div>
-            </Container>
+            </div>
           </Form>
         )}
       </Formik>

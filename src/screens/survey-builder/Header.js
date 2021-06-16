@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
   titleContainer: {
     marginBottom: theme.spacing(3)
   },
+  bottomTitleContainer: {
+    marginBottom: 0
+  },
   interventionImage: {
     display: 'block',
     objectFit: 'contain',
@@ -26,12 +29,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Header = ({ title }) => {
+const Header = ({ title, bottomTitle = false }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
-      <Typography variant="h5" className={classes.titleContainer}>
+      <Typography
+        variant="h5"
+        className={
+          bottomTitle ? classes.bottomTitleContainer : classes.titleContainer
+        }
+      >
         {title}
       </Typography>
       <img src={DotsImage} alt="Banner" className={classes.interventionImage} />
