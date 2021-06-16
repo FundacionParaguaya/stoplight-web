@@ -38,7 +38,8 @@
     "publish": "Publish",
     "edit": "Edit",
     "other": "Other",
-    "saveQuestions": "Save questions"
+    "saveQuestions": "Save questions",
+    "done": "Done"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -1214,7 +1215,9 @@
         "conditionalLogic": "Coniditional Logic",
         "topic": {
           "new": "New Topic"
-        }
+        },
+        "deleteTopic": "Delete Topic",
+        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here."
       },
       "audioSupport": "Audio Support",
       "title": "Title"

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -68,11 +68,18 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     border: `2px dashed ${theme.palette.grey.quarter}`,
     backgroundColor: theme.palette.background.default,
-    padding: '1rem'
+    padding: '1rem',
+    height: '100%'
   },
   topicButton: {
-    backgroundColor: COLORS.MEDIUM_GREY,
-    marginBottom: 6
+    margin: '6px 0 6px 6px',
+    backgroundColor: COLORS.MEDIUM_GREY
+  },
+  placeHolder: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '60vh'
   }
 }));
 
@@ -87,7 +94,8 @@ const EconomicLibrary = ({
   updateSurvey,
   surveyTopics,
   setSurveyTopics,
-  toggleTopicForm
+  toggleTopicForm,
+  handleDeleteTopic
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -101,8 +109,10 @@ const EconomicLibrary = ({
           data.push({ value: data.length, text: question.topic, audioUrl: '' });
         }
       });
-      setSelectedSurveyTopic(data[0]);
+      setSelectedSurveyTopic(data[0] || {});
       setSurveyTopics(data);
+    } else {
+      if (!selectedSurveyTopic.value) setSelectedSurveyTopic(surveyTopics[0]);
     }
   }, []);
 
@@ -155,14 +165,24 @@ const EconomicLibrary = ({
             />
           ))}
         </Tabs>
-        <Button
-          color="primary"
-          variant="contained"
-          className={classes.topicButton}
-          onClick={() => toggleTopicForm()}
-        >
-          {t('views.surveyBuilder.economic.editTopic')}
-        </Button>
+        <div>
+          <Button
+            color="primary"
+            variant="contained"
+            className={classes.topicButton}
+            onClick={() => handleDeleteTopic(selectedSurveyTopic)}
+          >
+            {t('views.surveyBuilder.economic.deleteTopic')}
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            className={classes.topicButton}
+            onClick={() => toggleTopicForm()}
+          >
+            {t('views.surveyBuilder.economic.editTopic')}
+          </Button>
+        </div>
       </div>
       {!!selectedSurveyTopic && (
         <Droppable droppableId="survey">
@@ -194,6 +214,7 @@ const EconomicLibrary = ({
                               updateQuestion={question =>
                                 updateQuestion(question)
                               }
+                              afterSubmit={() => setSelectedQuestion('')}
                               isEconomic
                             />
                           ) : (
@@ -218,7 +239,17 @@ const EconomicLibrary = ({
                       )}
                     </Draggable>
                   ))}
-              {provided.placeholder}
+              {!!selectedSurveyTopic &&
+                (!Array.isArray(currentSurvey.surveyEconomicQuestions) ||
+                  currentSurvey.surveyEconomicQuestions.filter(
+                    q => q.topic === selectedSurveyTopic.text
+                  ).length === 0) && (
+                  <div className={classes.placeHolder}>
+                    <Typography variant="h6">
+                      {t('views.surveyBuilder.economic.dropHere')}
+                    </Typography>
+                  </div>
+                )}
             </div>
           )}
         </Droppable>

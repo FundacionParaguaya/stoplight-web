@@ -101,7 +101,8 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
     } else {
       if (
         source.droppableId === 'library' &&
-        destination.droppableId === 'survey'
+        destination.droppableId === 'survey' &&
+        !!libraryQuestion
       ) {
         let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const topicStart = newQuestions.findIndex(
@@ -121,7 +122,8 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       }
       if (
         source.droppableId === 'newQuestion' &&
-        destination.droppableId === 'survey'
+        destination.droppableId === 'survey' &&
+        !!newQuestion
       ) {
         const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const codeName = `addedQuestion_${newQuestions.length}`;
@@ -136,11 +138,42 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   };
 
   const updateTopics = topic => {
-    console.log(topic);
     let newTopics = Array.from(surveyTopics);
     const index = newTopics.findIndex(t => t.value === topic.value);
-    newTopics[index] = topic;
-    setSelectedSurveyTopic(topic);
+    if (index > 0) {
+      let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
+      const oldTopic = newTopics[index];
+      newQuestions = newQuestions.map(question => {
+        if (question.topic === oldTopic.text) {
+          return { ...question, topic: topic.text };
+        } else {
+          return question;
+        }
+      });
+      updateSurvey({
+        ...currentSurvey,
+        surveyEconomicQuestions: newQuestions
+      });
+      newTopics[index] = topic;
+    } else {
+      newTopics.push({ value: newTopics.length, ...topic });
+    }
+    setSelectedSurveyTopic({ value: newTopics.length - 1, ...topic });
+    setSurveyTopics(newTopics);
+  };
+
+  const handleDeleteTopic = topic => {
+    let newTopics = Array.from(surveyTopics).filter(
+      t => t.value !== topic.value
+    );
+    let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions).filter(
+      q => q.topic !== topic.text
+    );
+    updateSurvey({
+      ...currentSurvey,
+      surveyEconomicQuestions: newQuestions
+    });
+    setSelectedSurveyTopic(newTopics[0] || {});
     setSurveyTopics(newTopics);
   };
 
@@ -190,6 +223,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
               setSelectedSurveyTopic({});
               setTopicForm(!topicForm);
             }}
+            language={currentSurvey.language}
           />
         )}
         {tab === 2 && (
@@ -209,6 +243,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
             surveyTopics={surveyTopics}
             setSurveyTopics={setSurveyTopics}
             toggleTopicForm={() => setTopicForm(!topicForm)}
+            handleDeleteTopic={handleDeleteTopic}
           />
         )}
         {topicForm && (

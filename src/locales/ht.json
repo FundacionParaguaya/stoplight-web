@@ -38,7 +38,8 @@
     "publish": "pibliye",
     "edit": "Edite",
     "other": "Lòt",
-    "saveQuestions": "Sove kesyon yo"
+    "saveQuestions": "Sove kesyon yo",
+    "done": "Fè"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",
@@ -1211,7 +1212,9 @@
         "socioeconomic": "Kesyon sosyoekonomik",
         "editTopic": "Edit Topic",
         "fieldTypes": "Kalite jaden",
-        "conditionalLogic": "Lojik kondisyonèl"
+        "conditionalLogic": "Lojik kondisyonèl",
+        "deleteTopic": "Efase Topic",
+        "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la."
       },
       "audioSupport": "Sipò Audio",
       "title": "Tit"

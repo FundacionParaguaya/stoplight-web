@@ -38,7 +38,8 @@
     "publish": "Publicar",
     "edit": "Editar",
     "other": "Outro",
-    "saveQuestions": "Salvar perguntas"
+    "saveQuestions": "Salvar perguntas",
+    "done": "Feito"
   },
   "validation": {
     "fieldIsRequired": "Este campo é obrigatório",
@@ -1211,7 +1212,9 @@
         "socioeconomic": "Questões socioeconômicas",
         "editTopic": "Editar Tópico",
         "fieldTypes": "Tipos de Campo",
-        "conditionalLogic": "Lógica Condicional"
+        "conditionalLogic": "Lógica Condicional",
+        "deleteTopic": "Apagar Tópico",
+        "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui."
       },
       "audioSupport": "Suporte de Áudio",
       "title": "Título"

@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import NotInterestedIcon from '@material-ui/icons/HighlightOff';
 import clsx from 'clsx';
@@ -105,7 +106,8 @@ export const EditQuestion = ({
   draggableProps,
   question,
   updateQuestion,
-  isEconomic = false
+  isEconomic = false,
+  afterSubmit = () => {}
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -272,6 +274,15 @@ export const EditQuestion = ({
           </Grid>
         </Grid>
       </Grid>
+      <div>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => afterSubmit()}
+        >
+          {t('general.done')}
+        </Button>
+      </div>
     </div>
   );
 };

@@ -67,7 +67,7 @@ const FieldTypes = ({ selectedSurveyTopic, setNewQuestion }) => {
                     onClickProp={() =>
                       setNewQuestion({
                         ...question,
-                        topic: selectedSurveyTopic
+                        topic: selectedSurveyTopic.text
                       })
                     }
                   />

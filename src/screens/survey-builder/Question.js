@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioInput from '../../components/RadioInput';
 import { COLORS } from '../../theme';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     margin: '1rem'
   },
   container: {
+    minHeight: 60,
     display: 'flex',
     justifyContent: 'space-between'
   },
@@ -110,31 +112,35 @@ const Question = ({
           )}
         </div>
       </div>
-      {Array.isArray(question.options) &&
-        question.options.map((option, index) => (
-          <RadioInput
-            key={index}
-            disabled
-            label={option.text}
-            value={option.value}
-            currentValue={''}
-            classes={{
-              root: classes.radio
-            }}
-          />
-        ))}
-      {question.otherOption && (
-        <RadioInput
-          key={'OTHER'}
-          disabled
-          label={t('general.other')}
-          value={'OTHER'}
-          currentValue={''}
-          classes={{
-            root: classes.radio
-          }}
-        />
-      )}
+      <Grid container spacing={4}>
+        {Array.isArray(question.options) &&
+          question.options.map((option, index) => (
+            <Grid key={index} item md={3} sm={4} xs={6}>
+              <RadioInput
+                disabled
+                label={option.text}
+                value={option.value}
+                currentValue={''}
+                classes={{
+                  root: classes.radio
+                }}
+              />
+            </Grid>
+          ))}
+        {question.otherOption && (
+          <Grid key={'OTHER'} item md={3} sm={4} xs={6}>
+            <RadioInput
+              disabled
+              label={t('general.other')}
+              value={'OTHER'}
+              currentValue={''}
+              classes={{
+                root: classes.radio
+              }}
+            />
+          </Grid>
+        )}
+      </Grid>
     </div>
   );
 };

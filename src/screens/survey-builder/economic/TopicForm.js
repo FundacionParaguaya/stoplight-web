@@ -51,7 +51,7 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
   });
 
   useEffect(() => {
-    setFormTopic(topic);
+    setFormTopic({ text: '', ...topic });
   }, [topic]);
 
   return (
