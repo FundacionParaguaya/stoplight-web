@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'formik';
 import * as _ from 'lodash';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { useTranslation } from 'react-i18next';
 import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
 
 const useStyles = makeStyles(() => ({
@@ -24,9 +25,10 @@ const useStyles = makeStyles(() => ({
   outlinedInput: {}
 }));
 
-const InputWithLabel = ({ title, multiline, inputProps, formik, name, t }) => {
+const InputWithLabel = ({ title, multiline, inputProps, formik, name }) => {
   const value = _.get(formik.values, name) || '';
   const error = pathHasError(name, formik.touched, formik.errors);
+  const { t } = useTranslation();
   const helperText = getErrorLabelForPath(
     name,
     formik.touched,
