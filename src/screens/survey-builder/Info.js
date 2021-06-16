@@ -275,6 +275,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
               <div className={classes.infoContainer}>
                 <InputWithLabel
                   title={t('views.surveyBuilder.infoScreen.subtitle')}
+                  inputProps={{ maxLength: '100' }}
                   multiline={true}
                   name="termsSubtitle"
                 />
@@ -294,6 +295,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
               >
                 <InputWithLabel
                   title={t('views.surveyBuilder.infoScreen.subtitle')}
+                  inputProps={{ maxLength: '100' }}
                   multiline={true}
                   name="privacyPolicySubtitle"
                 />
