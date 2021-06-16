@@ -2527,13 +2527,13 @@ export const economicQuestionsPool = (filter, language, user) =>
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`,
-      'X-locale': normalizeLanguages(language)
+      'X-locale': language
     },
     data: JSON.stringify({
       query:
         'query economicQuestionsPool($lang : String, $filter : String) { economicQuestionsPool (lang:$lang,filter:$filter) { id, codeName,questionText,topic,answerType,shortName} }',
       variables: {
-        lang: normalizeLanguages(language),
+        lang: language,
         filter: filter
       }
     })

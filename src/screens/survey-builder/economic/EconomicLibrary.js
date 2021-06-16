@@ -104,13 +104,11 @@ const EconomicLibrary = ({
   selectedSurveyTopic,
   setLibraryQuestion,
   toggleTopicForm,
+  language,
   user
 }) => {
   const classes = useStyles();
-  const {
-    t,
-    i18n: { language }
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('');
