@@ -18,6 +18,7 @@ import { COLORS } from '../../theme';
 import EconomicPreview from './economic/EconomicPreview';
 import FieldTypes from './economic/FieldTypes';
 import EconomicLibrary from './economic/EconomicLibrary';
+import TopicForm from './economic/TopicForm';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -57,6 +58,8 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const [newQuestion, setNewQuestion] = useState();
   const [selectedSurveyTopic, setSelectedSurveyTopic] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState('');
+  const [surveyTopics, setSurveyTopics] = useState([]);
+  const [topicForm, setTopicForm] = useState('');
 
   const onSave = () => {
     setLoading(true);
@@ -73,6 +76,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
         const newQuestions = Array.from(
           currentSurvey.surveyEconomicQuestions
         ).filter(q => q.codeName !== surveyQuestion.codeName);
+
         updateSurvey({
           ...currentSurvey,
           surveyEconomicQuestions: newQuestions
@@ -99,8 +103,17 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
         source.droppableId === 'library' &&
         destination.droppableId === 'survey'
       ) {
-        const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
-        newQuestions.push(libraryQuestion);
+        let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
+        const topicStart = newQuestions.findIndex(
+          q => q.topic === libraryQuestion.topic
+        );
+        const topicLength = newQuestions.filter(
+          q => q.topic === libraryQuestion.topic
+        ).length;
+        newQuestions.splice(topicStart + topicLength, 0, {
+          ...libraryQuestion,
+          codeName: libraryQuestion.codeName + '_' + newQuestions.length
+        });
         updateSurvey({
           ...currentSurvey,
           surveyEconomicQuestions: newQuestions
@@ -120,6 +133,15 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
         });
       }
     }
+  };
+
+  const updateTopics = topic => {
+    console.log(topic);
+    let newTopics = Array.from(surveyTopics);
+    const index = newTopics.findIndex(t => t.value === topic.value);
+    newTopics[index] = topic;
+    setSelectedSurveyTopic(topic);
+    setSurveyTopics(newTopics);
   };
 
   return (
@@ -164,6 +186,10 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           <EconomicLibrary
             selectedSurveyTopic={selectedSurveyTopic}
             setLibraryQuestion={setLibraryQuestion}
+            toggleTopicForm={() => {
+              setSelectedSurveyTopic({});
+              setTopicForm(!topicForm);
+            }}
           />
         )}
         {tab === 2 && (
@@ -172,13 +198,24 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
             setNewQuestion={setNewQuestion}
           />
         )}
-        {(tab === 1 || tab === 2) && (
+        {(tab === 1 || tab === 2) && !topicForm && (
           <EconomicPreview
             selectedSurveyTopic={selectedSurveyTopic}
             setSelectedSurveyTopic={setSelectedSurveyTopic}
             selectedQuestion={selectedQuestion}
             setSelectedQuestion={setSelectedQuestion}
             setSurveyQuestion={setSurveyQuestion}
+            goToConditional={() => setTab(3)}
+            surveyTopics={surveyTopics}
+            setSurveyTopics={setSurveyTopics}
+            toggleTopicForm={() => setTopicForm(!topicForm)}
+          />
+        )}
+        {topicForm && (
+          <TopicForm
+            topic={selectedSurveyTopic}
+            toggle={() => setTopicForm(!topicForm)}
+            updateTopics={updateTopics}
           />
         )}
       </DragDropContext>
