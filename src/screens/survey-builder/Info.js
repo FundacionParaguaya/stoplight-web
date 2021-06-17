@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import Container from '../../components/Container';
 import withLayout from '../../components/withLayout';
 import InputWithLabel from '../../components/InputWithLabel';
 import Header from './Header';
@@ -122,6 +121,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
     setLoading(true);
     const data = {
       title: values.title,
+      hub: values.hub,
       country: values.country,
       language: values.language,
       termsConditions: {
@@ -131,7 +131,9 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       privacyPolicy: {
         text: values.privacyPolicyText,
         title: values.privacyPolicySubtitle
-      }
+      },
+      surveyEconomicQuestions: values.surveyEconomicQuestions,
+      surveyStoplightQuestions: values.surveyStoplightQuestions
     };
 
     updateSurvey(data);
@@ -147,6 +149,9 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       .catch(e => console.log(e));
   }, [language, user]);
 
+  console.log('_______');
+  console.log(currentSurvey);
+  console.log('_______');
   return (
     <div className={classes.mainContainer}>
       <Formik
@@ -174,7 +179,9 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
             '',
           privacyPolicyText:
             (currentSurvey.privacyPolicy && currentSurvey.privacyPolicy.text) ||
-            ''
+            '',
+          surveyEconomicQuestions: currentSurvey.surveyEconomicQuestions || [],
+          surveyStoplightQuestions: currentSurvey.surveyStoplightQuestions || []
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
@@ -216,8 +223,8 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
                     />
                   </div>
                 </Grid>
-                {currentSurvey.surveyEconomicQuestions &&
-                  currentSurvey.surveyStoplightQuestions && (
+                {values.surveyEconomicQuestions.length > 0 &&
+                  values.surveyStoplightQuestions.length > 0 && (
                     <Grid
                       item
                       md={1}
@@ -228,8 +235,8 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
                       <div className={classes.divider} />
                     </Grid>
                   )}
-                {currentSurvey.surveyEconomicQuestions &&
-                  currentSurvey.surveyStoplightQuestions && (
+                {values.surveyEconomicQuestions.length > 0 &&
+                  values.surveyStoplightQuestions.length > 0 && (
                     <Grid
                       item
                       md={6}
