@@ -14,6 +14,7 @@ import FamilyFilter from '../components/FamilyFilter';
 import { getFamiliesList } from '../api';
 import { withSnackbar } from 'notistack';
 import MoveFamilyModal from './families/MoveFamilyModal';
+import MergeFamilyModal from './families/MergeFamilyModal';
 
 const Families = ({
   classes,
@@ -36,6 +37,7 @@ const Families = ({
   const [numberOfRows, setNumberOfRows] = useState(0);
   const [resetPagination, setResetPagination] = useState(false);
   const [openMoveModal, setOpenMoveModal] = useState(false);
+  const [openMergeModal, setOpenMergeModal] = useState(false);
   const [selectedFamilies, setSelectedFamilies] = useState([]);
 
   const setSelectedOrganizations = (selected, allOrganizations) => {
@@ -137,6 +139,11 @@ const Families = ({
     setOpenMoveModal(!openMoveModal);
   };
 
+  const toggleMergeModal = families => {
+    setSelectedFamilies(families);
+    setOpenMergeModal(!openMergeModal);
+  };
+
   useEffect(() => setDidMount(true), []);
 
   // Clearing selected organizations when the hub filter changes
@@ -168,6 +175,13 @@ const Families = ({
         selectedFamilies={selectedFamilies}
         afterSubmit={afterSubmit}
         lang={language}
+      />
+      <MergeFamilyModal
+        toggleModal={toggleMergeModal}
+        open={openMergeModal}
+        selectedFamilies={selectedFamilies}
+        afterSubmit={afterSubmit}
+        user={user}
       />
       <Container variant="stretch">
         <div className={classes.titleContainer}>
@@ -211,6 +225,7 @@ const Families = ({
             numberOfRows={numberOfRows}
             redirectToFamily={redirectToFamily}
             toggleMoveModal={toggleMoveModal}
+            toggleMergeModal={toggleMergeModal}
           />
         </div>
       </Container>

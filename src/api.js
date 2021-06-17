@@ -2538,3 +2538,20 @@ export const economicQuestionsPool = (filter, language, user) =>
       }
     })
   });
+
+export const unifyFamilies = (families, language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'mutation unifyFamilies($families: [Long]) { unifyFamilies (families: $families) { successful } }',
+      variables: {
+        families
+      }
+    })
+  });

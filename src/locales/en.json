@@ -569,6 +569,13 @@
         "confirmSubtitle": " Are you sure you want to move these families to another organization?",
         "success": "Families successfully migrated",
         "error": "Families could not be migrated"
+      },
+      "mergeFamily": {
+        "merge": "Merge",
+        "success": "Families successfully merged",
+        "error": "Could not merge families",
+        "confirm": "Confirm merge",
+        "subtitle": "Are you sure you want to merge this two families:"
       }
     },
     "organizationFilter": {

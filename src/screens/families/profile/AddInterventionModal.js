@@ -93,7 +93,11 @@ export const buildInitialValuesForForm = (questions, draft) => {
       draftQuestion.hasOwnProperty('other') && !!draftQuestion.other;
 
     if (hasOtherOption && draftHasOtherValue) {
-      initialValue[question.codeName] = hasOtherOption.value;
+      initialValue[question.codeName] =
+        Array.isArray(draftQuestion.multipleValue) &&
+        draftQuestion.multipleValue.length > 0
+          ? draftQuestion.multipleValue
+          : hasOtherOption.value;
       initialValue[`custom${capitalize(question.codeName)}`] =
         draftQuestion.other;
     }
@@ -121,7 +125,8 @@ export const buildInitialValuesForForm = (questions, draft) => {
       initialValue[question.codeName] = values;
     }
 
-    delete initialValue[question.codeName].text;
+    !!initialValue[question.codeName] &&
+      delete initialValue[question.codeName].text;
   });
 
   return initialValue;
@@ -363,6 +368,10 @@ const AddInterventionModal = ({
                           !!e &&
                             e._isValid &&
                             setFieldValue(question.codeName, e.unix());
+                          //Condition for clearing  unrequired dates fields
+                          (!e || !e._isValid) &&
+                            !question.required &&
+                            setFieldValue(question.codeName, '');
                         }}
                       />
                     </React.Fragment>
