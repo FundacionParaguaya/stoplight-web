@@ -193,7 +193,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
           economicScreens: currentSurvey.economicScreens || '',
           elementsWithConditionsOnThem:
             currentSurvey.elementsWithConditionsOnThem || '',
-          minimumPriorities: currentSurvey.minimumPriorities || ''
+          minimumPriorities: currentSurvey.minimumPriorities || 0
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
