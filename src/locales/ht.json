@@ -38,7 +38,8 @@
     "publish": "pibliye",
     "edit": "Edite",
     "other": "Lòt",
-    "saveQuestions": "Sove kesyon yo"
+    "saveQuestions": "Sove kesyon yo",
+    "done": "Fè"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",
@@ -1214,7 +1215,24 @@
       "options": "Opsyon",
       "addOption": "Ajoute opsyon",
       "missingOptions": "Opsyon pou kesyon sa a yo mande yo",
-      "optionValidationError": "Kèk kesyon (yo) pa gen opsyon ankò!"
+      "optionValidationError": "Kèk kesyon (yo) pa gen opsyon ankò!",
+      "economic": {
+        "library": "Bibliyotèk",
+        "search": "Rechèch endikatè",
+        "topics": "Sijè",
+        "socioeconomic": "Kesyon sosyoekonomik",
+        "editTopic": "Edit Topic",
+        "fieldTypes": "Kalite jaden",
+        "conditionalLogic": "Lojik kondisyonèl",
+        "deleteTopic": "Efase Topic",
+        "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la.",
+        "topic": {
+          "new": "Nouvo sijè",
+          "error": "Non sijè pa ka vid"
+        }
+      },
+      "audioSupport": "Sipò Audio",
+      "title": "Tit"
     }
   },
   "reports": {

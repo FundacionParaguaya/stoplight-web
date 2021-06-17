@@ -2520,3 +2520,21 @@ export const supportedLanguages = (user, language) =>
       query: 'query { supportedLanguages {code, description } }'
     })
   });
+
+export const economicQuestionsPool = (filter, language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': language
+    },
+    data: JSON.stringify({
+      query:
+        'query economicQuestionsPool($lang : String, $filter : String) { economicQuestionsPool (lang:$lang,filter:$filter) { id, codeName,questionText,topic,answerType,shortName} }',
+      variables: {
+        lang: language,
+        filter: filter
+      }
+    })
+  });

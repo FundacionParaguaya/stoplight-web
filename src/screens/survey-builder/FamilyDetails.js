@@ -126,6 +126,7 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
               <EditQuestion
                 question={question}
                 updateQuestion={question => updateQuestion(index, question)}
+                afterSubmit={() => setSelectedQuestion('')}
               />
             ) : (
               <Question

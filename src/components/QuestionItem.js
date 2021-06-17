@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
   questionContainer: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(1),
     padding: theme.spacing(1),
@@ -36,7 +37,8 @@ export const QuestionItem = ({
   draggableProps,
   question,
   answerType,
-  options = []
+  options = [],
+  onClickProp = () => {}
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -48,6 +50,7 @@ export const QuestionItem = ({
       ref={itemRef}
       {...draggableProps}
       className={classes.questionContainer}
+      onMouseEnter={() => onClickProp()}
     >
       <div className={classes.mainContainer}>
         <QuestionIcon type={answerType} iconClass={classes.icon} />

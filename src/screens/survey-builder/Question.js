@@ -1,11 +1,13 @@
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import React, { useState } from 'react';
-import RadioInput from '../../components/RadioInput';
-import Button from '@material-ui/core/Button';
 import Edit from '@material-ui/icons/Edit';
+import clsx from 'clsx';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import RadioInput from '../../components/RadioInput';
 import { COLORS } from '../../theme';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -16,7 +18,11 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: theme.palette.background.grey
     }
   },
+  economicContainer: {
+    margin: '1rem'
+  },
   container: {
+    minHeight: 60,
     display: 'flex',
     justifyContent: 'space-between'
   },
@@ -28,10 +34,28 @@ const useStyles = makeStyles(theme => ({
     '& $span': {
       color: `${theme.palette.grey.middle} !important`
     }
+  },
+  button: {
+    width: 'fit-content',
+    padding: '0 16px',
+    backgroundColor: COLORS.MEDIUM_GREY,
+    marginRight: 2,
+    marginLeft: 2,
+    marginBottom: 6
   }
 }));
 
-const Question = ({ order, question, setSelectedQuestion }) => {
+const Question = ({
+  itemRef,
+  draggableProps,
+  order,
+  question,
+  setSelectedQuestion = () => {},
+  setSurveyQuestion = () => {},
+  isEconomic,
+  handleDelete,
+  goToConditional
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -39,49 +63,84 @@ const Question = ({ order, question, setSelectedQuestion }) => {
 
   return (
     <div
-      className={classes.mainContainer}
-      onMouseEnter={() => setHovering(true)}
+      ref={itemRef}
+      {...draggableProps}
+      className={clsx(
+        classes.mainContainer,
+        isEconomic && classes.economicContainer
+      )}
+      onMouseEnter={() => {
+        setSurveyQuestion();
+        setHovering(true);
+      }}
       onMouseLeave={() => setHovering(false)}
     >
       <div className={classes.container}>
-        <Typography variant="h6" style={{ marginBottom: '1rem' }}>
+        <Typography variant="h6" style={{ margin: '0 1rem 1rem 0' }}>
           {`${order}. ${question.questionText} ${question.required ? '*' : ''}`}
         </Typography>
-        {hovering && (
-          <Button
-            color="primary"
-            variant="contained"
-            style={{ backgroundColor: COLORS.MEDIUM_GREY }}
-            onClick={() => setSelectedQuestion(question.codeName)}
-          >
-            <Edit className={classes.icon} /> {t('general.edit')}
-          </Button>
-        )}
+        <div style={{ minWidth: isEconomic ? 300 : 100 }}>
+          {hovering && (
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.button}
+              onClick={() => setSelectedQuestion(question.codeName)}
+            >
+              <Edit className={classes.icon} /> {t('general.edit')}
+            </Button>
+          )}
+          {hovering && isEconomic && (
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.button}
+              onClick={goToConditional}
+            >
+              {t('views.surveyBuilder.economic.conditionalLogic')}
+            </Button>
+          )}
+          {hovering && isEconomic && (
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.button}
+              onClick={() => handleDelete(question.codeName)}
+            >
+              {t('general.delete')}
+            </Button>
+          )}
+        </div>
       </div>
-      {question.options.map((option, index) => (
-        <RadioInput
-          key={index}
-          disabled
-          label={option.text}
-          value={option.value}
-          currentValue={''}
-          classes={{
-            root: classes.radio
-          }}
-        />
-      ))}
-      {question.otherOption && (
-        <RadioInput
-          key={'OTHER'}
-          disabled
-          label={t('general.other')}
-          value={'OTHER'}
-          currentValue={''}
-          classes={{
-            root: classes.radio
-          }}
-        />
-      )}
+      <Grid container spacing={4}>
+        {Array.isArray(question.options) &&
+          question.options.map((option, index) => (
+            <Grid key={index} item md={3} sm={4} xs={6}>
+              <RadioInput
+                disabled
+                label={option.text}
+                value={option.value}
+                currentValue={''}
+                classes={{
+                  root: classes.radio
+                }}
+              />
+            </Grid>
+          ))}
+        {question.otherOption && (
+          <Grid key={'OTHER'} item md={3} sm={4} xs={6}>
+            <RadioInput
+              disabled
+              label={t('general.other')}
+              value={'OTHER'}
+              currentValue={''}
+              classes={{
+                root: classes.radio
+              }}
+            />
+          </Grid>
+        )}
+      </Grid>
     </div>
   );
 };

@@ -38,7 +38,8 @@
     "publish": "Publish",
     "edit": "Edit",
     "other": "Other",
-    "saveQuestions": "Save questions"
+    "saveQuestions": "Save questions",
+    "done": "Done"
   },
   "validation": {
     "fieldIsRequired": "This field is required",
@@ -1214,7 +1215,24 @@
       "options": "Options",
       "addOption": "Add option",
       "missingOptions": "Options for this question are required",
-      "optionValidationError": "Some question(s) does not have options yet!"
+      "optionValidationError": "Some question(s) does not have options yet!",
+      "economic": {
+        "library": "Library",
+        "search": "Search indicator",
+        "topics": "Topics",
+        "socioeconomic": "Socioeconomic Questions",
+        "editTopic": "Edit Topic",
+        "fieldTypes": "Field Types",
+        "conditionalLogic": "Conditional Logic",
+        "topic": {
+          "new": "New Topic",
+          "error": "Topic name cannot be empty"
+        },
+        "deleteTopic": "Delete Topic",
+        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here."
+      },
+      "audioSupport": "Audio Support",
+      "title": "Title"
     }
   },
   "reports": {

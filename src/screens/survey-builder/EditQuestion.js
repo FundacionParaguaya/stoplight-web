@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import NotInterestedIcon from '@material-ui/icons/HighlightOff';
 import clsx from 'clsx';
@@ -105,13 +106,17 @@ export const EditQuestion = ({
   draggableProps,
   question,
   updateQuestion,
-  isEconomic = false
+  isEconomic = false,
+  afterSubmit = () => {}
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
   const addOption = () => {
-    let q = question;
+    let q = {
+      ...question,
+      options: Array.isArray(question.options) ? question.options : []
+    };
     q.options.push({ value: '', text: '' });
     updateQuestion(q);
   };
@@ -189,35 +194,36 @@ export const EditQuestion = ({
                   {t('views.surveyBuilder.options')}
                 </Typography>
 
-                {options.map((option, optionIndex) => (
-                  <div key={optionIndex} className={classes.optionContainer}>
-                    <span className={classes.greyDot}></span>
-                    <TextInput
-                      label={''}
-                      value={option.text}
-                      onChange={e => {
-                        let newOption = {
-                          ...option,
-                          text: e.target.value,
-                          value: e.target.value
-                        };
-                        updateOption(optionIndex, newOption);
-                      }}
-                    />
-                    <Tooltip
-                      title={t('general.delete')}
-                      className={classes.deleteIcon}
-                    >
-                      <IconButton
-                        color="default"
-                        component="span"
-                        onClick={() => deleteOption(optionIndex)}
+                {Array.isArray(options) &&
+                  options.map((option, optionIndex) => (
+                    <div key={optionIndex} className={classes.optionContainer}>
+                      <span className={classes.greyDot}></span>
+                      <TextInput
+                        label={''}
+                        value={option.text}
+                        onChange={e => {
+                          let newOption = {
+                            ...option,
+                            text: e.target.value,
+                            value: e.target.value
+                          };
+                          updateOption(optionIndex, newOption);
+                        }}
+                      />
+                      <Tooltip
+                        title={t('general.delete')}
+                        className={classes.deleteIcon}
                       >
-                        <NotInterestedIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                ))}
+                        <IconButton
+                          color="default"
+                          component="span"
+                          onClick={() => deleteOption(optionIndex)}
+                        >
+                          <NotInterestedIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  ))}
 
                 {Array.isArray(options) &&
                   options.length === 0 &&
@@ -268,6 +274,15 @@ export const EditQuestion = ({
           </Grid>
         </Grid>
       </Grid>
+      <div>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => afterSubmit()}
+        >
+          {t('general.done')}
+        </Button>
+      </div>
     </div>
   );
 };
