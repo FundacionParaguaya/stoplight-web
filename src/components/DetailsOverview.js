@@ -30,7 +30,7 @@ import {
 } from '../api';
 import ImagePreview from './ImagePreview';
 import Details from '../screens/families/profile/Details';
-//import FamilyInterventions from '../screens/families/profile/FamilyInterventions';
+import FamilyInterventions from '../screens/families/profile/FamilyInterventions';
 
 const useStyles = makeStyles(theme => ({
   overviewContainer: {
@@ -185,7 +185,6 @@ const DetailsOverview = ({
   family,
   index,
   snapshot,
-  firstParticipant,
   user,
   reloadPage,
   survey
@@ -196,6 +195,7 @@ const DetailsOverview = ({
   } = useTranslation();
   const classes = useStyles();
   const dateFormat = getDateFormatByLocale(language);
+  const [firstParticipant, setFirstParticipant] = useState({});
   const [stoplight, setStoplight] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [priorities, setPriorities] = useState([]);
@@ -216,6 +216,10 @@ const DetailsOverview = ({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   useEffect(() => {
+    let primaryParticipant = (snapshot.familyData.familyMembersList || []).find(
+      element => element.firstParticipant
+    );
+    setFirstParticipant(primaryParticipant);
     setAchievements(snapshot.achievements ? snapshot.achievements : []);
     setPriorities(snapshot.priorities ? snapshot.priorities : []);
     let stoplight = snapshot.stoplight.map(snapshotStoplight => {
@@ -597,13 +601,13 @@ const DetailsOverview = ({
         />
       )}
 
-      {/* Interventions 
+      {/* Interventions */}
       <FamilyInterventions
         familyId={family.familyId}
         questions={snapshot.stoplight}
         snapshotId={snapshot.snapshotId}
         readOnly
-      />*/}
+      />
 
       {/* Images */}
       {images.length > 0 && (

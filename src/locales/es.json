@@ -564,6 +564,13 @@
         "confirmSubtitle": "¿Está seguro de que desea trasladar estas familias a otra organización?",
         "success": "Familias migradas exitosamente",
         "error": "No se pudieron migrar familias"
+      },
+      "mergeFamily": {
+        "success": "Familias fusionadas con éxito",
+        "error": "No se pudieron fusionar familias",
+        "subtitle": "¿Está seguro de que desea fusionar estas dos familias?",
+        "confirm": "Confirmar fusión",
+        "merge": "Combinar"
       }
     },
     "organizationFilter": {

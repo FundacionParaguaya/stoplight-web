@@ -22,7 +22,6 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   const dateFormat = getDateFormatByLocale(language);
 
   const [family, setFamily] = useState({});
-  const [firstParticipant, setFirstParticipant] = useState({});
   const [survey, setSurvey] = useState();
   const [value, setValue] = useState(1);
   const [snapshots, setSnapshots] = useState([]);
@@ -62,14 +61,8 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
   const loadFamilyData = () => {
     getFamily(familyId, user).then(response => {
       let familyData = response.data.data.familyById;
-      let members = familyData.familyMemberDTOList;
-
-      let firtsParticipantMap = members.find(
-        element => element.firstParticipant === true
-      );
 
       setFamily(familyData);
-      setFirstParticipant(firtsParticipantMap);
       getSurveyById(user, familyData.snapshotIndicators.surveyId)
         .then(response => {
           setSurvey(response.data.data.surveyById);
@@ -190,7 +183,6 @@ const LifemapDetail = ({ classes, user, t, i18n: { language } }) => {
       )}
       {value !== 1 && (
         <DetailsOverview
-          firstParticipant={firstParticipant}
           family={family}
           index={value - 2}
           snapshot={snapshots[value - 2]}

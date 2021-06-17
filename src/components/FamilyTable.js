@@ -8,6 +8,7 @@ import { Delete } from '@material-ui/icons';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import familyFace from '../assets/family_face_large.png';
@@ -16,14 +17,11 @@ import { getDateFormatByLocale } from '../utils/date-utils';
 import DeleteFamilyModal from './DeleteFamilyModal';
 import { ROLES_NAMES } from '../utils/role-utils';
 
-//background-color: rgba(0, 0, 0, 0.04);}
-
 const useStyles = makeStyles(theme => ({
   familyContainer: {
     backgroundColor: '#fff',
     display: 'flex',
     flexDirection: 'column',
-    // padding: theme.spacing(2),
     width: '100%',
     zIndex: 0,
     '& .overflow-y': {
@@ -193,6 +191,7 @@ const FamilyTable = ({
   numberOfRows,
   redirectToFamily,
   toggleMoveModal,
+  toggleMergeModal,
   handleMoveSelected
 }) => {
   const {
@@ -245,13 +244,15 @@ const FamilyTable = ({
     return type;
   };
 
-  const showMoveAction = ({ role }, selectedElements) => {
-    return (
-      (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_HUB_ADMIN) &&
-      selectedElements &&
-      selectedElements.length > 0
-    );
-  };
+  const showMoveAction = ({ role }, selectedElements) =>
+    (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_HUB_ADMIN) &&
+    selectedElements &&
+    selectedElements.length > 0;
+
+  const showMergeAction = ({ role }, selectedElements) =>
+    role === ROLES_NAMES.ROLE_ROOT &&
+    Array.isArray(selectedElements) &&
+    selectedElements.length === 2;
 
   const showDeleteAction = ({ role }) => {
     return (
@@ -279,17 +280,30 @@ const FamilyTable = ({
         <Typography className={classes.labelRows} variant="subtitle1">
           {numberOfRows} {t('views.familyList.rows')}
         </Typography>
-        {showMoveAction(user, selectedElements) && (
-          <Tooltip
-            title={t('views.familyList.moveFamily.move')}
-            aria-label="name"
-          >
-            <SwapHorizIcon
-              className={classes.icon}
-              onClick={() => toggleMoveModal(selectedElements)}
-            />
-          </Tooltip>
-        )}
+        <div>
+          {showMergeAction(user, selectedElements) && (
+            <Tooltip
+              title={t('views.familyList.mergeFamily.merge')}
+              aria-label="name"
+            >
+              <PeopleAltIcon
+                className={classes.icon}
+                onClick={() => toggleMergeModal(selectedElements)}
+              />
+            </Tooltip>
+          )}
+          {showMoveAction(user, selectedElements) && (
+            <Tooltip
+              title={t('views.familyList.moveFamily.move')}
+              aria-label="name"
+            >
+              <SwapHorizIcon
+                className={classes.icon}
+                onClick={() => toggleMoveModal(selectedElements)}
+              />
+            </Tooltip>
+          )}
+        </div>
       </div>
       <MaterialTable
         tableRef={tableRef}

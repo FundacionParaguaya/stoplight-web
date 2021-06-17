@@ -44,7 +44,7 @@ import ChangeProject from './families/profile/ChangeProject';
 import Details from './families/profile/Details';
 import FamilyOverview from './families/profile/FamilyOverview';
 import ProjectsModal from './lifemap/ProjectsModal';
-//import FamilyInterventions from './families/profile/FamilyInterventions';
+import FamilyInterventions from './families/profile/FamilyInterventions';
 
 const FamilyProfile = ({
   classes,
@@ -368,7 +368,7 @@ const FamilyProfile = ({
         achievements={achievements}
       />
 
-      {/* Interventions 
+      {/* Interventions */}
       <FamilyInterventions
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
@@ -377,7 +377,7 @@ const FamilyProfile = ({
           family.snapshotIndicators.indicatorSurveyDataList
         }
         snapshotId={family.lastSnapshot}
-      />*/}
+      />
 
       {/* Notes */}
       <FamilyNotes
