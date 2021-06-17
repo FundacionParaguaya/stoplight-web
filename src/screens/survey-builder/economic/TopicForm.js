@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import TextInput from '../../../components/TextInput';
 import IconButton from '@material-ui/core/IconButton';
 import LeftArrow from '@material-ui/icons/ChevronLeftOutlined';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 const TopicForm = ({ topic, updateTopics, toggle }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [formTopic, setFormTopic] = useState({
     value: '',
@@ -83,8 +85,14 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
           variant="contained"
           style={{ marginRight: '1rem' }}
           onClick={() => {
-            updateTopics(formTopic);
-            toggle();
+            if (formTopic.text) {
+              updateTopics(formTopic);
+              toggle();
+            } else {
+              enqueueSnackbar(t('views.surveyBuilder.economic.topic.error'), {
+                variant: 'error'
+              });
+            }
           }}
         >
           {t('general.save')}

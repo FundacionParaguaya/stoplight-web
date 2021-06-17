@@ -1214,7 +1214,11 @@
         "fieldTypes": "Tipos de Campo",
         "conditionalLogic": "Lógica Condicional",
         "deleteTopic": "Apagar Tópico",
-        "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui."
+        "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui.",
+        "topic": {
+          "new": "Novo topico",
+          "error": "O nome do tópico não pode estar vazio"
+        }
       },
       "audioSupport": "Suporte de Áudio",
       "title": "Título"

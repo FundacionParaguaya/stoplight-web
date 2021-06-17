@@ -1214,7 +1214,11 @@
         "fieldTypes": "Kalite jaden",
         "conditionalLogic": "Lojik kondisyonèl",
         "deleteTopic": "Efase Topic",
-        "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la."
+        "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la.",
+        "topic": {
+          "new": "Nouvo sijè",
+          "error": "Non sijè pa ka vid"
+        }
       },
       "audioSupport": "Sipò Audio",
       "title": "Tit"

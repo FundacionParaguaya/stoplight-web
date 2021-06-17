@@ -1212,9 +1212,10 @@
         "socioeconomic": "Socioeconomic Questions",
         "editTopic": "Edit Topic",
         "fieldTypes": "Field Types",
-        "conditionalLogic": "Coniditional Logic",
+        "conditionalLogic": "Conditional Logic",
         "topic": {
-          "new": "New Topic"
+          "new": "New Topic",
+          "error": "Topic name cannot be empty"
         },
         "deleteTopic": "Delete Topic",
         "dropHere": "Add fields using buttons on the left window or simply drag and drop them here."
