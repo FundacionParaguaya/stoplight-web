@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     width: '45vw',
     maxWidth: 600,
     height: '75vh',
-    minHeight: 630,
+    minHeight: 660,
     position: 'relative',
     [theme.breakpoints.down('md')]: {
       width: '65vw'
@@ -84,7 +84,8 @@ const useStyles = makeStyles(theme => ({
   buttonContainerForm: {
     display: 'flex',
     justifyContent: 'space-evenly',
-    marginTop: 30
+    marginTop: 30,
+    marginBottom: 30
   }
 }));
 
