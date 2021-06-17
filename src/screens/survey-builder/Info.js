@@ -133,7 +133,14 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
         title: values.privacyPolicySubtitle
       },
       surveyEconomicQuestions: values.surveyEconomicQuestions,
-      surveyStoplightQuestions: values.surveyStoplightQuestions
+      surveyStoplightQuestions: values.surveyStoplightQuestions,
+      surveyConfig: values.surveyConfig,
+      conditionalQuestions: values.conditionalQuestions,
+      createdAt: values.createdAt,
+      description: values.description,
+      economicScreens: values.economicScreens,
+      elementsWithConditionsOnThem: values.elementsWithConditionsOnThem,
+      minimumPriorities: values.minimumPriorities
     };
 
     updateSurvey(data);
@@ -148,10 +155,6 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       })
       .catch(e => console.log(e));
   }, [language, user]);
-
-  console.log('_______');
-  console.log(currentSurvey);
-  console.log('_______');
   return (
     <div className={classes.mainContainer}>
       <Formik
@@ -181,7 +184,16 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
             (currentSurvey.privacyPolicy && currentSurvey.privacyPolicy.text) ||
             '',
           surveyEconomicQuestions: currentSurvey.surveyEconomicQuestions || [],
-          surveyStoplightQuestions: currentSurvey.surveyStoplightQuestions || []
+          surveyStoplightQuestions:
+            currentSurvey.surveyStoplightQuestions || [],
+          surveyConfig: currentSurvey.surveyConfig || '',
+          conditionalQuestions: currentSurvey.conditionalQuestions || [],
+          createdAt: currentSurvey.createdAt || '',
+          description: currentSurvey.description || '',
+          economicScreens: currentSurvey.economicScreens || '',
+          elementsWithConditionsOnThem:
+            currentSurvey.elementsWithConditionsOnThem || '',
+          minimumPriorities: currentSurvey.minimumPriorities || ''
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
