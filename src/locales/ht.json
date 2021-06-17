@@ -37,7 +37,9 @@
     "completeStoplight": "Fen Chime Pwogrè a",
     "publish": "pibliye",
     "edit": "Edite",
-    "other": "Lòt"
+    "other": "Lòt",
+    "saveQuestions": "Sove kesyon yo",
+    "done": "Fè"
   },
   "validation": {
     "fieldIsRequired": "Chan sa a obligatwa.",
@@ -1202,6 +1204,42 @@
       "team": "Ekip Stoplight",
       "writeBy": "Ekri pa",
       "noPublish": "Pa pibliye"
+    },
+    "surveyBuilder": {
+      "infoScreen": {
+        "surveysInfo": "Info Sondaj la",
+        "socioeconomicQuestions": "Kesyon sosyoekonomik",
+        "stoplightQuestions": "Kesyon Stoplight",
+        "termsAndConditions": "Tèm ak Kondisyon yo",
+        "privacyPolicy": "Règleman sou enfòmasyon prive",
+        "text": "Tèks",
+        "title": "Tit",
+        "subtitle": "Subtitle",
+        "save": "Sove"
+      },
+      "question": "Kesyon",
+      "shortName": "Shortname",
+      "options": "Opsyon",
+      "addOption": "Ajoute opsyon",
+      "missingOptions": "Opsyon pou kesyon sa a yo mande yo",
+      "optionValidationError": "Kèk kesyon (yo) pa gen opsyon ankò!",
+      "economic": {
+        "library": "Bibliyotèk",
+        "search": "Rechèch endikatè",
+        "topics": "Sijè",
+        "socioeconomic": "Kesyon sosyoekonomik",
+        "editTopic": "Edit Topic",
+        "fieldTypes": "Kalite jaden",
+        "conditionalLogic": "Lojik kondisyonèl",
+        "deleteTopic": "Efase Topic",
+        "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la.",
+        "topic": {
+          "new": "Nouvo sijè",
+          "error": "Non sijè pa ka vid"
+        }
+      },
+      "audioSupport": "Sipò Audio",
+      "title": "Tit"
     }
   },
   "reports": {

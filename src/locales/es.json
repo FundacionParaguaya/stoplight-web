@@ -37,7 +37,9 @@
     "completeStoplight": "Completar Semáforo",
     "publish": "Publicar",
     "edit": "Editar",
-    "other": "Otro"
+    "other": "Otro",
+    "saveQuestions": "Guardar preguntas",
+    "done": "Hecho"
   },
   "validation": {
     "fieldIsRequired": "Este campo es requerido",
@@ -1202,6 +1204,42 @@
       "label": "Colección",
       "noOption": "No queda ninguna colección",
       "loading": "Cargando..."
+    },
+    "surveyBuilder": {
+      "infoScreen": {
+        "surveysInfo": "Información de encuesta",
+        "socioeconomicQuestions": "Preguntas Socioeconomicas",
+        "stoplightQuestions": "Preguntas del semáforo",
+        "termsAndConditions": "Términos y Condiciones",
+        "privacyPolicy": "Políticas de Privacidad",
+        "text": "Texto",
+        "title": "Título",
+        "subtitle": "Subtítulo",
+        "save": "Guardar"
+      },
+      "question": "Pregunta",
+      "shortName": "Nombre corto",
+      "options": "Opciones",
+      "addOption": "Agregar opción",
+      "missingOptions": "Se requieren opciones para esta pregunta",
+      "optionValidationError": "¡Algunas preguntas aún no tienen opciones!",
+      "economic": {
+        "library": "Biblioteca",
+        "search": "Indicador de búsqueda",
+        "topics": "Temas",
+        "socioeconomic": "Preguntas socioeconómicas",
+        "editTopic": "Editar tema",
+        "fieldTypes": "Tipos de campo",
+        "conditionalLogic": "Lógica condicional",
+        "deleteTopic": "Eliminar tema",
+        "dropHere": "Agregue campos usando los botones en la ventana de la izquierda o simplemente arrástrelos y suéltelos aquí.",
+        "topic": {
+          "new": "Nuevo tema",
+          "error": "El nombre del tema no puede estar vacío"
+        }
+      },
+      "audioSupport": "Soporte de audio",
+      "title": "Título"
     }
   },
   "reports": {

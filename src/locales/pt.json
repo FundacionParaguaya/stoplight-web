@@ -37,7 +37,9 @@
     "completeStoplight": "Completar Semáforo",
     "publish": "Publicar",
     "edit": "Editar",
-    "other": "Outro"
+    "other": "Outro",
+    "saveQuestions": "Salvar perguntas",
+    "done": "Feito"
   },
   "validation": {
     "fieldIsRequired": "Este campo é obrigatório",
@@ -1202,6 +1204,42 @@
       "deleteButton": "EXCLUIR",
       "editButton": "EDITAR",
       "noPublish": "Não publicado"
+    },
+    "surveyBuilder": {
+      "infoScreen": {
+        "surveysInfo": "Informação da pesquisa",
+        "socioeconomicQuestions": "Perguntas Socioeconômicas",
+        "stoplightQuestions": "Perguntas do semáforo",
+        "termsAndConditions": "Termos e Condições",
+        "privacyPolicy": "Política de Privacidade",
+        "text": "Texto",
+        "title": "Título",
+        "subtitle": "Subtítulo",
+        "save": "Salvar"
+      },
+      "question": "Pergunta",
+      "shortName": "Nome curto",
+      "options": "Opções",
+      "addOption": "Adicionar opção",
+      "missingOptions": "As opções para esta pergunta são obrigatórias",
+      "optionValidationError": "Algumas perguntas ainda não têm opções!",
+      "economic": {
+        "library": "Biblioteca",
+        "search": "Indicador de pesquisa",
+        "topics": "Tópicos",
+        "socioeconomic": "Questões socioeconômicas",
+        "editTopic": "Editar Tópico",
+        "fieldTypes": "Tipos de Campo",
+        "conditionalLogic": "Lógica Condicional",
+        "deleteTopic": "Apagar Tópico",
+        "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui.",
+        "topic": {
+          "new": "Novo topico",
+          "error": "O nome do tópico não pode estar vazio"
+        }
+      },
+      "audioSupport": "Suporte de Áudio",
+      "title": "Título"
     }
   },
   "reports": {
