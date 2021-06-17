@@ -166,8 +166,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#f3f4f687',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  adminButtonContainer: {
+    width: 60,
+    display: 'flex',
     justifyContent: 'space-between',
-    paddingRight: 45
+    marginRight: 16
   },
   labelRows: {
     marginRight: 10,
@@ -280,7 +285,7 @@ const FamilyTable = ({
         <Typography className={classes.labelRows} variant="subtitle1">
           {numberOfRows} {t('views.familyList.rows')}
         </Typography>
-        <div>
+        <div className={classes.adminButtonContainer}>
           {showMergeAction(user, selectedElements) && (
             <Tooltip
               title={t('views.familyList.mergeFamily.merge')}
