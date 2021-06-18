@@ -8,13 +8,14 @@ import Grid from '@material-ui/core/Grid';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import { useSnackbar } from 'notistack';
 import withLayout from '../../components/withLayout';
 import InputWithLabel from '../../components/InputWithLabel';
 import Header from './Header';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import { getLanguageByCode } from '../../utils/lang-utils';
 import { updateSurvey } from '../../redux/actions';
-import { supportedLanguages } from '../../api';
+import { supportedLanguages, createSurveyDefinition } from '../../api';
 
 const styles = theme => ({
   mainContainer: {
@@ -116,6 +117,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
     i18n: { language }
   } = useTranslation();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = values => {
     setLoading(true);
@@ -144,6 +146,32 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
     };
 
     updateSurvey(data);
+    createSurveyDefinition(
+      user,
+      values.language,
+      values.title,
+      values.description,
+      values.country.value,
+      values.termsText,
+      values.termsSubtitle,
+      values.privacyPolicyText,
+      values.privacyPolicySubtitle
+    )
+      .then(() => {
+        setLoading(false);
+        // onClose({ submitted: true });
+      })
+      .catch(e => {
+        setLoading(false);
+        enqueueSnackbar(
+          e.response.data
+            ? e.response.data.message
+            : t('views.surveyBuilder.infoScreen.error'),
+          {
+            variant: 'error'
+          }
+        );
+      });
     history.push('/survey-builder/details');
   };
 

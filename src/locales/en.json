@@ -1215,7 +1215,8 @@
         "text": "Text",
         "title": "Title",
         "subtitle": "Subtitle",
-        "save": "Save"
+        "save": "Save",
+        "error": "Could not save survey"
       },
       "question": "Question",
       "shortName": "Shortname",

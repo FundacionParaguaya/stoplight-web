@@ -1215,7 +1215,8 @@
         "text": "Texto",
         "title": "Título",
         "subtitle": "Subtítulo",
-        "save": "Guardar"
+        "save": "Guardar",
+        "error": "No se pudo guardar la encuesta"
       },
       "question": "Pregunta",
       "shortName": "Nombre corto",

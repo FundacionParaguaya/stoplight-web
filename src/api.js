@@ -2555,3 +2555,45 @@ export const unifyFamilies = (families, language, user) =>
       }
     })
   });
+
+export const createSurveyDefinition = (
+  user,
+  language,
+  title,
+  description,
+  countryCode,
+  termsConditionsText,
+  termsConditionsTitle,
+  privacyPolicyText,
+  privacyPolicyTitle
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
+      variables: {
+        privacyPolicy: {
+          locale: language,
+          text: privacyPolicyText,
+          title: privacyPolicyTitle
+        },
+        termCond: {
+          locale: language,
+          text: termsConditionsText,
+          title: termsConditionsTitle
+        },
+        surveyDefinition: {
+          title,
+          description,
+          countryCode,
+          lang: language
+        }
+      }
+    })
+  });
