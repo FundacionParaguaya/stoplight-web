@@ -139,7 +139,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       surveyConfig: values.surveyConfig,
       conditionalQuestions: values.conditionalQuestions,
       createdAt: values.createdAt,
-      description: values.description,
+      description: values.title,
       economicScreens: values.economicScreens,
       elementsWithConditionsOnThem: values.elementsWithConditionsOnThem,
       minimumPriorities: values.minimumPriorities
@@ -150,7 +150,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       user,
       values.language,
       values.title,
-      values.description,
+      values.title,
       values.country.value,
       values.termsText,
       values.termsSubtitle,
@@ -217,7 +217,6 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
           surveyConfig: currentSurvey.surveyConfig || '',
           conditionalQuestions: currentSurvey.conditionalQuestions || [],
           createdAt: currentSurvey.createdAt || '',
-          description: currentSurvey.description || '',
           economicScreens: currentSurvey.economicScreens || '',
           elementsWithConditionsOnThem:
             currentSurvey.elementsWithConditionsOnThem || '',
