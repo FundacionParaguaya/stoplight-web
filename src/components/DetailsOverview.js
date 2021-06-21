@@ -601,13 +601,13 @@ const DetailsOverview = ({
         />
       )}
 
-      {/* Interventions */}
+      {/* Interventions
       <FamilyInterventions
         familyId={family.familyId}
         questions={snapshot.stoplight}
         snapshotId={snapshot.snapshotId}
         readOnly
-      />
+      />*/}
 
       {/* Images */}
       {images.length > 0 && (

@@ -368,7 +368,7 @@ const FamilyProfile = ({
         achievements={achievements}
       />
 
-      {/* Interventions */}
+      {/* Interventions
       <FamilyInterventions
         familyId={familyId}
         stoplightSkipped={stoplightSkipped}
@@ -377,7 +377,7 @@ const FamilyProfile = ({
           family.snapshotIndicators.indicatorSurveyDataList
         }
         snapshotId={family.lastSnapshot}
-      />
+      /> */}
 
       {/* Notes */}
       <FamilyNotes
