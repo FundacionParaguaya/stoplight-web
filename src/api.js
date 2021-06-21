@@ -2559,13 +2559,9 @@ export const unifyFamilies = (families, language, user) =>
 export const createSurveyDefinition = (
   user,
   language,
-  title,
-  description,
-  countryCode,
-  termsConditionsText,
-  termsConditionsTitle,
-  privacyPolicyText,
-  privacyPolicyTitle
+  privacyPolicy,
+  termCond,
+  surveyDefinition
 ) =>
   axios({
     method: 'post',
@@ -2578,22 +2574,9 @@ export const createSurveyDefinition = (
       query:
         'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
       variables: {
-        privacyPolicy: {
-          locale: language,
-          text: privacyPolicyText,
-          title: privacyPolicyTitle
-        },
-        termCond: {
-          locale: language,
-          text: termsConditionsText,
-          title: termsConditionsTitle
-        },
-        surveyDefinition: {
-          title,
-          description,
-          countryCode,
-          lang: language
-        }
+        privacyPolicy,
+        termCond,
+        surveyDefinition
       }
     })
   });

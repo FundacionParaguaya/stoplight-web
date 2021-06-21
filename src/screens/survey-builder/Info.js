@@ -149,17 +149,25 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
     createSurveyDefinition(
       user,
       values.language,
-      values.title,
-      values.title,
-      values.country.value,
-      values.termsText,
-      values.termsSubtitle,
-      values.privacyPolicyText,
-      values.privacyPolicySubtitle
+      {
+        locale: values.language,
+        text: values.privacyPolicyText,
+        title: values.privacyPolicySubtitle
+      },
+      {
+        locale: values.language,
+        text: values.termsText,
+        title: values.termsSubtitle
+      },
+      {
+        title: values.title,
+        description: values.title,
+        countryCode: values.country.value,
+        lang: values.language
+      }
     )
       .then(() => {
         setLoading(false);
-        // onClose({ submitted: true });
       })
       .catch(e => {
         setLoading(false);
