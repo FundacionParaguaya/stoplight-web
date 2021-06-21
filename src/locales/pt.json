@@ -268,7 +268,8 @@
       "priorities": "Prioridades",
       "achievements": "Conquistas",
       "toComplete": "Antes que complete o Mapa de Vida....",
-      "indicatorDefinition": "Definição de Indicador"
+      "indicatorDefinition": "Definição de Indicador",
+      "indicatorSlide": "Deslize para a direita para ver mais"
     },
     "priority": {
       "month": "mês",

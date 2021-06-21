@@ -306,7 +306,8 @@
       "priorities": "Priorities",
       "achievements": "Achievements",
       "toComplete": "To complete the Life Map...",
-      "indicatorDefinition": "Indicator Definition"
+      "indicatorDefinition": "Indicator Definition",
+      "indicatorSlide": "Swipe right to see more"
     },
     "priority": {
       "month": "month",

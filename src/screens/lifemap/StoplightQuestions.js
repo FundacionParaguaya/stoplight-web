@@ -171,6 +171,10 @@ class StoplightQuestions extends Component {
       };
       sortedQuestion.sort(compare);
     }
+    const showTooltip =
+      user.interative_help &&
+      (this.props.match.params.page === '0' ||
+        this.props.match.params.page === '1');
     return (
       <div>
         <TitleBar
@@ -199,6 +203,7 @@ class StoplightQuestions extends Component {
               aspectRatio={this.state.aspectRatio}
               options={sortedQuestion}
               codeName={question.codeName}
+              interactive={showTooltip}
             />
           ) : (
             <StopLightQuestionCarousel
@@ -209,6 +214,7 @@ class StoplightQuestions extends Component {
               aspectRatio={this.state.aspectRatio}
               options={sortedQuestion}
               codeName={sortedQuestion.codeName}
+              interactive={showTooltip}
             />
           )}
           <Grid
