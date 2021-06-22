@@ -192,6 +192,11 @@ const Support = ({
       label: t('views.support.collections.webDescription'),
       value: 'WEB',
       icon: 'computer'
+    },
+    {
+      label: t('views.support.collections.surveyBuilderDescription'),
+      value: 'SURVEY_BUILDER',
+      icon: 'build_circle'
     }
   ];
 
@@ -231,15 +236,23 @@ const Support = ({
   const showAllArticles = ({ role }) =>
     role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
+  const showSurveyBuilderCollection = () =>
+    user.role === ROLES_NAMES.ROLE_PS_TEAM ||
+    user.role === ROLES_NAMES.ROLE_ROOT;
+
   useEffect(() => {
     if (searchQuery !== '' && searchQuery !== 0 && searchQuery !== null) {
       setLoading(true);
       getArticles(user, searchQuery, '', lang, [])
         .then(res => {
           const data = _.get(res, 'data.data.listArticles', []);
-          const visibleArticles = showAllArticles(user)
+          let visibleArticles = showAllArticles(user)
             ? data
             : data.filter(el => el.published);
+          if (!showSurveyBuilderCollection)
+            visibleArticles.filter(
+              article => article.collection !== 'SURVEY_BUILDER'
+            );
           setArticles(visibleArticles);
           setCollections([]);
         })
@@ -383,50 +396,58 @@ const Support = ({
             )}
 
             {collections.map((collection, index) => {
-              return (
-                <Paper
-                  key={index}
-                  variant="outlined"
-                  elevation={3}
-                  className={classes.sectionCard}
-                  onClick={() => handleGoCollection(collection.code)}
-                >
-                  <Grid alignItems="center" container spacing={5}>
-                    <Grid item className={classes.iconContainer}>
-                      <Icon className={classes.icon}>{collection.icon}</Icon>
+              if (
+                collection.code !== 'SURVEY_BUILDER' ||
+                (collection.code === 'SURVEY_BUILDER' &&
+                  showSurveyBuilderCollection())
+              )
+                return (
+                  <Paper
+                    key={index}
+                    variant="outlined"
+                    elevation={3}
+                    className={classes.sectionCard}
+                    onClick={() => handleGoCollection(collection.code)}
+                  >
+                    <Grid alignItems="center" container spacing={5}>
+                      <Grid item className={classes.iconContainer}>
+                        <Icon className={classes.icon}>{collection.icon}</Icon>
+                      </Grid>
+                      <Grid item className={classes.sectionCardBody}>
+                        <Typography
+                          variant="h5"
+                          color="primary"
+                          className={classes.cardTitle}
+                        >
+                          {collection.description}
+                        </Typography>
+                        <Typography
+                          variant="h6"
+                          className={classes.cardSubtitle}
+                        >
+                          {collection.subtitle}
+                        </Typography>
+                        <Typography
+                          variant="subtitle2"
+                          className={classes.cardBodyText}
+                        >
+                          {`${collection.countArticles} ${t(
+                            'views.support.countArticles'
+                          )}`}
+                        </Typography>
+                        <Typography
+                          variant="subtitle2"
+                          className={classes.cardBodyText}
+                        >
+                          <span className={classes.cardBodySubText}>
+                            {t('views.support.writeBy')}
+                          </span>{' '}
+                          {t('views.support.team')}
+                        </Typography>
+                      </Grid>
                     </Grid>
-                    <Grid item className={classes.sectionCardBody}>
-                      <Typography
-                        variant="h5"
-                        color="primary"
-                        className={classes.cardTitle}
-                      >
-                        {collection.description}
-                      </Typography>
-                      <Typography variant="h6" className={classes.cardSubtitle}>
-                        {collection.subtitle}
-                      </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        className={classes.cardBodyText}
-                      >
-                        {`${collection.countArticles} ${t(
-                          'views.support.countArticles'
-                        )}`}
-                      </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        className={classes.cardBodyText}
-                      >
-                        <span className={classes.cardBodySubText}>
-                          {t('views.support.writeBy')}
-                        </span>{' '}
-                        {t('views.support.team')}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              );
+                  </Paper>
+                );
             })}
             <ArticlesList
               articles={articles}

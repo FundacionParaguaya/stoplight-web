@@ -164,6 +164,11 @@ const CollectionView = ({
       label: t('views.support.collections.webDescription'),
       value: 'WEB',
       icon: 'computer'
+    },
+    {
+      label: t('views.support.collections.surveyBuilderDescription'),
+      value: 'SURVEY_BUILDER',
+      icon: 'build_circle'
     }
   ];
   const slugUpperCase = !!slug && slug.toUpperCase();

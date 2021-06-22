@@ -1621,7 +1621,7 @@ export const getCollectionTypes = (user, lang) =>
     })
   });
 
-export const getArticleById = (user, id) =>
+export const getArticleById = (user, id, collection, section, language) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -1630,9 +1630,12 @@ export const getArticleById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getArticleById($id: Long) { getArticleById(id: $id) { id title description contentRich contentText collection lang published createdAt} }',
+        'query getArticleById($id: Long, $collection: String, $section: String, $language: String) { getArticleById(id: $id, collection: $collection, section: $section, language: $language) { id title description contentRich contentText collection lang published createdAt} }',
       variables: {
-        id
+        id,
+        collection,
+        section,
+        language
       }
     })
   });
@@ -1673,7 +1676,8 @@ export const saveOrUpdateArticle = (user, values) => {
             lang: normalizeLanguages(values.language),
             contentText: values.contentText,
             contentRich: values.contentRich,
-            published: values.published
+            published: values.published,
+            section: values.section
           }
         }
       })
