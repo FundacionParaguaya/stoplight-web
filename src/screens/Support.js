@@ -395,6 +395,7 @@ const Support = ({
               </div>
             )}
 
+            {/* eslint-disable-next-line array-callback-return */}
             {collections.map((collection, index) => {
               if (
                 collection.code !== 'SURVEY_BUILDER' ||
