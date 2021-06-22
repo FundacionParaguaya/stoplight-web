@@ -1700,7 +1700,8 @@ export const saveOrUpdateArticle = (user, values) => {
             lang: normalizeLanguages(values.language),
             contentText: values.contentText,
             contentRich: values.contentRich,
-            published: values.published
+            published: values.published,
+            section: values.section
           }
         }
       })
