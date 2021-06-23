@@ -302,6 +302,10 @@ const Support = ({
                   subtitle: label
                 };
               });
+              if (!showSurveyBuilderCollection())
+                updatedCollections = updatedCollections.filter(
+                  collection => collection.code !== 'SURVEY_BUILDER'
+                );
               setCollections(updatedCollections);
               setArticles([]);
             })
@@ -395,60 +399,51 @@ const Support = ({
               </div>
             )}
 
-            {/* eslint-disable-next-line array-callback-return */}
             {collections.map((collection, index) => {
-              if (
-                collection.code !== 'SURVEY_BUILDER' ||
-                (collection.code === 'SURVEY_BUILDER' &&
-                  showSurveyBuilderCollection())
-              )
-                return (
-                  <Paper
-                    key={index}
-                    variant="outlined"
-                    elevation={3}
-                    className={classes.sectionCard}
-                    onClick={() => handleGoCollection(collection.code)}
-                  >
-                    <Grid alignItems="center" container spacing={5}>
-                      <Grid item className={classes.iconContainer}>
-                        <Icon className={classes.icon}>{collection.icon}</Icon>
-                      </Grid>
-                      <Grid item className={classes.sectionCardBody}>
-                        <Typography
-                          variant="h5"
-                          color="primary"
-                          className={classes.cardTitle}
-                        >
-                          {collection.description}
-                        </Typography>
-                        <Typography
-                          variant="h6"
-                          className={classes.cardSubtitle}
-                        >
-                          {collection.subtitle}
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          className={classes.cardBodyText}
-                        >
-                          {`${collection.countArticles} ${t(
-                            'views.support.countArticles'
-                          )}`}
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          className={classes.cardBodyText}
-                        >
-                          <span className={classes.cardBodySubText}>
-                            {t('views.support.writeBy')}
-                          </span>{' '}
-                          {t('views.support.team')}
-                        </Typography>
-                      </Grid>
+              return (
+                <Paper
+                  key={index}
+                  variant="outlined"
+                  elevation={3}
+                  className={classes.sectionCard}
+                  onClick={() => handleGoCollection(collection.code)}
+                >
+                  <Grid alignItems="center" container spacing={5}>
+                    <Grid item className={classes.iconContainer}>
+                      <Icon className={classes.icon}>{collection.icon}</Icon>
                     </Grid>
-                  </Paper>
-                );
+                    <Grid item className={classes.sectionCardBody}>
+                      <Typography
+                        variant="h5"
+                        color="primary"
+                        className={classes.cardTitle}
+                      >
+                        {collection.description}
+                      </Typography>
+                      <Typography variant="h6" className={classes.cardSubtitle}>
+                        {collection.subtitle}
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        className={classes.cardBodyText}
+                      >
+                        {`${collection.countArticles} ${t(
+                          'views.support.countArticles'
+                        )}`}
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        className={classes.cardBodyText}
+                      >
+                        <span className={classes.cardBodySubText}>
+                          {t('views.support.writeBy')}
+                        </span>{' '}
+                        {t('views.support.team')}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              );
             })}
             <ArticlesList
               articles={articles}

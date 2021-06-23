@@ -1630,7 +1630,7 @@ export const getArticleById = (user, id, collection, section, language) =>
     },
     data: JSON.stringify({
       query:
-        'query getArticleById($id: Long, $collection: String, $section: String, $language: String) { getArticleById(id: $id, collection: $collection, section: $section, language: $language) { id title description contentRich contentText collection lang published createdAt} }',
+        'query getArticleById($id: Long, $collection: String, $section: String, $language: String) { getArticleById(id: $id, collection: $collection, section: $section, language: $language) { id title description contentRich contentText collection lang published createdAt section} }',
       variables: {
         id,
         collection,
