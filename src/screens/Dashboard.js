@@ -242,6 +242,30 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
       })
       .catch(e => {});
 
+    const transformSurveyByMonth = surveysByMonth => {
+      const transformedSurveyByMonth = {};
+      for (const key in surveysByMonth) {
+        if (surveysByMonth.hasOwnProperty(key)) {
+          const snapNumber = key
+            .split('-')
+            .splice(2, 1)
+            .join();
+          const itemDate = key
+            .split('-')
+            .splice(0, 2)
+            .join('-');
+          if (snapNumber.length < 2) {
+            transformedSurveyByMonth[`${itemDate}-0${snapNumber}`] =
+              surveysByMonth[key];
+          } else {
+            transformedSurveyByMonth[`${itemDate}-${snapNumber}`] =
+              surveysByMonth[key];
+          }
+        }
+      }
+      return transformedSurveyByMonth;
+    };
+
     getOperationsOverview(
       user,
       hubId,
@@ -282,26 +306,10 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 // add a second digit to snap number if only has one digit
                 // example 04-2021-4 -> 04-2021-04
                 let retakesBySnapNumber = [];
-                const transformedSurveyByMonth = {};
-                for (const key in surveysByMonth) {
-                  if (surveysByMonth.hasOwnProperty(key)) {
-                    const snapNumber = key
-                      .split('-')
-                      .splice(2, 1)
-                      .join();
-                    const itemDate = key
-                      .split('-')
-                      .splice(0, 2)
-                      .join('-');
-                    if (snapNumber.length < 2) {
-                      transformedSurveyByMonth[`${itemDate}-0${snapNumber}`] =
-                        surveysByMonth[key];
-                    } else {
-                      transformedSurveyByMonth[`${itemDate}-${snapNumber}`] =
-                        surveysByMonth[key];
-                    }
-                  }
-                }
+                const transformedSurveyByMonth = transformSurveyByMonth(
+                  surveysByMonth
+                );
+
                 retakesBySnapNumber = Object.entries(transformedSurveyByMonth)
                   .sort()
                   .map(([date, survey]) => {
