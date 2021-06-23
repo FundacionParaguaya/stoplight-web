@@ -273,14 +273,37 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
               // Store data from Snapshot number 1 of that month
               if (snapShotNumber === '1') {
-                let finalData = {
+                const finalData = {
                   date: moment(date, 'MM-YYYY').format(),
                   first: surveys
                 };
 
                 // Create an array of number of retakes by Snapshot number of that month
+                // add a second digit to snap number if only has one digit
+                // example 04-2021-4 -> 04-2021-04
                 let retakesBySnapNumber = [];
-                retakesBySnapNumber = Object.entries(surveysByMonth)
+                const transformedSurveyByMonth = {};
+                for (const key in surveysByMonth) {
+                  if (surveysByMonth.hasOwnProperty(key)) {
+                    const snapNumber = key
+                      .split('-')
+                      .splice(2, 1)
+                      .join();
+                    const itemDate = key
+                      .split('-')
+                      .splice(0, 2)
+                      .join('-');
+                    if (snapNumber.length < 2) {
+                      transformedSurveyByMonth[`${itemDate}-0${snapNumber}`] =
+                        surveysByMonth[key];
+                    } else {
+                      transformedSurveyByMonth[`${itemDate}-${snapNumber}`] =
+                        surveysByMonth[key];
+                    }
+                  }
+                }
+                retakesBySnapNumber = Object.entries(transformedSurveyByMonth)
+                  .sort()
                   .map(([date, survey]) => {
                     const itemSnapNumber = date
                       .split('-')
@@ -291,7 +314,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                       .splice(0, 2)
                       .join('-');
 
-                    if (itemSnapNumber !== '1' && itemDate === dateData) {
+                    // dont add the snapNumber 01 because is the base line snap
+                    if (itemSnapNumber !== '01' && itemDate === dateData) {
                       return survey;
                     }
                     return null;
@@ -306,8 +330,8 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
                 // Return data by month
                 return {
                   ...finalData,
-                  totalRetakes: totalRetakes,
-                  retakesBySnapNumber: retakesBySnapNumber,
+                  totalRetakes,
+                  retakesBySnapNumber,
                   total: finalData.first + totalRetakes
                 };
               }
