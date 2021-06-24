@@ -324,15 +324,16 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
                     // dont add the snapNumber 01 because is the base line snap
                     if (itemSnapNumber !== '01' && itemDate === dateData) {
-                      return survey;
+                      return { snap_number: itemSnapNumber, value: survey };
                     }
                     return null;
                   })
                   .filter(item => item);
 
                 // sum all retakes of all snapshot number of that month
+
                 const totalRetakes = retakesBySnapNumber.length
-                  ? retakesBySnapNumber.reduce((a, b) => a + b)
+                  ? retakesBySnapNumber.reduce((t, { value }) => t + value, 0)
                   : 0;
 
                 // Return data by month
