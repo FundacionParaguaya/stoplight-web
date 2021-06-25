@@ -1,12 +1,11 @@
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import TopicTabs from './TopicTabs';
 import { updateSurvey } from '../../../redux/actions';
 import { COLORS } from '../../../theme';
 import EditQuestion from '../EditQuestion';
@@ -24,44 +23,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end'
-  },
-  tabsRoot: {
-    position: 'relative',
-    zIndex: 10,
-    marginBottom: -4,
-    width: 'fit-content',
-    marginTop: '1rem',
-    backgroundColor: theme.palette.background.default,
-    '& $div > span': {
-      backgroundColor: theme.palette.primary.dark,
-      height: 4
-    },
-    '& $div >.MuiTabs-flexContainer': {
-      justifyContent: 'space-between'
-    }
-  },
-  tabRoot: {
-    minHeight: 50,
-    maxWidth: 300,
-    padding: '5px 15px',
-    color: theme.typography.h4.color,
-    height: 'auto',
-    width: 'auto',
-    backgroundColor: theme.palette.background.default,
-    '&.MuiTab-textColorSecondary.Mui-selected': {
-      color: theme.typography.h4.color
-    },
-    '&.MuiTab-textColorSecondary.MuiTab-fullWidth': {
-      borderBottom: `1px solid ${theme.palette.grey.quarter}`
-    }
-  },
-  tabTitle: {
-    fontSize: 16,
-    fontWeight: 500,
-    textTransform: 'none',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: 14
-    }
   },
   surveyQuestions: {
     zIndex: 1,
@@ -141,30 +102,11 @@ const EconomicLibrary = ({
         {t('views.surveyBuilder.economic.socioeconomic')}
       </Typography>
       <div className={classes.tabsContainer}>
-        <Tabs
-          value={selectedSurveyTopic.value}
-          onChange={(event, value) =>
-            setSelectedSurveyTopic(surveyTopics.find(s => s.value === value))
-          }
-          indicatorColor="secondary"
-          textColor="secondary"
-          variant="scrollable"
-          scrollButtons="auto"
-          classes={{ root: classes.tabsRoot }}
-        >
-          {surveyTopics.map((topic, index) => (
-            <Tab
-              key={index}
-              classes={{ root: classes.tabRoot }}
-              label={
-                <Typography variant="h6" className={classes.tabTitle}>
-                  {topic.text}
-                </Typography>
-              }
-              value={topic.value}
-            />
-          ))}
-        </Tabs>
+        <TopicTabs
+          surveyTopics={surveyTopics}
+          selectedSurveyTopic={selectedSurveyTopic}
+          setSelectedSurveyTopic={setSelectedSurveyTopic}
+        />
         <div>
           <Button
             color="primary"
