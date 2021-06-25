@@ -131,13 +131,15 @@
       "collections": {
         "generalDescription": "Preguntas generales sobre el Semáforo de Eliminación de Pobreza",
         "webDescription": "Artículos generales sobre como usar la plataforma",
-        "appDescription": "Artículos de soporte sobre la aplicación Stoplight Mobile"
+        "appDescription": "Artículos de soporte sobre la aplicación Stoplight Mobile",
+        "surveyBuilderDescription": "Artículos generales sobre como usar el constructor de encuestas"
       },
       "form": {
         "title": "Titulo del articulo",
         "subtitle": "Agregar una descripcion para el articulo",
         "active": "Publicar el articulo",
         "content": "Comenzar a escribir tu contenido...",
+        "section": "Sección",
         "userNotAllowed": "Operación no permitida",
         "save": {
           "success": "Articulo guardado exitosamente",

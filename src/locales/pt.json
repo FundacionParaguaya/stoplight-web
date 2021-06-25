@@ -1172,7 +1172,8 @@
       "collections": {
         "generalDescription": "Perguntas gerais sobre o semáforo da pobreza",
         "appDescription": "Artigos de suporte geral sobre o aplicativo Android Stoplight Mobile",
-        "webDescription": "Artigos gerais sobre o uso da Poverty Stoplight Platform"
+        "webDescription": "Artigos gerais sobre o uso da Poverty Stoplight Platform",
+        "surveyBuilderDescription": "Artigos gerais sobre o uso do construtor de pesquisas"
       },
       "failRequest": "Há um erro na solicitação",
       "metaTitle": "Centro de Apoio à Pobreza Stoplight",
@@ -1200,7 +1201,8 @@
         "title": "Título do artigo",
         "subtitle": "Adicione uma descrição para o seu artigo",
         "active": "Publique este artigo",
-        "content": "Comece a escrever seu conteúdo ..."
+        "content": "Comece a escrever seu conteúdo ...",
+        "section": "Seção"
       },
       "deleteButton": "EXCLUIR",
       "editButton": "EDITAR",

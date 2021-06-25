@@ -131,13 +131,15 @@
       "collections": {
         "generalDescription": "General Questions about the Poverty Stoplight",
         "webDescription": "General articles about using the Poverty Stoplight Platform",
-        "appDescription": "General support articles regarding the Stoplight Mobile android app"
+        "appDescription": "General support articles regarding the Stoplight Mobile android app",
+        "surveyBuilderDescription": "General articles about using the Survey Builder"
       },
       "form": {
         "title": "Article title",
         "subtitle": "Add a description for your article",
         "active": "Publish this article",
         "content": "Start writing your content...",
+        "section": "Section",
         "userNotAllowed": "Operation not allowed",
         "save": {
           "success": "Article saved successfully",

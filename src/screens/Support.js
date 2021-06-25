@@ -192,6 +192,11 @@ const Support = ({
       label: t('views.support.collections.webDescription'),
       value: 'WEB',
       icon: 'computer'
+    },
+    {
+      label: t('views.support.collections.surveyBuilderDescription'),
+      value: 'SURVEY_BUILDER',
+      icon: 'build_circle'
     }
   ];
 
@@ -231,15 +236,23 @@ const Support = ({
   const showAllArticles = ({ role }) =>
     role === ROLES_NAMES.ROLE_PS_TEAM || role === ROLES_NAMES.ROLE_ROOT;
 
+  const showSurveyBuilderCollection = () =>
+    user.role === ROLES_NAMES.ROLE_PS_TEAM ||
+    user.role === ROLES_NAMES.ROLE_ROOT;
+
   useEffect(() => {
     if (searchQuery !== '' && searchQuery !== 0 && searchQuery !== null) {
       setLoading(true);
       getArticles(user, searchQuery, '', lang, [])
         .then(res => {
           const data = _.get(res, 'data.data.listArticles', []);
-          const visibleArticles = showAllArticles(user)
+          let visibleArticles = showAllArticles(user)
             ? data
             : data.filter(el => el.published);
+          if (!showSurveyBuilderCollection)
+            visibleArticles.filter(
+              article => article.collection !== 'SURVEY_BUILDER'
+            );
           setArticles(visibleArticles);
           setCollections([]);
         })
@@ -289,6 +302,10 @@ const Support = ({
                   subtitle: label
                 };
               });
+              if (!showSurveyBuilderCollection())
+                updatedCollections = updatedCollections.filter(
+                  collection => collection.code !== 'SURVEY_BUILDER'
+                );
               setCollections(updatedCollections);
               setArticles([]);
             })

@@ -1174,7 +1174,8 @@
       "collections": {
         "appDescription": "Atik sipò jeneral konsènan Stoplight mobil app android",
         "generalDescription": "Kesyon Jeneral sou Stoplight la Povrete",
-        "webDescription": "Atik Jeneral sou lè l sèvi avèk platfòm la Stoplight Povrete"
+        "webDescription": "Atik Jeneral sou lè l sèvi avèk platfòm la Stoplight Povrete",
+        "surveyBuilderDescription": "Atik jeneral sou lè l sèvi avèk Sondaj Builder la"
       },
       "countArticles": "atik nan koleksyon sa a",
       "createdAt": "Kreye nan",
@@ -1190,6 +1191,7 @@
       "form": {
         "active": "Pibliye atik sa a",
         "content": "Kòmanse ekri kontni ou ...",
+        "section": "Seksyon",
         "save": {
           "failed": "Pa t 'kapab sove atik la",
           "success": "Atik sove avèk siksè"
