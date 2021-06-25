@@ -1,12 +1,10 @@
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import AddBox from '@material-ui/icons/AddBoxRounded';
 import LeftArrow from '@material-ui/icons/ChevronLeftOutlined';
 import RightArrow from '@material-ui/icons/ChevronRightOutlined';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
-import SearchIcon from '@material-ui/icons/Search';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
@@ -14,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { economicQuestionsPool } from '../../../api';
 import QuestionItem from '../../../components/QuestionItem';
+import SearchText from '../SearchText';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -61,42 +60,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     padding: '0 8px',
     borderBottom: '1px solid #BDBDBD'
-  },
-  filterInput: {
-    padding: '14.0px!important',
-    fontFamily: 'Poppins',
-    fontSize: '12px'
-  },
-  inputRootLabel: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '90%',
-    color: theme.palette.grey.middle,
-    fontFamily: theme.typography.subtitle1.fontFamily,
-    fontWeight: theme.typography.fontWeightMedium,
-    fontSize: 13,
-    zIndex: 0
-  },
-  inputLabel: {
-    transform: 'translate(14px, -6px) scale(0.75)!important',
-    width: 'fit-content'
-  },
-  textField: {
-    backgroundColor: theme.palette.background.default,
-    margin: '10px 15px!important',
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderRadius: 2,
-        border: `1.5px solid ${theme.palette.grey.quarter}`
-      },
-      '&:hover fieldset': {
-        borderColor: 'hsl(0, 0%, 70%)'
-      },
-      '&.Mui-focused fieldset': {
-        border: `1.5px solid ${theme.palette.primary.dark}`
-      }
-    }
   }
 }));
 
@@ -157,29 +120,12 @@ const EconomicLibrary = ({
         <InfoIcon className={classes.icon} />
       </div>
 
-      <TextField
-        InputProps={{
-          classes: {
-            input: classes.filterInput
-          }
-        }}
-        InputLabelProps={{
-          classes: {
-            root: classes.inputRootLabel,
-            shrink: classes.inputLabel
-          }
-        }}
-        variant="outlined"
-        margin="dense"
-        className={classes.textField}
-        onKeyDown={e => onChangeFilterText(e)}
-        label={
-          <React.Fragment>
-            <Typography>{t('views.surveyBuilder.economic.search')}</Typography>
-            <SearchIcon className={classes.icon} />
-          </React.Fragment>
-        }
-      />
+      <div style={{ margin: '10px 15px' }}>
+        <SearchText
+          label={t('views.surveyBuilder.economic.search')}
+          onChange={e => onChangeFilterText(e)}
+        />
+      </div>
 
       <div className={classes.subtitleContainer}>
         {selectedTopic && (
