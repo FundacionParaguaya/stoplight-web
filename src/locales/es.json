@@ -1237,6 +1237,32 @@
         "topic": {
           "new": "Nuevo tema",
           "error": "El nombre del tema no puede estar vacío"
+        },
+        "conditional": "Lógica condicional de la encuesta",
+        "conditionals": {
+          "optionPlaceholder": "-- Seleccione una opción --",
+          "addCondition": "Agregar condición",
+          "addAgeCondition": "Condición de edad",
+          "showQuestion": "Mostrar pregunta",
+          "types": {
+            "question": "Condición de la pregunta",
+            "age": "Condición de edad",
+            "option": "Condición de la opción"
+          },
+          "operator": {
+            "equals": "es igual a",
+            "notEquals": "no es igual a",
+            "less": "Menos que",
+            "greater": "Mas grande que",
+            "lessThanEq": "Menor o igual",
+            "greaterThanEq": "Mayor que o igual"
+          },
+          "chooseOptions": "Elegir opciones",
+          "ageCondition": "Restricción de edad para esta pregunta",
+          "optionsTitle": "Lógica de opciones",
+          "selectQuestion": "seleccione las opciones de respuesta para la:",
+          "searchOption": "Opción de búsqueda",
+          "displayOptions": "Mostrar Opciones"
         }
       },
       "audioSupport": "Soporte de audio",

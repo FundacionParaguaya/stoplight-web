@@ -1237,7 +1237,33 @@
           "error": "Topic name cannot be empty"
         },
         "deleteTopic": "Delete Topic",
-        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here."
+        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here.",
+        "conditional": "Survey’s Conditional Logic",
+        "conditionals": {
+          "optionPlaceholder": "-- Select an option --",
+          "addCondition": "Add condition",
+          "addAgeCondition": "Age Condition",
+          "showQuestion": "Show Question",
+          "types": {
+            "question": "Question condition",
+            "option": "Option condition",
+            "age": "Age condition"
+          },
+          "operator": {
+            "equals": "is equal to",
+            "notEquals": "is not equal to",
+            "less": "Less than",
+            "greater": "Greater than",
+            "greaterThanEq": "Greater than or equal",
+            "lessThanEq": "Less than or equal"
+          },
+          "chooseOptions": "Choose options",
+          "ageCondition": "Age restriction for this question",
+          "optionsTitle": "Options Logic",
+          "selectQuestion": "select answer options for question: ",
+          "searchOption": "Search option",
+          "displayOptions": "Display Options"
+        }
       },
       "audioSupport": "Audio Support",
       "title": "Title"

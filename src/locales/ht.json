@@ -1237,6 +1237,32 @@
         "topic": {
           "new": "Nouvo sijè",
           "error": "Non sijè pa ka vid"
+        },
+        "conditional": "Lojik Kondisyonèl Sondaj la",
+        "conditionals": {
+          "optionPlaceholder": "- Chwazi yon opsyon -",
+          "addCondition": "Ajoute kondisyon",
+          "addAgeCondition": "Kondisyon Laj",
+          "showQuestion": "Montre Kesyon",
+          "types": {
+            "question": "Kesyon kondisyon",
+            "option": "Kondisyon opsyon",
+            "age": "Kondisyon laj"
+          },
+          "operator": {
+            "equals": "ki egal a",
+            "notEquals": "pa egal a",
+            "less": "Mwens pase",
+            "greater": "Pi gran pase",
+            "lessThanEq": "Mwens pase oswa egal",
+            "greaterThanEq": "Pi gran pase oswa egal"
+          },
+          "chooseOptions": "Chwazi opsyon",
+          "ageCondition": "Restriksyon laj pou kesyon sa a",
+          "optionsTitle": "Opsyon lojik",
+          "selectQuestion": "chwazi repons opsyon pou kesyon:",
+          "searchOption": "Opsyon rechèch",
+          "displayOptions": "Montre Opsyon"
         }
       },
       "audioSupport": "Sipò Audio",

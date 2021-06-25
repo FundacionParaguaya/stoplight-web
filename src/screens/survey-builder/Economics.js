@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import { COLORS } from '../../theme';
+import EconomicConditionals from './economic/EconomicConditionals';
+import EconomicLibrary from './economic/EconomicLibrary';
 import EconomicPreview from './economic/EconomicPreview';
 import FieldTypes from './economic/FieldTypes';
-import EconomicLibrary from './economic/EconomicLibrary';
 import TopicForm from './economic/TopicForm';
 
 const useStyles = makeStyles(theme => ({
@@ -251,6 +252,13 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
             topic={selectedSurveyTopic}
             toggle={() => setTopicForm(!topicForm)}
             updateTopics={updateTopics}
+          />
+        )}
+        {tab === 3 && (
+          <EconomicConditionals
+            selectedSurveyTopic={selectedSurveyTopic}
+            setSelectedSurveyTopic={setSelectedSurveyTopic}
+            surveyTopics={surveyTopics}
           />
         )}
       </DragDropContext>
