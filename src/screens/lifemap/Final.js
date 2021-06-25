@@ -22,6 +22,7 @@ import { ROLES_NAMES } from '../../utils/role-utils';
 import Bugsnag from '@bugsnag/js';
 import firebase from 'firebase';
 import 'firebase/analytics';
+import NoProdWarningBanner from '../../components/NoProdWarningBanner';
 
 export class Final extends Component {
   state = {
@@ -215,6 +216,7 @@ export class Final extends Component {
           <Typography variant="h5" className={classes.subtitle}>
             {t('views.final.surveyCompleted')}
           </Typography>
+
           {error && <Typography color="error">{error}</Typography>}
           {this.state.loading && (
             <div className={classes.loadingContainer}>
@@ -224,6 +226,7 @@ export class Final extends Component {
 
           <div className={classes.gridContainer}>
             <Container variant="stretch" className={classes.imageContainer}>
+              <NoProdWarningBanner />
               <img
                 className={classes.beginStopLightImage}
                 src={skippedLifemap}
