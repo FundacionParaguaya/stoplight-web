@@ -100,8 +100,8 @@ const GreenLineChart = withTranslation()(
           break;
         case 'totalRetakes':
           const retakesList = payload.retakesBySnapNumber
-            .map((number, index) => {
-              return `• ${number} - N˚${index + 2} ${t(
+            .map((item, index) => {
+              return `• ${item.value} - N˚${item.snap_number} ${t(
                 'views.survey.followUp'
               )}`;
             })
