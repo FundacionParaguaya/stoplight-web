@@ -7,7 +7,14 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 
 import { Typography } from '@material-ui/core';
 
-const AudioHelp = ({ classes, audio, playAudio, handlePlayPause, t }) => {
+const AudioHelp = ({
+  classes,
+  audio,
+  playAudio,
+  handlePlayPause,
+  t,
+  label = ''
+}) => {
   return (
     <>
       <div className={classes.playerContainer}>
@@ -35,7 +42,7 @@ const AudioHelp = ({ classes, audio, playAudio, handlePlayPause, t }) => {
               className={`material-icons ${classes.icon}`}
             />
             <Typography variant="subtitle1" className={classes.audioHelp}>
-              {t('views.survey.audioHelp')}
+              {label || t('views.survey.audioHelp')}
             </Typography>
             <ReactPlayer
               width="0px"

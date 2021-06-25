@@ -1238,7 +1238,8 @@
         "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui.",
         "topic": {
           "new": "Novo topico",
-          "error": "O nome do tópico não pode estar vazio"
+          "error": "O nome do tópico não pode estar vazio",
+          "editTopic": "Editar Tópico"
         },
         "conditional": "Lógica condicional da pesquisa",
         "conditionals": {
@@ -1268,7 +1269,14 @@
         }
       },
       "audioSupport": "Suporte de Áudio",
-      "title": "Título"
+      "title": "Título",
+      "audio": {
+        "currentAudio": "Áudio atual",
+        "placeholder": "Aqui você pode adicionar seu arquivo de áudio",
+        "maxSize": "Seu arquivo de áudio excede o limite de 10 MB! \nPor favor, use outro.",
+        "extensionError": "Seu arquivo de áudio deve ter uma extensão .mp3!",
+        "saveError": "Não foi possível salvar o áudio"
+      }
     }
   },
   "reports": {

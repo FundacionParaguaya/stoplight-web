@@ -67,7 +67,11 @@ const EconomicLibrary = ({
       currentSurvey.surveyEconomicQuestions.forEach((question, index) => {
         let topicIndex = data.findIndex(t => t.text === question.topic);
         if (topicIndex < 0) {
-          data.push({ value: data.length, text: question.topic, audioUrl: '' });
+          data.push({
+            value: data.length,
+            text: question.topic,
+            audioUrl: question.topicAudio
+          });
         }
       });
       setSelectedSurveyTopic(data[0] || {});

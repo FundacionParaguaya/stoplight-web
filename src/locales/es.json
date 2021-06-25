@@ -1238,7 +1238,8 @@
         "dropHere": "Agregue campos usando los botones en la ventana de la izquierda o simplemente arrástrelos y suéltelos aquí.",
         "topic": {
           "new": "Nuevo tema",
-          "error": "El nombre del tema no puede estar vacío"
+          "error": "El nombre del tema no puede estar vacío",
+          "editTopic": "Editar tema"
         },
         "conditional": "Lógica condicional de la encuesta",
         "conditionals": {
@@ -1268,7 +1269,14 @@
         }
       },
       "audioSupport": "Soporte de audio",
-      "title": "Título"
+      "title": "Título",
+      "audio": {
+        "currentAudio": "Audio actual",
+        "placeholder": "Aquí puede agregar su archivo de audio",
+        "maxSize": "¡Su archivo de audio supera el límite de 10 MB! \nUtilice otro.",
+        "extensionError": "¡Su archivo de audio debe tener una extensión .mp3!",
+        "saveError": "No se pudo guardar el audio"
+      }
     }
   },
   "reports": {

@@ -141,12 +141,12 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const updateTopics = topic => {
     let newTopics = Array.from(surveyTopics);
     const index = newTopics.findIndex(t => t.value === topic.value);
-    if (index > 0) {
+    if (index >= 0) {
       let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
       const oldTopic = newTopics[index];
       newQuestions = newQuestions.map(question => {
         if (question.topic === oldTopic.text) {
-          return { ...question, topic: topic.text };
+          return { ...question, topic: topic.text, topicAudio: topic.audioUrl };
         } else {
           return question;
         }
@@ -156,10 +156,11 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
         surveyEconomicQuestions: newQuestions
       });
       newTopics[index] = topic;
+      setSelectedSurveyTopic({ value: index, ...topic });
     } else {
       newTopics.push({ value: newTopics.length, ...topic });
+      setSelectedSurveyTopic({ value: newTopics.length - 1, ...topic });
     }
-    setSelectedSurveyTopic({ value: newTopics.length - 1, ...topic });
     setSurveyTopics(newTopics);
   };
 
@@ -250,7 +251,12 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
         {topicForm && (
           <TopicForm
             topic={selectedSurveyTopic}
-            toggle={() => setTopicForm(!topicForm)}
+            toggle={() => {
+              !selectedSurveyTopic.value &&
+                Array.isArray(surveyTopics) &&
+                setSelectedSurveyTopic(surveyTopics[0]);
+              setTopicForm(!topicForm);
+            }}
             updateTopics={updateTopics}
           />
         )}

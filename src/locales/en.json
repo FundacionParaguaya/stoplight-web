@@ -1236,7 +1236,8 @@
         "conditionalLogic": "Conditional Logic",
         "topic": {
           "new": "New Topic",
-          "error": "Topic name cannot be empty"
+          "error": "Topic name cannot be empty",
+          "editTopic": "Edit Topic"
         },
         "deleteTopic": "Delete Topic",
         "dropHere": "Add fields using buttons on the left window or simply drag and drop them here.",
@@ -1268,7 +1269,14 @@
         }
       },
       "audioSupport": "Audio Support",
-      "title": "Title"
+      "title": "Title",
+      "audio": {
+        "placeholder": "Here you can add  your audio file",
+        "currentAudio": "Current audio",
+        "maxSize": "Your audio file exceeds the 10MB limit! Please use another one.",
+        "extensionError": "Your audio file should have an .mp3 extension!",
+        "saveError": "Could not save audio"
+      }
     }
   },
   "reports": {

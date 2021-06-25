@@ -1,12 +1,13 @@
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import LeftArrow from '@material-ui/icons/ChevronLeftOutlined';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextInput from '../../../components/TextInput';
-import IconButton from '@material-ui/core/IconButton';
-import LeftArrow from '@material-ui/icons/ChevronLeftOutlined';
-import { useSnackbar } from 'notistack';
+import AudioUploader from '../AudioUploader';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   formContainer: {
     backgroundColor: theme.palette.background.default,
     width: 600,
-    height: '25vh',
+    minHeight: '35vh',
     marginTop: '2rem',
     padding: '2rem'
   },
@@ -63,7 +64,9 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
           <LeftArrow style={{ cursor: 'pointer' }} className={classes.icon} />
         </IconButton>
         <Typography variant="h5" className={classes.title}>
-          {t('views.surveyBuilder.economic.topic.new')}
+          {Number.isInteger(formTopic.value)
+            ? t('views.surveyBuilder.economic.topic.editTopic')
+            : t('views.surveyBuilder.economic.topic.new')}
         </Typography>
       </div>
 
@@ -78,6 +81,13 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
         <Typography variant="subtitle2" style={{ marginTop: '1rem' }}>
           {t('views.surveyBuilder.audioSupport')}
         </Typography>
+
+        <AudioUploader
+          audioUrl={formTopic.audioUrl}
+          onChange={url => {
+            setFormTopic({ ...formTopic, audioUrl: url });
+          }}
+        />
       </div>
       <div className={classes.buttonContainer}>
         <Button

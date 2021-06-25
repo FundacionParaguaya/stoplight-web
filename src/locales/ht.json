@@ -1238,7 +1238,8 @@
         "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la.",
         "topic": {
           "new": "Nouvo sijè",
-          "error": "Non sijè pa ka vid"
+          "error": "Non sijè pa ka vid",
+          "editTopic": "Edit Topic"
         },
         "conditional": "Lojik Kondisyonèl Sondaj la",
         "conditionals": {
@@ -1268,7 +1269,14 @@
         }
       },
       "audioSupport": "Sipò Audio",
-      "title": "Tit"
+      "title": "Tit",
+      "audio": {
+        "currentAudio": "Kouran odyo",
+        "placeholder": "Isit la ou ka ajoute dosye odyo ou",
+        "maxSize": "Dosye odyo ou a depase limit la 10MB! \nTanpri itilize yon lòt.",
+        "extensionError": "Dosye odyo ou ta dwe gen yon ekstansyon .mp3!",
+        "saveError": "Pa t 'kapab sove odyo"
+      }
     }
   },
   "reports": {

@@ -2560,3 +2560,17 @@ export const unifyFamilies = (families, language, user) =>
       }
     })
   });
+
+export const uploadAudio = (audio, user) => {
+  var formData = new FormData();
+  formData.append('upload', audio);
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/surveys/audio/upload`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  });
+};
