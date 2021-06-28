@@ -487,7 +487,8 @@
     "nonProdWarning": {
       "title": "Helo!",
       "subtitle": "Byenvini nan anviwònman demonstrasyon an.",
-      "bottom": "Pa bliye; tout done ou antre la piblik epi l ap efase otomatikman."
+      "bottom": "Pa bliye; tout done ou antre la piblik epi l ap efase otomatikman.",
+      "warning": "Anviwònman Demonstrasyon, sonje, tout kontni ki antre isit la se piblik epi yo pral efase otomatikman."
     },
     "deleteDraft": {
       "confirmDeletion": "Eske ou vle efase l vre?",
