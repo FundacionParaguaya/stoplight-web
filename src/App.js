@@ -11,7 +11,6 @@ import DatePickedProvider from './components/DatePickerProvider';
 import Scroller, { ScrollerProvider } from './components/Scroller';
 import CustomSnackbarProvider from './components/SnackbarProvider';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import NonProdWarning from './components/NonProdWarning';
 import './index.css';
 import Intercom from './components/Intercom';
 import Routes from './components/Routes';
@@ -34,10 +33,8 @@ class App extends Component {
                       <LanguageSwitcher />
                       <Authenticator>
                         <div className={classes.appContainer}>
-                          <NonProdWarning>
-                            <Intercom />
-                            <Routes />
-                          </NonProdWarning>
+                          <Intercom />
+                          <Routes />
                         </div>
                       </Authenticator>
                     </ScrollerProvider>

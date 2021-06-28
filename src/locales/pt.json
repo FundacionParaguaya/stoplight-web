@@ -487,7 +487,8 @@
     "nonProdWarning": {
       "title": "Olá!",
       "subtitle": "Bem-vindo ao ambiente de demostração.",
-      "bottom": "Lembre-se de que todo o conteúdo inserido aqui é público e será excluído automaticamente."
+      "bottom": "Lembre-se de que todo o conteúdo inserido aqui é público e será excluído automaticamente.",
+      "warning": "Ambiente de demonstração, lembre-se, todo o conteúdo inserido aqui é público e será excluído automaticamente."
     },
     "deleteDraft": {
       "confirmDeletion": "Confirme a eliminação",
