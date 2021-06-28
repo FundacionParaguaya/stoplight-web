@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import { COLORS } from '../../theme';
@@ -50,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(1);
@@ -61,10 +63,28 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const [surveyTopics, setSurveyTopics] = useState([]);
   const [topicForm, setTopicForm] = useState('');
 
+  const getDimensions = () => {
+    const stoplightQuestions = Array.from(
+      currentSurvey.surveyStoplightQuestions
+    );
+    const dimensions = [];
+    stoplightQuestions.forEach(q => {
+      if (dimensions.includes(q.dimension)) return;
+      dimensions.push(q.dimension);
+    });
+    return dimensions;
+  };
+
   const onSave = () => {
     setLoading(true);
-    updateSurvey({ ...currentSurvey });
+    const surveyDimensions = getDimensions();
+    updateSurvey({
+      ...currentSurvey,
+      topics: surveyTopics,
+      dimensions: surveyDimensions
+    });
     setLoading(false);
+    history.push('/survey-builder/summary');
   };
 
   const onDragEnd = result => {
@@ -213,7 +233,6 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           value={4}
         />
       </Tabs>
-
       <DragDropContext onDragEnd={onDragEnd}>
         {tab === 1 && (
           <EconomicLibrary
@@ -254,8 +273,8 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           />
         )}
       </DragDropContext>
-
-      {false && (
+      // TODO cambiar condicional
+      {true && (
         <div className={classes.buttonContainer}>
           <Button
             color="primary"
