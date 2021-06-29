@@ -164,6 +164,11 @@ const Conditionals = ({
         });
       }
     });
+    conditions.forEach(c => {
+      !shouldUpdateDraft(c) &&
+        newConditions.push({ ...c, order: newConditions.length + 1 });
+    });
+    console.log(newConditions);
     newConditions.length === 0 &&
       newConditions.push({
         order: 1,
@@ -213,15 +218,21 @@ const Conditionals = ({
     let newConditions = Array.from(conditions);
     newConditions[condition.order - 1] = condition;
     setConditions(newConditions);
-    shouldUpdateDraft(condition) && updateConditions(question, newConditions);
+    shouldUpdateDraft(condition) &&
+      updateConditions(
+        question,
+        newConditions.filter(c => shouldUpdateDraft(c))
+      );
   };
 
   const onDeleteCondition = condition => {
-    let newConditions = Array.from(conditions).splice(condition.order - 1, 1);
+    let newConditions = Array.from(conditions);
+    newConditions.splice(condition.order - 1, 1);
     newConditions = newConditions.map((condition, index) => ({
       ...condition,
       order: index
     }));
+    console.log(newConditions);
     setConditions(newConditions);
     shouldUpdateDraft(condition) && deleteCondition(question, condition);
   };

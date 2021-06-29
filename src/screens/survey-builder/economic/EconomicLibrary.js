@@ -40,7 +40,9 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.dark,
     margin: '8px 16px 8px 8px',
     fontSize: 14,
-    fontWeight: 700
+    fontWeight: 700,
+    maxWidth: 200,
+    wordBreak: 'break-word'
   },
   icon: {
     fontSize: 20,
@@ -139,7 +141,7 @@ const EconomicLibrary = ({
         <Typography
           variant="h6"
           className={classes.title}
-          style={{ color: 'black', maxWidth: 400 }}
+          style={{ color: 'black' }}
         >
           {selectedTopic
             ? selectedTopic

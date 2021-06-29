@@ -228,11 +228,14 @@ const EconomicConditionals = ({
         currentSurvey.surveyEconomicQuestions
           .filter(q => q.topic === selectedSurveyTopic.text)
           .map((question, index) => {
+            // Recover age conditions
             let conditionsAssociated = (question.conditions || [])
               .filter(c => c.type === 'family')
               .map(c => ({ ...c, variant: 'family' }));
 
+            // For every question we have to iterate through all other question to retrieve relevant conditions
             currentSurvey.surveyEconomicQuestions.forEach(cq => {
+              //Case for related question's conditions
               const relevantConditions = (cq.conditions || [])
                 .filter(condition => condition.codeName === question.codeName)
                 .map(condition => ({
@@ -240,7 +243,7 @@ const EconomicConditionals = ({
                   variant: 'questions',
                   target: cq.codeName
                 }));
-
+              //Case for related options conditions
               let conditionalOptions = [];
               (cq.options || []).forEach(option => {
                 const singleOptionConditions = (option.conditions || [])
@@ -255,6 +258,7 @@ const EconomicConditionals = ({
                 ];
               });
 
+              // Pre-proccess all options condtions for better handling
               let relevantOptionsConditions = [];
               conditionalOptions.forEach(condition => {
                 const index = relevantOptionsConditions.findIndex(
@@ -280,6 +284,8 @@ const EconomicConditionals = ({
                   });
                 }
               });
+
+              // Join all recovered conditionals and sort them by order
               conditionsAssociated = [
                 ...conditionsAssociated,
                 ...relevantConditions,
@@ -287,6 +293,7 @@ const EconomicConditionals = ({
               ].sort((a, b) => a.order - b.order);
             });
 
+            // Transform questions into target options for conditionals
             let targetOptions = Array.from(
               currentSurvey.surveyEconomicQuestions
             ).map((question, index) => ({
@@ -295,7 +302,8 @@ const EconomicConditionals = ({
               order: index + 1,
               optionKeys: question.options
             }));
-            targetOptions.splice(0, index + 1);
+            //Remove previus questions form possible target options
+            targetOptions.splice(0, question.order - 1);
 
             return (
               <Conditionals

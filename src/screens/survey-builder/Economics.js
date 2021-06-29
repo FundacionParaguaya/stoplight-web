@@ -60,72 +60,78 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
 
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(1);
-  const [libraryQuestion, setLibraryQuestion] = useState();
-  const [surveyQuestion, setSurveyQuestion] = useState();
-  const [newQuestion, setNewQuestion] = useState();
   const [selectedSurveyTopic, setSelectedSurveyTopic] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState('');
   const [surveyTopics, setSurveyTopics] = useState([]);
   const [topicForm, setTopicForm] = useState('');
+  // State to handle drags and drops from current survey
+  const [surveyQuestion, setSurveyQuestion] = useState();
+  // State to handle  drags and drops from economic library
+  const [libraryQuestion, setLibraryQuestion] = useState();
+  // State to handle drags and drops from new questions tab
+  const [newQuestion, setNewQuestion] = useState();
 
   const onSave = () => {
     setLoading(true);
     history.push('/survey-builder/stoplights');
   };
 
+  const updateQuestions = questions => {
+    updateSurvey({
+      ...currentSurvey,
+      surveyEconomicQuestions: questions
+    });
+  };
+
+  const insertQuestionAndUpdate = (questions, question, destinationIndex) => {
+    const topicIndex = questions.findIndex(
+      q => q.topic === surveyQuestion.topic
+    );
+    questions.splice(destinationIndex + topicIndex, 0, question);
+    questions = questions.map((q, index) => ({ ...q, order: index + 1 }));
+    updateQuestions(questions);
+  };
+
   const onDragEnd = result => {
     const { source, destination } = result;
 
-    // dropped outside the list
+    // case for dicarded questions
     if (!destination) {
       if (source.droppableId === 'survey') {
-        const newQuestions = Array.from(
-          currentSurvey.surveyEconomicQuestions
-        ).filter(q => q.codeName !== surveyQuestion.codeName);
-
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
+        const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions)
+          .filter(q => q.codeName !== surveyQuestion.codeName)
+          .map((q, index) => ({ ...q, order: index + 1 }));
+        updateQuestions(newQuestions);
       }
       return;
     }
 
+    // change a single question position
     if (source.droppableId === destination.droppableId) {
       if (source.droppableId === 'survey') {
-        const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
+        let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const topicIndex = newQuestions.findIndex(
           q => q.topic === surveyQuestion.topic
         );
-        const [removed] = newQuestions.splice(source.index + topicIndex, 1);
-        newQuestions.splice(destination.index + topicIndex, 0, removed);
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
+        const [question] = newQuestions.splice(source.index + topicIndex, 1);
+        insertQuestionAndUpdate(newQuestions, question, destination.index);
       }
     } else {
+      // Case: add a new a question from the library
       if (
         source.droppableId === 'library' &&
         destination.droppableId === 'survey' &&
         !!libraryQuestion
       ) {
         let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
-        const topicStart = newQuestions.findIndex(
-          q => q.topic === libraryQuestion.topic
-        );
-        const topicLength = newQuestions.filter(
-          q => q.topic === libraryQuestion.topic
-        ).length;
-        newQuestions.splice(topicStart + topicLength, 0, {
+        const question = {
           ...libraryQuestion,
           codeName: libraryQuestion.codeName + '_' + newQuestions.length
-        });
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
+        };
+        insertQuestionAndUpdate(newQuestions, question, destination.index);
       }
+
+      // Case: add a new a question from scratch
       if (
         source.droppableId === 'newQuestion' &&
         destination.droppableId === 'survey' &&
@@ -133,12 +139,9 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       ) {
         const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const codeName = `addedQuestion_${newQuestions.length}`;
+        const question = { ...newQuestion, codeName: codeName };
+        insertQuestionAndUpdate(newQuestions, question, destination.index);
         setSelectedQuestion(codeName);
-        newQuestions.push({ ...newQuestion, codeName: codeName });
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
       }
     }
   };
@@ -156,10 +159,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           return question;
         }
       });
-      updateSurvey({
-        ...currentSurvey,
-        surveyEconomicQuestions: newQuestions
-      });
+      updateQuestions(newQuestions);
       newTopics[index] = topic;
       setSelectedSurveyTopic({ value: index, ...topic });
     } else {
@@ -176,10 +176,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
     let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions).filter(
       q => q.topic !== topic.text
     );
-    updateSurvey({
-      ...currentSurvey,
-      surveyEconomicQuestions: newQuestions
-    });
+    updateQuestions(newQuestions);
     setSelectedSurveyTopic(newTopics[0] || {});
     setSurveyTopics(newTopics);
   };
