@@ -805,11 +805,12 @@
         "allowInteractiveHelp": "Ajuda interativa:",
         "allowProjects": "Projeto",
         "allowMapRestriction": "Restrição de mapa:",
-        "allowFamilyUsers": "Usuário família",
+        "allowFamilyUsers": "Usuário familiar:",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"
-        }
+        },
+        "allowInterventions": "Intervenções:"
       },
       "delete": {
         "confirmTitle": "Confirmar Eliminado",

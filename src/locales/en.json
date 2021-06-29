@@ -850,11 +850,12 @@
         "allowInteractiveHelp": "Interactive Help:",
         "allowProjects": "Projects:",
         "allowMapRestriction": "Map restriction:",
-        "allowFamilyUsers": "Family user",
+        "allowFamilyUsers": "Family user:",
         "save": {
           "success": "Hub saved successfully",
           "failed": "Hub already exist"
-        }
+        },
+        "allowInterventions": "Interventions:"
       },
       "delete": {
         "confirmTitle": "Confirm Deletion",
@@ -1072,7 +1073,7 @@
         "options": "Options",
         "addOption": "Add option",
         "missingOptions": "Options for this question are required",
-        "title": "Intervetion Definition",
+        "title": "Intervention Definition",
         "subtitle": "Create your intervention by setting the definitions here.  ",
         "coreQuestions": "These are the core questions which will be at the beginning of the intervention form:",
         "questionsTitle": "To add more questions, drag and drop the following questions to the form on the right:",

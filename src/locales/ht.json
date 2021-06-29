@@ -805,11 +805,12 @@
         "allowInteractiveHelp": "Sipò entèaktif la.:",
         "allowProjects": "Pwojè:",
         "allowMapRestriction": "Restriksyon kat:",
-        "allowFamilyUsers": "Itilizatè fanmi yo",
+        "allowFamilyUsers": "Itilizatè fanmi an:",
         "save": {
           "success": "Hub la byen anrejistre",
           "failed": "Hub sa egziste deja."
-        }
+        },
+        "allowInterventions": "Entèvansyon:"
       },
       "delete": {
         "confirmTitle": "Eske ou vle efase l vre?",

@@ -191,3 +191,16 @@ export const checkAccessToFamilyUsers = ({ role, hub }) => {
     return true;
   return false;
 };
+
+export const checkAccessToInterventions = ({ role, hub }) => {
+  if (!role) return false;
+  else if (role === ROLES_NAMES.ROLE_ROOT || role === ROLES_NAMES.ROLE_PS_TEAM)
+    return true;
+  else if (
+    !!hub &&
+    Array.isArray(hub.labels) &&
+    hub.labels.includes('allowInterventions')
+  )
+    return true;
+  return false;
+};
