@@ -180,7 +180,7 @@ export const getSurveyById = (user, surveyId) =>
     },
 
     data: JSON.stringify({
-      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id questionAudio stoplightColors { url value description } required } } }`
+      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id surveyStoplightDimension{id} questionAudio stoplightColors { url value description } required } } }`
     })
   });
 
@@ -2574,3 +2574,20 @@ export const uploadAudio = (audio, user) => {
     data: formData
   });
 };
+
+export const dimensionsPool = (language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name } }',
+      variables: {
+        lang: language
+      }
+    })
+  });
