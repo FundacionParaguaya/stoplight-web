@@ -1277,6 +1277,22 @@
         "maxSize": "Your audio file exceeds the 10MB limit! Please use another one.",
         "extensionError": "Your audio file should have an .mp3 extension!",
         "saveError": "Could not save audio"
+      },
+      "stoplight": {
+        "section": "Indicators Section",
+        "deleteDimension": "Delete Dimension",
+        "editDimension": "Edit Dimension",
+        "GREEN": "Green",
+        "YELLOW": "Yellow",
+        "RED": "Red",
+        "dimension": {
+          "edit": "Edit Dimension",
+          "delete": "Delete Dimension"
+        },
+        "spanishTitle": "Title in Spanish",
+        "englishTitle": "Title in English",
+        "searchDimension": "Search Dimension",
+        "dimensions": "Dimensions"
       }
     }
   },

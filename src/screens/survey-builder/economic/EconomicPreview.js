@@ -41,10 +41,16 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: '60vh'
+  },
+  buttonContainer: {
+    marginTop: '2rem',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center'
   }
 }));
 
-const EconomicLibrary = ({
+const EconomicPreview = ({
   selectedSurveyTopic,
   setSelectedSurveyTopic,
   selectedQuestion,
@@ -56,7 +62,8 @@ const EconomicLibrary = ({
   surveyTopics,
   setSurveyTopics,
   toggleTopicForm,
-  handleDeleteTopic
+  handleDeleteTopic,
+  onSave
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -200,6 +207,12 @@ const EconomicLibrary = ({
           )}
         </Droppable>
       )}
+
+      <div className={classes.buttonContainer}>
+        <Button color="primary" variant="contained" onClick={() => onSave()}>
+          {t('general.save')}
+        </Button>
+      </div>
     </div>
   );
 };
@@ -208,4 +221,4 @@ const mapStateToProps = ({ user, currentSurvey }) => ({ user, currentSurvey });
 
 const mapDispatchToProps = { updateSurvey };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EconomicLibrary);
+export default connect(mapStateToProps, mapDispatchToProps)(EconomicPreview);

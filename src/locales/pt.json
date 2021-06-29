@@ -1277,6 +1277,22 @@
         "maxSize": "Seu arquivo de áudio excede o limite de 10 MB! \nPor favor, use outro.",
         "extensionError": "Seu arquivo de áudio deve ter uma extensão .mp3!",
         "saveError": "Não foi possível salvar o áudio"
+      },
+      "stoplight": {
+        "section": "Seção de Indicadores",
+        "editDimension": "Editar Dimensão",
+        "deleteDimension": "Excluir Dimensão",
+        "GREEN": "Verde",
+        "YELLOW": "Amarelo",
+        "RED": "vermelho",
+        "dimension": {
+          "edit": "Editar Dimensão",
+          "delete": "Excluir Dimensão"
+        },
+        "spanishTitle": "Título em espanhol",
+        "englishTitle": "Título em Inglês",
+        "searchDimension": "Dimensão de Pesquisa",
+        "dimensions": "Dimensões"
       }
     }
   },

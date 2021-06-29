@@ -1277,6 +1277,22 @@
         "maxSize": "Dosye odyo ou a depase limit la 10MB! \nTanpri itilize yon lòt.",
         "extensionError": "Dosye odyo ou ta dwe gen yon ekstansyon .mp3!",
         "saveError": "Pa t 'kapab sove odyo"
+      },
+      "stoplight": {
+        "section": "Endikatè Seksyon",
+        "editDimension": "Edit Dimansyon",
+        "deleteDimension": "Efase dimansyon",
+        "GREEN": "Vèt",
+        "YELLOW": "Jòn",
+        "RED": "Wouj",
+        "dimension": {
+          "edit": "Edit Dimansyon",
+          "delete": "Efase dimansyon"
+        },
+        "spanishTitle": "Tit an panyòl",
+        "englishTitle": "Tit an anglè",
+        "searchDimension": "Search Dimansyon",
+        "dimensions": "Dimansyon"
       }
     }
   },
