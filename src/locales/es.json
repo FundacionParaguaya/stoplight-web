@@ -844,11 +844,12 @@
         "allowInteractiveHelp": "Ayuda interactiva:",
         "allowProjects": "Proyectos:",
         "allowMapRestriction": "Restricción de mapa:",
-        "allowFamilyUsers": "Usuario familia",
+        "allowFamilyUsers": "Usuario familia:",
         "save": {
           "success": "Hub guardado exitosamente",
           "failed": "El Hub ya existe"
-        }
+        },
+        "allowInterventions": "Intervenciones:"
       },
       "delete": {
         "confirmTitle": "Confirmar Eliminado",
