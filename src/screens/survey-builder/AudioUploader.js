@@ -1,4 +1,5 @@
 import { Tooltip, Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,17 +63,21 @@ const AudioUploader = ({ audioUrl, onChange, user }) => {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [playAudio, setPlayAudio] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onDropAccepted = acceptedFiles => {
+    setLoading(true);
     setErrorMessage('');
     uploadAudio(acceptedFiles[0], user)
       .then(response => {
         onChange(response.data);
+        setLoading(false);
       })
       .catch(() => {
         enqueueSnackbar(t('views.surveyBuilder.audio.saveError'), {
           variant: 'error'
         });
+        setLoading(false);
       });
   };
 
@@ -100,7 +105,11 @@ const AudioUploader = ({ audioUrl, onChange, user }) => {
         data-testid="dropzone"
       >
         <input {...getInputProps()} />
-        <BackupIcon className={classes.icon} />
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <BackupIcon className={classes.icon} />
+        )}
         <Typography style={{ paddingTop: 15 }} variant="subtitle2">
           {t('views.surveyBuilder.audio.placeholder')}
         </Typography>
