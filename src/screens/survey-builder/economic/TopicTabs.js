@@ -6,6 +6,7 @@ import React from 'react';
 
 const useStyles = makeStyles(theme => ({
   tabsRoot: {
+    maxWidth: '50vw',
     position: 'relative',
     zIndex: 10,
     marginBottom: -4,

@@ -31,7 +31,8 @@ const EconomicConditionals = ({
   updateSurvey,
   surveyTopics,
   selectedSurveyTopic,
-  setSelectedSurveyTopic
+  setSelectedSurveyTopic,
+  onSave
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -216,7 +217,7 @@ const EconomicConditionals = ({
             color="primary"
             variant="contained"
             className={classes.saveButton}
-            onClick={() => {}}
+            onClick={() => onSave()}
           >
             {t('general.save')}
           </Button>

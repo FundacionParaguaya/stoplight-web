@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,7 +9,6 @@ import {
 } from '@material-ui/icons/';
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
@@ -20,6 +18,8 @@ import EconomicLibrary from './economic/EconomicLibrary';
 import EconomicPreview from './economic/EconomicPreview';
 import FieldTypes from './economic/FieldTypes';
 import TopicForm from './economic/TopicForm';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -40,17 +40,23 @@ const useStyles = makeStyles(theme => ({
     height: 'auto',
     width: '100%'
   },
-  buttonContainer: {
-    marginTop: '2rem',
-    width: '100%',
+  loadingContainer: {
+    zIndex: 10,
     display: 'flex',
-    justifyContent: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 }));
 
 const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(1);
@@ -64,8 +70,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
 
   const onSave = () => {
     setLoading(true);
-    updateSurvey({ ...currentSurvey });
-    setLoading(false);
+    history.push('/survey-builder/stoplights');
   };
 
   const onDragEnd = result => {
@@ -246,6 +251,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
             setSurveyTopics={setSurveyTopics}
             toggleTopicForm={() => setTopicForm(!topicForm)}
             handleDeleteTopic={handleDeleteTopic}
+            onSave={onSave}
           />
         )}
         {topicForm && (
@@ -265,20 +271,14 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
             selectedSurveyTopic={selectedSurveyTopic}
             setSelectedSurveyTopic={setSelectedSurveyTopic}
             surveyTopics={surveyTopics}
+            onSave={onSave}
           />
         )}
       </DragDropContext>
 
-      {false && (
-        <div className={classes.buttonContainer}>
-          <Button
-            color="primary"
-            variant="contained"
-            disabled={loading}
-            onClick={() => onSave()}
-          >
-            {t('general.saveQuestions')}
-          </Button>
+      {loading && (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
         </div>
       )}
     </div>

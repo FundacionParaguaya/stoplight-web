@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import InfoView from './survey-builder/Info';
 import FamilyDetails from './survey-builder/FamilyDetails';
 import Economics from './survey-builder/Economics';
+import Stoplights from './survey-builder/Stoplights';
 
 class Builder extends Component {
   render() {
@@ -18,6 +19,11 @@ class Builder extends Component {
         <Route
           path={`${this.props.match.path}/economics`}
           component={Economics}
+        />
+
+        <Route
+          path={`${this.props.match.path}/stoplights`}
+          component={Stoplights}
         />
       </React.Fragment>
     );
