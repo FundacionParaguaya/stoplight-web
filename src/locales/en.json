@@ -1268,7 +1268,8 @@
           "selectQuestion": "select answer options for question: ",
           "searchOption": "Search option",
           "displayOptions": "Display Options"
-        }
+        },
+        "singleTopic": "Topic"
       },
       "audioSupport": "Audio Support",
       "title": "Title",
@@ -1280,7 +1281,7 @@
         "saveError": "Could not save audio"
       },
       "stoplight": {
-        "section": "Indicators Section",
+        "section": "Stoplight Questions",
         "deleteDimension": "Delete Dimension",
         "editDimension": "Edit Dimension",
         "GREEN": "Green",
@@ -1294,7 +1295,23 @@
         "spanishTitle": "Title in Spanish",
         "englishTitle": "Title in English",
         "searchDimension": "Search Dimension",
-        "dimensions": "Dimensions"
+        "dimensions": "Dimensions",
+        "singleDimension": "Dimension"
+      },
+      "summary": {
+        "title": "Survey Summary",
+        "settings": "Additional Settings",
+        "sign": "Enable survey signature",
+        "image": "Enable image capture",
+        "interactive": "Enable interactive help",
+        "random": "Enable random order",
+        "score": "Enable questions with score",
+        "lifemap": "Life Map",
+        "mandatoryNumber": "Number of mandatory priorities"
+      },
+      "final": {
+        "subtitle": "Survey was saved successfully!",
+        "goTo": "Go to Surveys list"
       }
     }
   },

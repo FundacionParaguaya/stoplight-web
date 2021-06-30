@@ -1268,7 +1268,8 @@
           "selectQuestion": "selecione as opções de resposta para a pergunta:",
           "searchOption": "Opção de pesquisa",
           "displayOptions": "Opções de exibição"
-        }
+        },
+        "singleTopic": "Tópico"
       },
       "audioSupport": "Suporte de Áudio",
       "title": "Título",
@@ -1280,7 +1281,7 @@
         "saveError": "Não foi possível salvar o áudio"
       },
       "stoplight": {
-        "section": "Seção de Indicadores",
+        "section": "Perguntas de semáforo",
         "editDimension": "Editar Dimensão",
         "deleteDimension": "Excluir Dimensão",
         "GREEN": "Verde",
@@ -1294,7 +1295,23 @@
         "spanishTitle": "Título em espanhol",
         "englishTitle": "Título em Inglês",
         "searchDimension": "Dimensão de Pesquisa",
-        "dimensions": "Dimensões"
+        "dimensions": "Dimensões",
+        "singleDimension": "Dimensão"
+      },
+      "summary": {
+        "title": "Resumo da Pesquisa",
+        "settings": "Configurações adicionais",
+        "sign": "Habilitar assinatura de pesquisa",
+        "image": "Habilitar captura de imagem",
+        "interactive": "Habilitar ajuda interativa",
+        "random": "Habilitar ordem aleatória",
+        "score": "Habilitar perguntas com pontuação",
+        "lifemap": "Mapa da vida",
+        "mandatoryNumber": "Número de prioridades obrigatórias"
+      },
+      "final": {
+        "subtitle": "A pesquisa foi salva com sucesso!",
+        "goTo": "Vá para a lista de pesquisas"
       }
     }
   },

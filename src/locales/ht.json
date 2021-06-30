@@ -1268,7 +1268,8 @@
           "selectQuestion": "chwazi repons opsyon pou kesyon:",
           "searchOption": "Opsyon rechèch",
           "displayOptions": "Montre Opsyon"
-        }
+        },
+        "singleTopic": "Sijè"
       },
       "audioSupport": "Sipò Audio",
       "title": "Tit",
@@ -1280,7 +1281,7 @@
         "saveError": "Pa t 'kapab sove odyo"
       },
       "stoplight": {
-        "section": "Endikatè Seksyon",
+        "section": "Kesyon Stoplight",
         "editDimension": "Edit Dimansyon",
         "deleteDimension": "Efase dimansyon",
         "GREEN": "Vèt",
@@ -1294,7 +1295,23 @@
         "spanishTitle": "Tit an panyòl",
         "englishTitle": "Tit an anglè",
         "searchDimension": "Search Dimansyon",
-        "dimensions": "Dimansyon"
+        "dimensions": "Dimansyon",
+        "singleDimension": "Dimansyon"
+      },
+      "summary": {
+        "title": "Rezime Sondaj",
+        "settings": "Anviwònman Lòt",
+        "sign": "Pèmèt siyati sondaj la",
+        "image": "Pèmèt kaptire imaj",
+        "interactive": "Pèmèt èd entèaktif",
+        "random": "Pèmèt lòd o aza",
+        "score": "Pèmèt kesyon ak nòt",
+        "lifemap": "Kat lavi",
+        "mandatoryNumber": "Kantite priyorite obligatwa yo"
+      },
+      "final": {
+        "subtitle": "Sondaj te sove avèk siksè!",
+        "goTo": "Ale nan lis Sondaj"
       }
     }
   },

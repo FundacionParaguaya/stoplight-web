@@ -1268,7 +1268,8 @@
           "selectQuestion": "seleccione las opciones de respuesta para la:",
           "searchOption": "Opción de búsqueda",
           "displayOptions": "Mostrar Opciones"
-        }
+        },
+        "singleTopic": "Tema"
       },
       "audioSupport": "Soporte de audio",
       "title": "Título",
@@ -1280,7 +1281,7 @@
         "saveError": "No se pudo guardar el audio"
       },
       "stoplight": {
-        "section": "Sección de indicadores",
+        "section": "Preguntas sobre el semáforo",
         "editDimension": "Editar dimensión",
         "deleteDimension": "Eliminar dimensión",
         "GREEN": "Verde",
@@ -1294,7 +1295,23 @@
         "spanishTitle": "Título en español",
         "englishTitle": "Título en inglés",
         "searchDimension": "Buscar Dimension",
-        "dimensions": "Dimensiones"
+        "dimensions": "Dimensiones",
+        "singleDimension": "Dimensión"
+      },
+      "summary": {
+        "title": "Resumen de la encuesta",
+        "settings": "Ajustes adicionales",
+        "sign": "Habilitar la firma de la encuesta",
+        "image": "Habilitar la captura de imágenes",
+        "interactive": "Habilitar la ayuda interactiva",
+        "random": "Habilitar orden aleatorio",
+        "score": "Habilitar preguntas con puntuación",
+        "lifemap": "Mapa de vida",
+        "mandatoryNumber": "Número de prioridades obligatorias"
+      },
+      "final": {
+        "subtitle": "¡La encuesta se guardó correctamente!",
+        "goTo": "Ir a la lista de encuestas"
       }
     }
   },
