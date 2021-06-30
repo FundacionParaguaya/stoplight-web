@@ -3,10 +3,12 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import BlurOnIcon from '@material-ui/icons/BlurOn';
+import DoneIcon from '@material-ui/icons/Done';
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import CheckboxInput from '../../components/CheckboxInput';
 import InputWithLabel from '../../components/InputWithLabel';
@@ -59,6 +61,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 20
   },
   summaryContainer: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     backgroundColor: theme.palette.background.default,
@@ -74,11 +77,17 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 10,
     paddingLeft: 10
   },
-  icon: { color: theme.palette.grey.main },
+  icon: {
+    color: theme.palette.grey.main
+  },
   lifeMapLabel: {
     paddingLeft: 10,
     fontSize: 14,
     fontWeight: 'bold'
+  },
+  mandatoryNumber: {
+    paddingLeft: 42,
+    width: 300
   },
   buttonContainer: {
     marginTop: '2rem',
@@ -86,15 +95,18 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center'
+  },
+  doneIcon: {
+    fontSize: 22,
+    marginRight: theme.spacing(1)
   }
 }));
 
 // Validation criterias
 const validationSchema = Yup.object({
-  signature: Yup.bool(),
-  imageCapture: Yup.bool(),
-  mandatoryIndicators: Yup.number(),
-  interactiveHelp: Yup.bool(),
+  signSupport: Yup.bool(),
+  pictureSupport: Yup.bool(),
+  minimumPriorities: Yup.number(),
   randomOrder: Yup.bool(),
   hasQuestionsWithScore: Yup.bool()
 });
@@ -102,13 +114,38 @@ const validationSchema = Yup.object({
 const Summary = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
+  const [topics, setTopics] = useState('');
+  const [dimensions, setDimensions] = useState('');
+
+  useEffect(() => {
+    let t = [];
+    (currentSurvey.surveyEconomicQuestions || []).forEach(q => {
+      t[q.topic] = q;
+    });
+    setTopics(Object.keys(t).length);
+    let d = [];
+    (currentSurvey.surveyStoplightQuestions || []).forEach(q => {
+      d[q.dimension] = q;
+    });
+    setDimensions(Object.keys(d).length);
+  }, []);
+
+  const updateSettings = (setFieldValue, key, value) => {
+    setFieldValue(key, value);
+    updateSurvey({
+      ...currentSurvey,
+      surveyConfig: { ...currentSurvey.surveyConfig, [key]: value }
+    });
+  };
 
   const onSubmit = values => {
     setLoading(true);
     //Todo: Update survey
     setLoading(false);
+    history.push('/survey-builder/final');
   };
 
   const AmountItem = ({ amount, label }) => {
@@ -124,39 +161,31 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
     );
   };
 
-  const CheckboxWithLabel = ({ onCheck, label, checked }) => {
-    return (
-      <div style={{ cursor: 'pointer' }} onClick={onCheck}>
-        <CheckboxInput label={label} onChange={onCheck} checked={checked} />
-      </div>
-    );
-  };
-
   return (
     <div className={classes.mainContainer}>
       <Formik
         enableReinitialize
         initialValues={{
-          signature: currentSurvey.signature || false,
-          imageCapture: currentSurvey.imageCapture || false,
-          interactiveHelp: currentSurvey.interactiveHelp || false,
-          randomOrder: currentSurvey.randomOrder || false,
-          hasQuestionsWithScore: currentSurvey.hasQuestionsWithScore || false,
-          mandatoryIndicators: currentSurvey.mandatoryIndicators || '0'
+          signSupport: currentSurvey.surveyConfig.signSupport || false,
+          pictureSupport: currentSurvey.surveyConfig.pictureSupport || false,
+          randomOrder: currentSurvey.surveyConfig.randomOrder || false,
+          hasQuestionsWithScore:
+            currentSurvey.surveyConfig.hasQuestionsWithScore || false,
+          minimumPriorities: currentSurvey.minimumPriorities || '0'
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
           onSubmit(values);
         }}
       >
-        {({ setFieldValue, values, touched, setTouched }) => (
+        {({ setFieldValue, values }) => (
           <Form noValidate autoComplete={'off'}>
             <div className={classes.container}>
-              <Header title={'Survey Summary'} bottomTitle />
-              <div
-                className={classes.summaryContainer}
-                style={{ width: '100%' }}
-              >
+              <Header
+                title={t('views.surveyBuilder.summary.title')}
+                bottomTitle
+              />
+              <div className={classes.summaryContainer}>
                 <Grid
                   item
                   md={12}
@@ -164,60 +193,77 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
                   xs={12}
                   className={classes.amountsGrid}
                 >
-                  <AmountItem amount={4} label={4 > 1 ? 'Topics' : 'Topic'} />
                   <AmountItem
-                    amount={currentSurvey.surveyEconomicQuestions.length}
-                    label={'Socioeconomic Questions'}
+                    amount={topics}
+                    label={
+                      topics > 1
+                        ? t('views.surveyBuilder.economic.topics')
+                        : t('views.surveyBuilder.economic.singleTopic')
+                    }
                   />
                   <AmountItem
-                    amount={5}
+                    amount={currentSurvey.surveyEconomicQuestions.length}
+                    label={t('views.surveyBuilder.economic.socioeconomic')}
+                  />
+                  <AmountItem
+                    amount={dimensions}
                     label={
-                      5 > 1 ? 'Indicator Dimensions' : 'Indicator Dimension'
+                      dimensions > 1
+                        ? t('views.surveyBuilder.stoplight.dimensions')
+                        : t('views.surveyBuilder.stoplight.singleDimension')
                     }
                   />
                   <AmountItem
                     amount={currentSurvey.surveyStoplightQuestions.length}
-                    label={'Stoplight Questions'}
+                    label={t('views.surveyBuilder.stoplight.section')}
                   />
                 </Grid>
               </div>
               <Typography className={classes.title} variant="h5">
-                {'Additional Settings'}
+                {t('views.surveyBuilder.summary.settings')}
               </Typography>
               <div
                 style={{ marginBottom: 0 }}
                 className={classes.additionalSettingsContainer}
               >
-                <CheckboxWithLabel
-                  label={'Enable survey signature'}
-                  onCheck={() => setFieldValue('signature', !values.signature)}
-                  checked={values.signature}
-                />
-                <CheckboxWithLabel
-                  label={'Enable image capture'}
-                  onCheck={() =>
-                    setFieldValue('imageCapture', !values.imageCapture)
+                <CheckboxInput
+                  label={t('views.surveyBuilder.summary.sign')}
+                  onChange={() =>
+                    updateSettings(
+                      setFieldValue,
+                      'signSupport',
+                      !values.signSupport
+                    )
                   }
-                  checked={values.imageCapture}
+                  checked={values.signSupport}
                 />
-                <CheckboxWithLabel
-                  label={'Enable interactive help'}
-                  onCheck={() =>
-                    setFieldValue('interactiveHelp', !values.interactiveHelp)
+                <CheckboxInput
+                  label={t('views.surveyBuilder.summary.image')}
+                  onChange={() =>
+                    updateSettings(
+                      setFieldValue,
+                      'pictureSupport',
+                      !values.pictureSupport
+                    )
                   }
-                  checked={values.interactiveHelp}
+                  checked={values.pictureSupport}
                 />
-                <CheckboxWithLabel
-                  label={'Enable random order'}
-                  onCheck={() =>
-                    setFieldValue('randomOrder', !values.randomOrder)
+                <CheckboxInput
+                  label={t('views.surveyBuilder.summary.random')}
+                  onChange={() =>
+                    updateSettings(
+                      setFieldValue,
+                      'randomOrder',
+                      !values.randomOrder
+                    )
                   }
                   checked={values.randomOrder}
                 />
-                <CheckboxWithLabel
-                  label={'Enable questions with score'}
-                  onCheck={() =>
-                    setFieldValue(
+                <CheckboxInput
+                  label={t('views.surveyBuilder.summary.score')}
+                  onChange={() =>
+                    updateSettings(
+                      setFieldValue,
                       'hasQuestionsWithScore',
                       !values.hasQuestionsWithScore
                     )
@@ -230,15 +276,21 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
                     className={classes.lifeMapLabel}
                     variant="subtitle1"
                   >
-                    {'Life Map'}
+                    {t('views.surveyBuilder.summary.lifemap')}
                   </Typography>
                 </div>
-                <div style={{ paddingLeft: 42, width: 300 }}>
+                <div className={classes.mandatoryNumber}>
                   <InputWithLabel
-                    title={'Number of mandatory indicators'}
-                    inputProps={{ maxLength: '100' }}
-                    multiline={true}
-                    name="mandatoryIndicators"
+                    title={t('views.surveyBuilder.summary.mandatoryNumber')}
+                    inputProps={{ maxLength: '5' }}
+                    name="minimumPriorities"
+                    onChange={e => {
+                      setFieldValue('minimumPriorities', e.target.value);
+                      updateSurvey({
+                        ...currentSurvey,
+                        minimumPriorities: e.target.value
+                      });
+                    }}
                   />
                 </div>
               </div>
@@ -249,6 +301,7 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
                   variant="contained"
                   disabled={loading}
                 >
+                  <DoneIcon className={classes.doneIcon} />
                   {t('general.save')}
                 </Button>
               </div>
