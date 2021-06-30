@@ -644,7 +644,7 @@
           "addTitle": "Add Intervention",
           "generalOption": "General Intervention",
           "save": {
-            "success": "Saved intervention.",
+            "success": "Intervention saved.",
             "error": "Could not save intervention"
           },
           "previewTitle": "Preview of your intervention form"
@@ -1074,7 +1074,7 @@
         "addOption": "Add option",
         "missingOptions": "Options for this question are required",
         "title": "Intervention Definition",
-        "subtitle": "Create your intervention by setting the definitions here.  ",
+        "subtitle": "Create intervention models for your organizations",
         "coreQuestions": "These are the core questions which will be at the beginning of the intervention form:",
         "questionsTitle": "To add more questions, drag and drop the following questions to the form on the right:",
         "otherOption": "Add an \"Other\" response option.",
