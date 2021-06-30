@@ -1219,7 +1219,8 @@
         "text": "Texto",
         "title": "Título",
         "subtitle": "Subtítulo",
-        "save": "Salvar"
+        "save": "Salvar",
+        "error": "Não foi possível salvar a pesquisa"
       },
       "question": "Pergunta",
       "shortName": "Nome curto",
