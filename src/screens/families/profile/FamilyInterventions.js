@@ -12,7 +12,7 @@ import {
   interventionDefinitionByFamily,
   listInterventionsBySnapshot
 } from '../../../api';
-import iconIntervention from '../../../assets/imgAch.png';
+import iconIntervention from '../../../assets/Intervention.png';
 import Container from '../../../components/Container';
 import {
   checkAccessToInterventions,
