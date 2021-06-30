@@ -11,19 +11,20 @@ import Grid from '@material-ui/core/Grid';
 import Switch from '@material-ui/core/Switch';
 import { Typography, Button, CircularProgress } from '@material-ui/core';
 import SupportLangPicker from './SupportLangPicker';
-import Editor from '../../components/Editor';
-import CollectionSelector from '../support/CollectionSelector';
 import * as Yup from 'yup';
+import { useParams } from 'react-router-dom';
+import * as _ from 'lodash';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import CollectionSelector from '../support/CollectionSelector';
 import {
   saveOrUpdateArticle,
   getArticleById,
   getCollectionTypes
 } from '../../api';
-import { useParams } from 'react-router-dom';
-import * as _ from 'lodash';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+import Editor from '../../components/Editor';
 import { ROLES_NAMES } from '../../utils/role-utils';
+import InputWithLabel from '../../components/InputWithLabel';
 
 const inputStyle = {
   height: 25,
@@ -143,7 +144,8 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
       .required(fieldIsRequired)
       .max(200, lessThan200Characters),
     contentRich: Yup.string().required(fieldIsRequired),
-    collection: Yup.object().required()
+    collection: Yup.object().required(),
+    section: Yup.string()
   });
 
   const onSubmit = values => {
@@ -258,7 +260,8 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
             (!!article.lang && article.lang) ||
             localStorage.getItem('language') ||
             'en',
-          published: (!!article.published && article.published) || false
+          published: (!!article.published && article.published) || false,
+          section: (!!article.section && article.section) || ''
         }}
         enableReinitialize
         validationSchema={validationSchema}
@@ -334,15 +337,7 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
                     )}
                   </Grid>
                 </Grid>
-                <Grid
-                  item
-                  lg={4}
-                  md={4}
-                  sm={4}
-                  xs={12}
-                  container
-                  //className={classes.switch}
-                >
+                <Grid item lg={4} md={4} sm={4} xs={12} container>
                   <SupportLangPicker
                     primaryStyle
                     language={values.language}
@@ -388,6 +383,11 @@ const SupportForm = ({ user, closeSnackbar, enqueueSnackbar, history }) => {
                       }
                       error={touched.collection && !values.collection}
                       required={true}
+                    />
+                    <InputWithLabel
+                      title={t('views.support.form.section')}
+                      multiline={false}
+                      name="section"
                     />
                   </Grid>
                 </Grid>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import InfoView from './survey-builder/Info';
-import FamilyDetails from './survey-builder/FamilyDetails';
 import Economics from './survey-builder/Economics';
+import FamilyDetails from './survey-builder/FamilyDetails';
+import InfoView from './survey-builder/Info';
+import Stoplights from './survey-builder/Stoplights';
 import Summary from './survey-builder/Summary';
 
 class Builder extends Component {
@@ -19,6 +20,11 @@ class Builder extends Component {
         <Route
           path={`${this.props.match.path}/economics`}
           component={Economics}
+        />
+
+        <Route
+          path={`${this.props.match.path}/stoplights`}
+          component={Stoplights}
         />
 
         <Route path={`${this.props.match.path}/summary`} component={Summary} />

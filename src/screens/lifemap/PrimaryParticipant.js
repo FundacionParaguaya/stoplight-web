@@ -33,6 +33,7 @@ import {
   getDraftWithUpdatedQuestionsCascading
 } from '../../utils/conditional-logic';
 import { capitalize } from '../../utils/form-utils';
+import NoProdWarningBanner from '../../components/NoProdWarningBanner';
 
 const countryList = countries(require('localized-countries/data/en')).array();
 
@@ -406,10 +407,13 @@ export class PrimaryParticipant extends Component {
     return (
       <div>
         <TitleBar title={t('views.primaryParticipant')} progressBar />
+
         <div className={classes.topImageContainer}>
           <img alt="" height={60} width={60} src={familyFaceIcon} />
         </div>
         <Container variant="slim">
+          <NoProdWarningBanner styles={{ marginBottom: '5px' }} />
+
           <Formik
             initialValues={{
               ...defaultEditingObject,

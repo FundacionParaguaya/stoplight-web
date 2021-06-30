@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Tooltip } from '@material-ui/core';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Slider from 'react-slick';
 import { makeStyles } from '@material-ui/core/styles';
+import { useTranslation } from 'react-i18next';
 
 // Import css files
 import 'slick-carousel/slick/slick.css';
@@ -17,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: '2rem',
     paddingLeft: 10,
     paddingRight: 10,
+    postion: 'relative',
     '& div > div > div:nth-child(1)': {
       display: 'flex',
       width: '100%',
@@ -34,6 +36,11 @@ const useStyles = makeStyles(theme => ({
       width: '100%',
       justifyContent: 'center',
       wordBreak: 'break-word'
+    },
+    '& div > .slick-dots': {
+      height: 'fit-content',
+      bottom: 0,
+      top: -25
     }
   },
   questionCard: {
@@ -118,15 +125,40 @@ const useStyles = makeStyles(theme => ({
     height: 240,
     position: 'absolute',
     top: '50%'
+  },
+  tooltip: {
+    fontSize: 18,
+    marginRight: 16
   }
 }));
 
-const NextArrow = ({ currentSlide, slideCount, ...props }) => {
+const NextArrow = ({ currentSlide, slideCount, interactive, ...props }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
+  const [openTooltip, setOpenTooltip] = useState(interactive);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setOpenTooltip(false);
+    }, 4000);
+  }, [currentSlide]);
+
+  useEffect(() => {
+    setOpenTooltip(interactive && currentSlide < 1);
+  }, [currentSlide]);
+
   return (
-    <div className={classes.arrowIcon} {...props}>
-      <ArrowForwardIosIcon color="primary" />
-    </div>
+    <Tooltip
+      title={t('views.lifemap.indicatorSlide')}
+      open={openTooltip}
+      classes={{
+        tooltip: classes.tooltip
+      }}
+    >
+      <div className={classes.arrowIcon} {...props}>
+        <ArrowForwardIosIcon color="primary" />
+      </div>
+    </Tooltip>
   );
 };
 
@@ -147,7 +179,8 @@ const StopLightQuestionCarousel = ({
   setAspectRatio,
   handleImageLoaded,
   aspectRatio,
-  codeName
+  codeName,
+  interactive
 }) => {
   const classes = useStyles();
   const [showIcon, setShowIcon] = useState(0);
@@ -156,6 +189,7 @@ const StopLightQuestionCarousel = ({
   }, [codeName]);
 
   let settings = {
+    dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 3,
@@ -192,7 +226,7 @@ const StopLightQuestionCarousel = ({
   return (
     <div className={classes.container}>
       <Slider
-        nextArrow={<NextArrow />}
+        nextArrow={<NextArrow interactive={interactive} />}
         prevArrow={<PrevArrow />}
         {...settings}
         key={codeName}

@@ -9,6 +9,7 @@ import NavIcons from '../../components/NavIcons';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import LeaveModal from '../../components/LeaveModal';
+import NoProdWarningBanner from '../../components/NoProdWarningBanner';
 
 const titleStyles = muiTheme => ({
   title: {
@@ -143,6 +144,7 @@ export class Terms extends Component {
         )}
         <Container>
           <div className={classes.contentContainer}>
+            <NoProdWarningBanner />
             <Typography variant="h5">{this.state.title}</Typography>
             <br />
             {this.state.text &&

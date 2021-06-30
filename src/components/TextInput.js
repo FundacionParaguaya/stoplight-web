@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TextInput = ({ label, value, onChange }) => {
+const TextInput = ({ label, value, onChange, customClasses = {} }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -35,7 +35,7 @@ const TextInput = ({ label, value, onChange }) => {
       <TextField
         InputProps={{
           classes: {
-            input: classes.filterInput
+            input: customClasses.input || classes.filterInput
           }
         }}
         variant="outlined"
@@ -43,7 +43,7 @@ const TextInput = ({ label, value, onChange }) => {
         value={value}
         onChange={onChange}
         fullWidth
-        className={classes.textField}
+        className={customClasses.textField || classes.textField}
       />
     </React.Fragment>
   );

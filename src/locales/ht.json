@@ -268,7 +268,8 @@
       "priorities": "Priyorite yo",
       "achievements": "Akonplisman",
       "toComplete": "Pou fini ak Kat Lavi sa a, ...",
-      "indicatorDefinition": "Definisyon endikatè a"
+      "indicatorDefinition": "Definisyon endikatè a",
+      "indicatorSlide": "Glise adwat pou wè plis"
     },
     "priority": {
       "month": "Mwa",
@@ -486,7 +487,8 @@
     "nonProdWarning": {
       "title": "Helo!",
       "subtitle": "Byenvini nan anviwònman demonstrasyon an.",
-      "bottom": "Pa bliye; tout done ou antre la piblik epi l ap efase otomatikman."
+      "bottom": "Pa bliye; tout done ou antre la piblik epi l ap efase otomatikman.",
+      "warning": "Anviwònman Demonstrasyon, sonje, tout kontni ki antre isit la se piblik epi yo pral efase otomatikman."
     },
     "deleteDraft": {
       "confirmDeletion": "Eske ou vle efase l vre?",
@@ -1173,7 +1175,8 @@
       "collections": {
         "appDescription": "Atik sipò jeneral konsènan Stoplight mobil app android",
         "generalDescription": "Kesyon Jeneral sou Stoplight la Povrete",
-        "webDescription": "Atik Jeneral sou lè l sèvi avèk platfòm la Stoplight Povrete"
+        "webDescription": "Atik Jeneral sou lè l sèvi avèk platfòm la Stoplight Povrete",
+        "surveyBuilderDescription": "Atik jeneral sou lè l sèvi avèk Sondaj Builder la"
       },
       "countArticles": "atik nan koleksyon sa a",
       "createdAt": "Kreye nan",
@@ -1189,6 +1192,7 @@
       "form": {
         "active": "Pibliye atik sa a",
         "content": "Kòmanse ekri kontni ou ...",
+        "section": "Seksyon",
         "save": {
           "failed": "Pa t 'kapab sove atik la",
           "success": "Atik sove avèk siksè"
@@ -1236,11 +1240,61 @@
         "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la.",
         "topic": {
           "new": "Nouvo sijè",
-          "error": "Non sijè pa ka vid"
+          "error": "Non sijè pa ka vid",
+          "editTopic": "Edit Topic"
+        },
+        "conditional": "Lojik Kondisyonèl Sondaj la",
+        "conditionals": {
+          "optionPlaceholder": "- Chwazi yon opsyon -",
+          "addCondition": "Ajoute kondisyon",
+          "addAgeCondition": "Kondisyon Laj",
+          "showQuestion": "Montre Kesyon",
+          "types": {
+            "question": "Kesyon kondisyon",
+            "option": "Kondisyon opsyon",
+            "age": "Kondisyon laj"
+          },
+          "operator": {
+            "equals": "ki egal a",
+            "notEquals": "pa egal a",
+            "less": "Mwens pase",
+            "greater": "Pi gran pase",
+            "lessThanEq": "Mwens pase oswa egal",
+            "greaterThanEq": "Pi gran pase oswa egal"
+          },
+          "chooseOptions": "Chwazi opsyon",
+          "ageCondition": "Restriksyon laj pou kesyon sa a",
+          "optionsTitle": "Opsyon lojik",
+          "selectQuestion": "chwazi repons opsyon pou kesyon:",
+          "searchOption": "Opsyon rechèch",
+          "displayOptions": "Montre Opsyon"
         }
       },
       "audioSupport": "Sipò Audio",
-      "title": "Tit"
+      "title": "Tit",
+      "audio": {
+        "currentAudio": "Kouran odyo",
+        "placeholder": "Isit la ou ka ajoute dosye odyo ou",
+        "maxSize": "Dosye odyo ou a depase limit la 10MB! \nTanpri itilize yon lòt.",
+        "extensionError": "Dosye odyo ou ta dwe gen yon ekstansyon .mp3!",
+        "saveError": "Pa t 'kapab sove odyo"
+      },
+      "stoplight": {
+        "section": "Endikatè Seksyon",
+        "editDimension": "Edit Dimansyon",
+        "deleteDimension": "Efase dimansyon",
+        "GREEN": "Vèt",
+        "YELLOW": "Jòn",
+        "RED": "Wouj",
+        "dimension": {
+          "edit": "Edit Dimansyon",
+          "delete": "Efase dimansyon"
+        },
+        "spanishTitle": "Tit an panyòl",
+        "englishTitle": "Tit an anglè",
+        "searchDimension": "Search Dimansyon",
+        "dimensions": "Dimansyon"
+      }
     }
   },
   "reports": {

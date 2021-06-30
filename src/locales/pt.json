@@ -268,7 +268,8 @@
       "priorities": "Prioridades",
       "achievements": "Conquistas",
       "toComplete": "Antes que complete o Mapa de Vida....",
-      "indicatorDefinition": "Definição de Indicador"
+      "indicatorDefinition": "Definição de Indicador",
+      "indicatorSlide": "Deslize para a direita para ver mais"
     },
     "priority": {
       "month": "mês",
@@ -486,7 +487,8 @@
     "nonProdWarning": {
       "title": "Olá!",
       "subtitle": "Bem-vindo ao ambiente de demostração.",
-      "bottom": "Lembre-se de que todo o conteúdo inserido aqui é público e será excluído automaticamente."
+      "bottom": "Lembre-se de que todo o conteúdo inserido aqui é público e será excluído automaticamente.",
+      "warning": "Ambiente de demonstração, lembre-se, todo o conteúdo inserido aqui é público e será excluído automaticamente."
     },
     "deleteDraft": {
       "confirmDeletion": "Confirme a eliminação",
@@ -1171,7 +1173,8 @@
       "collections": {
         "generalDescription": "Perguntas gerais sobre o semáforo da pobreza",
         "appDescription": "Artigos de suporte geral sobre o aplicativo Android Stoplight Mobile",
-        "webDescription": "Artigos gerais sobre o uso da Poverty Stoplight Platform"
+        "webDescription": "Artigos gerais sobre o uso da Poverty Stoplight Platform",
+        "surveyBuilderDescription": "Artigos gerais sobre o uso do construtor de pesquisas"
       },
       "failRequest": "Há um erro na solicitação",
       "metaTitle": "Centro de Apoio à Pobreza Stoplight",
@@ -1199,7 +1202,8 @@
         "title": "Título do artigo",
         "subtitle": "Adicione uma descrição para o seu artigo",
         "active": "Publique este artigo",
-        "content": "Comece a escrever seu conteúdo ..."
+        "content": "Comece a escrever seu conteúdo ...",
+        "section": "Seção"
       },
       "deleteButton": "EXCLUIR",
       "editButton": "EDITAR",
@@ -1236,11 +1240,61 @@
         "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui.",
         "topic": {
           "new": "Novo topico",
-          "error": "O nome do tópico não pode estar vazio"
+          "error": "O nome do tópico não pode estar vazio",
+          "editTopic": "Editar Tópico"
+        },
+        "conditional": "Lógica condicional da pesquisa",
+        "conditionals": {
+          "optionPlaceholder": "-- Selecione uma opção --",
+          "addCondition": "Adicionar condição",
+          "addAgeCondition": "Condição de Idade",
+          "showQuestion": "Mostrar pergunta",
+          "types": {
+            "question": "Condição da pergunta",
+            "option": "Condição de opção",
+            "age": "Condição de idade"
+          },
+          "operator": {
+            "equals": "é igual a",
+            "notEquals": "não é igual a",
+            "less": "Menor que",
+            "greater": "Maior que",
+            "lessThanEq": "Menor ou igual",
+            "greaterThanEq": "Maior ou igual"
+          },
+          "chooseOptions": "Escolha as opções",
+          "ageCondition": "Restrição de idade para esta questão",
+          "optionsTitle": "Lógica de opções",
+          "selectQuestion": "selecione as opções de resposta para a pergunta:",
+          "searchOption": "Opção de pesquisa",
+          "displayOptions": "Opções de exibição"
         }
       },
       "audioSupport": "Suporte de Áudio",
-      "title": "Título"
+      "title": "Título",
+      "audio": {
+        "currentAudio": "Áudio atual",
+        "placeholder": "Aqui você pode adicionar seu arquivo de áudio",
+        "maxSize": "Seu arquivo de áudio excede o limite de 10 MB! \nPor favor, use outro.",
+        "extensionError": "Seu arquivo de áudio deve ter uma extensão .mp3!",
+        "saveError": "Não foi possível salvar o áudio"
+      },
+      "stoplight": {
+        "section": "Seção de Indicadores",
+        "editDimension": "Editar Dimensão",
+        "deleteDimension": "Excluir Dimensão",
+        "GREEN": "Verde",
+        "YELLOW": "Amarelo",
+        "RED": "vermelho",
+        "dimension": {
+          "edit": "Editar Dimensão",
+          "delete": "Excluir Dimensão"
+        },
+        "spanishTitle": "Título em espanhol",
+        "englishTitle": "Título em Inglês",
+        "searchDimension": "Dimensão de Pesquisa",
+        "dimensions": "Dimensões"
+      }
     }
   },
   "reports": {

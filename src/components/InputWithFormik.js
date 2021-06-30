@@ -1,16 +1,18 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { withTranslation } from 'react-i18next';
-import TextField from '@material-ui/core/TextField';
 import * as _ from 'lodash';
-import { connect } from 'formik';
-import NumberFormat from 'react-number-format';
-import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
+
 import {
   getDecimalSeparatorByLang,
   getThousandSeparatorByLang
 } from '../utils/lang-utils';
+import { getErrorLabelForPath, pathHasError } from '../utils/form-utils';
+
+import NumberFormat from 'react-number-format';
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import { connect } from 'formik';
+import propTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
 
 let NumberFormatCustom = props => {
   const {
@@ -25,6 +27,7 @@ let NumberFormatCustom = props => {
   return (
     <NumberFormat
       {...other}
+      decimalScale={0}
       getInputRef={inputRef}
       onValueChange={values => {
         onChange({

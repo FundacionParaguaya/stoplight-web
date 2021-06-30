@@ -131,13 +131,15 @@
       "collections": {
         "generalDescription": "General Questions about the Poverty Stoplight",
         "webDescription": "General articles about using the Poverty Stoplight Platform",
-        "appDescription": "General support articles regarding the Stoplight Mobile android app"
+        "appDescription": "General support articles regarding the Stoplight Mobile android app",
+        "surveyBuilderDescription": "General articles about using the Survey Builder"
       },
       "form": {
         "title": "Article title",
         "subtitle": "Add a description for your article",
         "active": "Publish this article",
         "content": "Start writing your content...",
+        "section": "Section",
         "userNotAllowed": "Operation not allowed",
         "save": {
           "success": "Article saved successfully",
@@ -306,7 +308,8 @@
       "priorities": "Priorities",
       "achievements": "Achievements",
       "toComplete": "To complete the Life Map...",
-      "indicatorDefinition": "Indicator Definition"
+      "indicatorDefinition": "Indicator Definition",
+      "indicatorSlide": "Swipe right to see more"
     },
     "priority": {
       "month": "month",
@@ -529,7 +532,8 @@
     "nonProdWarning": {
       "title": "Hello!",
       "subtitle": "Welcome to the demonstration environment.",
-      "bottom": "Remember, all content entered here is public and will be deleted automatically."
+      "bottom": "Remember, all content entered here is public and will be deleted automatically.",
+      "warning": "Demonstration environment, remember, all content entered here is public and will be deleted automatically."
     },
     "deleteDraft": {
       "confirmDeletion": "Confirm deletion",
@@ -1234,13 +1238,63 @@
         "conditionalLogic": "Conditional Logic",
         "topic": {
           "new": "New Topic",
-          "error": "Topic name cannot be empty"
+          "error": "Topic name cannot be empty",
+          "editTopic": "Edit Topic"
         },
         "deleteTopic": "Delete Topic",
-        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here."
+        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here.",
+        "conditional": "Survey’s Conditional Logic",
+        "conditionals": {
+          "optionPlaceholder": "-- Select an option --",
+          "addCondition": "Add condition",
+          "addAgeCondition": "Age Condition",
+          "showQuestion": "Show Question",
+          "types": {
+            "question": "Question condition",
+            "option": "Option condition",
+            "age": "Age condition"
+          },
+          "operator": {
+            "equals": "is equal to",
+            "notEquals": "is not equal to",
+            "less": "Less than",
+            "greater": "Greater than",
+            "greaterThanEq": "Greater than or equal",
+            "lessThanEq": "Less than or equal"
+          },
+          "chooseOptions": "Choose options",
+          "ageCondition": "Age restriction for this question",
+          "optionsTitle": "Options Logic",
+          "selectQuestion": "select answer options for question: ",
+          "searchOption": "Search option",
+          "displayOptions": "Display Options"
+        }
       },
       "audioSupport": "Audio Support",
-      "title": "Title"
+      "title": "Title",
+      "audio": {
+        "placeholder": "Here you can add  your audio file",
+        "currentAudio": "Current audio",
+        "maxSize": "Your audio file exceeds the 10MB limit! Please use another one.",
+        "extensionError": "Your audio file should have an .mp3 extension!",
+        "saveError": "Could not save audio"
+      },
+      "stoplight": {
+        "section": "Indicators Section",
+        "deleteDimension": "Delete Dimension",
+        "editDimension": "Edit Dimension",
+        "GREEN": "Green",
+        "YELLOW": "Yellow",
+        "RED": "Red",
+        "dimension": {
+          "edit": "Edit Dimension",
+          "delete": "Delete Dimension"
+        },
+        "spanishTitle": "Title in Spanish",
+        "englishTitle": "Title in English",
+        "searchDimension": "Search Dimension",
+        "dimensions": "Dimensions"
+      }
     }
   },
   "reports": {

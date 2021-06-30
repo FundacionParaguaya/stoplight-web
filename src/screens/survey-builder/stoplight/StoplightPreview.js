@@ -5,11 +5,11 @@ import React, { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import TopicTabs from './TopicTabs';
+import TopicTabs from '../economic/TopicTabs';
 import { updateSurvey } from '../../../redux/actions';
 import { COLORS } from '../../../theme';
 import EditQuestion from '../EditQuestion';
-import Question from '../Question';
+import StoplightQuestion from './StoplightQuestion';
 
 const useStyles = makeStyles(theme => ({
   surveyQuestionsContainer: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     padding: '1rem',
     height: '100%'
   },
-  topicButton: {
+  button: {
     margin: '6px 0 6px 6px',
     backgroundColor: COLORS.MEDIUM_GREY
   },
@@ -50,94 +50,89 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const EconomicPreview = ({
-  selectedSurveyTopic,
-  setSelectedSurveyTopic,
+const StoplightPreview = ({
+  surveyDimensions,
+  setSurveyDimensions,
+  selectedSurveyDimension,
+  setSelectedSurveyDimension,
   selectedQuestion,
   setSelectedQuestion,
   setSurveyQuestion,
-  goToConditional,
+  toggleDimensionForm,
+  handleDeleteDimension,
+  onSave,
   currentSurvey,
-  updateSurvey,
-  surveyTopics,
-  setSurveyTopics,
-  toggleTopicForm,
-  handleDeleteTopic,
-  onSave
+  updateSurvey
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
   useEffect(() => {
     let data = [];
-    if (surveyTopics.length === 0) {
-      currentSurvey.surveyEconomicQuestions.forEach((question, index) => {
-        let topicIndex = data.findIndex(t => t.text === question.topic);
-        if (topicIndex < 0) {
+    if (surveyDimensions.length === 0) {
+      currentSurvey.surveyStoplightQuestions.forEach((question, index) => {
+        let dimensionIndex = data.findIndex(t => t.text === question.dimension);
+        if (dimensionIndex < 0) {
           data.push({
             value: data.length,
-            text: question.topic,
-            audioUrl: question.topicAudio
+            text: question.dimension,
+            surveyDimensionId: question.surveyStoplightDimension.id
           });
         }
       });
-      setSelectedSurveyTopic(data[0] || {});
-      setSurveyTopics(data);
+      setSelectedSurveyDimension(data[0] || {});
+      setSurveyDimensions(data);
     } else {
-      if (!selectedSurveyTopic.value) setSelectedSurveyTopic(surveyTopics[0]);
+      if (!selectedSurveyDimension.value)
+        setSelectedSurveyDimension(surveyDimensions[0]);
     }
   }, []);
 
-  const updateQuestion = question => {
-    let newQuestions = currentSurvey.surveyEconomicQuestions || [];
-    let index = newQuestions.findIndex(q => q.codeName === question.codeName);
-    if (index < 0) {
-      newQuestions.push(question);
-    } else {
-      newQuestions[index] = question;
-    }
-    updateSurvey({ ...currentSurvey, surveyEconomicQuestions: newQuestions });
-  };
-
   const deleteQuestion = codeName => {
-    let newQuestions = currentSurvey.surveyEconomicQuestions || [];
-    newQuestions = newQuestions.filter(
+    let newIndicators = (currentSurvey.surveyStoplightQuestions || []).filter(
       question => question.codeName !== codeName
     );
-    updateSurvey({ ...currentSurvey, surveyEconomicQuestions: newQuestions });
+    updateSurvey({ ...currentSurvey, surveyStoplightQuestions: newIndicators });
+  };
+
+  const updateQuestion = question => {
+    let newIndicators = currentSurvey.surveyStoplightQuestions || [];
+    let index = newIndicators.findIndex(q => q.codeName === question.codeName);
+    newIndicators[index] = question;
+    updateSurvey({ ...currentSurvey, surveyStoplightQuestions: newIndicators });
   };
 
   return (
     <div className={classes.surveyQuestionsContainer}>
       <Typography variant="h5">
-        {t('views.surveyBuilder.economic.socioeconomic')}
+        {t('views.surveyBuilder.stoplight.section')}
       </Typography>
       <div className={classes.tabsContainer}>
         <TopicTabs
-          surveyTopics={surveyTopics}
-          selectedSurveyTopic={selectedSurveyTopic}
-          setSelectedSurveyTopic={setSelectedSurveyTopic}
+          surveyTopics={surveyDimensions}
+          selectedSurveyTopic={selectedSurveyDimension}
+          setSelectedSurveyTopic={setSelectedSurveyDimension}
         />
         <div>
           <Button
             color="primary"
             variant="contained"
-            className={classes.topicButton}
-            onClick={() => handleDeleteTopic(selectedSurveyTopic)}
+            className={classes.button}
+            onClick={() => handleDeleteDimension()}
           >
-            {t('views.surveyBuilder.economic.deleteTopic')}
+            {t('views.surveyBuilder.stoplight.deleteDimension')}
           </Button>
           <Button
             color="primary"
             variant="contained"
-            className={classes.topicButton}
-            onClick={() => toggleTopicForm()}
+            className={classes.button}
+            onClick={() => toggleDimensionForm()}
           >
-            {t('views.surveyBuilder.economic.editTopic')}
+            {t('views.surveyBuilder.stoplight.editDimension')}
           </Button>
         </div>
       </div>
-      {!!selectedSurveyTopic && (
+      {!!selectedSurveyDimension && (
         <Droppable droppableId="survey">
           {(provided, snapshot) => (
             <div
@@ -145,9 +140,9 @@ const EconomicPreview = ({
               ref={provided.innerRef}
               className={classes.surveyQuestions}
             >
-              {Array.isArray(currentSurvey.surveyEconomicQuestions) &&
-                currentSurvey.surveyEconomicQuestions
-                  .filter(q => q.topic === selectedSurveyTopic.text)
+              {Array.isArray(currentSurvey.surveyStoplightQuestions) &&
+                currentSurvey.surveyStoplightQuestions
+                  .filter(q => q.dimension === selectedSurveyDimension.text)
                   .map((question, index) => (
                     <Draggable
                       key={question.codeName}
@@ -171,7 +166,7 @@ const EconomicPreview = ({
                               isEconomic
                             />
                           ) : (
-                            <Question
+                            <StoplightQuestion
                               itemRef={provided.innerRef}
                               draggableProps={{
                                 ...provided.draggableProps,
@@ -180,22 +175,22 @@ const EconomicPreview = ({
                               order={index + 1}
                               question={question}
                               setSelectedQuestion={setSelectedQuestion}
+                              handleDelete={() =>
+                                deleteQuestion(question.codeName)
+                              }
                               setSurveyQuestion={() =>
                                 setSurveyQuestion(question)
                               }
-                              handleDelete={deleteQuestion}
-                              goToConditional={goToConditional}
-                              isEconomic
                             />
                           )}
                         </React.Fragment>
                       )}
                     </Draggable>
                   ))}
-              {!!selectedSurveyTopic &&
-                (!Array.isArray(currentSurvey.surveyEconomicQuestions) ||
-                  currentSurvey.surveyEconomicQuestions.filter(
-                    q => q.topic === selectedSurveyTopic.text
+              {!!selectedSurveyDimension &&
+                (!Array.isArray(currentSurvey.surveyStoplightQuestions) ||
+                  currentSurvey.surveyStoplightQuestions.filter(
+                    q => q.dimension === selectedSurveyDimension.text
                   ).length === 0) && (
                   <div className={classes.placeHolder}>
                     <Typography variant="h6">
@@ -221,4 +216,4 @@ const mapStateToProps = ({ user, currentSurvey }) => ({ user, currentSurvey });
 
 const mapDispatchToProps = { updateSurvey };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EconomicPreview);
+export default connect(mapStateToProps, mapDispatchToProps)(StoplightPreview);

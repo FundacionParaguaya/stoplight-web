@@ -180,7 +180,7 @@ export const getSurveyById = (user, surveyId) =>
     },
 
     data: JSON.stringify({
-      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id questionAudio stoplightColors { url value description } required } } }`
+      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id surveyStoplightDimension{id} questionAudio stoplightColors { url value description } required } } }`
     })
   });
 
@@ -1621,7 +1621,7 @@ export const getCollectionTypes = (user, lang) =>
     })
   });
 
-export const getArticleById = (user, id) =>
+export const getArticleById = (user, id, collection, section, language) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
@@ -1630,9 +1630,12 @@ export const getArticleById = (user, id) =>
     },
     data: JSON.stringify({
       query:
-        'query getArticleById($id: Long) { getArticleById(id: $id) { id title description contentRich contentText collection lang published createdAt} }',
+        'query getArticleById($id: Long, $collection: String, $section: String, $language: String) { getArticleById(id: $id, collection: $collection, section: $section, language: $language) { id title description contentRich contentText collection lang published createdAt section} }',
       variables: {
-        id
+        id,
+        collection,
+        section,
+        language
       }
     })
   });
@@ -1673,7 +1676,8 @@ export const saveOrUpdateArticle = (user, values) => {
             lang: normalizeLanguages(values.language),
             contentText: values.contentText,
             contentRich: values.contentRich,
-            published: values.published
+            published: values.published,
+            section: values.section
           }
         }
       })
@@ -1696,7 +1700,8 @@ export const saveOrUpdateArticle = (user, values) => {
             lang: normalizeLanguages(values.language),
             contentText: values.contentText,
             contentRich: values.contentRich,
-            published: values.published
+            published: values.published,
+            section: values.section
           }
         }
       })
@@ -2552,6 +2557,37 @@ export const unifyFamilies = (families, language, user) =>
         'mutation unifyFamilies($families: [Long]) { unifyFamilies (families: $families) { successful } }',
       variables: {
         families
+      }
+    })
+  });
+
+export const uploadAudio = (audio, user) => {
+  var formData = new FormData();
+  formData.append('upload', audio);
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/surveys/audio/upload`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  });
+};
+
+export const dimensionsPool = (language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name } }',
+      variables: {
+        lang: language
       }
     })
   });
