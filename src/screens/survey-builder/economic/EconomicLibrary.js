@@ -83,7 +83,7 @@ const EconomicLibrary = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [topics, setTopics] = useState({});
   const [selectedTopic, setSelectedTopic] = useState('');
