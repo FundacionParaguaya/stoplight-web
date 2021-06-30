@@ -643,7 +643,7 @@
           "generalOption": "Intervención general",
           "save": {
             "error": "No se pudo guardar la intervención",
-            "success": "Intervención salvada."
+            "success": "Intervención guardada."
           },
           "previewTitle": "Vista previa de su formulario de intervención"
         }
@@ -1067,7 +1067,7 @@
       "definition": {
         "coreQuestions": "Estas son las preguntas esenciales que estarán al comienzo del formulario de intervención:",
         "questionsTitle": "Para agregar más preguntas, arrastre y suelte las siguientes preguntas en el formulario de la derecha:",
-        "subtitle": "Cree su intervención estableciendo las definiciones aquí.",
+        "subtitle": "Crea modelos de intervención para tus organizaciones",
         "title": "Definición de intervención",
         "required": "Pregunta requerida",
         "options": "Opciones",
