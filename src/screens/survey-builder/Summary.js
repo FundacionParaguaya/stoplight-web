@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { useTranslation, withTranslation } from 'react-i18next';
-import { Typography } from '@material-ui/core';
-import { useHistory, withRouter } from 'react-router-dom';
-import { Form, Formik } from 'formik';
-import Grid from '@material-ui/core/Grid';
-import * as Yup from 'yup';
-import { connect } from 'react-redux';
-import { useSnackbar } from 'notistack';
-import BlurOnIcon from '@material-ui/icons/BlurOn';
 import Button from '@material-ui/core/Button';
-import withLayout from '../../components/withLayout';
-import InputWithLabel from '../../components/InputWithLabel';
-import Header from './Header';
-import { updateSurvey } from '../../redux/actions';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import BlurOnIcon from '@material-ui/icons/BlurOn';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import * as Yup from 'yup';
 import CheckboxInput from '../../components/CheckboxInput';
+import InputWithLabel from '../../components/InputWithLabel';
+import withLayout from '../../components/withLayout';
+import { updateSurvey } from '../../redux/actions';
+import Header from './Header';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   mainContainer: {
     backgroundColor: theme.palette.background.paper
   },
@@ -89,7 +87,7 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center'
   }
-});
+}));
 
 // Validation criterias
 const validationSchema = Yup.object({
@@ -101,15 +99,17 @@ const validationSchema = Yup.object({
   hasQuestionsWithScore: Yup.bool()
 });
 
-const Summary = ({ classes, t, user, currentSurvey, updateSurvey }) => {
-  const [loading, setLoading] = useState(false);
-  const {
-    i18n: { language }
-  } = useTranslation();
-  const history = useHistory();
-  const { enqueueSnackbar } = useSnackbar();
+const Summary = ({ user, currentSurvey, updateSurvey }) => {
+  const classes = useStyles();
+  const { t } = useTranslation();
 
-  const onSubmit = values => {};
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = values => {
+    setLoading(true);
+    //Todo: Update survey
+    setLoading(false);
+  };
 
   const AmountItem = ({ amount, label }) => {
     return (
@@ -164,20 +164,15 @@ const Summary = ({ classes, t, user, currentSurvey, updateSurvey }) => {
                   xs={12}
                   className={classes.amountsGrid}
                 >
-                  <AmountItem
-                    amount={currentSurvey.topics.length}
-                    label={currentSurvey.topics.length > 1 ? 'Topics' : 'Topic'}
-                  />
+                  <AmountItem amount={4} label={4 > 1 ? 'Topics' : 'Topic'} />
                   <AmountItem
                     amount={currentSurvey.surveyEconomicQuestions.length}
                     label={'Socioeconomic Questions'}
                   />
                   <AmountItem
-                    amount={currentSurvey.dimensions.length}
+                    amount={5}
                     label={
-                      currentSurvey.dimensions.length > 1
-                        ? 'Indicator Dimensions'
-                        : 'Indicator Dimension'
+                      5 > 1 ? 'Indicator Dimensions' : 'Indicator Dimension'
                     }
                   />
                   <AmountItem
@@ -254,7 +249,7 @@ const Summary = ({ classes, t, user, currentSurvey, updateSurvey }) => {
                   variant="contained"
                   disabled={loading}
                 >
-                  {'Save survey'}
+                  {t('general.save')}
                 </Button>
               </div>
             </div>
@@ -275,4 +270,4 @@ const mapStateToProps = ({ currentSurvey, user }) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(withRouter(withTranslation()(withLayout(Summary)))));
+)(withLayout(Summary));

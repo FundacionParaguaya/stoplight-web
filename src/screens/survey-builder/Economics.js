@@ -71,18 +71,6 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   // State to handle drags and drops from new questions tab
   const [newQuestion, setNewQuestion] = useState();
 
-  const getDimensions = () => {
-    const stoplightQuestions = Array.from(
-      currentSurvey.surveyStoplightQuestions
-    );
-    const dimensions = [];
-    stoplightQuestions.forEach(q => {
-      if (dimensions.includes(q.dimension)) return;
-      dimensions.push(q.dimension);
-    });
-    return dimensions;
-  };
-
   const onSave = () => {
     setLoading(true);
     history.push('/survey-builder/stoplights');
