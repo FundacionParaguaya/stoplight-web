@@ -1219,7 +1219,8 @@
         "text": "Tèks",
         "title": "Tit",
         "subtitle": "Subtitle",
-        "save": "Sove"
+        "save": "Sove",
+        "error": "Sondaj la pa t 'kapab sove"
       },
       "question": "Kesyon",
       "shortName": "Shortname",

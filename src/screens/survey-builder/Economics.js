@@ -1,3 +1,4 @@
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,6 +11,7 @@ import {
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import { COLORS } from '../../theme';
@@ -18,8 +20,6 @@ import EconomicLibrary from './economic/EconomicLibrary';
 import EconomicPreview from './economic/EconomicPreview';
 import FieldTypes from './economic/FieldTypes';
 import TopicForm from './economic/TopicForm';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -70,6 +70,18 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const [libraryQuestion, setLibraryQuestion] = useState();
   // State to handle drags and drops from new questions tab
   const [newQuestion, setNewQuestion] = useState();
+
+  const getDimensions = () => {
+    const stoplightQuestions = Array.from(
+      currentSurvey.surveyStoplightQuestions
+    );
+    const dimensions = [];
+    stoplightQuestions.forEach(q => {
+      if (dimensions.includes(q.dimension)) return;
+      dimensions.push(q.dimension);
+    });
+    return dimensions;
+  };
 
   const onSave = () => {
     setLoading(true);
@@ -217,7 +229,6 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           value={4}
         />
       </Tabs>
-
       <DragDropContext onDragEnd={onDragEnd}>
         {tab === 1 && (
           <EconomicLibrary

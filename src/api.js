@@ -2591,3 +2591,28 @@ export const dimensionsPool = (language, user) =>
       }
     })
   });
+
+export const createSurveyDefinition = (
+  user,
+  language,
+  privacyPolicy,
+  termCond,
+  surveyDefinition
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
+      variables: {
+        privacyPolicy,
+        termCond,
+        surveyDefinition
+      }
+    })
+  });
