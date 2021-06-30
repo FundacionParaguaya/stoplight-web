@@ -133,19 +133,10 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       privacyPolicy: {
         text: values.privacyPolicyText,
         title: values.privacyPolicySubtitle
-      },
-      surveyEconomicQuestions: values.surveyEconomicQuestions,
-      surveyStoplightQuestions: values.surveyStoplightQuestions,
-      surveyConfig: values.surveyConfig,
-      conditionalQuestions: values.conditionalQuestions,
-      createdAt: values.createdAt,
-      description: values.title,
-      economicScreens: values.economicScreens,
-      elementsWithConditionsOnThem: values.elementsWithConditionsOnThem,
-      minimumPriorities: values.minimumPriorities
+      }
     };
 
-    updateSurvey(data);
+    updateSurvey({ ...currentSurvey, ...data });
     setLoading(false);
     false &&
       createSurveyDefinition(
@@ -222,15 +213,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
             (currentSurvey.privacyPolicy && currentSurvey.privacyPolicy.text) ||
             '',
           surveyEconomicQuestions: currentSurvey.surveyEconomicQuestions || [],
-          surveyStoplightQuestions:
-            currentSurvey.surveyStoplightQuestions || [],
-          surveyConfig: currentSurvey.surveyConfig || '',
-          conditionalQuestions: currentSurvey.conditionalQuestions || [],
-          createdAt: currentSurvey.createdAt || '',
-          economicScreens: currentSurvey.economicScreens || '',
-          elementsWithConditionsOnThem:
-            currentSurvey.elementsWithConditionsOnThem || '',
-          minimumPriorities: currentSurvey.minimumPriorities || 0
+          surveyStoplightQuestions: currentSurvey.surveyStoplightQuestions || []
         }}
         validationSchema={validationSchema}
         onSubmit={values => {

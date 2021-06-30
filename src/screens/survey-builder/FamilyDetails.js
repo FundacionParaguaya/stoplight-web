@@ -79,6 +79,7 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
     newQuestions[index] = question;
     setQuestions(newQuestions);
     const surveyConfig = {
+      ...currentSurvey.surveyConfig,
       gender: newQuestions[0].options,
       documentType: newQuestions[1].options
     };
@@ -102,6 +103,7 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
         otherOption: true
       });
     const surveyConfig = {
+      ...currentSurvey.surveyConfig,
       gender: genderOptions,
       documentType: documentOptions
     };
