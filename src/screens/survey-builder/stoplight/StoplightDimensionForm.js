@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    minHeight: '35vh',
+    minHeight: '15vh',
     marginTop: '2rem',
     padding: '2rem'
   },
@@ -50,9 +50,7 @@ const StoplightDimensionForm = ({ dimension, updateDimensions, toggle }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [formDimension, setFormDimension] = useState({
-    text: '',
-    spanishTitle: '',
-    englishTitle: ''
+    text: ''
   });
 
   useEffect(() => {
@@ -80,28 +78,6 @@ const StoplightDimensionForm = ({ dimension, updateDimensions, toggle }) => {
             setFormDimension({ ...formDimension, text: e.target.value });
           }}
         />
-
-        <TextInput
-          label={t('views.surveyBuilder.stoplight.spanishTitle')}
-          value={formDimension.spanishTitle}
-          onChange={e => {
-            setFormDimension({
-              ...formDimension,
-              spanishTitle: e.target.value
-            });
-          }}
-        />
-
-        <TextInput
-          label={t('views.surveyBuilder.stoplight.englishTitle')}
-          value={formDimension.englishTitle}
-          onChange={e => {
-            setFormDimension({
-              ...formDimension,
-              englishTitle: e.target.value
-            });
-          }}
-        />
       </div>
       <div className={classes.buttonContainer}>
         <Button
@@ -109,17 +85,16 @@ const StoplightDimensionForm = ({ dimension, updateDimensions, toggle }) => {
           variant="contained"
           style={{ marginRight: '1rem' }}
           onClick={() => {
-            if (
-              formDimension.text &&
-              formDimension.spanishTitle &&
-              formDimension.englishTitle
-            ) {
+            if (formDimension.text) {
               updateDimensions(formDimension);
               toggle();
             } else {
-              enqueueSnackbar(t('views.surveyBuilder.economic.topic.error'), {
-                variant: 'error'
-              });
+              enqueueSnackbar(
+                t('views.surveyBuilder.stoplight.dimension.error'),
+                {
+                  variant: 'error'
+                }
+              );
             }
           }}
         >

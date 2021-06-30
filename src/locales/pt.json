@@ -1287,7 +1287,8 @@
         "RED": "vermelho",
         "dimension": {
           "edit": "Editar Dimensão",
-          "delete": "Excluir Dimensão"
+          "delete": "Excluir Dimensão",
+          "error": "O nome da dimensão não pode estar vazio"
         },
         "spanishTitle": "Título em espanhol",
         "englishTitle": "Título em Inglês",
