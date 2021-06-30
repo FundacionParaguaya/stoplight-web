@@ -146,40 +146,42 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
     };
 
     updateSurvey(data);
-    createSurveyDefinition(
-      user,
-      values.language,
-      {
-        locale: values.language,
-        text: values.privacyPolicyText,
-        title: values.privacyPolicySubtitle
-      },
-      {
-        locale: values.language,
-        text: values.termsText,
-        title: values.termsSubtitle
-      },
-      {
-        title: values.title,
-        description: values.title,
-        countryCode: values.country.value,
-        lang: values.language
-      }
-    )
-      .then(() => {
-        setLoading(false);
-      })
-      .catch(e => {
-        setLoading(false);
-        enqueueSnackbar(
-          e.response.data
-            ? e.response.data.message
-            : t('views.surveyBuilder.infoScreen.error'),
-          {
-            variant: 'error'
-          }
-        );
-      });
+    setLoading(false);
+    false &&
+      createSurveyDefinition(
+        user,
+        values.language,
+        {
+          locale: values.language,
+          text: values.privacyPolicyText,
+          title: values.privacyPolicySubtitle
+        },
+        {
+          locale: values.language,
+          text: values.termsText,
+          title: values.termsSubtitle
+        },
+        {
+          title: values.title,
+          description: values.title,
+          countryCode: values.country.value,
+          lang: values.language
+        }
+      )
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(e => {
+          setLoading(false);
+          enqueueSnackbar(
+            e.response.data
+              ? e.response.data.message
+              : t('views.surveyBuilder.infoScreen.error'),
+            {
+              variant: 'error'
+            }
+          );
+        });
     history.push('/survey-builder/details');
   };
 
