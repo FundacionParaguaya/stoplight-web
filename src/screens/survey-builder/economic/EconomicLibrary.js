@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 'auto'
+    marginTop: '2rem'
   },
   topicContainer: {
     minHeight: 60,
@@ -133,7 +133,7 @@ const EconomicLibrary = ({
       <div style={{ margin: '10px 15px' }}>
         <SearchText
           label={t('views.surveyBuilder.economic.search')}
-          onChange={e => onChangeFilterText(e)}
+          onKeyDown={e => onChangeFilterText(e)}
         />
       </div>
 

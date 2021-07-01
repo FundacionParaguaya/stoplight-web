@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SearchText = ({ label, onChange }) => {
+const SearchText = ({ label, onChange = () => {}, onKeyDown = () => {} }) => {
   const classes = useStyles();
   return (
     <TextField
@@ -71,6 +71,7 @@ const SearchText = ({ label, onChange }) => {
           <SearchIcon className={classes.icon} />
         </React.Fragment>
       }
+      onKeyDown={onKeyDown}
     />
   );
 };
