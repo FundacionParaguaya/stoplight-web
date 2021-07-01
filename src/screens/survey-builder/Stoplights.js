@@ -2,7 +2,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import { FolderOpen, HelpOutline, FormatShapes } from '@material-ui/icons/';
+import { FolderOpen, HelpOutline } from '@material-ui/icons/';
+import DimensionsIcon from '@material-ui/icons/MenuBook';
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
@@ -208,7 +209,7 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
         <Tab
           key={1}
           classes={{ root: classes.tabRoot }}
-          label={<FormatShapes />}
+          label={<DimensionsIcon />}
           value={2}
         />
         <Tab
