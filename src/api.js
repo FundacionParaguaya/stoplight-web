@@ -2616,3 +2616,20 @@ export const createSurveyDefinition = (
       }
     })
   });
+
+export const indicatorsPool = (filter, language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query indicatorsPool($lang : String, $filter : String) { indicatorsPool (lang:$lang,filter:$filter) {id codeName,questionText,shortName, dimension, stoplightColors{value,description, url},surveyIndicator{codeName}} }',
+      variables: {
+        lang: language,
+        filter: filter
+      }
+    })
+  });

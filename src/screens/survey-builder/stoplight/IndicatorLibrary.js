@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { dimensionsPool } from '../../../api';
+import { indicatorsPool } from '../../../api';
 import { theme } from '../../../theme';
 import SearchText from '../SearchText';
 
@@ -46,11 +46,11 @@ const useStyles = makeStyles(theme => ({
     wordBreak: 'break-word'
   },
   loadingContainer: {
+    marginTop: '2rem',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    margin: 'auto'
+    justifyContent: 'center'
   },
   dimensionContainer: {
     minHeight: 60,
@@ -94,19 +94,21 @@ const IndicatorLibrary = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [dimensions, setDimensions] = useState([]);
   const [selectedDimension, setSelectedDimension] = useState('');
 
   useEffect(() => {
     setLoading(true);
-    dimensionsPool(language, user)
+    indicatorsPool(filter, language, user)
       .then(response => {
         let data = [];
-        const rawData = response.data.data.dimensionsByLang;
-        rawData.forEach(d => {
-          data[d.name] = [];
+        const rawData = response.data.data.indicatorsPool;
+        rawData.forEach(q => {
+          let dimensionQuestions = data[q.dimension] || [];
+          dimensionQuestions.push(q);
+          data[q.dimension] = dimensionQuestions;
         });
         setDimensions(data);
         setLoading(false);
@@ -115,6 +117,12 @@ const IndicatorLibrary = ({
         setLoading(false);
       });
   }, [filter]);
+
+  const onChangeFilterText = e => {
+    if (e.key === 'Enter') {
+      setFilter(e.target.value);
+    }
+  };
 
   return (
     <div className={classes.mainContainer}>
@@ -128,7 +136,7 @@ const IndicatorLibrary = ({
       <div style={{ margin: '10px 15px' }}>
         <SearchText
           label={t('views.surveyBuilder.economic.search')}
-          onChange={e => setFilter(e.target.value)}
+          onKeyDown={e => onChangeFilterText(e)}
         />
       </div>
 
