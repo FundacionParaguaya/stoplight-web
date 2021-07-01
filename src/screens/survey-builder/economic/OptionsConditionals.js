@@ -141,32 +141,7 @@ const OptionsConditionals = ({
             {condition.valueText}
           </Typography>
         </div>
-        <div style={{ display: 'flex' }}>
-          <Typography
-            variant="subtitle2"
-            className={classes.labelOne}
-            style={{ width: '100%' }}
-          >
-            {t('views.surveyBuilder.economic.conditionals.selectQuestion')}
-          </Typography>
 
-          <Select
-            value={target}
-            onChange={selection => setTarget(selection)}
-            placeholder={t(
-              'views.surveyBuilder.economic.conditionals.optionPlaceholder'
-            )}
-            components={{ SingleValue }}
-            options={targetOptions}
-            hideSelectedOptions
-            styles={optionSelectStyle}
-            closeMenuOnSelect
-          />
-        </div>
-        <SearchText
-          label={t('views.surveyBuilder.economic.conditionals.searchOption')}
-          onChange={e => setFilter(e.target.value)}
-        />
         <Formik
           enableReinitialize
           initialValues={{ options: condition.conditionalOptions || [] }}
@@ -176,6 +151,39 @@ const OptionsConditionals = ({
         >
           {({ setFieldValue, values }) => (
             <Form noValidate>
+              <div style={{ display: 'flex' }}>
+                <Typography
+                  variant="subtitle2"
+                  className={classes.labelOne}
+                  style={{ width: '100%' }}
+                >
+                  {t(
+                    'views.surveyBuilder.economic.conditionals.selectQuestion'
+                  )}
+                </Typography>
+                <Select
+                  value={target}
+                  onChange={selection => {
+                    setTarget(selection);
+                    setFieldValue('options', []);
+                  }}
+                  placeholder={t(
+                    'views.surveyBuilder.economic.conditionals.optionPlaceholder'
+                  )}
+                  components={{ SingleValue }}
+                  options={targetOptions}
+                  hideSelectedOptions
+                  styles={optionSelectStyle}
+                  closeMenuOnSelect
+                />
+              </div>
+              <SearchText
+                label={t(
+                  'views.surveyBuilder.economic.conditionals.searchOption'
+                )}
+                onChange={e => setFilter(e.target.value)}
+              />
+
               {target && Array.isArray(target.optionKeys) && (
                 <CheckboxWithFormik
                   label={''}
