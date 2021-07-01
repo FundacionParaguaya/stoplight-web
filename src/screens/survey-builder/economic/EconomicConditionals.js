@@ -303,7 +303,7 @@ const EconomicConditionals = ({
               optionKeys: question.options
             }));
             //Remove previus questions form possible target options
-            targetOptions.splice(0, question.order - 1);
+            targetOptions.splice(0, question.orderNumber);
 
             return (
               <Conditionals

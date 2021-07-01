@@ -168,7 +168,7 @@ const Conditionals = ({
       !shouldUpdateDraft(c) &&
         newConditions.push({ ...c, order: newConditions.length + 1 });
     });
-    console.log(newConditions);
+
     newConditions.length === 0 &&
       newConditions.push({
         order: 1,
@@ -232,7 +232,6 @@ const Conditionals = ({
       ...condition,
       order: index
     }));
-    console.log(newConditions);
     setConditions(newConditions);
     shouldUpdateDraft(condition) && deleteCondition(question, condition);
   };

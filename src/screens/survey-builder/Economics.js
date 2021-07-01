@@ -88,7 +88,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       q => q.topic === surveyQuestion.topic
     );
     questions.splice(destinationIndex + topicIndex, 0, question);
-    questions = questions.map((q, index) => ({ ...q, order: index + 1 }));
+    questions = questions.map((q, index) => ({ ...q, orderNumber: index + 1 }));
     updateQuestions(questions);
   };
 
@@ -100,7 +100,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       if (source.droppableId === 'survey') {
         const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions)
           .filter(q => q.codeName !== surveyQuestion.codeName)
-          .map((q, index) => ({ ...q, order: index + 1 }));
+          .map((q, index) => ({ ...q, orderNumber: index + 1 }));
         updateQuestions(newQuestions);
       }
       return;
