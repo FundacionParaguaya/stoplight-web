@@ -230,7 +230,7 @@ const Conditionals = ({
     newConditions.splice(condition.order - 1, 1);
     newConditions = newConditions.map((condition, index) => ({
       ...condition,
-      order: index
+      order: index + 1
     }));
     setConditions(newConditions);
     shouldUpdateDraft(condition) && deleteCondition(question, condition);
