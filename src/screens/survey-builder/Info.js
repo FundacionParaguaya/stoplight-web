@@ -8,13 +8,14 @@ import Grid from '@material-ui/core/Grid';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import { useSnackbar } from 'notistack';
 import withLayout from '../../components/withLayout';
 import InputWithLabel from '../../components/InputWithLabel';
 import Header from './Header';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import { getLanguageByCode } from '../../utils/lang-utils';
 import { updateSurvey } from '../../redux/actions';
-import { supportedLanguages } from '../../api';
+import { supportedLanguages, createSurveyDefinition } from '../../api';
 
 const styles = theme => ({
   mainContainer: {
@@ -116,6 +117,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
     i18n: { language }
   } = useTranslation();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
 
   const onSubmit = values => {
     setLoading(true);
@@ -131,19 +133,46 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       privacyPolicy: {
         text: values.privacyPolicyText,
         title: values.privacyPolicySubtitle
-      },
-      surveyEconomicQuestions: values.surveyEconomicQuestions,
-      surveyStoplightQuestions: values.surveyStoplightQuestions,
-      surveyConfig: values.surveyConfig,
-      conditionalQuestions: values.conditionalQuestions,
-      createdAt: values.createdAt,
-      description: values.description,
-      economicScreens: values.economicScreens,
-      elementsWithConditionsOnThem: values.elementsWithConditionsOnThem,
-      minimumPriorities: values.minimumPriorities
+      }
     };
 
-    updateSurvey(data);
+    updateSurvey({ ...currentSurvey, ...data });
+    setLoading(false);
+    false &&
+      createSurveyDefinition(
+        user,
+        values.language,
+        {
+          locale: values.language,
+          text: values.privacyPolicyText,
+          title: values.privacyPolicySubtitle
+        },
+        {
+          locale: values.language,
+          text: values.termsText,
+          title: values.termsSubtitle
+        },
+        {
+          title: values.title,
+          description: values.title,
+          countryCode: values.country.value,
+          lang: values.language
+        }
+      )
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(e => {
+          setLoading(false);
+          enqueueSnackbar(
+            e.response.data
+              ? e.response.data.message
+              : t('views.surveyBuilder.infoScreen.error'),
+            {
+              variant: 'error'
+            }
+          );
+        });
     history.push('/survey-builder/details');
   };
 
@@ -184,16 +213,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
             (currentSurvey.privacyPolicy && currentSurvey.privacyPolicy.text) ||
             '',
           surveyEconomicQuestions: currentSurvey.surveyEconomicQuestions || [],
-          surveyStoplightQuestions:
-            currentSurvey.surveyStoplightQuestions || [],
-          surveyConfig: currentSurvey.surveyConfig || '',
-          conditionalQuestions: currentSurvey.conditionalQuestions || [],
-          createdAt: currentSurvey.createdAt || '',
-          description: currentSurvey.description || '',
-          economicScreens: currentSurvey.economicScreens || '',
-          elementsWithConditionsOnThem:
-            currentSurvey.elementsWithConditionsOnThem || '',
-          minimumPriorities: currentSurvey.minimumPriorities || 0
+          surveyStoplightQuestions: currentSurvey.surveyStoplightQuestions || []
         }}
         validationSchema={validationSchema}
         onSubmit={values => {

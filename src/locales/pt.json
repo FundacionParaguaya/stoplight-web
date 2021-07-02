@@ -1220,7 +1220,8 @@
         "text": "Texto",
         "title": "Título",
         "subtitle": "Subtítulo",
-        "save": "Salvar"
+        "save": "Salvar",
+        "error": "Não foi possível salvar a pesquisa"
       },
       "question": "Pergunta",
       "shortName": "Nome curto",
@@ -1240,11 +1241,79 @@
         "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui.",
         "topic": {
           "new": "Novo topico",
-          "error": "O nome do tópico não pode estar vazio"
-        }
+          "error": "O nome do tópico não pode estar vazio",
+          "editTopic": "Editar Tópico"
+        },
+        "conditional": "Lógica condicional da pesquisa",
+        "conditionals": {
+          "optionPlaceholder": "-- Selecione uma opção --",
+          "addCondition": "Adicionar condição",
+          "addAgeCondition": "Condição de Idade",
+          "showQuestion": "Mostrar pergunta",
+          "types": {
+            "question": "Condição da pergunta",
+            "option": "Condição de opção",
+            "age": "Condição de idade"
+          },
+          "operator": {
+            "equals": "é igual a",
+            "notEquals": "não é igual a",
+            "less": "Menor que",
+            "greater": "Maior que",
+            "lessThanEq": "Menor ou igual",
+            "greaterThanEq": "Maior ou igual"
+          },
+          "chooseOptions": "Escolha as opções",
+          "ageCondition": "Restrição de idade para esta questão",
+          "optionsTitle": "Lógica de opções",
+          "selectQuestion": "selecione as opções de resposta para a pergunta:",
+          "searchOption": "Opção de pesquisa",
+          "displayOptions": "Opções de exibição"
+        },
+        "singleTopic": "Tópico"
       },
       "audioSupport": "Suporte de Áudio",
-      "title": "Título"
+      "title": "Título",
+      "audio": {
+        "currentAudio": "Áudio atual",
+        "placeholder": "Aqui você pode adicionar seu arquivo de áudio",
+        "maxSize": "Seu arquivo de áudio excede o limite de 10 MB! \nPor favor, use outro.",
+        "extensionError": "Seu arquivo de áudio deve ter uma extensão .mp3!",
+        "saveError": "Não foi possível salvar o áudio"
+      },
+      "stoplight": {
+        "section": "Perguntas de semáforo",
+        "editDimension": "Editar Dimensão",
+        "deleteDimension": "Excluir Dimensão",
+        "GREEN": "Verde",
+        "YELLOW": "Amarelo",
+        "RED": "vermelho",
+        "dimension": {
+          "edit": "Editar Dimensão",
+          "delete": "Excluir Dimensão",
+          "error": "O nome da dimensão não pode estar vazio"
+        },
+        "spanishTitle": "Título em espanhol",
+        "englishTitle": "Título em Inglês",
+        "searchDimension": "Dimensão de Pesquisa",
+        "dimensions": "Dimensões",
+        "singleDimension": "Dimensão"
+      },
+      "summary": {
+        "title": "Resumo da Pesquisa",
+        "settings": "Configurações adicionais",
+        "sign": "Habilitar assinatura de pesquisa",
+        "image": "Habilitar captura de imagem",
+        "interactive": "Habilitar ajuda interativa",
+        "random": "Habilitar ordem aleatória",
+        "score": "Habilitar perguntas com pontuação",
+        "lifemap": "Mapa da vida",
+        "mandatoryNumber": "Número de prioridades obrigatórias"
+      },
+      "final": {
+        "subtitle": "A pesquisa foi salva com sucesso!",
+        "goTo": "Vá para a lista de pesquisas"
+      }
     }
   },
   "reports": {

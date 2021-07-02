@@ -180,7 +180,7 @@ export const getSurveyById = (user, surveyId) =>
     },
 
     data: JSON.stringify({
-      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id questionAudio stoplightColors { url value description } required } } }`
+      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember orderNumber options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id surveyStoplightDimension{id} questionAudio stoplightColors { url value description } required } } }`
     })
   });
 
@@ -2557,6 +2557,79 @@ export const unifyFamilies = (families, language, user) =>
         'mutation unifyFamilies($families: [Long]) { unifyFamilies (families: $families) { successful } }',
       variables: {
         families
+      }
+    })
+  });
+
+export const uploadAudio = (audio, user) => {
+  var formData = new FormData();
+  formData.append('upload', audio);
+  return axios({
+    method: 'post',
+    url: `${url[user.env]}/api/v1/surveys/audio/upload`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+    data: formData
+  });
+};
+
+export const dimensionsPool = (language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name } }',
+      variables: {
+        lang: language
+      }
+    })
+  });
+
+export const createSurveyDefinition = (
+  user,
+  language,
+  privacyPolicy,
+  termCond,
+  surveyDefinition
+) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(language)
+    },
+    data: JSON.stringify({
+      query:
+        'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
+      variables: {
+        privacyPolicy,
+        termCond,
+        surveyDefinition
+      }
+    })
+  });
+
+export const indicatorsPool = (filter, language, user) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query:
+        'query indicatorsPool($lang : String, $filter : String) { indicatorsPool (lang:$lang,filter:$filter) {id codeName,questionText,shortName, dimension, stoplightColors{value,description, url},surveyIndicator{codeName}} }',
+      variables: {
+        lang: language,
+        filter: filter
       }
     })
   });

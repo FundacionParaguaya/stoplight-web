@@ -1,4 +1,4 @@
-import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,14 +10,15 @@ import {
 } from '@material-ui/icons/';
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import { COLORS } from '../../theme';
+import EconomicConditionals from './economic/EconomicConditionals';
+import EconomicLibrary from './economic/EconomicLibrary';
 import EconomicPreview from './economic/EconomicPreview';
 import FieldTypes from './economic/FieldTypes';
-import EconomicLibrary from './economic/EconomicLibrary';
 import TopicForm from './economic/TopicForm';
 
 const useStyles = makeStyles(theme => ({
@@ -39,87 +40,98 @@ const useStyles = makeStyles(theme => ({
     height: 'auto',
     width: '100%'
   },
-  buttonContainer: {
-    marginTop: '2rem',
-    width: '100%',
+  loadingContainer: {
+    zIndex: 10,
     display: 'flex',
-    justifyContent: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
+    backgroundColor: theme.palette.text.light,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    left: 0
   }
 }));
 
 const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(1);
-  const [libraryQuestion, setLibraryQuestion] = useState();
-  const [surveyQuestion, setSurveyQuestion] = useState();
-  const [newQuestion, setNewQuestion] = useState();
   const [selectedSurveyTopic, setSelectedSurveyTopic] = useState('');
   const [selectedQuestion, setSelectedQuestion] = useState('');
   const [surveyTopics, setSurveyTopics] = useState([]);
   const [topicForm, setTopicForm] = useState('');
+  // State to handle drags and drops from current survey
+  const [surveyQuestion, setSurveyQuestion] = useState();
+  // State to handle  drags and drops from economic library
+  const [libraryQuestion, setLibraryQuestion] = useState();
+  // State to handle drags and drops from new questions tab
+  const [newQuestion, setNewQuestion] = useState();
 
   const onSave = () => {
     setLoading(true);
-    updateSurvey({ ...currentSurvey });
-    setLoading(false);
+    history.push('/survey-builder/stoplights');
+  };
+
+  const updateQuestions = questions => {
+    updateSurvey({
+      ...currentSurvey,
+      surveyEconomicQuestions: questions
+    });
+  };
+
+  const insertQuestionAndUpdate = (questions, question, destinationIndex) => {
+    const topicIndex = questions.findIndex(
+      q => q.topic === surveyQuestion.topic
+    );
+    questions.splice(destinationIndex + topicIndex, 0, question);
+    questions = questions.map((q, index) => ({ ...q, orderNumber: index + 1 }));
+    updateQuestions(questions);
   };
 
   const onDragEnd = result => {
     const { source, destination } = result;
 
-    // dropped outside the list
+    // case for dicarded questions
     if (!destination) {
       if (source.droppableId === 'survey') {
-        const newQuestions = Array.from(
-          currentSurvey.surveyEconomicQuestions
-        ).filter(q => q.codeName !== surveyQuestion.codeName);
-
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
+        const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions)
+          .filter(q => q.codeName !== surveyQuestion.codeName)
+          .map((q, index) => ({ ...q, orderNumber: index + 1 }));
+        updateQuestions(newQuestions);
       }
       return;
     }
 
+    // change a single question position
     if (source.droppableId === destination.droppableId) {
       if (source.droppableId === 'survey') {
-        const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
+        let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const topicIndex = newQuestions.findIndex(
           q => q.topic === surveyQuestion.topic
         );
-        const [removed] = newQuestions.splice(source.index + topicIndex, 1);
-        newQuestions.splice(destination.index + topicIndex, 0, removed);
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
+        const [question] = newQuestions.splice(source.index + topicIndex, 1);
+        insertQuestionAndUpdate(newQuestions, question, destination.index);
       }
     } else {
+      // Case: add a new a question from the library
       if (
         source.droppableId === 'library' &&
         destination.droppableId === 'survey' &&
         !!libraryQuestion
       ) {
         let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
-        const topicStart = newQuestions.findIndex(
-          q => q.topic === libraryQuestion.topic
-        );
-        const topicLength = newQuestions.filter(
-          q => q.topic === libraryQuestion.topic
-        ).length;
-        newQuestions.splice(topicStart + topicLength, 0, {
+        const question = {
           ...libraryQuestion,
           codeName: libraryQuestion.codeName + '_' + newQuestions.length
-        });
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
+        };
+        insertQuestionAndUpdate(newQuestions, question, destination.index);
       }
+
+      // Case: add a new a question from scratch
       if (
         source.droppableId === 'newQuestion' &&
         destination.droppableId === 'survey' &&
@@ -127,12 +139,9 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       ) {
         const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const codeName = `addedQuestion_${newQuestions.length}`;
+        const question = { ...newQuestion, codeName: codeName };
+        insertQuestionAndUpdate(newQuestions, question, destination.index);
         setSelectedQuestion(codeName);
-        newQuestions.push({ ...newQuestion, codeName: codeName });
-        updateSurvey({
-          ...currentSurvey,
-          surveyEconomicQuestions: newQuestions
-        });
       }
     }
   };
@@ -140,25 +149,23 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const updateTopics = topic => {
     let newTopics = Array.from(surveyTopics);
     const index = newTopics.findIndex(t => t.value === topic.value);
-    if (index > 0) {
+    if (index >= 0) {
       let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
       const oldTopic = newTopics[index];
       newQuestions = newQuestions.map(question => {
         if (question.topic === oldTopic.text) {
-          return { ...question, topic: topic.text };
+          return { ...question, topic: topic.text, topicAudio: topic.audioUrl };
         } else {
           return question;
         }
       });
-      updateSurvey({
-        ...currentSurvey,
-        surveyEconomicQuestions: newQuestions
-      });
+      updateQuestions(newQuestions);
       newTopics[index] = topic;
+      setSelectedSurveyTopic({ value: index, ...topic });
     } else {
       newTopics.push({ value: newTopics.length, ...topic });
+      setSelectedSurveyTopic({ value: newTopics.length - 1, ...topic });
     }
-    setSelectedSurveyTopic({ value: newTopics.length - 1, ...topic });
     setSurveyTopics(newTopics);
   };
 
@@ -169,10 +176,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
     let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions).filter(
       q => q.topic !== topic.text
     );
-    updateSurvey({
-      ...currentSurvey,
-      surveyEconomicQuestions: newQuestions
-    });
+    updateQuestions(newQuestions);
     setSelectedSurveyTopic(newTopics[0] || {});
     setSurveyTopics(newTopics);
   };
@@ -213,7 +217,6 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           value={4}
         />
       </Tabs>
-
       <DragDropContext onDragEnd={onDragEnd}>
         {tab === 1 && (
           <EconomicLibrary
@@ -244,27 +247,34 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
             setSurveyTopics={setSurveyTopics}
             toggleTopicForm={() => setTopicForm(!topicForm)}
             handleDeleteTopic={handleDeleteTopic}
+            onSave={onSave}
           />
         )}
         {topicForm && (
           <TopicForm
             topic={selectedSurveyTopic}
-            toggle={() => setTopicForm(!topicForm)}
+            toggle={() => {
+              !selectedSurveyTopic.value &&
+                Array.isArray(surveyTopics) &&
+                setSelectedSurveyTopic(surveyTopics[0]);
+              setTopicForm(!topicForm);
+            }}
             updateTopics={updateTopics}
+          />
+        )}
+        {tab === 3 && (
+          <EconomicConditionals
+            selectedSurveyTopic={selectedSurveyTopic}
+            setSelectedSurveyTopic={setSelectedSurveyTopic}
+            surveyTopics={surveyTopics}
+            onSave={onSave}
           />
         )}
       </DragDropContext>
 
-      {false && (
-        <div className={classes.buttonContainer}>
-          <Button
-            color="primary"
-            variant="contained"
-            disabled={loading}
-            onClick={() => onSave()}
-          >
-            {t('general.saveQuestions')}
-          </Button>
+      {loading && (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
         </div>
       )}
     </div>

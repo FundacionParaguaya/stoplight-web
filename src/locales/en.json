@@ -1220,7 +1220,8 @@
         "text": "Text",
         "title": "Title",
         "subtitle": "Subtitle",
-        "save": "Save"
+        "save": "Save",
+        "error": "Could not save survey"
       },
       "question": "Question",
       "shortName": "Shortname",
@@ -1238,13 +1239,81 @@
         "conditionalLogic": "Conditional Logic",
         "topic": {
           "new": "New Topic",
-          "error": "Topic name cannot be empty"
+          "error": "Topic name cannot be empty",
+          "editTopic": "Edit Topic"
         },
         "deleteTopic": "Delete Topic",
-        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here."
+        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here.",
+        "conditional": "Survey’s Conditional Logic",
+        "conditionals": {
+          "optionPlaceholder": "-- Select an option --",
+          "addCondition": "Add condition",
+          "addAgeCondition": "Age Condition",
+          "showQuestion": "Show Question",
+          "types": {
+            "question": "Question condition",
+            "option": "Option condition",
+            "age": "Age condition"
+          },
+          "operator": {
+            "equals": "is equal to",
+            "notEquals": "is not equal to",
+            "less": "Less than",
+            "greater": "Greater than",
+            "greaterThanEq": "Greater than or equal",
+            "lessThanEq": "Less than or equal"
+          },
+          "chooseOptions": "Choose options",
+          "ageCondition": "Age restriction for this question",
+          "optionsTitle": "Options Logic",
+          "selectQuestion": "select answer options for question: ",
+          "searchOption": "Search option",
+          "displayOptions": "Display Options"
+        },
+        "singleTopic": "Topic"
       },
       "audioSupport": "Audio Support",
-      "title": "Title"
+      "title": "Title",
+      "audio": {
+        "placeholder": "Here you can add  your audio file",
+        "currentAudio": "Current audio",
+        "maxSize": "Your audio file exceeds the 10MB limit! Please use another one.",
+        "extensionError": "Your audio file should have an .mp3 extension!",
+        "saveError": "Could not save audio"
+      },
+      "stoplight": {
+        "section": "Stoplight Questions",
+        "deleteDimension": "Delete Dimension",
+        "editDimension": "Edit Dimension",
+        "GREEN": "Green",
+        "YELLOW": "Yellow",
+        "RED": "Red",
+        "dimension": {
+          "edit": "Edit Dimension",
+          "delete": "Delete Dimension",
+          "error": "Dimension name cannot be empty"
+        },
+        "spanishTitle": "Title in Spanish",
+        "englishTitle": "Title in English",
+        "searchDimension": "Search Dimension",
+        "dimensions": "Dimensions",
+        "singleDimension": "Dimension"
+      },
+      "summary": {
+        "title": "Survey Summary",
+        "settings": "Additional Settings",
+        "sign": "Enable survey signature",
+        "image": "Enable image capture",
+        "interactive": "Enable interactive help",
+        "random": "Enable random order",
+        "score": "Enable questions with score",
+        "lifemap": "Life Map",
+        "mandatoryNumber": "Number of mandatory priorities"
+      },
+      "final": {
+        "subtitle": "Survey was saved successfully!",
+        "goTo": "Go to Surveys list"
+      }
     }
   },
   "reports": {

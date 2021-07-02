@@ -7,7 +7,6 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextInput from '../../../components/TextInput';
-import AudioUploader from '../AudioUploader';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -29,7 +28,10 @@ const useStyles = makeStyles(theme => ({
   formContainer: {
     backgroundColor: theme.palette.background.default,
     width: 600,
-    minHeight: '35vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    minHeight: '15vh',
     marginTop: '2rem',
     padding: '2rem'
   },
@@ -42,20 +44,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TopicForm = ({ topic, updateTopics, toggle }) => {
+const StoplightDimensionForm = ({ dimension, updateDimensions, toggle }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [formTopic, setFormTopic] = useState({
-    value: '',
-    text: '',
-    audioUrl: ''
+  const [formDimension, setFormDimension] = useState({
+    text: ''
   });
 
   useEffect(() => {
-    setFormTopic({ text: '', ...topic });
-  }, [topic]);
+    setFormDimension({ ...formDimension, ...dimension });
+  }, [dimension]);
 
   return (
     <div className={classes.mainContainer}>
@@ -64,28 +64,18 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
           <LeftArrow style={{ cursor: 'pointer' }} className={classes.icon} />
         </IconButton>
         <Typography variant="h5" className={classes.title}>
-          {Number.isInteger(formTopic.value)
-            ? t('views.surveyBuilder.economic.topic.editTopic')
-            : t('views.surveyBuilder.economic.topic.new')}
+          {Number.isInteger(formDimension.value)
+            ? t('views.surveyBuilder.stoplight.dimension.edit')
+            : t('views.surveyBuilder.stoplight.dimension.delete')}
         </Typography>
       </div>
 
       <div className={classes.formContainer}>
         <TextInput
           label={t('views.surveyBuilder.title')}
-          value={formTopic.text}
+          value={formDimension.text}
           onChange={e => {
-            setFormTopic({ ...formTopic, text: e.target.value });
-          }}
-        />
-        <Typography variant="subtitle2" style={{ marginTop: '1rem' }}>
-          {t('views.surveyBuilder.audioSupport')}
-        </Typography>
-
-        <AudioUploader
-          audioUrl={formTopic.audioUrl}
-          onChange={url => {
-            setFormTopic({ ...formTopic, audioUrl: url });
+            setFormDimension({ ...formDimension, text: e.target.value });
           }}
         />
       </div>
@@ -95,13 +85,16 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
           variant="contained"
           style={{ marginRight: '1rem' }}
           onClick={() => {
-            if (formTopic.text) {
-              updateTopics(formTopic);
+            if (formDimension.text) {
+              updateDimensions(formDimension);
               toggle();
             } else {
-              enqueueSnackbar(t('views.surveyBuilder.economic.topic.error'), {
-                variant: 'error'
-              });
+              enqueueSnackbar(
+                t('views.surveyBuilder.stoplight.dimension.error'),
+                {
+                  variant: 'error'
+                }
+              );
             }
           }}
         >
@@ -115,4 +108,4 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
   );
 };
 
-export default TopicForm;
+export default StoplightDimensionForm;

@@ -13,7 +13,8 @@ const InputWithLabel = ({
   inputProps,
   formik,
   name,
-  minHeight
+  minHeight,
+  ...props
 }) => {
   const value = _.get(formik.values, name) || '';
   const error = pathHasError(name, formik.touched, formik.errors);
@@ -65,6 +66,7 @@ const InputWithLabel = ({
         fullWidth={true}
         margin="dense"
         error={error}
+        {...props}
       />
     </div>
   );

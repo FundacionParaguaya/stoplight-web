@@ -1220,7 +1220,8 @@
         "text": "Texto",
         "title": "Título",
         "subtitle": "Subtítulo",
-        "save": "Guardar"
+        "save": "Guardar",
+        "error": "No se pudo guardar la encuesta"
       },
       "question": "Pregunta",
       "shortName": "Nombre corto",
@@ -1240,11 +1241,79 @@
         "dropHere": "Agregue campos usando los botones en la ventana de la izquierda o simplemente arrástrelos y suéltelos aquí.",
         "topic": {
           "new": "Nuevo tema",
-          "error": "El nombre del tema no puede estar vacío"
-        }
+          "error": "El nombre del tema no puede estar vacío",
+          "editTopic": "Editar tema"
+        },
+        "conditional": "Lógica condicional de la encuesta",
+        "conditionals": {
+          "optionPlaceholder": "-- Seleccione una opción --",
+          "addCondition": "Agregar condición",
+          "addAgeCondition": "Condición de edad",
+          "showQuestion": "Mostrar pregunta",
+          "types": {
+            "question": "Condición de la pregunta",
+            "age": "Condición de edad",
+            "option": "Condición de la opción"
+          },
+          "operator": {
+            "equals": "es igual a",
+            "notEquals": "no es igual a",
+            "less": "Menos que",
+            "greater": "Mas grande que",
+            "lessThanEq": "Menor o igual",
+            "greaterThanEq": "Mayor que o igual"
+          },
+          "chooseOptions": "Elegir opciones",
+          "ageCondition": "Restricción de edad para esta pregunta",
+          "optionsTitle": "Lógica de opciones",
+          "selectQuestion": "seleccione las opciones de respuesta para la:",
+          "searchOption": "Opción de búsqueda",
+          "displayOptions": "Mostrar Opciones"
+        },
+        "singleTopic": "Tema"
       },
       "audioSupport": "Soporte de audio",
-      "title": "Título"
+      "title": "Título",
+      "audio": {
+        "currentAudio": "Audio actual",
+        "placeholder": "Aquí puede agregar su archivo de audio",
+        "maxSize": "¡Su archivo de audio supera el límite de 10 MB! \nUtilice otro.",
+        "extensionError": "¡Su archivo de audio debe tener una extensión .mp3!",
+        "saveError": "No se pudo guardar el audio"
+      },
+      "stoplight": {
+        "section": "Preguntas sobre el semáforo",
+        "editDimension": "Editar dimensión",
+        "deleteDimension": "Eliminar dimensión",
+        "GREEN": "Verde",
+        "YELLOW": "Amarillo",
+        "RED": "Rojo",
+        "dimension": {
+          "edit": "Editar Dimensión",
+          "delete": "Eliminar dimensión",
+          "error": "El nombre de la dimensión no puede estar vacío"
+        },
+        "spanishTitle": "Título en español",
+        "englishTitle": "Título en inglés",
+        "searchDimension": "Buscar Dimension",
+        "dimensions": "Dimensiones",
+        "singleDimension": "Dimensión"
+      },
+      "summary": {
+        "title": "Resumen de la encuesta",
+        "settings": "Ajustes adicionales",
+        "sign": "Habilitar la firma de la encuesta",
+        "image": "Habilitar la captura de imágenes",
+        "interactive": "Habilitar la ayuda interactiva",
+        "random": "Habilitar orden aleatorio",
+        "score": "Habilitar preguntas con puntuación",
+        "lifemap": "Mapa de vida",
+        "mandatoryNumber": "Número de prioridades obligatorias"
+      },
+      "final": {
+        "subtitle": "¡La encuesta se guardó correctamente!",
+        "goTo": "Ir a la lista de encuestas"
+      }
     }
   },
   "reports": {
