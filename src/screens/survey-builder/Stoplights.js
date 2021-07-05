@@ -137,16 +137,21 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
         const dimensionIndex = newIndicators.findIndex(
           q => q.dimension === libraryIndicator.dimension
         );
-        newIndicators.splice(
-          destination.index + dimensionIndex,
-          0,
-          libraryIndicator
-        );
+        //Assign unique codename in case it's a new indicator
+        const codeName = libraryIndicator.newOne
+          ? libraryIndicator.codeName + newIndicators.length
+          : libraryIndicator.codeName;
+        newIndicators.splice(destination.index + dimensionIndex, 0, {
+          ...libraryIndicator,
+          codeName: codeName,
+          surveyStoplightDimension: selectedSurveyDimension
+        });
         newIndicators = newIndicators.map((q, index) => ({
           ...q,
           order: index + 1
         }));
         updateIndicators(newIndicators);
+        libraryIndicator.newOne && setSelectedQuestion(codeName);
       }
     }
   };
@@ -225,13 +230,13 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
           <IndicatorLibrary
             selectedSurveyDimension={selectedSurveyDimension}
             setLibraryIndicator={setLibraryIndicator}
-            language={currentSurvey.language.substring(0, 2)}
+            surveyLanguage={currentSurvey.language}
           />
         )}
         {tab === 2 && (
           <DimensionLibrary
             setLibraryDimension={setLibraryDimension}
-            language={currentSurvey.language.substring(0, 2)}
+            surveyLanguage={currentSurvey.language.substring(0, 2)}
           />
         )}
         {(tab === 1 || tab === 2) && !dimensionForm && (
