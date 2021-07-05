@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import TopicTabs from '../economic/TopicTabs';
+import PreviewTabs from '../PreviewTabs';
 import { updateSurvey } from '../../../redux/actions';
 import { COLORS } from '../../../theme';
 import StoplightQuestionForm from './StoplightQuestionForm';
@@ -108,7 +108,7 @@ const StoplightPreview = ({
         {t('views.surveyBuilder.stoplight.section')}
       </Typography>
       <div className={classes.tabsContainer}>
-        <TopicTabs
+        <PreviewTabs
           surveyTopics={surveyDimensions}
           selectedSurveyTopic={selectedSurveyDimension}
           setSelectedSurveyTopic={setSelectedSurveyDimension}

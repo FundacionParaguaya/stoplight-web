@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import TopicTabs from './TopicTabs';
+import PreviewTabs from '../PreviewTabs';
 import { updateSurvey } from '../../../redux/actions';
 import { COLORS } from '../../../theme';
 import EditQuestion from '../EditQuestion';
@@ -113,7 +113,7 @@ const EconomicPreview = ({
         {t('views.surveyBuilder.economic.socioeconomic')}
       </Typography>
       <div className={classes.tabsContainer}>
-        <TopicTabs
+        <PreviewTabs
           surveyTopics={surveyTopics}
           selectedSurveyTopic={selectedSurveyTopic}
           setSelectedSurveyTopic={setSelectedSurveyTopic}

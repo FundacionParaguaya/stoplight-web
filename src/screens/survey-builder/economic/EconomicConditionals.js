@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { updateSurvey } from '../../../redux/actions';
 import Conditionals from './Conditionals';
-import TopicTabs from './TopicTabs';
+import PreviewTabs from '../PreviewTabs';
 
 const useStyles = makeStyles(() => ({
   conditionsContainer: {
@@ -207,7 +207,7 @@ const EconomicConditionals = ({
         {t('views.surveyBuilder.economic.conditional')}
       </Typography>
       <div className={classes.tabsContainer}>
-        <TopicTabs
+        <PreviewTabs
           surveyTopics={surveyTopics}
           selectedSurveyTopic={selectedSurveyTopic}
           setSelectedSurveyTopic={setSelectedSurveyTopic}
