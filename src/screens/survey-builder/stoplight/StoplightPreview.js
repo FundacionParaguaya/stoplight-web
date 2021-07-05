@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import TopicTabs from '../economic/TopicTabs';
 import { updateSurvey } from '../../../redux/actions';
 import { COLORS } from '../../../theme';
-import EditQuestion from '../EditQuestion';
+import StoplightQuestionForm from './StoplightQuestionForm';
 import StoplightQuestion from './StoplightQuestion';
 
 const useStyles = makeStyles(theme => ({
@@ -152,7 +152,7 @@ const StoplightPreview = ({
                       {(provided, snapshot) => (
                         <React.Fragment key={index}>
                           {question.codeName === selectedQuestion ? (
-                            <EditQuestion
+                            <StoplightQuestionForm
                               itemRef={provided.innerRef}
                               draggableProps={{
                                 ...provided.draggableProps,
@@ -163,7 +163,6 @@ const StoplightPreview = ({
                                 updateQuestion(question)
                               }
                               afterSubmit={() => setSelectedQuestion('')}
-                              isEconomic
                             />
                           ) : (
                             <StoplightQuestion
