@@ -74,6 +74,13 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 4,
     wordBreak: 'break-word'
   },
+  newIndicator: {
+    color: theme.palette.background.default,
+    backgroundColor: theme.palette.primary.main,
+    '& > *': {
+      color: `${theme.palette.background.default}!important`
+    }
+  },
   textContainer: {
     display: 'flex',
     flexDirection: 'column'
@@ -88,20 +95,24 @@ const useStyles = makeStyles(theme => ({
 const IndicatorLibrary = ({
   selectedSurveyDimension,
   setLibraryIndicator,
-  language,
+  surveyLanguage,
   user
 }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
 
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
   const [dimensions, setDimensions] = useState([]);
   const [selectedDimension, setSelectedDimension] = useState('');
+  const [indicators, setIndicators] = useState();
 
   useEffect(() => {
     setLoading(true);
-    indicatorsPool(filter, language, user)
+    indicatorsPool(filter, surveyLanguage, language, user)
       .then(response => {
         let data = [];
         const rawData = response.data.data.indicatorsPool;
@@ -117,6 +128,23 @@ const IndicatorLibrary = ({
         setLoading(false);
       });
   }, [filter]);
+
+  useEffect(() => {
+    let selectedIndicators = dimensions[selectedDimension] || [];
+    const newIndicator = {
+      id: '',
+      codeName: '_NEW_INDICATOR_',
+      questionText: 'Drag this to create a new indicator',
+      stoplightColors: [
+        { value: 3, url: '', description: '' },
+        { value: 2, url: '', description: '' },
+        { value: 1, url: '', description: '' }
+      ],
+      newOne: true
+    };
+    selectedIndicators = [newIndicator, ...selectedIndicators];
+    setIndicators(selectedIndicators);
+  }, [selectedDimension]);
 
   const onChangeFilterText = e => {
     if (e.key === 'Enter') {
@@ -193,7 +221,7 @@ const IndicatorLibrary = ({
         <Droppable droppableId="indicatorLibrary">
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {dimensions[selectedDimension].map((indicator, index) => (
+              {indicators.map((indicator, index) => (
                 <Draggable
                   key={indicator.id}
                   draggableId={indicator.codeName + indicator.id}
@@ -202,7 +230,10 @@ const IndicatorLibrary = ({
                   {(provided, snapshot) => (
                     <div
                       key={indicator.id}
-                      className={classes.indicatorContainer}
+                      className={clsx(
+                        classes.indicatorContainer,
+                        indicator.newOne && classes.newIndicator
+                      )}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}

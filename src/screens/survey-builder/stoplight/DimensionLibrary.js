@@ -64,9 +64,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DimensionLibrary = ({ setLibraryDimension, language, user }) => {
+const DimensionLibrary = ({ setLibraryDimension, surveyLanguage, user }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('');
@@ -74,7 +77,7 @@ const DimensionLibrary = ({ setLibraryDimension, language, user }) => {
 
   useEffect(() => {
     setLoading(true);
-    dimensionsPool(language, user)
+    dimensionsPool(surveyLanguage, language, user)
       .then(response => {
         const data = response.data.data.dimensionsByLang;
         setDimensions(data);

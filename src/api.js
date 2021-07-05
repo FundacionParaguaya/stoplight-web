@@ -180,7 +180,7 @@ export const getSurveyById = (user, surveyId) =>
     },
 
     data: JSON.stringify({
-      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember orderNumber options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition codeName dimension id surveyStoplightDimension{id} questionAudio stoplightColors { url value description } required } } }`
+      query: `query { surveyById(surveyId:${surveyId}) { title id createdAt description minimumPriorities privacyPolicy { title  text } termsConditions{ title text }  surveyConfig { documentType {text value otherOption } gender { text value otherOption } stoplightOptional signSupport pictureSupport surveyLocation { country latitude longitude} }  surveyEconomicQuestions { questionText codeName answerType topic topicAudio required forFamilyMember orderNumber options {text value otherOption conditions{codeName, type, values, operator, valueType, showIfNoData}}, conditions{codeName, type, value, operator}, conditionGroups{groupOperator, joinNextGroup, conditions{codeName, type, value, operator}} } surveyStoplightQuestions { questionText definition shortName description codeName dimension id surveyStoplightDimension{id} questionAudio stoplightColors { url value description } required } } }`
     })
   });
 
@@ -2575,13 +2575,13 @@ export const uploadAudio = (audio, user) => {
   });
 };
 
-export const dimensionsPool = (language, user) =>
+export const dimensionsPool = (language, platformLanguage, user) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`,
-      'X-locale': normalizeLanguages(language)
+      'X-locale': normalizeLanguages(platformLanguage)
     },
     data: JSON.stringify({
       query:
@@ -2617,16 +2617,17 @@ export const createSurveyDefinition = (
     })
   });
 
-export const indicatorsPool = (filter, language, user) =>
+export const indicatorsPool = (filter, language, platformLanguage, user) =>
   axios({
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(platformLanguage)
     },
     data: JSON.stringify({
       query:
-        'query indicatorsPool($lang : String, $filter : String) { indicatorsPool (lang:$lang,filter:$filter) {id codeName,questionText,shortName, dimension, stoplightColors{value,description, url},surveyIndicator{codeName}} }',
+        'query indicatorsPool($lang : String, $filter : String) { indicatorsPool (lang:$lang,filter:$filter) {id codeName,questionText,shortName, dimension, stoplightColors{value,description, url} ,surveyIndicator{codeName name}} }',
       variables: {
         lang: language,
         filter: filter
