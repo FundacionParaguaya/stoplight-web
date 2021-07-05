@@ -1296,7 +1296,22 @@
         "englishTitle": "Title in English",
         "searchDimension": "Search Dimension",
         "dimensions": "Dimensions",
-        "singleDimension": "Dimension"
+        "singleDimension": "Dimension",
+        "upload": {
+          "placeholder": "Upload your picture here",
+          "error": "Could not upload your image"
+        },
+        "form": {
+          "indicatorTitle": "Indicator Title",
+          "spanishIndicatorTitle": "Indicator title in spanish",
+          "englishIndicatorTitle": "Indicator title in  english",
+          "shortName": "Short name",
+          "lifemapName": "Lifemap name",
+          "definition": "Indicator definition",
+          "GREEN": "Green definition",
+          "YELLOW": "Yellow definition",
+          "RED": "Red definition"
+        }
       },
       "summary": {
         "title": "Survey Summary",
