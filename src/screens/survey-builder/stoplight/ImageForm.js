@@ -319,7 +319,7 @@ const ImageForm = ({ imageUrl, handleChange, user }) => {
           <div className={classes.buttonContainerForm}>
             <Button
               variant="outlined"
-              onClick={() => setOpenModal()}
+              onClick={() => setOpenModal(false)}
               disabled={loading}
             >
               {t('general.cancel')}
