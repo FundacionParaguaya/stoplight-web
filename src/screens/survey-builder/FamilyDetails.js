@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
-import EditQuestion from './EditQuestion';
+import FamilyQuestionForm from './family/FamilyQuestionForm';
 import Header from './Header';
 import Question from './Question';
 
@@ -40,7 +40,10 @@ const useStyles = makeStyles(theme => ({
 const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
   const history = useHistory();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
   const [questions, setQuestions] = useState([]);
@@ -62,28 +65,32 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
       codeName: 'gender',
       questionText: t('views.family.selectGender'),
       options: genderOptions,
-      otherOption: !!genderOptions.find(o => o.otherOption)
+      otherOption: !!(surveyConfig.gender || []).find(o => o.otherOption)
     });
     primaryQuestions.push({
       ...questionProperties,
       codeName: 'documentType',
       questionText: t('views.family.documentType'),
       options: documentOptions,
-      otherOption: !!genderOptions.find(o => o.otherOption)
+      otherOption: !!(surveyConfig.documentType || []).find(o => o.otherOption)
     });
     setQuestions(primaryQuestions);
-  }, []);
+  }, [language]);
+
+  const updateSurveyDraft = (genderOptions, documentOptions) => {
+    const surveyConfig = {
+      ...currentSurvey.surveyConfig,
+      gender: genderOptions,
+      documentType: documentOptions
+    };
+    updateSurvey({ ...currentSurvey, surveyConfig });
+  };
 
   const updateQuestion = (index, question) => {
     let newQuestions = Array.from(questions);
     newQuestions[index] = question;
     setQuestions(newQuestions);
-    const surveyConfig = {
-      ...currentSurvey.surveyConfig,
-      gender: newQuestions[0].options,
-      documentType: newQuestions[1].options
-    };
-    updateSurvey({ ...currentSurvey, surveyConfig });
+    updateSurveyDraft(newQuestions[0].options, newQuestions[1].options);
   };
 
   const onSave = () => {
@@ -102,13 +109,8 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
         text: t('general.other'),
         otherOption: true
       });
-    const surveyConfig = {
-      ...currentSurvey.surveyConfig,
-      gender: genderOptions,
-      documentType: documentOptions
-    };
     if (genderOptions.length > 0 && documentOptions.length > 0) {
-      updateSurvey({ ...currentSurvey, surveyConfig });
+      updateSurveyDraft(genderOptions, documentOptions);
       history.push('/survey-builder/economics');
     } else {
       enqueueSnackbar(t('views.surveyBuilder.optionValidationError'), {
@@ -125,7 +127,7 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
         {questions.map((question, index) => (
           <React.Fragment key={index}>
             {question.codeName === selectedQuestion ? (
-              <EditQuestion
+              <FamilyQuestionForm
                 question={question}
                 updateQuestion={question => updateQuestion(index, question)}
                 afterSubmit={() => setSelectedQuestion('')}
