@@ -60,6 +60,12 @@ const StoplightQuestionForm = ({
 
   const validationSchema = Yup.object({
     questionText: Yup.string().required(fieldIsRequired),
+    spanishText: Yup.string().when('other', (other, schema) =>
+      isCreate ? schema.required(fieldIsRequired) : schema
+    ),
+    englishText: Yup.string().when('other', (other, schema) =>
+      isCreate ? schema.required(fieldIsRequired) : schema
+    ),
     shortName: Yup.string().required(fieldIsRequired),
     description: Yup.string().required(fieldIsRequired),
     definition: Yup.string(),
@@ -95,6 +101,8 @@ const StoplightQuestionForm = ({
       <Formik
         initialValues={{
           questionText: question.questionText || '',
+          spanishText: question.spanishText || '',
+          englishText: question.englishText || '',
           shortName: question.shortName || '',
           description: question.description || '',
           definition: question.definition || '',
