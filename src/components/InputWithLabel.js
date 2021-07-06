@@ -14,6 +14,7 @@ const InputWithLabel = ({
   formik,
   name,
   minHeight,
+  required,
   ...props
 }) => {
   const value = _.get(formik.values, name) || '';
@@ -28,7 +29,7 @@ const InputWithLabel = ({
   const onBlur = formik.handleBlur;
   const onChange = formik.handleChange;
 
-  const useStyles = makeStyles(() => ({
+  const useStyles = makeStyles(theme => ({
     container: {
       display: 'flex',
       flexDirection: 'column',
@@ -38,18 +39,28 @@ const InputWithLabel = ({
         padding: '12px 12px 10px!important'
       }
     },
-    label: { marginRight: 10, marginBottom: 10, fontSize: 14 },
-    field: { width: '-webkit-max-content' },
-    outlinedInputContainer: {
-      marginBottom: 20
+    label: {
+      marginRight: 10,
+      marginBottom: 10,
+      fontSize: 14
     },
-    outlinedInput: { minHeight, maxHeight: 300 }
+    field: {
+      width: '-webkit-max-content'
+    },
+    outlinedInputContainer: {
+      marginBottom: 20,
+      backgroundColor: theme.palette.background.default
+    },
+    outlinedInput: {
+      minHeight,
+      maxHeight: 300
+    }
   }));
   const classes = useStyles();
   return (
     <div className={classes.container}>
       <Typography variant="subtitle1" className={classes.label}>
-        {title}
+        {title} {required ? '*' : ''}
       </Typography>
       <OutlinedInput
         name={name}

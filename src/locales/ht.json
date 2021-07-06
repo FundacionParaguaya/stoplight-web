@@ -1297,7 +1297,22 @@
         "englishTitle": "Tit an anglè",
         "searchDimension": "Search Dimansyon",
         "dimensions": "Dimansyon",
-        "singleDimension": "Dimansyon"
+        "singleDimension": "Dimansyon",
+        "upload": {
+          "placeholder": "Voye foto ou isit la",
+          "error": "Pa t 'kapab Upload imaj ou"
+        },
+        "form": {
+          "indicatorTitle": "Tit Endikatè",
+          "spanishIndicatorTitle": "Tit endikatè an panyòl",
+          "englishIndicatorTitle": "Tit endikatè nan lang angle",
+          "shortName": "Kout non",
+          "lifemapName": "Non Lifemap",
+          "definition": "Definisyon endikatè",
+          "GREEN": "Definisyon vèt",
+          "YELLOW": "Definisyon jòn",
+          "RED": "Definisyon wouj"
+        }
       },
       "summary": {
         "title": "Rezime Sondaj",

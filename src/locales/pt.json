@@ -1297,7 +1297,22 @@
         "englishTitle": "Título em Inglês",
         "searchDimension": "Dimensão de Pesquisa",
         "dimensions": "Dimensões",
-        "singleDimension": "Dimensão"
+        "singleDimension": "Dimensão",
+        "upload": {
+          "placeholder": "Carregue sua foto aqui",
+          "error": "Não foi possível enviar sua imagem"
+        },
+        "form": {
+          "indicatorTitle": "Título do Indicador",
+          "spanishIndicatorTitle": "Título do indicador em espanhol",
+          "englishIndicatorTitle": "Título do indicador em inglês",
+          "shortName": "Nome curto",
+          "lifemapName": "Nome do mapa de vida",
+          "definition": "Definição de indicador",
+          "GREEN": "Definição verde",
+          "YELLOW": "Definição amarela",
+          "RED": "Definição vermelha"
+        }
       },
       "summary": {
         "title": "Resumo da Pesquisa",

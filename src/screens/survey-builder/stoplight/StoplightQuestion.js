@@ -6,6 +6,7 @@ import Edit from '@material-ui/icons/Edit';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { COLORS, theme } from '../../../theme';
+import imagePlaceholder from '../../../assets/grey_isologo.png';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -168,10 +169,16 @@ const ColorPreview = ({ url, value, description }) => {
       >
         {t(`views.surveyBuilder.stoplight.${colorLabel}`)}
       </Typography>
-      <img alt={value} src={url} className={classes.img} />
-      <Typography variant="subtitle1" className={classes.description}>
-        {description}
-      </Typography>
+      <img
+        alt={value}
+        src={url ? url : imagePlaceholder}
+        className={classes.img}
+      />
+      {description && (
+        <Typography variant="subtitle1" className={classes.description}>
+          {description}
+        </Typography>
+      )}
     </Grid>
   );
 };

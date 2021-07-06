@@ -5,10 +5,10 @@ import React, { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import TopicTabs from '../economic/TopicTabs';
+import PreviewTabs from '../PreviewTabs';
 import { updateSurvey } from '../../../redux/actions';
 import { COLORS } from '../../../theme';
-import EditQuestion from '../EditQuestion';
+import StoplightQuestionForm from './StoplightQuestionForm';
 import StoplightQuestion from './StoplightQuestion';
 
 const useStyles = makeStyles(theme => ({
@@ -108,7 +108,7 @@ const StoplightPreview = ({
         {t('views.surveyBuilder.stoplight.section')}
       </Typography>
       <div className={classes.tabsContainer}>
-        <TopicTabs
+        <PreviewTabs
           surveyTopics={surveyDimensions}
           selectedSurveyTopic={selectedSurveyDimension}
           setSelectedSurveyTopic={setSelectedSurveyDimension}
@@ -152,7 +152,7 @@ const StoplightPreview = ({
                       {(provided, snapshot) => (
                         <React.Fragment key={index}>
                           {question.codeName === selectedQuestion ? (
-                            <EditQuestion
+                            <StoplightQuestionForm
                               itemRef={provided.innerRef}
                               draggableProps={{
                                 ...provided.draggableProps,
@@ -163,7 +163,6 @@ const StoplightPreview = ({
                                 updateQuestion(question)
                               }
                               afterSubmit={() => setSelectedQuestion('')}
-                              isEconomic
                             />
                           ) : (
                             <StoplightQuestion

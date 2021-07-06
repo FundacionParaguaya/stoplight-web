@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TopicTabs = ({
+const PreviewTabs = ({
   surveyTopics,
   selectedSurveyTopic,
   setSelectedSurveyTopic
@@ -80,4 +80,4 @@ const TopicTabs = ({
   );
 };
 
-export default TopicTabs;
+export default PreviewTabs;

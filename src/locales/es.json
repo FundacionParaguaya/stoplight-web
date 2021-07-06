@@ -1297,7 +1297,22 @@
         "englishTitle": "Título en inglés",
         "searchDimension": "Buscar Dimension",
         "dimensions": "Dimensiones",
-        "singleDimension": "Dimensión"
+        "singleDimension": "Dimensión",
+        "upload": {
+          "placeholder": "Sube tu imagen aquí",
+          "error": "No se pudo subir tu imagen"
+        },
+        "form": {
+          "indicatorTitle": "Título del indicador",
+          "spanishIndicatorTitle": "Título del indicador en español",
+          "englishIndicatorTitle": "Título del indicador en inglés",
+          "shortName": "Nombre corto",
+          "lifemapName": "Nombre del mapa de vida",
+          "definition": "Definición del indicador",
+          "GREEN": "Definición verde",
+          "YELLOW": "Definición amarillo",
+          "RED": "Definición rojo"
+        }
       },
       "summary": {
         "title": "Resumen de la encuesta",
