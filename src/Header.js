@@ -28,6 +28,7 @@ import i18n from './i18n';
 import { updateUser } from './redux/actions';
 import { useWindowSize } from './utils/hooks-helpers';
 import {
+  checkAccessToInterventions,
   checkAccessToProjects,
   checkAccessToSolution,
   NEW,
@@ -153,8 +154,12 @@ const Header = ({ path, updateUser, user }) => {
     const currentRole = ROLES[user.role];
     const tabs = currentRole.filter(
       ({ item, platform }) =>
-        (platform === NEW && item !== 'projects' && item !== 'solutions') ||
+        (platform === NEW &&
+          item !== 'projects' &&
+          item !== 'solutions' &&
+          item !== 'interventions') ||
         (item === 'solutions' && checkAccessToSolution(user)) ||
+        (item === 'interventions' && checkAccessToInterventions(user)) ||
         (item === 'projects' && platform === NEW && checkAccessToProjects(user))
     );
     setTabs(tabs);

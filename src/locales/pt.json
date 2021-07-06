@@ -805,11 +805,12 @@
         "allowInteractiveHelp": "Ajuda interativa:",
         "allowProjects": "Projeto",
         "allowMapRestriction": "Restrição de mapa:",
-        "allowFamilyUsers": "Usuário família",
+        "allowFamilyUsers": "Usuário familiar:",
         "save": {
           "success": "Hub salvo com sucesso",
           "failed": "O Hub já existe"
-        }
+        },
+        "allowInterventions": "Intervenções:"
       },
       "delete": {
         "confirmTitle": "Confirmar Eliminado",
@@ -1026,7 +1027,7 @@
       "definition": {
         "coreQuestions": "Estas são as questões centrais que estarão no início do formulário de intervenção:",
         "questionsTitle": "Para adicionar mais perguntas, arraste e solte as seguintes perguntas no formulário à direita:",
-        "subtitle": "Crie sua intervenção definindo as definições aqui.",
+        "subtitle": "Crie modelos de intervenção para suas organizações",
         "title": "Definição de Intervenção",
         "required": "Questão necessária",
         "options": "Opções",

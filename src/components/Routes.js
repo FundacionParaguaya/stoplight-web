@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import 'firebase/analytics';
 import {
   checkAccess,
+  checkAccessToInterventions,
   checkAccessToProjects,
   checkAccessToSolution
 } from '../utils/role-utils';
@@ -234,17 +235,17 @@ const Routes = ({ user }) => {
           {checkAccess(user, 'survey-builder') && (
             <Route path="/survey-builder" component={Builder} />
           )}
-          {checkAccess(user, 'interventions') && (
+          {checkAccessToInterventions(user) && (
             <Route exact path="/interventions" component={Interventions} />
           )}
-          {checkAccess(user, 'interventions') && (
+          {checkAccessToInterventions(user) && (
             <Route
               exact
               path="/interventions/create"
               component={InterventionForm}
             />
           )}
-          {checkAccessToSolution(user, 'interventions') && (
+          {checkAccessToInterventions(user) && (
             <Route
               path="/interventions/edit/:id"
               component={InterventionForm}

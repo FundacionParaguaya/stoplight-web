@@ -331,6 +331,11 @@ const AddInterventionModal = ({
             !preview &&
             t('views.familyProfile.interventions.form.addTitle')}
         </Typography>
+        {preview && (
+          <Alert severity="warning" className={classes.alert}>
+            {t('views.intervention.definition.previewWarning')}
+          </Alert>
+        )}
         <IconButton
           className={classes.closeIcon}
           key="dismiss"
@@ -583,11 +588,6 @@ const AddInterventionModal = ({
                 <CircularProgress className={classes.loadingContainer} />
               )}
 
-              {preview && (
-                <Alert severity="warning" className={classes.alert}>
-                  {t('views.intervention.definition.previewWarning')}
-                </Alert>
-              )}
               <div className={classes.buttonContainerForm}>
                 <Button
                   variant="outlined"

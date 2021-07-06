@@ -53,44 +53,13 @@ const useStyles = makeStyles(theme => ({
     right: 5,
     marginBottom: 15
   },
-  input: {
-    marginBottom: 10,
-    marginTop: 10
-  },
-  dropzone: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 5,
-    paddingTop: 70,
-    paddingBottom: 10,
-    borderWidth: 4,
-    borderRadius: 2,
-    borderColor: theme.palette.grey.quarter,
-    borderStyle: 'dashed',
-    backgroundColor: theme.palette.grey.light,
-    outline: 'none',
-    width: '100%'
-  },
-  img: {
-    position: 'absolute',
-    width: '40%',
-    top: '10%',
-    left: '30%',
-    backgroundColor: theme.palette.background.default
-  },
-  icon: {
-    fontSize: '8vh',
-    color: theme.palette.grey.quarter
-  },
   switchOptionsContainer: {
     display: 'flex',
     marginBottom: '1rem',
     marginTop: '1rem',
     justifyContent: 'space-between'
   },
-  allowRetake: {
+  sliderLabel: {
     fontWeight: 400,
     padding: 11,
     paddingLeft: 14,
@@ -131,6 +100,8 @@ const HubPermissionsModal = ({
     if (values.allowFamilyUsers) {
       labels.push('allowFamilyUsers');
     }
+    values.allowInterventions && labels.push('allowInterventions');
+
     addOrUpdateHub(user, { ...hub, labels })
       .then(() => {
         onClose(true);
@@ -196,7 +167,9 @@ const HubPermissionsModal = ({
               !!hub.projectsSupport && hub.labels.includes('projectsSupport'),
             zoomLimit: !!hub.zoomLimit && hub.labels.includes('zoomLimit'),
             allowFamilyUsers:
-              !!hub.labels && hub.labels.includes('allowFamilyUsers')
+              !!hub.labels && hub.labels.includes('allowFamilyUsers'),
+            allowInterventions:
+              !!hub.labels && hub.labels.includes('allowInterventions')
           }}
           onSubmit={values => {
             onSubmit(values);
@@ -205,7 +178,7 @@ const HubPermissionsModal = ({
           {({ setFieldValue, values, isSubmitting }) => (
             <Form noValidate>
               <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
+                <Typography variant="subtitle1" className={classes.sliderLabel}>
                   {t('views.hub.form.allowRetake')}
                 </Typography>
                 <Switch
@@ -219,7 +192,7 @@ const HubPermissionsModal = ({
                 />
               </div>
               <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
+                <Typography variant="subtitle1" className={classes.sliderLabel}>
                   {t('views.hub.form.allowSolutions')}
                 </Typography>
                 <Switch
@@ -233,7 +206,7 @@ const HubPermissionsModal = ({
                 />
               </div>
               <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
+                <Typography variant="subtitle1" className={classes.sliderLabel}>
                   {t('views.hub.form.allowInteractiveHelp')}
                 </Typography>
                 <Switch
@@ -247,7 +220,7 @@ const HubPermissionsModal = ({
                 />
               </div>
               <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
+                <Typography variant="subtitle1" className={classes.sliderLabel}>
                   {t('views.hub.form.allowProjects')}
                 </Typography>
                 <Switch
@@ -261,7 +234,7 @@ const HubPermissionsModal = ({
                 />
               </div>
               <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
+                <Typography variant="subtitle1" className={classes.sliderLabel}>
                   {t('views.hub.form.allowMapRestriction')}
                 </Typography>
                 <Switch
@@ -275,7 +248,7 @@ const HubPermissionsModal = ({
                 />
               </div>
               <div className={classes.switchOptionsContainer}>
-                <Typography variant="subtitle1" className={classes.allowRetake}>
+                <Typography variant="subtitle1" className={classes.sliderLabel}>
                   {t('views.hub.form.allowFamilyUsers')}
                 </Typography>
                 <Switch
@@ -285,6 +258,23 @@ const HubPermissionsModal = ({
                     setFieldValue('allowFamilyUsers', !values.allowFamilyUsers);
                   }}
                   checked={values.allowFamilyUsers}
+                  color="primary"
+                />
+              </div>
+              <div className={classes.switchOptionsContainer}>
+                <Typography variant="subtitle1" className={classes.sliderLabel}>
+                  {t('views.hub.form.allowInterventions')}
+                </Typography>
+                <Switch
+                  name={'allowInterventions'}
+                  value={'allowInterventions'}
+                  onChange={e => {
+                    setFieldValue(
+                      'allowInterventions',
+                      !values.allowInterventions
+                    );
+                  }}
+                  checked={values.allowInterventions}
                   color="primary"
                 />
               </div>

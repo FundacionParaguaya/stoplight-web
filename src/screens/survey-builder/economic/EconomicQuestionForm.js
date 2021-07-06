@@ -7,12 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import NotInterestedIcon from '@material-ui/icons/HighlightOff';
-import clsx from 'clsx';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import CheckboxInput from '../../components/CheckboxInput';
-import TextInput from '../../components/TextInput';
-import { COLORS } from '../../theme';
+import CheckboxInput from '../../../components/CheckboxInput';
+import TextInput from '../../../components/TextInput';
+import { COLORS } from '../../../theme';
 
 const useStyles = makeStyles(theme => ({
   questionContainer: {
@@ -31,25 +30,6 @@ const useStyles = makeStyles(theme => ({
   title: {
     display: 'flex',
     justifyContent: 'space-between'
-  },
-  filterInput: {
-    height: 15,
-    paddingTop: '12.0px!important',
-    paddingBottom: '12.0px!important',
-    paddingRight: '14px!important',
-    paddingLeft: '14px!important',
-    fontFamily: 'Poppins',
-    fontSize: '12px',
-    backgroundColor: theme.palette.background.default
-  },
-  textField: {
-    marginTop: 4,
-    '& .MuiOutlinedInput-root': {
-      '&:hover fieldset': {
-        borderRadius: '2px',
-        border: `1.5px solid ${theme.palette.primary.main}`
-      }
-    }
   },
   optionContainer: {
     marginLeft: 1,
@@ -80,15 +60,8 @@ const useStyles = makeStyles(theme => ({
     color: COLORS.MEDIUM_GREY
   },
   checkboxContainer: {
-    order: 3,
-    display: 'flex',
     alignItems: 'center',
-    marginTop: 25
-  },
-  economicCheckboxesContainer: {
-    display: 'initial',
-    order: 4,
-    marginTop: 0
+    display: 'initial'
   },
   greyDot: {
     textDecoration: 'none',
@@ -101,12 +74,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const EditQuestion = ({
+export const EconomicQuestionForm = ({
   itemRef,
   draggableProps,
   question,
   updateQuestion,
-  isEconomic = false,
   afterSubmit = () => {}
 }) => {
   const { t } = useTranslation();
@@ -160,7 +132,7 @@ export const EditQuestion = ({
     >
       <Grid container>
         <Grid container spacing={4} className={classes.label}>
-          <Grid item md={5} sm={5} xs={10} style={{ order: 1 }}>
+          <Grid item md={5} sm={5} xs={10}>
             <TextInput
               label={t('views.surveyBuilder.question')}
               value={questionText}
@@ -169,25 +141,18 @@ export const EditQuestion = ({
               }}
             />
           </Grid>
-          {isEconomic && (
-            <Grid item md={5} sm={5} xs={10} style={{ order: 2 }}>
-              <TextInput
-                label={t('views.surveyBuilder.shortName')}
-                value={shortName}
-                onChange={e => {
-                  updateQuestion({ ...question, shortName: e.target.value });
-                }}
-              />
-            </Grid>
-          )}
-          <Grid
-            item
-            md={5}
-            sm={5}
-            xs={10}
-            className={classes.label}
-            style={{ order: isEconomic ? 3 : 4 }}
-          >
+
+          <Grid item md={5} sm={5} xs={10}>
+            <TextInput
+              label={t('views.surveyBuilder.shortName')}
+              value={shortName}
+              onChange={e => {
+                updateQuestion({ ...question, shortName: e.target.value });
+              }}
+            />
+          </Grid>
+
+          <Grid item md={5} sm={5} xs={10} className={classes.label}>
             {hasOptions && (
               <React.Fragment>
                 <Typography variant="subtitle2" className={classes.label}>
@@ -250,10 +215,7 @@ export const EditQuestion = ({
             md={5}
             sm={5}
             xs={10}
-            className={clsx(
-              classes.checkboxContainer,
-              isEconomic && classes.economicCheckboxesContainer
-            )}
+            className={classes.checkboxContainer}
           >
             {hasOptions && (
               <CheckboxInput
@@ -262,15 +224,14 @@ export const EditQuestion = ({
                 checked={otherOption}
               />
             )}
-            {isEconomic && (
-              <CheckboxInput
-                label={t('views.intervention.definition.required')}
-                onChange={() => {
-                  updateQuestion({ ...question, required: !question.required });
-                }}
-                checked={required}
-              />
-            )}
+
+            <CheckboxInput
+              label={t('views.intervention.definition.required')}
+              onChange={() => {
+                updateQuestion({ ...question, required: !question.required });
+              }}
+              checked={required}
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -287,4 +248,4 @@ export const EditQuestion = ({
   );
 };
 
-export default EditQuestion;
+export default EconomicQuestionForm;

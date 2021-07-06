@@ -12,9 +12,12 @@ import {
   interventionDefinitionByFamily,
   listInterventionsBySnapshot
 } from '../../../api';
-import iconIntervention from '../../../assets/imgAch.png';
+import iconIntervention from '../../../assets/Intervention.png';
 import Container from '../../../components/Container';
-import { ROLES_NAMES } from '../../../utils/role-utils';
+import {
+  checkAccessToInterventions,
+  ROLES_NAMES
+} from '../../../utils/role-utils';
 import InterventionDeleteModal from '../../interventions/InterventionDeleteModal';
 import AddInterventionModal from './AddInterventionModal';
 import InterventionDetailsView from './InterventionDetailsView';
@@ -113,6 +116,7 @@ const FamilyInterventions = ({
   useEffect(() => {
     setLoading(true);
     familyId &&
+      checkAccessToInterventions(user) &&
       interventionDefinitionByFamily(user, familyId)
         .then(response => {
           let definition = response.data.data.interventionDefinitionByFamily;
@@ -305,87 +309,57 @@ const FamilyInterventions = ({
         showSuccessMessage={showSuccessMessage}
         user={user}
       />
-      <Container className={classes.basicInfo} variant="fluid">
-        <div className={classes.mainIconContainer}>
-          <img
-            src={iconIntervention}
-            className={classes.mainIcon}
-            alt="Family Intervetnions"
-          />
-        </div>
-      </Container>
+      {checkAccessToInterventions(user) && (
+        <React.Fragment>
+          <Container className={classes.basicInfo} variant="fluid">
+            <div className={classes.mainIconContainer}>
+              <img
+                src={iconIntervention}
+                className={classes.mainIcon}
+                alt="Family Intervetnions"
+              />
+            </div>
+          </Container>
 
-      <Container
-        className={clsx(classes.mainDataContainer, classes.basicInfoText)}
-        style={{ padding: readOnly ? '0' : '0 12%' }}
-        variant="fluid"
-      >
-        <Typography variant="h5">
-          {t('views.toolbar.interventions')} · {interventions.length}
-        </Typography>
+          <Container
+            className={clsx(classes.mainDataContainer, classes.basicInfoText)}
+            style={{ padding: readOnly ? '0' : '0 12%' }}
+            variant="fluid"
+          >
+            <Typography variant="h5">
+              {t('views.toolbar.interventions')} · {interventions.length}
+            </Typography>
 
-        {loading && <CircularProgress className={classes.loadingContainer} />}
+            {loading && (
+              <CircularProgress className={classes.loadingContainer} />
+            )}
 
-        {interventions.length > 0 && (
-          <Accordion className={classes.interventionsTable}>
-            {interventions.map((intervention, props) => (
-              <React.Fragment key={intervention.id}>
-                <AccordionItem
-                  duration={500}
-                  easing={'ease'}
-                  key={intervention.id}
-                  className={classes.interventionTitle}
-                  expanded={selectedIntervention.id === intervention.id}
-                  onExpand={() => setSelectedIntervention(intervention)}
-                  onClose={() => setSelectedIntervention({})}
-                  title={
-                    <div>
-                      <InterventionTitle
-                        props={props}
-                        intervention={intervention}
-                        setSelectedIntervention={setSelectedIntervention}
-                        indicators={questions}
-                        expand={selectedIntervention.id === intervention.id}
-                        setSelectedThread={id =>
-                          id === selectedThread
-                            ? setSelectedThread('')
-                            : setSelectedThread(id)
-                        }
-                        handleAddRelated={handleAddRelated}
-                        showAdministrationOptions={showAdministrationOptions(
-                          user
-                        )}
-                      />
-                    </div>
-                  }
-                >
-                  <InterventionDetailsView
-                    intervention={intervention}
-                    definition={definition}
-                    showAdministrationOptions={showAdministrationOptions(user)}
-                    handleEdit={handleEdit}
-                    handleDelete={handleDelete}
-                  />
-                </AccordionItem>
-                {Array.isArray(intervention.relatedInterventions) &&
-                  selectedThread === intervention.id &&
-                  intervention.relatedInterventions.map(related => (
+            {interventions.length > 0 && (
+              <Accordion className={classes.interventionsTable}>
+                {interventions.map((intervention, props) => (
+                  <React.Fragment key={intervention.id}>
                     <AccordionItem
                       duration={500}
                       easing={'ease'}
-                      key={related.id}
+                      key={intervention.id}
                       className={classes.interventionTitle}
-                      expanded={selectedIntervention.id === related.id}
-                      onExpand={() => setSelectedIntervention(related)}
+                      expanded={selectedIntervention.id === intervention.id}
+                      onExpand={() => setSelectedIntervention(intervention)}
                       onClose={() => setSelectedIntervention({})}
                       title={
                         <div>
                           <InterventionTitle
-                            intervention={related}
-                            indicators={questions}
+                            props={props}
+                            intervention={intervention}
                             setSelectedIntervention={setSelectedIntervention}
-                            expand={selectedIntervention.id === related.id}
-                            related
+                            indicators={questions}
+                            expand={selectedIntervention.id === intervention.id}
+                            setSelectedThread={id =>
+                              id === selectedThread
+                                ? setSelectedThread('')
+                                : setSelectedThread(id)
+                            }
+                            handleAddRelated={handleAddRelated}
                             showAdministrationOptions={showAdministrationOptions(
                               user
                             )}
@@ -394,7 +368,7 @@ const FamilyInterventions = ({
                       }
                     >
                       <InterventionDetailsView
-                        intervention={related}
+                        intervention={intervention}
                         definition={definition}
                         showAdministrationOptions={showAdministrationOptions(
                           user
@@ -403,41 +377,81 @@ const FamilyInterventions = ({
                         handleDelete={handleDelete}
                       />
                     </AccordionItem>
-                  ))}
-              </React.Fragment>
-            ))}
-          </Accordion>
-        )}
+                    {Array.isArray(intervention.relatedInterventions) &&
+                      selectedThread === intervention.id &&
+                      intervention.relatedInterventions.map(related => (
+                        <AccordionItem
+                          duration={500}
+                          easing={'ease'}
+                          key={related.id}
+                          className={classes.interventionTitle}
+                          expanded={selectedIntervention.id === related.id}
+                          onExpand={() => setSelectedIntervention(related)}
+                          onClose={() => setSelectedIntervention({})}
+                          title={
+                            <div>
+                              <InterventionTitle
+                                intervention={related}
+                                indicators={questions}
+                                setSelectedIntervention={
+                                  setSelectedIntervention
+                                }
+                                expand={selectedIntervention.id === related.id}
+                                related
+                                showAdministrationOptions={showAdministrationOptions(
+                                  user
+                                )}
+                              />
+                            </div>
+                          }
+                        >
+                          <InterventionDetailsView
+                            intervention={related}
+                            definition={definition}
+                            showAdministrationOptions={showAdministrationOptions(
+                              user
+                            )}
+                            handleEdit={handleEdit}
+                            handleDelete={handleDelete}
+                          />
+                        </AccordionItem>
+                      ))}
+                  </React.Fragment>
+                ))}
+              </Accordion>
+            )}
 
-        {interventions.length === 0 && !loading && (
-          <Container
-            className={classes.basicInfoText}
-            variant="fluid"
-            style={{ margin: '1rem 0' }}
-          >
-            <Typography variant="h6">
-              {t('views.familyProfile.interventions.noInterventions')}
-            </Typography>
-          </Container>
-        )}
+            {interventions.length === 0 && !loading && (
+              <Container
+                className={classes.basicInfoText}
+                variant="fluid"
+                style={{ margin: '1rem 0' }}
+              >
+                <Typography variant="h6">
+                  {t('views.familyProfile.interventions.noInterventions')}
+                </Typography>
+              </Container>
+            )}
 
-        {showAdministrationOptions(user) && !!definition && (
-          <Container className={classes.basicInfoText} variant="fluid">
-            <Button
-              className={classes.addButton}
-              color="primary"
-              variant="contained"
-              onClick={() => {
-                setParentIntervention();
-                setSelectedIntervention({});
-                setOpenForm(true);
-              }}
-            >
-              {t('views.intervention.add')}
-            </Button>
+            {showAdministrationOptions(user) && !!definition && (
+              <Container className={classes.basicInfoText} variant="fluid">
+                <Button
+                  className={classes.addButton}
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    setParentIntervention();
+                    setSelectedIntervention({});
+                    setOpenForm(true);
+                  }}
+                >
+                  {t('views.intervention.add')}
+                </Button>
+              </Container>
+            )}
           </Container>
-        )}
-      </Container>
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };

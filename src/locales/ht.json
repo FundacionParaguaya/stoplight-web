@@ -603,7 +603,7 @@
           "generalOption": "Entèvansyon Jeneral",
           "save": {
             "error": "Pa t 'kapab sove entèvansyon",
-            "success": "Sove entèvansyon."
+            "success": "Entèvansyon sove."
           },
           "previewTitle": "Preview nan fòm entèvansyon ou"
         }
@@ -805,11 +805,12 @@
         "allowInteractiveHelp": "Sipò entèaktif la.:",
         "allowProjects": "Pwojè:",
         "allowMapRestriction": "Restriksyon kat:",
-        "allowFamilyUsers": "Itilizatè fanmi yo",
+        "allowFamilyUsers": "Itilizatè fanmi an:",
         "save": {
           "success": "Hub la byen anrejistre",
           "failed": "Hub sa egziste deja."
-        }
+        },
+        "allowInterventions": "Entèvansyon:"
       },
       "delete": {
         "confirmTitle": "Eske ou vle efase l vre?",
@@ -1026,7 +1027,7 @@
       "definition": {
         "coreQuestions": "Sa yo se kesyon debaz yo ki pral nan kòmansman fòm entèvansyon an:",
         "questionsTitle": "Pou ajoute plis kesyon, trennen epi lage kesyon sa yo nan fòm ki sou bò dwat la:",
-        "subtitle": "Kreye entèvansyon ou pa mete definisyon yo isit la.",
+        "subtitle": "Kreye modèl entèvansyon pou òganizasyon ou yo",
         "title": "Entèvansyon Definisyon",
         "required": "Kesyon obligatwa",
         "options": "Opsyon",
