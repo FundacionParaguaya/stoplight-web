@@ -1270,7 +1270,8 @@
           "searchOption": "Opsyon rechèch",
           "displayOptions": "Montre Opsyon"
         },
-        "singleTopic": "Sijè"
+        "singleTopic": "Sijè",
+        "newQuestion": "Nouvo Kesyon"
       },
       "audioSupport": "Sipò Audio",
       "title": "Tit",
@@ -1312,7 +1313,8 @@
           "GREEN": "Definisyon vèt",
           "YELLOW": "Definisyon jòn",
           "RED": "Definisyon wouj"
-        }
+        },
+        "dimensionLibrary": "Bibliyotèk Dimansyon an"
       },
       "summary": {
         "title": "Rezime Sondaj",
@@ -1329,7 +1331,8 @@
         "subtitle": "Sondaj te sove avèk siksè!",
         "goTo": "Ale nan lis Sondaj",
         "confirm": "Konfime"
-      }
+      },
+      "help": "Ede"
     }
   },
   "reports": {

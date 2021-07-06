@@ -2,6 +2,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
   DeviceHub,
   FolderOpen,
@@ -10,6 +11,7 @@ import {
 } from '@material-ui/icons/';
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
@@ -58,6 +60,7 @@ const useStyles = makeStyles(theme => ({
 const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(1);
@@ -198,25 +201,41 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           <Tab
             key={0}
             classes={{ root: classes.tabRoot }}
-            label={<FolderOpen />}
+            label={
+              <Tooltip title={t('views.surveyBuilder.economic.library')}>
+                <FolderOpen />
+              </Tooltip>
+            }
             value={1}
           />
           <Tab
             key={1}
             classes={{ root: classes.tabRoot }}
-            label={<FormatShapes />}
+            label={
+              <Tooltip title={t('views.surveyBuilder.economic.newQuestion')}>
+                <FormatShapes />
+              </Tooltip>
+            }
             value={2}
           />
           <Tab
             key={2}
             classes={{ root: classes.tabRoot }}
-            label={<DeviceHub />}
+            label={
+              <Tooltip title={t('views.surveyBuilder.economic.conditional')}>
+                <DeviceHub />
+              </Tooltip>
+            }
             value={3}
           />
           <Tab
             key={3}
             classes={{ root: classes.tabRoot }}
-            label={<HelpOutline />}
+            label={
+              <Tooltip title={t('views.surveyBuilder.help')}>
+                <HelpOutline />
+              </Tooltip>
+            }
             value={4}
           />
         </Tabs>

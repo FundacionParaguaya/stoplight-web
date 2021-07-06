@@ -1270,7 +1270,8 @@
           "searchOption": "Opción de búsqueda",
           "displayOptions": "Mostrar Opciones"
         },
-        "singleTopic": "Tema"
+        "singleTopic": "Tema",
+        "newQuestion": "Nueva pregunta"
       },
       "audioSupport": "Soporte de audio",
       "title": "Título",
@@ -1312,7 +1313,8 @@
           "GREEN": "Definición verde",
           "YELLOW": "Definición amarillo",
           "RED": "Definición rojo"
-        }
+        },
+        "dimensionLibrary": "Biblioteca de Dimension"
       },
       "summary": {
         "title": "Resumen de la encuesta",
@@ -1329,7 +1331,8 @@
         "subtitle": "¡La encuesta se guardó correctamente!",
         "goTo": "Ir a la lista de encuestas",
         "confirm": "Confirmar"
-      }
+      },
+      "help": "Ayudar"
     }
   },
   "reports": {

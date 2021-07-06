@@ -16,6 +16,8 @@ import DimensionLibrary from './stoplight/DimensionLibrary';
 import IndicatorLibrary from './stoplight/IndicatorLibrary';
 import StoplightDimensionForm from './stoplight/StoplightDimensionForm';
 import StoplightPreview from './stoplight/StoplightPreview';
+import { useTranslation } from 'react-i18next';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -53,6 +55,7 @@ const useStyles = makeStyles(theme => ({
 const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(1);
@@ -211,19 +214,33 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
           <Tab
             key={0}
             classes={{ root: classes.tabRoot }}
-            label={<FolderOpen />}
+            label={
+              <Tooltip title={t('views.surveyBuilder.economic.library')}>
+                <FolderOpen />
+              </Tooltip>
+            }
             value={1}
           />
           <Tab
             key={1}
             classes={{ root: classes.tabRoot }}
-            label={<DimensionsIcon />}
+            label={
+              <Tooltip
+                title={t('views.surveyBuilder.stoplight.dimensionLibrary')}
+              >
+                <DimensionsIcon />
+              </Tooltip>
+            }
             value={2}
           />
           <Tab
             key={2}
             classes={{ root: classes.tabRoot }}
-            label={<HelpOutline />}
+            label={
+              <Tooltip title={t('views.surveyBuilder.help')}>
+                <HelpOutline />
+              </Tooltip>
+            }
             value={3}
           />
         </Tabs>
