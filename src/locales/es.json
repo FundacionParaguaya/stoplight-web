@@ -1070,7 +1070,7 @@
         "title": "Definición de intervención",
         "required": "Pregunta requerida",
         "options": "Opciones",
-        "otherOption": "Agregue una opción de respuesta \"Otro\".",
+        "otherOption": "Agregar una opción de respuesta \"Otro\".",
         "missingOptions": "Se requieren opciones para esta pregunta",
         "addOption": "Agregar opción",
         "name": "Nombre de la intervención",

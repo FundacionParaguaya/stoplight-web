@@ -5,11 +5,11 @@ import React, { useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import PreviewTabs from '../PreviewTabs';
 import { updateSurvey } from '../../../redux/actions';
 import { COLORS } from '../../../theme';
-import EditQuestion from '../EditQuestion';
+import PreviewTabs from '../PreviewTabs';
 import Question from '../Question';
+import EconomicQuestionForm from './EconomicQuestionForm';
 
 const useStyles = makeStyles(theme => ({
   surveyQuestionsContainer: {
@@ -157,7 +157,7 @@ const EconomicPreview = ({
                       {(provided, snapshot) => (
                         <React.Fragment key={index}>
                           {question.codeName === selectedQuestion ? (
-                            <EditQuestion
+                            <EconomicQuestionForm
                               itemRef={provided.innerRef}
                               draggableProps={{
                                 ...provided.draggableProps,
@@ -168,7 +168,6 @@ const EconomicPreview = ({
                                 updateQuestion(question)
                               }
                               afterSubmit={() => setSelectedQuestion('')}
-                              isEconomic
                             />
                           ) : (
                             <Question
