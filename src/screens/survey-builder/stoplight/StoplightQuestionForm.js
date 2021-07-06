@@ -62,8 +62,8 @@ const StoplightQuestionForm = ({
     questionText: Yup.string().required(fieldIsRequired),
     shortName: Yup.string().required(fieldIsRequired),
     description: Yup.string().required(fieldIsRequired),
-    definition: Yup.string().required(fieldIsRequired),
-    questionAudio: Yup.string().required(fieldIsRequired),
+    definition: Yup.string(),
+    questionAudio: Yup.string(),
     stoplightColors: Yup.array().of(
       Yup.object().shape({
         url: Yup.string().required(fieldIsRequired),
@@ -76,6 +76,14 @@ const StoplightQuestionForm = ({
     setFieldValue(key, value);
     updateQuestion({ ...question, [key]: value });
   };
+
+  const updateColors = (setFieldValue, colorIndex, key, value) => {
+    setFieldValue(`stoplightColors[${colorIndex}].${key}`, value);
+    let newColors = Array.from(question.stoplightColors);
+    newColors[colorIndex][key] = value;
+    updateQuestion({ ...question, stoplightColors: newColors });
+  };
+
   const colorLabels = {
     '1': 'RED',
     '2': 'YELLOW',
@@ -90,7 +98,7 @@ const StoplightQuestionForm = ({
           shortName: question.shortName || '',
           description: question.description || '',
           definition: question.definition || '',
-          stoplightColors: isCreate
+          stoplightColors: !Array.isArray(question.stoplightColors)
             ? [
                 { value: 3, url: '', description: '' },
                 { value: 2, url: '', description: '' },
@@ -225,11 +233,7 @@ const StoplightQuestionForm = ({
                     <ImageForm
                       imageUrl={values.stoplightColors[3 - value].url}
                       handleChange={url =>
-                        updateField(
-                          setFieldValue,
-                          `stoplightColors[${3 - value}].url`,
-                          url
-                        )
+                        updateColors(setFieldValue, 3 - value, 'url', url)
                       }
                     />
                     <InputWithLabel
@@ -241,9 +245,10 @@ const StoplightQuestionForm = ({
                       multiline
                       required
                       onChange={e =>
-                        updateField(
+                        updateColors(
                           setFieldValue,
-                          `stoplightColors[${3 - value}].description`,
+                          3 - value,
+                          'description',
                           e.target.value
                         )
                       }
