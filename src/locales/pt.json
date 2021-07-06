@@ -1270,7 +1270,8 @@
           "searchOption": "Opção de pesquisa",
           "displayOptions": "Opções de exibição"
         },
-        "singleTopic": "Tópico"
+        "singleTopic": "Tópico",
+        "newQuestion": "Nova Questão"
       },
       "audioSupport": "Suporte de Áudio",
       "title": "Título",
@@ -1312,7 +1313,8 @@
           "GREEN": "Definição verde",
           "YELLOW": "Definição amarela",
           "RED": "Definição vermelha"
-        }
+        },
+        "dimensionLibrary": "Biblioteca da Dimensão"
       },
       "summary": {
         "title": "Resumo da Pesquisa",
@@ -1327,8 +1329,10 @@
       },
       "final": {
         "subtitle": "A pesquisa foi salva com sucesso!",
-        "goTo": "Vá para a lista de pesquisas"
-      }
+        "goTo": "Vá para a lista de pesquisas",
+        "confirm": "confirme"
+      },
+      "help": "Ajuda"
     }
   },
   "reports": {

@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { useTranslation, withTranslation } from 'react-i18next';
 import { Typography } from '@material-ui/core';
-import { useHistory, withRouter } from 'react-router-dom';
-import { Form, Formik } from 'formik';
-import Grid from '@material-ui/core/Grid';
-import * as Yup from 'yup';
-import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
-import withLayout from '../../components/withLayout';
+import React, { useEffect, useState } from 'react';
+import { useTranslation, withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { useHistory, withRouter } from 'react-router-dom';
+import * as Yup from 'yup';
+import { createSurveyDefinition, supportedLanguages } from '../../api';
 import InputWithLabel from '../../components/InputWithLabel';
-import Header from './Header';
 import CountrySelector from '../../components/selectors/CountrySelector';
-import { getLanguageByCode } from '../../utils/lang-utils';
+import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
-import { supportedLanguages, createSurveyDefinition } from '../../api';
+import { getLanguageByCode } from '../../utils/lang-utils';
+import Header from './Header';
+import ProgressBar from './ProgressBar';
 
 const styles = theme => ({
   mainContainer: {
@@ -186,6 +187,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
   }, [language, user]);
   return (
     <div className={classes.mainContainer}>
+      <ProgressBar />
       <Formik
         enableReinitialize
         initialValues={{

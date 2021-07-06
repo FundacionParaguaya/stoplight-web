@@ -1270,7 +1270,8 @@
           "searchOption": "Search option",
           "displayOptions": "Display Options"
         },
-        "singleTopic": "Topic"
+        "singleTopic": "Topic",
+        "newQuestion": "New Question"
       },
       "audioSupport": "Audio Support",
       "title": "Title",
@@ -1312,7 +1313,8 @@
           "GREEN": "Green definition",
           "YELLOW": "Yellow definition",
           "RED": "Red definition"
-        }
+        },
+        "dimensionLibrary": "Dimension's Library"
       },
       "summary": {
         "title": "Survey Summary",
@@ -1327,8 +1329,10 @@
       },
       "final": {
         "subtitle": "Survey was saved successfully!",
-        "goTo": "Go to Surveys list"
-      }
+        "goTo": "Go to Surveys list",
+        "confirm": "Confirm"
+      },
+      "help": "Help"
     }
   },
   "reports": {

@@ -2,6 +2,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
   DeviceHub,
   FolderOpen,
@@ -10,6 +11,7 @@ import {
 } from '@material-ui/icons/';
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
@@ -20,6 +22,7 @@ import EconomicLibrary from './economic/EconomicLibrary';
 import EconomicPreview from './economic/EconomicPreview';
 import FieldTypes from './economic/FieldTypes';
 import TopicForm from './economic/TopicForm';
+import ProgressBar from './ProgressBar';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -57,6 +60,7 @@ const useStyles = makeStyles(theme => ({
 const Economics = ({ user, currentSurvey, updateSurvey }) => {
   const classes = useStyles();
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(1);
@@ -182,102 +186,121 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
   };
 
   return (
-    <div className={classes.mainContainer}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        indicatorColor="primary"
-        textColor="primary"
-        value={tab}
-        onChange={(event, value) => setTab(value)}
-        classes={{ root: classes.tabsRoot }}
-      >
-        <Tab
-          key={0}
-          classes={{ root: classes.tabRoot }}
-          label={<FolderOpen />}
-          value={1}
-        />
-        <Tab
-          key={1}
-          classes={{ root: classes.tabRoot }}
-          label={<FormatShapes />}
-          value={2}
-        />
-        <Tab
-          key={2}
-          classes={{ root: classes.tabRoot }}
-          label={<DeviceHub />}
-          value={3}
-        />
-        <Tab
-          key={3}
-          classes={{ root: classes.tabRoot }}
-          label={<HelpOutline />}
-          value={4}
-        />
-      </Tabs>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {tab === 1 && (
-          <EconomicLibrary
-            selectedSurveyTopic={selectedSurveyTopic}
-            setLibraryQuestion={setLibraryQuestion}
-            toggleTopicForm={() => {
-              setSelectedSurveyTopic({});
-              setTopicForm(!topicForm);
-            }}
-            language={currentSurvey.language}
+    <React.Fragment>
+      <ProgressBar />
+      <div className={classes.mainContainer}>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          indicatorColor="primary"
+          textColor="primary"
+          value={tab}
+          onChange={(event, value) => setTab(value)}
+          classes={{ root: classes.tabsRoot }}
+        >
+          <Tab
+            key={0}
+            classes={{ root: classes.tabRoot }}
+            label={
+              <Tooltip title={t('views.surveyBuilder.economic.library')}>
+                <FolderOpen />
+              </Tooltip>
+            }
+            value={1}
           />
-        )}
-        {tab === 2 && (
-          <FieldTypes
-            selectedSurveyTopic={selectedSurveyTopic}
-            setNewQuestion={setNewQuestion}
+          <Tab
+            key={1}
+            classes={{ root: classes.tabRoot }}
+            label={
+              <Tooltip title={t('views.surveyBuilder.economic.newQuestion')}>
+                <FormatShapes />
+              </Tooltip>
+            }
+            value={2}
           />
-        )}
-        {(tab === 1 || tab === 2) && !topicForm && (
-          <EconomicPreview
-            selectedSurveyTopic={selectedSurveyTopic}
-            setSelectedSurveyTopic={setSelectedSurveyTopic}
-            selectedQuestion={selectedQuestion}
-            setSelectedQuestion={setSelectedQuestion}
-            setSurveyQuestion={setSurveyQuestion}
-            goToConditional={() => setTab(3)}
-            surveyTopics={surveyTopics}
-            setSurveyTopics={setSurveyTopics}
-            toggleTopicForm={() => setTopicForm(!topicForm)}
-            handleDeleteTopic={handleDeleteTopic}
-            onSave={onSave}
+          <Tab
+            key={2}
+            classes={{ root: classes.tabRoot }}
+            label={
+              <Tooltip title={t('views.surveyBuilder.economic.conditional')}>
+                <DeviceHub />
+              </Tooltip>
+            }
+            value={3}
           />
-        )}
-        {topicForm && (
-          <TopicForm
-            topic={selectedSurveyTopic}
-            toggle={() => {
-              !selectedSurveyTopic.value &&
-                Array.isArray(surveyTopics) &&
-                setSelectedSurveyTopic(surveyTopics[0]);
-              setTopicForm(!topicForm);
-            }}
-            updateTopics={updateTopics}
+          <Tab
+            key={3}
+            classes={{ root: classes.tabRoot }}
+            label={
+              <Tooltip title={t('views.surveyBuilder.help')}>
+                <HelpOutline />
+              </Tooltip>
+            }
+            value={4}
           />
-        )}
-        {tab === 3 && (
-          <EconomicConditionals
-            selectedSurveyTopic={selectedSurveyTopic}
-            setSelectedSurveyTopic={setSelectedSurveyTopic}
-            surveyTopics={surveyTopics}
-            onSave={onSave}
-          />
-        )}
-      </DragDropContext>
+        </Tabs>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {tab === 1 && (
+            <EconomicLibrary
+              selectedSurveyTopic={selectedSurveyTopic}
+              setLibraryQuestion={setLibraryQuestion}
+              toggleTopicForm={() => {
+                setSelectedSurveyTopic({});
+                setTopicForm(!topicForm);
+              }}
+              language={currentSurvey.language}
+            />
+          )}
+          {tab === 2 && (
+            <FieldTypes
+              selectedSurveyTopic={selectedSurveyTopic}
+              setNewQuestion={setNewQuestion}
+            />
+          )}
+          {(tab === 1 || tab === 2) && !topicForm && (
+            <EconomicPreview
+              selectedSurveyTopic={selectedSurveyTopic}
+              setSelectedSurveyTopic={setSelectedSurveyTopic}
+              selectedQuestion={selectedQuestion}
+              setSelectedQuestion={setSelectedQuestion}
+              setSurveyQuestion={setSurveyQuestion}
+              goToConditional={() => setTab(3)}
+              surveyTopics={surveyTopics}
+              setSurveyTopics={setSurveyTopics}
+              toggleTopicForm={() => setTopicForm(!topicForm)}
+              handleDeleteTopic={handleDeleteTopic}
+              onSave={onSave}
+            />
+          )}
+          {topicForm && (
+            <TopicForm
+              topic={selectedSurveyTopic}
+              toggle={() => {
+                !selectedSurveyTopic.value &&
+                  Array.isArray(surveyTopics) &&
+                  setSelectedSurveyTopic(surveyTopics[0]);
+                setTopicForm(!topicForm);
+              }}
+              updateTopics={updateTopics}
+            />
+          )}
+          {tab === 3 && (
+            <EconomicConditionals
+              selectedSurveyTopic={selectedSurveyTopic}
+              setSelectedSurveyTopic={setSelectedSurveyTopic}
+              surveyTopics={surveyTopics}
+              onSave={onSave}
+            />
+          )}
+        </DragDropContext>
 
-      {loading && (
-        <div className={classes.loadingContainer}>
-          <CircularProgress />
-        </div>
-      )}
-    </div>
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress />
+          </div>
+        )}
+      </div>
+    </React.Fragment>
   );
 };
 
