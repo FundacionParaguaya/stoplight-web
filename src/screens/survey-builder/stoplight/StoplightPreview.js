@@ -29,8 +29,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     border: `2px dashed ${theme.palette.grey.quarter}`,
     backgroundColor: theme.palette.background.default,
-    padding: '1rem',
-    height: '100%'
+    padding: '1rem'
   },
   button: {
     margin: '6px 0 6px 6px',
