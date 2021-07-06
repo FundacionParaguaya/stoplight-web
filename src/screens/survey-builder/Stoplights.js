@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import { COLORS } from '../../theme';
+import ProgressBar from './ProgressBar';
 import DimensionLibrary from './stoplight/DimensionLibrary';
 import IndicatorLibrary from './stoplight/IndicatorLibrary';
 import StoplightDimensionForm from './stoplight/StoplightDimensionForm';
@@ -195,87 +196,90 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
   };
 
   return (
-    <div className={classes.mainContainer}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        indicatorColor="primary"
-        textColor="primary"
-        value={tab}
-        onChange={(event, value) => setTab(value)}
-        classes={{ root: classes.tabsRoot }}
-      >
-        <Tab
-          key={0}
-          classes={{ root: classes.tabRoot }}
-          label={<FolderOpen />}
-          value={1}
-        />
-        <Tab
-          key={1}
-          classes={{ root: classes.tabRoot }}
-          label={<DimensionsIcon />}
-          value={2}
-        />
-        <Tab
-          key={2}
-          classes={{ root: classes.tabRoot }}
-          label={<HelpOutline />}
-          value={3}
-        />
-      </Tabs>
+    <React.Fragment>
+      <ProgressBar />
+      <div className={classes.mainContainer}>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          indicatorColor="primary"
+          textColor="primary"
+          value={tab}
+          onChange={(event, value) => setTab(value)}
+          classes={{ root: classes.tabsRoot }}
+        >
+          <Tab
+            key={0}
+            classes={{ root: classes.tabRoot }}
+            label={<FolderOpen />}
+            value={1}
+          />
+          <Tab
+            key={1}
+            classes={{ root: classes.tabRoot }}
+            label={<DimensionsIcon />}
+            value={2}
+          />
+          <Tab
+            key={2}
+            classes={{ root: classes.tabRoot }}
+            label={<HelpOutline />}
+            value={3}
+          />
+        </Tabs>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        {tab === 1 && (
-          <IndicatorLibrary
-            selectedSurveyDimension={selectedSurveyDimension}
-            setLibraryIndicator={setLibraryIndicator}
-            surveyLanguage={currentSurvey.language}
+        <DragDropContext onDragEnd={onDragEnd}>
+          {tab === 1 && (
+            <IndicatorLibrary
+              selectedSurveyDimension={selectedSurveyDimension}
+              setLibraryIndicator={setLibraryIndicator}
+              surveyLanguage={currentSurvey.language}
+            />
+          )}
+          {tab === 2 && (
+            <DimensionLibrary
+              setLibraryDimension={setLibraryDimension}
+              surveyLanguage={currentSurvey.language.substring(0, 2)}
+            />
+          )}
+          {(tab === 1 || tab === 2) && !dimensionForm && (
+            <StoplightPreview
+              surveyDimensions={surveyDimensions}
+              setSurveyDimensions={setSurveyDimensions}
+              selectedSurveyDimension={selectedSurveyDimension}
+              setSelectedSurveyDimension={setSelectedSurveyDimension}
+              selectedQuestion={selectedQuestion}
+              setSelectedQuestion={setSelectedQuestion}
+              setSurveyQuestion={setSurveyQuestion}
+              toggleDimensionForm={() => setDimensionForm(!dimensionForm)}
+              handleDeleteDimension={() =>
+                handleDeleteDimension(selectedSurveyDimension)
+              }
+              onSave={onSave}
+            />
+          )}
+        </DragDropContext>
+
+        {dimensionForm && (
+          <StoplightDimensionForm
+            dimension={selectedSurveyDimension}
+            toggle={() => {
+              !selectedSurveyDimension.value &&
+                Array.isArray(surveyDimensions) &&
+                setSelectedSurveyDimension(surveyDimensions[0]);
+              setDimensionForm(!dimensionForm);
+            }}
+            updateDimensions={updateDimensions}
           />
         )}
-        {tab === 2 && (
-          <DimensionLibrary
-            setLibraryDimension={setLibraryDimension}
-            surveyLanguage={currentSurvey.language.substring(0, 2)}
-          />
-        )}
-        {(tab === 1 || tab === 2) && !dimensionForm && (
-          <StoplightPreview
-            surveyDimensions={surveyDimensions}
-            setSurveyDimensions={setSurveyDimensions}
-            selectedSurveyDimension={selectedSurveyDimension}
-            setSelectedSurveyDimension={setSelectedSurveyDimension}
-            selectedQuestion={selectedQuestion}
-            setSelectedQuestion={setSelectedQuestion}
-            setSurveyQuestion={setSurveyQuestion}
-            toggleDimensionForm={() => setDimensionForm(!dimensionForm)}
-            handleDeleteDimension={() =>
-              handleDeleteDimension(selectedSurveyDimension)
-            }
-            onSave={onSave}
-          />
-        )}
-      </DragDropContext>
 
-      {dimensionForm && (
-        <StoplightDimensionForm
-          dimension={selectedSurveyDimension}
-          toggle={() => {
-            !selectedSurveyDimension.value &&
-              Array.isArray(surveyDimensions) &&
-              setSelectedSurveyDimension(surveyDimensions[0]);
-            setDimensionForm(!dimensionForm);
-          }}
-          updateDimensions={updateDimensions}
-        />
-      )}
-
-      {loading && (
-        <div className={classes.loadingContainer}>
-          <CircularProgress />
-        </div>
-      )}
-    </div>
+        {loading && (
+          <div className={classes.loadingContainer}>
+            <CircularProgress />
+          </div>
+        )}
+      </div>
+    </React.Fragment>
   );
 };
 

@@ -13,7 +13,9 @@ const useStyles = makeStyles(theme => ({
     height: 50,
     backgroundColor: theme.palette.background.default,
     padding: '0 4%',
-    boxShadow: '0px 4px 5px rgba(209, 209, 209, 0.25)'
+    boxShadow: '0px 4px 5px rgba(209, 209, 209, 0.25)',
+    position: 'relative',
+    zIndex: 10
   },
   sectionContainer: {
     display: 'flex',

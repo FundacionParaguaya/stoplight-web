@@ -1,12 +1,12 @@
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import withLayout from '../../components/withLayout';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Header from './Header';
 import checkgif from '../../assets/check.gif';
+import withLayout from '../../components/withLayout';
+import Header from './Header';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {

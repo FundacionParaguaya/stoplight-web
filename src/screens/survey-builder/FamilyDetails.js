@@ -9,6 +9,7 @@ import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import FamilyQuestionForm from './family/FamilyQuestionForm';
 import Header from './Header';
+import ProgressBar from './ProgressBar';
 import Question from './Question';
 
 const useStyles = makeStyles(theme => ({
@@ -121,39 +122,42 @@ const FamilyDetails = ({ user, currentSurvey, updateSurvey }) => {
   };
 
   return (
-    <div className={classes.mainContainer}>
-      <Header title={t('views.familyProfile.familyDetails')} />
-      <div className={classes.questionContainer}>
-        {questions.map((question, index) => (
-          <React.Fragment key={index}>
-            {question.codeName === selectedQuestion ? (
-              <FamilyQuestionForm
-                question={question}
-                updateQuestion={question => updateQuestion(index, question)}
-                afterSubmit={() => setSelectedQuestion('')}
-              />
-            ) : (
-              <Question
-                order={index + 1}
-                question={question}
-                setSelectedQuestion={setSelectedQuestion}
-              />
-            )}
-            {index % 2 === 0 && <div className={classes.divider} />}
-          </React.Fragment>
-        ))}
+    <React.Fragment>
+      <ProgressBar />
+      <div className={classes.mainContainer}>
+        <Header title={t('views.familyProfile.familyDetails')} />
+        <div className={classes.questionContainer}>
+          {questions.map((question, index) => (
+            <React.Fragment key={index}>
+              {question.codeName === selectedQuestion ? (
+                <FamilyQuestionForm
+                  question={question}
+                  updateQuestion={question => updateQuestion(index, question)}
+                  afterSubmit={() => setSelectedQuestion('')}
+                />
+              ) : (
+                <Question
+                  order={index + 1}
+                  question={question}
+                  setSelectedQuestion={setSelectedQuestion}
+                />
+              )}
+              {index % 2 === 0 && <div className={classes.divider} />}
+            </React.Fragment>
+          ))}
+        </div>
+        <div className={classes.buttonContainer}>
+          <Button
+            color="primary"
+            variant="contained"
+            disabled={loading}
+            onClick={() => onSave()}
+          >
+            {t('general.saveQuestions')}
+          </Button>
+        </div>
       </div>
-      <div className={classes.buttonContainer}>
-        <Button
-          color="primary"
-          variant="contained"
-          disabled={loading}
-          onClick={() => onSave()}
-        >
-          {t('general.saveQuestions')}
-        </Button>
-      </div>
-    </div>
+    </React.Fragment>
   );
 };
 

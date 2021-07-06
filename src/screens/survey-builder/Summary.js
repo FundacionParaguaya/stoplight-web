@@ -15,6 +15,7 @@ import InputWithLabel from '../../components/InputWithLabel';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import Header from './Header';
+import ProgressBar from './ProgressBar';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -163,6 +164,7 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
 
   return (
     <div className={classes.mainContainer}>
+      <ProgressBar />
       <Formik
         enableReinitialize
         initialValues={{
