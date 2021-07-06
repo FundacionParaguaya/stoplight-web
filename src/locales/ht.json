@@ -1326,7 +1326,8 @@
       },
       "final": {
         "subtitle": "Sondaj te sove avèk siksè!",
-        "goTo": "Ale nan lis Sondaj"
+        "goTo": "Ale nan lis Sondaj",
+        "confirm": "Konfime"
       }
     }
   },

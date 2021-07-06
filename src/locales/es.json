@@ -1326,7 +1326,8 @@
       },
       "final": {
         "subtitle": "¡La encuesta se guardó correctamente!",
-        "goTo": "Ir a la lista de encuestas"
+        "goTo": "Ir a la lista de encuestas",
+        "confirm": "Confirmar"
       }
     }
   },

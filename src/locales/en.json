@@ -1326,7 +1326,8 @@
       },
       "final": {
         "subtitle": "Survey was saved successfully!",
-        "goTo": "Go to Surveys list"
+        "goTo": "Go to Surveys list",
+        "confirm": "Confirm"
       }
     }
   },

@@ -1326,7 +1326,8 @@
       },
       "final": {
         "subtitle": "A pesquisa foi salva com sucesso!",
-        "goTo": "Vá para a lista de pesquisas"
+        "goTo": "Vá para a lista de pesquisas",
+        "confirm": "confirme"
       }
     }
   },
