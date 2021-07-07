@@ -1626,7 +1626,8 @@ export const getArticleById = (user, id, collection, section, language) =>
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(language)
     },
     data: JSON.stringify({
       query:
@@ -1635,7 +1636,7 @@ export const getArticleById = (user, id, collection, section, language) =>
         id,
         collection,
         section,
-        language
+        language: language ? normalizeLang(language) : ''
       }
     })
   });
@@ -2597,7 +2598,8 @@ export const createSurveyDefinition = (
   language,
   privacyPolicy,
   termCond,
-  surveyDefinition
+  surveyDefinition,
+  application
 ) =>
   axios({
     method: 'post',
@@ -2608,11 +2610,12 @@ export const createSurveyDefinition = (
     },
     data: JSON.stringify({
       query:
-        'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
+        'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput, $application: Long) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition, application:$application) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
       variables: {
         privacyPolicy,
         termCond,
-        surveyDefinition
+        surveyDefinition,
+        application
       }
     })
   });

@@ -139,6 +139,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
 
     updateSurvey({ ...currentSurvey, ...data });
     setLoading(false);
+    // Disable save survey  just for now
     false &&
       createSurveyDefinition(
         user,
@@ -158,7 +159,8 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
           description: values.title,
           countryCode: values.country.value,
           lang: values.language
-        }
+        },
+        values.application
       )
         .then(() => {
           setLoading(false);
@@ -215,7 +217,9 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
             (currentSurvey.privacyPolicy && currentSurvey.privacyPolicy.text) ||
             '',
           surveyEconomicQuestions: currentSurvey.surveyEconomicQuestions || [],
-          surveyStoplightQuestions: currentSurvey.surveyStoplightQuestions || []
+          surveyStoplightQuestions:
+            currentSurvey.surveyStoplightQuestions || [],
+          application: currentSurvey.hub || null
         }}
         validationSchema={validationSchema}
         onSubmit={values => {
