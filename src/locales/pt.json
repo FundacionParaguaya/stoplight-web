@@ -1271,7 +1271,8 @@
           "displayOptions": "Opções de exibição"
         },
         "singleTopic": "Tópico",
-        "newQuestion": "Nova Questão"
+        "newQuestion": "Nova Questão",
+        "info": "Questões da Biblioteca de Economia já em uso"
       },
       "audioSupport": "Suporte de Áudio",
       "title": "Título",
@@ -1314,7 +1315,9 @@
           "YELLOW": "Definição amarela",
           "RED": "Definição vermelha"
         },
-        "dimensionLibrary": "Biblioteca da Dimensão"
+        "dimensionLibrary": "Biblioteca da Dimensão",
+        "libraryInfo": "Biblioteca de indicadores já em uso",
+        "dimensionLibraryInfo": "Biblioteca de dimensões existentes"
       },
       "summary": {
         "title": "Resumo da Pesquisa",
@@ -1332,7 +1335,8 @@
         "goTo": "Vá para a lista de pesquisas",
         "confirm": "confirme"
       },
-      "help": "Ajuda"
+      "help": "Ajuda",
+      "helpArtilceNotFound": "%s artigo não foi encontrado!"
     }
   },
   "reports": {

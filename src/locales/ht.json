@@ -1271,7 +1271,8 @@
           "displayOptions": "Montre Opsyon"
         },
         "singleTopic": "Sijè",
-        "newQuestion": "Nouvo Kesyon"
+        "newQuestion": "Nouvo Kesyon",
+        "info": "Bibliyotèk nan kesyon Ekonomi deja nan itilize"
       },
       "audioSupport": "Sipò Audio",
       "title": "Tit",
@@ -1314,7 +1315,9 @@
           "YELLOW": "Definisyon jòn",
           "RED": "Definisyon wouj"
         },
-        "dimensionLibrary": "Bibliyotèk Dimansyon an"
+        "dimensionLibrary": "Bibliyotèk Dimansyon an",
+        "libraryInfo": "Bibliyotèk endikatè ki deja itilize",
+        "dimensionLibraryInfo": "Bibliyotèk nan dimansyon ki deja egziste"
       },
       "summary": {
         "title": "Rezime Sondaj",
@@ -1332,7 +1335,8 @@
         "goTo": "Ale nan lis Sondaj",
         "confirm": "Konfime"
       },
-      "help": "Ede"
+      "help": "Ede",
+      "helpArtilceNotFound": "Atik %s pa te jwenn!"
     }
   },
   "reports": {
