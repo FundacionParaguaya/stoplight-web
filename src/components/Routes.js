@@ -1,15 +1,18 @@
-import React, { Suspense, lazy, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Route, Switch, useHistory } from 'react-router-dom';
-import firebase from 'firebase';
 import 'firebase/analytics';
+
+import React, { Suspense, lazy, useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import {
   checkAccess,
   checkAccessToInterventions,
   checkAccessToProjects,
   checkAccessToSolution
 } from '../utils/role-utils';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+
 const Support = lazy(() => import('../screens/Support'));
 const SupportForm = lazy(() => import('../screens/support/SupportForm'));
 const CollectionView = lazy(() => import('../screens/support/CollectionView'));
@@ -54,6 +57,7 @@ const OrganizationForm = lazy(() =>
   import('../screens/organizations/OrganizationForm')
 );
 const Projects = lazy(() => import('../screens/Projects'));
+const PdfPreview = lazy(() => import('../screens/PdfPreview'));
 const EditEconomicForm = lazy(() =>
   import('../screens/families/edit/EditEconomicForm')
 );
@@ -268,6 +272,8 @@ const Routes = ({ user }) => {
           {checkAccess(user, 'support') && (
             <Route path="/collection/:slug" component={CollectionView} />
           )}
+
+          <Route path="/pdfPreview" component={PdfPreview} />
 
           {!!user.role && <Route render={() => <PageNotFound user={user} />} />}
         </Switch>

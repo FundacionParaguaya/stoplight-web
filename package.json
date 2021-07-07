@@ -34,6 +34,7 @@
     "react-avatar-editor": "^11.1.0",
     "react-beautiful-dnd": "^13.1.0",
     "react-color": "^2.18.1",
+    "react-component-export-image": "^1.0.6",
     "react-dom": "^16.8.4",
     "react-dropzone": "^10.2.1",
     "react-geocode": "^0.1.2",

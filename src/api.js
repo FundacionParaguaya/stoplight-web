@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { PhoneNumberUtil } from 'google-libphonenumber';
-import store from './redux';
 import CallingCodes from './screens/lifemap/CallingCodes';
+import { PhoneNumberUtil } from 'google-libphonenumber';
+import axios from 'axios';
 import imageCompression from 'browser-image-compression';
+import store from './redux';
 const CancelToken = axios.CancelToken;
 let source = CancelToken.source();
 let filterSource = CancelToken.source();
@@ -16,7 +16,7 @@ export const url = {
   platform: 'https://platform.backend.povertystoplight.org',
   demo: 'https://demo.backend.povertystoplight.org',
   testing: 'https://testing.backend.povertystoplight.org',
-  development: 'http://localhost:8080'
+  development: 'https://testing.backend.povertystoplight.org'
 };
 
 // list of enviroments urls

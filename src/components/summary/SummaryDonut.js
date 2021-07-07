@@ -1,12 +1,13 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { withTranslation } from 'react-i18next';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { Typography } from '@material-ui/core';
-import { Spring } from 'react-spring/renderprops';
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+
 import { COLORS } from '../../theme';
 import CustomTooltip from '../CustomTooltip';
 import IndicatorBall from './IndicatorBall';
+import React from 'react';
+import { Spring } from 'react-spring/renderprops';
+import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
 
 let SummaryCountingSection = props => (
   <div className={props.classes.container}>
@@ -68,6 +69,8 @@ const SummaryDonut = props => {
     { name: 'green', value: greenIndicatorCount },
     { name: 'skipped', value: skippedIndicatorCount }
   ];
+
+  console.log('data', data);
   const total =
     redIndicatorCount +
     yellowIndicatorCount +

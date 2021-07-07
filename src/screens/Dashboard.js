@@ -1,41 +1,53 @@
-import { Box, CircularProgress, Grid, Typography } from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import HistoryIcon from '@material-ui/icons/History';
-import Tooltip from '@material-ui/core/Tooltip';
-import { withStyles } from '@material-ui/styles';
-import { isArray } from 'lodash';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Typography
+} from '@material-ui/core';
+import {
+  ORDERED_DIMENSIONS,
+  normalizeDimension
+} from '../utils/parametric_data';
+import { ROLE_HUB_ADMIN, ROLE_SURVEY_USER } from '../utils/role-utils';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  cancelFilterRequest,
+  cancelRequest,
   getDimensionIndicators,
-  getOverviewBlock,
   getEconomicOverview,
   getLastestActivity,
   getOperationsOverview,
-  getTotalFamilies,
-  cancelRequest,
-  cancelFilterRequest
+  getOverviewBlock,
+  getTotalFamilies
 } from '../api';
-import ballstoit from '../assets/ballstoit.png';
+import {
+  exportComponentAsJPEG,
+  exportComponentAsPDF,
+  exportComponentAsPNG
+} from 'react-component-export-image';
+
 import ActivityFeed from '../components/ActivityFeed';
 import Container from '../components/Container';
 import DashboardFilters from '../components/DashboardFilters';
-import OverviewBlock from '../components/OverviewBlock';
-import DimensionsVisualisation from '../components/DimensionsVisualisation';
-import GreenLineChart from '../components/GreenLineChart';
-import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
-import withLayout from '../components/withLayout';
-import {
-  normalizeDimension,
-  ORDERED_DIMENSIONS
-} from '../utils/parametric_data';
-import { ROLE_HUB_ADMIN, ROLE_SURVEY_USER } from '../utils/role-utils';
 import DashboardGeneralData from './dashboard/DashboardGeneralData';
 import DashboardOverviewBlock from './dashboard/DashboardOverviewBlock';
+import DimensionsVisualisation from '../components/DimensionsVisualisation';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import GreenLineChart from '../components/GreenLineChart';
+import HistoryIcon from '@material-ui/icons/History';
+import IndicatorsVisualisation from '../components/IndicatorsVisualisation';
+import OverviewBlock from '../components/OverviewBlock';
+import Tooltip from '@material-ui/core/Tooltip';
+import ballstoit from '../assets/ballstoit.png';
+import { connect } from 'react-redux';
+import { isArray } from 'lodash';
+import moment from 'moment';
+import withLayout from '../components/withLayout';
+import { withStyles } from '@material-ui/styles';
+import { withTranslation } from 'react-i18next';
 
 const getData = data => (data.data && data.data.data ? data.data.data : null);
 const LoadingContainer = () => (
@@ -80,6 +92,7 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
   const { role } = user;
   const isMentor = role === ROLE_SURVEY_USER;
   const lang = language;
+  const componentRef = useRef();
   const setSelectedOrganizations = (selected, allOrganizations) => {
     if (selected.some(org => org.value === 'ALL')) {
       setOrganizations(allOrganizations);
@@ -394,8 +407,20 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
 
   const animationDuration = 200;
 
+  const goToPreview = () => {
+    history.push({
+      pathname: 'PdfPreview',
+      state: {
+        generalData,
+        overview,
+        indicators,
+        operation: { isMentor, chart }
+      }
+    });
+  };
+
   return (
-    <div style={{ display: 'flex' }}>
+    <div ref={componentRef} style={{ display: 'flex' }}>
       <div
         className={classes.feedContainer}
         style={{ width: showFeed ? '22%' : 50 }}
@@ -499,6 +524,9 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
         {/* General Data */}
         <Container className={classes.generalData} variant="fluid">
           <Container className={classes.containerGeneralData}>
+            <Button variant="outlined" color="primary" onClick={goToPreview}>
+              Imprimir Pdf
+            </Button>
             {loadingGeneralData && <GeneralDataLoadingContainer />}
             {!loadingGeneralData && <DashboardGeneralData data={generalData} />}
           </Container>
