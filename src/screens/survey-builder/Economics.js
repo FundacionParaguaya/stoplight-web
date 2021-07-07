@@ -22,6 +22,7 @@ import EconomicLibrary from './economic/EconomicLibrary';
 import EconomicPreview from './economic/EconomicPreview';
 import FieldTypes from './economic/FieldTypes';
 import TopicForm from './economic/TopicForm';
+import HelpView from './HelpView';
 import ProgressBar from './ProgressBar';
 
 const useStyles = makeStyles(theme => ({
@@ -195,7 +196,10 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
           indicatorColor="primary"
           textColor="primary"
           value={tab}
-          onChange={(event, value) => setTab(value)}
+          onChange={(event, value) => {
+            setTopicForm(false);
+            setTab(value);
+          }}
           classes={{ root: classes.tabsRoot }}
         >
           <Tab
@@ -292,6 +296,7 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
               onSave={onSave}
             />
           )}
+          {tab === 4 && <HelpView />}
         </DragDropContext>
 
         {loading && (
