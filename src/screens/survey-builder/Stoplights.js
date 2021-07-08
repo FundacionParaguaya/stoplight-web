@@ -2,22 +2,23 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Tooltip from '@material-ui/core/Tooltip';
 import { FolderOpen, HelpOutline } from '@material-ui/icons/';
 import DimensionsIcon from '@material-ui/icons/MenuBook';
 import React, { useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import withLayout from '../../components/withLayout';
 import { updateSurvey } from '../../redux/actions';
 import { COLORS } from '../../theme';
+import HelpView from './HelpView';
 import ProgressBar from './ProgressBar';
 import DimensionLibrary from './stoplight/DimensionLibrary';
 import IndicatorLibrary from './stoplight/IndicatorLibrary';
 import StoplightDimensionForm from './stoplight/StoplightDimensionForm';
 import StoplightPreview from './stoplight/StoplightPreview';
-import { useTranslation } from 'react-i18next';
-import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -208,7 +209,10 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
           indicatorColor="primary"
           textColor="primary"
           value={tab}
-          onChange={(event, value) => setTab(value)}
+          onChange={(event, value) => {
+            setDimensionForm(false);
+            setTab(value);
+          }}
           classes={{ root: classes.tabsRoot }}
         >
           <Tab
@@ -275,6 +279,7 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
               onSave={onSave}
             />
           )}
+          {tab === 3 && <HelpView />}
         </DragDropContext>
 
         {dimensionForm && (

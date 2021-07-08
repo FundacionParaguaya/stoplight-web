@@ -7,6 +7,7 @@ import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextInput from '../../../components/TextInput';
+import HelpArticle from '../HelpArticle';
 import AudioUploader from '../AudioUploader';
 
 const useStyles = makeStyles(theme => ({
@@ -30,8 +31,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.default,
     width: 600,
     minHeight: '35vh',
-    marginTop: '2rem',
     padding: '2rem'
+  },
+  articleContainer: {
+    width: '-webkit-fill-available',
+    maxWidth: 600,
+    height: 339,
+    marginLeft: '2rem'
   },
   buttonContainer: {
     marginTop: '2rem',
@@ -70,24 +76,29 @@ const TopicForm = ({ topic, updateTopics, toggle }) => {
         </Typography>
       </div>
 
-      <div className={classes.formContainer}>
-        <TextInput
-          label={t('views.surveyBuilder.title')}
-          value={formTopic.text}
-          onChange={e => {
-            setFormTopic({ ...formTopic, text: e.target.value });
-          }}
-        />
-        <Typography variant="subtitle2" style={{ marginTop: '1rem' }}>
-          {t('views.surveyBuilder.audioSupport')}
-        </Typography>
+      <div className={classes.container}>
+        <div className={classes.formContainer}>
+          <TextInput
+            label={t('views.surveyBuilder.title')}
+            value={formTopic.text}
+            onChange={e => {
+              setFormTopic({ ...formTopic, text: e.target.value });
+            }}
+          />
+          <Typography variant="subtitle2" style={{ marginTop: '1rem' }}>
+            {t('views.surveyBuilder.audioSupport')}
+          </Typography>
 
-        <AudioUploader
-          audioUrl={formTopic.audioUrl}
-          onChange={url => {
-            setFormTopic({ ...formTopic, audioUrl: url });
-          }}
-        />
+          <AudioUploader
+            audioUrl={formTopic.audioUrl}
+            onChange={url => {
+              setFormTopic({ ...formTopic, audioUrl: url });
+            }}
+          />
+        </div>
+        <div className={classes.articleContainer}>
+          <HelpArticle section={'TOPIC_FORM'} />
+        </div>
       </div>
       <div className={classes.buttonContainer}>
         <Button

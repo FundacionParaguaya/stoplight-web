@@ -1271,7 +1271,8 @@
           "displayOptions": "Mostrar Opciones"
         },
         "singleTopic": "Tema",
-        "newQuestion": "Nueva pregunta"
+        "newQuestion": "Nueva pregunta",
+        "info": "Librería de preguntas socioeconómicas ya en uso"
       },
       "audioSupport": "Soporte de audio",
       "title": "Título",
@@ -1314,7 +1315,9 @@
           "YELLOW": "Definición amarillo",
           "RED": "Definición rojo"
         },
-        "dimensionLibrary": "Biblioteca de Dimension"
+        "dimensionLibrary": "Biblioteca de Dimension",
+        "libraryInfo": "Biblioteca de indicadores ya en uso",
+        "dimensionLibraryInfo": "Biblioteca de dimensiones existentes"
       },
       "summary": {
         "title": "Resumen de la encuesta",
@@ -1332,7 +1335,8 @@
         "goTo": "Ir a la lista de encuestas",
         "confirm": "Confirmar"
       },
-      "help": "Ayudar"
+      "help": "Ayudar",
+      "helpArtilceNotFound": "¡No se encontró el artículo %s!"
     }
   },
   "reports": {

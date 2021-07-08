@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 
 const styles = theme => ({
   sectionCard: {
+    width: '100%',
     marginTop: 16,
     padding: 30,
     backgroundColor: theme.palette.background.default,
@@ -39,7 +40,7 @@ const ArticleList = ({
 }) => {
   const dateFormat = getDateFormatByLocale(language);
   return (
-    <div>
+    <React.Fragment>
       {articles.map(article => {
         return (
           <Paper
@@ -92,7 +93,7 @@ const ArticleList = ({
           </Paper>
         );
       })}
-    </div>
+    </React.Fragment>
   );
 };
 
