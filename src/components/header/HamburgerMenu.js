@@ -11,7 +11,7 @@ import DehazeIcon from '@material-ui/icons/Dehaze';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { ROLE_SURVEY_TAKER } from '../utils/role-utils';
+import { ROLE_SURVEY_TAKER } from '../../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DropdownMenu = ({ tabs, user }) => {
+const HamburgerMenu = ({ tabs, user }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -122,4 +122,4 @@ const DropdownMenu = ({ tabs, user }) => {
   );
 };
 
-export default DropdownMenu;
+export default HamburgerMenu;
