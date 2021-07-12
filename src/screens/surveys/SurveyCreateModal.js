@@ -148,6 +148,8 @@ const SurveyCreateModal = ({
             conditionalQuestions
           );
           updateSurvey({
+            surveyEconomicQuestions: [],
+            surveyStoplightQuestions: [],
             ...survey,
             ...data,
             economicScreens,
