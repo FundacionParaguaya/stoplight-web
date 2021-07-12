@@ -1487,11 +1487,18 @@ export const addOrUpdateUser = (user, values) => {
 
 export const deleteUser = (user, userId) =>
   axios({
-    method: 'delete',
-    url: `${url[user.env]}/api/v1/users/${userId}`,
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
     headers: {
       Authorization: `Bearer ${user.token}`
-    }
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteUser($user: Long!) { deleteUser (user: $user) { successful } }',
+      variables: {
+        user: userId
+      }
+    })
   });
 
 export const checkUserName = (user, username) =>
