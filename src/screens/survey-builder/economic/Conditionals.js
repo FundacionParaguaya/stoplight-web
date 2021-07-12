@@ -514,7 +514,6 @@ const operatorsSelectStyle = {
     boxShadow: 'none',
     overflowY: 'auto',
     maxHeight: 75,
-    height: 55,
     paddingRight: 11,
     width: '100%'
   })
@@ -535,7 +534,6 @@ const optionSelectStyle = {
     boxShadow: 'none',
     overflowY: 'auto',
     maxHeight: 75,
-    height: 55,
     paddingRight: 11,
     paddingLeft: 8,
     width: '100%'
