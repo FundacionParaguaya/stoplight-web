@@ -107,9 +107,7 @@ const useStyles = makeStyles(theme => ({
 const validationSchema = Yup.object({
   signSupport: Yup.bool(),
   pictureSupport: Yup.bool(),
-  minimumPriorities: Yup.number(),
-  randomOrder: Yup.bool(),
-  hasQuestionsWithScore: Yup.bool()
+  minimumPriorities: Yup.number()
 });
 
 const Summary = ({ user, currentSurvey, updateSurvey }) => {
@@ -170,9 +168,6 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
         initialValues={{
           signSupport: currentSurvey.surveyConfig.signSupport || false,
           pictureSupport: currentSurvey.surveyConfig.pictureSupport || false,
-          randomOrder: currentSurvey.surveyConfig.randomOrder || false,
-          hasQuestionsWithScore:
-            currentSurvey.surveyConfig.hasQuestionsWithScore || false,
           minimumPriorities: currentSurvey.minimumPriorities || '0'
         }}
         validationSchema={validationSchema}
@@ -249,28 +244,6 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
                     )
                   }
                   checked={values.pictureSupport}
-                />
-                <CheckboxInput
-                  label={t('views.surveyBuilder.summary.random')}
-                  onChange={() =>
-                    updateSettings(
-                      setFieldValue,
-                      'randomOrder',
-                      !values.randomOrder
-                    )
-                  }
-                  checked={values.randomOrder}
-                />
-                <CheckboxInput
-                  label={t('views.surveyBuilder.summary.score')}
-                  onChange={() =>
-                    updateSettings(
-                      setFieldValue,
-                      'hasQuestionsWithScore',
-                      !values.hasQuestionsWithScore
-                    )
-                  }
-                  checked={values.hasQuestionsWithScore}
                 />
                 <div className={classes.lifeMapTitleContainer}>
                   <BlurOnIcon className={classes.icon} />
