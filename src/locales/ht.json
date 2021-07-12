@@ -1238,7 +1238,7 @@
         "fieldTypes": "Kalite jaden",
         "conditionalLogic": "Lojik kondisyonèl",
         "deleteTopic": "Efase Topic",
-        "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la.",
+        "dropHere": "Trennen ak gout kesyon ou isit la. \nMen, sonje ke ou bezwen yon sijè an premye!",
         "topic": {
           "new": "Nouvo sijè",
           "error": "Non sijè pa ka vid",
@@ -1272,7 +1272,8 @@
         },
         "singleTopic": "Sijè",
         "newQuestion": "Nouvo Kesyon",
-        "info": "Bibliyotèk nan kesyon Ekonomi deja nan itilize"
+        "info": "Bibliyotèk nan kesyon Ekonomi deja nan itilize",
+        "forFamilyMembers": "Pou manm fanmi yo"
       },
       "audioSupport": "Sipò Audio",
       "title": "Tit",
@@ -1317,7 +1318,8 @@
         },
         "dimensionLibrary": "Bibliyotèk Dimansyon an",
         "libraryInfo": "Bibliyotèk endikatè ki deja itilize",
-        "dimensionLibraryInfo": "Bibliyotèk nan dimansyon ki deja egziste"
+        "dimensionLibraryInfo": "Bibliyotèk nan dimansyon ki deja egziste",
+        "dropHere": "Lage endikatè ou isit la men sonje ke ou bezwen yon dimansyon an premye"
       },
       "summary": {
         "title": "Rezime Sondaj",

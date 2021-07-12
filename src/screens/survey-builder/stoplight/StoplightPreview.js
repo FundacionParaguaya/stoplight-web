@@ -118,6 +118,10 @@ const StoplightPreview = ({
             variant="contained"
             className={classes.button}
             onClick={() => handleDeleteDimension()}
+            disabled={
+              !selectedSurveyDimension ||
+              !Number.isInteger(selectedSurveyDimension.value)
+            }
           >
             {t('views.surveyBuilder.stoplight.deleteDimension')}
           </Button>
@@ -126,80 +130,82 @@ const StoplightPreview = ({
             variant="contained"
             className={classes.button}
             onClick={() => toggleDimensionForm()}
+            disabled={
+              !selectedSurveyDimension ||
+              !Number.isInteger(selectedSurveyDimension.value)
+            }
           >
             {t('views.surveyBuilder.stoplight.editDimension')}
           </Button>
         </div>
       </div>
-      {!!selectedSurveyDimension && (
-        <Droppable droppableId="survey">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className={classes.surveyQuestions}
-            >
-              {Array.isArray(currentSurvey.surveyStoplightQuestions) &&
-                currentSurvey.surveyStoplightQuestions
-                  .filter(q => q.dimension === selectedSurveyDimension.text)
-                  .map((question, index) => (
-                    <Draggable
-                      key={question.codeName}
-                      draggableId={question.codeName}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <React.Fragment key={index}>
-                          {question.codeName === selectedQuestion ? (
-                            <StoplightQuestionForm
-                              itemRef={provided.innerRef}
-                              draggableProps={{
-                                ...provided.draggableProps,
-                                ...provided.dragHandleProps
-                              }}
-                              question={question}
-                              updateQuestion={question =>
-                                updateQuestion(question)
-                              }
-                              afterSubmit={() => setSelectedQuestion('')}
-                            />
-                          ) : (
-                            <StoplightQuestion
-                              itemRef={provided.innerRef}
-                              draggableProps={{
-                                ...provided.draggableProps,
-                                ...provided.dragHandleProps
-                              }}
-                              order={index + 1}
-                              question={question}
-                              setSelectedQuestion={setSelectedQuestion}
-                              handleDelete={() =>
-                                deleteQuestion(question.codeName)
-                              }
-                              setSurveyQuestion={() =>
-                                setSurveyQuestion(question)
-                              }
-                            />
-                          )}
-                        </React.Fragment>
-                      )}
-                    </Draggable>
-                  ))}
-              {!!selectedSurveyDimension &&
-                (!Array.isArray(currentSurvey.surveyStoplightQuestions) ||
-                  currentSurvey.surveyStoplightQuestions.filter(
-                    q => q.dimension === selectedSurveyDimension.text
-                  ).length === 0) && (
-                  <div className={classes.placeHolder}>
-                    <Typography variant="h6">
-                      {t('views.surveyBuilder.economic.dropHere')}
-                    </Typography>
-                  </div>
-                )}
-            </div>
-          )}
-        </Droppable>
-      )}
+
+      <Droppable droppableId="survey">
+        {(provided, snapshot) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className={classes.surveyQuestions}
+          >
+            {!!selectedSurveyDimension &&
+              currentSurvey.surveyStoplightQuestions
+                .filter(q => q.dimension === selectedSurveyDimension.text)
+                .map((question, index) => (
+                  <Draggable
+                    key={question.codeName}
+                    draggableId={question.codeName}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <React.Fragment key={index}>
+                        {question.codeName === selectedQuestion ? (
+                          <StoplightQuestionForm
+                            itemRef={provided.innerRef}
+                            draggableProps={{
+                              ...provided.draggableProps,
+                              ...provided.dragHandleProps
+                            }}
+                            question={question}
+                            updateQuestion={question =>
+                              updateQuestion(question)
+                            }
+                            afterSubmit={() => setSelectedQuestion('')}
+                          />
+                        ) : (
+                          <StoplightQuestion
+                            itemRef={provided.innerRef}
+                            draggableProps={{
+                              ...provided.draggableProps,
+                              ...provided.dragHandleProps
+                            }}
+                            order={index + 1}
+                            question={question}
+                            setSelectedQuestion={setSelectedQuestion}
+                            handleDelete={() =>
+                              deleteQuestion(question.codeName)
+                            }
+                            setSurveyQuestion={() =>
+                              setSurveyQuestion(question)
+                            }
+                          />
+                        )}
+                      </React.Fragment>
+                    )}
+                  </Draggable>
+                ))}
+            {(!selectedSurveyDimension ||
+              currentSurvey.surveyStoplightQuestions.filter(
+                q => q.dimension === selectedSurveyDimension.text
+              ).length === 0) && (
+              <div className={classes.placeHolder}>
+                <Typography variant="h6">
+                  {t('views.surveyBuilder.stoplight.dropHere')}
+                </Typography>
+              </div>
+            )}
+          </div>
+        )}
+      </Droppable>
 
       <div className={classes.buttonContainer}>
         <Button color="primary" variant="contained" onClick={() => onSave()}>

@@ -1243,7 +1243,7 @@
           "editTopic": "Edit Topic"
         },
         "deleteTopic": "Delete Topic",
-        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here.",
+        "dropHere": "Drag and drop your questions here. But remember that you need a topic first!",
         "conditional": "Survey’s Conditional Logic",
         "conditionals": {
           "optionPlaceholder": "-- Select an option --",
@@ -1272,7 +1272,8 @@
         },
         "singleTopic": "Topic",
         "newQuestion": "New Question",
-        "info": "Library of economics questions already in use"
+        "info": "Library of economics questions already in use",
+        "forFamilyMembers": "For family members"
       },
       "audioSupport": "Audio Support",
       "title": "Title",
@@ -1317,7 +1318,8 @@
         },
         "dimensionLibrary": "Dimension's Library",
         "libraryInfo": "Library of indicators already in use",
-        "dimensionLibraryInfo": "Library of existing dimensions"
+        "dimensionLibraryInfo": "Library of existing dimensions",
+        "dropHere": "Drop your indidicators here but remember that you need a dimension first"
       },
       "summary": {
         "title": "Survey Summary",

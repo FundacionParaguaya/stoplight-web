@@ -54,7 +54,7 @@ const PreviewTabs = ({
   const classes = useStyles();
   return (
     <Tabs
-      value={selectedSurveyTopic.value}
+      value={selectedSurveyTopic ? selectedSurveyTopic.value : 0}
       onChange={(event, value) =>
         setSelectedSurveyTopic(surveyTopics.find(s => s.value === value))
       }
