@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
 const validationSchema = Yup.object({
   signSupport: Yup.bool(),
   pictureSupport: Yup.bool(),
-  minimumPriorities: Yup.number()
+  minimumPriorities: Yup.number().min(0)
 });
 
 const Summary = ({ user, currentSurvey, updateSurvey }) => {
@@ -257,7 +257,8 @@ const Summary = ({ user, currentSurvey, updateSurvey }) => {
                 <div className={classes.mandatoryNumber}>
                   <InputWithLabel
                     title={t('views.surveyBuilder.summary.mandatoryNumber')}
-                    inputProps={{ maxLength: '5' }}
+                    inputProps={{ min: 0 }}
+                    type={'number'}
                     name="minimumPriorities"
                     onChange={e => {
                       setFieldValue('minimumPriorities', e.target.value);
