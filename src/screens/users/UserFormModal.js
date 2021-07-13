@@ -126,7 +126,7 @@ const UserFormModal = ({
 
   const fieldIsRequired = 'validation.fieldIsRequired';
 
-  //Validation criterias
+  // Validation criterias
   const validationSchema = Yup.object({
     username: Yup.string()
       .required(fieldIsRequired)
@@ -209,6 +209,12 @@ const UserFormModal = ({
     setLoading(false);
   }, [userToEdit.id]);
 
+  const onClose = submitted => {
+    submitted && afterSubmit();
+    toggleModal();
+    setUserToEdit({});
+  };
+
   const onSubmit = values => {
     // setLoading(true);
     delete values.confirmPassword;
@@ -238,7 +244,7 @@ const UserFormModal = ({
       })
       .catch(e => {
         console.log(e);
-        enqueueSnackbar(t('views.user.form.save.failed'), {
+        enqueueSnackbar(e.response.data.message, {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -288,12 +294,6 @@ const UserFormModal = ({
 
       return roles;
     }
-  };
-
-  const onClose = submitted => {
-    submitted && afterSubmit();
-    toggleModal();
-    setUserToEdit({});
   };
 
   const showHubName = ({ role }) =>

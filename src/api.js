@@ -1485,22 +1485,6 @@ export const addOrUpdateUser = (user, values) => {
   }
 };
 
-export const deleteUser = (user, userId) =>
-  axios({
-    method: 'post',
-    url: `${url[user.env]}/graphql`,
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    },
-    data: JSON.stringify({
-      query:
-        'mutation deleteUser($user: Long!) { deleteUser (user: $user) { successful } }',
-      variables: {
-        user: userId
-      }
-    })
-  });
-
 export const checkUserName = (user, username) =>
   axios({
     method: 'get',
@@ -1545,6 +1529,23 @@ const normalizeLanguages = lang => {
   };
   return languages[lang] || languages['en'];
 };
+
+export const deleteUser = (user, userId, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteUser($user: Long!) { deleteUser (user: $user) { successful } }',
+      variables: {
+        user: userId
+      }
+    })
+  });
 
 export const downloadReports = (user, filters, lang) =>
   axios({

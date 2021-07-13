@@ -9,7 +9,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { deleteUser } from '../../api';
 import face from '../../assets/serious_face.png';
@@ -76,15 +76,21 @@ const DeleteUserModal = ({
   user,
   userToDelete,
   enqueueSnackbar,
-  closeSnackbar
+  closeSnackbar,
+  i18n: { language }
 }) => {
   const classes = useStyles();
   const [deletingUser, setDeletingUser] = useState(false);
   const { t } = useTranslation();
 
+  const onClose = () => {
+    afterSubmit();
+    toggleModal();
+  };
+
   const onDeleteClicked = () => {
     setDeletingUser(true);
-    deleteUser(user, userToDelete.id)
+    deleteUser(user, userToDelete.id, language)
       .then(() => {
         setDeletingUser(false);
         onClose({ deleteModalOpen: false });
@@ -99,7 +105,7 @@ const DeleteUserModal = ({
       })
       .catch(e => {
         console.log(e);
-        enqueueSnackbar(t('views.user.delete.failed'), {
+        enqueueSnackbar(e.response.data.message, {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -112,10 +118,6 @@ const DeleteUserModal = ({
       });
   };
 
-  const onClose = () => {
-    afterSubmit();
-    toggleModal();
-  };
   return (
     <Modal open={open} onClose={() => toggleModal()}>
       <div className={classes.mainContainer}>
@@ -162,4 +164,6 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(withSnackbar(DeleteUserModal));
+export default connect(mapStateToProps)(
+  withTranslation()(withSnackbar(DeleteUserModal))
+);
