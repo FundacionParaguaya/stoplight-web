@@ -137,7 +137,8 @@ const colorPreviewStyle = makeStyles(theme => ({
     padding: theme.spacing(1),
     borderRadius: theme.spacing(1),
     border: '1px solid #E0E0E0',
-    wordBreak: 'break-word'
+    wordBreak: 'break-word',
+    height: '100%'
   }
 }));
 
