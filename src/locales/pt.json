@@ -1238,7 +1238,7 @@
         "fieldTypes": "Tipos de Campo",
         "conditionalLogic": "Lógica Condicional",
         "deleteTopic": "Apagar Tópico",
-        "dropHere": "Arraste e solte suas perguntas aqui. \nMas lembre-se de que você precisa primeiro de um tópico!",
+        "dropHere": "Arraste e solte suas perguntas aqui. Mas lembre-se de que você precisa primeiro de um tópico!",
         "topic": {
           "new": "Novo topico",
           "error": "O nome do tópico não pode estar vazio",

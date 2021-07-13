@@ -1238,7 +1238,7 @@
         "fieldTypes": "Tipos de campo",
         "conditionalLogic": "Lógica condicional",
         "deleteTopic": "Eliminar tema",
-        "dropHere": "Arrastra y suelta tus preguntas aquí. \nPero recuerda que primero necesitas un tema!",
+        "dropHere": "Arrastra y suelta tus preguntas aquí. Pero recuerda que primero necesitas un tema!",
         "topic": {
           "new": "Nuevo tema",
           "error": "El nombre del tema no puede estar vacío",
