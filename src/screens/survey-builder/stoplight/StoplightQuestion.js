@@ -133,7 +133,6 @@ const colorPreviewStyle = makeStyles(theme => ({
     borderRadius: '0 0 4px 4px'
   },
   description: {
-    height: '60%',
     marginTop: theme.spacing(2),
     padding: theme.spacing(1),
     borderRadius: theme.spacing(1),
