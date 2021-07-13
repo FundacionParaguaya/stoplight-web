@@ -18,13 +18,12 @@ import { Gmaps } from 'react-gmaps';
 import Geocode from 'react-geocode';
 import { updateDraft } from '../../redux/actions';
 import TitleBar from '../../components/TitleBar';
-// import Form from '../../components/Form';
 import Container from '../../components/Container';
 import BottomSpacer from '../../components/BottomSpacer';
 import LocationIcon from '../../assets/location.png';
 import MarkerIcon from '../../assets/marker.png';
 
-const params = { v: '3.exp', key: 'AIzaSyDF4n6tIKlZ6m1EVoV3riz6ENQgVeBPNmU' };
+const params = { v: '3.exp', key: process.env.MAP_API_KEY || '' };
 Geocode.setApiKey(params.key);
 
 class Location extends Component {
@@ -297,10 +296,6 @@ class Location extends Component {
 
           {/* Map End */}
 
-          {/* <Form
-            onSubmit={this.handleContinue}
-            submitLabel={t('general.continue')}
-          /> */}
           <div className={classes.buttonContainerForm}>
             <Button
               type="submit"
