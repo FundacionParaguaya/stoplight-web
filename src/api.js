@@ -1447,13 +1447,24 @@ export const getUsersPaginated = (
     })
   });
 
-export const addOrUpdateUser = (user, values) => {
+const normalizeLanguages = lang => {
+  const languages = {
+    en: 'en_US',
+    es: 'es_PY',
+    pt: 'pt_BR',
+    ht: 'ht_HT'
+  };
+  return languages[lang] || languages['en'];
+};
+
+export const addOrUpdateUser = (user, values, lang) => {
   if (!values.id) {
     return axios({
       method: 'post',
       url: `${url[user.env]}/graphql`,
       headers: {
-        Authorization: `Bearer ${user.token}`
+        Authorization: `Bearer ${user.token}`,
+        'X-locale': normalizeLanguages(lang)
       },
       data: JSON.stringify({
         query: `mutation createUser($user: UserModelInput) {createUser(user: $user){username} }`,
@@ -1467,7 +1478,8 @@ export const addOrUpdateUser = (user, values) => {
       method: 'post',
       url: `${url[user.env]}/graphql`,
       headers: {
-        Authorization: `Bearer ${user.token}`
+        Authorization: `Bearer ${user.token}`,
+        'X-locale': normalizeLanguages(lang)
       },
       data: JSON.stringify({
         query: `mutation updateUser($user: UserModelInput) {updateUser(user: $user){username} }`,
@@ -1519,16 +1531,6 @@ export const searchRecords = (user, filters) =>
       }
     })
   });
-
-const normalizeLanguages = lang => {
-  const languages = {
-    en: 'en_US',
-    es: 'es_PY',
-    pt: 'pt_BR',
-    ht: 'ht_HT'
-  };
-  return languages[lang] || languages['en'];
-};
 
 export const deleteUser = (user, userId, lang) =>
   axios({

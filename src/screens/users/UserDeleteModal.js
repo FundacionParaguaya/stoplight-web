@@ -80,7 +80,10 @@ const DeleteUserModal = ({
 }) => {
   const classes = useStyles();
   const [deletingUser, setDeletingUser] = useState(false);
-  const { t, i18n } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
 
   const onClose = () => {
     afterSubmit();
@@ -89,7 +92,7 @@ const DeleteUserModal = ({
 
   const onDeleteClicked = () => {
     setDeletingUser(true);
-    deleteUser(user, userToDelete.id, i18n.language)
+    deleteUser(user, userToDelete.id, language)
       .then(() => {
         setDeletingUser(false);
         onClose({ deleteModalOpen: false });

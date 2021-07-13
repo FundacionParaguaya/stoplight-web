@@ -117,7 +117,10 @@ const UserFormModal = ({
 }) => {
   const isEdit = !!userId;
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [openExitModal, setOpenExitModal] = useState(false);
   const [userToEdit, setUserToEdit] = useState({});
@@ -228,7 +231,8 @@ const UserFormModal = ({
 
     addOrUpdateUser(user, {
       ...values,
-      projects: projects
+      projects: projects,
+      language
     })
       .then(() => {
         // setLoading(false);
