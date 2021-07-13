@@ -9,7 +9,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import { withSnackbar } from 'notistack';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { deleteUser } from '../../api';
 import face from '../../assets/serious_face.png';
@@ -76,12 +76,11 @@ const DeleteUserModal = ({
   user,
   userToDelete,
   enqueueSnackbar,
-  closeSnackbar,
-  i18n: { language }
+  closeSnackbar
 }) => {
   const classes = useStyles();
   const [deletingUser, setDeletingUser] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const onClose = () => {
     afterSubmit();
@@ -90,7 +89,7 @@ const DeleteUserModal = ({
 
   const onDeleteClicked = () => {
     setDeletingUser(true);
-    deleteUser(user, userToDelete.id, language)
+    deleteUser(user, userToDelete.id, i18n.language)
       .then(() => {
         setDeletingUser(false);
         onClose({ deleteModalOpen: false });
@@ -164,6 +163,4 @@ const mapStateToProps = ({ user }) => ({
   user
 });
 
-export default connect(mapStateToProps)(
-  withTranslation()(withSnackbar(DeleteUserModal))
-);
+export default connect(mapStateToProps)(withSnackbar(DeleteUserModal));
