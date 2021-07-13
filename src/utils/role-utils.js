@@ -14,7 +14,7 @@ export const ROLES = {
     { item: 'hubs', platform: NEW },
     { item: 'organizations', platform: ACCESS },
     { item: 'projects', platform: ACCESS },
-    { item: 'surveysList', platform: NEW },
+    { item: 'surveysList', platform: NEW, options: ['dimensions'] },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
