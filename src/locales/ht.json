@@ -1338,7 +1338,10 @@
         "confirm": "Konfime"
       },
       "help": "Ede",
-      "helpArtilceNotFound": "Atik %s pa te jwenn!"
+      "helpArtilceNotFound": "Atik %s pa te jwenn!",
+      "familyDetails": {
+        "showAs": "Montre nan tablodbò tankou:"
+      }
     }
   },
   "reports": {

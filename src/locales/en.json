@@ -1338,7 +1338,10 @@
         "confirm": "Confirm"
       },
       "help": "Help",
-      "helpArtilceNotFound": "%s article was not found!"
+      "helpArtilceNotFound": "%s article was not found!",
+      "familyDetails": {
+        "showAs": "Show in dashboard as:"
+      }
     }
   },
   "reports": {

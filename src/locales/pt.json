@@ -1338,7 +1338,10 @@
         "confirm": "confirme"
       },
       "help": "Ajuda",
-      "helpArtilceNotFound": "%s artigo não foi encontrado!"
+      "helpArtilceNotFound": "%s artigo não foi encontrado!",
+      "familyDetails": {
+        "showAs": "Mostrar no painel como:"
+      }
     }
   },
   "reports": {
