@@ -16,6 +16,7 @@ export const ROLES = {
     { item: 'projects', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
     { item: 'libraries', platform: NEW, options: ['dimensions'] },
+    { item: 'dimensions', platform: ACCESS },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
@@ -137,6 +138,8 @@ export const roleHasMoreThanOneAccess = role => {
 };
 
 export const checkAccess = ({ role }, item) => {
+  console.log('role', role);
+  console.log('item', item);
   return !!role && !!ROLES[role].find(r => r.item === item);
 };
 

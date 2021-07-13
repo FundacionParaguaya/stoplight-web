@@ -209,6 +209,9 @@
       },
       "yourSurveys": "Encuestas de su organización"
     },
+    "dimensions": {
+      "create": "Crear dimensión"
+    },
     "analytics": {
       "title": "Analíticas",
       "subtitle": "Estamos trabajando para mejorar nuestra plataforma!",

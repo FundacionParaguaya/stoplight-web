@@ -209,6 +209,9 @@
       },
       "yourSurveys": "Your  organizations surveys"
     },
+    "dimensions": {
+      "create": "Create Dimension"
+    },
     "analytics": {
       "title": "Analytics",
       "subtitle": "We are working to improve our platform",

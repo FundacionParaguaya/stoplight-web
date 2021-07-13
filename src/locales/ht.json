@@ -169,6 +169,9 @@
       },
       "yourSurveys": "Sondaj òganizasyon ou yo"
     },
+    "dimensions": {
+      "create": "Kreye dimansyon"
+    },
     "analytics": {
       "title": "Analize",
       "subtitle": "N ap travay pou n amelyore platfòm nan",
