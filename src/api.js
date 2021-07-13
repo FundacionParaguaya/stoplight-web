@@ -43,6 +43,16 @@ const clientid = 'barClientIdPassword';
 const clientsecret = 'secret';
 const normalizeLang = lang => (lang === 'en' ? 'en_US' : 'es_PY');
 
+const normalizeLanguages = lang => {
+  const languages = {
+    en: 'en_US',
+    es: 'es_PY',
+    pt: 'pt_BR',
+    ht: 'ht_HT'
+  };
+  return languages[lang] || languages['en'];
+};
+
 export const sendMail = (document, mail, user, lang) => {
   const formData = new FormData();
   formData.set('file', document);
@@ -1446,16 +1456,6 @@ export const getUsersPaginated = (
       }
     })
   });
-
-const normalizeLanguages = lang => {
-  const languages = {
-    en: 'en_US',
-    es: 'es_PY',
-    pt: 'pt_BR',
-    ht: 'ht_HT'
-  };
-  return languages[lang] || languages['en'];
-};
 
 export const addOrUpdateUser = (user, values, lang) => {
   if (!values.id) {

@@ -219,7 +219,6 @@ const UserFormModal = ({
   };
 
   const onSubmit = values => {
-    // setLoading(true);
     delete values.confirmPassword;
     if (user.role === ROLES_NAMES.ROLE_APP_ADMIN)
       values.organization = user.organization.id;
@@ -229,13 +228,15 @@ const UserFormModal = ({
 
     const projects = values.projects.map(project => ({ id: project.value }));
 
-    addOrUpdateUser(user, {
-      ...values,
-      projects: projects,
+    addOrUpdateUser(
+      user,
+      {
+        ...values,
+        projects: projects
+      },
       language
-    })
+    )
       .then(() => {
-        // setLoading(false);
         onClose(true);
         enqueueSnackbar(t('views.user.form.save.success'), {
           variant: 'success',
