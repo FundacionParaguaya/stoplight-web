@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 16,
     fontWeight: 500,
     textTransform: 'none',
+    wordBreak: 'break-word',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14
     }

@@ -25,6 +25,7 @@ const RadioInput = ({
 
 const FilledFormControlLabel = withStyles(() => ({
   root: {
+    wordBreak: 'break-word',
     marginLeft: 0,
     minWidth: '100%',
     borderRadius: 50,
