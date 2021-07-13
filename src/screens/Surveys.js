@@ -18,6 +18,7 @@ import Container from '../components/Container';
 import SearchTextFilter from '../components/filters/SearchTextFilter';
 import RadioInput from '../components/RadioInput';
 import withLayout from '../components/withLayout';
+import { updateSurvey } from '../redux/actions';
 import { getDateFormatByLocale } from '../utils/date-utils';
 import { ROLES_NAMES } from '../utils/role-utils';
 import AssignModal from './surveys/AssignModal';
@@ -122,7 +123,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Surveys = ({ user }) => {
+const Surveys = ({ user, updateSurvey }) => {
   const classes = useStyles();
   const {
     t,
@@ -173,6 +174,7 @@ const Surveys = ({ user }) => {
 
   useEffect(() => {
     getSurveys(false);
+    updateSurvey({});
   }, []);
 
   useEffect(() => {
@@ -390,6 +392,11 @@ const Surveys = ({ user }) => {
   );
 };
 
+const mapDispatchToProps = { updateSurvey };
+
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps)(withLayout(Surveys));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withLayout(Surveys));

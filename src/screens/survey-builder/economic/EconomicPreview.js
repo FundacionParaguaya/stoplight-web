@@ -82,9 +82,9 @@ const EconomicPreview = ({
       });
       setSelectedSurveyTopic(data[0] || {});
       setSurveyTopics(data);
-    } else {
-      if (!selectedSurveyTopic.value) setSelectedSurveyTopic(surveyTopics[0]);
     }
+    !selectedSurveyTopic &&
+      setSelectedSurveyTopic(data[0] || surveyTopics[0] || {});
   }, []);
 
   const updateQuestion = question => {
@@ -123,6 +123,10 @@ const EconomicPreview = ({
             variant="contained"
             className={classes.topicButton}
             onClick={() => handleDeleteTopic(selectedSurveyTopic)}
+            disabled={
+              !selectedSurveyTopic ||
+              !Number.isInteger(selectedSurveyTopic.value)
+            }
           >
             {t('views.surveyBuilder.economic.deleteTopic')}
           </Button>
@@ -131,80 +135,82 @@ const EconomicPreview = ({
             variant="contained"
             className={classes.topicButton}
             onClick={() => toggleTopicForm()}
+            disabled={
+              !selectedSurveyTopic ||
+              !Number.isInteger(selectedSurveyTopic.value)
+            }
           >
             {t('views.surveyBuilder.economic.editTopic')}
           </Button>
         </div>
       </div>
-      {!!selectedSurveyTopic && (
-        <Droppable droppableId="survey">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className={classes.surveyQuestions}
-            >
-              {Array.isArray(currentSurvey.surveyEconomicQuestions) &&
-                currentSurvey.surveyEconomicQuestions
-                  .filter(q => q.topic === selectedSurveyTopic.text)
-                  .map((question, index) => (
-                    <Draggable
-                      key={question.codeName}
-                      draggableId={question.codeName}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <React.Fragment key={index}>
-                          {question.codeName === selectedQuestion ? (
-                            <EconomicQuestionForm
-                              itemRef={provided.innerRef}
-                              draggableProps={{
-                                ...provided.draggableProps,
-                                ...provided.dragHandleProps
-                              }}
-                              question={question}
-                              updateQuestion={question =>
-                                updateQuestion(question)
-                              }
-                              afterSubmit={() => setSelectedQuestion('')}
-                            />
-                          ) : (
-                            <Question
-                              itemRef={provided.innerRef}
-                              draggableProps={{
-                                ...provided.draggableProps,
-                                ...provided.dragHandleProps
-                              }}
-                              order={index + 1}
-                              question={question}
-                              setSelectedQuestion={setSelectedQuestion}
-                              setSurveyQuestion={() =>
-                                setSurveyQuestion(question)
-                              }
-                              handleDelete={deleteQuestion}
-                              goToConditional={goToConditional}
-                              isEconomic
-                            />
-                          )}
-                        </React.Fragment>
-                      )}
-                    </Draggable>
-                  ))}
-              {!!selectedSurveyTopic &&
-                (!Array.isArray(currentSurvey.surveyEconomicQuestions) ||
-                  currentSurvey.surveyEconomicQuestions.filter(
-                    q => q.topic === selectedSurveyTopic.text
-                  ).length === 0) && (
-                  <div className={classes.placeHolder}>
-                    <Typography variant="h6">
-                      {t('views.surveyBuilder.economic.dropHere')}
-                    </Typography>
-                  </div>
-                )}
-            </div>
-          )}
-        </Droppable>
-      )}
+
+      <Droppable droppableId="survey">
+        {(provided, snapshot) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className={classes.surveyQuestions}
+          >
+            {!!selectedSurveyTopic &&
+              currentSurvey.surveyEconomicQuestions
+                .filter(q => q.topic === selectedSurveyTopic.text)
+                .map((question, index) => (
+                  <Draggable
+                    key={question.codeName}
+                    draggableId={question.codeName}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <React.Fragment key={index}>
+                        {question.codeName === selectedQuestion ? (
+                          <EconomicQuestionForm
+                            itemRef={provided.innerRef}
+                            draggableProps={{
+                              ...provided.draggableProps,
+                              ...provided.dragHandleProps
+                            }}
+                            question={question}
+                            updateQuestion={question =>
+                              updateQuestion(question)
+                            }
+                            afterSubmit={() => setSelectedQuestion('')}
+                          />
+                        ) : (
+                          <Question
+                            itemRef={provided.innerRef}
+                            draggableProps={{
+                              ...provided.draggableProps,
+                              ...provided.dragHandleProps
+                            }}
+                            order={index + 1}
+                            question={question}
+                            setSelectedQuestion={setSelectedQuestion}
+                            setSurveyQuestion={() =>
+                              setSurveyQuestion(question)
+                            }
+                            handleDelete={deleteQuestion}
+                            goToConditional={goToConditional}
+                            isEconomic
+                          />
+                        )}
+                      </React.Fragment>
+                    )}
+                  </Draggable>
+                ))}
+            {(!selectedSurveyTopic ||
+              currentSurvey.surveyEconomicQuestions.filter(
+                q => q.topic === selectedSurveyTopic.text
+              ).length === 0) && (
+              <div className={classes.placeHolder}>
+                <Typography variant="h6">
+                  {t('views.surveyBuilder.economic.dropHere')}
+                </Typography>
+              </div>
+            )}
+          </div>
+        )}
+      </Droppable>
 
       <div className={classes.buttonContainer}>
         <Button color="primary" variant="contained" onClick={() => onSave()}>

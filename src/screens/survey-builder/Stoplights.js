@@ -96,7 +96,6 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
       }
       return;
     }
-
     // change a single indicator position
     if (source.droppableId === destination.droppableId) {
       if (source.droppableId === 'survey') {
@@ -125,18 +124,21 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
         let newDimensions = Array.from(surveyDimensions).filter(
           d => d.surveyDimensionId !== libraryDimension.surveyDimensionId
         );
-        newDimensions.push({
+        const addedDimension = {
           value: newDimensions.length,
           text: libraryDimension.name,
           ...libraryDimension
-        });
+        };
+        newDimensions.push(addedDimension);
         setSurveyDimensions(newDimensions);
+        setSelectedSurveyDimension(addedDimension);
       }
       // Add a new indicator from indicator library
       if (
         source.droppableId === 'indicatorLibrary' &&
         destination.droppableId === 'survey' &&
-        !!libraryIndicator
+        !!libraryIndicator &&
+        !!libraryDimension
       ) {
         let newIndicators = Array.from(currentSurvey.surveyStoplightQuestions);
         const dimensionIndex = newIndicators.findIndex(
@@ -178,11 +180,9 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
       updateIndicators(newIndicators);
       setSelectedSurveyDimension({ value: index, ...dimension });
     } else {
-      newDimensions.push({ value: newDimensions.length, ...dimension });
-      setSelectedSurveyDimension({
-        value: newDimensions.length - 1,
-        ...dimension
-      });
+      const value = newDimensions.length;
+      newDimensions.push({ value: value, ...dimension });
+      setSelectedSurveyDimension({ value: value, ...dimension });
     }
     setSurveyDimensions(newDimensions);
   };

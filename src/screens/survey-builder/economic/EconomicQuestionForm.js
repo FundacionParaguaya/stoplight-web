@@ -117,6 +117,7 @@ export const EconomicQuestionForm = ({
     options,
     answerType,
     otherOption = false,
+    forFamilyMember = false,
     required = false
   } = question;
 
@@ -224,6 +225,16 @@ export const EconomicQuestionForm = ({
                 checked={otherOption}
               />
             )}
+            <CheckboxInput
+              label={t('views.surveyBuilder.economic.forFamilyMembers')}
+              onChange={() => {
+                updateQuestion({
+                  ...question,
+                  forFamilyMember: !question.forFamilyMember
+                });
+              }}
+              checked={forFamilyMember}
+            />
 
             <CheckboxInput
               label={t('views.intervention.definition.required')}

@@ -196,7 +196,9 @@ export const EditQuestion = ({
                                       : option.text
                                   })
                                 }
-                                placeholder={'Mostrar en el dashboard como:'}
+                                placeholder={t(
+                                  'views.surveyBuilder.familyDetails.showAs'
+                                )}
                                 options={primaryGenders}
                                 hideSelectedOptions
                                 styles={selectStyle}

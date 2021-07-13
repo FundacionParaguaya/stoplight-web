@@ -164,7 +164,11 @@ const SurveyCreateModal = ({
           setLoading(false);
         });
     } else {
-      updateSurvey(data);
+      updateSurvey({
+        surveyEconomicQuestions: [],
+        surveyStoplightQuestions: [],
+        ...data
+      });
       history.push('/survey-builder/info');
     }
   };
