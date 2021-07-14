@@ -23,7 +23,7 @@ import BottomSpacer from '../../components/BottomSpacer';
 import LocationIcon from '../../assets/location.png';
 import MarkerIcon from '../../assets/marker.png';
 
-const params = { v: '3.exp', key: process.env.MAP_API_KEY || '' };
+const params = { v: '3.exp', key: process.env.REACT_APP_MAP_API_KEY || '' };
 Geocode.setApiKey(params.key);
 
 class Location extends Component {
