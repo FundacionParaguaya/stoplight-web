@@ -11,6 +11,9 @@ import 'firebase/analytics';
 
 import secrets from './secrets.json';
 
+console.log(process);
+console.log(process.env);
+
 const script = document.createElement('script');
 script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env
   .MAP_API_KEY || secrets['MAP_API_KEY']}&libraries=places,drawing`;
