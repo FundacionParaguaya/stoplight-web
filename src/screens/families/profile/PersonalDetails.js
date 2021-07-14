@@ -101,7 +101,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const params = { v: '3.exp', key: 'AIzaSyDF4n6tIKlZ6m1EVoV3riz6ENQgVeBPNmU' };
+const params = { v: '3.exp', key: process.env.MAP_API_KEY || '' };
 
 const PersonalDetails = ({
   primaryParticipant,
