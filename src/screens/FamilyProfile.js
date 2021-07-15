@@ -383,6 +383,7 @@ const FamilyProfile = ({
       {/* Interventions */}
       <FamilyInterventions
         familyId={familyId}
+        familyName={family.name}
         stoplightSkipped={stoplightSkipped}
         questions={
           family.snapshotIndicators &&

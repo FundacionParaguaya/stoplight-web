@@ -2448,6 +2448,7 @@ export const createOrUpdateIntervention = (
   snapshot,
   relatedIntervention,
   id,
+  family,
   params
 ) => {
   if (id) {
@@ -2478,14 +2479,17 @@ export const createOrUpdateIntervention = (
         Authorization: `Bearer ${user.token}`
       },
       data: JSON.stringify({
-        query: `mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention{id} ${params} } }`,
+        query: `mutation createIntervention($intervention: InterventionDataModelInput, $client: String) { createIntervention (intervention: $intervention, client: $client) { id  intervention{id} ${params} } }`,
         variables: {
           intervention: {
             values,
             interventionDefinition,
             snapshot,
-            intervention: relatedIntervention
-          }
+            intervention: relatedIntervention,
+            family: family.familyId,
+            familyName: family.familyName
+          },
+          client: 'WEB'
         }
       })
     });
