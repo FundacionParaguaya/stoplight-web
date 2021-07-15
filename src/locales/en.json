@@ -210,7 +210,16 @@
       "yourSurveys": "Your  organizations surveys"
     },
     "dimensions": {
-      "create": "Create Dimension"
+      "create": "Create Dimension",
+      "form": {
+        "createTitle": "Create dimension",
+        "editTitle": "Edit dimension",
+        "title": "Title",
+        "spanishTitle": "Spanish Title",
+        "englishTitle": "English Title",
+        "icon": "Icon",
+        "change": "Change icon"
+      }
     },
     "analytics": {
       "title": "Analytics",
