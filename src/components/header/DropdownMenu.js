@@ -1,16 +1,17 @@
+import React, { useState } from 'react';
+
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -80,7 +81,13 @@ const DropdownMenu = ({ placeholder, options, withArrow }) => {
           <KeyboardArrowUp className={classes.rightIcon} />
         )}
       </Button>
-      <Popper open={displayOptions} anchorEl={anchor} transition disablePortal>
+      <Popper
+        style={{ zIndex: 10 }}
+        open={displayOptions}
+        anchorEl={anchor}
+        transition
+        disablePortal
+      >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}

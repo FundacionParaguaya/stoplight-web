@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { PhoneNumberUtil } from 'google-libphonenumber';
-import store from './redux';
 import CallingCodes from './screens/lifemap/CallingCodes';
+import { PhoneNumberUtil } from 'google-libphonenumber';
+import axios from 'axios';
 import imageCompression from 'browser-image-compression';
+import store from './redux';
+
 const CancelToken = axios.CancelToken;
 let source = CancelToken.source();
 let filterSource = CancelToken.source();
@@ -2637,3 +2638,81 @@ export const indicatorsPool = (filter, language, platformLanguage, user) =>
       }
     })
   });
+
+export const getDimensionsIcons = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: 'query { dimensionsIcons { name value} }'
+    })
+  });
+
+function camelize(str) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, '');
+}
+
+export const createOrUpdateStoplightDimension = (user, values) => {
+  if (values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `"mutation updateStoplightDimension($dimension: StoplightDimensionModelInput) { updateStoplightDimension (dimension: $dimension) { id }}`,
+        variables: {
+          dimension: {
+            id: values.id,
+            iconUrl: values.icon,
+            translations: [
+              {
+                lang: 'EN',
+                translation: values.englishTitle
+              },
+              {
+                lang: 'ES',
+                translation: values.spanishTitle
+              }
+            ]
+          }
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createStoplightDimension($dimension: StoplightDimensionModelInput) { createStoplightDimension (dimension: $dimension) { id }}`,
+        variables: {
+          dimension: {
+            iconUrl: values.icon,
+            title: camelize(values.englishTitle),
+            translations: [
+              {
+                lang: 'EN',
+                translation: values.englishTitle
+              },
+              {
+                lang: 'ES',
+                translation: values.spanishTitle
+              }
+            ]
+          }
+        }
+      })
+    });
+  }
+};

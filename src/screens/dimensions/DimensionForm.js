@@ -12,13 +12,16 @@ import {
 } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import {
+  createOrUpdateStoplightDimension,
+  getDimensionsIcons
+} from '../../api';
 
 import CloseIcon from '@material-ui/icons/Close';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import InputWithFormik from '../../components/InputWithFormik';
 import PhotoSizeSelectActualSharpIcon from '@material-ui/icons/PhotoSizeSelectActualSharp';
 import { connect } from 'react-redux';
-import { getDimensionsIcons } from '../../api';
 import logo from '../../assets/dimension_income.png';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
@@ -78,24 +81,30 @@ const useStyles = makeStyles(theme => ({
   label: {
     fontWeight: 400,
     fontFamily: 'Roboto'
+  },
+  loadingContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 'auto'
   }
 }));
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 
 const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
-  const _isEdit = !!dimension.id;
+  const _isEdit = !!dimension.surveyDimensionId;
   const classes = useStyles();
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { enqueSnackbar } = useSnackbar();
   const [dimensionsIcons, setDimensionsIcons] = useState([]);
   const [loading, setLoading] = useState(false);
   const id = openIcon ? 'simple-popover' : undefined;
   const openIcon = Boolean(anchorEl);
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const validationSchema = Yup.object({
-    title: Yup.string().required(fieldIsRequired),
     spanishTitle: Yup.string().required(fieldIsRequired),
     englishTitle: Yup.string().required(fieldIsRequired)
   });
@@ -106,7 +115,6 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
   };
 
   const handleOpenChangeIcon = event => {
-    console.log('ola');
     setAnchorEl(event.currentTarget);
   };
 
@@ -121,9 +129,61 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
     });
   };
 
+  /* const dummyDimensions = [
+    {
+      surveyDimensionId: 1,
+      iconUrl:
+        'https://fp-psp-files.s3.us-east-2.amazonaws.com/dimensions-icons/dimension_income.png',
+      translations: [
+        {
+          lang: 'EN',
+          translation: 'Income and Employment'
+        },
+        {
+          lang: 'ES',
+          translation: 'Ingreso y Empleo'
+        }
+      ]
+    },
+    {
+      surveyDimensionId: 2,
+      iconUrl:
+        'https://fp-psp-files.s3.us-east-2.amazonaws.com/dimensions-icons/dimension_income.png',
+      translations: [
+        {
+          lang: 'EN',
+          translation: 'Income and Employment'
+        },
+        {
+          lang: 'ES',
+          translation: 'Ingreso y Empleo'
+        }
+      ]
+    }
+  ]; */
+
   useEffect(() => {
     loadDimensionsIcons();
   }, []);
+
+  const onSubmit = values => {
+    setLoading(true);
+    createOrUpdateStoplightDimension(user, values)
+      .then(() => {
+        onModalClose(true);
+        enqueueSnackbar(t('views.dimensions.form.save'), {
+          variant: 'success'
+        });
+      })
+      .catch(() => {
+        enqueueSnackbar(t('views.dimensions.form.failSave'), {
+          variant: 'error'
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <Modal
@@ -147,20 +207,23 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
           <CloseIcon color="primary" />
         </IconButton>
         <Formik
+          enableReinitialize
           validationSchema={validationSchema}
           initialValues={{
-            id: '',
-            title: '',
+            id:
+              (!!dimension.surveyDimensionId && dimension.surveyDimensionId) ||
+              '',
             spanishTitle: '',
             englishTitle: '',
-            icon: ''
+            icon: null
           }}
+          onSubmit={onSubmit}
         >
           {({ setFieldValue, values, touched, setTouched }) => (
             <Form noValidate>
               <InputWithFormik
-                label={t('views.dimensions.form.title')}
-                name="title"
+                label={t('views.dimensions.form.englishTitle')}
+                name="englishTitle"
                 required
                 className={classes.input}
               />
@@ -170,12 +233,7 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
                 required
                 className={classes.input}
               />
-              <InputWithFormik
-                label={t('views.dimensions.form.englishTitle')}
-                name="englishTitle"
-                required
-                className={classes.input}
-              />
+
               <div className={classes.selectorContainer}>
                 <Typography variant="subtitle1" className={classes.label}>
                   {t('views.dimensions.form.change')}

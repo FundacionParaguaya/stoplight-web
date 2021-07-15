@@ -210,7 +210,18 @@
       "yourSurveys": "Encuestas de su organización"
     },
     "dimensions": {
-      "create": "Crear dimensión"
+      "create": "Create Dimension",
+      "form": {
+        "createTitle": "Create dimension",
+        "editTitle": "Edit dimension",
+        "title": "Title",
+        "spanishTitle": "Spanish Title",
+        "englishTitle": "English Title",
+        "icon": "Icon",
+        "change": "Change icon",
+        "saved": "Saved dimension",
+        "failSave": "An error occurred while saving dimension. Try again"
+      }
     },
     "analytics": {
       "title": "Analíticas",

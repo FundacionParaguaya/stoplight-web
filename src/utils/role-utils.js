@@ -138,8 +138,6 @@ export const roleHasMoreThanOneAccess = role => {
 };
 
 export const checkAccess = ({ role }, item) => {
-  console.log('role', role);
-  console.log('item', item);
   return !!role && !!ROLES[role].find(r => r.item === item);
 };
 

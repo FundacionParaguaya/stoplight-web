@@ -218,7 +218,9 @@
         "spanishTitle": "Spanish Title",
         "englishTitle": "English Title",
         "icon": "Icon",
-        "change": "Change icon"
+        "change": "Change icon",
+        "saved": "Saved dimension",
+        "failSave": "An error occurred while saving dimension. Try again"
       }
     },
     "analytics": {
