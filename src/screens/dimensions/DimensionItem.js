@@ -1,5 +1,6 @@
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Tooltip } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
@@ -32,7 +33,12 @@ const DimensionItem = ({ item, handleClick }) => {
   return (
     <div className={classes.row}>
       <div className={classes.container} style={{ maxWidth: '80%' }}>
-        <img src={item.iconUrl} className={classes.icon} />
+        <div style={{ minWidth: 40 }}>
+          {item.iconUrl && (
+            <img src={item.iconUrl} className={classes.icon} alt="Icon" />
+          )}
+        </div>
+
         <Typography variant="subtitle1">{item.name}</Typography>
       </div>
       <div className={classes.container}>
@@ -44,6 +50,11 @@ const DimensionItem = ({ item, handleClick }) => {
       </div>
     </div>
   );
+};
+
+DimensionItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  handleClick: PropTypes.func.isRequired
 };
 
 export default DimensionItem;

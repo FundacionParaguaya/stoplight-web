@@ -2,6 +2,7 @@ import { Grid, Popover, Typography, makeStyles } from '@material-ui/core';
 
 import FormHelperText from '@material-ui/core/FormHelperText';
 import PhotoSizeSelectActualSharpIcon from '@material-ui/icons/PhotoSizeSelectActualSharp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -50,6 +51,7 @@ const IconSelector = ({
             src={icon}
             className={classes.smallIcon}
             onClick={handleChangeIcon}
+            alt="Small Icon"
           />
         ) : (
           <PhotoSizeSelectActualSharpIcon
@@ -94,6 +96,7 @@ const IconSelector = ({
                     }}
                     src={dimensionIcon.value}
                     className={classes.icon}
+                    alt="Icon"
                   />
                 </Grid>
               );
@@ -108,6 +111,17 @@ const IconSelector = ({
       )}
     </React.Fragment>
   );
+};
+
+IconSelector.propTypes = {
+  items: PropTypes.array.isRequired,
+  error: PropTypes.bool,
+  handleChangeIcon: PropTypes.func,
+  onChangeIcon: PropTypes.func,
+  onBlur: PropTypes.func,
+  anchorEl: PropTypes.object,
+  openIcon: PropTypes.bool,
+  icon: PropTypes.string
 };
 
 export default IconSelector;

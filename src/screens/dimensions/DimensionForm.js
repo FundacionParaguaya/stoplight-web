@@ -18,6 +18,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import IconSelector from './IconSelector';
 import InputWithFormik from '../../components/InputWithFormik';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDimensionbyId } from '../../api';
 import { makeStyles } from '@material-ui/core/styles';
@@ -103,8 +104,8 @@ const DimensionForm = ({
   const [dimension, setDimension] = useState(null);
   const [dimensionsIcons, setDimensionsIcons] = useState([]);
   const [loading, setLoading] = useState(false);
-  const id = openIcon ? 'simple-popover' : undefined;
   const openIcon = Boolean(anchorEl);
+  const id = openIcon ? 'simple-popover' : undefined;
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -173,14 +174,14 @@ const DimensionForm = ({
   const enTranslation =
     !!dimension &&
     (
-      dimension.translations.find(translation => translation.lang == 'EN') || {
+      dimension.translations.find(translation => translation.lang === 'EN') || {
         translation: ''
       }
     ).translation;
   const esTranslation =
     !!dimension &&
     (
-      dimension.translations.find(translation => translation.lang == 'ES') || {
+      dimension.translations.find(translation => translation.lang === 'ES') || {
         translation: ''
       }
     ).translation;
@@ -272,5 +273,13 @@ const DimensionForm = ({
   );
 };
 const mapStateToProps = ({ user }) => ({ user });
+
+DimensionForm.propTypes = {
+  open: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  afterSubmit: PropTypes.func.isRequired,
+  surveyDimensionId: PropTypes.number,
+  user: PropTypes.object.isRequired
+};
 
 export default connect(mapStateToProps)(DimensionForm);
