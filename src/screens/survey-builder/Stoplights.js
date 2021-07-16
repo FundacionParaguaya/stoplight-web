@@ -138,7 +138,7 @@ const Stoplights = ({ user, currentSurvey, updateSurvey }) => {
         source.droppableId === 'indicatorLibrary' &&
         destination.droppableId === 'survey' &&
         !!libraryIndicator &&
-        !!libraryDimension
+        !!selectedSurveyDimension
       ) {
         let newIndicators = Array.from(currentSurvey.surveyStoplightQuestions);
         const dimensionIndex = newIndicators.findIndex(
