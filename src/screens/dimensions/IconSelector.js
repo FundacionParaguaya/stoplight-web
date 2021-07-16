@@ -15,15 +15,23 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 12
   },
   smallIcon: {
-    width: 32
+    width: 32,
+    cursor: 'pointer'
   },
   label: {
     fontWeight: 400,
     fontFamily: 'Roboto'
   },
   icon: {
+    paddingTop: 10,
     width: 40,
-    marginRight: 5
+    marginRight: 5,
+    cursor: 'pointer'
+  },
+  gridItem: {
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.04)'
+    }
   }
 }));
 
@@ -82,14 +90,21 @@ const IconSelector = ({
           <Grid
             container
             style={{
-              marginTop: 10,
-              maxHeight: 140,
+              maxHeight: 170,
               maxWidth: 360
             }}
           >
             {items.map((dimensionIcon, index) => {
               return (
-                <Grid key={index} md={4} sm={4} xs={4} align="center" item>
+                <Grid
+                  key={index}
+                  md={4}
+                  sm={4}
+                  xs={4}
+                  align="center"
+                  item
+                  className={classes.gridItem}
+                >
                   <img
                     onClick={() => {
                       onChangeIcon(dimensionIcon.value);

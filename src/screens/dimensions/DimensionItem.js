@@ -22,6 +22,11 @@ const useStyles = makeStyles(theme => ({
   icon: {
     width: 32,
     marginRight: theme.spacing(1)
+  },
+  iconContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 40
   }
 }));
 
@@ -33,7 +38,7 @@ const DimensionItem = ({ item, handleClick }) => {
   return (
     <div className={classes.row}>
       <div className={classes.container} style={{ maxWidth: '80%' }}>
-        <div style={{ minWidth: 40 }}>
+        <div className={classes.iconContainer}>
           {item.iconUrl && (
             <img src={item.iconUrl} className={classes.icon} alt="Icon" />
           )}
