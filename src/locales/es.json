@@ -210,17 +210,17 @@
       "yourSurveys": "Encuestas de su organización"
     },
     "dimensions": {
-      "create": "Create Dimension",
+      "create": "Crear dimensión",
       "form": {
-        "createTitle": "Create dimension",
-        "editTitle": "Edit dimension",
-        "title": "Title",
-        "spanishTitle": "Spanish Title",
-        "englishTitle": "English Title",
-        "icon": "Icon",
-        "change": "Change icon",
-        "saved": "Saved dimension",
-        "failSave": "An error occurred while saving dimension. Try again"
+        "createTitle": "Crear dimensión",
+        "editTitle": "Editar dimensión",
+        "title": "Título",
+        "spanishTitle": "Título en español",
+        "englishTitle": "Título en inglés",
+        "icon": "Icono",
+        "change": "Cambiar el ícono",
+        "saved": "Dimensión guardada",
+        "failSave": "Se produjo un error al guardar la dimensión. Intentar otra vez"
       }
     },
     "analytics": {

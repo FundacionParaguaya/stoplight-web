@@ -170,17 +170,17 @@
       "yourSurveys": "Sondaj òganizasyon ou yo"
     },
     "dimensions": {
-      "create": "Create Dimension",
+      "create": "Kreye dimansyon",
       "form": {
-        "createTitle": "Create dimension",
-        "editTitle": "Edit dimension",
-        "title": "Title",
-        "spanishTitle": "Spanish Title",
-        "englishTitle": "English Title",
+        "createTitle": "Kreye dimansyon",
+        "editTitle": "Edite dimansyon",
+        "title": "Tit",
+        "spanishTitle": "Tit Panyòl",
+        "englishTitle": "Tit angle",
         "icon": "Icon",
-        "change": "Change icon",
-        "saved": "Saved dimension",
-        "failSave": "An error occurred while saving dimension. Try again"
+        "change": "Chanje icon",
+        "saved": "Sove dimansyon",
+        "failSave": "Yon erè ki te fèt pandan ekonomize dimansyon. Eseye anko"
       }
     },
     "analytics": {
