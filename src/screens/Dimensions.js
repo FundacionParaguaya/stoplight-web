@@ -13,6 +13,7 @@ import { dimensionsPool } from '../api';
 import englishLogo from '../assets/english.png';
 import { makeStyles } from '@material-ui/core/styles';
 import paragLogo from '../assets/paraguay.png';
+import reportBanner from '../assets/reports_banner.png';
 import { useTranslation } from 'react-i18next';
 import withLayout from '../components/withLayout';
 
@@ -31,6 +32,8 @@ const useStyles = makeStyles(theme => ({
   },
   titleContainer: {
     display: 'flex',
+    justifyContent: 'space-between',
+    position: 'relative',
     height: 175
   },
   viewTitle: {
@@ -38,6 +41,18 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     height: 175,
     justifyContent: 'center'
+  },
+  titleImage: {
+    display: 'block',
+    height: 165,
+    right: 0,
+    position: 'absolute',
+    top: -10,
+    zIndex: 0,
+    objectFit: 'cover',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
   }
 }));
 
@@ -127,6 +142,11 @@ const Dimensions = ({ user }) => {
         <div className={classes.viewTitle}>
           <Typography variant="h4">{t('views.toolbar.dimensions')}</Typography>
         </div>
+        <img
+          src={reportBanner}
+          alt="Dimensions Banner"
+          className={classes.titleImage}
+        />
       </div>
       <Grid container>
         <Grid item md={8} sm={8} xs={12}>
