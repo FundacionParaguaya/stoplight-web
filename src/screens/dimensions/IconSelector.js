@@ -28,13 +28,11 @@ const useStyles = makeStyles(theme => ({
 const IconSelector = ({
   items,
   error,
-  handleOpenChangeIcon,
-  handleCloseChangeIcon,
-  touched,
+  handleChangeIcon,
+  onChangeIcon,
+  onBlur,
   anchorEl,
   openIcon,
-  setFieldValue,
-  setTouched,
   id,
   icon
 }) => {
@@ -51,19 +49,15 @@ const IconSelector = ({
           <img
             src={icon}
             className={classes.smallIcon}
-            onClick={handleOpenChangeIcon}
+            onClick={handleChangeIcon}
           />
         ) : (
           <PhotoSizeSelectActualSharpIcon
             style={{ cursor: 'pointer' }}
             color="primary"
             onClick={event => {
-              setTouched(
-                Object.assign(touched, {
-                  icon: true
-                })
-              );
-              handleOpenChangeIcon(event);
+              onBlur();
+              handleChangeIcon(event);
             }}
           />
         )}
@@ -72,7 +66,7 @@ const IconSelector = ({
           id={id}
           anchorEl={anchorEl}
           open={openIcon}
-          onClose={handleCloseChangeIcon}
+          onClose={handleChangeIcon}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'left'
@@ -95,8 +89,8 @@ const IconSelector = ({
                 <Grid key={index} md={4} sm={4} xs={4} align="center" item>
                   <img
                     onClick={() => {
-                      setFieldValue('icon', dimensionIcon.value);
-                      handleCloseChangeIcon();
+                      onChangeIcon(dimensionIcon.value);
+                      handleChangeIcon();
                     }}
                     src={dimensionIcon.value}
                     className={classes.icon}

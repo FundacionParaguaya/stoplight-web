@@ -4,10 +4,8 @@ import * as _ from 'lodash';
 import {
   Button,
   CircularProgress,
-  Grid,
   IconButton,
   Modal,
-  Popover,
   Typography
 } from '@material-ui/core';
 import { Form, Formik } from 'formik';
@@ -18,11 +16,9 @@ import {
 } from '../../api';
 
 import CloseIcon from '@material-ui/icons/Close';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import IconSelector from './IconSelector';
 import InputWithFormik from '../../components/InputWithFormik';
 import { connect } from 'react-redux';
-import logo from '../../assets/dimension_income.png';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
@@ -115,12 +111,12 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
     toggleModal();
   };
 
-  const handleOpenChangeIcon = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseChangeIcon = () => {
-    setAnchorEl(null);
+  const handleChangeIcon = event => {
+    if (!!anchorEl) {
+      setAnchorEl(null);
+    } else {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const loadDimensionsIcons = () => {
@@ -204,16 +200,22 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
 
               <IconSelector
                 items={dimensionsIcons}
-                handleOpenChangeIcon={handleOpenChangeIcon}
+                handleChangeIcon={handleChangeIcon}
                 id={id}
                 anchorEl={anchorEl}
                 openIcon={openIcon}
-                touched={touched}
+                onChangeIcon={value => setFieldValue('icon', value)}
+                onBlur={() =>
+                  setTouched(
+                    Object.assign(touched, {
+                      icon: true
+                    })
+                  )
+                }
                 setTouched={setTouched}
                 setFieldValue={setFieldValue}
                 error={touched.icon && !values.icon}
                 icon={values.icon}
-                handleCloseChangeIcon={handleCloseChangeIcon}
               />
               {loading && (
                 <CircularProgress className={classes.loadingContainer} />
