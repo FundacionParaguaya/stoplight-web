@@ -174,6 +174,7 @@ const Dimensions = ({ user }) => {
           <DropdownMenu
             placeholder={placeHolderDropdownMenu}
             options={languageOptions}
+            withArrow
           />
         </Grid>
       </Grid>

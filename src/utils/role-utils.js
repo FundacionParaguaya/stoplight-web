@@ -15,8 +15,6 @@ export const ROLES = {
     { item: 'organizations', platform: ACCESS },
     { item: 'projects', platform: ACCESS },
     { item: 'surveysList', platform: NEW },
-    { item: 'libraries', platform: NEW, options: ['dimensions'] },
-    { item: 'dimensions', platform: ACCESS },
     { item: 'users', platform: NEW },
     { item: 'families', platform: NEW },
     { item: 'detail', platform: ACCESS },
@@ -25,7 +23,9 @@ export const ROLES = {
     { item: 'editFamilyImages', platform: ACCESS },
     { item: 'offline-maps', platform: ACCESS },
     { item: 'support', platform: ACCESS },
-    { item: 'survey-builder', platform: ACCESS }
+    { item: 'survey-builder', platform: ACCESS },
+    { item: 'libraries', platform: NEW, options: ['dimensions'] },
+    { item: 'dimensions', platform: ACCESS }
   ],
   ROLE_HUB_ADMIN: [
     // Hub admin user
