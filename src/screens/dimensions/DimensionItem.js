@@ -3,7 +3,6 @@ import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
 import { Tooltip } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
-import logo from '../../assets/dimension_agroproductive.png';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 
@@ -33,7 +32,7 @@ const DimensionItem = ({ item, handleClick }) => {
   return (
     <div className={classes.row}>
       <div className={classes.container} style={{ maxWidth: '80%' }}>
-        <img src={logo} className={classes.icon} />
+        <img src={item.iconUrl} className={classes.icon} />
         <Typography variant="subtitle1">{item.name}</Typography>
       </div>
       <div className={classes.container}>

@@ -2651,14 +2651,6 @@ export const getDimensionsIcons = user =>
     })
   });
 
-function camelize(str) {
-  return str
-    .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-      return index === 0 ? word.toLowerCase() : word.toUpperCase();
-    })
-    .replace(/\s+/g, '');
-}
-
 export const createOrUpdateStoplightDimension = (user, values) => {
   if (values.id) {
     return axios({
@@ -2668,7 +2660,7 @@ export const createOrUpdateStoplightDimension = (user, values) => {
         Authorization: `Bearer ${user.token}`
       },
       data: JSON.stringify({
-        query: `"mutation updateStoplightDimension($dimension: StoplightDimensionModelInput) { updateStoplightDimension (dimension: $dimension) { id }}`,
+        query: `mutation updateStoplightDimension($dimension: StoplightDimensionModelInput) { updateStoplightDimension (dimension: $dimension) { id }}`,
         variables: {
           dimension: {
             id: values.id,
@@ -2699,7 +2691,6 @@ export const createOrUpdateStoplightDimension = (user, values) => {
         variables: {
           dimension: {
             iconUrl: values.icon,
-            title: camelize(values.englishTitle),
             translations: [
               {
                 lang: 'EN',
@@ -2716,3 +2707,18 @@ export const createOrUpdateStoplightDimension = (user, values) => {
     });
   }
 };
+
+export const getDimensionbyId = (user, dimensionId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `mutation retrieveDimension($dimension: Long!) { retrieveDimension (dimension: $dimension) { id codeName iconUrl translations {id lang translation }}}`,
+      variables: {
+        dimension: dimensionId
+      }
+    })
+  });

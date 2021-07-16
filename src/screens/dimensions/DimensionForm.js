@@ -19,6 +19,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconSelector from './IconSelector';
 import InputWithFormik from '../../components/InputWithFormik';
 import { connect } from 'react-redux';
+import { getDimensionbyId } from '../../api';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
@@ -88,11 +89,18 @@ const useStyles = makeStyles(theme => ({
 
 const fieldIsRequired = 'validation.fieldIsRequired';
 
-const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
-  const _isEdit = !!dimension.surveyDimensionId;
+const DimensionForm = ({
+  open,
+  toggleModal,
+  afterSubmit,
+  surveyDimensionId,
+  user
+}) => {
+  const _isEdit = !!surveyDimensionId;
   const classes = useStyles();
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [dimension, setDimension] = useState(null);
   const [dimensionsIcons, setDimensionsIcons] = useState([]);
   const [loading, setLoading] = useState(false);
   const id = openIcon ? 'simple-popover' : undefined;
@@ -126,16 +134,29 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
     });
   };
 
+  const loadDimension = () => {
+    getDimensionbyId(user, surveyDimensionId).then(response => {
+      const data = _.get(response, 'data.data.retrieveDimension');
+      setDimension(data);
+    });
+  };
+
   useEffect(() => {
+    if (_isEdit) {
+      loadDimension();
+    } else {
+      setDimension(null);
+    }
+
     loadDimensionsIcons();
-  }, []);
+  }, [surveyDimensionId]);
 
   const onSubmit = values => {
     setLoading(true);
     createOrUpdateStoplightDimension(user, values)
       .then(() => {
         onModalClose(true);
-        enqueueSnackbar(t('views.dimensions.form.save'), {
+        enqueueSnackbar(t('views.dimensions.form.saved'), {
           variant: 'success'
         });
       })
@@ -148,6 +169,21 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
         setLoading(false);
       });
   };
+
+  const enTranslation =
+    !!dimension &&
+    (
+      dimension.translations.find(translation => translation.lang == 'EN') || {
+        translation: ''
+      }
+    ).translation;
+  const esTranslation =
+    !!dimension &&
+    (
+      dimension.translations.find(translation => translation.lang == 'ES') || {
+        translation: ''
+      }
+    ).translation;
 
   return (
     <Modal
@@ -174,12 +210,10 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
           enableReinitialize
           validationSchema={validationSchema}
           initialValues={{
-            id:
-              (!!dimension.surveyDimensionId && dimension.surveyDimensionId) ||
-              '',
-            spanishTitle: '',
-            englishTitle: '',
-            icon: ''
+            id: (!!dimension && dimension.id) || '',
+            spanishTitle: esTranslation || '',
+            englishTitle: enTranslation || '',
+            icon: (!!dimension && dimension.iconUrl) || ''
           }}
           onSubmit={onSubmit}
         >

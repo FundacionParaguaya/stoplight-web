@@ -64,7 +64,6 @@ const Dimensions = ({ user }) => {
     setFilter('');
     dimensionsPool(filterLang, language, user)
       .then(response => {
-        console.log(response);
         const data = _.get(response, 'data.data.dimensionsByLang');
         setDimensions(data);
       })
@@ -116,9 +115,13 @@ const Dimensions = ({ user }) => {
       )}
       <DimensionForm
         open={openFormModal}
-        toggleModal={() => setOpenFormModal(!openFormModal)}
+        toggleModal={() => {
+          setOpenFormModal(!openFormModal);
+        }}
         afterSubmit={reloadPage}
-        dimension={selectedDimension}
+        surveyDimensionId={
+          selectedDimension && selectedDimension.surveyDimensionId
+        }
       />
       <div className={classes.titleContainer}>
         <div className={classes.viewTitle}>
