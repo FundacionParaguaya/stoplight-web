@@ -344,8 +344,20 @@ const FamilyProfile = ({
       <Details
         primaryParticipant={firtsParticipant}
         familyMembers={familyMembers}
-        latitude={family.latitude}
-        longitude={family.longitude}
+        latitude={
+          (family.latitude &&
+            family.latitude !== 'null' &&
+            family.latitude !== '0' &&
+            family.latitude) ||
+          (survey && survey.surveyConfig.surveyLocation.latitude)
+        }
+        longitude={
+          (family.longitude &&
+            family.longitude !== 'null' &&
+            family.longitude !== '0' &&
+            family.longitude) ||
+          (survey && survey.surveyConfig.surveyLocation.longitude)
+        }
         economicData={family.snapshotEconomics}
         membersEconomicData={family.membersEconomic}
         survey={survey}
@@ -371,6 +383,7 @@ const FamilyProfile = ({
       {/* Interventions */}
       <FamilyInterventions
         familyId={familyId}
+        familyName={family.name}
         stoplightSkipped={stoplightSkipped}
         questions={
           family.snapshotIndicators &&

@@ -1254,7 +1254,7 @@
         "fieldTypes": "Tipos de campo",
         "conditionalLogic": "Lógica condicional",
         "deleteTopic": "Eliminar tema",
-        "dropHere": "Agregue campos usando los botones en la ventana de la izquierda o simplemente arrástrelos y suéltelos aquí.",
+        "dropHere": "Arrastra y suelta tus preguntas aquí. Pero recuerda que primero necesitas un tema!",
         "topic": {
           "new": "Nuevo tema",
           "error": "El nombre del tema no puede estar vacío",
@@ -1288,7 +1288,8 @@
         },
         "singleTopic": "Tema",
         "newQuestion": "Nueva pregunta",
-        "info": "Librería de preguntas socioeconómicas ya en uso"
+        "info": "Librería de preguntas socioeconómicas ya en uso",
+        "forFamilyMembers": "Para miembros de la familia"
       },
       "audioSupport": "Soporte de audio",
       "title": "Título",
@@ -1333,7 +1334,8 @@
         },
         "dimensionLibrary": "Biblioteca de Dimension",
         "libraryInfo": "Biblioteca de indicadores ya en uso",
-        "dimensionLibraryInfo": "Biblioteca de dimensiones existentes"
+        "dimensionLibraryInfo": "Biblioteca de dimensiones existentes",
+        "dropHere": "Deje sus indicadores aquí, pero recuerde que primero necesita una dimensión"
       },
       "summary": {
         "title": "Resumen de la encuesta",
@@ -1352,7 +1354,10 @@
         "confirm": "Confirmar"
       },
       "help": "Ayudar",
-      "helpArtilceNotFound": "¡No se encontró el artículo %s!"
+      "helpArtilceNotFound": "¡No se encontró el artículo %s!",
+      "familyDetails": {
+        "showAs": "Mostrar en el tablero como:"
+      }
     }
   },
   "reports": {

@@ -1254,7 +1254,7 @@
         "fieldTypes": "Tipos de Campo",
         "conditionalLogic": "Lógica Condicional",
         "deleteTopic": "Apagar Tópico",
-        "dropHere": "Adicione campos usando os botões na janela esquerda ou simplesmente arraste e solte-os aqui.",
+        "dropHere": "Arraste e solte suas perguntas aqui. Mas lembre-se de que você precisa primeiro de um tópico!",
         "topic": {
           "new": "Novo topico",
           "error": "O nome do tópico não pode estar vazio",
@@ -1288,7 +1288,8 @@
         },
         "singleTopic": "Tópico",
         "newQuestion": "Nova Questão",
-        "info": "Questões da Biblioteca de Economia já em uso"
+        "info": "Questões da Biblioteca de Economia já em uso",
+        "forFamilyMembers": "Para membros da família"
       },
       "audioSupport": "Suporte de Áudio",
       "title": "Título",
@@ -1333,7 +1334,8 @@
         },
         "dimensionLibrary": "Biblioteca da Dimensão",
         "libraryInfo": "Biblioteca de indicadores já em uso",
-        "dimensionLibraryInfo": "Biblioteca de dimensões existentes"
+        "dimensionLibraryInfo": "Biblioteca de dimensões existentes",
+        "dropHere": "Solte seus indicadores aqui, mas lembre-se de que você precisa de uma dimensão primeiro"
       },
       "summary": {
         "title": "Resumo da Pesquisa",
@@ -1352,7 +1354,10 @@
         "confirm": "confirme"
       },
       "help": "Ajuda",
-      "helpArtilceNotFound": "%s artigo não foi encontrado!"
+      "helpArtilceNotFound": "%s artigo não foi encontrado!",
+      "familyDetails": {
+        "showAs": "Mostrar no painel como:"
+      }
     }
   },
   "reports": {

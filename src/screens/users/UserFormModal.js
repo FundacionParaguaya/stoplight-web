@@ -117,7 +117,10 @@ const UserFormModal = ({
 }) => {
   const isEdit = !!userId;
   const classes = useStyles();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [openExitModal, setOpenExitModal] = useState(false);
   const [userToEdit, setUserToEdit] = useState({});
@@ -126,7 +129,7 @@ const UserFormModal = ({
 
   const fieldIsRequired = 'validation.fieldIsRequired';
 
-  //Validation criterias
+  // Validation criterias
   const validationSchema = Yup.object({
     username: Yup.string()
       .required(fieldIsRequired)
@@ -209,8 +212,13 @@ const UserFormModal = ({
     setLoading(false);
   }, [userToEdit.id]);
 
+  const onClose = submitted => {
+    submitted && afterSubmit();
+    toggleModal();
+    setUserToEdit({});
+  };
+
   const onSubmit = values => {
-    // setLoading(true);
     delete values.confirmPassword;
     if (user.role === ROLES_NAMES.ROLE_APP_ADMIN)
       values.organization = user.organization.id;
@@ -220,12 +228,15 @@ const UserFormModal = ({
 
     const projects = values.projects.map(project => ({ id: project.value }));
 
-    addOrUpdateUser(user, {
-      ...values,
-      projects: projects
-    })
+    addOrUpdateUser(
+      user,
+      {
+        ...values,
+        projects: projects
+      },
+      language
+    )
       .then(() => {
-        // setLoading(false);
         onClose(true);
         enqueueSnackbar(t('views.user.form.save.success'), {
           variant: 'success',
@@ -238,7 +249,7 @@ const UserFormModal = ({
       })
       .catch(e => {
         console.log(e);
-        enqueueSnackbar(t('views.user.form.save.failed'), {
+        enqueueSnackbar(e.response.data.message, {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -288,12 +299,6 @@ const UserFormModal = ({
 
       return roles;
     }
-  };
-
-  const onClose = submitted => {
-    submitted && afterSubmit();
-    toggleModal();
-    setUserToEdit({});
   };
 
   const showHubName = ({ role }) =>

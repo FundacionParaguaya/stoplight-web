@@ -101,8 +101,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const params = { v: '3.exp', key: 'AIzaSyDF4n6tIKlZ6m1EVoV3riz6ENQgVeBPNmU' };
-
 const PersonalDetails = ({
   primaryParticipant,
   familyMembers,
@@ -429,7 +427,6 @@ const PersonalDetails = ({
                 maxZoom={!!user.hub && user.hub.zoomLimit === true ? 13 : ''}
                 minZoom={2}
                 loadingMessage={t('views.location.mapLoading')}
-                params={params}
                 disableDefaultUI
                 draggable={false}
                 scrollwheel={false}

@@ -204,7 +204,7 @@ const EconomicLibrary = ({
               ref={provided.innerRef}
               className={classes.itemList}
             >
-              {topics[selectedTopic].map((question, index) => (
+              {(topics[selectedTopic] || []).map((question, index) => (
                 <Draggable
                   key={question.id}
                   draggableId={

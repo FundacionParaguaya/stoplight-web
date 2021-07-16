@@ -80,11 +80,19 @@ const DeleteUserModal = ({
 }) => {
   const classes = useStyles();
   const [deletingUser, setDeletingUser] = useState(false);
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language }
+  } = useTranslation();
+
+  const onClose = () => {
+    afterSubmit();
+    toggleModal();
+  };
 
   const onDeleteClicked = () => {
     setDeletingUser(true);
-    deleteUser(user, userToDelete.id)
+    deleteUser(user, userToDelete.id, language)
       .then(() => {
         setDeletingUser(false);
         onClose({ deleteModalOpen: false });
@@ -99,7 +107,7 @@ const DeleteUserModal = ({
       })
       .catch(e => {
         console.log(e);
-        enqueueSnackbar(t('views.user.delete.failed'), {
+        enqueueSnackbar(e.response.data.message, {
           variant: 'error',
           action: key => (
             <IconButton key="dismiss" onClick={() => closeSnackbar(key)}>
@@ -112,10 +120,6 @@ const DeleteUserModal = ({
       });
   };
 
-  const onClose = () => {
-    afterSubmit();
-    toggleModal();
-  };
   return (
     <Modal open={open} onClose={() => toggleModal()}>
       <div className={classes.mainContainer}>

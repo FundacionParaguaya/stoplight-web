@@ -4,6 +4,7 @@ import moment from 'moment';
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import interventionImg from '../assets/intervention_feed.png';
 import priorityImg from '../assets/priority.png';
 import solutionImg from '../assets/solution.png';
 import stoplightImg from '../assets/stoplight-taken.png';
@@ -22,11 +23,11 @@ const ActivityFeed = ({
 }) => {
   const handleClick = (activityType, referenceId, familyId) => {
     let id = !!referenceId ? referenceId : familyId;
-    if (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION) {
+    if (activityType === activityTypes.NEW_STOPLIGHT_SOLUTION && !!id) {
       history.push(
         redirectUrlPerType[activityType].replace('$referenceId', id)
       );
-    } else if (checkAccess(user, 'families')) {
+    } else if (checkAccess(user, 'families') && !!id) {
       history.push(
         redirectUrlPerType[activityType].replace('$referenceId', id)
       );
@@ -38,6 +39,8 @@ const ActivityFeed = ({
       return solutionImg;
     } else if (activityType === activityTypes.NEW_STOPLIGHT_PRIORITY) {
       return priorityImg;
+    } else if (activityType === activityTypes.NEW_INTERVENTION) {
+      return interventionImg;
     } else {
       return stoplightImg;
     }

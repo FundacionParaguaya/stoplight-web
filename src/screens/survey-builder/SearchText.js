@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     width: 'fit-content'
   },
   textField: {
+    minWidth: 255,
     backgroundColor: theme.palette.background.default,
     '& .MuiOutlinedInput-root': {
       '& fieldset': {

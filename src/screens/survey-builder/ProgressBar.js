@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     width: '100%',
-    height: 50,
+    minHeight: 50,
     backgroundColor: theme.palette.background.default,
     padding: '0 4%',
     boxShadow: '0px 4px 5px rgba(209, 209, 209, 0.25)',
@@ -19,8 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
   sectionContainer: {
     display: 'flex',
-    alignItems: 'center',
-    padding: '8px 0'
+    alignItems: 'center'
   },
   icon: {
     color: '#BDBDBD',
@@ -28,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     margin: '0 16px'
   },
   option: {
-    height: 50,
+    height: '100%',
     paddingTop: theme.spacing(1.5),
     fontWeight: 400,
     fontSize: 16,

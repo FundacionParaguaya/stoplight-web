@@ -126,7 +126,9 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       if (
         source.droppableId === 'library' &&
         destination.droppableId === 'survey' &&
-        !!libraryQuestion
+        !!libraryQuestion &&
+        !!selectedSurveyTopic &&
+        !!Number.isInteger(selectedSurveyTopic.value)
       ) {
         let newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const question = {
@@ -140,7 +142,9 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       if (
         source.droppableId === 'newQuestion' &&
         destination.droppableId === 'survey' &&
-        !!newQuestion
+        !!newQuestion &&
+        !!selectedSurveyTopic &&
+        !!Number.isInteger(selectedSurveyTopic.value)
       ) {
         const newQuestions = Array.from(currentSurvey.surveyEconomicQuestions);
         const codeName = `addedQuestion_${newQuestions.length}`;
@@ -168,8 +172,9 @@ const Economics = ({ user, currentSurvey, updateSurvey }) => {
       newTopics[index] = topic;
       setSelectedSurveyTopic({ value: index, ...topic });
     } else {
-      newTopics.push({ value: newTopics.length, ...topic });
-      setSelectedSurveyTopic({ value: newTopics.length - 1, ...topic });
+      const value = newTopics.length;
+      newTopics.push({ value: value, ...topic });
+      setSelectedSurveyTopic({ value: value, ...topic });
     }
     setSurveyTopics(newTopics);
   };
