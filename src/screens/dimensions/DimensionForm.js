@@ -19,8 +19,8 @@ import {
 
 import CloseIcon from '@material-ui/icons/Close';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import IconSelector from './IconSelector';
 import InputWithFormik from '../../components/InputWithFormik';
-import PhotoSizeSelectActualSharpIcon from '@material-ui/icons/PhotoSizeSelectActualSharp';
 import { connect } from 'react-redux';
 import logo from '../../assets/dimension_income.png';
 import { makeStyles } from '@material-ui/core/styles';
@@ -106,7 +106,8 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
 
   const validationSchema = Yup.object({
     spanishTitle: Yup.string().required(fieldIsRequired),
-    englishTitle: Yup.string().required(fieldIsRequired)
+    englishTitle: Yup.string().required(fieldIsRequired),
+    icon: Yup.string().required(fieldIsRequired)
   });
 
   const onModalClose = submitted => {
@@ -128,39 +129,6 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
       setDimensionsIcons(data);
     });
   };
-
-  /* const dummyDimensions = [
-    {
-      surveyDimensionId: 1,
-      iconUrl:
-        'https://fp-psp-files.s3.us-east-2.amazonaws.com/dimensions-icons/dimension_income.png',
-      translations: [
-        {
-          lang: 'EN',
-          translation: 'Income and Employment'
-        },
-        {
-          lang: 'ES',
-          translation: 'Ingreso y Empleo'
-        }
-      ]
-    },
-    {
-      surveyDimensionId: 2,
-      iconUrl:
-        'https://fp-psp-files.s3.us-east-2.amazonaws.com/dimensions-icons/dimension_income.png',
-      translations: [
-        {
-          lang: 'EN',
-          translation: 'Income and Employment'
-        },
-        {
-          lang: 'ES',
-          translation: 'Ingreso y Empleo'
-        }
-      ]
-    }
-  ]; */
 
   useEffect(() => {
     loadDimensionsIcons();
@@ -215,7 +183,7 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
               '',
             spanishTitle: '',
             englishTitle: '',
-            icon: null
+            icon: ''
           }}
           onSubmit={onSubmit}
         >
@@ -234,81 +202,19 @@ const DimensionForm = ({ open, toggleModal, afterSubmit, dimension, user }) => {
                 className={classes.input}
               />
 
-              <div className={classes.selectorContainer}>
-                <Typography variant="subtitle1" className={classes.label}>
-                  {t('views.dimensions.form.change')}
-                </Typography>
-                {values.icon ? (
-                  <img
-                    src={values.icon}
-                    className={classes.smallIcon}
-                    onClick={handleOpenChangeIcon}
-                  />
-                ) : (
-                  <PhotoSizeSelectActualSharpIcon
-                    color="primary"
-                    onClick={event => {
-                      setTouched(
-                        Object.assign(touched, {
-                          icon: true
-                        })
-                      );
-                      handleOpenChangeIcon(event);
-                    }}
-                  />
-                )}
-
-                <Popover
-                  id={id}
-                  anchorEl={anchorEl}
-                  open={openIcon}
-                  onClose={handleCloseChangeIcon}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left'
-                  }}
-                  transformOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left'
-                  }}
-                >
-                  <Grid
-                    container
-                    style={{
-                      marginTop: 10,
-                      maxHeight: 140,
-                      maxWidth: 360
-                    }}
-                  >
-                    {dimensionsIcons.map((dimensionIcon, index) => {
-                      return (
-                        <Grid
-                          key={index}
-                          md={4}
-                          sm={4}
-                          xs={4}
-                          align="center"
-                          item
-                        >
-                          <img
-                            onClick={() => {
-                              setFieldValue('icon', dimensionIcon.value);
-                              handleCloseChangeIcon();
-                            }}
-                            src={dimensionIcon.value}
-                            className={classes.icon}
-                          />
-                        </Grid>
-                      );
-                    })}
-                  </Grid>
-                </Popover>
-              </div>
-              {touched.icon && !values.icon && (
-                <FormHelperText error={touched.icon && !values.icon}>
-                  {t('validation.fieldIsRequired')}
-                </FormHelperText>
-              )}
+              <IconSelector
+                items={dimensionsIcons}
+                handleOpenChangeIcon={handleOpenChangeIcon}
+                id={id}
+                anchorEl={anchorEl}
+                openIcon={openIcon}
+                touched={touched}
+                setTouched={setTouched}
+                setFieldValue={setFieldValue}
+                error={touched.icon && !values.icon}
+                icon={values.icon}
+                handleCloseChangeIcon={handleCloseChangeIcon}
+              />
               {loading && (
                 <CircularProgress className={classes.loadingContainer} />
               )}
