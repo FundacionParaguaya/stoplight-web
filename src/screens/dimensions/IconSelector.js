@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
+    paddingLeft: 12
   },
   smallIcon: {
     width: 32
@@ -44,7 +45,7 @@ const IconSelector = ({
     <React.Fragment>
       <div className={classes.selectorContainer}>
         <Typography variant="subtitle1" className={classes.label}>
-          {t('views.dimensions.form.change')}
+          {`${t('views.dimensions.form.change')} *`}
         </Typography>
         {icon ? (
           <img

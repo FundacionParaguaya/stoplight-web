@@ -2587,7 +2587,7 @@ export const dimensionsPool = (language, platformLanguage, user) =>
     },
     data: JSON.stringify({
       query:
-        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name } }',
+        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name iconUrl } }',
       variables: {
         lang: language
       }
