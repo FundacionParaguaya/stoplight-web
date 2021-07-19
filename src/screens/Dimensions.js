@@ -164,7 +164,7 @@ const Dimensions = ({ user }) => {
       <Grid container>
         <Grid item md={8} sm={8} xs={12}>
           <SeachTextFilter
-            onChangeInput={e => setFilter(e.target.value)}
+            onChange={e => setFilter(e.target.value)}
             searchLabel={t('views.survey.filter.search')}
             searchByLabel={t('views.survey.filter.searchBy')}
           />
