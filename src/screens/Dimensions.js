@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 
 import { Button, CircularProgress, Grid, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { dimensionsPool, getDimensionsIcons } from '../api';
 
 import Container from '../components/Container';
 import DimensionForm from './dimensions/DimensionForm';
@@ -9,7 +10,6 @@ import DimensionList from './dimensions/DimensionList';
 import DropdownMenu from '../components/header/DropdownMenu';
 import SeachTextFilter from '../components/filters/SearchTextFilter';
 import { connect } from 'react-redux';
-import { dimensionsPool } from '../api';
 import englishLogo from '../assets/english.png';
 import { makeStyles } from '@material-ui/core/styles';
 import paragLogo from '../assets/paraguay.png';
@@ -60,6 +60,7 @@ const Dimensions = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [openFormModal, setOpenFormModal] = useState(false);
   const [dimensions, setDimensions] = useState([]);
+  const [dimensionsIcons, setDimensionsIcons] = useState([]);
   const [selectedDimension, setSelectedDimension] = useState({});
   const {
     t,
@@ -106,6 +107,17 @@ const Dimensions = ({ user }) => {
     }
   ];
 
+  const loadDimensionsIcons = () => {
+    getDimensionsIcons(user).then(response => {
+      const data = _.get(response, 'data.data.dimensionsIcons', []);
+      setDimensionsIcons(data);
+    });
+  };
+
+  useEffect(() => {
+    loadDimensionsIcons();
+  }, []);
+
   useEffect(() => {
     loadDimensions();
   }, [filterLang]);
@@ -137,6 +149,7 @@ const Dimensions = ({ user }) => {
         surveyDimensionId={
           selectedDimension && selectedDimension.surveyDimensionId
         }
+        icons={dimensionsIcons}
       />
       <div className={classes.titleContainer}>
         <div className={classes.viewTitle}>

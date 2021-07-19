@@ -10,16 +10,13 @@ import {
 } from '@material-ui/core';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import {
-  createOrUpdateStoplightDimension,
-  getDimensionsIcons
-} from '../../api';
 
 import CloseIcon from '@material-ui/icons/Close';
 import IconSelector from './IconSelector';
 import InputWithFormik from '../../components/InputWithFormik';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createOrUpdateStoplightDimension } from '../../api';
 import { getDimensionbyId } from '../../api';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
@@ -95,14 +92,15 @@ const DimensionForm = ({
   toggleModal,
   afterSubmit,
   surveyDimensionId,
-  user
+  user,
+  icons
 }) => {
   const _isEdit = !!surveyDimensionId;
   const classes = useStyles();
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [dimension, setDimension] = useState(null);
-  const [dimensionsIcons, setDimensionsIcons] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const openIcon = Boolean(anchorEl);
   const id = openIcon ? 'simple-popover' : undefined;
@@ -128,13 +126,6 @@ const DimensionForm = ({
     }
   };
 
-  const loadDimensionsIcons = () => {
-    getDimensionsIcons(user).then(response => {
-      const data = _.get(response, 'data.data.dimensionsIcons', []);
-      setDimensionsIcons(data);
-    });
-  };
-
   const loadDimension = () => {
     getDimensionbyId(user, surveyDimensionId).then(response => {
       const data = _.get(response, 'data.data.retrieveDimension');
@@ -143,14 +134,12 @@ const DimensionForm = ({
   };
 
   useEffect(() => {
-    if (_isEdit) {
+    if (_isEdit && open) {
       loadDimension();
     } else {
       setDimension(null);
     }
-
-    loadDimensionsIcons();
-  }, [surveyDimensionId]);
+  }, [open]);
 
   const onSubmit = values => {
     setLoading(true);
@@ -234,7 +223,7 @@ const DimensionForm = ({
               />
 
               <IconSelector
-                items={dimensionsIcons}
+                items={icons}
                 handleChangeIcon={handleChangeIcon}
                 id={id}
                 anchorEl={anchorEl}
@@ -279,7 +268,8 @@ DimensionForm.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   afterSubmit: PropTypes.func.isRequired,
   surveyDimensionId: PropTypes.number,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  icons: PropTypes.array.isRequired
 };
 
 export default connect(mapStateToProps)(DimensionForm);
