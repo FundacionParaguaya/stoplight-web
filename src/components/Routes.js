@@ -1,15 +1,19 @@
-import React, { Suspense, lazy, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Route, Switch, useHistory } from 'react-router-dom';
-import firebase from 'firebase';
 import 'firebase/analytics';
+
+import React, { Suspense, lazy, useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import {
   checkAccess,
   checkAccessToInterventions,
   checkAccessToProjects,
   checkAccessToSolution
 } from '../utils/role-utils';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+
+const DimensionsView = lazy(() => import('../screens/Dimensions'));
 const Support = lazy(() => import('../screens/Support'));
 const SupportForm = lazy(() => import('../screens/support/SupportForm'));
 const CollectionView = lazy(() => import('../screens/support/CollectionView'));
@@ -267,6 +271,9 @@ const Routes = ({ user }) => {
           )}
           {checkAccess(user, 'support') && (
             <Route path="/collection/:slug" component={CollectionView} />
+          )}
+          {checkAccess(user, 'libraries') && (
+            <Route path="/dimensions" component={DimensionsView} />
           )}
 
           {!!user.role && <Route render={() => <PageNotFound user={user} />} />}

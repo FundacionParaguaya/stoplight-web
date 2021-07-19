@@ -97,7 +97,9 @@
       "projects": "Proyectos",
       "solutions": "Banco de Soluciones",
       "interventions": "Intervenciones",
-      "my-profile": "Mi perfil"
+      "my-profile": "Mi perfil",
+      "dimensions": "Dimensiones",
+      "libraries": "Librerías"
     },
     "synced": "Sincronización",
     "dashboard": {
@@ -206,6 +208,20 @@
         "language": "Idioma"
       },
       "yourSurveys": "Encuestas de su organización"
+    },
+    "dimensions": {
+      "create": "Crear dimensión",
+      "form": {
+        "createTitle": "Crear dimensión",
+        "editTitle": "Editar dimensión",
+        "title": "Título",
+        "spanishTitle": "Título en español",
+        "englishTitle": "Título en inglés",
+        "icon": "Icono",
+        "change": "Cambiar el ícono",
+        "saved": "Dimensión guardada",
+        "failSave": "Se produjo un error al guardar la dimensión. Intentar otra vez"
+      }
     },
     "analytics": {
       "title": "Analíticas",

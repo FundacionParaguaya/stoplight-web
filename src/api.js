@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { PhoneNumberUtil } from 'google-libphonenumber';
-import store from './redux';
 import CallingCodes from './screens/lifemap/CallingCodes';
+import { PhoneNumberUtil } from 'google-libphonenumber';
+import axios from 'axios';
 import imageCompression from 'browser-image-compression';
+import store from './redux';
+
 const CancelToken = axios.CancelToken;
 let source = CancelToken.source();
 let filterSource = CancelToken.source();
@@ -2600,7 +2601,7 @@ export const dimensionsPool = (language, platformLanguage, user) =>
     },
     data: JSON.stringify({
       query:
-        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name } }',
+        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name iconUrl } }',
       variables: {
         lang: language
       }
@@ -2648,6 +2649,90 @@ export const indicatorsPool = (filter, language, platformLanguage, user) =>
       variables: {
         lang: language,
         filter: filter
+      }
+    })
+  });
+
+export const getDimensionsIcons = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: 'query { dimensionsIcons { name value} }'
+    })
+  });
+
+export const createOrUpdateStoplightDimension = (user, values) => {
+  if (values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateStoplightDimension($dimension: StoplightDimensionModelInput) { updateStoplightDimension (dimension: $dimension) { id }}`,
+        variables: {
+          dimension: {
+            id: values.id,
+            iconUrl: values.icon,
+            translations: [
+              {
+                lang: 'EN',
+                translation: values.englishTitle
+              },
+              {
+                lang: 'ES',
+                translation: values.spanishTitle
+              }
+            ]
+          }
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createStoplightDimension($dimension: StoplightDimensionModelInput) { createStoplightDimension (dimension: $dimension) { id }}`,
+        variables: {
+          dimension: {
+            iconUrl: values.icon,
+            translations: [
+              {
+                lang: 'EN',
+                translation: values.englishTitle
+              },
+              {
+                lang: 'ES',
+                translation: values.spanishTitle
+              }
+            ]
+          }
+        }
+      })
+    });
+  }
+};
+
+export const getDimensionbyId = (user, dimensionId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `mutation retrieveDimension($dimension: Long!) { retrieveDimension (dimension: $dimension) { id codeName iconUrl translations {id lang translation }}}`,
+      variables: {
+        dimension: dimensionId
       }
     })
   });

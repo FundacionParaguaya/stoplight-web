@@ -97,7 +97,9 @@
       "projects": "Projects",
       "solutions": "Bank of Solutions",
       "my-profile": "My profile",
-      "interventions": "Interventions"
+      "interventions": "Interventions",
+      "dimensions": "Dimensions",
+      "libraries": "Libraries"
     },
     "synced": "Sync",
     "dashboard": {
@@ -206,6 +208,20 @@
         "existing": "Start from existing survey"
       },
       "yourSurveys": "Your  organizations surveys"
+    },
+    "dimensions": {
+      "create": "Create Dimension",
+      "form": {
+        "createTitle": "Create dimension",
+        "editTitle": "Edit dimension",
+        "title": "Title",
+        "spanishTitle": "Spanish Title",
+        "englishTitle": "English Title",
+        "icon": "Icon",
+        "change": "Change icon",
+        "saved": "Saved dimension",
+        "failSave": "An error occurred while saving dimension. Try again"
+      }
     },
     "analytics": {
       "title": "Analytics",

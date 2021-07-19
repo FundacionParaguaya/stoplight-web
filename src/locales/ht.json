@@ -97,7 +97,9 @@
       "projects": "Pwojè",
       "solutions": "Bank solisyon",
       "interventions": "Entèvansyon",
-      "my-profile": "Pwofil mwen"
+      "my-profile": "Pwofil mwen",
+      "dimensions": "Dimansyon",
+      "libraries": "Libreri"
     },
     "synced": "Sync",
     "dashboard": {
@@ -166,6 +168,20 @@
         "language": "Lang"
       },
       "yourSurveys": "Sondaj òganizasyon ou yo"
+    },
+    "dimensions": {
+      "create": "Kreye dimansyon",
+      "form": {
+        "createTitle": "Kreye dimansyon",
+        "editTitle": "Edite dimansyon",
+        "title": "Tit",
+        "spanishTitle": "Tit Panyòl",
+        "englishTitle": "Tit angle",
+        "icon": "Icon",
+        "change": "Chanje icon",
+        "saved": "Sove dimansyon",
+        "failSave": "Yon erè ki te fèt pandan ekonomize dimansyon. Eseye anko"
+      }
     },
     "analytics": {
       "title": "Analize",
