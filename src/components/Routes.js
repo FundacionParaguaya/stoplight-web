@@ -272,7 +272,7 @@ const Routes = ({ user }) => {
           {checkAccess(user, 'support') && (
             <Route path="/collection/:slug" component={CollectionView} />
           )}
-          {checkAccess(user, 'dimensions') && (
+          {checkAccess(user, 'libraries') && (
             <Route path="/dimensions" component={DimensionsView} />
           )}
 

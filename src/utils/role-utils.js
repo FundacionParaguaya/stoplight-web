@@ -24,8 +24,7 @@ export const ROLES = {
     { item: 'offline-maps', platform: ACCESS },
     { item: 'support', platform: ACCESS },
     { item: 'survey-builder', platform: ACCESS },
-    { item: 'libraries', platform: NEW, options: ['dimensions'] },
-    { item: 'dimensions', platform: ACCESS }
+    { item: 'libraries', platform: NEW, options: ['dimensions'] }
   ],
   ROLE_HUB_ADMIN: [
     // Hub admin user
