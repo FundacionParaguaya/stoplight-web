@@ -122,7 +122,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
 
   const onSubmit = values => {
     setLoading(true);
-    const data = {
+    let data = {
       title: values.title,
       hub: values.hub,
       country: values.country,
@@ -137,10 +137,9 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       }
     };
 
-    updateSurvey({ ...currentSurvey, ...data });
     setLoading(false);
     // Disable save survey  just for now
-    false &&
+    if (false && !currentSurvey.id) {
       createSurveyDefinition(
         user,
         values.language,
@@ -162,8 +161,11 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
         },
         values.application
       )
-        .then(() => {
+        .then(response => {
+          data.id = response.data.data.createSurveyDefinition.id;
           setLoading(false);
+          updateSurvey({ ...currentSurvey, ...data });
+          history.push('/survey-builder/details');
         })
         .catch(e => {
           setLoading(false);
@@ -176,7 +178,10 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
             }
           );
         });
-    history.push('/survey-builder/details');
+    } else {
+      updateSurvey({ ...currentSurvey, ...data });
+      history.push('/survey-builder/details');
+    }
   };
 
   useEffect(() => {

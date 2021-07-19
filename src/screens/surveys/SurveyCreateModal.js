@@ -22,11 +22,6 @@ import InputWithFormik from '../../components/InputWithFormik';
 import RadioInput from '../../components/RadioInput';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import { updateSurvey } from '../../redux/actions';
-import {
-  getConditionalQuestions,
-  getEconomicScreens,
-  getElementsWithConditionsOnThem
-} from '../../utils/survey-utils';
 import UserOrgSelector from '../users/form/UserOrgsSelector';
 
 const useStyles = makeStyles(theme => ({
@@ -141,17 +136,9 @@ const SurveyCreateModal = ({
       getSurveyById(user, selectedSurvey.id)
         .then(response => {
           let survey = response.data.data.surveyById;
-          const economicScreens = getEconomicScreens(survey);
-          const conditionalQuestions = getConditionalQuestions(survey);
-          const elementsWithConditionsOnThem = getElementsWithConditionsOnThem(
-            conditionalQuestions
-          );
           updateSurvey({
             ...survey,
-            ...data,
-            economicScreens,
-            conditionalQuestions,
-            elementsWithConditionsOnThem
+            ...data
           });
           setLoading(false);
           history.push('/survey-builder/info');
