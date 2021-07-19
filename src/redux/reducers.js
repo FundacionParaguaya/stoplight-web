@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import {
   UPDATE_USER,
   UPDATE_SURVEY,
+  UPDATE_BUILDER_NAV_HISTORY,
   UPDATE_DRAFT,
   SET_HYDRATED,
   UPDATE_SNAPSHOTS,
@@ -28,7 +29,11 @@ export const currentSurvey = (state = null, action) => {
   switch (action.type) {
     case UPDATE_SURVEY:
       return action.payload;
-
+    case UPDATE_BUILDER_NAV_HISTORY:
+      return {
+        ...state,
+        ...action.payload
+      };
     default:
       return state;
   }
@@ -45,15 +50,9 @@ export const currentDraft = (state = null, action) => {
         ...action.payload
       };
     case UPDATE_PHONE_CODE:
-      console.log('Updating phone code value: ', action.payload.phoneCode);
       const indexPrimaryParticipant = state.familyData.familyMembersList.findIndex(
         e => e.firstParticipant === true
       );
-      console.log(
-        'first participant is: ',
-        state.familyData.familyMembersList[indexPrimaryParticipant]
-      );
-
       return {
         ...state,
         familyData: {
@@ -74,7 +73,6 @@ export const currentDraft = (state = null, action) => {
         }
       };
     case UPDATE_BIRTH_COUNTRY:
-      console.log('Updating birth country', action.payload.birthCountry);
       const index = state.familyData.familyMembersList.findIndex(
         e => e.firstParticipant === true
       );
