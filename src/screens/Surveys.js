@@ -5,14 +5,14 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { Assignment, Delete, DeviceHub } from '@material-ui/icons';
+import { Assignment, Delete, DeviceHub, Edit } from '@material-ui/icons';
 import clsx from 'clsx';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { surveysByUserPaginated } from '../api';
+import { surveysByUserPaginated, getSurveyById } from '../api';
 import chooseLifeMap from '../assets/choose_life_map.png';
 import Container from '../components/Container';
 import SearchTextFilter from '../components/filters/SearchTextFilter';
@@ -24,6 +24,7 @@ import { ROLES_NAMES } from '../utils/role-utils';
 import AssignModal from './surveys/AssignModal';
 import SurveyCreateModal from './surveys/SurveyCreateModal';
 import SurveyDeleteModal from './surveys/SurveyDeleteModal';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   loadingContainer: {
@@ -131,6 +132,7 @@ const Surveys = ({ user, updateSurvey }) => {
   } = useTranslation();
   const dateFormat = getDateFormatByLocale(language);
   const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
 
   const [loading, setLoading] = useState(true);
   const [surveys, setSurveys] = useState([]);
@@ -217,6 +219,21 @@ const Surveys = ({ user, updateSurvey }) => {
   const removeSurvey = surveyId => {
     const newSurveys = surveys.filter(survey => survey.id !== surveyId);
     setSurveys(newSurveys);
+  };
+
+  const handleEdit = surveyId => {
+    setLoading(true);
+    getSurveyById(user, surveyId)
+      .then(response => {
+        let survey = response.data.data.surveyById;
+        updateSurvey(survey);
+        setLoading(false);
+        history.push('/survey-builder/info');
+      })
+      .catch(e => {
+        showMessage(e.reponse.data.message, 'error');
+        setLoading(false);
+      });
   };
 
   return (
@@ -340,6 +357,16 @@ const Surveys = ({ user, updateSurvey }) => {
             )}
           </div>
           <div>
+            {showAdminFeatures(user) && (
+              <Tooltip title={t('general.edit')}>
+                <IconButton
+                  color="inherit"
+                  onClick={() => handleEdit(survey.id)}
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            )}
             {(showManagementFeatures(user) || showOrganizations(user)) && (
               <Tooltip title={t('views.survey.assignSurvey.assignSurvey')}>
                 <IconButton
