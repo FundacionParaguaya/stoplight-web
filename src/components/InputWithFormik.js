@@ -15,7 +15,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 
 const hasCustomLabelStyle = (label, value) => {
-  if (label && label.length > 50 && !!value) {
+  if (label && label.length > 80 && !!value) {
     return true;
   }
   return false;

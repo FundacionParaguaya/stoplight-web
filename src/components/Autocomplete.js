@@ -70,7 +70,10 @@ const styles = theme => ({
     marginTop: 10,
     marginBottom: 10,
     '& > label': {
-      top: '42%'
+      top: '42%',
+      [theme.breakpoints.down('xs')]: {
+        top: '30%'
+      }
     },
     [theme.breakpoints.down('xs')]: {
       marginTop: 30
@@ -128,7 +131,7 @@ const Control = props => {
         props.hasValue &&
           props.getValue()[0].label &&
           props.selectProps.textFieldProps &&
-          props.selectProps.textFieldProps.label.length > 50 &&
+          props.selectProps.textFieldProps.label.length > 80 &&
           props.selectProps.classes.controlInputLabel
       ]}
       variant="filled"
