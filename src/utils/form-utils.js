@@ -27,9 +27,15 @@ const capitalize = (str = '', lower = false) =>
   (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match =>
     match.toUpperCase()
   );
+
+const parseLines = value => value.replace(/(\n)/g, '\\n');
+const unParseLines = value => value.replace(/(\\n)/g, '\n');
+
 export {
   getErrorLabelForPath,
   pathHasError,
   constructEstimatedMonthsOptions,
-  capitalize
+  capitalize,
+  parseLines,
+  unParseLines
 };
