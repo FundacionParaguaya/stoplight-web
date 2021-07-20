@@ -10,6 +10,7 @@ import NumberFormat from 'react-number-format';
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'formik';
+import propTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 
@@ -102,6 +103,11 @@ const InputWithFormik = ({
       }}
     />
   );
+};
+
+InputWithFormik.propTypes = {
+  name: propTypes.string.isRequired,
+  label: propTypes.string
 };
 
 const styles = () => ({
