@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import Select from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
-import { withStyles } from '@material-ui/core/styles';
-import { withTranslation } from 'react-i18next';
-import Typography from '@material-ui/core/Typography';
-import NoSsr from '@material-ui/core/NoSsr';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
+import CancelIcon from '@material-ui/icons/Cancel';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
-import CancelIcon from '@material-ui/icons/Cancel';
+import NoSsr from '@material-ui/core/NoSsr';
+import Paper from '@material-ui/core/Paper';
+import PropTypes from 'prop-types';
+import React from 'react';
+import Select from 'react-select';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
+import { withStyles } from '@material-ui/core/styles';
+import { withTranslation } from 'react-i18next';
 
 const styles = theme => ({
   input: {
@@ -61,10 +61,17 @@ const styles = theme => ({
     width: 1,
     boxSizing: 'border-box'
   },
+  controlInputLabel: {
+    '& > label': {
+      top: 0
+    }
+  },
   controlInput: {
     marginTop: 10,
-    marginBottom: 10
-    // height: 60
+    marginBottom: 10,
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 30
+    }
   },
   itemSelected: {
     fontWeight: 500,
@@ -108,25 +115,36 @@ function inputComponent({ inputRef, ...props }) {
   return <div style={{ height: 19 }} ref={inputRef} {...props} />;
 }
 
-const Control = props => (
-  <TextField
-    test-id={props.selectProps.name}
-    className={props.selectProps.classes.controlInput}
-    variant="filled"
-    fullWidth
-    value={props.hasValue ? props.getValue()[0].label : ''}
-    InputProps={{
-      inputComponent,
-      inputProps: {
-        className: props.selectProps.classes.input,
-        inputRef: props.innerRef,
-        children: props.children,
-        ...props.innerProps
-      }
-    }}
-    {...props.selectProps.textFieldProps}
-  />
-);
+const Control = props => {
+  console.log(props.selectProps.textFieldProps.label);
+  console.log(props.selectProps.textFieldProps.label.leng < 50);
+  return (
+    <TextField
+      test-id={props.selectProps.name}
+      className={[
+        props.selectProps.classes.controlInput,
+        props.hasValue &&
+          props.getValue()[0].label &&
+          props.selectProps.textFieldProps &&
+          props.selectProps.textFieldProps.label.length > 50 &&
+          props.selectProps.classes.controlInputLabel
+      ]}
+      variant="filled"
+      fullWidth
+      value={props.hasValue ? props.getValue()[0].label : ''}
+      InputProps={{
+        inputComponent,
+        inputProps: {
+          className: props.selectProps.classes.input,
+          inputRef: props.innerRef,
+          children: props.children,
+          ...props.innerProps
+        }
+      }}
+      {...props.selectProps.textFieldProps}
+    />
+  );
+};
 
 const Option = props => {
   return (

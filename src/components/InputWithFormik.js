@@ -10,9 +10,15 @@ import NumberFormat from 'react-number-format';
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'formik';
-import propTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
+
+const hasCustomLabelStyle = (label, value) => {
+  if (label && label.length > 50 && !!value) {
+    return true;
+  }
+  return false;
+};
 
 let NumberFormatCustom = props => {
   const {
@@ -68,7 +74,10 @@ const InputWithFormik = ({
   const onChange = formik.handleChange;
   const innerProps = {
     name,
-    className: classes.input,
+    className: [
+      classes.input,
+      hasCustomLabelStyle(props.label, value) && classes.inputLabel
+    ],
     variant: 'filled',
     value,
     error,
@@ -95,12 +104,12 @@ const InputWithFormik = ({
   );
 };
 
-InputWithFormik.propTypes = {
-  name: propTypes.string.isRequired,
-  label: propTypes.string
-};
-
 const styles = () => ({
+  inputLabel: {
+    '& > label': {
+      top: 0
+    }
+  },
   input: {
     marginTop: 10,
     marginBottom: 10
