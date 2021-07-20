@@ -1,22 +1,25 @@
-import { Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import { Form, Formik } from 'formik';
-import { useSnackbar } from 'notistack';
-import React, { useEffect, useState } from 'react';
-import { useTranslation, withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { useHistory, withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
+
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 import { createSurveyDefinition, supportedLanguages } from '../../api';
-import InputWithLabel from '../../components/InputWithLabel';
+import { parseLines, unParseLines } from '../../utils/form-utils';
+import { useHistory, withRouter } from 'react-router-dom';
+import { useTranslation, withTranslation } from 'react-i18next';
+
+import Button from '@material-ui/core/Button';
 import CountrySelector from '../../components/selectors/CountrySelector';
-import withLayout from '../../components/withLayout';
-import { updateSurvey } from '../../redux/actions';
-import { getLanguageByCode } from '../../utils/lang-utils';
+import Grid from '@material-ui/core/Grid';
 import Header from './Header';
+import InputWithLabel from '../../components/InputWithLabel';
 import ProgressBar from './ProgressBar';
+import { Typography } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { getLanguageByCode } from '../../utils/lang-utils';
+import { updateSurvey } from '../../redux/actions';
+import { useSnackbar } from 'notistack';
+import withLayout from '../../components/withLayout';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   mainContainer: {
@@ -146,12 +149,12 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
         values.language,
         {
           locale: values.language,
-          text: values.privacyPolicyText,
+          text: parseLines(values.privacyPolicyText),
           title: values.privacyPolicySubtitle
         },
         {
           locale: values.language,
-          text: values.termsText,
+          text: parseLines(values.termsText),
           title: values.termsSubtitle
         },
         {
@@ -187,6 +190,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
       })
       .catch(e => console.log(e));
   }, [language, user]);
+
   return (
     <div className={classes.mainContainer}>
       <ProgressBar />
@@ -207,14 +211,15 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
             '',
           termsText:
             (currentSurvey.termsConditions &&
-              currentSurvey.termsConditions.text) ||
+              unParseLines(currentSurvey.termsConditions.text)) ||
             '',
           privacyPolicySubtitle:
             (currentSurvey.privacyPolicy &&
               currentSurvey.privacyPolicy.title) ||
             '',
           privacyPolicyText:
-            (currentSurvey.privacyPolicy && currentSurvey.privacyPolicy.text) ||
+            (currentSurvey.privacyPolicy &&
+              unParseLines(currentSurvey.privacyPolicy.text)) ||
             '',
           surveyEconomicQuestions: currentSurvey.surveyEconomicQuestions || [],
           surveyStoplightQuestions:
@@ -347,6 +352,7 @@ const Info = ({ classes, t, user, currentSurvey, updateSurvey }) => {
                   multiline={true}
                   name="privacyPolicySubtitle"
                 />
+
                 <InputWithLabel
                   title={t('views.surveyBuilder.infoScreen.text')}
                   multiline={true}
