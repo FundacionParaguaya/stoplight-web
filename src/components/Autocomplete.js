@@ -63,12 +63,15 @@ const styles = theme => ({
   },
   controlInputLabel: {
     '& > label': {
-      top: 0
+      top: '0 !important'
     }
   },
   controlInput: {
     marginTop: 10,
     marginBottom: 10,
+    '& > label': {
+      top: '42%'
+    },
     [theme.breakpoints.down('xs')]: {
       marginTop: 30
     }
@@ -115,9 +118,8 @@ function inputComponent({ inputRef, ...props }) {
   return <div style={{ height: 19 }} ref={inputRef} {...props} />;
 }
 
+// The long condition validate if the label if too long to need a special style to not get on top of the value
 const Control = props => {
-  console.log(props.selectProps.textFieldProps.label);
-  console.log(props.selectProps.textFieldProps.label.leng < 50);
   return (
     <TextField
       test-id={props.selectProps.name}
