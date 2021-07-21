@@ -1,6 +1,6 @@
 {
   "name": "stoplight-web",
-  "version": "1.45.0",
+  "version": "1.46.0",
   "private": true,
   "dependencies": {
     "@bugsnag/js": "^7.5.1",
