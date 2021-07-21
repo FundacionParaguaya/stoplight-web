@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { PhoneNumberUtil } from 'google-libphonenumber';
-import store from './redux';
 import CallingCodes from './screens/lifemap/CallingCodes';
+import { PhoneNumberUtil } from 'google-libphonenumber';
+import axios from 'axios';
 import imageCompression from 'browser-image-compression';
+import store from './redux';
+
 const CancelToken = axios.CancelToken;
 let source = CancelToken.source();
 let filterSource = CancelToken.source();
@@ -42,6 +43,16 @@ axios.interceptors.response.use(
 const clientid = 'barClientIdPassword';
 const clientsecret = 'secret';
 const normalizeLang = lang => (lang === 'en' ? 'en_US' : 'es_PY');
+
+const normalizeLanguages = lang => {
+  const languages = {
+    en: 'en_US',
+    es: 'es_PY',
+    pt: 'pt_BR',
+    ht: 'ht_HT'
+  };
+  return languages[lang] || languages['en'];
+};
 
 export const sendMail = (document, mail, user, lang) => {
   const formData = new FormData();
@@ -1447,13 +1458,14 @@ export const getUsersPaginated = (
     })
   });
 
-export const addOrUpdateUser = (user, values) => {
+export const addOrUpdateUser = (user, values, lang) => {
   if (!values.id) {
     return axios({
       method: 'post',
       url: `${url[user.env]}/graphql`,
       headers: {
-        Authorization: `Bearer ${user.token}`
+        Authorization: `Bearer ${user.token}`,
+        'X-locale': normalizeLanguages(lang)
       },
       data: JSON.stringify({
         query: `mutation createUser($user: UserModelInput) {createUser(user: $user){username} }`,
@@ -1467,7 +1479,8 @@ export const addOrUpdateUser = (user, values) => {
       method: 'post',
       url: `${url[user.env]}/graphql`,
       headers: {
-        Authorization: `Bearer ${user.token}`
+        Authorization: `Bearer ${user.token}`,
+        'X-locale': normalizeLanguages(lang)
       },
       data: JSON.stringify({
         query: `mutation updateUser($user: UserModelInput) {updateUser(user: $user){username} }`,
@@ -1484,15 +1497,6 @@ export const addOrUpdateUser = (user, values) => {
     });
   }
 };
-
-export const deleteUser = (user, userId) =>
-  axios({
-    method: 'delete',
-    url: `${url[user.env]}/api/v1/users/${userId}`,
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
-  });
 
 export const checkUserName = (user, username) =>
   axios({
@@ -1529,15 +1533,22 @@ export const searchRecords = (user, filters) =>
     })
   });
 
-const normalizeLanguages = lang => {
-  const languages = {
-    en: 'en_US',
-    es: 'es_PY',
-    pt: 'pt_BR',
-    ht: 'ht_HT'
-  };
-  return languages[lang] || languages['en'];
-};
+export const deleteUser = (user, userId, lang) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLanguages(lang)
+    },
+    data: JSON.stringify({
+      query:
+        'mutation deleteUser($user: Long!) { deleteUser (user: $user) { successful } }',
+      variables: {
+        user: userId
+      }
+    })
+  });
 
 export const downloadReports = (user, filters, lang) =>
   axios({
@@ -1626,7 +1637,8 @@ export const getArticleById = (user, id, collection, section, language) =>
     method: 'post',
     url: `${url[user.env]}/graphql`,
     headers: {
-      Authorization: `Bearer ${user.token}`
+      Authorization: `Bearer ${user.token}`,
+      'X-locale': normalizeLang(language)
     },
     data: JSON.stringify({
       query:
@@ -1635,7 +1647,7 @@ export const getArticleById = (user, id, collection, section, language) =>
         id,
         collection,
         section,
-        language
+        language: language ? normalizeLang(language) : ''
       }
     })
   });
@@ -2437,6 +2449,7 @@ export const createOrUpdateIntervention = (
   snapshot,
   relatedIntervention,
   id,
+  family,
   params
 ) => {
   if (id) {
@@ -2467,14 +2480,17 @@ export const createOrUpdateIntervention = (
         Authorization: `Bearer ${user.token}`
       },
       data: JSON.stringify({
-        query: `mutation createIntervention($intervention: InterventionDataModelInput) { createIntervention (intervention: $intervention) { id  intervention{id} ${params} } }`,
+        query: `mutation createIntervention($intervention: InterventionDataModelInput, $client: String) { createIntervention (intervention: $intervention, client: $client) { id  intervention{id} ${params} } }`,
         variables: {
           intervention: {
             values,
             interventionDefinition,
             snapshot,
-            intervention: relatedIntervention
-          }
+            intervention: relatedIntervention,
+            family: family.familyId,
+            familyName: family.familyName
+          },
+          client: 'WEB'
         }
       })
     });
@@ -2585,7 +2601,7 @@ export const dimensionsPool = (language, platformLanguage, user) =>
     },
     data: JSON.stringify({
       query:
-        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name } }',
+        'query dimensionsByLang($lang : String) { dimensionsByLang (lang:$lang) { surveyDimensionId name iconUrl } }',
       variables: {
         lang: language
       }
@@ -2597,7 +2613,8 @@ export const createSurveyDefinition = (
   language,
   privacyPolicy,
   termCond,
-  surveyDefinition
+  surveyDefinition,
+  application
 ) =>
   axios({
     method: 'post',
@@ -2608,11 +2625,12 @@ export const createSurveyDefinition = (
     },
     data: JSON.stringify({
       query:
-        'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
+        'mutation createSurveyDefinition($privacyPolicy: TermCondPolDTOInput, $termCond : TermCondPolDTOInput, $surveyDefinition : SurveyDefinitionModelInput, $application: Long) { createSurveyDefinition (privacyPolicy: $privacyPolicy, termCond:$termCond, surveyDefinition:$surveyDefinition, application:$application) { id, title, description, countryCode,latitude,longitude,lang, privacyPolicy{title,text}, termsConditions{title,text}}  }',
       variables: {
         privacyPolicy,
         termCond,
-        surveyDefinition
+        surveyDefinition,
+        application
       }
     })
   });
@@ -2631,6 +2649,90 @@ export const indicatorsPool = (filter, language, platformLanguage, user) =>
       variables: {
         lang: language,
         filter: filter
+      }
+    })
+  });
+
+export const getDimensionsIcons = user =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: 'query { dimensionsIcons { name value} }'
+    })
+  });
+
+export const createOrUpdateStoplightDimension = (user, values) => {
+  if (values.id) {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation updateStoplightDimension($dimension: StoplightDimensionModelInput) { updateStoplightDimension (dimension: $dimension) { id }}`,
+        variables: {
+          dimension: {
+            id: values.id,
+            iconUrl: values.icon,
+            translations: [
+              {
+                lang: 'EN',
+                translation: values.englishTitle
+              },
+              {
+                lang: 'ES',
+                translation: values.spanishTitle
+              }
+            ]
+          }
+        }
+      })
+    });
+  } else {
+    return axios({
+      method: 'post',
+      url: `${url[user.env]}/graphql`,
+      headers: {
+        Authorization: `Bearer ${user.token}`
+      },
+      data: JSON.stringify({
+        query: `mutation createStoplightDimension($dimension: StoplightDimensionModelInput) { createStoplightDimension (dimension: $dimension) { id }}`,
+        variables: {
+          dimension: {
+            iconUrl: values.icon,
+            translations: [
+              {
+                lang: 'EN',
+                translation: values.englishTitle
+              },
+              {
+                lang: 'ES',
+                translation: values.spanishTitle
+              }
+            ]
+          }
+        }
+      })
+    });
+  }
+};
+
+export const getDimensionbyId = (user, dimensionId) =>
+  axios({
+    method: 'post',
+    url: `${url[user.env]}/graphql`,
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    },
+    data: JSON.stringify({
+      query: `mutation retrieveDimension($dimension: Long!) { retrieveDimension (dimension: $dimension) { id codeName iconUrl translations {id lang translation }}}`,
+      variables: {
+        dimension: dimensionId
       }
     })
   });

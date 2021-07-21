@@ -97,7 +97,9 @@
       "projects": "Proyectos",
       "solutions": "Banco de Soluciones",
       "interventions": "Intervenciones",
-      "my-profile": "Mi perfil"
+      "my-profile": "Mi perfil",
+      "dimensions": "Dimensiones",
+      "libraries": "Librerías"
     },
     "synced": "Sincronización",
     "dashboard": {
@@ -206,6 +208,20 @@
         "language": "Idioma"
       },
       "yourSurveys": "Encuestas de su organización"
+    },
+    "dimensions": {
+      "create": "Crear dimensión",
+      "form": {
+        "createTitle": "Crear dimensión",
+        "editTitle": "Editar dimensión",
+        "title": "Título",
+        "spanishTitle": "Título en español",
+        "englishTitle": "Título en inglés",
+        "icon": "Icono",
+        "change": "Cambiar el ícono",
+        "saved": "Dimensión guardada",
+        "failSave": "Se produjo un error al guardar la dimensión. Intentar otra vez"
+      }
     },
     "analytics": {
       "title": "Analíticas",
@@ -1238,7 +1254,7 @@
         "fieldTypes": "Tipos de campo",
         "conditionalLogic": "Lógica condicional",
         "deleteTopic": "Eliminar tema",
-        "dropHere": "Agregue campos usando los botones en la ventana de la izquierda o simplemente arrástrelos y suéltelos aquí.",
+        "dropHere": "Arrastra y suelta tus preguntas aquí. Pero recuerda que primero necesitas un tema!",
         "topic": {
           "new": "Nuevo tema",
           "error": "El nombre del tema no puede estar vacío",
@@ -1271,7 +1287,9 @@
           "displayOptions": "Mostrar Opciones"
         },
         "singleTopic": "Tema",
-        "newQuestion": "Nueva pregunta"
+        "newQuestion": "Nueva pregunta",
+        "info": "Librería de preguntas socioeconómicas ya en uso",
+        "forFamilyMembers": "Para miembros de la familia"
       },
       "audioSupport": "Soporte de audio",
       "title": "Título",
@@ -1314,7 +1332,10 @@
           "YELLOW": "Definición amarillo",
           "RED": "Definición rojo"
         },
-        "dimensionLibrary": "Biblioteca de Dimension"
+        "dimensionLibrary": "Biblioteca de Dimension",
+        "libraryInfo": "Biblioteca de indicadores ya en uso",
+        "dimensionLibraryInfo": "Biblioteca de dimensiones existentes",
+        "dropHere": "Deje sus indicadores aquí, pero recuerde que primero necesita una dimensión"
       },
       "summary": {
         "title": "Resumen de la encuesta",
@@ -1332,7 +1353,11 @@
         "goTo": "Ir a la lista de encuestas",
         "confirm": "Confirmar"
       },
-      "help": "Ayudar"
+      "help": "Ayudar",
+      "helpArtilceNotFound": "¡No se encontró el artículo %s!",
+      "familyDetails": {
+        "showAs": "Mostrar en el tablero como:"
+      }
     }
   },
   "reports": {

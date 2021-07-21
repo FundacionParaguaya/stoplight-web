@@ -91,6 +91,7 @@ const useStyles = makeStyles(theme => ({
 
 const FamilyInterventions = ({
   familyId,
+  familyName,
   questions,
   snapshotId,
   readOnly,
@@ -305,8 +306,8 @@ const FamilyInterventions = ({
         indicators={questions}
         snapshotId={snapshotId}
         intervention={parentIntervention}
-        showErrorMessage={showErrorMessage}
-        showSuccessMessage={showSuccessMessage}
+        familyId={familyId}
+        familyName={familyName}
         user={user}
       />
       {checkAccessToInterventions(user) && (

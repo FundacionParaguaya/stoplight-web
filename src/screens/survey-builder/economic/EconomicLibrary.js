@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import AddBox from '@material-ui/icons/AddBoxRounded';
 import LeftArrow from '@material-ui/icons/ChevronLeftOutlined';
@@ -127,7 +128,9 @@ const EconomicLibrary = ({
         <Typography variant="h6" className={classes.title}>
           {t('views.surveyBuilder.economic.library')}
         </Typography>
-        <InfoIcon className={classes.icon} />
+        <Tooltip title={t('views.surveyBuilder.economic.info')}>
+          <InfoIcon className={classes.icon} />
+        </Tooltip>
       </div>
 
       <div style={{ margin: '10px 15px' }}>
@@ -201,7 +204,7 @@ const EconomicLibrary = ({
               ref={provided.innerRef}
               className={classes.itemList}
             >
-              {topics[selectedTopic].map((question, index) => (
+              {(topics[selectedTopic] || []).map((question, index) => (
                 <Draggable
                   key={question.id}
                   draggableId={

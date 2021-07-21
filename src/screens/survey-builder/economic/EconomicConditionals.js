@@ -8,7 +8,7 @@ import { updateSurvey } from '../../../redux/actions';
 import Conditionals from './Conditionals';
 import PreviewTabs from '../PreviewTabs';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   conditionsContainer: {
     width: '-webkit-fill-available',
     display: 'flex',
@@ -20,6 +20,13 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end'
+  },
+  placeHolder: {
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '60vh'
   },
   saveButton: {
     margin: '6px 0 6px 6px'
@@ -317,6 +324,16 @@ const EconomicConditionals = ({
               />
             );
           })}
+      {(!selectedSurveyTopic ||
+        currentSurvey.surveyEconomicQuestions.filter(
+          q => q.topic === selectedSurveyTopic.text
+        ).length === 0) && (
+        <div className={classes.placeHolder}>
+          <Typography variant="h6">
+            {t('views.surveyBuilder.economic.dropHere')}
+          </Typography>
+        </div>
+      )}
     </div>
   );
 };

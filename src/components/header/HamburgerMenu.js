@@ -1,17 +1,22 @@
+import React, { useEffect, useState } from 'react';
+
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import DehazeIcon from '@material-ui/icons/Dehaze';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import { NavLink } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import { makeStyles } from '@material-ui/core/styles';
+import { ROLE_SURVEY_TAKER } from '../../utils/role-utils';
 import Typography from '@material-ui/core/Typography';
-import DehazeIcon from '@material-ui/icons/Dehaze';
-import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
-import { ROLE_SURVEY_TAKER } from '../utils/role-utils';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -39,10 +44,58 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 14,
     textDecoration: 'none',
     borderBottom: '4px solid transparent'
+  },
+  accordionItemContainer: {
+    paddingLeft: 30,
+    backgroundColor: theme.palette.background.default
+  },
+  accordionContainer: {
+    '&::before': {
+      height: 0
+    }
+  },
+  detailsContainer: {
+    flexDirection: 'column'
   }
 }));
 
-const DropdownMenu = ({ tabs, user }) => {
+const HamburgerMenuItem = ({ item }) => {
+  const classes = useStyles();
+  const { t } = useTranslation();
+  return (
+    <MenuItem key={item} className={classes.menuItem}>
+      <NavLink to={`/${item}`} className={classes.menuLink}>
+        <Typography variant="subtitle1" className={classes.menuLinkText}>
+          {t(`views.toolbar.${item}`)}
+        </Typography>
+      </NavLink>
+    </MenuItem>
+  );
+};
+
+const ExpandleHamburgerMenuItem = ({ item, subItems }) => {
+  const classes = useStyles();
+  const { t } = useTranslation();
+  return (
+    <Accordion classes={{ root: classes.accordionContainer }}>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        classes={{ root: classes.accordionItemContainer }}
+      >
+        <Typography variant="subtitle1" className={classes.menuLinkText}>
+          {t(`views.toolbar.${item}`)}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails classes={{ root: classes.detailsContainer }}>
+        {subItems.map(el => (
+          <HamburgerMenuItem key={el} item={el} />
+        ))}
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+const HamburgerMenu = ({ tabs, user }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -85,18 +138,20 @@ const DropdownMenu = ({ tabs, user }) => {
             <Paper>
               <ClickAwayListener onClickAway={() => setOpen(false)}>
                 <MenuList className={classes.menuList}>
-                  {options.map(({ item }) => (
-                    <MenuItem key={item} className={classes.menuItem}>
-                      <NavLink to={`/${item}`} className={classes.menuLink}>
-                        <Typography
-                          variant="subtitle1"
-                          className={classes.menuLinkText}
-                        >
-                          {t(`views.toolbar.${item}`)}
-                        </Typography>
-                      </NavLink>
-                    </MenuItem>
-                  ))}
+                  {options.map(({ item, options: subItems }) => {
+                    if (subItems && subItems.length > 0) {
+                      return (
+                        <ExpandleHamburgerMenuItem
+                          key={item}
+                          item={item}
+                          subItems={subItems}
+                        />
+                      );
+                    } else {
+                      return <HamburgerMenuItem key={item} item={item} />;
+                    }
+                  })}
+
                   <MenuItem key={'support'} className={classes.menuItem}>
                     <NavLink
                       style={{ textDecoration: 'none' }}
@@ -122,4 +177,4 @@ const DropdownMenu = ({ tabs, user }) => {
   );
 };
 
-export default DropdownMenu;
+export default HamburgerMenu;

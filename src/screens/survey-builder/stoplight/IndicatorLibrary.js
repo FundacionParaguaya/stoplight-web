@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import LeftArrow from '@material-ui/icons/ChevronLeftOutlined';
 import RightArrow from '@material-ui/icons/ChevronRightOutlined';
@@ -158,7 +159,9 @@ const IndicatorLibrary = ({
         <Typography variant="h6" className={classes.title}>
           {t('views.surveyBuilder.economic.library')}
         </Typography>
-        <InfoIcon className={classes.icon} />
+        <Tooltip title={t('views.surveyBuilder.stoplight.libraryInfo')}>
+          <InfoIcon className={classes.icon} />
+        </Tooltip>
       </div>
 
       <div style={{ margin: '10px 15px' }}>

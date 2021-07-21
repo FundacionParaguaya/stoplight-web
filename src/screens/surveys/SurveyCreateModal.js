@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import Edit from '@material-ui/icons/Create';
 import { Form, Formik } from 'formik';
+import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -21,14 +22,12 @@ import InputWithFormik from '../../components/InputWithFormik';
 import RadioInput from '../../components/RadioInput';
 import CountrySelector from '../../components/selectors/CountrySelector';
 import { updateSurvey } from '../../redux/actions';
-import { getLanguageByCode } from '../../utils/lang-utils';
 import {
   getConditionalQuestions,
   getEconomicScreens,
   getElementsWithConditionsOnThem
 } from '../../utils/survey-utils';
 import UserOrgSelector from '../users/form/UserOrgsSelector';
-import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -164,7 +163,11 @@ const SurveyCreateModal = ({
           setLoading(false);
         });
     } else {
-      updateSurvey(data);
+      updateSurvey({
+        surveyEconomicQuestions: [],
+        surveyStoplightQuestions: [],
+        ...data
+      });
       history.push('/survey-builder/info');
     }
   };
@@ -250,7 +253,6 @@ const SurveyCreateModal = ({
                     })
                   )
                 }
-                parentLang={getLanguageByCode(values.language)}
                 error={touched.country && !values.country}
                 required={true}
               />

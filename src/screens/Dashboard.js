@@ -409,7 +409,11 @@ const Dashboard = ({ classes, user, t, i18n: { language }, history }) => {
               setTimeout(() => setShowFeed(!showFeed), animationDuration + 40);
             }}
             title={
-              <Tooltip title={t('views.dashboard.latestActivity')}>
+              <Tooltip
+                interactive={false}
+                id={'activityFeed'}
+                title={t('views.dashboard.latestActivity')}
+              >
                 <div
                   className={classes.moreFilter}
                   style={{

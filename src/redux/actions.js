@@ -14,6 +14,13 @@ export const updateSurvey = payload => ({
   payload
 });
 
+export const UPDATE_BUILDER_NAV_HISTORY = 'UPDATE_BUILDER_NAV_HISTORY';
+
+export const updateBuilderNavHistory = payload => ({
+  type: UPDATE_BUILDER_NAV_HISTORY,
+  payload
+});
+
 // Current Draft
 export const UPDATE_DRAFT = 'UPDATE_DRAFT';
 

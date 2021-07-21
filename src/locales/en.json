@@ -97,7 +97,9 @@
       "projects": "Projects",
       "solutions": "Bank of Solutions",
       "my-profile": "My profile",
-      "interventions": "Interventions"
+      "interventions": "Interventions",
+      "dimensions": "Dimensions",
+      "libraries": "Libraries"
     },
     "synced": "Sync",
     "dashboard": {
@@ -206,6 +208,20 @@
         "existing": "Start from existing survey"
       },
       "yourSurveys": "Your  organizations surveys"
+    },
+    "dimensions": {
+      "create": "Create Dimension",
+      "form": {
+        "createTitle": "Create dimension",
+        "editTitle": "Edit dimension",
+        "title": "Title",
+        "spanishTitle": "Spanish Title",
+        "englishTitle": "English Title",
+        "icon": "Icon",
+        "change": "Change icon",
+        "saved": "Saved dimension",
+        "failSave": "An error occurred while saving dimension. Try again"
+      }
     },
     "analytics": {
       "title": "Analytics",
@@ -1243,7 +1259,7 @@
           "editTopic": "Edit Topic"
         },
         "deleteTopic": "Delete Topic",
-        "dropHere": "Add fields using buttons on the left window or simply drag and drop them here.",
+        "dropHere": "Drag and drop your questions here. But remember that you need a topic first!",
         "conditional": "Survey’s Conditional Logic",
         "conditionals": {
           "optionPlaceholder": "-- Select an option --",
@@ -1271,7 +1287,9 @@
           "displayOptions": "Display Options"
         },
         "singleTopic": "Topic",
-        "newQuestion": "New Question"
+        "newQuestion": "New Question",
+        "info": "Library of economics questions already in use",
+        "forFamilyMembers": "For family members"
       },
       "audioSupport": "Audio Support",
       "title": "Title",
@@ -1314,7 +1332,10 @@
           "YELLOW": "Yellow definition",
           "RED": "Red definition"
         },
-        "dimensionLibrary": "Dimension's Library"
+        "dimensionLibrary": "Dimension's Library",
+        "libraryInfo": "Library of indicators already in use",
+        "dimensionLibraryInfo": "Library of existing dimensions",
+        "dropHere": "Drop your indidicators here but remember that you need a dimension first"
       },
       "summary": {
         "title": "Survey Summary",
@@ -1332,7 +1353,11 @@
         "goTo": "Go to Surveys list",
         "confirm": "Confirm"
       },
-      "help": "Help"
+      "help": "Help",
+      "helpArtilceNotFound": "%s article was not found!",
+      "familyDetails": {
+        "showAs": "Show in dashboard as:"
+      }
     }
   },
   "reports": {

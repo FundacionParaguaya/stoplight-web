@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: 16,
     fontWeight: 500,
     textTransform: 'none',
+    wordBreak: 'break-word',
     [theme.breakpoints.down('xs')]: {
       fontSize: 14
     }
@@ -54,7 +55,7 @@ const PreviewTabs = ({
   const classes = useStyles();
   return (
     <Tabs
-      value={selectedSurveyTopic.value}
+      value={selectedSurveyTopic ? selectedSurveyTopic.value : 0}
       onChange={(event, value) =>
         setSelectedSurveyTopic(surveyTopics.find(s => s.value === value))
       }

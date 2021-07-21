@@ -97,7 +97,9 @@
       "projects": "Pwojè",
       "solutions": "Bank solisyon",
       "interventions": "Entèvansyon",
-      "my-profile": "Pwofil mwen"
+      "my-profile": "Pwofil mwen",
+      "dimensions": "Dimansyon",
+      "libraries": "Libreri"
     },
     "synced": "Sync",
     "dashboard": {
@@ -166,6 +168,20 @@
         "language": "Lang"
       },
       "yourSurveys": "Sondaj òganizasyon ou yo"
+    },
+    "dimensions": {
+      "create": "Kreye dimansyon",
+      "form": {
+        "createTitle": "Kreye dimansyon",
+        "editTitle": "Edite dimansyon",
+        "title": "Tit",
+        "spanishTitle": "Tit Panyòl",
+        "englishTitle": "Tit angle",
+        "icon": "Icon",
+        "change": "Chanje icon",
+        "saved": "Sove dimansyon",
+        "failSave": "Yon erè ki te fèt pandan ekonomize dimansyon. Eseye anko"
+      }
     },
     "analytics": {
       "title": "Analize",
@@ -1238,7 +1254,7 @@
         "fieldTypes": "Kalite jaden",
         "conditionalLogic": "Lojik kondisyonèl",
         "deleteTopic": "Efase Topic",
-        "dropHere": "Add jaden lè l sèvi avèk bouton sou fenèt gòch la oswa tou senpleman trennen ak gout yo isit la.",
+        "dropHere": "Trennen ak gout kesyon ou isit la. Men, sonje ke ou bezwen yon sijè an premye!",
         "topic": {
           "new": "Nouvo sijè",
           "error": "Non sijè pa ka vid",
@@ -1271,7 +1287,9 @@
           "displayOptions": "Montre Opsyon"
         },
         "singleTopic": "Sijè",
-        "newQuestion": "Nouvo Kesyon"
+        "newQuestion": "Nouvo Kesyon",
+        "info": "Bibliyotèk nan kesyon Ekonomi deja nan itilize",
+        "forFamilyMembers": "Pou manm fanmi yo"
       },
       "audioSupport": "Sipò Audio",
       "title": "Tit",
@@ -1314,7 +1332,10 @@
           "YELLOW": "Definisyon jòn",
           "RED": "Definisyon wouj"
         },
-        "dimensionLibrary": "Bibliyotèk Dimansyon an"
+        "dimensionLibrary": "Bibliyotèk Dimansyon an",
+        "libraryInfo": "Bibliyotèk endikatè ki deja itilize",
+        "dimensionLibraryInfo": "Bibliyotèk nan dimansyon ki deja egziste",
+        "dropHere": "Lage endikatè ou isit la men sonje ke ou bezwen yon dimansyon an premye"
       },
       "summary": {
         "title": "Rezime Sondaj",
@@ -1332,7 +1353,11 @@
         "goTo": "Ale nan lis Sondaj",
         "confirm": "Konfime"
       },
-      "help": "Ede"
+      "help": "Ede",
+      "helpArtilceNotFound": "Atik %s pa te jwenn!",
+      "familyDetails": {
+        "showAs": "Montre nan tablodbò tankou:"
+      }
     }
   },
   "reports": {

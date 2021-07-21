@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   filterInput: {
@@ -64,7 +65,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SeachTextFilter = ({
-  onChangeInput,
+  onChange = () => {},
+  onChangeInput = () => {},
   searchLabel,
   searchByLabel,
   stacked
@@ -95,11 +97,20 @@ const SeachTextFilter = ({
         margin="dense"
         fullWidth
         className={classes.textField}
+        onChange={e => onChange(e)}
         onKeyDown={e => onChangeInput(e)}
         label={searchByLabel}
       />
     </div>
   );
+};
+
+SeachTextFilter.propTypes = {
+  onChange: PropTypes.func,
+  onChangeInput: PropTypes.func,
+  stacked: PropTypes.bool,
+  searchLabel: PropTypes.string,
+  searchByLabel: PropTypes.string
 };
 
 export default SeachTextFilter;

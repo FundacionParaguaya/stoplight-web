@@ -20,6 +20,7 @@ import OtherOptionInput from '../../../components/OtherOptionInput';
 import RadioWithFormik from '../../../components/RadioWithFormik';
 import SelectWithFormik from '../../../components/SelectWithFormik';
 import { capitalize } from '../../../utils/survey-utils';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -193,13 +194,14 @@ const AddInterventionModal = ({
   indicators,
   snapshotId,
   intervention,
-  showErrorMessage,
-  showSuccessMessage,
+  familyId,
+  familyName,
   user,
   preview
 }) => {
   const classes = useStyles();
   const isEdit = !!interventionEdit && !!interventionEdit.id;
+  const { enqueueSnackbar } = useSnackbar();
 
   const { t } = useTranslation();
 
@@ -289,11 +291,13 @@ const AddInterventionModal = ({
       snapshotId,
       intervention,
       interventionEdit.id,
+      { familyId, familyName },
       params
     )
       .then(response => {
-        showSuccessMessage(
-          t('views.familyProfile.interventions.form.save.success')
+        enqueueSnackbar(
+          t('views.familyProfile.interventions.form.save.success'),
+          { variant: 'success' }
         );
         let data = isEdit
           ? response.data.data.updateIntervention
@@ -303,8 +307,9 @@ const AddInterventionModal = ({
       })
       .catch(e => {
         console.log(e);
-        showErrorMessage(
-          t('views.familyProfile.interventions.form.save.error')
+        enqueueSnackbar(
+          t('views.familyProfile.interventions.form.save.error'),
+          { variant: 'error' }
         );
         setLoading(false);
       });
